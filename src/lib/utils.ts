@@ -25,6 +25,25 @@ export function formatUSD(amount: number): string {
 }
 
 /**
+ * Format USD amounts with compact notation (K, M)
+ */
+export function formatUSDCompact(amount: number): string {
+  if (amount >= 1000000) {
+    return `${(amount / 1000000).toFixed(1)}M`;
+  } else if (amount >= 1000) {
+    return `${(amount / 1000).toFixed(0)}K`;
+  }
+  return formatUSD(amount);
+}
+
+/**
+ * Format percentage with optional sign
+ */
+export function formatPercent(value: number, decimals = 1): string {
+  return `${value.toFixed(decimals)}%`;
+}
+
+/**
  * Format percentage with sign
  */
 export function formatPercentage(value: number, decimals = 2): string {

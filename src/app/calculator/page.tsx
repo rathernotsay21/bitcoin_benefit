@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useCalculatorStore } from '@/stores/calculatorStore';
 import { VESTING_SCHEMES, CUSTOM_SCHEME } from '@/lib/vesting-schemes';
 import VestingTimelineChart from '@/components/VestingTimelineChart';
+import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -178,14 +179,13 @@ function CalculatorContent() {
                     <input
                       type="number"
                       step="0.001"
-                      max={isCustomMode ? "1.0" : "0.02"}
                       value={
                         isCustomMode 
                           ? customScheme?.initialGrant || 0
                           : (schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant)
                       }
                       onChange={(e) => {
-                        const value = Math.min(parseFloat(e.target.value) || 0, isCustomMode ? 1.0 : 0.02);
+                        const value = parseFloat(e.target.value) || 0;
                         if (isCustomMode) {
                           updateCustomScheme({ initialGrant: value });
                         } else {
@@ -194,48 +194,7 @@ function CalculatorContent() {
                       }}
                       className="input-field"
                     />
-                    {!isCustomMode && (
-                      <div className="mt-1">
-                        {(() => {
-                          const currentInitial = schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant;
-                          const currentAnnual = schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant || 0;
-                          const totalGrants = currentInitial + (currentAnnual * (selectedScheme.id === 'steady-builder' ? 5 : selectedScheme.id === 'slow-burn' ? 10 : 0));
-                          
-                          if (totalGrants >= 0.02) {
-                            return (
-                              <p className="text-xs text-amber-600">
-                                💡 For grants larger than 0.02 BTC, consider using "Executive Benefit" for better visualization and flexibility.
-                              </p>
-                            );
-                          }
-                          return null;
-                        })()}
-                      </div>
-                    )}
-                    {isCustomMode && (
-                      <div className="mt-1">
-                        {(() => {
-                          const currentInitial = customScheme?.initialGrant || 0;
-                          const currentAnnual = customScheme?.annualGrant || 0;
-                          const totalGrants = currentInitial + (currentAnnual * 10); // High Roller gives annual grants for 10 years
-                          
-                          if (totalGrants >= 1.0) {
-                            return (
-                              <p className="text-xs text-purple-600">
-                                🎉 Wow! You're incredibly generous - that's a full Bitcoin in grants! Your team will be absolutely thrilled! 
-                              </p>
-                            );
-                          } else if (totalGrants >= 0.5) {
-                            return (
-                              <p className="text-xs text-blue-600">
-                                ✨ That's a substantial grant package! Your employees are going to love this Bitcoin benefit.
-                              </p>
-                            );
-                          }
-                          return null;
-                        })()}
-                      </div>
-                    )}
+
                   </div>
 
                   {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn' || isCustomMode) && (
@@ -246,60 +205,23 @@ function CalculatorContent() {
                       <input
                         type="number"
                         step="0.001"
-                        max={isCustomMode ? "0.1" : undefined}
                         value={
                           isCustomMode 
                             ? customScheme?.annualGrant || 0
                             : (schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0
                         }
                         onChange={(e) => {
-                          const value = isCustomMode 
-                            ? Math.min(parseFloat(e.target.value) || 0, 0.1)
-                            : parseFloat(e.target.value) || 0;
+                          const value = parseFloat(e.target.value) || 0;
                           
                           if (isCustomMode) {
-                            // Ensure total doesn't exceed 1 BTC
-                            const currentInitial = customScheme?.initialGrant || 0;
-                            const maxAnnual = Math.max(0, (1.0 - currentInitial) / 10);
-                            const constrainedValue = Math.min(value, maxAnnual);
-                            updateCustomScheme({ annualGrant: constrainedValue });
+                            updateCustomScheme({ annualGrant: value });
                           } else {
                             updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
                           }
                         }}
                         className="input-field"
                       />
-                      {isCustomMode && (
-                        <div className="mt-1">
-                          {(() => {
-                            const currentInitial = customScheme?.initialGrant || 0;
-                            const currentAnnual = customScheme?.annualGrant || 0;
-                            const totalGrants = currentInitial + (currentAnnual * 10);
-                            const maxPossibleAnnual = Math.max(0, (1.0 - currentInitial) / 10);
-                            
-                            if (totalGrants >= 1.0) {
-                              return (
-                                <p className="text-xs text-purple-600">
-                                  🎉 Maximum generosity achieved! That's a full Bitcoin - your team will be over the moon! 
-                                </p>
-                              );
-                            } else if (maxPossibleAnnual < 0.001) {
-                              return (
-                                <p className="text-xs text-amber-600">
-                                  ⚠️ Reduce initial grant to allow for annual grants (max total: 1 BTC)
-                                </p>
-                              );
-                            } else if (currentAnnual > maxPossibleAnnual) {
-                              return (
-                                <p className="text-xs text-amber-600">
-                                  📊 Max annual grant: {maxPossibleAnnual.toFixed(4)} BTC (to stay under 1 BTC total)
-                                </p>
-                              );
-                            }
-                            return null;
-                          })()}
-                        </div>
-                      )}
+
                     </div>
                   )}
 
@@ -352,16 +274,17 @@ function CalculatorContent() {
 
             {/* Vesting Timeline Chart */}
             <div className="card">
-              {results && displayScheme ? (
-                <VestingTimelineChart
-                  timeline={results.timeline}
-                  initialGrant={displayScheme.initialGrant}
-                  annualGrant={displayScheme.annualGrant}
-                  projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
-                  currentBitcoinPrice={currentBitcoinPrice}
-                  schemeId={displayScheme.id}
-                />
-              ) : (
+              <ChartErrorBoundary>
+                {results && displayScheme ? (
+                  <VestingTimelineChart
+                    timeline={results.timeline}
+                    initialGrant={displayScheme.initialGrant}
+                    annualGrant={displayScheme.annualGrant}
+                    projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
+                    currentBitcoinPrice={currentBitcoinPrice}
+                    schemeId={displayScheme.id}
+                  />
+                ) : (
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Vesting Timeline
@@ -375,7 +298,8 @@ function CalculatorContent() {
                     </div>
                   </div>
                 </div>
-              )}
+                )}
+              </ChartErrorBoundary>
             </div>
 
             {/* Detailed Breakdown */}
@@ -507,8 +431,12 @@ function CalculatorContent() {
 
 export default function CalculatorPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CalculatorContent />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <CalculatorErrorBoundary>
+          <CalculatorContent />
+        </CalculatorErrorBoundary>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
