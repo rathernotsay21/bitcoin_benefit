@@ -1,0 +1,514 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCalculatorStore } from '@/stores/calculatorStore';
+import { VESTING_SCHEMES, CUSTOM_SCHEME } from '@/lib/vesting-schemes';
+import VestingTimelineChart from '@/components/VestingTimelineChart';
+
+function formatBTC(amount: number): string {
+  return `₿${amount.toFixed(6)}`;
+}
+
+function formatUSD(amount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
+}
+
+function CalculatorContent() {
+  const searchParams = useSearchParams();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const {
+    selectedScheme,
+    inputs,
+    results,
+    isCalculating,
+    currentBitcoinPrice,
+    bitcoinChange24h,
+    isLoadingPrice,
+    isCustomMode,
+    customScheme,
+    schemeCustomizations,
+    setSelectedScheme,
+    updateInputs,
+    fetchBitcoinPrice,
+    setCustomMode,
+    updateCustomScheme,
+    updateSchemeCustomization,
+    getEffectiveScheme,
+  } = useCalculatorStore();
+
+  // Load Bitcoin price and handle URL parameters
+  useEffect(() => {
+    fetchBitcoinPrice();
+
+    const planParam = searchParams.get('plan');
+    if (planParam && !isLoaded) {
+      if (planParam === 'custom') {
+        // Handle High Roller (custom) scheme
+        setCustomMode(true);
+        setSelectedScheme(CUSTOM_SCHEME);
+      } else {
+        // Handle predefined schemes
+        const scheme = VESTING_SCHEMES.find(s => s.id === planParam);
+        if (scheme) {
+          setSelectedScheme(scheme);
+        }
+      }
+      setIsLoaded(true);
+    }
+  }, [searchParams, isLoaded, fetchBitcoinPrice, setSelectedScheme]);
+
+  const handleSchemeSelect = (schemeId: string) => {
+    if (schemeId === 'custom') {
+      setCustomMode(true);
+      setSelectedScheme(CUSTOM_SCHEME);
+    } else {
+      setCustomMode(false);
+      const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
+      if (scheme) {
+        setSelectedScheme(scheme);
+      }
+    }
+  };
+
+  const displayScheme = isCustomMode ? customScheme : (selectedScheme ? getEffectiveScheme(selectedScheme) : null);
+  const maxVestingMonths = displayScheme ? Math.max(...displayScheme.vestingSchedule.map(m => m.months)) : 0;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-orange-600">
+              Secure their future. Secure your team.
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900">
+            Customize Your Strategy
+          </h1>
+        </div>
+
+        {/* Calculator Container */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Left Panel - Scheme Selection */}
+          <div className="lg:col-span-1">
+            <div className="card">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Choose a Vesting Scheme
+              </h2>
+
+              <div className="space-y-4">
+                {/* Predefined Schemes */}
+                {VESTING_SCHEMES.map((scheme) => (
+                  <div
+                    key={scheme.id}
+                    className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedScheme?.id === scheme.id && !isCustomMode
+                        ? 'border-orange-500 bg-orange-50'
+                        : 'border-gray-200 hover:border-orange-300'
+                      }`}
+                    onClick={() => handleSchemeSelect(scheme.id)}
+                  >
+                    <div className="flex items-center mb-2">
+                      <input
+                        type="radio"
+                        name="scheme"
+                        className="text-orange-600"
+                        checked={selectedScheme?.id === scheme.id && !isCustomMode}
+                        onChange={() => handleSchemeSelect(scheme.id)}
+                      />
+                      <label className="ml-3 font-semibold text-gray-900">{scheme.name}</label>
+                    </div>
+                    <p className="text-sm text-gray-600 ml-6">
+                      {scheme.description}
+                    </p>
+                  </div>
+                ))}
+
+                {/* Custom Option */}
+                <div
+                  className={`border rounded-lg p-4 cursor-pointer transition-all ${isCustomMode
+                      ? 'border-orange-500 bg-orange-50'
+                      : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  onClick={() => handleSchemeSelect('custom')}
+                >
+                  <div className="flex items-center mb-2">
+                    <input
+                      type="radio"
+                      name="scheme"
+                      className="text-orange-600"
+                      checked={isCustomMode}
+                      onChange={() => handleSchemeSelect('custom')}
+                    />
+                    <label className="ml-3 font-semibold text-gray-900">Executive Benefit</label>
+                  </div>
+                  <p className="text-sm text-gray-600 ml-6">
+                    Premium customizable grants for key talent. Attract and retain top performers with significant Bitcoin incentives.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+
+            {/* Scheme Customization */}
+            {selectedScheme && (
+              <div className="card mt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Customize Your Scheme
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Initial Grant (BTC)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.001"
+                      max={isCustomMode ? "1.0" : "0.02"}
+                      value={
+                        isCustomMode 
+                          ? customScheme?.initialGrant || 0
+                          : (schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant)
+                      }
+                      onChange={(e) => {
+                        const value = Math.min(parseFloat(e.target.value) || 0, isCustomMode ? 1.0 : 0.02);
+                        if (isCustomMode) {
+                          updateCustomScheme({ initialGrant: value });
+                        } else {
+                          updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
+                        }
+                      }}
+                      className="input-field"
+                    />
+                    {!isCustomMode && (
+                      <div className="mt-1">
+                        {(() => {
+                          const currentInitial = schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant;
+                          const currentAnnual = schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant || 0;
+                          const totalGrants = currentInitial + (currentAnnual * (selectedScheme.id === 'steady-builder' ? 5 : selectedScheme.id === 'slow-burn' ? 10 : 0));
+                          
+                          if (totalGrants >= 0.02) {
+                            return (
+                              <p className="text-xs text-amber-600">
+                                💡 For grants larger than 0.02 BTC, consider using "Executive Benefit" for better visualization and flexibility.
+                              </p>
+                            );
+                          }
+                          return null;
+                        })()}
+                      </div>
+                    )}
+                    {isCustomMode && (
+                      <div className="mt-1">
+                        {(() => {
+                          const currentInitial = customScheme?.initialGrant || 0;
+                          const currentAnnual = customScheme?.annualGrant || 0;
+                          const totalGrants = currentInitial + (currentAnnual * 10); // High Roller gives annual grants for 10 years
+                          
+                          if (totalGrants >= 1.0) {
+                            return (
+                              <p className="text-xs text-purple-600">
+                                🎉 Wow! You're incredibly generous - that's a full Bitcoin in grants! Your team will be absolutely thrilled! 
+                              </p>
+                            );
+                          } else if (totalGrants >= 0.5) {
+                            return (
+                              <p className="text-xs text-blue-600">
+                                ✨ That's a substantial grant package! Your employees are going to love this Bitcoin benefit.
+                              </p>
+                            );
+                          }
+                          return null;
+                        })()}
+                      </div>
+                    )}
+                  </div>
+
+                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn' || isCustomMode) && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Annual Grant (BTC)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.001"
+                        max={isCustomMode ? "0.1" : undefined}
+                        value={
+                          isCustomMode 
+                            ? customScheme?.annualGrant || 0
+                            : (schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0
+                        }
+                        onChange={(e) => {
+                          const value = isCustomMode 
+                            ? Math.min(parseFloat(e.target.value) || 0, 0.1)
+                            : parseFloat(e.target.value) || 0;
+                          
+                          if (isCustomMode) {
+                            // Ensure total doesn't exceed 1 BTC
+                            const currentInitial = customScheme?.initialGrant || 0;
+                            const maxAnnual = Math.max(0, (1.0 - currentInitial) / 10);
+                            const constrainedValue = Math.min(value, maxAnnual);
+                            updateCustomScheme({ annualGrant: constrainedValue });
+                          } else {
+                            updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
+                          }
+                        }}
+                        className="input-field"
+                      />
+                      {isCustomMode && (
+                        <div className="mt-1">
+                          {(() => {
+                            const currentInitial = customScheme?.initialGrant || 0;
+                            const currentAnnual = customScheme?.annualGrant || 0;
+                            const totalGrants = currentInitial + (currentAnnual * 10);
+                            const maxPossibleAnnual = Math.max(0, (1.0 - currentInitial) / 10);
+                            
+                            if (totalGrants >= 1.0) {
+                              return (
+                                <p className="text-xs text-purple-600">
+                                  🎉 Maximum generosity achieved! That's a full Bitcoin - your team will be over the moon! 
+                                </p>
+                              );
+                            } else if (maxPossibleAnnual < 0.001) {
+                              return (
+                                <p className="text-xs text-amber-600">
+                                  ⚠️ Reduce initial grant to allow for annual grants (max total: 1 BTC)
+                                </p>
+                              );
+                            } else if (currentAnnual > maxPossibleAnnual) {
+                              return (
+                                <p className="text-xs text-amber-600">
+                                  📊 Max annual grant: {maxPossibleAnnual.toFixed(4)} BTC (to stay under 1 BTC total)
+                                </p>
+                              );
+                            }
+                            return null;
+                          })()}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Projected Annual Growth (%)
+                    </label>
+                    <input
+                      type="number"
+                      value={inputs.projectedBitcoinGrowth || 15}
+                      onChange={(e) => updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 })}
+                      className="input-field"
+                    />
+                  </div>
+
+
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Panel - Results */}
+          <div className="lg:col-span-2">
+
+
+            {/* Summary Cards */}
+            {displayScheme && (
+              <div className="grid md:grid-cols-3 gap-4 mb-6">
+                <div className="card text-center">
+                  <div className="text-2xl font-bold text-gray-900">{formatBTC(displayScheme.initialGrant)}</div>
+                  <div className="text-sm text-gray-600">Initial Grant</div>
+                </div>
+                <div className="card text-center">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {formatUSD(displayScheme.initialGrant * currentBitcoinPrice)}
+                  </div>
+                  <div className="text-sm text-gray-600">Initial USD Value</div>
+                </div>
+                <div className="card text-center">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {results && results.timeline.length > 120 
+                      ? formatUSD(results.timeline[120].employerBalance * results.timeline[120].bitcoinPrice)
+                      : formatUSD(displayScheme.initialGrant * currentBitcoinPrice * Math.pow(1.15, 10))
+                    }
+                  </div>
+                  <div className="text-sm text-gray-600">10-Year USD Value</div>
+                </div>
+              </div>
+            )}
+
+            {/* Vesting Timeline Chart */}
+            <div className="card">
+              {results && displayScheme ? (
+                <VestingTimelineChart
+                  timeline={results.timeline}
+                  initialGrant={displayScheme.initialGrant}
+                  annualGrant={displayScheme.annualGrant}
+                  projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
+                  currentBitcoinPrice={currentBitcoinPrice}
+                  schemeId={displayScheme.id}
+                />
+              ) : (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Vesting Timeline
+                  </h3>
+                  <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <div className="text-4xl mb-2">📊</div>
+                      <div>
+                        {isCalculating ? 'Calculating timeline...' : 'Select a scheme to see 20-year projections'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Detailed Breakdown */}
+            {displayScheme && (
+              <div className="card mt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Scheme Details: {displayScheme.name}
+                </h3>
+
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Initial Grant</span>
+                    <span className="font-semibold">{formatBTC(displayScheme.initialGrant)}</span>
+                  </div>
+                  {displayScheme.annualGrant && (
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Annual Grant</span>
+                      <span className="font-semibold">{formatBTC(displayScheme.annualGrant)} per year</span>
+                    </div>
+                  )}
+
+                  {displayScheme.bonuses && displayScheme.bonuses.length > 0 && (
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Bonuses</span>
+                      <span className="font-semibold">
+                        {displayScheme.bonuses.map(b => `${b.bonusPercent}%`).join(', ')}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center py-2">
+                    <span className="text-gray-600">Full Vesting Period</span>
+                    <span className="font-semibold">
+                      {Math.round(maxVestingMonths / 12)} years
+                    </span>
+                  </div>
+                </div>
+
+                {/* Vesting Schedule */}
+                <div className="mt-6">
+                  <h4 className="font-semibold text-gray-900 mb-3">Vesting Schedule</h4>
+                  <div className="space-y-2">
+                    {displayScheme.vestingSchedule.map((milestone, index) => (
+                      <div key={index} className="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                        <span className="text-gray-600">
+                          {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
+                        </span>
+                        <span className="font-medium">
+                          {milestone.grantPercent}% grant vested
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Vesting Schedule Explanation */}
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <h5 className="text-sm font-semibold text-blue-900 mb-2">Standardized Vesting Timeline:</h5>
+                    <div className="text-sm text-blue-800">
+                      <p className="mb-3"><strong>All schemes follow the same vesting schedule:</strong> 50% at 5 years, 100% at 10 years</p>
+                      
+                      {displayScheme.id === 'accelerator' && (
+                        <div>
+                          <p className="mb-2">• <strong>Pioneer approach:</strong> 0.02 BTC immediate grant for early Bitcoin adopters</p>
+                          <p className="mb-2">• <strong>Leadership positioning:</strong> Perfect for companies ready to lead in digital asset compensation</p>
+                          <p>• <strong>Immediate impact:</strong> Jump-start your team's Bitcoin journey with upfront commitment</p>
+                        </div>
+                      )}
+                      {displayScheme.id === 'steady-builder' && (
+                        <div>
+                          <p className="mb-2">• <strong>Strategic distribution:</strong> 0.015 BTC initial + 0.001 BTC yearly grants</p>
+                          <p className="mb-2">• <strong>Risk mitigation:</strong> Minimize market timing risk with conservative approach</p>
+                          <p>• <strong>Dollar-cost advantage:</strong> Ideal for companies taking measured steps into Bitcoin adoption</p>
+                        </div>
+                      )}
+                      {displayScheme.id === 'slow-burn' && (
+                        <div>
+                          <p className="mb-2">• <strong>Maximum retention:</strong> 0.002 BTC yearly for 10 years (no initial grant)</p>
+                          <p className="mb-2">• <strong>Loyalty focus:</strong> Designed for companies prioritizing long-term employee commitment</p>
+                          <p>• <strong>Wealth building:</strong> Creates strong incentive for employees to stay and grow with the company</p>
+                        </div>
+                      )}
+                      {displayScheme.id === 'custom' && (
+                        <div>
+                          <p className="mb-2">• <strong>Executive-level benefits:</strong> Premium customizable grants for key talent attraction</p>
+                          <p className="mb-2">• <strong>Top performer focus:</strong> Significant Bitcoin incentives to retain high-value employees</p>
+                          <p>• <strong>Flexible structure:</strong> Fully customizable to match executive compensation strategies</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Results Summary */}
+            {results && (
+              <div className="card mt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Calculation Results
+                </h3>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <div className="text-2xl font-bold text-bitcoin">
+                      {formatBTC(results.totalBitcoinNeeded)}
+                    </div>
+                    <div className="text-sm text-gray-600">Total Bitcoin Needed</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900">
+                      {formatUSD(results.totalCost)}
+                    </div>
+                    <div className="text-sm text-gray-600">Total Cost (Current Price)</div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="text-sm text-gray-600">
+                    <p>Projections assume {inputs.projectedBitcoinGrowth || 15}% annual Bitcoin growth.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function CalculatorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CalculatorContent />
+    </Suspense>
+  );
+}
