@@ -171,7 +171,36 @@ export default function VestingTimelineChartRecharts({
   ];
 
   const finalYear = yearlyData[20];
-  const growthMultiple = ((finalYear?.btcBalance || 0) * (finalYear?.bitcoinPrice || 0)) / (initialGrant * currentBitcoinPrice);
+  
+  // Calculate growth multiple properly for all scheme types
+  const calculateGrowthMultiple = () => {
+    if (!finalYear) return 0;
+    
+    const finalValue = finalYear.btcBalance * finalYear.bitcoinPrice;
+    
+    // For schemes with no initial grant (like Wealth Builder), calculate against total cost invested
+    if (initialGrant === 0) {
+      // Calculate total cost invested over the vesting period
+      let totalCostInvested = 0;
+      yearlyData.slice(0, 11).forEach((point) => {
+        const year = point.year;
+        if (year > 0 && annualGrant && annualGrant > 0) {
+          const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
+          if (year <= maxAnnualYears) {
+            totalCostInvested += annualGrant * point.bitcoinPrice;
+          }
+        }
+      });
+      
+      return totalCostInvested > 0 ? finalValue / totalCostInvested : 0;
+    }
+    
+    // For schemes with initial grant, use traditional calculation
+    const initialInvestment = initialGrant * currentBitcoinPrice;
+    return initialInvestment > 0 ? finalValue / initialInvestment : 0;
+  };
+  
+  const growthMultiple = calculateGrowthMultiple();
 
   // Calculate Y-axis domains with padding for better readability
   const btcValues = yearlyData.map(d => d.btcBalance);
@@ -338,10 +367,13 @@ export default function VestingTimelineChartRecharts({
         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
           <div className="text-sm font-medium text-green-800 mb-1">Growth Multiple</div>
           <div className="text-2xl font-bold text-green-900">
-            {growthMultiple.toFixed(1)}x
+            {isNaN(growthMultiple) || !isFinite(growthMultiple) || growthMultiple <= 0 
+              ? 'N/A' 
+              : `${growthMultiple.toFixed(1)}x`
+            }
           </div>
           <div className="text-xs text-green-700">
-            From initial investment
+            {initialGrant > 0 ? 'From initial investment' : 'From total cost invested'}
           </div>
         </div>
       </div>
@@ -354,12 +386,7 @@ export default function VestingTimelineChartRecharts({
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                  Grant Cost
-                  <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
-                    (Current BTC Price)
-                  </div>
-                </th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Grant Cost</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Balance</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Price</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">USD Value</th>
@@ -371,22 +398,26 @@ export default function VestingTimelineChartRecharts({
                 const year = point.year;
                 const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
 
-                // Calculate grant cost based on current Bitcoin price
+                // Calculate grant cost based on each year's projected Bitcoin price
                 let grantCost = 0;
                 if (year === 0 && initialGrant > 0) {
-                  // Initial grant cost
+                  // Initial grant cost - use current price for year 0
                   grantCost = initialGrant * currentBitcoinPrice;
                 } else if (year > 0 && annualGrant && annualGrant > 0) {
                   // Annual grant cost (for schemes with annual grants)
                   // For Wealth Builder: years 1-10, for Dollar Cost Advantage: years 1-5
                   const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
                   if (year <= maxAnnualYears) {
-                    grantCost = annualGrant * currentBitcoinPrice;
+                    // Use the projected Bitcoin price for this specific year
+                    grantCost = annualGrant * point.bitcoinPrice;
                   }
                 }
 
                 return (
-                  <tr key={year} className={year === 5 || year === 10 ? 'bg-yellow-50' : ''}>
+                  <tr key={year} className={
+                    year === 10 ? 'bg-green-50' : 
+                    year === 5 ? 'bg-yellow-50' : ''
+                  }>
                     <td className="px-4 py-2 text-sm font-medium text-gray-900">{year}</td>
                     <td className="px-4 py-2 text-sm text-gray-700">
                       {grantCost > 0 ? (
@@ -419,22 +450,27 @@ export default function VestingTimelineChartRecharts({
             <div>
               <h5 className="text-sm font-semibold text-orange-900">Total Grant Cost</h5>
               <p className="text-xs text-orange-700 mt-1">
-                Based on current Bitcoin price of {formatUSD(currentBitcoinPrice)}
+                Based on projected Bitcoin price for each grant year
               </p>
             </div>
             <div className="text-right">
               <div className="text-lg font-bold text-orange-900">
                 {(() => {
                   let totalCost = 0;
-                  // Initial grant cost
-                  if (initialGrant > 0) {
-                    totalCost += initialGrant * currentBitcoinPrice;
-                  }
-                  // Annual grant costs
-                  if (annualGrant && annualGrant > 0) {
-                    const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
-                    totalCost += annualGrant * currentBitcoinPrice * maxAnnualYears;
-                  }
+                  // Calculate total cost using projected prices for each year
+                  yearlyData.slice(0, 11).forEach((point) => {
+                    const year = point.year;
+                    if (year === 0 && initialGrant > 0) {
+                      // Initial grant cost - use current price for year 0
+                      totalCost += initialGrant * currentBitcoinPrice;
+                    } else if (year > 0 && annualGrant && annualGrant > 0) {
+                      // Annual grant costs using projected prices
+                      const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
+                      if (year <= maxAnnualYears) {
+                        totalCost += annualGrant * point.bitcoinPrice;
+                      }
+                    }
+                  });
                   return formatUSD(totalCost);
                 })()}
               </div>

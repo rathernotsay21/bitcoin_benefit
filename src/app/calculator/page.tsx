@@ -211,7 +211,17 @@ function CalculatorContent() {
                   <div className="text-2xl font-bold text-gray-900">
                     {results && results.timeline.length > 120 
                       ? formatUSD(results.timeline[120].employerBalance * results.timeline[120].bitcoinPrice)
-                      : formatUSD(displayScheme.initialGrant * currentBitcoinPrice * Math.pow(1.15, 10))
+                      : (() => {
+                        // Calculate fallback 10-year value based on scheme type
+                        let totalBTC = displayScheme.initialGrant;
+                        if (displayScheme.annualGrant) {
+                          const maxAnnualYears = displayScheme.id === 'slow-burn' ? 10 : 5;
+                          const yearsToAdd = Math.min(10, maxAnnualYears);
+                          totalBTC += displayScheme.annualGrant * yearsToAdd;
+                        }
+                        const projectedPrice = currentBitcoinPrice * Math.pow(1.15, 10);
+                        return formatUSD(totalBTC * projectedPrice);
+                      })()
                     }
                   </div>
                   <div className="text-sm text-gray-600">10-Year USD Value</div>

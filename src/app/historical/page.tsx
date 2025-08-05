@@ -5,7 +5,7 @@ import { useEffect, Suspense } from 'react';
 import { useHistoricalCalculatorStore } from '@/stores/historicalCalculatorStore';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import YearSelector from '@/components/YearSelector';
-import HistoricalTimelineChart from '@/components/HistoricalTimelineChart';
+import HistoricalTimelineVisualization from '@/components/HistoricalTimelineVisualization';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 function formatBTC(amount: number): string {
@@ -273,9 +273,9 @@ function HistoricalCalculatorContent() {
                   </div>
                 </div>
 
-                {/* Historical Timeline Chart */}
+                {/* Historical Timeline Visualization */}
                 <div className="card mb-6">
-                  <HistoricalTimelineChart
+                  <HistoricalTimelineVisualization
                     results={historicalResults}
                     startingYear={startingYear}
                     currentBitcoinPrice={currentBitcoinPrice}
@@ -293,47 +293,62 @@ function HistoricalCalculatorContent() {
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                            Grant Cost
-                            <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
-                              (Historical {costBasisMethod} price)
-                            </div>
-                          </th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Grant Cost</th>
                           <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Balance</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                            Historical BTC Price
-                            <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
-                              ({costBasisMethod} price for year)
-                            </div>
-                          </th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                            Historical USD Value
-                            <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
-                              (Using year's price)
-                            </div>
-                          </th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                            Current USD Value
-                            <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
-                              (Using today's price)
-                            </div>
-                          </th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Historical BTC Price</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Historical USD Value</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Current USD Value</th>
                           <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Vesting Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
-                        {historicalResults.timeline
-                          .filter((point) => point.month === 12 || (point.year === new Date().getFullYear() && point.month === new Date().getMonth() + 1)) // Only show December of each year or current month of current year
-                          .map((point, index) => {
-                            const year = point.year; // Use the actual year from the timeline point
+                        {(() => {
+                          // Get yearly data points (December of each year or current month for current year)
+                          const currentYear = new Date().getFullYear();
+                          const startYear = startingYear;
+                          const yearlyPoints = [];
+                          
+                          for (let year = startYear; year <= currentYear; year++) {
+                            // Find the last point for this year (December or current month for current year)
+                            const yearPoints = historicalResults.timeline.filter(p => p.year === year);
+                            if (yearPoints.length > 0) {
+                              const lastPoint = yearPoints[yearPoints.length - 1];
+                              yearlyPoints.push(lastPoint);
+                            }
+                          }
+                          
+                          return yearlyPoints.map((point) => {
+                            const year = point.year;
                             const yearsFromStart = year - startingYear;
                             const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
                             
-                            // Calculate grant cost for this year using historical prices
-                            const yearGrants = point.grants || [];
+                            // Calculate grant cost for this year
                             let grantCost = 0;
+                            // Look for grants that were allocated in this year from the grant breakdown
+                            const yearGrants = historicalResults.grantBreakdown.filter(grant => grant.year === year);
+                            if (yearGrants.length > 0) {
+                              grantCost = yearGrants.reduce((sum, grant) => {
+                                const grantYearPrices = historicalPrices[grant.year];
+                                if (grantYearPrices) {
+                                  let grantPrice = 0;
+                                  switch (costBasisMethod) {
+                                    case 'high':
+                                      grantPrice = grantYearPrices.high;
+                                      break;
+                                    case 'low':
+                                      grantPrice = grantYearPrices.low;
+                                      break;
+                                    case 'average':
+                                      grantPrice = grantYearPrices.average;
+                                      break;
+                                  }
+                                  return sum + (grant.amount * grantPrice);
+                                }
+                                return sum;
+                              }, 0);
+                            }
                             
-                            // Get historical Bitcoin price for this year based on cost basis method
+                            // Get historical Bitcoin price for this year
                             const yearPrices = historicalPrices[year];
                             let historicalBitcoinPrice = 0;
                             if (yearPrices) {
@@ -352,34 +367,15 @@ function HistoricalCalculatorContent() {
                             
                             // Calculate historical USD value using that year's price
                             const historicalUsdValue = point.cumulativeBitcoin * historicalBitcoinPrice;
-                            
-                            if (yearGrants.length > 0) {
-                              // Calculate cost using historical prices for each grant
-                              for (const grant of yearGrants) {
-                                const grantYearPrices = historicalPrices[grant.year];
-                                if (grantYearPrices) {
-                                  let grantHistoricalPrice = 0;
-                                  switch (costBasisMethod) {
-                                    case 'high':
-                                      grantHistoricalPrice = grantYearPrices.high;
-                                      break;
-                                    case 'low':
-                                      grantHistoricalPrice = grantYearPrices.low;
-                                      break;
-                                    case 'average':
-                                      grantHistoricalPrice = grantYearPrices.average;
-                                      break;
-                                  }
-                                  grantCost += grant.amount * grantHistoricalPrice;
-                                }
-                              }
-                            }
 
                             return (
-                              <tr key={year} className={yearsFromStart === 5 || yearsFromStart === 10 ? 'bg-yellow-50' : ''}>
+                              <tr key={year} className={
+                                yearsFromStart === 10 ? 'bg-green-50' : 
+                                yearsFromStart === 5 ? 'bg-yellow-50' : ''
+                              }>
                                 <td className="px-4 py-2 text-sm font-medium text-gray-900">{year}</td>
                                 <td className="px-4 py-2 text-sm text-gray-700">
-                                  {yearGrants.length > 0 ? (
+                                  {grantCost > 0 ? (
                                     <span className="font-medium text-orange-600">{formatUSD(grantCost)}</span>
                                   ) : (
                                     <span className="text-gray-400">—</span>
@@ -406,7 +402,8 @@ function HistoricalCalculatorContent() {
                                 </td>
                               </tr>
                             );
-                          })}
+                          });
+                        })()}
                       </tbody>
                     </table>
                   </div>
@@ -417,7 +414,7 @@ function HistoricalCalculatorContent() {
                       <div>
                         <h5 className="text-sm font-semibold text-orange-900">Total Grant Cost</h5>
                         <p className="text-xs text-orange-700 mt-1">
-                          Based on historical {costBasisMethod} Bitcoin prices during grant periods
+                          Based on historical {costBasisMethod} Bitcoin prices for each grant year
                         </p>
 
                       </div>
