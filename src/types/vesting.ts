@@ -58,3 +58,64 @@ export interface BitcoinPriceData {
   change24h: number;
   lastUpdated: Date;
 }
+
+// Historical Bitcoin Calculator Types
+
+// Historical price data structure
+export interface BitcoinYearlyPrices {
+  year: number;
+  high: number;
+  low: number;
+  average: number;
+  open: number;
+  close: number;
+}
+
+// Cost basis calculation method
+export type CostBasisMethod = 'high' | 'low' | 'average';
+
+// Grant event for historical tracking
+export interface GrantEvent {
+  year: number;
+  month: number;
+  amount: number; // BTC amount
+  type: 'initial' | 'annual';
+}
+
+// Historical calculation inputs
+export interface HistoricalCalculationInputs {
+  scheme: VestingScheme;
+  startingYear: number;
+  costBasisMethod: CostBasisMethod;
+  historicalPrices: Record<number, BitcoinYearlyPrices>;
+  currentBitcoinPrice: number;
+}
+
+// Historical timeline point
+export interface HistoricalTimelinePoint {
+  year: number;
+  month: number;
+  cumulativeBitcoin: number;
+  cumulativeCostBasis: number;
+  currentValue: number;
+  vestedAmount: number;
+  grants: GrantEvent[];
+}
+
+// Historical calculation result
+export interface HistoricalCalculationResult {
+  timeline: HistoricalTimelinePoint[];
+  totalBitcoinGranted: number;
+  totalCostBasis: number;
+  currentTotalValue: number;
+  totalReturn: number;
+  annualizedReturn: number;
+  grantBreakdown: GrantEvent[];
+  summary: {
+    startingYear: number;
+    endingYear: number;
+    yearsAnalyzed: number;
+    costBasisMethod: CostBasisMethod;
+    averageAnnualGrant: number;
+  };
+}

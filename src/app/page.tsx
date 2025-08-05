@@ -1,6 +1,52 @@
-import Link from 'next/link'
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
+
+function formatUSD(amount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
 
 export default function HomePage() {
+  const [currentBitcoinPrice, setCurrentBitcoinPrice] = useState(113976); // Fallback
+  const [historicalPrice2020, setHistoricalPrice2020] = useState(11000); // Fallback
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        // Fetch current Bitcoin price
+        const currentPriceData = await BitcoinAPI.getCurrentPrice();
+        setCurrentBitcoinPrice(currentPriceData.price);
+
+        // Fetch 2020 historical price
+        const historical2020 = await HistoricalBitcoinAPI.getYearlyPrice(2020);
+        setHistoricalPrice2020(historical2020.average);
+      } catch (error) {
+        console.error('Failed to fetch Bitcoin prices:', error);
+        // Keep fallback values
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPrices();
+  }, []);
+
+  // Calculate dynamic values
+  const bitcoinAmount = 0.1;
+  const costBasis = bitcoinAmount * historicalPrice2020;
+  const presentValue = bitcoinAmount * currentBitcoinPrice;
+  const totalReturn = presentValue - costBasis;
+  const returnPercentage = ((totalReturn / costBasis) * 100);
+
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -15,6 +61,9 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/historical" className="btn-secondary">
+                Historical Analysis
+              </Link>
               <Link href="/calculator" className="btn-primary">
                 Try Calculator
               </Link>
@@ -38,8 +87,8 @@ export default function HomePage() {
               <Link href="/calculator" className="btn-primary text-lg px-8 py-3">
                 Start Planning
               </Link>
-              <Link href="/learn-more" className="btn-secondary text-lg px-8 py-3">
-                Learn More
+              <Link href="/historical" className="btn-secondary text-lg px-8 py-3">
+                Historical Analysis
               </Link>
             </div>
           </div>
@@ -115,6 +164,98 @@ export default function HomePage() {
 
 
 
+          </div>
+        </div>
+      </section>
+
+      {/* Historical Analysis Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                Learn from Bitcoin's History
+              </h3>
+              <p className="text-xl text-gray-600 mb-6">
+                See how your vesting scheme would have performed using real historical Bitcoin data from 2015 onwards.
+              </p>
+              
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                  <span className="text-gray-700">Analyze real historical performance</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                  <span className="text-gray-700">Compare different cost basis methods</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                  </div>
+                  <span className="text-gray-700">Calculate actual returns and growth</span>
+                </div>
+              </div>
+              
+              <Link href="/historical" className="btn-primary text-lg px-8 py-3">
+                Try Historical Analysis
+              </Link>
+            </div>
+            
+            <div className="card lg:p-8 bg-white">
+              <div className="text-center">
+                <h4 className="text-xl font-semibold text-gray-900 mb-6">
+                  Historical Performance Example
+                </h4>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-600">Starting Year</span>
+                    <span className="text-sm font-bold text-gray-900">2020</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm font-medium text-gray-600">Initial Grant</span>
+                    <span className="text-sm font-bold text-gray-900">₿0.1</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                    <span className="text-sm font-medium text-orange-700">Cost Basis (2020)</span>
+                    <span className="text-sm font-bold text-orange-800">
+                      {isLoading ? '$1,100' : formatUSD(costBasis)}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <span className="text-sm font-medium text-blue-700">Present Value (2025)</span>
+                    <span className="text-sm font-bold text-blue-800">
+                      {isLoading ? '$11,398' : formatUSD(presentValue)}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                    <span className="text-sm font-medium text-green-700">Total Return</span>
+                    <span className="text-sm font-bold text-green-800">
+                      {isLoading 
+                        ? '+936% ($10,298)' 
+                        : `+${returnPercentage.toFixed(0)}% (${formatUSD(totalReturn)})`
+                      }
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <p className="text-xs text-gray-500">
+                    * Example based on Bitcoin Pioneer scheme (₿0.1) starting in 2020. 
+                    Past performance does not guarantee future results.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -221,11 +362,16 @@ export default function HomePage() {
             Ready to Start Planning?
           </h3>
           <p className="text-xl text-orange-100 mb-8">
-            Use our calculator to model different vesting scenarios and find the perfect fit for your team.
+            Use our calculators to model different vesting scenarios and analyze historical performance.
           </p>
-          <Link href="/calculator" className="bg-white text-orange-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-200">
-            Try the Calculator
-          </Link>
+          <div className="flex justify-center gap-4">
+            <Link href="/calculator" className="bg-white text-orange-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-200">
+              Future Calculator
+            </Link>
+            <Link href="/historical" className="bg-orange-500 text-white hover:bg-orange-400 font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-200 border-2 border-white">
+              Historical Analysis
+            </Link>
+          </div>
         </div>
       </section>
 
