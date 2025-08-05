@@ -370,7 +370,7 @@ export default function VestingTimelineChartRecharts({
               {yearlyData.slice(0, 11).map((point) => {
                 const year = point.year;
                 const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
-                
+
                 // Calculate grant cost based on current Bitcoin price
                 let grantCost = 0;
                 if (year === 0 && initialGrant > 0) {
@@ -412,7 +412,7 @@ export default function VestingTimelineChartRecharts({
             </tbody>
           </table>
         </div>
-        
+
         {/* Total Grant Cost Summary */}
         <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
           <div className="flex justify-between items-center">
