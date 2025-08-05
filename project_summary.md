@@ -374,4 +374,168 @@ This major enhancement significantly improves the user experience by providing u
 
 ---
 
+### **August 2025 - Historical Calculator & Performance Optimization**
+
+#### **Major New Feature: Historical Analysis Calculator**
+
+**Overview**
+A completely new calculator page (`/historical`) that allows employers to analyze how their vesting schemes would have performed using actual Bitcoin price data from 2015 onwards. This feature provides data-driven validation for Bitcoin compensation strategies.
+
+**Key Features**
+- **Historical Price Data**: Fetches real Bitcoin prices from 2015 to present
+- **Cost Basis Methods**: Three calculation methods - Average, High, Low yearly prices
+- **Interactive Visualization**: Recharts-based timeline showing BTC balance and USD value over time
+- **Performance Metrics**: Total return, annualized return, and growth multiples
+- **Annual Breakdown**: Detailed table showing grants, costs, and values by year
+- **Customizable Parameters**: All schemes support customization like the future calculator
+
+**Technical Implementation**
+- **New Store**: `historicalCalculatorStore.ts` manages historical calculator state
+- **API Integration**: `historical-bitcoin-api.ts` fetches yearly price data
+- **Calculation Engine**: `historical-calculations.ts` processes historical scenarios
+- **Cost Basis Logic**: `cost-basis-calculator.ts` handles different pricing methods
+- **New Components**: `HistoricalTimelineChart`, `YearSelector`, enhanced `ErrorBoundary`
+
+#### **Performance Issues Identified**
+
+**Primary Concern: Slow Initial Load**
+- **Symptom**: 2-3 second delay when first opening calculator pages
+- **Root Causes**:
+  1. **Heavy Dependencies**: Recharts library loaded on-demand without code splitting
+  2. **Synchronous Operations**: Multiple API calls blocking initial render
+  3. **Large Data Processing**: 20 years of monthly data points calculated upfront
+  4. **No Progressive Loading**: All chart data rendered immediately
+
+**Recommended Optimizations**
+1. **Code Splitting**:
+   ```typescript
+   const VestingTimelineChart = lazy(() => import('./VestingTimelineChart'));
+   const HistoricalTimelineChart = lazy(() => import('./HistoricalTimelineChart'));
+   ```
+
+2. **Bundle Optimization**:
+   - Import only needed Recharts components
+   - Use tree-shaking for unused code
+   - Implement dynamic imports for calculators
+
+3. **Data Optimization**:
+   - Reduce chart data points (quarterly vs monthly)
+   - Implement virtual scrolling for tables
+   - Add pagination for historical data
+
+4. **API Optimization**:
+   - Cache historical data in localStorage
+   - Implement request deduplication
+   - Use React Query for smart caching
+
+#### **Edge Cases & Calculation Concerns**
+
+**Identified Issues**
+1. **Historical Data Gaps**: Missing price data for certain dates
+2. **Leap Year Calculations**: February 29th not properly handled
+3. **Precision Loss**: JavaScript floating-point issues with Bitcoin amounts
+4. **Concurrent Updates**: Race conditions in state updates
+
+**Proposed Solutions**
+```typescript
+// Handle missing data
+if (!historicalPrices[year]) {
+  // Use interpolation between adjacent years
+  const prevYear = historicalPrices[year - 1];
+  const nextYear = historicalPrices[year + 1];
+  if (prevYear && nextYear) {
+    historicalPrices[year] = interpolatePrice(prevYear, nextYear);
+  }
+}
+
+// Use BigNumber for precision
+import BigNumber from 'bignumber.js';
+const btcAmount = new BigNumber(grant).multipliedBy(price);
+```
+
+#### **Landing Page Enhancements**
+
+**New Sections Added**
+- **Historical Analysis Hero**: Showcases 2020-2025 performance example
+- **Dynamic Pricing**: Real-time Bitcoin price for live examples
+- **Dual Calculator CTAs**: Clear paths to both future and historical calculators
+- **Performance Showcase**: +936% return example from 2020 grant
+
+**Technical Updates**
+- Fetches both current and historical (2020) Bitcoin prices on load
+- Calculates dynamic return percentages
+- Responsive grid layout for calculator options
+
+#### **Advanced Analytics (Prepared but Not Integrated)**
+
+**AdvancedAnalyticsDashboard Component**
+A comprehensive analytics suite ready for integration:
+- **Tax Analysis**: Capital gains calculations and optimization strategies
+- **Risk Analysis**: Portfolio volatility and downside protection metrics
+- **Retention Analysis**: Cost per retained employee and ROI calculations
+
+**Why Not Yet Integrated**
+- Needs user research on which metrics matter most
+- Requires additional configuration options
+- May overwhelm users if shown by default
+
+#### **Architecture Improvements Implemented**
+
+1. **Error Boundaries**: Comprehensive error handling at multiple levels
+2. **Suspense Boundaries**: Proper loading states for async components
+3. **Type Safety**: Enhanced TypeScript definitions for historical data
+4. **State Management**: Separate stores for different calculator modes
+5. **Component Organization**: Cleaner separation of concerns
+
+#### **Remaining Technical Debt**
+
+1. **Component Size**: `VestingTimelineChartRecharts.tsx` is 500+ lines
+2. **Duplicate Logic**: Similar calculations in both calculator engines
+3. **API Efficiency**: Multiple components fetch prices independently
+4. **Mobile Experience**: Charts need better responsive behavior
+5. **Testing Coverage**: No tests for new historical features
+
+#### **Files Modified/Added**
+
+**New Files**
+- `src/app/historical/page.tsx` - Historical calculator page
+- `src/stores/historicalCalculatorStore.ts` - Historical state management
+- `src/lib/historical-bitcoin-api.ts` - Historical price fetching
+- `src/lib/historical-calculations.ts` - Historical calculation logic
+- `src/lib/cost-basis-calculator.ts` - Cost basis methods
+- `src/components/HistoricalTimelineChart.tsx` - Historical chart
+- `src/components/YearSelector.tsx` - Year selection component
+- `src/components/AdvancedAnalyticsDashboard.tsx` - Analytics suite
+- `src/components/TaxImplicationsCard.tsx` - Tax analysis
+- `src/components/RiskAnalysisCard.tsx` - Risk metrics
+- `src/components/RetentionAnalysisCard.tsx` - Retention ROI
+
+**Modified Files**
+- `src/app/page.tsx` - Added historical section and dynamic pricing
+- `src/app/calculator/page.tsx` - Enhanced customization UI
+- `src/components/VestingTimelineChart.tsx` - Now exports Recharts version
+- `src/components/VestingTimelineChartRecharts.tsx` - Enhanced with better mobile support
+
+#### **Next Steps for Performance**
+
+**Immediate (This Week)**
+1. Implement code splitting for chart components
+2. Add loading skeletons for better perceived performance
+3. Cache historical data in localStorage
+4. Optimize bundle with dynamic imports
+
+**Short Term (Next 2 Weeks)**
+1. Reduce chart data points for faster rendering
+2. Implement virtual scrolling for tables
+3. Add request deduplication
+4. Profile and optimize calculation functions
+
+**Medium Term (Next Month)**
+1. Migrate to React Query for smart caching
+2. Implement service worker for offline support
+3. Add WebAssembly for complex calculations
+4. Consider SSG for historical data
+
+---
+
 *Last Updated: August 2025*
