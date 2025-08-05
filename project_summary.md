@@ -40,14 +40,14 @@ A comprehensive web application for employers to plan and visualize Bitcoin vest
 #### **Calculation Engine**
 - **Advanced Vesting Mathematics**: Complete timeline calculations with compound growth
 - **Multiple Parameter Support**:
-  - Employee annual BTC contributions
+  - Employee annual ₿ contributions
   - Number of employees
   - Projected Bitcoin growth rates
   - Custom vesting schedules
   - Employer matching percentages
   - Initial grant amounts
   - Bonus structures
-- **Financial Projections**: USD and BTC values over full vesting periods
+- **Financial Projections**: USD and ₿ values over full vesting periods
 - **Summary Analytics**: Total costs, Bitcoin requirements, vesting periods
 
 #### **User Experience**
@@ -279,7 +279,7 @@ The file contained multiple syntax issues:
 The fix involved correcting JSX syntax while maintaining all existing features:
 - Four pre-configured vesting schemes with radio button selection
 - Custom plan creation capability
-- Real-time parameter adjustment (employee count, BTC contribution, growth projections)
+- Real-time parameter adjustment (employee count, ₿ contribution, growth projections)
 - Live Bitcoin price display with 24h change indicators
 - Comprehensive calculation results and scheme details
 - Responsive design and professional UI components
@@ -293,8 +293,8 @@ This resolution ensures the Bitcoin Vesting Calculator is fully operational and 
 **1. Universal Scheme Customization**
 - **Enhanced Customization**: All predefined schemes (The Accelerator, The Steady Builder, The High Roller) now support customization
 - **Customizable Parameters**: 
-  - Initial Grant amount (BTC)
-  - Annual Grant amount (BTC) - for Steady Builder scheme
+  - Initial Grant amount (₿)
+  - Annual Grant amount (₿) - for Steady Builder scheme
   - Projected Bitcoin Growth Rate (moved from global to per-scheme)
 - **Persistent Customizations**: Each scheme maintains its own customization state independently
 - **Real-time Updates**: All customizations trigger immediate recalculation of results

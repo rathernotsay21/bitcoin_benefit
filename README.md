@@ -12,7 +12,7 @@ Bitcoin Benefit provides employers with tools to design, visualize, and implemen
 - **Bitcoin Pioneer**: Immediate grants for early Bitcoin adopters
 - **Dollar Cost Advantage**: Strategic yearly distributions to minimize market timing risk
 - **Wealth Builder**: Long-term retention incentive with 10-year distribution
-- **Executive Benefit**: Premium customizable grants for key talent
+
 
 ### 📊 Interactive Tools
 - Real-time Bitcoin price integration
@@ -99,10 +99,6 @@ src/
 - **Philosophy**: Maximum retention through long-term wealth building
 - **Best for**: Companies prioritizing employee loyalty
 
-### Executive Benefit
-- **Structure**: Fully customizable (up to 1 BTC total)
-- **Philosophy**: Premium packages for key talent retention
-- **Best for**: Executive compensation and top performer incentives
 
 ## Contributing
 

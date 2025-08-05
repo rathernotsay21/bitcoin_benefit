@@ -9,7 +9,7 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_SITE_URL: process.env.NODE_ENV === 'production' 
-      ? 'https://bitcoin-vesting-calculator.netlify.app' 
+      ? 'https://bitcoinbenefit.netlify.app/' 
       : 'http://localhost:3000'
   }
 }

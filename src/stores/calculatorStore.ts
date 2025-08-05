@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { CalculationInputs, VestingCalculationResult, VestingScheme } from '@/types/vesting';
 import { VestingCalculator } from '@/lib/vesting-calculations';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
-import { CUSTOM_SCHEME } from '@/lib/vesting-schemes';
 
 interface CalculatorState {
   // Input state
@@ -19,8 +18,6 @@ interface CalculatorState {
   isLoadingPrice: boolean;
   
   // Scheme customization
-  isCustomMode: boolean;
-  customScheme: VestingScheme | null;
   schemeCustomizations: Record<string, Partial<VestingScheme>>;
   
   // Actions
@@ -30,8 +27,6 @@ interface CalculatorState {
   setBitcoinPrice: (price: number, change24h: number) => void;
   fetchBitcoinPrice: () => Promise<void>;
   resetCalculator: () => void;
-  setCustomMode: (enabled: boolean) => void;
-  updateCustomScheme: (scheme: Partial<VestingScheme>) => void;
   updateSchemeCustomization: (schemeId: string, customization: Partial<VestingScheme>) => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
 }
@@ -47,13 +42,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   currentBitcoinPrice: 45000,
   bitcoinChange24h: 0,
   isLoadingPrice: false,
-  isCustomMode: false,
-  customScheme: null,
   schemeCustomizations: {},
   
   // Actions
   setSelectedScheme: (scheme) => {
-    set({ selectedScheme: scheme, isCustomMode: scheme.id === 'custom' });
+    set({ selectedScheme: scheme });
     // Auto-calculate if we have enough inputs
     setTimeout(() => {
       get().calculateResults();
@@ -72,20 +65,14 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   },
   
   calculateResults: () => {
-    const { selectedScheme, inputs, currentBitcoinPrice, customScheme, isCustomMode, getEffectiveScheme } = get();
+    const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme } = get();
     
-    let schemeToUse: VestingScheme | null = null;
-    
-    if (isCustomMode) {
-      schemeToUse = customScheme;
-    } else if (selectedScheme) {
-      schemeToUse = getEffectiveScheme(selectedScheme);
-    }
-    
-    if (!schemeToUse) {
+    if (!selectedScheme) {
       set({ results: null });
       return;
     }
+    
+    const schemeToUse = getEffectiveScheme(selectedScheme);
     
     set({ isCalculating: true });
     
@@ -133,27 +120,8 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
       },
       results: null,
       isCalculating: false,
-      isCustomMode: false,
-      customScheme: null,
       schemeCustomizations: {},
     });
-  },
-  
-  setCustomMode: (enabled) => {
-    set({ isCustomMode: enabled });
-    if (enabled && !get().customScheme) {
-      // Initialize custom scheme with CUSTOM_SCHEME defaults
-      set({
-        customScheme: { ...CUSTOM_SCHEME }
-      });
-    }
-  },
-  
-  updateCustomScheme: (schemeUpdate) => {
-    set((state) => ({
-      customScheme: state.customScheme ? { ...state.customScheme, ...schemeUpdate } : null
-    }));
-    get().calculateResults();
   },
   
   updateSchemeCustomization: (schemeId, customization) => {

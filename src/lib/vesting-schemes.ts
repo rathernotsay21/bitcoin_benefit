@@ -95,34 +95,4 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   },
 ];
 
-export const CUSTOM_SCHEME: VestingScheme = {
-  id: 'custom',
-  name: 'Executive Benefit',
-  description: 'Premium customizable grants for key talent. Attract and retain top performers with significant Bitcoin incentives.',
-  initialGrant: 0.05,
-  employeeMatchPercentage: 0,
-  annualGrant: 0.01,
-  vestingSchedule: [
-    {
-      months: 0,
-      employeeContributionPercent: 100,
-      employerContributionPercent: 0,
-      grantPercent: 0,
-      description: 'Immediate access to contributions',
-    },
-    {
-      months: 60,
-      employeeContributionPercent: 100,
-      employerContributionPercent: 0,
-      grantPercent: 50,
-      description: '50% vested at 5 years',
-    },
-    {
-      months: 120,
-      employeeContributionPercent: 100,
-      employerContributionPercent: 0,
-      grantPercent: 100,
-      description: '100% vested at 10 years',
-    },
-  ],
-};
+

@@ -354,6 +354,12 @@ export default function VestingTimelineChartRecharts({
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                  Grant Cost
+                  <div className="text-xs font-normal text-gray-400 mt-1 normal-case">
+                    (Current BTC Price)
+                  </div>
+                </th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Balance</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Price</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">USD Value</th>
@@ -364,10 +370,31 @@ export default function VestingTimelineChartRecharts({
               {yearlyData.slice(0, 11).map((point) => {
                 const year = point.year;
                 const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
+                
+                // Calculate grant cost based on current Bitcoin price
+                let grantCost = 0;
+                if (year === 0 && initialGrant > 0) {
+                  // Initial grant cost
+                  grantCost = initialGrant * currentBitcoinPrice;
+                } else if (year > 0 && annualGrant && annualGrant > 0) {
+                  // Annual grant cost (for schemes with annual grants)
+                  // For Wealth Builder: years 1-10, for Dollar Cost Advantage: years 1-5
+                  const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
+                  if (year <= maxAnnualYears) {
+                    grantCost = annualGrant * currentBitcoinPrice;
+                  }
+                }
 
                 return (
                   <tr key={year} className={year === 5 || year === 10 ? 'bg-yellow-50' : ''}>
                     <td className="px-4 py-2 text-sm font-medium text-gray-900">{year}</td>
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {grantCost > 0 ? (
+                        <span className="font-medium text-orange-600">{formatUSD(grantCost)}</span>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
                     <td className="px-4 py-2 text-sm text-gray-700">{formatBTC(point.btcBalance)}</td>
                     <td className="px-4 py-2 text-sm text-gray-700">{formatUSD(point.bitcoinPrice)}</td>
                     <td className="px-4 py-2 text-sm font-semibold text-gray-900">{formatUSD(point.usdValue)}</td>
@@ -384,6 +411,46 @@ export default function VestingTimelineChartRecharts({
               })}
             </tbody>
           </table>
+        </div>
+        
+        {/* Total Grant Cost Summary */}
+        <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+          <div className="flex justify-between items-center">
+            <div>
+              <h5 className="text-sm font-semibold text-orange-900">Total Grant Cost</h5>
+              <p className="text-xs text-orange-700 mt-1">
+                Based on current Bitcoin price of {formatUSD(currentBitcoinPrice)}
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-lg font-bold text-orange-900">
+                {(() => {
+                  let totalCost = 0;
+                  // Initial grant cost
+                  if (initialGrant > 0) {
+                    totalCost += initialGrant * currentBitcoinPrice;
+                  }
+                  // Annual grant costs
+                  if (annualGrant && annualGrant > 0) {
+                    const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
+                    totalCost += annualGrant * currentBitcoinPrice * maxAnnualYears;
+                  }
+                  return formatUSD(totalCost);
+                })()}
+              </div>
+              <div className="text-xs text-orange-700">
+                {(() => {
+                  let totalBTC = 0;
+                  if (initialGrant > 0) totalBTC += initialGrant;
+                  if (annualGrant && annualGrant > 0) {
+                    const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
+                    totalBTC += annualGrant * maxAnnualYears;
+                  }
+                  return `${formatBTC(totalBTC)} total grants`;
+                })()}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

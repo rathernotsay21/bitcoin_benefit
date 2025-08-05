@@ -106,7 +106,7 @@ import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Re
 **Suggested**: Benefit-focused messaging
 
 Example:
-- Current: "0.02 BTC initial grant"
+- Current: "0.02 ₿ initial grant"
 - Better: "Start employees with $90,000 potential value (at current prices)"
 
 ## 3. Calculation Refinements
@@ -291,7 +291,7 @@ interface DynamicGrant {
 Examples:
 - 50% Bitcoin, 50% cash match
 - Bitcoin grants + stock options
-- Convertible benefits (BTC ↔ USD choice)
+- Convertible benefits (₿ ↔ USD choice)
 
 ## 6. Technical Implementation Priorities
 

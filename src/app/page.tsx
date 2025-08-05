@@ -51,7 +51,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Bitcoin Pioneer */}
             <Link href="/calculator?plan=accelerator" className="card hover:shadow-lg transition-shadow block">
               <div className="text-center">
@@ -65,7 +65,7 @@ export default function HomePage() {
                   Jump-start your team's Bitcoin journey with immediate grants. Perfect for companies ready to lead in digital asset compensation.
                 </p>
                 <div className="text-sm text-gray-500">
-                  • 0.02 BTC initial grant<br/>
+                  • 0.02 ₿ initial grant<br/>
                   • 50% vested at 5 years<br/>
                   • 100% vested at 10 years
                 </div>
@@ -85,7 +85,7 @@ export default function HomePage() {
                   Minimize market timing risk with strategic yearly distributions. Ideal for conservative approaches to Bitcoin adoption.
                 </p>
                 <div className="text-sm text-gray-500">
-                  • 0.015 BTC initial + 0.001 BTC yearly<br/>
+                  • 0.015 ₿ initial + 0.001 ₿ yearly<br/>
                   • 50% vested at 5 years<br/>
                   • 100% vested at 10 years
                 </div>
@@ -105,33 +105,14 @@ export default function HomePage() {
                   Maximum retention incentive with 10-year distribution. Designed for companies prioritizing employee loyalty.
                 </p>
                 <div className="text-sm text-gray-500">
-                  • 0.002 BTC yearly for 10 years<br/>
+                  • 0.002 ₿ yearly for 10 years<br/>
                   • 50% vested at 5 years<br/>
                   • 100% vested at 10 years
                 </div>
               </div>
             </Link>
 
-            {/* Executive Benefit */}
-            <Link href="/calculator?plan=custom" className="card hover:shadow-lg transition-shadow block">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-yellow-500 rounded"></div>
-                </div>
-                <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                  Executive Benefit
-                </h4>
-                <p className="text-gray-600 text-sm mb-4">
-                  Premium customizable grants for key talent. Attract and retain top performers with significant Bitcoin incentives.
-                </p>
-                <div className="text-sm text-gray-500">
-                  • Fully customizable grants<br/>
-                  • Up to 1 BTC total<br/>
-                  • 50% vested at 5 years<br/>
-                  • 100% vested at 10 years
-                </div>
-              </div>
-            </Link>
+
 
 
           </div>
@@ -211,22 +192,19 @@ export default function HomePage() {
                   <div className="text-sm text-gray-600 space-y-2">
                     <div className="flex justify-between">
                       <span className="font-medium">Bitcoin Pioneer:</span>
-                      <span>0.02 BTC upfront</span>
+                      <span>0.02 ₿ upfront</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="font-medium">Dollar Cost Advantage:</span>
-                      <span>0.015 BTC + 0.001 BTC/year (5 years)</span>
+                      <span>0.015 ₿ + 0.001 ₿/year (5 years)</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="font-medium">Wealth Builder:</span>
-                      <span>0.002 BTC/year (10 years)</span>
+                      <span>0.002 ₿/year (10 years)</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Executive Benefit:</span>
-                      <span>Fully customizable (up to 1 BTC)</span>
-                    </div>
+
                     <div className="pt-2 border-t border-gray-100 text-center">
-                      <span className="text-xs text-gray-500">Standard schemes total 0.02 BTC</span>
+                      <span className="text-xs text-gray-500">Standard schemes total 0.02 ₿</span>
                     </div>
                   </div>
                 </div>

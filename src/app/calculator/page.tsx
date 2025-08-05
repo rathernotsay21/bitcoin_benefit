@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCalculatorStore } from '@/stores/calculatorStore';
-import { VESTING_SCHEMES, CUSTOM_SCHEME } from '@/lib/vesting-schemes';
+import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import VestingTimelineChart from '@/components/VestingTimelineChart';
 import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
 
@@ -31,14 +31,11 @@ function CalculatorContent() {
     currentBitcoinPrice,
     bitcoinChange24h,
     isLoadingPrice,
-    isCustomMode,
-    customScheme,
+
     schemeCustomizations,
     setSelectedScheme,
     updateInputs,
     fetchBitcoinPrice,
-    setCustomMode,
-    updateCustomScheme,
     updateSchemeCustomization,
     getEffectiveScheme,
   } = useCalculatorStore();
@@ -49,35 +46,23 @@ function CalculatorContent() {
 
     const planParam = searchParams.get('plan');
     if (planParam && !isLoaded) {
-      if (planParam === 'custom') {
-        // Handle High Roller (custom) scheme
-        setCustomMode(true);
-        setSelectedScheme(CUSTOM_SCHEME);
-      } else {
-        // Handle predefined schemes
-        const scheme = VESTING_SCHEMES.find(s => s.id === planParam);
-        if (scheme) {
-          setSelectedScheme(scheme);
-        }
+      // Handle predefined schemes
+      const scheme = VESTING_SCHEMES.find(s => s.id === planParam);
+      if (scheme) {
+        setSelectedScheme(scheme);
       }
       setIsLoaded(true);
     }
   }, [searchParams, isLoaded, fetchBitcoinPrice, setSelectedScheme]);
 
   const handleSchemeSelect = (schemeId: string) => {
-    if (schemeId === 'custom') {
-      setCustomMode(true);
-      setSelectedScheme(CUSTOM_SCHEME);
-    } else {
-      setCustomMode(false);
-      const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
-      if (scheme) {
-        setSelectedScheme(scheme);
-      }
+    const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
+    if (scheme) {
+      setSelectedScheme(scheme);
     }
   };
 
-  const displayScheme = isCustomMode ? customScheme : (selectedScheme ? getEffectiveScheme(selectedScheme) : null);
+  const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
   const maxVestingMonths = displayScheme ? Math.max(...displayScheme.vestingSchedule.map(m => m.months)) : 0;
 
   return (
@@ -115,7 +100,7 @@ function CalculatorContent() {
                 {VESTING_SCHEMES.map((scheme) => (
                   <div
                     key={scheme.id}
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedScheme?.id === scheme.id && !isCustomMode
+                    className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedScheme?.id === scheme.id
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
                       }`}
@@ -126,7 +111,7 @@ function CalculatorContent() {
                         type="radio"
                         name="scheme"
                         className="text-orange-600"
-                        checked={selectedScheme?.id === scheme.id && !isCustomMode}
+                        checked={selectedScheme?.id === scheme.id}
                         onChange={() => handleSchemeSelect(scheme.id)}
                       />
                       <label className="ml-3 font-semibold text-gray-900">{scheme.name}</label>
@@ -137,28 +122,7 @@ function CalculatorContent() {
                   </div>
                 ))}
 
-                {/* Custom Option */}
-                <div
-                  className={`border rounded-lg p-4 cursor-pointer transition-all ${isCustomMode
-                      ? 'border-orange-500 bg-orange-50'
-                      : 'border-gray-200 hover:border-orange-300'
-                    }`}
-                  onClick={() => handleSchemeSelect('custom')}
-                >
-                  <div className="flex items-center mb-2">
-                    <input
-                      type="radio"
-                      name="scheme"
-                      className="text-orange-600"
-                      checked={isCustomMode}
-                      onChange={() => handleSchemeSelect('custom')}
-                    />
-                    <label className="ml-3 font-semibold text-gray-900">Executive Benefit</label>
-                  </div>
-                  <p className="text-sm text-gray-600 ml-6">
-                    Premium customizable grants for key talent. Attract and retain top performers with significant Bitcoin incentives.
-                  </p>
-                </div>
+
               </div>
             </div>
 
@@ -179,25 +143,17 @@ function CalculatorContent() {
                     <input
                       type="number"
                       step="0.001"
-                      value={
-                        isCustomMode 
-                          ? customScheme?.initialGrant || 0
-                          : (schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant)
-                      }
+                      value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
                       onChange={(e) => {
                         const value = parseFloat(e.target.value) || 0;
-                        if (isCustomMode) {
-                          updateCustomScheme({ initialGrant: value });
-                        } else {
-                          updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
-                        }
+                        updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
                       }}
                       className="input-field"
                     />
 
                   </div>
 
-                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn' || isCustomMode) && (
+                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Annual Grant (BTC)
@@ -205,19 +161,10 @@ function CalculatorContent() {
                       <input
                         type="number"
                         step="0.001"
-                        value={
-                          isCustomMode 
-                            ? customScheme?.annualGrant || 0
-                            : (schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0
-                        }
+                        value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
                         onChange={(e) => {
                           const value = parseFloat(e.target.value) || 0;
-                          
-                          if (isCustomMode) {
-                            updateCustomScheme({ annualGrant: value });
-                          } else {
-                            updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
-                          }
+                          updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
                         }}
                         className="input-field"
                       />
@@ -378,13 +325,6 @@ function CalculatorContent() {
                           <p className="mb-2">• <strong>Maximum retention:</strong> 0.002 BTC yearly for 10 years (no initial grant)</p>
                           <p className="mb-2">• <strong>Loyalty focus:</strong> Designed for companies prioritizing long-term employee commitment</p>
                           <p>• <strong>Wealth building:</strong> Creates strong incentive for employees to stay and grow with the company</p>
-                        </div>
-                      )}
-                      {displayScheme.id === 'custom' && (
-                        <div>
-                          <p className="mb-2">• <strong>Executive-level benefits:</strong> Premium customizable grants for key talent attraction</p>
-                          <p className="mb-2">• <strong>Top performer focus:</strong> Significant Bitcoin incentives to retain high-value employees</p>
-                          <p>• <strong>Flexible structure:</strong> Fully customizable to match executive compensation strategies</p>
                         </div>
                       )}
                     </div>

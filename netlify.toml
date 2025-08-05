@@ -3,7 +3,7 @@
   publish = "out"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "18.20.4"
   NPM_FLAGS = "--prefix=/opt/buildhome/.nodejs/node_global"
 
 # Caching for better performance
