@@ -6,20 +6,18 @@ import { useTheme } from '@/components/ThemeProvider';
 import { 
   HomeIcon, 
   CalculatorIcon, 
-  ChartBarIcon, 
-  AcademicCapIcon,
-  CurrencyDollarIcon,
   SunIcon,
-  MoonIcon
+  MoonIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline';
 import { 
   HomeIcon as HomeIconSolid, 
   CalculatorIcon as CalculatorIconSolid, 
-  ChartBarIcon as ChartBarIconSolid, 
-  AcademicCapIcon as AcademicCapIconSolid,
   SunIcon as SunIconSolid,
-  MoonIcon as MoonIconSolid
+  MoonIcon as MoonIconSolid,
+  ClockIcon as ClockIconSolid
 } from '@heroicons/react/24/solid';
+import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -41,14 +39,14 @@ export default function Navigation() {
     {
       name: 'Historical',
       href: '/historical',
-      icon: ChartBarIcon,
-      activeIcon: ChartBarIconSolid,
+      icon: ClockIcon,
+      activeIcon: ClockIconSolid,
     },
     {
       name: 'Learn More',
       href: '/learn-more',
-      icon: AcademicCapIcon,
-      activeIcon: AcademicCapIconSolid,
+      icon: MinerOutlineIcon,
+      activeIcon: MinerOutlineIcon,
     },
   ];
 
@@ -58,8 +56,8 @@ export default function Navigation() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="icon-container group-hover:rotate-12">
-              <CurrencyDollarIcon className="w-7 h-7 text-bitcoin dark:text-bitcoin transition-colors duration-300" />
+            <div className="icon-container group-hover:rotate-12 transition-transform duration-300">
+              <SatoshiOutlineIcon className="w-9 h-9" size={36} />
             </div>
             <div className="flex flex-col">
               <h1 className="text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">

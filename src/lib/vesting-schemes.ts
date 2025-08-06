@@ -33,8 +33,8 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   },
   {
     id: 'steady-builder',
-    name: 'Dollar Cost Advantage',
-    description: 'Minimize market timing risk with strategic yearly distributions. Ideal for conservative approaches to Bitcoin adoption.',
+    name: 'Stacking Sats',
+    description: 'Minimize risk with annual grants.',
     initialGrant: 0.015,
     employeeMatchPercentage: 0,
     annualGrant: 0.001,
@@ -65,7 +65,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'slow-burn',
     name: 'Wealth Builder',
-    description: 'Maximum retention incentive with 10-year distribution. Designed for companies prioritizing employee loyalty.',
+    description: 'Most conservative approach to spread costs across entire vesting period.',
     initialGrant: 0.0,
     employeeMatchPercentage: 0,
     annualGrant: 0.002,

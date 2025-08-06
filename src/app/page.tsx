@@ -7,17 +7,15 @@ import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
 import { useTheme } from '@/components/ThemeProvider';
 import {
-  RocketLaunchIcon,
-  ScaleIcon,
-  CloudIcon,
   ChartBarIcon,
   ShieldCheckIcon,
-  SparklesIcon,
   UserGroupIcon,
   LockClosedIcon,
-  TrophyIcon,
-  CalculatorIcon
+  CalculatorIcon,
+  ScaleIcon,
+  ClockIcon
 } from '@heroicons/react/24/solid';
+import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
 
 function formatUSD(amount: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -76,7 +74,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6 animate-float">
-              <SparklesIcon className="w-8 h-8 text-white" />
+              <SatoshiIcon className="w-8 h-8 text-white" />
             </div>
 
             <h2 className="text-5xl font-bold text-slate-700 dark:text-slate-100 sm:text-6xl md:text-7xl leading-tight">
@@ -88,11 +86,11 @@ export default function HomePage() {
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
-                <RocketLaunchIcon className="w-5 h-5" />
+                <BitcoinCircleOutlineIcon className="w-6 h-6" />
                 <span>Start Planning</span>
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
-                <ChartBarIcon className="w-5 h-5" />
+                <ClockIcon className="w-6 h-6" />
                 <span>Historical Analysis</span>
               </Link>
             </div>
@@ -117,13 +115,13 @@ export default function HomePage() {
             <Link href="/calculator?plan=accelerator" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <RocketLaunchIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
+                  <BitcoinIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Bitcoin Pioneer
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Jump-start your team's Bitcoin journey with immediate grants. Perfect for companies ready to lead in digital asset compensation.
+                  Immediate grants for companies ready to lead in digital asset compensation.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -140,22 +138,22 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-orange">Most Popular</span>
+                  <span className="badge badge-orange">Beast Mode</span>
                 </div>
               </div>
             </Link>
 
-            {/* Dollar Cost Advantage */}
+            {/* Stacking Sats */}
             <Link href="/calculator?plan=steady-builder" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <ScaleIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
+                  <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Dollar Cost Advantage
+                  Stacking Sats
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Minimize market timing risk with strategic yearly distributions. Ideal for conservative approaches to Bitcoin adoption.
+                  Minimize risk with annual grants.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -172,7 +170,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-success">Low Risk</span>
+                  <span className="badge badge-success">Mid</span>
                 </div>
               </div>
             </Link>
@@ -181,13 +179,13 @@ export default function HomePage() {
             <Link href="/calculator?plan=slow-burn" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <CloudIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
+                  <MiningOutlineIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Wealth Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Maximum retention incentive with 10-year distribution. Designed for companies prioritizing employee loyalty.
+                  Most conservative approach to spread costs across entire vesting period.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -196,15 +194,15 @@ export default function HomePage() {
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Maximum retention</span>
+                    <span className="text-slate-600 dark:text-slate-300">Highest cost basis</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Long-term focus</span>
+                    <span className="text-slate-600 dark:text-slate-300">Gradual accumulation</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Max Retention</span>
+                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Grindset</span>
                 </div>
               </div>
             </Link>
@@ -217,10 +215,6 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6">
-                <ChartBarIcon className="w-8 h-8 text-white" />
-              </div>
-
               <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-6">
                 Learn from Bitcoin's History
               </h3>
@@ -231,26 +225,26 @@ export default function HomePage() {
               <div className="space-y-5 mb-10">
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <ChartBarIcon className="w-5 h-5 text-white" />
+                    <ClockIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-slate-600 dark:text-slate-300 text-lg">Analyze real historical performance</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <ScaleIcon className="w-5 h-5 text-white" />
+                    <ClockIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-slate-600 dark:text-slate-300 text-lg">Compare different cost basis methods</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <TrophyIcon className="w-5 h-5 text-white" />
+                    <CalculatorIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-slate-600 dark:text-slate-300 text-lg">Calculate actual returns and growth</span>
                 </div>
               </div>
 
               <Link href="/historical" className="btn-primary text-lg px-10 py-4 inline-flex items-center space-x-2">
-                <ChartBarIcon className="w-5 h-5" />
+                <ClockIcon className="w-5 h-5" />
                 <span>Try Historical Analysis</span>
               </Link>
             </div>
@@ -390,7 +384,7 @@ export default function HomePage() {
                       <span className="text-bitcoin dark:text-bitcoin font-bold">0.02 ₿ upfront</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-lg">
-                      <span className="font-bold">Dollar Cost:</span>
+                      <span className="font-bold">Stacking Sats:</span>
                       <span className="text-green-700 dark:text-green-100 font-bold">0.015 ₿ + 0.001 ₿/yr</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-lg">
@@ -429,7 +423,7 @@ export default function HomePage() {
               <span>Future Calculator</span>
             </Link>
             <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
-              <ChartBarIcon className="w-5 h-5" />
+              <ClockIcon className="w-5 h-5" />
               <span>Historical Analysis</span>
             </Link>
           </div>
@@ -441,15 +435,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
-              <SparklesIcon className="w-8 h-8 text-bitcoin" />
+              <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
             <h4 className="text-3xl font-bold mb-4">Secure their future. Secure your team.</h4>
             <p className="text-gray-400 mb-8 text-lg">
               Empowering employers to reward teams with sound money
             </p>
             <div className="text-sm text-gray-500 space-y-1">
-              <p>Built with Next.js • Deployed on Netlify</p>
-              <p>Real-time Bitcoin prices via CoinGecko</p>
+              <p>Webmaster - Rather Notsay</p>
             </div>
           </div>
         </div>

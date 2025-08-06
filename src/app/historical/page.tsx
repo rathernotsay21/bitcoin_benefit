@@ -9,6 +9,7 @@ import HistoricalTimelineVisualization from '@/components/HistoricalTimelineVisu
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { SatoshiIcon } from '@/components/icons';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -69,18 +70,6 @@ function HistoricalCalculatorContent() {
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Title */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
-            <ChartBarIcon className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-slate-100 mb-4">
-            Historical Bitcoin Calculator
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-slate-300 max-w-3xl mx-auto">
-            Analyze how your vesting scheme would have performed using real historical Bitcoin data
-          </p>
-        </div>
 
         {/* Calculator Container */}
         <div className="grid lg:grid-cols-3 gap-8">
@@ -89,9 +78,9 @@ function HistoricalCalculatorContent() {
             {/* Scheme Selection */}
             <div className="card glass">
               <div className="flex items-center mb-6">
-                <SparklesIcon className="w-6 h-6 text-bitcoin mr-3" />
+                <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Choose a Vesting Scheme
+                  Historical Strategy
                 </h2>
               </div>
 

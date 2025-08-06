@@ -9,6 +9,7 @@ import VestingTimelineChart from '@/components/VestingTimelineChart';
 import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import { CalculatorIcon, ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { SatoshiIcon } from '@/components/icons';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -72,18 +73,6 @@ function CalculatorContent() {
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Title */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
-            <CalculatorIcon className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-slate-100 mb-4">
-            Customize Your Strategy
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-slate-300">
-            Design the perfect Bitcoin vesting plan for your team
-          </p>
-        </div>
 
         {/* Calculator Container */}
         <div className="grid lg:grid-cols-3 gap-8">
@@ -91,9 +80,9 @@ function CalculatorContent() {
           <div className="lg:col-span-1">
             <div className="card glass">
               <div className="flex items-center mb-6">
-                <SparklesIcon className="w-6 h-6 text-bitcoin mr-3" />
+                <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Choose a Vesting Scheme
+                  Customize Your Strategy
                 </h2>
               </div>
 
