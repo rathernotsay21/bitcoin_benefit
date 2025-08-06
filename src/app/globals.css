@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Bitcoin Orange Color Palette */
+:root {
+  --bitcoin-orange: #f2a900;
+  --bitcoin-orange-dark: #e69500;
+  --bitcoin-orange-darker: #d98100;
+  --bitcoin-orange-light: #ffbe1a;
+  --bitcoin-orange-lighter: #ffd666;
+  --bitcoin-orange-lightest: #fff4e0;
+}
+
 /* Custom styles */
 @layer base {
   html {
@@ -10,37 +20,223 @@
   
   body {
     @apply text-gray-900 antialiased;
+    background: linear-gradient(to bottom, #fafafa, #f5f5f5);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
   }
 }
 
 @layer components {
+  /* Primary Button - Bitcoin Orange */
   .btn-primary {
-    @apply bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply relative font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105;
+    background: linear-gradient(135deg, var(--bitcoin-orange), var(--bitcoin-orange-dark));
+    color: white;
+    box-shadow: 0 4px 15px rgba(242, 169, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--bitcoin-orange-dark), var(--bitcoin-orange-darker));
+    box-shadow: 0 6px 20px rgba(242, 169, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary:active {
+    @apply transform scale-100;
+  }
+  
+  /* Secondary Button - Elegant White */
   .btn-secondary {
-    @apply bg-white hover:bg-gray-50 text-gray-900 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors duration-200;
+    @apply font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105;
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    color: #333;
+    border: 2px solid rgba(242, 169, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
   
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--bitcoin-orange-lightest), #fff9f0);
+    border-color: var(--bitcoin-orange-light);
+    box-shadow: 0 4px 12px rgba(242, 169, 0, 0.15);
+  }
+
+  .btn-secondary:active {
+    @apply transform scale-100;
+  }
+
+  /* Navigation Link */
+  .nav-link {
+    @apply relative font-medium text-gray-700 transition-all duration-300 px-1 py-2;
+  }
+
+  .nav-link:hover {
+    color: var(--bitcoin-orange);
+  }
+
+  .nav-link.active {
+    color: var(--bitcoin-orange-dark);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-0.5;
+    background: linear-gradient(90deg, var(--bitcoin-orange), var(--bitcoin-orange-dark));
+  }
+  
+  /* Card with Depth */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+    @apply bg-white rounded-2xl p-6 transition-all duration-300;
+    background: linear-gradient(135deg, #ffffff, #fcfcfc);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+  }
+
+  /* Feature Card with Icon */
+  .feature-card {
+    @apply card relative overflow-hidden cursor-pointer;
+    background: linear-gradient(135deg, #ffffff, #fafafa);
+  }
+
+  .feature-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-1;
+    background: linear-gradient(90deg, var(--bitcoin-orange), var(--bitcoin-orange-dark));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .feature-card:hover {
+    background: linear-gradient(135deg, var(--bitcoin-orange-lightest), #ffffff);
+    border-color: var(--bitcoin-orange-light);
+    box-shadow: 0 12px 24px rgba(242, 169, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px);
+  }
+
+  /* Icon Container */
+  .icon-container {
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300;
+    background: linear-gradient(135deg, var(--bitcoin-orange-lightest), var(--bitcoin-orange-lighter));
+  }
+
+  .feature-card:hover .icon-container {
+    background: linear-gradient(135deg, var(--bitcoin-orange), var(--bitcoin-orange-dark));
+    transform: rotate(3deg) scale(1.1);
+  }
+
+  .feature-card:hover .icon-container svg {
+    @apply text-white;
   }
   
+  /* Input Field */
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500;
+    @apply w-full px-4 py-3 rounded-xl transition-all duration-200;
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+  }
+
+  .input-field:focus {
+    @apply outline-none;
+    background: white;
+    border-color: var(--bitcoin-orange);
+    box-shadow: 0 0 0 3px rgba(242, 169, 0, 0.1), 0 2px 8px rgba(242, 169, 0, 0.1);
+  }
+
+  /* Navigation Bar */
+  .navbar {
+    @apply bg-white/95 backdrop-blur-md;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold;
+  }
+
+  .badge-orange {
+    background: linear-gradient(135deg, var(--bitcoin-orange-lightest), var(--bitcoin-orange-lighter));
+    color: var(--bitcoin-orange-darker);
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  /* Hero Gradient */
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--bitcoin-orange-lightest) 0%, #fff9f0 50%, #ffffff 100%);
+  }
+
+  /* Section Background */
+  .section-alt {
+    background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
   }
 }
 
 @layer utilities {
   .text-bitcoin {
-    @apply text-orange-500;
+    color: var(--bitcoin-orange);
+  }
+
+  .text-bitcoin-dark {
+    color: var(--bitcoin-orange-dark);
   }
   
   .bg-bitcoin {
-    @apply bg-orange-500;
+    background-color: var(--bitcoin-orange);
+  }
+
+  .bg-bitcoin-gradient {
+    background: linear-gradient(135deg, var(--bitcoin-orange), var(--bitcoin-orange-dark));
   }
   
   .border-bitcoin {
-    @apply border-orange-500;
+    border-color: var(--bitcoin-orange);
+  }
+
+  /* Animations */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Glow Effect */
+  .glow-orange {
+    box-shadow: 0 0 30px rgba(242, 169, 0, 0.3);
+  }
+
+  .glow-orange-hover:hover {
+    box-shadow: 0 0 40px rgba(242, 169, 0, 0.4);
   }
 }

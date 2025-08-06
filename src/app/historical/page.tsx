@@ -7,6 +7,8 @@ import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import YearSelector from '@/components/YearSelector';
 import HistoricalTimelineVisualization from '@/components/HistoricalTimelineVisualization';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import Navigation from '@/components/Navigation';
+import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -64,30 +66,19 @@ function HistoricalCalculatorContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-orange-600">
-              Secure their future. Secure your team.
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/calculator" className="btn-secondary">
-                Future Calculator
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
+            <ChartBarIcon className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Historical Bitcoin Calculator
           </h1>
-          <p className="mt-4 text-xl text-gray-600">
-            Analyze how your vesting scheme would have performed using historical Bitcoin data
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Analyze how your vesting scheme would have performed using real historical Bitcoin data
           </p>
         </div>
 
@@ -96,19 +87,22 @@ function HistoricalCalculatorContent() {
           {/* Left Panel - Configuration */}
           <div className="lg:col-span-1 space-y-6">
             {/* Scheme Selection */}
-            <div className="card">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Choose a Vesting Scheme
-              </h2>
+            <div className="card glass">
+              <div className="flex items-center mb-6">
+                <SparklesIcon className="w-6 h-6 text-bitcoin mr-3" />
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Choose a Vesting Scheme
+                </h2>
+              </div>
 
               <div className="space-y-4">
                 {HISTORICAL_VESTING_SCHEMES.map((scheme) => (
                   <div
                     key={scheme.id}
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${
+                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${
                       selectedScheme?.id === scheme.id
-                        ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 hover:border-orange-300'
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 shadow-lg scale-105'
+                        : 'border-gray-200 hover:border-bitcoin hover:shadow-md hover:scale-102'
                     }`}
                     onClick={() => handleSchemeSelect(scheme.id)}
                   >
@@ -131,10 +125,13 @@ function HistoricalCalculatorContent() {
             </div>
 
             {/* Historical Configuration */}
-            <div className="card">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Historical Analysis Settings
-              </h3>
+            <div className="card glass">
+              <div className="flex items-center mb-4">
+                <ClockIcon className="w-5 h-5 text-bitcoin mr-2" />
+                <h3 className="text-lg font-bold text-gray-900">
+                  Historical Analysis Settings
+                </h3>
+              </div>
 
               <div className="space-y-4">
                 <YearSelector
@@ -166,10 +163,13 @@ function HistoricalCalculatorContent() {
 
             {/* Scheme Customization */}
             {selectedScheme && (
-              <div className="card">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Customize Your Scheme
-                </h3>
+              <div className="card glass">
+                <div className="flex items-center mb-4">
+                  <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
+                  <h3 className="text-lg font-bold text-gray-900">
+                    Customize Your Scheme
+                  </h3>
+                </div>
 
                 <div className="space-y-4">
                   <div>

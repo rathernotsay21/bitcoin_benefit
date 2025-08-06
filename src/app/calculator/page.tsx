@@ -7,6 +7,8 @@ import { useCalculatorStore } from '@/stores/calculatorStore';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import VestingTimelineChart from '@/components/VestingTimelineChart';
 import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
+import Navigation from '@/components/Navigation';
+import { CalculatorIcon, ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -67,42 +69,42 @@ function CalculatorContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-orange-600">
-              Secure their future. Secure your team.
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
+            <CalculatorIcon className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Customize Your Strategy
           </h1>
+          <p className="text-xl text-gray-600">
+            Design the perfect Bitcoin vesting plan for your team
+          </p>
         </div>
 
         {/* Calculator Container */}
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left Panel - Scheme Selection */}
           <div className="lg:col-span-1">
-            <div className="card">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Choose a Vesting Scheme
-              </h2>
+            <div className="card glass">
+              <div className="flex items-center mb-6">
+                <SparklesIcon className="w-6 h-6 text-bitcoin mr-3" />
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Choose a Vesting Scheme
+                </h2>
+              </div>
 
               <div className="space-y-4">
                 {/* Predefined Schemes */}
                 {VESTING_SCHEMES.map((scheme) => (
                   <div
                     key={scheme.id}
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedScheme?.id === scheme.id
-                        ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 hover:border-orange-300'
+                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${selectedScheme?.id === scheme.id
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 shadow-lg scale-105'
+                        : 'border-gray-200 hover:border-bitcoin hover:shadow-md hover:scale-102'
                       }`}
                     onClick={() => handleSchemeSelect(scheme.id)}
                   >
@@ -110,11 +112,11 @@ function CalculatorContent() {
                       <input
                         type="radio"
                         name="scheme"
-                        className="text-orange-600"
+                        className="w-5 h-5 text-bitcoin focus:ring-bitcoin"
                         checked={selectedScheme?.id === scheme.id}
                         onChange={() => handleSchemeSelect(scheme.id)}
                       />
-                      <label className="ml-3 font-semibold text-gray-900">{scheme.name}</label>
+                      <label className="ml-3 font-bold text-lg text-gray-900">{scheme.name}</label>
                     </div>
                     <p className="text-sm text-gray-600 ml-6">
                       {scheme.description}
@@ -130,10 +132,13 @@ function CalculatorContent() {
 
             {/* Scheme Customization */}
             {selectedScheme && (
-              <div className="card mt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Customize Your Scheme
-                </h3>
+              <div className="card mt-6 glass">
+                <div className="flex items-center mb-4">
+                  <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
+                  <h3 className="text-lg font-bold text-gray-900">
+                    Customize Your Scheme
+                  </h3>
+                </div>
 
                 <div className="space-y-4">
                   <div>
