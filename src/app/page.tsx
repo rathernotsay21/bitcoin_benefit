@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
-import { 
-  RocketLaunchIcon, 
-  ScaleIcon, 
+import { useTheme } from '@/components/ThemeProvider';
+import {
+  RocketLaunchIcon,
+  ScaleIcon,
   CloudIcon,
   ChartBarIcon,
   ShieldCheckIcon,
@@ -28,6 +29,7 @@ function formatUSD(amount: number): string {
 }
 
 export default function HomePage() {
+  const { theme } = useTheme();
   const [currentBitcoinPrice, setCurrentBitcoinPrice] = useState(113976); // Fallback
   const [historicalPrice2020, setHistoricalPrice2020] = useState(11000); // Fallback
   const [isLoading, setIsLoading] = useState(true);
@@ -61,27 +63,27 @@ export default function HomePage() {
   const returnPercentage = ((totalReturn / costBasis) * 100);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-neutral-100 dark:bg-slate-900 transition-colors duration-300">
       <Navigation />
 
       {/* Hero Section */}
       <section className="hero-gradient py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-bitcoin rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-bitcoin-gradient rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute inset-0 opacity-5 dark:opacity-10">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-bitcoin dark:bg-white rounded-full blur-3xl animate-pulse-slow"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-bitcoin-gradient dark:bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6 animate-float">
+            <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6 animate-float">
               <SparklesIcon className="w-8 h-8 text-white" />
             </div>
-            
-            <h2 className="text-5xl font-bold text-gray-900 sm:text-6xl md:text-7xl leading-tight">
+
+            <h2 className="text-5xl font-bold text-slate-700 dark:text-slate-100 sm:text-6xl md:text-7xl leading-tight">
               Reward loyalty with
-              <span className="text-bitcoin-dark block mt-2">sound money.</span>
+              <span className="text-bitcoin dark:text-bitcoin block mt-2">sound money.</span>
             </h2>
-            <p className="mt-8 max-w-2xl mx-auto text-xl text-gray-700 leading-relaxed">
+            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
               Create an employee retention protocol that works—powered by Bitcoin.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
@@ -99,13 +101,13 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-gray-900 mb-4">
+            <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
               Choose Your Vesting Strategy
             </h3>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
               Three proven schemes designed to align incentives and build wealth
             </p>
           </div>
@@ -115,29 +117,29 @@ export default function HomePage() {
             <Link href="/calculator?plan=accelerator" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <RocketLaunchIcon className="w-8 h-8 text-bitcoin-dark transition-all duration-300" />
+                  <RocketLaunchIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
-                <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Bitcoin Pioneer
                 </h4>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
                   Jump-start your team's Bitcoin journey with immediate grants. Perfect for companies ready to lead in digital asset compensation.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">0.02 ₿ initial grant</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">0.02 ₿ initial grant</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">50% vested at 5 years</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">50% vested at 5 years</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">100% vested at 10 years</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">100% vested at 10 years</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-gray-100">
+                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
                   <span className="badge badge-orange">Most Popular</span>
                 </div>
               </div>
@@ -147,29 +149,29 @@ export default function HomePage() {
             <Link href="/calculator?plan=steady-builder" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <ScaleIcon className="w-8 h-8 text-bitcoin-dark transition-all duration-300" />
+                  <ScaleIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
-                <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Dollar Cost Advantage
                 </h4>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
                   Minimize market timing risk with strategic yearly distributions. Ideal for conservative approaches to Bitcoin adoption.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">0.015 ₿ initial grant</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">0.015 ₿ initial grant</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">0.001 ₿ yearly bonus</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">0.001 ₿ yearly bonus</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">Balanced approach</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">Balanced approach</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-gray-100">
+                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
                   <span className="badge badge-success">Low Risk</span>
                 </div>
               </div>
@@ -179,30 +181,30 @@ export default function HomePage() {
             <Link href="/calculator?plan=slow-burn" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
-                  <CloudIcon className="w-8 h-8 text-bitcoin-dark transition-all duration-300" />
+                  <CloudIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
-                <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Wealth Builder
                 </h4>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
                   Maximum retention incentive with 10-year distribution. Designed for companies prioritizing employee loyalty.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">0.002 ₿ yearly for 10 years</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">0.002 ₿ yearly for 10 years</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">Maximum retention</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">Maximum retention</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin rounded-full"></div>
-                    <span className="text-gray-700">Long-term focus</span>
+                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
+                    <span className="text-slate-600 dark:text-slate-300">Long-term focus</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-gray-100">
-                  <span className="badge bg-purple-100 text-purple-800">Max Retention</span>
+                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Max Retention</span>
                 </div>
               </div>
             </Link>
@@ -215,89 +217,89 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
+              <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6">
                 <ChartBarIcon className="w-8 h-8 text-white" />
               </div>
-              
-              <h3 className="text-4xl font-bold text-gray-900 mb-6">
+
+              <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-6">
                 Learn from Bitcoin's History
               </h3>
-              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
+              <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
                 See how your vesting scheme would have performed using real historical Bitcoin data from 2015 onwards.
               </p>
-              
+
               <div className="space-y-5 mb-10">
                 <div className="flex items-center group">
-                  <div className="w-10 h-10 bg-bitcoin-gradient rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <ChartBarIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-700 text-lg">Analyze real historical performance</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Analyze real historical performance</span>
                 </div>
                 <div className="flex items-center group">
-                  <div className="w-10 h-10 bg-bitcoin-gradient rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <ScaleIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-700 text-lg">Compare different cost basis methods</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Compare different cost basis methods</span>
                 </div>
                 <div className="flex items-center group">
-                  <div className="w-10 h-10 bg-bitcoin-gradient rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <TrophyIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-700 text-lg">Calculate actual returns and growth</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Calculate actual returns and growth</span>
                 </div>
               </div>
-              
+
               <Link href="/historical" className="btn-primary text-lg px-10 py-4 inline-flex items-center space-x-2">
                 <ChartBarIcon className="w-5 h-5" />
                 <span>Try Historical Analysis</span>
               </Link>
             </div>
-            
+
             <div className="card lg:p-10 glass glow-orange">
               <div className="text-center">
-                <h4 className="text-2xl font-bold text-gray-900 mb-8">
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-8">
                   Historical Performance Example
                 </h4>
-                
+
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center p-4 bg-white/80 rounded-xl">
-                    <span className="font-medium text-gray-700">Starting Year</span>
-                    <span className="font-bold text-gray-900 text-lg">2020</span>
+                  <div className="flex justify-between items-center p-4 bg-white/80 dark:bg-slate-800/80 rounded-xl">
+                    <span className="font-medium text-slate-600 dark:text-slate-300">Starting Year</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-100 text-lg">2020</span>
                   </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-white/80 rounded-xl">
-                    <span className="font-medium text-gray-700">Initial Grant</span>
-                    <span className="font-bold text-gray-900 text-lg">₿0.1</span>
+
+                  <div className="flex justify-between items-center p-4 bg-white/80 dark:bg-slate-800/80 rounded-xl">
+                    <span className="font-medium text-slate-600 dark:text-slate-300">Initial Grant</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-100 text-lg">₿0.1</span>
                   </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl border-2 border-bitcoin">
-                    <span className="font-medium text-orange-800">Cost Basis (2020)</span>
-                    <span className="font-bold text-orange-900 text-lg">
+
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 rounded-xl border-2 border-bitcoin dark:border-slate-700">
+                    <span className="font-medium text-orange-800 dark:text-slate-300">Cost Basis (2020)</span>
+                    <span className="font-bold text-orange-900 dark:text-slate-100 text-lg">
                       {isLoading ? '$1,100' : formatUSD(costBasis)}
                     </span>
                   </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
-                    <span className="font-medium text-blue-800">Present Value (2025)</span>
-                    <span className="font-bold text-blue-900 text-lg">
+
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-700 dark:to-slate-600 rounded-xl">
+                    <span className="font-medium text-blue-800 dark:text-slate-300">Present Value (2025)</span>
+                    <span className="font-bold text-blue-900 dark:text-slate-100 text-lg">
                       {isLoading ? '$11,398' : formatUSD(presentValue)}
                     </span>
                   </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
-                    <span className="font-medium text-green-800">Total Return</span>
-                    <span className="font-bold text-green-900 text-lg">
-                      {isLoading 
-                        ? '+936% ($10,298)' 
+
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-xl">
+                    <span className="font-medium text-green-800 dark:text-green-100">Total Return</span>
+                    <span className="font-bold text-green-900 dark:text-green-100 text-lg">
+                      {isLoading
+                        ? '+936% ($10,298)'
                         : `+${returnPercentage.toFixed(0)}% (${formatUSD(totalReturn)})`
                       }
                     </span>
                   </div>
                 </div>
-                
-                <div className="mt-8 pt-8 border-t border-gray-200">
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    * Example based on Bitcoin Pioneer scheme (₿0.1) starting in 2020. 
+
+                <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    * Example based on Bitcoin Pioneer scheme (₿0.1) starting in 2020.
                     Past performance does not guarantee future results.
                   </p>
                 </div>
@@ -308,13 +310,13 @@ export default function HomePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-gray-900 mb-4">
+            <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
               Why Bitcoin Vesting?
             </h3>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
               Transform your benefits package with the world's premier digital asset
             </p>
           </div>
@@ -322,82 +324,82 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div className="flex items-start group">
-                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
+                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 dark:from-green-700 dark:to-emerald-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
                   <UserGroupIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">
+                  <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                     Enhanced Retention
                   </h4>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                     Employees stay longer when they see their Bitcoin balance growing with time and market performance.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start group">
-                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
+                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 dark:from-blue-700 dark:to-indigo-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
                   <ShieldCheckIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">
+                  <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                     Financial Education
                   </h4>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                     Introduce your team to sound money principles and help them build long-term wealth.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start group">
-                <div className="flex-shrink-0 w-12 h-12 bg-bitcoin-gradient rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
+                <div className="flex-shrink-0 w-12 h-12 bg-bitcoin dark:bg-slate-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
                   <LockClosedIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">
+                  <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                     Transparent & Trackable
                   </h4>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                     Employees can track their vesting balance on-chain, providing complete transparency and trust.
                   </p>
                 </div>
               </div>
             </div>
-            
+
             <div className="card lg:p-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-bitcoin-gradient rounded-full blur-3xl opacity-10"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-bitcoin dark:bg-bitcoin rounded-full blur-3xl opacity-10"></div>
               <div className="relative text-center">
-                <div className="text-5xl font-bold text-bitcoin mb-3">₿0.015</div>
-                <div className="text-lg text-gray-600 mb-8">Standard Initial Grant</div>
-                
+                <div className="text-5xl font-bold text-bitcoin dark:text-bitcoin mb-3">₿0.015</div>
+                <div className="text-lg text-slate-600 dark:text-slate-300 mb-8">Standard Initial Grant</div>
+
                 <div className="grid grid-cols-2 gap-6 text-center mb-8">
-                  <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl">
-                    <div className="text-3xl font-bold text-gray-900">5</div>
-                    <div className="text-sm text-gray-600 mt-1">Years to 50%</div>
+                  <div className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-xl">
+                    <div className="text-3xl font-bold text-slate-700 dark:text-slate-100">5</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">Years to 50%</div>
                   </div>
-                  <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl">
-                    <div className="text-3xl font-bold text-gray-900">10</div>
-                    <div className="text-sm text-gray-600 mt-1">Years to 100%</div>
+                  <div className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-xl">
+                    <div className="text-3xl font-bold text-slate-700 dark:text-slate-100">10</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">Years to 100%</div>
                   </div>
                 </div>
-                
-                <div className="pt-8 border-t border-gray-200">
-                  <div className="text-sm text-gray-700 space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg">
+
+                <div className="pt-8 border-t border-slate-200 dark:border-slate-700">
+                  <div className="text-sm text-slate-600 dark:text-slate-300 space-y-3">
+                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 rounded-lg">
                       <span className="font-bold">Bitcoin Pioneer:</span>
-                      <span className="text-bitcoin-dark font-bold">0.02 ₿ upfront</span>
+                      <span className="text-bitcoin dark:text-bitcoin font-bold">0.02 ₿ upfront</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-lg">
                       <span className="font-bold">Dollar Cost:</span>
-                      <span className="text-green-700 font-bold">0.015 ₿ + 0.001 ₿/yr</span>
+                      <span className="text-green-700 dark:text-green-100 font-bold">0.015 ₿ + 0.001 ₿/yr</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg">
+                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-lg">
                       <span className="font-bold">Wealth Builder:</span>
-                      <span className="text-purple-700 font-bold">0.002 ₿/year × 10</span>
+                      <span className="text-purple-700 dark:text-purple-100 font-bold">0.002 ₿/year × 10</span>
                     </div>
 
                     <div className="pt-3 text-center">
-                      <span className="text-xs text-gray-500">All schemes total 0.02 ₿</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">All schemes total 0.02 ₿</span>
                     </div>
                   </div>
                 </div>
@@ -408,25 +410,25 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-bitcoin-gradient relative overflow-hidden">
+      <section className="py-24 bg-bitcoin dark:bg-slate-700 relative overflow-hidden transition-colors duration-300">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
         </div>
-        
+
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
           <h3 className="text-4xl font-bold text-white mb-6">
             Ready to Start Planning?
           </h3>
-          <p className="text-2xl text-orange-100 mb-10 leading-relaxed">
+          <p className="text-2xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
             Use our calculators to model different vesting scenarios and analyze historical performance.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/calculator" className="bg-white text-bitcoin-dark hover:bg-orange-50 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
+            <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
               <CalculatorIcon className="w-5 h-5" />
               <span>Future Calculator</span>
             </Link>
-            <Link href="/historical" className="bg-orange-600 text-white hover:bg-orange-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
+            <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
               <ChartBarIcon className="w-5 h-5" />
               <span>Historical Analysis</span>
             </Link>
@@ -435,7 +437,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <footer className="footer py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">

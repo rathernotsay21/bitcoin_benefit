@@ -59,8 +59,8 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
 
     return (
-      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
-        <p className="font-semibold text-gray-900 mb-2">Year {year}</p>
+      <div className="bg-white dark:bg-slate-800 p-4 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg">
+        <p className="font-semibold text-gray-900 dark:text-white mb-2">Year {year}</p>
         {payload.map((entry: any, index: number) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
             {entry.name}: {entry.name.includes('BTC') ? formatBTC(entry.value) : formatUSDCompact(entry.value)}
@@ -232,10 +232,10 @@ export default function VestingTimelineChartRecharts({
   return (
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
           20-Year Vesting Timeline Projection
         </h3>
-        <div className="text-sm text-gray-600 space-y-1">
+        <div className="text-sm text-gray-600 dark:text-white/80 space-y-1">
           <p>
             Initial: {formatBTC(initialGrant)}
             {annualGrant && ` • Annual: ${formatBTC(annualGrant)} per year`}
@@ -244,7 +244,7 @@ export default function VestingTimelineChartRecharts({
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-4 overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-4 overflow-hidden">
         <ResponsiveContainer width="100%" height={480}>
           <ComposedChart
             data={yearlyData}
@@ -344,35 +344,35 @@ export default function VestingTimelineChartRecharts({
 
       {/* Key Insights */}
       <div className="mt-6 grid md:grid-cols-3 gap-4">
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-          <div className="text-sm font-medium text-orange-800 mb-1">20-Year Projection</div>
-          <div className="text-2xl font-bold text-orange-900">
+        <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+          <div className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-1">20-Year Projection</div>
+          <div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
             {formatUSDCompact(finalYear?.usdValue || 0)}
           </div>
-          <div className="text-xs text-orange-700">
+          <div className="text-xs text-orange-700 dark:text-orange-300">
             Based on {projectedBitcoinGrowth}% annual growth
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="text-sm font-medium text-blue-800 mb-1">Total BTC Grants</div>
-          <div className="text-2xl font-bold text-blue-900">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <div className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">Total BTC Grants</div>
+          <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
             {formatBTC(yearlyData[10]?.btcBalance || 0)}
           </div>
-          <div className="text-xs text-blue-700">
+          <div className="text-xs text-blue-700 dark:text-blue-300">
             Employer grants only
           </div>
         </div>
 
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <div className="text-sm font-medium text-green-800 mb-1">Growth Multiple</div>
-          <div className="text-2xl font-bold text-green-900">
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+          <div className="text-sm font-medium text-green-800 dark:text-green-200 mb-1">Growth Multiple</div>
+          <div className="text-2xl font-bold text-green-900 dark:text-green-100">
             {isNaN(growthMultiple) || !isFinite(growthMultiple) || growthMultiple <= 0 
               ? 'N/A' 
               : `${growthMultiple.toFixed(1)}x`
             }
           </div>
-          <div className="text-xs text-green-700">
+          <div className="text-xs text-green-700 dark:text-green-300">
             {initialGrant > 0 ? 'From initial investment' : 'From total cost invested'}
           </div>
         </div>
@@ -380,20 +380,20 @@ export default function VestingTimelineChartRecharts({
 
       {/* Annual Breakdown Table */}
       <div className="mt-6">
-        <h4 className="text-md font-semibold text-gray-900 mb-3">Annual Breakdown</h4>
+        <h4 className="text-md font-semibold text-gray-900 dark:text-white mb-3">Annual Breakdown</h4>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead className="bg-gray-50">
+          <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
+            <thead className="bg-gray-50 dark:bg-slate-700">
               <tr>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Grant Cost</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Balance</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Price</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">USD Value</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Vesting Status</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Grant Cost</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC Balance</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC Price</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">USD Value</th>
+                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Vesting Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
               {yearlyData.slice(0, 11).map((point) => {
                 const year = point.year;
                 const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
@@ -415,20 +415,20 @@ export default function VestingTimelineChartRecharts({
 
                 return (
                   <tr key={year} className={
-                    year === 10 ? 'bg-green-50' : 
-                    year === 5 ? 'bg-yellow-50' : ''
+                    year === 10 ? 'bg-green-50 dark:bg-green-900/20' : 
+                    year === 5 ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''
                   }>
-                    <td className="px-4 py-2 text-sm font-medium text-gray-900">{year}</td>
-                    <td className="px-4 py-2 text-sm text-gray-700">
+                    <td className="px-4 py-2 text-sm font-medium text-gray-900 dark:text-white">{year}</td>
+                    <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
                       {grantCost > 0 ? (
-                        <span className="font-medium text-orange-600">{formatUSD(grantCost)}</span>
+                        <span className="font-medium text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
                       ) : (
-                        <span className="text-gray-400">—</span>
+                        <span className="text-gray-400 dark:text-white/50">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-700">{formatBTC(point.btcBalance)}</td>
-                    <td className="px-4 py-2 text-sm text-gray-700">{formatUSD(point.bitcoinPrice)}</td>
-                    <td className="px-4 py-2 text-sm font-semibold text-gray-900">{formatUSD(point.usdValue)}</td>
+                    <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.btcBalance)}</td>
+                    <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatUSD(point.bitcoinPrice)}</td>
+                    <td className="px-4 py-2 text-sm font-semibold text-gray-900 dark:text-white">{formatUSD(point.usdValue)}</td>
                     <td className="px-4 py-2 text-sm">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${vestingPercent === 100 ? 'bg-green-100 text-green-800' :
                         vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800' :
@@ -445,16 +445,16 @@ export default function VestingTimelineChartRecharts({
         </div>
 
         {/* Total Grant Cost Summary */}
-        <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+        <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
           <div className="flex justify-between items-center">
             <div>
-              <h5 className="text-sm font-semibold text-orange-900">Total Grant Cost</h5>
-              <p className="text-xs text-orange-700 mt-1">
+              <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">Total Grant Cost</h5>
+              <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
                 Based on projected Bitcoin price for each grant year
               </p>
             </div>
             <div className="text-right">
-              <div className="text-lg font-bold text-orange-900">
+              <div className="text-lg font-bold text-orange-900 dark:text-orange-100">
                 {(() => {
                   let totalCost = 0;
                   // Calculate total cost using projected prices for each year
@@ -474,7 +474,7 @@ export default function VestingTimelineChartRecharts({
                   return formatUSD(totalCost);
                 })()}
               </div>
-              <div className="text-xs text-orange-700">
+              <div className="text-xs text-orange-700 dark:text-orange-300">
                 {(() => {
                   let totalBTC = 0;
                   if (initialGrant > 0) totalBTC += initialGrant;

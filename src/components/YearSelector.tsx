@@ -53,7 +53,7 @@ export default function YearSelector({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-gray-700 dark:text-white">
         Starting Year
       </label>
       
@@ -82,7 +82,7 @@ export default function YearSelector({
       {!isValid && errorMessage && (
         <p 
           id="year-error" 
-          className="text-sm text-red-600"
+          className="text-sm text-red-600 dark:text-red-400"
           role="alert"
         >
           {errorMessage}
@@ -91,7 +91,7 @@ export default function YearSelector({
 
       {/* Helper text */}
       {isValid && (
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-white/70">
           Historical Bitcoin data available from {minYear} to {maxYear}
         </p>
       )}

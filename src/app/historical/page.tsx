@@ -65,7 +65,7 @@ function HistoricalCalculatorContent() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen transition-colors duration-300">
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -74,10 +74,10 @@ function HistoricalCalculatorContent() {
           <div className="inline-flex items-center justify-center p-3 bg-bitcoin-gradient rounded-2xl mb-6">
             <ChartBarIcon className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-slate-100 mb-4">
             Historical Bitcoin Calculator
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-slate-300 max-w-3xl mx-auto">
             Analyze how your vesting scheme would have performed using real historical Bitcoin data
           </p>
         </div>
@@ -90,7 +90,7 @@ function HistoricalCalculatorContent() {
             <div className="card glass">
               <div className="flex items-center mb-6">
                 <SparklesIcon className="w-6 h-6 text-bitcoin mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                   Choose a Vesting Scheme
                 </h2>
               </div>
@@ -101,8 +101,8 @@ function HistoricalCalculatorContent() {
                     key={scheme.id}
                     className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${
                       selectedScheme?.id === scheme.id
-                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 shadow-lg scale-105'
-                        : 'border-gray-200 hover:border-bitcoin hover:shadow-md hover:scale-102'
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg scale-105'
+                        : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md hover:scale-102'
                     }`}
                     onClick={() => handleSchemeSelect(scheme.id)}
                   >
@@ -114,9 +114,9 @@ function HistoricalCalculatorContent() {
                         checked={selectedScheme?.id === scheme.id}
                         onChange={() => handleSchemeSelect(scheme.id)}
                       />
-                      <label className="ml-3 font-semibold text-gray-900">{scheme.name}</label>
+                      <label className="ml-3 font-semibold text-gray-900 dark:text-slate-100">{scheme.name}</label>
                     </div>
-                    <p className="text-sm text-gray-600 ml-6">
+                    <p className="text-sm text-gray-600 dark:text-slate-300 ml-6">
                       {scheme.description}
                     </p>
                   </div>
@@ -128,7 +128,7 @@ function HistoricalCalculatorContent() {
             <div className="card glass">
               <div className="flex items-center mb-4">
                 <ClockIcon className="w-5 h-5 text-bitcoin mr-2" />
-                <h3 className="text-lg font-bold text-gray-900">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
                   Historical Analysis Settings
                 </h3>
               </div>
@@ -141,7 +141,7 @@ function HistoricalCalculatorContent() {
                 />
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
                     Cost Basis Method
                   </label>
                   <select
@@ -154,7 +154,7 @@ function HistoricalCalculatorContent() {
                     <option value="high">Yearly High Price</option>
                     <option value="low">Yearly Low Price</option>
                   </select>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-slate-400">
                     Method used to calculate the cost basis for Bitcoin grants
                   </p>
                 </div>
@@ -166,14 +166,14 @@ function HistoricalCalculatorContent() {
               <div className="card glass">
                 <div className="flex items-center mb-4">
                   <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
-                  <h3 className="text-lg font-bold text-gray-900">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
                     Customize Your Scheme
                   </h3>
                 </div>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                       Initial Grant (BTC)
                     </label>
                     <input
@@ -191,7 +191,7 @@ function HistoricalCalculatorContent() {
 
                   {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Annual Grant (BTC)
                       </label>
                       <input
@@ -218,10 +218,10 @@ function HistoricalCalculatorContent() {
             {isLoadingHistoricalData && (
               <div className="card text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
                   Loading Historical Data
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-slate-300">
                   Fetching Bitcoin price data from {startingYear} to {currentYear}...
                 </p>
               </div>
@@ -229,13 +229,13 @@ function HistoricalCalculatorContent() {
 
             {/* Error State */}
             {(historicalDataError || calculationError) && (
-              <div className="card border-red-200 bg-red-50">
+              <div className="card border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
                 <div className="text-center">
-                  <div className="text-red-600 text-4xl mb-4">⚠️</div>
-                  <h3 className="text-lg font-semibold text-red-900 mb-2">
+                  <div className="text-red-600 dark:text-red-400 text-4xl mb-4">⚠️</div>
+                  <h3 className="text-lg font-semibold text-red-900 dark:text-red-200 mb-2">
                     {historicalDataError ? 'Data Loading Error' : 'Calculation Error'}
                   </h3>
-                  <p className="text-red-700 mb-4">
+                  <p className="text-red-700 dark:text-red-300 mb-4">
                     {historicalDataError || calculationError}
                   </p>
                   <button
@@ -254,22 +254,22 @@ function HistoricalCalculatorContent() {
                 {/* Summary Cards */}
                 <div className="grid md:grid-cols-3 gap-4 mb-6">
                   <div className="card text-center">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatBTC(historicalResults.totalBitcoinGranted)}
                     </div>
-                    <div className="text-sm text-gray-600">Total Bitcoin Granted</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Bitcoin Granted</div>
                   </div>
                   <div className="card text-center">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatUSD(historicalResults.totalCostBasis)}
                     </div>
-                    <div className="text-sm text-gray-600">Total Cost Basis</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Cost Basis</div>
                   </div>
                   <div className="card text-center">
-                    <div className="text-2xl font-bold text-green-600">
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                       {formatUSD(historicalResults.currentTotalValue)}
                     </div>
-                    <div className="text-sm text-gray-600">Current Value</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Current Value</div>
                   </div>
                 </div>
 
@@ -284,24 +284,24 @@ function HistoricalCalculatorContent() {
 
                 {/* Annual Breakdown */}
                 <div className="card mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                     Annual Breakdown
                   </h3>
                   
                   <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                      <thead className="bg-gray-50">
+                    <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
+                      <thead className="bg-gray-50 dark:bg-slate-700">
                         <tr>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Grant Cost</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">BTC Balance</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Historical BTC Price</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Historical USD Value</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Current USD Value</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Vesting Status</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Grant Cost</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC Balance</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Historical BTC Price</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Historical USD Value</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Current USD Value</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Vesting Status</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
                         {(() => {
                           // Get yearly data points (December of each year or current month for current year)
                           const currentYear = new Date().getFullYear();
@@ -370,25 +370,25 @@ function HistoricalCalculatorContent() {
 
                             return (
                               <tr key={year} className={
-                                yearsFromStart === 10 ? 'bg-green-50' : 
-                                yearsFromStart === 5 ? 'bg-yellow-50' : ''
+                                yearsFromStart === 10 ? 'bg-green-50 dark:bg-green-900/20' : 
+                                yearsFromStart === 5 ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''
                               }>
-                                <td className="px-4 py-2 text-sm font-medium text-gray-900">{year}</td>
-                                <td className="px-4 py-2 text-sm text-gray-700">
+                                <td className="px-4 py-2 text-sm font-medium text-gray-900 dark:text-white">{year}</td>
+                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
                                   {grantCost > 0 ? (
-                                    <span className="font-medium text-orange-600">{formatUSD(grantCost)}</span>
+                                    <span className="font-medium text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
                                   ) : (
-                                    <span className="text-gray-400">—</span>
+                                    <span className="text-gray-400 dark:text-white/50">—</span>
                                   )}
                                 </td>
-                                <td className="px-4 py-2 text-sm text-gray-700">{formatBTC(point.cumulativeBitcoin)}</td>
-                                <td className="px-4 py-2 text-sm text-gray-700">
+                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.cumulativeBitcoin)}</td>
+                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
                                   {historicalBitcoinPrice > 0 ? formatUSD(historicalBitcoinPrice) : '—'}
                                 </td>
-                                <td className="px-4 py-2 text-sm text-gray-700">
+                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
                                   {historicalBitcoinPrice > 0 ? formatUSD(historicalUsdValue) : '—'}
                                 </td>
-                                <td className="px-4 py-2 text-sm font-semibold text-green-600">
+                                <td className="px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400">
                                   {formatUSD(point.currentValue)}
                                 </td>
                                 <td className="px-4 py-2 text-sm">
@@ -409,20 +409,20 @@ function HistoricalCalculatorContent() {
                   </div>
 
                   {/* Total Grant Cost Summary */}
-                  <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                  <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h5 className="text-sm font-semibold text-orange-900">Total Grant Cost</h5>
-                        <p className="text-xs text-orange-700 mt-1">
+                        <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">Total Grant Cost</h5>
+                        <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
                           Based on historical {costBasisMethod} Bitcoin prices for each grant year
                         </p>
 
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold text-orange-900">
+                        <div className="text-lg font-bold text-orange-900 dark:text-orange-200">
                           {formatUSD(historicalResults.totalCostBasis)}
                         </div>
-                        <div className="text-xs text-orange-700">
+                        <div className="text-xs text-orange-700 dark:text-orange-300">
                           {formatBTC(historicalResults.totalBitcoinGranted)} total grants
                         </div>
                       </div>
@@ -432,58 +432,58 @@ function HistoricalCalculatorContent() {
 
                 {/* Performance Metrics */}
                 <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                     Performance Summary
                   </h3>
                   
                   <div className="grid md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <div className="text-3xl font-bold text-green-600 mb-1">
+                      <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-1">
                         {formatUSD(historicalResults.totalReturn)}
                       </div>
-                      <div className="text-sm text-gray-600 mb-2">Total Return</div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-600 dark:text-white/80 mb-2">Total Return</div>
+                      <div className="text-sm text-gray-500 dark:text-white/70">
                         {formatPercent(historicalResults.totalReturn / historicalResults.totalCostBasis)} gain
                       </div>
                     </div>
                     
                     <div>
-                      <div className="text-3xl font-bold text-blue-600 mb-1">
+                      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                         {formatPercent(historicalResults.annualizedReturn)}
                       </div>
-                      <div className="text-sm text-gray-600 mb-2">Annualized Return</div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-600 dark:text-white/80 mb-2">Annualized Return</div>
+                      <div className="text-sm text-gray-500 dark:text-white/70">
                         Over {historicalResults.summary.yearsAnalyzed} years
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-gray-200">
+                  <div className="pt-6 border-t border-gray-200 dark:border-slate-700">
                     <div className="grid md:grid-cols-2 gap-6 text-sm">
                       <div className="space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Analysis Period:</span>
-                          <span className="font-semibold">
+                          <span className="text-gray-600 dark:text-white/80">Analysis Period:</span>
+                          <span className="font-semibold dark:text-white">
                             {historicalResults.summary.startingYear} - {historicalResults.summary.endingYear}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Cost Basis Method:</span>
-                          <span className="font-semibold capitalize">
+                          <span className="text-gray-600 dark:text-white/80">Cost Basis Method:</span>
+                          <span className="font-semibold dark:text-white capitalize">
                             {historicalResults.summary.costBasisMethod}
                           </span>
                         </div>
                       </div>
                       <div className="space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Average Annual Grant:</span>
-                          <span className="font-semibold">
+                          <span className="text-gray-600 dark:text-white/80">Average Annual Grant:</span>
+                          <span className="font-semibold dark:text-white">
                             {formatBTC(historicalResults.summary.averageAnnualGrant)}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Current Bitcoin Price:</span>
-                          <span className="font-semibold">
+                          <span className="text-gray-600 dark:text-white/80">Current Bitcoin Price:</span>
+                          <span className="font-semibold dark:text-white">
                             {formatUSD(currentBitcoinPrice)}
                           </span>
                         </div>
@@ -498,10 +498,10 @@ function HistoricalCalculatorContent() {
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && !historicalResults && (
               <div className="card text-center">
                 <div className="text-4xl mb-4">📊</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Ready to Analyze
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white/90">
                   Select a vesting scheme to see how it would have performed historically
                 </p>
               </div>
