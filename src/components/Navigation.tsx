@@ -61,7 +61,7 @@ export default function Navigation() {
             </div>
             <div className="flex flex-col">
               <h1 className="text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
-                Bitcoin Benefits
+                BitcoinBenefits.me
               </h1>
               <p className="text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300">
                 Secure their future. Secure your team.
