@@ -219,8 +219,8 @@ describe('useHistoricalCalculatorStore', () => {
       const { result } = renderHook(() => useHistoricalCalculatorStore());
       
       // Create a promise that we can control
-      let resolvePromise: (value: any) => void;
-      const controlledPromise = new Promise(resolve => {
+      let resolvePromise: (value: Record<number, BitcoinYearlyPrices>) => void;
+      const controlledPromise = new Promise<Record<number, BitcoinYearlyPrices>>(resolve => {
         resolvePromise = resolve;
       });
       

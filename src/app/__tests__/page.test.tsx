@@ -17,7 +17,7 @@ describe('Home Page', () => {
     mockBitcoinAPI.getCurrentPrice.mockResolvedValue({
       price: 113976,
       change24h: 2.5,
-      lastUpdated: new Date(),
+
     });
 
     mockHistoricalBitcoinAPI.getYearlyPrice.mockResolvedValue({

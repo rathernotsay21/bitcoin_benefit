@@ -61,8 +61,9 @@ export default function HistoricalTimelineVisualization({
     // Find the historical price for this grant year from the timeline data
     const yearTimelinePoints = results.timeline.filter(p => p.year === grant.year);
     if (yearTimelinePoints.length > 0) {
-      // Use the historical price from the timeline data for this year
-      const historicalPrice = yearTimelinePoints[0].historicalPrice;
+      // Calculate the historical price from the cost basis and bitcoin amount
+      const timelinePoint = yearTimelinePoints[0];
+      const historicalPrice = timelinePoint.cumulativeCostBasis / timelinePoint.cumulativeBitcoin;
       const grantCost = grant.amount * historicalPrice;
       yearlyGrantCosts.set(grant.year, (yearlyGrantCosts.get(grant.year) || 0) + grantCost);
     }

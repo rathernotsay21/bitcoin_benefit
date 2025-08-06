@@ -6,7 +6,7 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   ShieldCheckIcon,
-  ChartLineIcon,
+  ChartBarIcon,
   LockClosedIcon,
   BanknotesIcon,
   TrophyIcon,
