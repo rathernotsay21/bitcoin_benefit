@@ -33,7 +33,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   },
   {
     id: 'steady-builder',
-    name: 'Stacking Sats',
+    name: 'Sat Stacker',
     description: 'Minimize market timing risk with annual grants during the first five years.',
     initialGrant: 0.015,
     employeeMatchPercentage: 0,

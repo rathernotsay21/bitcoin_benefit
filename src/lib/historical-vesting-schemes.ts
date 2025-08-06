@@ -34,7 +34,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   },
   {
     id: 'steady-builder',
-    name: 'Stacking Sats',
+    name: 'Sat Stacker',
     description: 'Historical result of five year funding.',
     initialGrant: 0.05, // Increased from 0.015 for historical analysis
     employeeMatchPercentage: 0,

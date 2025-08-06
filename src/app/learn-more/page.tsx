@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
 import { 
   AcademicCapIcon,
   UserGroupIcon,
@@ -14,7 +15,8 @@ import {
   CheckCircleIcon,
   PlusIcon,
   CurrencyDollarIcon,
-  ArrowTrendingUpIcon
+  ArrowTrendingUpIcon,
+  CalculatorIcon
 } from '@heroicons/react/24/solid';
 
 export default function LearnMorePage() {
@@ -251,7 +253,7 @@ export default function LearnMorePage() {
                         Start planning your Bitcoin vesting program today and give your team a reason to stay.
                     </p>
                     <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin-dark dark:text-white hover:bg-orange-50 dark:hover:bg-slate-900 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
-                        <SparklesIcon className="w-5 h-5" />
+                        <CalculatorIcon className="w-5 h-5" />
                         <span>Try the Calculator</span>
                     </Link>
                 </div>
@@ -262,15 +264,14 @@ export default function LearnMorePage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
-                            <CurrencyDollarIcon className="w-8 h-8 text-bitcoin" />
+                            <BitcoinIcon className="w-8 h-8 text-bitcoin" />
                         </div>
                         <h4 className="text-3xl font-bold mb-4">Secure their future. Secure your team.</h4>
                         <p className="text-gray-400 mb-8 text-lg">
                             Empowering employers to reward teams with sound money
                         </p>
                         <div className="text-sm text-gray-500 space-y-1">
-                            <p>Built with Next.js • Deployed on Netlify</p>
-                            <p>Real-time Bitcoin prices via CoinGecko</p>
+                            <p>Webmaster - Rather Notsay</p>
                         </div>
                     </div>
                 </div>

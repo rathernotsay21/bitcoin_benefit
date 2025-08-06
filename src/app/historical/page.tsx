@@ -116,7 +116,7 @@ function HistoricalCalculatorContent() {
             {/* Historical Configuration */}
             <div className="card glass">
               <div className="flex items-center mb-4">
-                <ClockIcon className="w-5 h-5 text-bitcoin mr-2" />
+                <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
                   Historical Analysis Settings
                 </h3>
@@ -147,58 +147,51 @@ function HistoricalCalculatorContent() {
                     Method used to calculate the cost basis for Bitcoin grants
                   </p>
                 </div>
-              </div>
-            </div>
 
-            {/* Scheme Customization */}
-            {selectedScheme && (
-              <div className="card glass">
-                <div className="flex items-center mb-4">
-                  <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                    Customize Your Scheme
-                  </h3>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-                      Initial Grant (BTC)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.001"
-                      value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                      onChange={(e) => {
-                        const value = parseFloat(e.target.value) || 0;
-                        updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
-                      }}
-                      className="input-field"
-                      disabled={isLoadingHistoricalData}
-                    />
-                  </div>
-
-                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
+                {/* Grant Customization */}
+                {selectedScheme && (
+                  <>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-                        Annual Grant (BTC)
+                        Initial Grant (BTC)
                       </label>
                       <input
                         type="number"
                         step="0.001"
-                        value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
+                        value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
                         onChange={(e) => {
                           const value = parseFloat(e.target.value) || 0;
-                          updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
+                          updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
                         }}
                         className="input-field"
                         disabled={isLoadingHistoricalData}
                       />
                     </div>
-                  )}
-                </div>
+
+                    {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+                          Annual Grant (BTC)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.001"
+                          value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
+                          onChange={(e) => {
+                            const value = parseFloat(e.target.value) || 0;
+                            updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
+                          }}
+                          className="input-field"
+                          disabled={isLoadingHistoricalData}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
-            )}
+            </div>
+
+
           </div>
 
           {/* Right Panel - Results */}

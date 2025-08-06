@@ -13,7 +13,9 @@ import {
   LockClosedIcon,
   CalculatorIcon,
   ScaleIcon,
-  ClockIcon
+  ClockIcon,
+  AcademicCapIcon,
+  EyeIcon
 } from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
 
@@ -86,7 +88,7 @@ export default function HomePage() {
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
-                <BitcoinCircleOutlineIcon className="w-6 h-6" />
+                <BitcoinCircleOutlineIcon className="w-8 h-8" />
                 <span>Start Planning</span>
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
@@ -150,7 +152,7 @@ export default function HomePage() {
                   <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Stacking Sats
+                  Sat Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
                   Minimize market timing risk with annual grants during the first five years.
@@ -225,13 +227,13 @@ export default function HomePage() {
               <div className="space-y-5 mb-10">
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <ClockIcon className="w-5 h-5 text-white" />
+                    <ChartBarIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-slate-600 dark:text-slate-300 text-lg">Analyze real historical performance</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                    <ClockIcon className="w-5 h-5 text-white" />
+                    <ScaleIcon className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-slate-600 dark:text-slate-300 text-lg">Compare different cost basis methods</span>
                 </div>
@@ -333,7 +335,7 @@ export default function HomePage() {
 
               <div className="flex items-start group">
                 <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 dark:from-blue-700 dark:to-indigo-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
-                  <ShieldCheckIcon className="w-6 h-6 text-white" />
+                  <AcademicCapIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
                   <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
@@ -347,7 +349,7 @@ export default function HomePage() {
 
               <div className="flex items-start group">
                 <div className="flex-shrink-0 w-12 h-12 bg-bitcoin dark:bg-slate-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
-                  <LockClosedIcon className="w-6 h-6 text-white" />
+                  <EyeIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
                   <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
