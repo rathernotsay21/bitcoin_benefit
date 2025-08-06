@@ -4,7 +4,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Bitcoin Pioneer',
-    description: 'Jump-start your team\'s Bitcoin journey with immediate grants. Perfect for companies ready to lead in digital asset compensation.',
+    description: 'Immediate grants for companies ready to lead in digital asset compensation.',
     initialGrant: 0.02,
     employeeMatchPercentage: 0,
     vestingSchedule: [
@@ -34,7 +34,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'steady-builder',
     name: 'Stacking Sats',
-    description: 'Minimize risk with annual grants.',
+    description: 'Minimize market timing risk with annual grants during the first five years.',
     initialGrant: 0.015,
     employeeMatchPercentage: 0,
     annualGrant: 0.001,

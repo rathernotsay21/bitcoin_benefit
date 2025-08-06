@@ -91,7 +91,7 @@ export default function HomePage() {
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <ClockIcon className="w-6 h-6" />
-                <span>Historical Analysis</span>
+                <span>Historical Results</span>
               </Link>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function HomePage() {
               Choose Your Vesting Strategy
             </h3>
             <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Three proven schemes designed to align incentives and build wealth
+              Three approaches with conservative assumptions designed to align incentives and build wealth
             </p>
           </div>
 
@@ -153,7 +153,7 @@ export default function HomePage() {
                   Stacking Sats
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Minimize risk with annual grants.
+                  Minimize market timing risk with annual grants during the first five years.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -420,11 +420,11 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
               <CalculatorIcon className="w-5 h-5" />
-              <span>Future Calculator</span>
+              <span>Planning Calculator</span>
             </Link>
             <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
               <ClockIcon className="w-5 h-5" />
-              <span>Historical Analysis</span>
+              <span>Historical Results</span>
             </Link>
           </div>
         </div>
