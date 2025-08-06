@@ -9,6 +9,7 @@ import {
 import { HistoricalCalculator } from '@/lib/historical-calculations';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 
 interface HistoricalCalculatorState {
   // Input state
@@ -42,7 +43,7 @@ interface HistoricalCalculatorState {
 
 export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((set, get) => ({
   // Initial state
-  selectedScheme: null,
+  selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
   startingYear: 2020, // Default to 2020
   costBasisMethod: 'average',
   schemeCustomizations: {},
@@ -217,7 +218,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   
   resetCalculator: () => {
     set({
-      selectedScheme: null,
+      selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
       startingYear: 2020,
       costBasisMethod: 'average',
       schemeCustomizations: {},

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { CalculationInputs, VestingCalculationResult, VestingScheme } from '@/types/vesting';
 import { VestingCalculator } from '@/lib/vesting-calculations';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 
 interface CalculatorState {
   // Input state
@@ -33,7 +34,7 @@ interface CalculatorState {
 
 export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   // Initial state
-  selectedScheme: null,
+  selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
   inputs: {
     projectedBitcoinGrowth: 15,
   },
@@ -114,7 +115,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   
   resetCalculator: () => {
     set({
-      selectedScheme: null,
+      selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
       inputs: {
         projectedBitcoinGrowth: 15,
       },
