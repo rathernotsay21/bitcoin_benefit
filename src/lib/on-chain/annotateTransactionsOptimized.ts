@@ -450,14 +450,14 @@ export async function annotateTransactionsOptimized(
       return {
         txid: transaction.txid,
         grantYear: match?.grantYear || null,
-        type: (match?.grantYear !== null ? 'Annual Grant' : 'Other Transaction') as const,
+        type: (match?.grantYear !== null ? 'Annual Grant' : 'Other Transaction') as 'Annual Grant' | 'Other Transaction',
         isIncoming: true,
         amountBTC: amountSats / 100_000_000,
         amountSats,
         date: new Date(transaction.status.block_time * 1000).toISOString().split('T')[0],
         blockHeight: transaction.status.block_height,
         valueAtTimeOfTx: null,
-        status: (transaction.status.confirmed ? 'Confirmed' : 'Unconfirmed') as const,
+        status: (transaction.status.confirmed ? 'Confirmed' : 'Unconfirmed') as 'Confirmed' | 'Unconfirmed',
         matchScore: match?.matchScore,
         isManuallyAnnotated: false,
       };
@@ -529,8 +529,8 @@ export function applyManualAnnotationsOptimized(
       const newGrantYear = annotationsMap.get(tx.txid);
       return {
         ...tx,
-        grantYear: newGrantYear,
-        type: newGrantYear !== null ? 'Annual Grant' as const : 'Other Transaction' as const,
+        grantYear: newGrantYear ?? null,
+        type: (newGrantYear !== null && newGrantYear !== undefined ? 'Annual Grant' : 'Other Transaction') as 'Annual Grant' | 'Other Transaction',
         isManuallyAnnotated: true,
       };
     }
@@ -540,7 +540,7 @@ export function applyManualAnnotationsOptimized(
   // Create lookup map for transactions by grant year for O(1) access
   const transactionsByGrantYear = new Map<number, AnnotatedTransaction>();
   updatedTransactions.forEach(tx => {
-    if (tx.grantYear !== null) {
+    if (tx.grantYear !== null && tx.grantYear !== undefined) {
       transactionsByGrantYear.set(tx.grantYear, tx);
     }
   });

@@ -489,9 +489,9 @@ export class PerformanceMonitor {
   static getAllMeasurements() {
     const result: Record<string, any> = {};
     
-    for (const [name] of this.measurements) {
+    this.measurements.forEach((_, name) => {
       result[name] = this.getMeasurements(name);
-    }
+    });
     
     return result;
   }

@@ -301,10 +301,23 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       true // Use optimized version
     );
     
+    // Convert performance metrics to match expected interface
+    const standardPerformanceMetrics: ConcurrentProcessingMetrics = {
+      totalOperationTimeMs: annotationResult.performanceMetrics?.processingTimeMs || 0,
+      transactionFetchTimeMs: 0, // Not tracked in standard algorithm
+      priceFetchTimeMs: 0, // Will be updated later
+      annotationTimeMs: annotationResult.performanceMetrics?.processingTimeMs || 0,
+      concurrentOperationsUsed: annotationResult.performanceMetrics?.batchProcessingEnabled || false,
+      batchingEfficiency: 0.8, // Default estimate
+      cacheHitRate: annotationResult.performanceMetrics?.cacheHitRate || 0,
+      apiCallsOptimized: 0, // Not tracked in standard algorithm
+      memoryUsageMB: 0 // Not tracked in standard algorithm
+    };
+    
     set({
       annotatedTransactions: annotationResult.annotatedTransactions,
       expectedGrants: annotationResult.expectedGrants,
-      performanceMetrics: annotationResult.performanceMetrics
+      performanceMetrics: standardPerformanceMetrics
     });
     
     // Step 3: Fetch historical prices

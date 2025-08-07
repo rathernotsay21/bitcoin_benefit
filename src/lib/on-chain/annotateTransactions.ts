@@ -267,7 +267,7 @@ export function applyManualAnnotations(
   // Create a copy of transactions with manual annotations applied
   const updatedTransactions = annotatedTransactions.map(tx => {
     if (manualAnnotations.has(tx.txid)) {
-      const newGrantYear = manualAnnotations.get(tx.txid);
+      const newGrantYear = manualAnnotations.get(tx.txid) ?? null;
       return {
         ...tx,
         grantYear: newGrantYear,

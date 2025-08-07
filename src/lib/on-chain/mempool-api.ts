@@ -131,7 +131,7 @@ async function makeRequest(url: string, config: APIConfig): Promise<Response> {
   } catch (error) {
     clearTimeout(timeoutId);
     
-    if (error.name === 'AbortError') {
+    if (error instanceof Error && error.name === 'AbortError') {
       throw new MempoolAPIError(
         'Request timeout',
         408,
@@ -143,8 +143,9 @@ async function makeRequest(url: string, config: APIConfig): Promise<Response> {
       throw error;
     }
     
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new MempoolAPIError(
-      `Network error: ${error.message}`,
+      `Network error: ${errorMessage}`,
       undefined,
       true
     );
@@ -158,7 +159,7 @@ async function makeRequestWithRetry(
   url: string, 
   config: APIConfig = DEFAULT_CONFIG
 ): Promise<any> {
-  let lastError: MempoolAPIError;
+  let lastError: MempoolAPIError = new MempoolAPIError('No attempts made');
   
   for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
     try {
@@ -166,9 +167,10 @@ async function makeRequestWithRetry(
       const data = await response.json();
       return data;
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       lastError = error instanceof MempoolAPIError 
         ? error 
-        : new MempoolAPIError(`Unexpected error: ${error.message}`);
+        : new MempoolAPIError(`Unexpected error: ${errorMessage}`);
       
       // Don't retry on the last attempt or if error is not retryable
       if (attempt === config.maxRetries || !lastError.isRetryable) {
@@ -277,8 +279,9 @@ export class MempoolAPI {
         throw error;
       }
       
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       throw new MempoolAPIError(
-        `Failed to fetch transactions: ${error.message}`,
+        `Failed to fetch transactions: ${errorMessage}`,
         undefined,
         false
       );
@@ -313,8 +316,9 @@ export class MempoolAPI {
         throw error;
       }
       
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       throw new MempoolAPIError(
-        `Failed to fetch transaction details: ${error.message}`,
+        `Failed to fetch transaction details: ${errorMessage}`,
         undefined,
         false
       );

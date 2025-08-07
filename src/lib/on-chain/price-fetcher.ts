@@ -34,7 +34,7 @@ export class OnChainPriceFetcher {
    * Optimizes API calls by combining requests for unique dates
    */
   static async fetchBatchPrices(dates: string[]): Promise<Record<string, number>> {
-    const uniqueDates = [...new Set(dates)];
+    const uniqueDates = Array.from(new Set(dates));
     const results: Record<string, number> = {};
     const uncachedDates: string[] = [];
 

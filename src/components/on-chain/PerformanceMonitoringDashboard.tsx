@@ -184,24 +184,24 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
         },
         {
           name: 'Memory Usage',
-          value: memoryInfo.usedJSHeapSize ? memoryInfo.usedJSHeapSize / (1024 * 1024) : 0,
+          value: memoryInfo?.usedJSHeapSize ? memoryInfo.usedJSHeapSize / (1024 * 1024) : 0,
           unit: 'MB',
-          status: (memoryInfo.usedJSHeapSize || 0) < 100 * 1024 * 1024 ? 'good' : 'warning',
+          status: (memoryInfo?.usedJSHeapSize || 0) < 100 * 1024 * 1024 ? 'good' : 'warning',
           threshold: 100
         },
         {
-          name: 'Cache Hit Rate',
-          value: cacheStats.hitRate * 100,
-          unit: '%',
-          status: cacheStats.hitRate > 0.5 ? 'good' : cacheStats.hitRate > 0.2 ? 'warning' : 'error',
-          threshold: 50
+          name: 'Cache Size',
+          value: cacheStats.size,
+          unit: ' entries',
+          status: cacheStats.size > 0 ? 'good' : 'warning',
+          threshold: 10
         },
         {
           name: 'Concurrent Operations',
-          value: performanceMetrics?.concurrentOperationsUsed || 0,
+          value: performanceMetrics?.concurrentOperationsUsed ? 1 : 0,
           unit: '',
-          status: (performanceMetrics?.concurrentOperationsUsed || 0) > 1 ? 'good' : 'warning',
-          threshold: 2
+          status: (performanceMetrics?.concurrentOperationsUsed || false) ? 'good' : 'warning',
+          threshold: 1
         }
       ];
 
@@ -209,16 +209,16 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
         newMetrics.push(
           {
             name: 'Batching Efficiency',
-            value: performanceMetrics.batchingEfficiencyPercent || 0,
+            value: (performanceMetrics.batchingEfficiency || 0) * 100,
             unit: '%',
-            status: (performanceMetrics.batchingEfficiencyPercent || 0) > 70 ? 'good' : 'warning',
+            status: (performanceMetrics.batchingEfficiency || 0) > 0.7 ? 'good' : 'warning',
             threshold: 70
           },
           {
             name: 'Total Processing Time',
-            value: performanceMetrics.totalProcessingTime || 0,
+            value: performanceMetrics.totalOperationTimeMs || 0,
             unit: 'ms',
-            status: (performanceMetrics.totalProcessingTime || 0) < 10000 ? 'good' : 'warning',
+            status: (performanceMetrics.totalOperationTimeMs || 0) < 10000 ? 'good' : 'warning',
             threshold: 10000
           }
         );
@@ -379,15 +379,15 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span>Operations Used:</span>
-                      <span>{performanceMetrics.concurrentOperationsUsed}</span>
+                      <span>{performanceMetrics.concurrentOperationsUsed ? 'Yes' : 'No'}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Batching Efficiency:</span>
-                      <span>{performanceMetrics.batchingEfficiencyPercent}%</span>
+                      <span>{(performanceMetrics.batchingEfficiency * 100).toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Memory Optimizations:</span>
-                      <span>{performanceMetrics.memoryOptimizationsPerformed || 0}</span>
+                      <span>Memory Usage:</span>
+                      <span>{performanceMetrics.memoryUsageMB || 0} MB</span>
                     </div>
                   </div>
                 </div>
@@ -396,12 +396,12 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
                   <h5 className="font-medium text-sm mb-3">Cache Performance</h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Hit Rate:</span>
-                      <span>{(OnChainPriceFetcher.getCacheStats().hitRate * 100).toFixed(1)}%</span>
-                    </div>
-                    <div className="flex justify-between">
                       <span>Cache Size:</span>
                       <span>{OnChainPriceFetcher.getCacheStats().size}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Cached Dates:</span>
+                      <span>{OnChainPriceFetcher.getCacheStats().dates.length}</span>
                     </div>
                   </div>
                 </div>
@@ -416,7 +416,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
               <li>• Enable optimizations for better performance on large datasets</li>
               <li>• Clear caches if experiencing memory issues</li>
               <li>• Processing times under 5 seconds indicate good performance</li>
-              <li>• Cache hit rates above 50% show effective caching</li>
+              <li>• Cache size shows effective price data storage</li>
             </ul>
           </div>
         </div>
