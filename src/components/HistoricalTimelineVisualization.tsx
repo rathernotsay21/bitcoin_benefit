@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { HistoricalCalculationResult } from '@/types/vesting';
+import { SatoshiIcon } from '@/components/icons';
 
 interface HistoricalTimelineVisualizationProps {
   results: HistoricalCalculationResult;
@@ -10,9 +11,11 @@ interface HistoricalTimelineVisualizationProps {
 }
 
 function formatBTC(amount: number): string {
-  // Format to up to 3 decimal places, removing trailing zeros
-  const formatted = amount.toFixed(3).replace(/\.?0+$/, '');
-  return `₿${formatted}`;
+  // Format with 4 decimal places for better readability
+  if (amount === 0) return '₿0';
+  if (amount >= 1) return `₿${amount.toFixed(2)}`;
+  if (amount >= 0.1) return `₿${amount.toFixed(3)}`;
+  return `₿${amount.toFixed(4)}`;
 }
 
 function formatUSD(amount: number): string {
@@ -26,12 +29,65 @@ function formatUSD(amount: number): string {
 
 function formatUSDCompact(amount: number): string {
   if (amount >= 1000000) {
-    return `$${(amount / 1000000).toFixed(1)}M`;
+    return `${(amount / 1000000).toFixed(1)}M`;
   } else if (amount >= 1000) {
-    return `$${(amount / 1000).toFixed(0)}K`;
+    return `${(amount / 1000).toFixed(0)}K`;
   }
   return formatUSD(amount);
 }
+
+function formatPercent(value: number): string {
+  return `${(value * 100).toFixed(1)}%`;
+}
+
+interface CustomDotProps {
+  cx?: number;
+  cy?: number;
+  payload?: any;
+  dataKey?: string;
+}
+
+const CustomDot = ({ cx, cy, payload, dataKey }: CustomDotProps) => {
+  const isVestingMilestone = payload.isVestingMilestone;
+  const hasGrants = payload.hasGrants;
+  const isCurrent = payload.isCurrent;
+
+  if (!isVestingMilestone && !hasGrants && !isCurrent) return null;
+
+  const color = dataKey === 'btcBalance' ? '#3b82f6' : '#f97316';
+  const glowColor = payload.vestingPercent === 100 ? '#10b981' :
+    payload.vestingPercent === 50 ? '#fbbf24' :
+      isCurrent ? '#3b82f6' : '#f97316';
+
+  return (
+    <g>
+      {/* Glow effect */}
+      <circle
+        cx={cx}
+        cy={cy}
+        r={8}
+        fill={glowColor}
+        opacity={0.2}
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={6}
+        fill={glowColor}
+        opacity={0.3}
+      />
+      {/* Main dot */}
+      <circle
+        cx={cx}
+        cy={cy}
+        r={4}
+        fill={color}
+        stroke="white"
+        strokeWidth={2}
+      />
+    </g>
+  );
+};
 
 export default function HistoricalTimelineVisualization({
   results,
@@ -40,7 +96,8 @@ export default function HistoricalTimelineVisualization({
 }: HistoricalTimelineVisualizationProps) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  
+  const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -51,25 +108,26 @@ export default function HistoricalTimelineVisualization({
 
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
-  
+
   const currentYear = new Date().getFullYear();
   const totalYears = currentYear - startingYear;
-  
+
   // Calculate grant costs by year using actual historical prices
   const yearlyGrantCosts = new Map<number, number>();
   for (const grant of results.grantBreakdown) {
-    // Find the historical price for this grant year from the timeline data
     const yearTimelinePoints = results.timeline.filter(p => p.year === grant.year);
     if (yearTimelinePoints.length > 0) {
-      // Calculate the historical price from the cost basis and bitcoin amount
       const timelinePoint = yearTimelinePoints[0];
-      const historicalPrice = timelinePoint.cumulativeCostBasis / timelinePoint.cumulativeBitcoin;
+      // Fix: Ensure we don't divide by zero and use proper historical price calculation
+      const historicalPrice = timelinePoint.cumulativeBitcoin > 0
+        ? timelinePoint.cumulativeCostBasis / timelinePoint.cumulativeBitcoin
+        : currentBitcoinPrice;
       const grantCost = grant.amount * historicalPrice;
       yearlyGrantCosts.set(grant.year, (yearlyGrantCosts.get(grant.year) || 0) + grantCost);
     }
   }
-  
-  // Create yearly data points
+
+  // Create yearly data points for the chart
   const yearlyData = [];
   for (let year = startingYear; year <= currentYear; year++) {
     const yearPoints = results.timeline.filter(p => p.year === year);
@@ -77,10 +135,9 @@ export default function HistoricalTimelineVisualization({
     const grants = results.grantBreakdown.filter(g => g.year === year);
     const yearsFromStart = year - startingYear;
     const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
-    
-    // Get grant cost for this year
+
     const grantCost = yearlyGrantCosts.get(year) || 0;
-    
+
     yearlyData.push({
       year,
       yearsFromStart,
@@ -90,6 +147,7 @@ export default function HistoricalTimelineVisualization({
       usdValue: lastPoint?.currentValue || 0,
       costBasis: lastPoint?.cumulativeCostBasis || 0,
       grantCost,
+      grantAmount: grants.reduce((sum, g) => sum + g.amount, 0),
       vestingPercent,
       isVestingMilestone: yearsFromStart === 5 || yearsFromStart === 10,
       isCurrent: year === currentYear
@@ -97,337 +155,356 @@ export default function HistoricalTimelineVisualization({
   }
 
   // For mobile, show key milestones only
-  const mobileData = isMobile ? yearlyData.filter(d => 
+  const mobileData = isMobile ? yearlyData.filter(d =>
     d.year === startingYear || d.hasGrants || d.isVestingMilestone || d.isCurrent
   ) : yearlyData;
 
   return (
     <div className="w-full max-w-full overflow-hidden">
-      {/* Header */}
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-          Historical Performance Timeline ({startingYear}-{currentYear})
+      {/* Enhanced Header */}
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
+          Historical Performance Analysis ({startingYear}-{currentYear})
         </h3>
-        <div className="text-sm text-gray-600 dark:text-white/80 space-y-1">
-          <p>
-            Total Bitcoin Granted: {formatBTC(results.totalBitcoinGranted)} • 
-            Cost Basis Method: Historical {results.summary.costBasisMethod} prices
-          </p>
-          <p>
-            Analysis Period: {totalYears} years • 
-            Annualized Return: {(results.annualizedReturn * 100).toFixed(1)}%
-          </p>
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
+          <span className="flex items-center gap-1">
+            <span className="font-medium">Total Granted:</span>
+            <span className="text-blue-600 dark:text-blue-400 font-bold">{formatBTC(results.totalBitcoinGranted)}</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="font-medium">• Cost Basis:</span>
+            <span className="text-orange-600 dark:text-orange-400 font-bold capitalize">{results.summary.costBasisMethod} prices</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="font-medium">• Annualized Return:</span>
+            <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(results.annualizedReturn)}</span>
+          </span>
         </div>
       </div>
 
-      {/* Timeline Container */}
-      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-6 md:p-8 overflow-hidden">
-        
-        {/* Legend */}
-        <div className="flex flex-wrap gap-4 md:gap-6 mb-6 md:mb-8 text-xs md:text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-4 bg-orange-500 rounded-full"></div>
-            <span className="dark:text-white">Bitcoin Grant</span>
+      {/* Enhanced Performance Summary Cards */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-2 uppercase tracking-wide">Current Value</div>
+          <div className="text-3xl font-bold text-orange-900 dark:text-orange-100 mb-1">
+            {formatUSDCompact(results.currentTotalValue)}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-4 bg-yellow-500 rounded-full border-2 border-yellow-600"></div>
-            <span className="dark:text-white">50% Vested</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full border-2 border-green-600"></div>
-            <span className="dark:text-white">100% Vested</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-4 bg-blue-500 rounded-full border-2 border-blue-600"></div>
-            <span className="dark:text-white">Current Year</span>
+          <div className="text-xs text-orange-700 dark:text-orange-400">
+            {formatBTC(results.totalBitcoinGranted)} total Bitcoin
           </div>
         </div>
 
-        {isMobile ? (
-          /* Mobile: Vertical Timeline */
-          <div className="space-y-4">
-            {mobileData.map((yearData, index) => {
-              const isSelected = selectedYear === yearData.year;
-              
-              return (
-                <div 
-                  key={yearData.year}
-                  className={`flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                    isSelected 
-                      ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20' 
-                      : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600'
-                  }`}
-                  onClick={() => setSelectedYear(isSelected ? null : yearData.year)}
-                >
-                  {/* Timeline Marker */}
-                  <div className="flex-shrink-0 relative">
-                    <div className={`w-8 h-8 rounded-full border-2 transition-all ${
-                      yearData.isCurrent 
-                        ? 'bg-blue-500 border-blue-600' :
-                      yearData.isVestingMilestone && yearData.vestingPercent === 100
-                        ? 'bg-green-500 border-green-600' :
-                      yearData.isVestingMilestone && yearData.vestingPercent === 50
-                        ? 'bg-yellow-500 border-yellow-600' :
-                      yearData.hasGrants
-                        ? 'bg-orange-500 border-orange-600' :
-                        'bg-gray-300 border-gray-400'
-                    }`}></div>
-                    
-                    {yearData.hasGrants && (
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-600 rounded-full border-2 border-white"></div>
-                    )}
-                  </div>
-                  
-                  {/* Year Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{yearData.year}</h4>
-                      {yearData.vestingPercent > 0 && (
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          yearData.vestingPercent === 100 ? 'bg-green-100 text-green-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {yearData.vestingPercent}% Vested
-                        </span>
-                      )}
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <div className="text-gray-600 dark:text-white/80">BTC Balance</div>
-                        <div className="font-medium dark:text-white">{formatBTC(yearData.btcBalance)}</div>
-                      </div>
-                      <div>
-                        <div className="text-gray-600 dark:text-white/80">USD Value</div>
-                        <div className="font-medium text-green-600 dark:text-green-400">{formatUSDCompact(yearData.usdValue)}</div>
-                      </div>
-                      {yearData.grantCost > 0 && (
-                        <div className="col-span-2">
-                          <div className="text-gray-600 dark:text-white/80">Grant Cost</div>
-                          <div className="font-medium text-blue-600 dark:text-blue-400">{formatUSDCompact(yearData.grantCost)}</div>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {yearData.hasGrants && (
-                      <div className="mt-2 text-sm">
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-orange-100 text-orange-800">
-                          {formatBTC(yearData.grants.reduce((sum, g) => sum + g.amount, 0))} granted
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 uppercase tracking-wide">Total Cost Basis</div>
+          <div className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-1">
+            {formatUSDCompact(results.totalCostBasis)}
           </div>
-        ) : (
-          /* Desktop: Horizontal Timeline */
-          <div className="relative">
-            {/* Main Timeline Line */}
-            <div className="absolute top-14 left-8 right-8 h-0.5 bg-gray-300"></div>
-            
-            {/* Year Markers */}
-            <div className="flex justify-between items-start relative">
-              {yearlyData.map((yearData, index) => {
+          <div className="text-xs text-blue-700 dark:text-blue-400">
+            Historical {results.summary.costBasisMethod} prices
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="text-sm font-semibold text-green-800 dark:text-green-300 mb-2 uppercase tracking-wide">Total Return</div>
+          <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-1">
+            {formatUSDCompact(Math.max(0, results.totalReturn))}
+          </div>
+          <div className="text-xs text-green-700 dark:text-green-400">
+            {results.totalCostBasis > 0 ? ((results.totalReturn / results.totalCostBasis) * 100).toFixed(0) : '0'}% gain over {totalYears} years
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 border border-purple-200 dark:border-purple-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
+          <div className="text-sm font-semibold text-purple-800 dark:text-purple-300 mb-2 uppercase tracking-wide">Annualized Return</div>
+          <div className="text-3xl font-bold text-purple-900 dark:text-purple-100 mb-1">
+            {formatPercent(results.annualizedReturn)}
+          </div>
+          <div className="text-xs text-purple-700 dark:text-purple-400">
+            Compound annual growth rate
+          </div>
+        </div>
+      </div>
+
+      {/* Enhanced Interactive Timeline */}
+      <div className="mt-10">
+        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+          Interactive Timeline Explorer
+        </h4>
+
+        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl border border-white/30 dark:border-slate-700/50 rounded-2xl p-8 shadow-xl">
+          {isMobile ? (
+            /* Mobile: Enhanced Vertical Cards */
+            <div className="space-y-4">
+              {mobileData.map((yearData, index) => {
                 const isSelected = selectedYear === yearData.year;
-                
+
                 return (
-                  <div 
+                  <div
                     key={yearData.year}
-                    className="flex flex-col items-center cursor-pointer transition-all hover:scale-105 min-w-0 flex-1"
+                    className={`relative flex items-start gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all transform hover:scale-102 ${isSelected
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg scale-105'
+                        : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md'
+                      }`}
                     onClick={() => setSelectedYear(isSelected ? null : yearData.year)}
                   >
-                    {/* Year Label */}
-                    <div className={`text-xs font-medium mb-2 transition-colors ${
-                      isSelected ? 'text-orange-600' : 'text-gray-600'
-                    }`}>
-                      {yearData.year}
-                    </div>
-                    
-                    {/* Timeline Marker */}
-                    <div className="relative">
-                      {/* Main Dot */}
-                      <div className={`w-6 h-6 rounded-full border-2 transition-all ${
-                        yearData.isCurrent 
-                          ? 'bg-blue-500 border-blue-600 ring-2 ring-blue-200' :
-                        yearData.isVestingMilestone && yearData.vestingPercent === 100
-                          ? 'bg-green-500 border-green-600 ring-2 ring-green-200' :
-                        yearData.isVestingMilestone && yearData.vestingPercent === 50
-                          ? 'bg-yellow-500 border-yellow-600 ring-2 ring-yellow-200' :
-                        yearData.hasGrants
-                          ? 'bg-orange-500 border-orange-600 ring-2 ring-orange-200' :
-                          'bg-gray-300 border-gray-400'
-                      } ${isSelected ? 'ring-4' : ''}`}>
+                    {/* Enhanced Timeline Marker */}
+                    <div className="flex-shrink-0 relative">
+                      <div className={`w-10 h-10 rounded-full border-3 transition-all flex items-center justify-center ${yearData.isCurrent
+                          ? 'bg-gradient-to-r from-blue-400 to-blue-600 border-blue-700 shadow-lg' :
+                          yearData.isVestingMilestone && yearData.vestingPercent === 100
+                            ? 'bg-gradient-to-r from-green-400 to-emerald-600 border-green-700 shadow-lg' :
+                            yearData.isVestingMilestone && yearData.vestingPercent === 50
+                              ? 'bg-gradient-to-r from-amber-400 to-orange-600 border-yellow-700 shadow-lg' :
+                              yearData.hasGrants
+                                ? 'bg-gradient-to-r from-orange-400 to-red-600 border-orange-700 shadow-md' :
+                                'bg-gradient-to-r from-gray-300 to-gray-400 border-gray-500'
+                        }`}>
+                        {yearData.hasGrants && (
+                          <SatoshiIcon className="w-5 h-5 text-white" />
+                        )}
                       </div>
-                      
-                      {/* Grant Indicator */}
+
                       {yearData.hasGrants && (
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-600 rounded-full border-2 border-white"></div>
+                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full border-2 border-white animate-pulse"></div>
                       )}
                     </div>
-                    
-                    {/* Year Info */}
-                    <div className="mt-3 text-center">
-                      <div className="text-xs text-gray-500 mb-1">
-                        {formatBTC(yearData.btcBalance)}
+
+                    {/* Enhanced Year Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">{yearData.year}</h4>
+                        {yearData.vestingPercent > 0 && (
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-md ${yearData.vestingPercent === 100
+                              ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
+                              : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
+                            }`}>
+                            {yearData.vestingPercent}% Vested
+                          </span>
+                        )}
                       </div>
-                      {yearData.grantCost > 0 && (
-                        <div className="text-xs text-blue-600 mb-1">
-                          Cost: {formatUSDCompact(yearData.grantCost)}
+
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2">
+                          <div className="text-gray-600 dark:text-white/80 text-xs">BTC Balance</div>
+                          <div className="font-bold text-blue-600 dark:text-blue-400">{formatBTC(yearData.btcBalance)}</div>
+                        </div>
+                        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
+                          <div className="text-gray-600 dark:text-white/80 text-xs">USD Value</div>
+                          <div className="font-bold text-green-600 dark:text-green-400">{formatUSDCompact(yearData.usdValue)}</div>
+                        </div>
+                        {yearData.grantCost > 0 && (
+                          <div className="col-span-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2">
+                            <div className="text-gray-600 dark:text-white/80 text-xs">Grant Cost</div>
+                            <div className="font-bold text-orange-600 dark:text-orange-400">{formatUSDCompact(yearData.grantCost)}</div>
+                          </div>
+                        )}
+                      </div>
+
+                      {yearData.hasGrants && (
+                        <div className="mt-3">
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 font-bold">
+                            <SatoshiIcon className="w-3 h-3 mr-1" />
+                            {formatBTC(yearData.grants.reduce((sum, g) => sum + g.amount, 0))} granted
+                          </span>
                         </div>
                       )}
-                      <div className="text-xs font-medium text-green-600">
-                        {formatUSDCompact(yearData.usdValue)}
-                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
-          </div>
-        )}
+          ) : (
+            /* Desktop: Enhanced Horizontal Timeline */
+            <div className="relative py-8">
+              {/* Enhanced Timeline Line */}
+              <div className="absolute top-28 left-8 right-8 h-1 bg-gradient-to-r from-gray-300 via-bitcoin to-gray-300 rounded-full"></div>
 
-        {/* Selected Year Details */}
-        {selectedYear && (
-          <div className="mt-8 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg border dark:border-slate-700">
-            {(() => {
-              const yearData = yearlyData.find(y => y.year === selectedYear);
-              if (!yearData) return null;
-              
-              return (
-                <div>
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Year {selectedYear} Details
-                  </h4>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* Grants This Year */}
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border dark:border-slate-600">
-                      <div className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-1">Grants This Year</div>
-                      <div className="text-xl font-bold text-orange-900 dark:text-orange-100">
-                        {yearData.hasGrants ? formatBTC(yearData.grants.reduce((sum, g) => sum + g.amount, 0)) : 'None'}
+              {/* Year Markers */}
+              <div className="flex justify-between items-start relative">
+                {yearlyData.map((yearData, index) => {
+                  const isSelected = selectedYear === yearData.year;
+
+                  return (
+                    <div
+                      key={yearData.year}
+                      className="flex flex-col items-center cursor-pointer transition-all hover:scale-110 min-w-0 flex-1 group"
+                      onClick={() => setSelectedYear(isSelected ? null : yearData.year)}
+                    >
+                      {/* Year Label */}
+                      <div className={`text-sm font-bold mb-4 transition-colors ${isSelected ? 'text-bitcoin' : 'text-gray-600 dark:text-gray-400 group-hover:text-bitcoin'
+                        }`}>
+                        {yearData.year}
                       </div>
-                      {yearData.hasGrants && (
-                        <div className="text-xs text-orange-700 dark:text-orange-300 mt-1">
-                          {yearData.grants.map(g => g.type).join(', ')} grant
+
+                      {/* Enhanced Timeline Marker */}
+                      <div className="relative">
+                        {/* Glow effect on hover */}
+                        <div className={`absolute inset-0 rounded-full blur-md transition-opacity ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                          } ${yearData.isCurrent ? 'bg-blue-400' :
+                            yearData.isVestingMilestone && yearData.vestingPercent === 100 ? 'bg-green-400' :
+                              yearData.isVestingMilestone && yearData.vestingPercent === 50 ? 'bg-yellow-400' :
+                                yearData.hasGrants ? 'bg-orange-400' : 'bg-gray-300'
+                          }`}></div>
+
+                        {/* Main Dot */}
+                        <div className={`relative w-10 h-10 rounded-full border-3 transition-all flex items-center justify-center ${yearData.isCurrent
+                            ? 'bg-gradient-to-r from-blue-400 to-blue-600 border-blue-700 shadow-lg' :
+                            yearData.isVestingMilestone && yearData.vestingPercent === 100
+                              ? 'bg-gradient-to-r from-green-400 to-emerald-600 border-green-700 shadow-lg' :
+                              yearData.isVestingMilestone && yearData.vestingPercent === 50
+                                ? 'bg-gradient-to-r from-amber-400 to-orange-600 border-yellow-700 shadow-lg' :
+                                yearData.hasGrants
+                                  ? 'bg-gradient-to-r from-orange-400 to-red-600 border-orange-700 shadow-md' :
+                                  'bg-gradient-to-r from-gray-300 to-gray-400 border-gray-500'
+                          } ${isSelected ? 'ring-4 ring-bitcoin/30 scale-125' : ''}`}>
+                          {yearData.hasGrants && (
+                            <SatoshiIcon className="w-5 h-5 text-white" />
+                          )}
+                        </div>
+
+                        {/* Grant Indicator */}
+                        {yearData.hasGrants && (
+                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full border-2 border-white animate-pulse"></div>
+                        )}
+                      </div>
+
+                      {/* Year Info */}
+                      <div className="mt-8 text-center space-y-2">
+                        <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                          {formatBTC(yearData.btcBalance)}
+                        </div>
+                        <div className="text-sm font-medium text-orange-600 dark:text-orange-400 h-5">
+                          {yearData.grantCost > 0 ? `Cost: ${formatUSDCompact(yearData.grantCost)}` : ''}
+                        </div>
+                        <div className="text-sm font-bold text-green-600 dark:text-green-400">
+                          {formatUSDCompact(yearData.usdValue)}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Enhanced Selected Year Details */}
+          {selectedYear && (
+            <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 shadow-inner">
+              {(() => {
+                const yearData = yearlyData.find(y => y.year === selectedYear);
+                if (!yearData) return null;
+
+                return (
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                      📅 Year {selectedYear} Detailed Analysis
+                    </h4>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {/* Grants This Year */}
+                      <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-xl border border-orange-200 dark:border-orange-800 shadow-md">
+                        <div className="text-sm font-semibold text-orange-800 dark:text-orange-200 mb-1 flex items-center">
+                          <SatoshiIcon className="w-4 h-4 mr-1" />
+                          Grants This Year
+                        </div>
+                        <div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+                          {yearData.hasGrants ? formatBTC(yearData.grants.reduce((sum, g) => sum + g.amount, 0)) : 'None'}
+                        </div>
+                        {yearData.hasGrants && (
+                          <div className="text-xs text-orange-700 dark:text-orange-300 mt-1">
+                            {yearData.grants.map(g => g.type).join(', ')} grant
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Grant Cost This Year */}
+                      {yearData.grantCost > 0 && (
+                        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 shadow-md">
+                          <div className="text-sm font-semibold text-purple-800 dark:text-purple-200 mb-1">
+                            💵 Grant Cost
+                          </div>
+                          <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
+                            {formatUSD(yearData.grantCost)}
+                          </div>
+                          <div className="text-xs text-purple-700 dark:text-purple-300 mt-1">
+                            Cost basis for grants
+                          </div>
                         </div>
                       )}
-                    </div>
-                    
-                    {/* Grant Cost This Year */}
-                    {yearData.grantCost > 0 && (
-                      <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border dark:border-slate-600">
-                        <div className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">Grant Cost This Year</div>
-                        <div className="text-xl font-bold text-blue-900 dark:text-blue-100">
-                          {formatUSD(yearData.grantCost)}
+
+                      {/* Total BTC Balance */}
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 shadow-md">
+                        <div className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-1">
+                          📊 Total BTC Balance
+                        </div>
+                        <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+                          {formatBTC(yearData.btcBalance)}
                         </div>
                         <div className="text-xs text-blue-700 dark:text-blue-300 mt-1">
-                          Cost basis for grants
+                          Cumulative grants
+                        </div>
+                      </div>
+
+                      {/* USD Value */}
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-4 rounded-xl border border-green-200 dark:border-green-800 shadow-md">
+                        <div className="text-sm font-semibold text-green-800 dark:text-green-200 mb-1">
+                          📈 Current USD Value
+                        </div>
+                        <div className="text-2xl font-bold text-green-900 dark:text-green-100">
+                          {formatUSD(yearData.usdValue)}
+                        </div>
+                        <div className="text-xs text-green-700 dark:text-green-300 mt-1">
+                          At today's price
+                        </div>
+                      </div>
+
+                      {/* Vesting Status */}
+                      <div className="bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/30 dark:to-slate-900/30 p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-md">
+                        <div className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">Vesting Status</div>
+                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                          {yearData.vestingPercent}%
+                        </div>
+                        <div className="text-xs text-gray-700 dark:text-gray-300 mt-1">
+                          {yearData.yearsFromStart} years from start
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Special Milestones */}
+                    {yearData.isVestingMilestone && (
+                      <div className={`mt-6 p-4 rounded-xl ${yearData.vestingPercent === 100
+                          ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-300 dark:border-green-700'
+                          : 'bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 border border-yellow-300 dark:border-yellow-700'
+                        } shadow-md`}>
+                        <div className={`text-base font-bold mb-1 ${yearData.vestingPercent === 100
+                            ? 'text-green-800 dark:text-green-200'
+                            : 'text-yellow-800 dark:text-yellow-200'
+                          }`}>
+                          🎉 Vesting Milestone Reached!
+                        </div>
+                        <div className={`text-sm ${yearData.vestingPercent === 100
+                            ? 'text-green-700 dark:text-green-300'
+                            : 'text-yellow-700 dark:text-yellow-300'
+                          }`}>
+                          {yearData.vestingPercent === 100
+                            ? 'All Bitcoin grants are now fully vested and available to the employee.'
+                            : 'Half of all Bitcoin grants are now vested and available to the employee.'
+                          }
                         </div>
                       </div>
                     )}
-                    
-                    {/* Total BTC Balance */}
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border dark:border-slate-600">
-                      <div className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">Total BTC Balance</div>
-                      <div className="text-xl font-bold text-blue-900 dark:text-blue-100">
-                        {formatBTC(yearData.btcBalance)}
-                      </div>
-                      <div className="text-xs text-blue-700 dark:text-blue-300 mt-1">
-                        Cumulative grants
-                      </div>
-                    </div>
-                    
-                    {/* USD Value */}
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border dark:border-slate-600">
-                      <div className="text-sm font-medium text-green-800 dark:text-green-200 mb-1">Current USD Value</div>
-                      <div className="text-xl font-bold text-green-900 dark:text-green-100">
-                        {formatUSD(yearData.usdValue)}
-                      </div>
-                      <div className="text-xs text-green-700 dark:text-green-300 mt-1">
-                        At today's price
-                      </div>
-                    </div>
-                    
-                    {/* Vesting Status */}
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border dark:border-slate-600">
-                      <div className="text-sm font-medium text-gray-800 dark:text-white mb-1">Vesting Status</div>
-                      <div className="text-xl font-bold text-gray-900 dark:text-white">
-                        {yearData.vestingPercent}%
-                      </div>
-                      <div className="text-xs text-gray-700 dark:text-white/80 mt-1">
-                        {yearData.yearsFromStart} years from start
-                      </div>
-                    </div>
                   </div>
-                  
-                  {/* Special Milestones */}
-                  {yearData.isVestingMilestone && (
-                    <div className={`mt-4 p-3 rounded-lg ${
-                      yearData.vestingPercent === 100 
-                        ? 'bg-green-100 border border-green-200' 
-                        : 'bg-yellow-100 border border-yellow-200'
-                    }`}>
-                      <div className={`text-sm font-semibold ${
-                        yearData.vestingPercent === 100 ? 'text-green-800' : 'text-yellow-800'
-                      }`}>
-                        🎉 Vesting Milestone Reached!
-                      </div>
-                      <div className={`text-sm ${
-                        yearData.vestingPercent === 100 ? 'text-green-700' : 'text-yellow-700'
-                      }`}>
-                        {yearData.vestingPercent === 100 
-                          ? 'All Bitcoin grants are now fully vested and available to the employee.'
-                          : 'Half of all Bitcoin grants are now vested and available to the employee.'
-                        }
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
-          </div>
-        )}
-      </div>
-
-      {/* Performance Summary Cards */}
-      <div className="mt-6 grid md:grid-cols-3 gap-4">
-        <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
-          <div className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-1">Current Value</div>
-          <div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
-            {formatUSDCompact(results.currentTotalValue)}
-          </div>
-          <div className="text-xs text-orange-700 dark:text-orange-300">
-            {formatBTC(results.totalBitcoinGranted)} total Bitcoin
-          </div>
+                );
+              })()}
+            </div>
+          )}
         </div>
 
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <div className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">Total Cost Basis</div>
-          <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
-            {formatUSDCompact(results.totalCostBasis)}
+        {/* Enhanced Usage Instructions */}
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-xl shadow-md">
+          <div className="text-sm text-blue-800 dark:text-blue-200 font-medium">
+            💡 <strong>Interactive Timeline:</strong> Click on any year marker to explore detailed grant information, vesting status, and portfolio performance for that specific year.
           </div>
-          <div className="text-xs text-blue-700 dark:text-blue-300">
-            Historical {results.summary.costBasisMethod} prices
-          </div>
-        </div>
-
-        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-          <div className="text-sm font-medium text-green-800 dark:text-green-200 mb-1">Total Return</div>
-          <div className="text-2xl font-bold text-green-900 dark:text-green-100">
-            {formatUSDCompact(results.totalReturn)}
-          </div>
-          <div className="text-xs text-green-700 dark:text-green-300">
-            {((results.totalReturn / results.totalCostBasis) * 100).toFixed(0)}% gain over {totalYears} years
-          </div>
-        </div>
-      </div>
-
-      {/* Usage Instructions */}
-      <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-        <div className="text-sm text-blue-800 dark:text-blue-200">
-          💡 <strong>Click on any year</strong> to see detailed information about grants, vesting status, and portfolio value for that year.
         </div>
       </div>
     </div>
