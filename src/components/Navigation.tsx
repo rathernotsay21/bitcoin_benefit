@@ -9,7 +9,8 @@ import {
   SunIcon,
   MoonIcon,
   ClockIcon,
-  AcademicCapIcon
+  AcademicCapIcon,
+  LinkIcon
 } from '@heroicons/react/24/outline';
 import { 
   HomeIcon as HomeIconSolid, 
@@ -17,7 +18,8 @@ import {
   SunIcon as SunIconSolid,
   MoonIcon as MoonIconSolid,
   ClockIcon as ClockIconSolid,
-  AcademicCapIcon as AcademicCapIconSolid
+  AcademicCapIcon as AcademicCapIconSolid,
+  LinkIcon as LinkIconSolid
 } from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
@@ -43,6 +45,12 @@ export default function Navigation() {
       href: '/historical',
       icon: ClockIcon,
       activeIcon: ClockIconSolid,
+    },
+    {
+      name: 'On-Chain',
+      href: '/on-chain',
+      icon: LinkIcon,
+      activeIcon: LinkIconSolid,
     },
     {
       name: 'Learn More',
