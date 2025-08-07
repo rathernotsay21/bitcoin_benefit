@@ -10,7 +10,7 @@ Bitcoin Benefit provides employers with tools to design, visualize, and implemen
 
 ### 🚀 Vesting Schemes
 - **Bitcoin Pioneer**: Immediate grants for early Bitcoin adopters (0.02 BTC upfront)
-- **Dollar Cost Advantage**: Strategic yearly distributions to minimize market timing risk (0.015 BTC + 0.001 BTC/year)
+- **Sat Stacker**: Strategic yearly distributions to minimize market timing risk (0.015 BTC + 0.001 BTC/year)
 - **Wealth Builder**: Long-term retention incentive with 10-year distribution (0.002 BTC/year)
 
 ### 📊 Interactive Tools
@@ -35,7 +35,7 @@ Bitcoin Benefit provides employers with tools to design, visualize, and implemen
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: Zustand
-- **Charts**: Custom SVG-based visualizations
+- **Charts**: Recharts for interactive visualizations
 - **API**: CoinGecko for real-time Bitcoin prices
 
 ## Getting Started
@@ -43,7 +43,6 @@ Bitcoin Benefit provides employers with tools to design, visualize, and implemen
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
-- Environment variables for API keys (optional)
 
 ### Installation
 
@@ -104,7 +103,7 @@ All schemes follow a standardized vesting schedule: 50% at 5 years, 100% at 10 y
 - **Best for**: Companies ready to lead in digital asset compensation
 - **Customizable**: Initial grant amount and projected growth rate
 
-### Dollar Cost Advantage  
+### Sat Stacker 
 - **Structure**: 0.015 BTC initial + 0.001 BTC yearly (5 years)
 - **Philosophy**: Minimize market timing risk with strategic distributions
 - **Best for**: Conservative approaches to Bitcoin adoption
@@ -138,21 +137,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For support, please open an issue on GitHub or contact the maintainers.
-
-## Recent Updates (August 2025)
-
-### New Features
-- **Historical Calculator**: Analyze actual Bitcoin performance from 2015-2025
-- **Universal Scheme Customization**: All schemes now support parameter customization
-- **Cost Basis Methods**: Choose between Average, High, or Low yearly prices
-- **Enhanced Visualizations**: Interactive Recharts with better mobile support
-- **Performance Improvements**: Optimized loading and calculation speeds
-
-### Known Issues Being Addressed
-- Initial page load optimization (2-3 second delay on first calculator load)
-- Bundle size reduction for faster performance
-- Enhanced error handling for edge cases
-- Mobile responsiveness improvements
 
 ---
 

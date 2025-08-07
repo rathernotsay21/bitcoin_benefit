@@ -1,7 +1,7 @@
 # Bitcoin Vesting Calculator - Project Summary
 
 ## Project Overview
-A comprehensive web application for employers to plan and visualize Bitcoin vesting schemes for their employees. The calculator offers multiple vesting strategies designed to incentivize employee retention while introducing them to Bitcoin as a store of value.
+A comprehensive web application for employers to plan and visualize Bitcoin vesting schemes for their employees. The calculator offers multiple vesting strategies designed to incentivize employee retention while introducing them to Bitcoin as a store of value. The application features two main calculators: a "Future Calculator" for projecting potential outcomes and a "Historical Calculator" for analyzing past performance.
 
 ## 🎯 Current Implementation Status
 
@@ -10,26 +10,32 @@ A comprehensive web application for employers to plan and visualize Bitcoin vest
 #### **Core Application Infrastructure**
 - **Next.js 14 with App Router**: Modern React framework with TypeScript
 - **Tailwind CSS**: Professional responsive design system with Bitcoin-themed styling
-- **Zustand State Management**: Efficient global state for calculator functionality
+- **Zustand State Management**: Efficient global state for both calculator functionalities
 - **Real-time Bitcoin API**: Live price integration via CoinGecko API with caching
 - **Static Site Generation**: Optimized for Netlify deployment
 
 #### **Homepage & Navigation**
 - **Professional Landing Page**: Hero section, features overview, benefits explanation
-- **Interactive Plan Tiles**: Clickable cards that link directly to calculator with pre-selected plans
+- **Interactive Plan Tiles**: Clickable cards that link directly to the calculator with pre-selected plans
 - **Responsive Design**: Mobile-first approach, works seamlessly on all devices
 - **SEO Optimized**: Proper meta tags, semantic HTML structure
 
-#### **Calculator Functionality** 
-- **Four Pre-configured Vesting Schemes**:
-  - **The Accelerator**: Fast-track with growth bonuses (25% match, 4-year vesting)
-  - **The Steady Builder**: Consistent with loyalty rewards (15% match, 7-year vesting)  
-  - **The High Roller**: Large grants with performance multipliers (50% match, 5-year vesting)
-  - **The Milestone Master**: Frequent milestones with escalating bonuses (20% match, 6-year vesting)
+#### **Future Calculator Functionality** 
+- **Three Pre-configured Vesting Schemes**:
+  - **Bitcoin Pioneer**: An aggressive plan with a large upfront grant.
+  - **Sat Stacker**: A balanced approach with an initial grant and annual bonuses.
+  - **Wealth Builder**: A long-term plan with annual grants over a decade.
 - **Custom Plan Creator**: Users can create completely custom vesting schemes
 - **Real-time Calculations**: Instant updates as parameters change
 - **Interactive Plan Selection**: Visual feedback, radio button controls
 - **URL Deep Linking**: Direct links to calculator with specific plans pre-selected
+
+#### **Historical Calculator Functionality**
+- **Historical Price Data**: Fetches real Bitcoin prices from 2015 to present.
+- **Cost Basis Methods**: Three calculation methods - Average, High, Low yearly prices.
+- **Interactive Visualization**: Recharts-based timeline showing BTC balance and USD value over time.
+- **Performance Metrics**: Total return, annualized return, and growth multiples.
+- **Annual Breakdown**: Detailed table showing grants, costs, and values by year.
 
 #### **Live Data Integration**
 - **Real-time Bitcoin Prices**: Current USD price with 24-hour change percentage
@@ -55,6 +61,7 @@ A comprehensive web application for employers to plan and visualize Bitcoin vest
 - **Real-time Feedback**: Instant calculation updates as inputs change
 - **Comprehensive Scheme Details**: Full breakdown of vesting schedules and bonuses
 - **Results Display**: Multiple views of calculated data (summary cards, detailed breakdowns)
+- **Interactive Charts**: Visualizations powered by Recharts.
 
 ### 🔧 TECHNICAL IMPLEMENTATION
 
@@ -64,16 +71,20 @@ src/
 ├── app/                 # Next.js App Router pages
 │   ├── layout.tsx      # Root layout with SEO
 │   ├── page.tsx        # Homepage with plan tiles
-│   └── calculator/     # Calculator page
-├── components/         # Reusable React components (ready for expansion)
+│   ├── calculator/     # Future calculator page
+│   └── historical/     # Historical calculator page
+├── components/         # Reusable React components
 ├── hooks/              # Custom React hooks (Bitcoin price fetching)  
 ├── lib/                # Core business logic
 │   ├── bitcoin-api.ts  # CoinGecko API integration
-│   ├── vesting-calculations.ts # Mathematical calculation engine
+│   ├── historical-bitcoin-api.ts # Historical CoinGecko API integration
+│   ├── vesting-calculations.ts # Mathematical calculation engine for the future calculator
+│   ├── historical-calculations.ts # Mathematical calculation engine for the historical calculator
 │   ├── vesting-schemes.ts # Pre-configured plan definitions
 │   └── utils.ts        # Utility functions
 ├── stores/             # Zustand state management
-│   └── calculatorStore.ts # Global calculator state
+│   ├── calculatorStore.ts # Global state for the future calculator
+│   └── historicalCalculatorStore.ts # Global state for the historical calculator
 └── types/              # TypeScript definitions
     └── vesting.ts      # Type safety for all data structures
 ```
@@ -95,27 +106,20 @@ src/
 
 ### **HIGH PRIORITY - Core Functionality**
 
-#### **1. Interactive Charts & Visualizations**
-- **Timeline Charts**: Show vesting progression over time using Recharts
-- **Comparison Views**: Side-by-side scheme comparisons
-- **Growth Projections**: Visual representation of Bitcoin price appreciation
-- **Pie Charts**: Breakdown of employee vs employer contributions
-- **Implementation**: Recharts already installed, components need creation
-
-#### **2. Enhanced Custom Plan Builder**
+#### **1. Enhanced Custom Plan Builder**
 - **Visual Schedule Editor**: Drag-and-drop vesting milestone creation
 - **Bonus Structure Builder**: Custom bonus configuration interface
 - **Plan Validation**: Ensure logical vesting progressions
 - **Template Saving**: Allow users to save custom configurations
 - **Implementation**: Extend existing custom mode with advanced UI components
 
-#### **3. PDF Export & Reporting**
+#### **2. PDF Export & Reporting**
 - **Professional Reports**: Generate PDF summaries of vesting plans
 - **Executive Dashboards**: High-level overviews for decision makers
 - **Employee Communications**: Personalized vesting statements
-- **Implementation**: Add PDF.js or similar library for client-side generation
+- **Implementation**: Add a library like `jspdf` for client-side generation.
 
-#### **4. Multi-Employee Management**
+#### **3. Multi-Employee Management**
 - **Individual Employee Tracking**: Separate calculations per employee
 - **Bulk Import**: CSV upload for employee data
 - **Department Grouping**: Organize employees by teams/departments
@@ -124,26 +128,20 @@ src/
 
 ### **MEDIUM PRIORITY - Enhanced Features**
 
-#### **5. Advanced Financial Modeling**
+#### **4. Advanced Financial Modeling**
 - **Tax Implications**: Calculate tax consequences of vesting events
 - **Alternative Scenarios**: "What if" modeling with different Bitcoin prices
 - **Risk Analysis**: Volatility impact on plan costs
 - **ROI Calculations**: Return on investment for employers
 - **Implementation**: Extended calculation engine with financial models
 
-#### **6. Historical Data & Analytics**
-- **Bitcoin Price History**: Show historical performance data
-- **Plan Performance Tracking**: How plans would have performed historically
-- **Market Correlation**: Compare to traditional vesting schemes
-- **Implementation**: Integrate historical price APIs and analytics
-
-#### **7. Integration Capabilities**
+#### **5. Integration Capabilities**
 - **HR System Integration**: Connect with existing HR platforms
 - **Payroll Integration**: Automate contribution deductions
 - **Wallet Integration**: Connect to actual Bitcoin wallets for transparency
 - **API Development**: Create REST API for third-party integrations
 
-#### **8. Advanced User Features**
+#### **6. Advanced User Features**
 - **User Accounts**: Save plans, settings, and calculations
 - **Team Collaboration**: Share plans with team members
 - **Plan Versioning**: Track changes to vesting schemes over time
@@ -151,13 +149,13 @@ src/
 
 ### **LOW PRIORITY - Nice-to-Have**
 
-#### **9. Mobile Application**
+#### **7. Mobile Application**
 - **React Native App**: Native mobile experience
 - **Push Notifications**: Vesting milestone alerts
 - **Offline Functionality**: Basic calculations without internet
 - **Implementation**: Separate React Native project sharing core logic
 
-#### **10. Advanced Analytics**
+#### **8. Advanced Analytics**
 - **Employee Engagement Tracking**: How plans affect retention
 - **Market Intelligence**: Industry benchmarking
 - **Predictive Modeling**: ML-based performance predictions
@@ -166,11 +164,10 @@ src/
 ## 📊 CURRENT LIMITATIONS & CONSIDERATIONS
 
 ### **Known Limitations**
-1. **Chart Visualization**: Currently placeholder, needs Recharts implementation
-2. **Custom Plan Limitations**: Basic customization only, needs advanced editor
-3. **Single Company Focus**: No multi-tenant support yet
-4. **No Data Persistence**: Calculations don't save between sessions
-5. **Basic Error Handling**: Could be more comprehensive for edge cases
+1. **Custom Plan Limitations**: Basic customization only, needs advanced editor
+2. **Single Company Focus**: No multi-tenant support yet
+3. **No Data Persistence**: Calculations don't save between sessions
+4. **Basic Error Handling**: Could be more comprehensive for edge cases
 
 ### **Technical Debt**
 - **Component Organization**: Some components could be further modularized
@@ -181,16 +178,14 @@ src/
 ## 🛠 DEVELOPMENT ROADMAP
 
 ### **Phase 1: Core Enhancements (Next 2-4 weeks)**
-1. Implement interactive charts with Recharts
-2. Enhanced custom plan builder
-3. PDF export functionality
-4. Basic multi-employee support
+1. Enhanced custom plan builder
+2. PDF export functionality
+3. Basic multi-employee support
 
 ### **Phase 2: Advanced Features (1-2 months)**
-1. Historical data integration
-2. Advanced financial modeling
-3. User accounts and plan saving
-4. Enhanced analytics
+1. Advanced financial modeling
+2. User accounts and plan saving
+3. Enhanced analytics
 
 ### **Phase 3: Enterprise Features (2-3 months)**
 1. HR system integrations
@@ -203,9 +198,8 @@ src/
 ### **Current Setup Commands**
 ```bash
 # Clone and setup
-cd bitcoin__retirement_calc
+cd bitcoin_benefit
 npm install
-cp .env.local.example .env.local
 
 # Development
 npm run dev          # Start development server
@@ -215,18 +209,21 @@ npm run deploy       # Deploy to Netlify
 ```
 
 ### **Key Files to Understand**
-- `src/stores/calculatorStore.ts` - Global state management
-- `src/lib/vesting-calculations.ts` - Core calculation engine
+- `src/stores/calculatorStore.ts` - Global state management for the future calculator
+- `src/stores/historicalCalculatorStore.ts` - Global state management for the historical calculator
+- `src/lib/vesting-calculations.ts` - Core calculation engine for the future calculator
+- `src/lib/historical-calculations.ts` - Core calculation engine for the historical calculator
 - `src/lib/vesting-schemes.ts` - Pre-configured plans
-- `src/app/calculator/page.tsx` - Main calculator interface
+- `src/app/calculator/page.tsx` - Main future calculator interface
+- `src/app/historical/page.tsx` - Main historical calculator interface
 
 ## 📈 SUCCESS METRICS
 
 ### **Current Achievements**
-✅ Fully functional calculator with real-time calculations  
+✅ Fully functional future and historical calculators with real-time calculations  
 ✅ Professional UI/UX with responsive design  
 ✅ Live Bitcoin price integration  
-✅ Four comprehensive vesting schemes  
+✅ Three comprehensive vesting schemes  
 ✅ Custom plan creation capability  
 ✅ Production-ready deployment configuration  
 
@@ -238,304 +235,8 @@ npm run deploy       # Deploy to Netlify
 
 ## 🎯 CONCLUSION
 
-The Bitcoin Vesting Calculator has evolved from concept to fully functional web application with professional-grade features. The current implementation provides a solid foundation for employers to plan Bitcoin-based employee benefits, with real-time calculations, live market data, and flexible customization options.
+The Bitcoin Vesting Calculator has evolved from concept to fully functional web application with professional-grade features. The current implementation provides a solid foundation for employers to plan Bitcoin-based employee benefits, with real-time calculations, live market data, and flexible customization options. The addition of the historical calculator provides a powerful tool for validating vesting strategies against real-world data.
 
 The technical architecture is scalable and well-organized, making future enhancements straightforward to implement. The use of modern technologies (Next.js, TypeScript, Zustand) ensures maintainability and performance.
 
 **The project is ready for production use** and provides immediate value to employers interested in Bitcoin vesting schemes. Future development will focus on enhanced visualizations, advanced features, and enterprise-grade capabilities.
-
-## 🔧 RECENT FIXES & UPDATES
-
-### **August 2025 - Calculator Page Syntax Error Resolution**
-
-#### **Problem Identified**
-- **Critical Syntax Error**: The calculator page (`src/app/calculator/page.tsx`) had JSX syntax errors preventing compilation
-- **Error Details**: Escaped quotes throughout JSX attributes and malformed template literal expressions
-- **Impact**: Users couldn't navigate to the calculator page from the landing page, receiving 500 errors
-- **Error Message**: `Unexpected token 'div'. Expected jsx identifier` at line 72
-
-#### **Root Cause Analysis**
-The file contained multiple syntax issues:
-1. **Escaped Quotes**: All JSX `className` attributes used escaped quotes (`className=\"...\"`) instead of proper quotes (`className="..."`)
-2. **Broken Template Literals**: Conditional className expressions had malformed template literal syntax
-3. **Mixed Quote Usage**: Inconsistent quote escaping throughout the component
-
-#### **Solution Implemented**
-- **Complete File Rewrite**: Systematically fixed all quote-related syntax errors
-- **JSX Attribute Normalization**: Changed all `className=\"...\"` to `className="..."`
-- **Template Literal Fixes**: Corrected conditional styling expressions for scheme selection
-- **Code Consistency**: Ensured uniform quote usage throughout the entire component
-
-#### **Files Modified**
-- `src/app/calculator/page.tsx` - Complete syntax error resolution
-
-#### **Verification**
-- ✅ File now compiles successfully without syntax errors
-- ✅ Calculator page accessible from landing page navigation
-- ✅ All existing functionality preserved (scheme selection, parameter inputs, calculations)
-- ✅ No breaking changes to component logic or state management
-
-#### **Technical Details**
-The fix involved correcting JSX syntax while maintaining all existing features:
-- Four pre-configured vesting schemes with radio button selection
-- Custom plan creation capability
-- Real-time parameter adjustment (employee count, ₿ contribution, growth projections)
-- Live Bitcoin price display with 24h change indicators
-- Comprehensive calculation results and scheme details
-- Responsive design and professional UI components
-
-This resolution ensures the Bitcoin Vesting Calculator is fully operational and accessible to users navigating from the homepage plan tiles.
-
-### **August 2025 - Major Feature Enhancement: Scheme Customization & Employee Match Removal**
-
-#### **New Features Implemented**
-
-**1. Universal Scheme Customization**
-- **Enhanced Customization**: All predefined schemes (The Accelerator, The Steady Builder, The High Roller) now support customization
-- **Customizable Parameters**: 
-  - Initial Grant amount (₿)
-  - Annual Grant amount (₿) - for Steady Builder scheme
-  - Projected Bitcoin Growth Rate (moved from global to per-scheme)
-- **Persistent Customizations**: Each scheme maintains its own customization state independently
-- **Real-time Updates**: All customizations trigger immediate recalculation of results
-
-**2. Employee Match System Removal**
-- **Complete Removal**: Eliminated all employee matching functionality from the entire application
-- **Simplified Structure**: All schemes now use pure employer-funded grant structures
-- **Cleaner UI**: Removed confusing employee match percentage fields and references
-- **Updated Calculations**: Streamlined vesting calculations to focus solely on grants
-
-#### **Technical Implementation Details**
-
-**Calculator Store Enhancements (`src/stores/calculatorStore.ts`)**
-- Added `schemeCustomizations` state to track per-scheme customizations
-- Added `updateSchemeCustomization()` method for updating individual scheme parameters
-- Added `getEffectiveScheme()` method to merge base schemes with customizations
-- Updated calculation logic to use effective schemes (base + customizations)
-- Removed all employee matching logic from state management
-
-**Vesting Calculations Refactor (`src/lib/vesting-calculations.ts`)**
-- **Removed Employee Matching Logic**: Eliminated all employer match calculations
-- **Simplified Vested Amount Calculation**: Now only considers employee contributions + grants
-- **Updated Average Vesting Period**: Uses grant percentages instead of employer contribution percentages
-- **Cleaner Timeline Generation**: Focuses on grants and employee contributions only
-
-**UI/UX Improvements (`src/app/calculator/page.tsx`)**
-- **Universal Customization Panel**: Shows for all schemes, not just custom mode
-- **Dynamic Field Display**: Annual Grant field only appears for Steady Builder scheme
-- **Improved Value Handling**: Proper fallback values and operator precedence
-- **Suspense Boundary**: Added proper Suspense wrapper for useSearchParams to fix build issues
-- **Removed Employee Match References**: Cleaned up all UI text mentioning employee matching
-
-**Data Structure Updates**
-- **Vesting Schemes (`src/lib/vesting-schemes.ts`)**: Set all `employeeMatchPercentage` to 0
-- **Custom Scheme**: Removed employee matching from default custom scheme
-- **Type Definitions (`src/types/vesting.ts`)**: Added deprecation comments for unused fields
-
-#### **User Experience Improvements**
-
-**1. Simplified Workflow**
-- Users can now customize any predefined scheme without switching to "Custom" mode
-- Each scheme maintains its identity while allowing parameter adjustments
-- Clearer focus on employer grants rather than complex matching structures
-
-**2. Enhanced Flexibility**
-- The Accelerator: Customizable initial grant amount
-- The Steady Builder: Customizable initial grant + annual grant amounts
-- The High Roller: Customizable initial grant amount
-- All schemes: Individual projected Bitcoin growth rates
-
-**3. Consistent Experience**
-- All schemes now follow the same pure grant structure
-- Eliminated confusion between grants and employee matching
-- Streamlined terminology throughout the application
-
-#### **Files Modified**
-- `src/stores/calculatorStore.ts` - Enhanced state management with scheme customizations
-- `src/lib/vesting-calculations.ts` - Removed employee matching logic
-- `src/lib/vesting-schemes.ts` - Set employee match percentages to 0
-- `src/app/calculator/page.tsx` - Universal customization UI and employee match removal
-- `src/types/vesting.ts` - Added deprecation comments for unused fields
-
-#### **Build & Compatibility**
-- ✅ All TypeScript compilation errors resolved
-- ✅ Next.js build passes successfully with static generation
-- ✅ Proper Suspense boundary implementation for client-side routing
-- ✅ Backward compatibility maintained for existing data structures
-
-#### **Testing Status**
-- ✅ Calculator page loads without syntax errors
-- ✅ All schemes can be selected and customized
-- ✅ Real-time calculations work with customizations
-- ✅ Build process completes successfully
-- ✅ Static site generation works properly
-
-This major enhancement significantly improves the user experience by providing universal customization capabilities while simplifying the overall system by removing the complex employee matching functionality.
-
----
-
-### **August 2025 - Historical Calculator & Performance Optimization**
-
-#### **Major New Feature: Historical Analysis Calculator**
-
-**Overview**
-A completely new calculator page (`/historical`) that allows employers to analyze how their vesting schemes would have performed using actual Bitcoin price data from 2015 onwards. This feature provides data-driven validation for Bitcoin compensation strategies.
-
-**Key Features**
-- **Historical Price Data**: Fetches real Bitcoin prices from 2015 to present
-- **Cost Basis Methods**: Three calculation methods - Average, High, Low yearly prices
-- **Interactive Visualization**: Recharts-based timeline showing BTC balance and USD value over time
-- **Performance Metrics**: Total return, annualized return, and growth multiples
-- **Annual Breakdown**: Detailed table showing grants, costs, and values by year
-- **Customizable Parameters**: All schemes support customization like the future calculator
-
-**Technical Implementation**
-- **New Store**: `historicalCalculatorStore.ts` manages historical calculator state
-- **API Integration**: `historical-bitcoin-api.ts` fetches yearly price data
-- **Calculation Engine**: `historical-calculations.ts` processes historical scenarios
-- **Cost Basis Logic**: `cost-basis-calculator.ts` handles different pricing methods
-- **New Components**: `HistoricalTimelineChart`, `YearSelector`, enhanced `ErrorBoundary`
-
-#### **Performance Issues Identified**
-
-**Primary Concern: Slow Initial Load**
-- **Symptom**: 2-3 second delay when first opening calculator pages
-- **Root Causes**:
-  1. **Heavy Dependencies**: Recharts library loaded on-demand without code splitting
-  2. **Synchronous Operations**: Multiple API calls blocking initial render
-  3. **Large Data Processing**: 20 years of monthly data points calculated upfront
-  4. **No Progressive Loading**: All chart data rendered immediately
-
-**Recommended Optimizations**
-1. **Code Splitting**:
-   ```typescript
-   const VestingTimelineChart = lazy(() => import('./VestingTimelineChart'));
-   const HistoricalTimelineChart = lazy(() => import('./HistoricalTimelineChart'));
-   ```
-
-2. **Bundle Optimization**:
-   - Import only needed Recharts components
-   - Use tree-shaking for unused code
-   - Implement dynamic imports for calculators
-
-3. **Data Optimization**:
-   - Reduce chart data points (quarterly vs monthly)
-   - Implement virtual scrolling for tables
-   - Add pagination for historical data
-
-4. **API Optimization**:
-   - Cache historical data in localStorage
-   - Implement request deduplication
-   - Use React Query for smart caching
-
-#### **Edge Cases & Calculation Concerns**
-
-**Identified Issues**
-1. **Historical Data Gaps**: Missing price data for certain dates
-2. **Leap Year Calculations**: February 29th not properly handled
-3. **Precision Loss**: JavaScript floating-point issues with Bitcoin amounts
-4. **Concurrent Updates**: Race conditions in state updates
-
-**Proposed Solutions**
-```typescript
-// Handle missing data
-if (!historicalPrices[year]) {
-  // Use interpolation between adjacent years
-  const prevYear = historicalPrices[year - 1];
-  const nextYear = historicalPrices[year + 1];
-  if (prevYear && nextYear) {
-    historicalPrices[year] = interpolatePrice(prevYear, nextYear);
-  }
-}
-
-// Use BigNumber for precision
-import BigNumber from 'bignumber.js';
-const btcAmount = new BigNumber(grant).multipliedBy(price);
-```
-
-#### **Landing Page Enhancements**
-
-**New Sections Added**
-- **Historical Analysis Hero**: Showcases 2020-2025 performance example
-- **Dynamic Pricing**: Real-time Bitcoin price for live examples
-- **Dual Calculator CTAs**: Clear paths to both future and historical calculators
-- **Performance Showcase**: +936% return example from 2020 grant
-
-**Technical Updates**
-- Fetches both current and historical (2020) Bitcoin prices on load
-- Calculates dynamic return percentages
-- Responsive grid layout for calculator options
-
-#### **Advanced Analytics (Prepared but Not Integrated)**
-
-**AdvancedAnalyticsDashboard Component**
-A comprehensive analytics suite ready for integration:
-- **Tax Analysis**: Capital gains calculations and optimization strategies
-- **Risk Analysis**: Portfolio volatility and downside protection metrics
-- **Retention Analysis**: Cost per retained employee and ROI calculations
-
-**Why Not Yet Integrated**
-- Needs user research on which metrics matter most
-- Requires additional configuration options
-- May overwhelm users if shown by default
-
-#### **Architecture Improvements Implemented**
-
-1. **Error Boundaries**: Comprehensive error handling at multiple levels
-2. **Suspense Boundaries**: Proper loading states for async components
-3. **Type Safety**: Enhanced TypeScript definitions for historical data
-4. **State Management**: Separate stores for different calculator modes
-5. **Component Organization**: Cleaner separation of concerns
-
-#### **Remaining Technical Debt**
-
-1. **Component Size**: `VestingTimelineChartRecharts.tsx` is 500+ lines
-2. **Duplicate Logic**: Similar calculations in both calculator engines
-3. **API Efficiency**: Multiple components fetch prices independently
-4. **Mobile Experience**: Charts need better responsive behavior
-5. **Testing Coverage**: No tests for new historical features
-
-#### **Files Modified/Added**
-
-**New Files**
-- `src/app/historical/page.tsx` - Historical calculator page
-- `src/stores/historicalCalculatorStore.ts` - Historical state management
-- `src/lib/historical-bitcoin-api.ts` - Historical price fetching
-- `src/lib/historical-calculations.ts` - Historical calculation logic
-- `src/lib/cost-basis-calculator.ts` - Cost basis methods
-- `src/components/HistoricalTimelineChart.tsx` - Historical chart
-- `src/components/YearSelector.tsx` - Year selection component
-- `src/components/AdvancedAnalyticsDashboard.tsx` - Analytics suite
-- `src/components/TaxImplicationsCard.tsx` - Tax analysis
-- `src/components/RiskAnalysisCard.tsx` - Risk metrics
-- `src/components/RetentionAnalysisCard.tsx` - Retention ROI
-
-**Modified Files**
-- `src/app/page.tsx` - Added historical section and dynamic pricing
-- `src/app/calculator/page.tsx` - Enhanced customization UI
-- `src/components/VestingTimelineChart.tsx` - Now exports Recharts version
-- `src/components/VestingTimelineChartRecharts.tsx` - Enhanced with better mobile support
-
-#### **Next Steps for Performance**
-
-**Immediate (This Week)**
-1. Implement code splitting for chart components
-2. Add loading skeletons for better perceived performance
-3. Cache historical data in localStorage
-4. Optimize bundle with dynamic imports
-
-**Short Term (Next 2 Weeks)**
-1. Reduce chart data points for faster rendering
-2. Implement virtual scrolling for tables
-3. Add request deduplication
-4. Profile and optimize calculation functions
-
-**Medium Term (Next Month)**
-1. Migrate to React Query for smart caching
-2. Implement service worker for offline support
-3. Add WebAssembly for complex calculations
-4. Consider SSG for historical data
-
----
-
-*Last Updated: August 2025*
