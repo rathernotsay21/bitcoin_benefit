@@ -221,7 +221,7 @@ export default function HistoricalTimelineVisualization({
       </div>
 
       {/* Enhanced Performance Summary Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
           <div className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-2 uppercase tracking-wide">Current Value</div>
           <div className="text-3xl font-bold text-orange-900 dark:text-orange-100 mb-1">
@@ -279,7 +279,7 @@ export default function HistoricalTimelineVisualization({
                 return (
                   <div
                     key={yearData.year}
-                    className={`relative flex items-start gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${isSelected
+                    className={`relative flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border-2 cursor-pointer transition-all ${isSelected
                         ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
                         : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md'
                       }`}
@@ -321,7 +321,7 @@ export default function HistoricalTimelineVisualization({
                         )}
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2">
                           <div className="text-gray-600 dark:text-white/80 text-xs">BTC Balance</div>
                           <div className="font-bold text-blue-600 dark:text-blue-400">{formatBTC(yearData.btcBalance)}</div>
@@ -442,7 +442,7 @@ export default function HistoricalTimelineVisualization({
                       📅 Year {selectedYear} Detailed Analysis
                     </h4>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                       {/* Grants This Year */}
                       <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-xl border border-orange-200 dark:border-orange-800 shadow-md">
                         <div className="text-sm font-semibold text-orange-800 dark:text-orange-200 mb-1 flex items-center">

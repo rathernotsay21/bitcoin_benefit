@@ -55,7 +55,7 @@ const TransactionRow = memo(function TransactionRow({
   
   return (
     <tr className="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-      <td className="py-4 px-4">
+      <td className="py-3 px-2 sm:px-4">
         <div className="flex items-center gap-2">
           <span
             className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
@@ -73,7 +73,7 @@ const TransactionRow = memo(function TransactionRow({
           )}
         </div>
       </td>
-      <td className="py-4 px-4 text-gray-900 dark:text-white font-medium">
+      <td className="py-3 px-2 sm:px-4 text-gray-900 dark:text-white font-medium">
         <a
           href={memoizedTxLink}
           target="_blank"
@@ -84,7 +84,7 @@ const TransactionRow = memo(function TransactionRow({
           {memoizedDate}
         </a>
       </td>
-      <td className="py-4 px-4">
+      <td className="py-3 px-2 sm:px-4">
         <span
           className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
             transaction.type === 'Annual Grant'
@@ -95,17 +95,17 @@ const TransactionRow = memo(function TransactionRow({
           {transaction.type}
         </span>
       </td>
-      <td className="py-4 px-4 text-gray-900 dark:text-white font-mono">
+      <td className="py-3 px-2 sm:px-4 text-gray-900 dark:text-white font-mono text-sm">
         {memoizedAmount}
       </td>
-      <td className="py-4 px-4 text-gray-900 dark:text-white font-medium">
+      <td className="py-3 px-2 sm:px-4 text-gray-900 dark:text-white font-medium">
         {memoizedValue || (
           <span className="text-gray-400 dark:text-slate-500 italic">
             N/A
           </span>
         )}
       </td>
-      <td className="py-4 px-4">
+      <td className="py-3 px-2 sm:px-4">
         <ManualAnnotationOverride
           transaction={transaction}
           availableGrants={expectedGrants}
@@ -458,8 +458,8 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
+        <div className="overflow-x-auto w-full">
+          <table className="min-w-full w-full">
             <thead>
               <tr className="border-b border-gray-200 dark:border-slate-700">
                 <SortHeader
@@ -484,7 +484,8 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  Type
+                  <span className="hidden sm:inline">Type</span>
+                  <span className="sm:hidden">T</span>
                 </SortHeader>
                 <SortHeader
                   field="amountBTC"
@@ -500,11 +501,13 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  USD
+                  <span className="hidden sm:inline">USD</span>
+                  <span className="sm:hidden">$</span>
                 </SortHeader>
                 <th className="text-left py-3 px-4">
                   <span className="font-medium text-gray-700 dark:text-slate-300">
-                    Match
+                    <span className="hidden sm:inline">Match</span>
+                    <span className="sm:hidden">M</span>
                   </span>
                 </th>
               </tr>

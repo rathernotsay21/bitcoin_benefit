@@ -447,7 +447,7 @@ export default function OnChainTrackerPage() {
         
         <main 
           id="main-content"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden"
           role="main"
         >
           {/* Header */}
@@ -483,9 +483,9 @@ export default function OnChainTrackerPage() {
           ></div>
 
           {/* Main Content Grid */}
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Sidebar - Form and Status */}
-            <aside className="lg:col-span-1" role="complementary" aria-label="Tracker configuration and status">
+            <aside className="lg:col-span-1 w-full min-w-0" role="complementary" aria-label="Tracker configuration and status">
               <div className="sticky top-8 space-y-6">
                 {/* Input Form */}
                 <section 
@@ -690,7 +690,7 @@ export default function OnChainTrackerPage() {
             </aside>
 
             {/* Right Content - Results and Visualization */}
-            <main className="lg:col-span-2" role="main" aria-label="Analysis results and visualization">
+            <main className="lg:col-span-2 w-full min-w-0 overflow-hidden" role="main" aria-label="Analysis results and visualization">
               {showFeatureOverview && (
                 <section aria-labelledby="features-heading">
                   <h2 id="features-heading" className="sr-only">Application Features</h2>

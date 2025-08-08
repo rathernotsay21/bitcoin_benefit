@@ -131,8 +131,8 @@ export default function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4">
-          <div className="flex items-center space-x-6">
+        <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4 overflow-x-auto">
+          <div className="flex items-center space-x-3 sm:space-x-6 min-w-0 flex-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               const Icon = isActive ? item.activeIcon : item.icon;

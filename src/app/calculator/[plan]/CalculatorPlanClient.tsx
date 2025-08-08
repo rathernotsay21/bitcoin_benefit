@@ -83,12 +83,12 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     <div className="min-h-screen transition-colors duration-300">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden">
 
         {/* Calculator Container */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Panel - Scheme Selection */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 w-full min-w-0">
             <div className="card glass">
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
@@ -188,7 +188,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
           </div>
 
           {/* Right Panel - Results */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
             {/* Bitcoin Price Banner */}
             <div className="card mb-6 bg-gradient-to-r from-bitcoin/10 to-yellow-500/10">
               <div className="flex items-center justify-between">
@@ -217,7 +217,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
             {/* Summary Cards */}
             {displayScheme && (
-              <div className="grid md:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 <div className="card text-center">
                   <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">{formatBTC(displayScheme.initialGrant)}</div>
                   <div className="text-sm text-gray-600 dark:text-slate-300">Initial Grant</div>
@@ -251,7 +251,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             )}
 
             {/* Vesting Timeline Chart */}
-            <div className="card">
+            <div className="card w-full overflow-hidden">
               <ChartErrorBoundary>
                 {results && displayScheme ? (
                   <VestingTimelineChart

@@ -323,14 +323,20 @@ export default function VestingTimelineChartRecharts({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl">
-        <ResponsiveContainer width="100%" height={420}>
+      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+        <ResponsiveContainer 
+          width="100%" 
+          height={isMobile ? 320 : 420} 
+          minHeight={280}
+          maxWidth={isMobile ? '100vw' : undefined}
+        >
           <ComposedChart
             data={yearlyData}
             margin={isMobile
-              ? { top: 25, right: 45, bottom: 25, left: 45 }
+              ? { top: 20, right: 20, bottom: 25, left: 30 }
               : { top: 40, right: 70, bottom: 40, left: 70 }
             }
+            maxBarSize={isMobile ? 20 : undefined}
             onMouseMove={(e: any) => {
               if (e && e.activeLabel !== undefined) {
                 setHoveredYear(e.activeLabel);
@@ -489,7 +495,7 @@ export default function VestingTimelineChartRecharts({
       </div>
 
       {/* Enhanced Key Insights Cards */}
-      <div className="mt-6 grid md:grid-cols-3 gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
           <div className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-2 uppercase tracking-wide">20-Year Projection</div>
           <div className="text-3xl font-bold text-orange-900 dark:text-orange-100 mb-1">
@@ -525,18 +531,18 @@ export default function VestingTimelineChartRecharts({
       </div>
 
       {/* Annual Breakdown Table - keeping the original table but with enhanced styling */}
-      <div className="mt-6">
-        <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Annual Breakdown</h4>
-        <div className="overflow-x-auto rounded-xl shadow-lg">
-          <table className="min-w-full bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700">
+      <div className="mt-6 w-full overflow-hidden">
+      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Annual Breakdown</h4>
+      <div className="overflow-x-auto rounded-xl shadow-lg w-full">
+          <table className="min-w-full w-full bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700">
             <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Year</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Grant Cost</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">BTC Balance</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">BTC Price</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">USD Value</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Vesting Status</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Year</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Grant Cost</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">BTC</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">BTC Price</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">USD Value</th>
+              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
@@ -560,18 +566,18 @@ export default function VestingTimelineChartRecharts({
                     ${year === 10 ? 'bg-green-50/50 dark:bg-green-900/20' : 
                     year === 5 ? 'bg-yellow-50/50 dark:bg-yellow-900/20' : ''}
                   `}>
-                    <td className="px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{year}</td>
-                    <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                    <td className="px-2 sm:px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{year}</td>
+                    <td className="px-2 sm:px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hidden sm:table-cell">
                       {grantCost > 0 ? (
                         <span className="font-semibold text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
                       ) : (
                         <span className="text-gray-400 dark:text-gray-600">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-sm font-medium text-blue-600 dark:text-blue-400">{formatBTC(point.btcBalance)}</td>
-                    <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{formatUSD(point.bitcoinPrice)}</td>
-                    <td className="px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{formatUSD(point.usdValue)}</td>
-                    <td className="px-4 py-3 text-sm">
+                    <td className="px-2 sm:px-4 py-3 text-sm font-medium text-blue-600 dark:text-blue-400">{formatBTC(point.btcBalance)}</td>
+                    <td className="px-2 sm:px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hidden md:table-cell">{formatUSD(point.bitcoinPrice)}</td>
+                    <td className="px-2 sm:px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{formatUSD(point.usdValue)}</td>
+                    <td className="px-2 sm:px-4 py-3 text-sm">
                       <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
                         vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md' :
                         vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :

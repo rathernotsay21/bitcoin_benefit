@@ -79,12 +79,12 @@ function HistoricalCalculatorContent() {
     <div className="min-h-screen transition-colors duration-300">
       <Navigation />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden">
 
         {/* Calculator Container */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Panel - Configuration */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 w-full min-w-0 space-y-6">
             {/* Scheme Selection */}
             <div className="card glass">
               <div className="flex items-center mb-6">
@@ -205,7 +205,7 @@ function HistoricalCalculatorContent() {
           </div>
 
           {/* Right Panel - Results */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
             {/* Loading State */}
             {isLoadingHistoricalData && (
               <div className="card text-center">
@@ -244,7 +244,7 @@ function HistoricalCalculatorContent() {
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
                 {/* Summary Cards */}
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                   <div className="card text-center">
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatBTC(historicalResults.totalBitcoinGranted)}
@@ -282,17 +282,17 @@ function HistoricalCalculatorContent() {
                     Annual Breakdown
                   </h3>
                   
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
+                  <div className="overflow-x-auto w-full">
+                    <table className="min-w-full w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                       <thead className="bg-gray-50 dark:bg-slate-700">
                         <tr>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Grant Cost</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC Balance</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Historical BTC Price</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Historical USD Value</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Current USD Value</th>
-                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Vesting Status</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden sm:table-cell">Grant Cost</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden md:table-cell">BTC Price</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden lg:table-cell">Historical USD</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Current USD</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
@@ -367,25 +367,25 @@ function HistoricalCalculatorContent() {
                                 yearsFromStart === 10 ? 'bg-green-50 dark:bg-green-900/20' : 
                                 yearsFromStart === 5 ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''
                               }>
-                                <td className="px-4 py-2 text-sm font-medium text-gray-900 dark:text-white">{year}</td>
-                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                <td className="px-2 sm:px-4 py-2 text-sm font-medium text-gray-900 dark:text-white">{year}</td>
+                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden sm:table-cell">
                                   {grantCost > 0 ? (
                                     <span className="font-medium text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
                                   ) : (
                                     <span className="text-gray-400 dark:text-white/50">—</span>
                                   )}
                                 </td>
-                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.cumulativeBitcoin)}</td>
-                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.cumulativeBitcoin)}</td>
+                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden md:table-cell">
                                   {historicalBitcoinPrice > 0 ? formatUSD(historicalBitcoinPrice) : '—'}
                                 </td>
-                                <td className="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden lg:table-cell">
                                   {historicalBitcoinPrice > 0 ? formatUSD(historicalUsdValue) : '—'}
                                 </td>
-                                <td className="px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400">
+                                <td className="px-2 sm:px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400">
                                   {formatUSD(point.currentValue)}
                                 </td>
-                                <td className="px-4 py-2 text-sm">
+                                <td className="px-2 sm:px-4 py-2 text-sm">
                                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                     vestingPercent === 100 ? 'bg-green-100 text-green-800' :
                                     vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800' :
