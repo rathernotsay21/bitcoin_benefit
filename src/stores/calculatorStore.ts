@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { CalculationInputs, VestingCalculationResult, VestingScheme } from '@/types/vesting';
 import { VestingCalculator } from '@/lib/vesting-calculations';
-import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 
 interface CalculatorState {
@@ -18,6 +18,10 @@ interface CalculatorState {
   bitcoinChange24h: number;
   isLoadingPrice: boolean;
   
+  // Static data state
+  staticDataLoaded: boolean;
+  staticCalculations: Record<string, VestingCalculationResult>;
+  
   // Scheme customization
   schemeCustomizations: Record<string, Partial<VestingScheme>>;
   
@@ -30,7 +34,14 @@ interface CalculatorState {
   resetCalculator: () => void;
   updateSchemeCustomization: (schemeId: string, customization: Partial<VestingScheme>) => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
+  loadStaticData: () => Promise<void>;
 }
+
+// Static data cache
+let staticDataCache: {
+  bitcoinPrice?: { price: number; change24h: number; timestamp: number };
+  calculations?: Record<string, VestingCalculationResult>;
+} = {};
 
 export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   // Initial state
@@ -43,12 +54,22 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   currentBitcoinPrice: 45000,
   bitcoinChange24h: 0,
   isLoadingPrice: false,
+  staticDataLoaded: false,
+  staticCalculations: {},
   schemeCustomizations: {},
   
   // Actions
   setSelectedScheme: (scheme) => {
     set({ selectedScheme: scheme });
-    // Auto-calculate if we have enough inputs
+    
+    // Check if we have static calculation for this scheme
+    const { staticCalculations, staticDataLoaded } = get();
+    if (staticDataLoaded && staticCalculations[scheme.id]) {
+      // Use static calculation immediately for instant display
+      set({ results: staticCalculations[scheme.id] });
+    }
+    
+    // Auto-calculate with current inputs
     setTimeout(() => {
       get().calculateResults();
     }, 100);
@@ -100,7 +121,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
   fetchBitcoinPrice: async () => {
     set({ isLoadingPrice: true });
     try {
-      const { price, change24h } = await BitcoinAPI.getCurrentPrice();
+      const { price, change24h } = await OptimizedBitcoinAPI.getCurrentPrice();
       set({ 
         currentBitcoinPrice: price, 
         bitcoinChange24h: change24h,
@@ -110,6 +131,61 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
     } catch (error) {
       console.error('Failed to fetch Bitcoin price:', error);
       set({ isLoadingPrice: false });
+    }
+  },
+  
+  loadStaticData: async () => {
+    // Use optimized API to initialize with static data first
+    try {
+      const staticBitcoinData = await OptimizedBitcoinAPI.initializeWithStaticData();
+      set({
+        currentBitcoinPrice: staticBitcoinData.price,
+        bitcoinChange24h: staticBitcoinData.change24h,
+      });
+    } catch (error) {
+      console.warn('Failed to load static Bitcoin data:', error);
+    }
+    
+    // Check cache first
+    if (staticDataCache.bitcoinPrice && staticDataCache.calculations) {
+      const { bitcoinPrice, calculations } = staticDataCache;
+      set({
+        currentBitcoinPrice: bitcoinPrice.price,
+        bitcoinChange24h: bitcoinPrice.change24h,
+        staticCalculations: calculations,
+        staticDataLoaded: true,
+      });
+      
+      // Auto-load default calculation if available
+      const { selectedScheme } = get();
+      if (selectedScheme && calculations[selectedScheme.id]) {
+        set({ results: calculations[selectedScheme.id] });
+      }
+      
+      return;
+    }
+    
+    try {
+      // Load static calculations
+      const calculationsResponse = await fetch('/data/static-calculations.json');
+      if (calculationsResponse.ok) {
+        const calculationsData = await calculationsResponse.json();
+        staticDataCache.calculations = calculationsData.calculations;
+        set({
+          staticCalculations: calculationsData.calculations,
+          staticDataLoaded: true,
+        });
+        
+        // Auto-load default calculation if available
+        const { selectedScheme } = get();
+        if (selectedScheme && calculationsData.calculations[selectedScheme.id]) {
+          set({ results: calculationsData.calculations[selectedScheme.id] });
+        }
+      }
+      
+    } catch (error) {
+      console.warn('Failed to load static data, using defaults:', error);
+      set({ staticDataLoaded: true });
     }
   },
   

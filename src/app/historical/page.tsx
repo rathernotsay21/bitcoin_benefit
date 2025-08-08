@@ -10,6 +10,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
+import { HistoricalSkeleton } from '@/components/loading/Skeletons';
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(6)}`;
@@ -47,13 +48,22 @@ function HistoricalCalculatorContent() {
     fetchHistoricalData,
     fetchCurrentBitcoinPrice,
     getEffectiveScheme,
+    loadStaticData,
   } = useHistoricalCalculatorStore();
 
   // Load initial data
   useEffect(() => {
-    fetchCurrentBitcoinPrice();
-    fetchHistoricalData();
-  }, [fetchCurrentBitcoinPrice, fetchHistoricalData]);
+    const initializeHistorical = async () => {
+      // Load static data first for instant display
+      await loadStaticData();
+      
+      // Then fetch current price and historical data in background
+      fetchCurrentBitcoinPrice();
+      fetchHistoricalData();
+    };
+    
+    initializeHistorical();
+  }, [fetchCurrentBitcoinPrice, fetchHistoricalData, loadStaticData]);
 
   const handleSchemeSelect = (schemeId: string) => {
     const scheme = HISTORICAL_VESTING_SCHEMES.find(s => s.id === schemeId);
@@ -498,7 +508,7 @@ function HistoricalCalculatorContent() {
 export default function HistoricalCalculatorPage() {
   return (
     <ErrorBoundary>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<HistoricalSkeleton />}>
         <HistoricalCalculatorContent />
       </Suspense>
     </ErrorBoundary>

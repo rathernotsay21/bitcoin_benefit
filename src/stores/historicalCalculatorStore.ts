@@ -8,7 +8,7 @@ import {
 } from '@/types/vesting';
 import { HistoricalCalculator } from '@/lib/historical-calculations';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
-import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 
 interface HistoricalCalculatorState {
@@ -23,6 +23,7 @@ interface HistoricalCalculatorState {
   currentBitcoinPrice: number;
   isLoadingHistoricalData: boolean;
   historicalDataError: string | null;
+  staticDataLoaded: boolean;
   
   // Results
   historicalResults: HistoricalCalculationResult | null;
@@ -39,6 +40,7 @@ interface HistoricalCalculatorState {
   calculateHistoricalResults: () => void;
   resetCalculator: () => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
+  loadStaticData: () => Promise<void>;
 }
 
 export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((set, get) => ({
@@ -53,6 +55,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   currentBitcoinPrice: 45000, // Default fallback price
   isLoadingHistoricalData: false,
   historicalDataError: null,
+  staticDataLoaded: false,
   
   // Results state
   historicalResults: null,
@@ -139,7 +142,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   
   fetchCurrentBitcoinPrice: async () => {
     try {
-      const { price } = await BitcoinAPI.getCurrentPrice();
+      const { price } = await OptimizedBitcoinAPI.getCurrentPrice();
       set({ currentBitcoinPrice: price });
       
       // Auto-recalculate with new current price
@@ -243,5 +246,29 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
       ...scheme,
       ...customization
     };
+  },
+  
+  loadStaticData: async () => {
+    try {
+      // Load static historical data
+      const historicalResponse = await fetch('/data/historical-bitcoin.json');
+      if (historicalResponse.ok) {
+        const historicalData = await historicalResponse.json();
+        set({
+          historicalPrices: historicalData,
+          staticDataLoaded: true,
+        });
+      }
+      
+      // Load current Bitcoin price using optimized API
+      const staticBitcoinData = await OptimizedBitcoinAPI.getStaticPrice();
+      set({
+        currentBitcoinPrice: staticBitcoinData.price,
+      });
+      
+    } catch (error) {
+      console.warn('Failed to load static historical data, will fetch from API:', error);
+      set({ staticDataLoaded: true });
+    }
   },
 }));

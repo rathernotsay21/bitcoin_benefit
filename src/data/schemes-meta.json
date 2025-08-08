@@ -1,0 +1,20 @@
+{
+  "schemes": [
+    {
+      "id": "accelerator",
+      "name": "Accelerator",
+      "description": "Front-loaded Bitcoin allocation for immediate impact"
+    },
+    {
+      "id": "steady-builder",
+      "name": "Steady Builder",
+      "description": "Balanced approach with initial grant plus annual additions"
+    },
+    {
+      "id": "slow-burn",
+      "name": "Slow Burn",
+      "description": "Long-term retention focus with yearly grants only"
+    }
+  ],
+  "generatedAt": "2025-08-07T23:54:45.158Z"
+}
