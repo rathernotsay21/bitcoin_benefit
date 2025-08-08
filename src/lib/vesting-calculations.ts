@@ -1,4 +1,4 @@
-import { CalculationInputs, VestingCalculationResult, VestingTimelinePoint } from '@/types/vesting';
+import { CalculationInputs, VestingCalculationResult, VestingTimelinePoint, VestingScheme } from '@/types/vesting';
 import { 
   VestingScheduleCalculator, 
   BitcoinGrowthProjector,
@@ -52,7 +52,7 @@ export class VestingCalculator {
       scheme.initialGrant,
       scheme.annualGrant,
       maxMonths,
-      scheme.id
+      scheme
     );
     
     return {
@@ -73,7 +73,7 @@ export class VestingCalculator {
     initialGrant: number,
     annualGrant: number | undefined,
     maxMonths: number,
-    schemeId?: string
+    scheme: VestingScheme
   ): number {
     let total = initialGrant;
     
@@ -81,7 +81,7 @@ export class VestingCalculator {
     
     // Calculate number of annual grants based on scheme
     let grantMonths = 0;
-    switch (schemeId) {
+    switch (scheme.id) {
       case 'steady-builder':
         grantMonths = Math.min(60, maxMonths); // 5 years max
         break;
@@ -95,7 +95,7 @@ export class VestingCalculator {
     
     // Count annual grants (at 12, 24, 36, etc. month intervals)
     const numberOfGrants = Math.floor(grantMonths / 12);
-    total += annualGrant * numberOfGrants;
+    total += annualGrant * (scheme.maxAnnualGrants || numberOfGrants);
     
     return total;
   }

@@ -84,7 +84,7 @@ export default function HomePage() {
               <span className="text-bitcoin dark:text-bitcoin block mt-2">sound money.</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-              Create an employee retention protocol that works—powered by Bitcoin.
+              Create an employee retention protocol that works.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
@@ -105,10 +105,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
-              Choose Your Vesting Strategy
+              Choose a Strategy
             </h3>
             <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Three approaches with conservative assumptions designed to align incentives and build wealth
+              Three approaches designed to align incentives and build wealth
             </p>
           </div>
 
@@ -328,7 +328,7 @@ export default function HomePage() {
                     Enhanced Retention
                   </h4>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Employees stay longer when they see their Bitcoin balance growing with time and market performance.
+                    Employees stay when they see their balance grow over time.
                   </p>
                 </div>
               </div>
@@ -342,7 +342,7 @@ export default function HomePage() {
                     Financial Education
                   </h4>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Introduce your team to sound money principles and help them build long-term wealth.
+                    Introduce your team to sound money and help them build wealth.
                   </p>
                 </div>
               </div>
@@ -356,7 +356,7 @@ export default function HomePage() {
                     Transparent & Trackable
                   </h4>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Employees can track their vesting balance on-chain, providing complete transparency and trust.
+                    Employees can verify their balance on-line 24/7.
                   </p>
                 </div>
               </div>

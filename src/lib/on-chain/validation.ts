@@ -48,6 +48,21 @@ export const bitcoinAddressSchema = z.string()
   .refine(validateBitcoinAddress, 'Invalid Bitcoin address format');
 
 /**
+ * Validates that a date string is not in the future and not before Bitcoin genesis
+ * @param dateString - Date string to validate
+ * @returns boolean indicating if date is valid and within Bitcoin era
+ */
+function validateDateRange(dateString: string): boolean {
+  const inputDate = new Date(dateString);
+  const today = new Date();
+  today.setHours(23, 59, 59, 999); // End of today
+  
+  const bitcoinGenesis = new Date('2009-01-03'); // Bitcoin genesis block date
+  
+  return inputDate >= bitcoinGenesis && inputDate <= today;
+}
+
+/**
  * Validates that a date string is not in the future
  * @param dateString - Date string to validate
  * @returns boolean indicating if date is valid and not in future
@@ -87,7 +102,7 @@ export const trackerFormSchema = z.object({
   vestingStartDate: z.string()
     .min(1, 'Vesting start date is required')
     .refine(date => !isNaN(Date.parse(date)), 'Invalid date format')
-    .refine(validateNotFutureDate, 'Start date cannot be in the future'),
+    .refine(validateDateRange, 'Start date must be between January 3, 2009 and today'),
   annualGrantBtc: z.number({
     required_error: 'Annual grant amount is required',
     invalid_type_error: 'Annual grant must be a number'

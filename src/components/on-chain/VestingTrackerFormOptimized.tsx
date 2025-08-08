@@ -6,7 +6,7 @@ import { TrackerFormData, FormErrors } from '@/types/on-chain';
 import { validateField } from '@/lib/on-chain/validation';
 
 interface VestingTrackerFormProps {
-  onSubmit?: (data: TrackerFormData) => void;
+  onSubmit?: (data: TrackerFormData) => void | Promise<void>;
   className?: string;
 }
 
@@ -181,7 +181,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
 
     // Call custom onSubmit if provided, otherwise use store action
     if (onSubmit) {
-      onSubmit({ address, vestingStartDate, annualGrantBtc, totalGrants });
+      await onSubmit({ address, vestingStartDate, annualGrantBtc, totalGrants });
     } else {
       await validateAndFetch();
     }
@@ -217,6 +217,11 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
 
   const maxDate = React.useMemo(() => 
     new Date().toISOString().split('T')[0],
+    []
+  );
+
+  const minDate = React.useMemo(() => 
+    '2009-01-03', // Bitcoin genesis block date
     []
   );
 
@@ -286,6 +291,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
             onChange={handleDateChange}
             onBlur={handleDateBlur}
             disabled={isLoading}
+            min={minDate} // Bitcoin genesis block date
             max={maxDate} // Prevent future dates
             className={`input-field ${
               displayErrors.vestingStartDate ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
@@ -312,7 +318,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
               id="date-help"
               className="text-sm text-gray-500 dark:text-white/70"
             >
-              The date your vesting schedule began (cannot be in the future)
+              The date your vesting schedule began (between January 3, 2009 and today)
             </p>
           )}
         </div>
@@ -466,7 +472,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              <span>Tracking Vesting Grants...</span>
+              <span>Analyzing Vesting Grants...</span>
             </span>
           ) : (
             'Track Vesting Grants'

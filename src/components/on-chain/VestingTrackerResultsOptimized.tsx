@@ -44,7 +44,7 @@ const TransactionRow = memo(function TransactionRow({
   // Memoize expensive calculations
   const memoizedGrantYear = useMemo(() => formatGrantYear(transaction.grantYear), [transaction.grantYear, formatGrantYear]);
   const memoizedDate = useMemo(() => formatDate(transaction.date), [transaction.date, formatDate]);
-  const memoizedAmount = useMemo(() => formatBTC(transaction.amountBTC), [transaction.amountBTC]);
+  const memoizedAmount = useMemo(() => transaction.amountBTC.toFixed(3), [transaction.amountBTC]);
   const memoizedValue = useMemo(() => {
     return transaction.valueAtTimeOfTx !== null ? formatUSD(transaction.valueAtTimeOfTx) : null;
   }, [transaction.valueAtTimeOfTx]);
@@ -74,7 +74,15 @@ const TransactionRow = memo(function TransactionRow({
         </div>
       </td>
       <td className="py-4 px-4 text-gray-900 dark:text-white font-medium">
-        {memoizedDate}
+        <a
+          href={memoizedTxLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-bitcoin hover:text-bitcoin-dark transition-colors underline decoration-dotted underline-offset-2"
+          title="View on Mempool.space"
+        >
+          {memoizedDate}
+        </a>
       </td>
       <td className="py-4 px-4">
         <span
@@ -96,17 +104,6 @@ const TransactionRow = memo(function TransactionRow({
             N/A
           </span>
         )}
-      </td>
-      <td className="py-4 px-4">
-        <a
-          href={memoizedTxLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-bitcoin hover:text-bitcoin-dark transition-colors font-mono text-sm underline decoration-dotted underline-offset-2"
-          title="View on Mempool.space"
-        >
-          {memoizedShortTxid}
-        </a>
       </td>
       <td className="py-4 px-4">
         <ManualAnnotationOverride
@@ -293,8 +290,8 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
   const formatDate = useCallback((dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+      month: '2-digit',
+      day: '2-digit'
     });
   }, []);
 
@@ -471,7 +468,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  Grant Year
+                  Year
                 </SortHeader>
                 <SortHeader
                   field="date"
@@ -479,7 +476,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  Date Confirmed
+                  Date
                 </SortHeader>
                 <SortHeader
                   field="type"
@@ -495,7 +492,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  Amount BTC
+                  BTC
                 </SortHeader>
                 <SortHeader
                   field="valueAtTimeOfTx"
@@ -503,16 +500,11 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   sortDirection={sortDirection}
                   onSort={handleSort}
                 >
-                  USD Value
+                  USD
                 </SortHeader>
                 <th className="text-left py-3 px-4">
                   <span className="font-medium text-gray-700 dark:text-slate-300">
-                    Transaction ID
-                  </span>
-                </th>
-                <th className="text-left py-3 px-4">
-                  <span className="font-medium text-gray-700 dark:text-slate-300">
-                    Manual Override
+                    Match
                   </span>
                 </th>
               </tr>

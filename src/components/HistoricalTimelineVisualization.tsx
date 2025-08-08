@@ -8,14 +8,23 @@ interface HistoricalTimelineVisualizationProps {
   results: HistoricalCalculationResult;
   startingYear: number;
   currentBitcoinPrice: number;
+  historicalPrices: Record<number, any>;
+  costBasisMethod: 'high' | 'low' | 'average';
 }
 
 function formatBTC(amount: number): string {
-  // Format with 4 decimal places for better readability
+  // Format with Bitcoin symbol for cards and details
   if (amount === 0) return '₿0';
   if (amount >= 1) return `₿${amount.toFixed(2)}`;
   if (amount >= 0.1) return `₿${amount.toFixed(3)}`;
   return `₿${amount.toFixed(4)}`;
+}
+
+function formatBTCCompact(amount: number): string {
+  // Compact format with 3 decimal places and no symbol for timeline
+  if (amount === 0) return '0';
+  if (amount >= 1) return amount.toFixed(2);
+  return amount.toFixed(3);
 }
 
 function formatUSD(amount: number): string {
@@ -92,7 +101,9 @@ const CustomDot = ({ cx, cy, payload, dataKey }: CustomDotProps) => {
 export default function HistoricalTimelineVisualization({
   results,
   startingYear,
-  currentBitcoinPrice
+  currentBitcoinPrice,
+  historicalPrices,
+  costBasisMethod
 }: HistoricalTimelineVisualizationProps) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -112,17 +123,24 @@ export default function HistoricalTimelineVisualization({
   const currentYear = new Date().getFullYear();
   const totalYears = currentYear - startingYear;
 
-  // Calculate grant costs by year using actual historical prices
+  // Calculate grant costs by year using actual historical prices from the store
   const yearlyGrantCosts = new Map<number, number>();
   for (const grant of results.grantBreakdown) {
-    const yearTimelinePoints = results.timeline.filter(p => p.year === grant.year);
-    if (yearTimelinePoints.length > 0) {
-      const timelinePoint = yearTimelinePoints[0];
-      // Fix: Ensure we don't divide by zero and use proper historical price calculation
-      const historicalPrice = timelinePoint.cumulativeBitcoin > 0
-        ? timelinePoint.cumulativeCostBasis / timelinePoint.cumulativeBitcoin
-        : currentBitcoinPrice;
-      const grantCost = grant.amount * historicalPrice;
+    const yearPrices = historicalPrices[grant.year];
+    if (yearPrices) {
+      let grantPrice = 0;
+      switch (costBasisMethod) {
+        case 'high':
+          grantPrice = yearPrices.high;
+          break;
+        case 'low':
+          grantPrice = yearPrices.low;
+          break;
+        case 'average':
+          grantPrice = yearPrices.average;
+          break;
+      }
+      const grantCost = grant.amount * grantPrice;
       yearlyGrantCosts.set(grant.year, (yearlyGrantCosts.get(grant.year) || 0) + grantCost);
     }
   }
@@ -137,6 +155,25 @@ export default function HistoricalTimelineVisualization({
     const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
 
     const grantCost = yearlyGrantCosts.get(year) || 0;
+    
+    // Calculate historical cumulative value using prices from that year
+    let historicalCumulativeValue = 0;
+    if (lastPoint && historicalPrices[year]) {
+      let yearPrice = 0;
+      const yearPrices = historicalPrices[year];
+      switch (costBasisMethod) {
+        case 'high':
+          yearPrice = yearPrices.high;
+          break;
+        case 'low':
+          yearPrice = yearPrices.low;
+          break;
+        case 'average':
+          yearPrice = yearPrices.average;
+          break;
+      }
+      historicalCumulativeValue = lastPoint.cumulativeBitcoin * yearPrice;
+    }
 
     yearlyData.push({
       year,
@@ -144,7 +181,8 @@ export default function HistoricalTimelineVisualization({
       grants,
       hasGrants: grants.length > 0,
       btcBalance: lastPoint?.cumulativeBitcoin || 0,
-      usdValue: lastPoint?.currentValue || 0,
+      usdValue: lastPoint?.currentValue || 0, // Current value (for detailed view)
+      historicalValue: historicalCumulativeValue, // Historical value at that year's prices
       costBasis: lastPoint?.cumulativeCostBasis || 0,
       grantCost,
       grantAmount: grants.reduce((sum, g) => sum + g.amount, 0),
@@ -195,7 +233,7 @@ export default function HistoricalTimelineVisualization({
         </div>
 
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
-          <div className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 uppercase tracking-wide">Total Cost Basis</div>
+          <div className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 uppercase tracking-wide">Cost Basis</div>
           <div className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-1">
             {formatUSDCompact(results.totalCostBasis)}
           </div>
@@ -205,7 +243,7 @@ export default function HistoricalTimelineVisualization({
         </div>
 
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
-          <div className="text-sm font-semibold text-green-800 dark:text-green-300 mb-2 uppercase tracking-wide">Total Return</div>
+          <div className="text-sm font-semibold text-green-800 dark:text-green-300 mb-2 uppercase tracking-wide">Return</div>
           <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-1">
             {formatUSDCompact(Math.max(0, results.totalReturn))}
           </div>
@@ -215,7 +253,7 @@ export default function HistoricalTimelineVisualization({
         </div>
 
         <div className="bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 border border-purple-200 dark:border-purple-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
-          <div className="text-sm font-semibold text-purple-800 dark:text-purple-300 mb-2 uppercase tracking-wide">Annualized Return</div>
+          <div className="text-sm font-semibold text-purple-800 dark:text-purple-300 mb-2 uppercase tracking-wide">Annualized</div>
           <div className="text-3xl font-bold text-purple-900 dark:text-purple-100 mb-1">
             {formatPercent(results.annualizedReturn)}
           </div>
@@ -241,8 +279,8 @@ export default function HistoricalTimelineVisualization({
                 return (
                   <div
                     key={yearData.year}
-                    className={`relative flex items-start gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all transform hover:scale-102 ${isSelected
-                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg scale-105'
+                    className={`relative flex items-start gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${isSelected
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
                         : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md'
                       }`}
                     onClick={() => setSelectedYear(isSelected ? null : yearData.year)}
@@ -289,8 +327,12 @@ export default function HistoricalTimelineVisualization({
                           <div className="font-bold text-blue-600 dark:text-blue-400">{formatBTC(yearData.btcBalance)}</div>
                         </div>
                         <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
-                          <div className="text-gray-600 dark:text-white/80 text-xs">USD Value</div>
-                          <div className="font-bold text-green-600 dark:text-green-400">{formatUSDCompact(yearData.usdValue)}</div>
+                          <div className="text-gray-600 dark:text-white/80 text-xs">
+                            {yearData.historicalValue > 0 ? 'Historical Value' : 'Current Value'}
+                          </div>
+                          <div className="font-bold text-green-600 dark:text-green-400">
+                            {formatUSDCompact(yearData.historicalValue > 0 ? yearData.historicalValue : yearData.usdValue)}
+                          </div>
                         </div>
                         {yearData.grantCost > 0 && (
                           <div className="col-span-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2">
@@ -320,14 +362,14 @@ export default function HistoricalTimelineVisualization({
               <div className="absolute top-28 left-8 right-8 h-1 bg-gradient-to-r from-gray-300 via-bitcoin to-gray-300 rounded-full"></div>
 
               {/* Year Markers */}
-              <div className="flex justify-between items-start relative">
+              <div className="flex justify-between items-start relative overflow-x-auto min-w-full">
                 {yearlyData.map((yearData, index) => {
                   const isSelected = selectedYear === yearData.year;
 
                   return (
                     <div
                       key={yearData.year}
-                      className="flex flex-col items-center cursor-pointer transition-all hover:scale-110 min-w-0 flex-1 group"
+                      className="flex flex-col items-center cursor-pointer transition-all min-w-0 flex-1 group"
                       onClick={() => setSelectedYear(isSelected ? null : yearData.year)}
                     >
                       {/* Year Label */}
@@ -356,7 +398,7 @@ export default function HistoricalTimelineVisualization({
                                 yearData.hasGrants
                                   ? 'bg-gradient-to-r from-orange-400 to-red-600 border-orange-700 shadow-md' :
                                   'bg-gradient-to-r from-gray-300 to-gray-400 border-gray-500'
-                          } ${isSelected ? 'ring-4 ring-bitcoin/30 scale-125' : ''}`}>
+                          } ${isSelected ? 'ring-4 ring-bitcoin/30' : ''}`}>
                           {yearData.hasGrants && (
                             <SatoshiIcon className="w-5 h-5 text-white" />
                           )}
@@ -371,13 +413,13 @@ export default function HistoricalTimelineVisualization({
                       {/* Year Info */}
                       <div className="mt-8 text-center space-y-2">
                         <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                          {formatBTC(yearData.btcBalance)}
+                          {formatBTCCompact(yearData.btcBalance)}
                         </div>
                         <div className="text-sm font-medium text-orange-600 dark:text-orange-400 h-5">
-                          {yearData.grantCost > 0 ? `Cost: ${formatUSDCompact(yearData.grantCost)}` : ''}
+                          {yearData.grantCost > 0 ? formatUSDCompact(yearData.grantCost) : ''}
                         </div>
                         <div className="text-sm font-bold text-green-600 dark:text-green-400">
-                          {formatUSDCompact(yearData.usdValue)}
+                          {formatUSDCompact(yearData.historicalValue > 0 ? yearData.historicalValue : yearData.usdValue)}
                         </div>
                       </div>
                     </div>

@@ -507,6 +507,7 @@ export async function annotateTransactionsOptimized(
 
 /**
  * Performance-optimized manual annotations with efficient state updates
+ * Enforces constraint that each grant year can only have one transaction
  */
 export function applyManualAnnotationsOptimized(
   annotatedTransactions: AnnotatedTransaction[],
@@ -521,13 +522,38 @@ export function applyManualAnnotationsOptimized(
     return { annotatedTransactions, expectedGrants };
   }
   
+  // Track which grant years are already assigned for constraint enforcement
+  const usedGrantYears = new Set<number>();
+  
+  // Create set of valid grant years for O(1) validation
+  const validGrantYears = new Set(expectedGrants.map(grant => grant.year));
+  
   // Use Map for O(1) lookups instead of array.find for better performance
   const annotationsMap = new Map(manualAnnotations);
   
-  // Update transactions efficiently
+  // Update transactions efficiently with constraint validation
   const updatedTransactions = annotatedTransactions.map(tx => {
     if (annotationsMap.has(tx.txid)) {
       const newGrantYear = annotationsMap.get(tx.txid);
+      
+      // Validate the manual annotation
+      if (newGrantYear !== null && newGrantYear !== undefined) {
+        // Check if grant year is valid (exists in expected grants)
+        if (!validGrantYears.has(newGrantYear)) {
+          console.warn(`Invalid grant year ${newGrantYear} for transaction ${tx.txid}. Ignoring manual annotation.`);
+          return tx; // Keep original annotation
+        }
+        
+        // Check if grant year is already used
+        if (usedGrantYears.has(newGrantYear)) {
+          console.warn(`Grant year ${newGrantYear} already assigned to another transaction. Ignoring duplicate assignment for ${tx.txid}.`);
+          return tx; // Keep original annotation
+        }
+        
+        // Valid assignment - mark grant year as used
+        usedGrantYears.add(newGrantYear);
+      }
+      
       return {
         ...tx,
         grantYear: newGrantYear ?? null,
@@ -535,6 +561,22 @@ export function applyManualAnnotationsOptimized(
         isManuallyAnnotated: true,
       };
     }
+    
+    // For non-manually annotated transactions, check if their grant year is still available
+    if (tx.grantYear !== null && !tx.isManuallyAnnotated) {
+      if (usedGrantYears.has(tx.grantYear)) {
+        // This grant year has been manually assigned to another transaction
+        // Demote this transaction to "Other Transaction"
+        return {
+          ...tx,
+          grantYear: null,
+          type: 'Other Transaction' as const,
+        };
+      }
+      // Grant year is still available, mark it as used
+      usedGrantYears.add(tx.grantYear);
+    }
+    
     return tx;
   });
   

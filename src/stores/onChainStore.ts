@@ -89,7 +89,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   address: '',
   vestingStartDate: '',
   annualGrantBtc: 0,
-  totalGrants: 10,
+  totalGrants: 5, // Default to reasonable value, will be overridden by form
   formErrors: {},
   rawTransactions: [],
   annotatedTransactions: [],
@@ -113,7 +113,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       vestingStartDate: data.vestingStartDate !== undefined ? data.vestingStartDate : state.vestingStartDate,
       annualGrantBtc: data.annualGrantBtc !== undefined ? data.annualGrantBtc : state.annualGrantBtc,
       totalGrants: data.totalGrants !== undefined ? data.totalGrants : state.totalGrants,
-      // Clear errors for updated fields
+      // Clear errors and last error for updated fields to ensure fresh analysis
       formErrors: {
         ...state.formErrors,
         ...(data.address !== undefined && { address: undefined }),
@@ -121,7 +121,11 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
         ...(data.annualGrantBtc !== undefined && { annualGrantBtc: undefined }),
         ...(data.totalGrants !== undefined && { totalGrants: undefined }),
         general: undefined
-      }
+      },
+      // Clear previous errors when form data changes to ensure next analysis is fresh
+      error: null,
+      lastError: null,
+      partialDataAvailable: false
     }));
   },
   
@@ -146,7 +150,13 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       MemoryOptimizer.optimizeMemory();
     }
     
-    // Reset state
+    // Clear performance caches to ensure fresh start
+    clearAnnotationCache();
+    
+    // COMPLETELY reset all analysis state to ensure fresh start
+    const currentRetryCount = retryCount;
+    const isRetry = !!get().lastError; // If there was a previous error, this is a retry
+    
     set({
       isLoading: true,
       error: null,
@@ -159,7 +169,9 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       manualAnnotations: new Map(),
       partialDataAvailable: false,
       lastError: null,
-      retryCount: retryCount + 1
+      retryCount: isRetry ? currentRetryCount + 1 : 0, // Increment for retries, reset for fresh analysis
+      performanceMetrics: null,
+      lastProcessingTimeMs: 0
     });
     
     try {
@@ -418,7 +430,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       address: '',
       vestingStartDate: '',
       annualGrantBtc: 0,
-      totalGrants: 10,
+      totalGrants: 5, // Reset to default value
       formErrors: {},
       rawTransactions: [],
       annotatedTransactions: [],
@@ -437,9 +449,8 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   retryOperation: async () => {
-    const { validateAndFetch, clearError } = get();
-    clearError();
-    await validateAndFetch();
+    // validateAndFetch will handle the retry logic automatically
+    await get().validateAndFetch();
   },
   
   continueWithPartialData: () => {

@@ -313,6 +313,7 @@ export default function OnChainTrackerPage() {
     address,
     vestingStartDate,
     annualGrantBtc,
+    totalGrants,
     annotatedTransactions,
     expectedGrants,
     manualAnnotations,
@@ -362,10 +363,11 @@ export default function OnChainTrackerPage() {
   // Announce status changes to screen readers
   useEffect(() => {
     if (currentStep === 'complete' && annotatedTransactions.length > 0) {
-      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${annotatedTransactions.filter(t => t.type === 'Annual Grant').length} vesting grants matched.`;
+      const matchedGrants = Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5);
+      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${matchedGrants} vesting grants matched.`;
       announceToScreenReader(announcement);
     }
-  }, [currentStep, annotatedTransactions]);
+  }, [currentStep, annotatedTransactions, totalGrants]);
 
   // Announce errors to screen readers
   useEffect(() => {
@@ -385,10 +387,15 @@ export default function OnChainTrackerPage() {
     setTimeout(() => document.body.removeChild(liveRegion), 1000);
   };
 
-  const handleFormSubmit = (formData: { address: string; vestingStartDate: string; annualGrantBtc: number; totalGrants: number }) => {
+  const handleFormSubmit = async (formData: { address: string; vestingStartDate: string; annualGrantBtc: number; totalGrants: number }) => {
+    // Update form data immediately
     setFormData(formData);
-    validateAndFetch();
-    announceToScreenReader('Starting transaction analysis');
+    
+    // Announce to screen reader
+    announceToScreenReader('Starting new transaction analysis');
+    
+    // Start fresh analysis immediately (validateAndFetch will clear all previous state)
+    await validateAndFetch();
   };
 
   const handleAnnotationUpdate = (txid: string, grantYear: number | null) => {
@@ -538,9 +545,9 @@ export default function OnChainTrackerPage() {
                         </span>
                         <span 
                           className="text-lg font-bold text-green-800 dark:text-green-300"
-                          aria-label={`${annotatedTransactions.filter(t => t.type === 'Annual Grant').length} vesting grants matched`}
+                          aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)} vesting grants matched`}
                         >
-                          {annotatedTransactions.filter(t => t.type === 'Annual Grant').length}
+                          {Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)}
                         </span>
                       </div>
 
@@ -691,6 +698,34 @@ export default function OnChainTrackerPage() {
                 </section>
               )}
 
+              {/* Timeline Visualization with Enhanced Error Boundaries */}
+              {hasResults && !isLoading && expectedGrants.length > 0 && (
+                <section 
+                  className="card mb-8"
+                  aria-labelledby="timeline-heading"
+                >
+                  <div className="flex items-center mb-6">
+                    <ChartBarIcon className="w-6 h-6 text-bitcoin mr-2" aria-hidden="true" />
+                    <h3 id="timeline-heading" className="text-xl font-bold text-gray-900 dark:text-white">
+                      Vesting Timeline Analysis
+                    </h3>
+                  </div>
+                  
+                  <TimelineErrorBoundary fallbackMessage="Timeline visualization encountered an error. The data table below still shows your complete transaction history.">
+                    <PriceFetchErrorBoundary 
+                      onRetry={handleRetryWithErrorHandling}
+                      allowPartialData={true}
+                    >
+                      <OnChainTimelineVisualizer
+                        expectedGrants={expectedGrants}
+                        actualTransactions={annotatedTransactions}
+                        vestingStartDate={vestingStartDate}
+                      />
+                    </PriceFetchErrorBoundary>
+                  </TimelineErrorBoundary>
+                </section>
+              )}
+
               {/* Results Table with Error Boundary */}
               {(hasResults || isLoading) && (
                 <section 
@@ -711,34 +746,6 @@ export default function OnChainTrackerPage() {
                       onContinueWithPartialData={handleContinueWithPartialData}
                     />
                   </TransactionFetchErrorBoundary>
-                </section>
-              )}
-
-              {/* Timeline Visualization with Enhanced Error Boundaries */}
-              {hasResults && !isLoading && expectedGrants.length > 0 && (
-                <section 
-                  className="card"
-                  aria-labelledby="timeline-heading"
-                >
-                  <div className="flex items-center mb-6">
-                    <ChartBarIcon className="w-6 h-6 text-bitcoin mr-2" aria-hidden="true" />
-                    <h3 id="timeline-heading" className="text-xl font-bold text-gray-900 dark:text-white">
-                      Vesting Timeline Analysis
-                    </h3>
-                  </div>
-                  
-                  <TimelineErrorBoundary fallbackMessage="Timeline visualization encountered an error. The data table above still shows your complete transaction history.">
-                    <PriceFetchErrorBoundary 
-                      onRetry={handleRetryWithErrorHandling}
-                      allowPartialData={true}
-                    >
-                      <OnChainTimelineVisualizer
-                        expectedGrants={expectedGrants}
-                        actualTransactions={annotatedTransactions}
-                        vestingStartDate={vestingStartDate}
-                      />
-                    </PriceFetchErrorBoundary>
-                  </TimelineErrorBoundary>
                 </section>
               )}
             </main>

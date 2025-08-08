@@ -49,6 +49,7 @@
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.0",
+    "bitcoin-address-validation": "^3.0.0",
     "date-fns": "^3.6.0",
     "next": "^14.2.31",
     "numeral": "^2.0.6",

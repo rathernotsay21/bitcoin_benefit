@@ -93,7 +93,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Customize Your Strategy
+                  Pick a Strategy
                 </h2>
               </div>
 

@@ -8,6 +8,7 @@ export interface VestingScheme {
   annualGrant?: number; // in BTC - additional grant each year
   vestingSchedule: VestingMilestone[];
   bonuses?: VestingBonus[];
+  maxAnnualGrants?: number;
 }
 
 export interface VestingMilestone {

@@ -14,8 +14,13 @@ export interface RiskScenario {
 }
 
 export class RiskAnalysisEngine {
-  private historicalVolatility = 0.70; // 70% annual volatility (historical Bitcoin)
-  private riskFreeRate = 0.045; // 4.5% risk-free rate
+  private historicalVolatility: number;
+  private riskFreeRate: number;
+
+  constructor(options: { historicalVolatility?: number; riskFreeRate?: number } = {}) {
+    this.historicalVolatility = options.historicalVolatility || 0.70; // Default to 70% annual volatility
+    this.riskFreeRate = options.riskFreeRate || 0.045; // Default to 4.5% risk-free rate
+  }
   
   /**
    * Calculate Value at Risk (VaR) using parametric method

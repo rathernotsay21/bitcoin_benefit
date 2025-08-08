@@ -113,7 +113,7 @@ function HistoricalCalculatorContent() {
                         checked={selectedScheme?.id === scheme.id}
                         onChange={() => handleSchemeSelect(scheme.id)}
                       />
-                      <label className="ml-3 font-semibold text-gray-900 dark:text-slate-100">{scheme.name}</label>
+                      <label className="ml-3 font-bold text-lg text-gray-900 dark:text-slate-100">{scheme.name}</label>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-slate-300 ml-6">
                       {scheme.description}
@@ -271,6 +271,8 @@ function HistoricalCalculatorContent() {
                     results={historicalResults}
                     startingYear={startingYear}
                     currentBitcoinPrice={currentBitcoinPrice}
+                    historicalPrices={historicalPrices}
+                    costBasisMethod={costBasisMethod}
                   />
                 </div>
 

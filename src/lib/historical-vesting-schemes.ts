@@ -5,7 +5,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Bitcoin Pioneer',
-    description: 'Historical result of lump sum funding.',
+    description: 'Immediate grants for companies ready to lead in digital asset compensation.',
     initialGrant: 0.1, // Increased from 0.02 for historical analysis
     employeeMatchPercentage: 0,
     vestingSchedule: [
@@ -35,10 +35,11 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'steady-builder',
     name: 'Sat Stacker',
-    description: 'Historical result of five year funding.',
+    description: 'Minimize market timing risk with annual grants during the first five years.',
     initialGrant: 0.05, // Increased from 0.015 for historical analysis
     employeeMatchPercentage: 0,
     annualGrant: 0.01, // Increased from 0.001 for historical analysis
+    maxAnnualGrants: 5, // Annual grants for the first 5 years
     vestingSchedule: [
       {
         months: 0,
@@ -66,10 +67,11 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'slow-burn',
     name: 'Wealth Builder',
-    description: 'Historical result of yearly funding',
+    description: 'Most conservative approach to spread costs across entire vesting period.',
     initialGrant: 0.0, // Remains 0 as specified
     employeeMatchPercentage: 0,
     annualGrant: 0.02, // Increased from 0.002 for historical analysis
+    maxAnnualGrants: 10,
     vestingSchedule: [
       {
         months: 0,

@@ -117,8 +117,8 @@ export default function VestingTrackerResults({
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+      month: '2-digit',
+      day: '2-digit'
     });
   };
 
@@ -317,14 +317,22 @@ export default function VestingTrackerResults({
               <div>
                 <dt className="font-medium text-gray-500 dark:text-slate-400 mb-1">Date</dt>
                 <dd className="text-gray-900 dark:text-white font-medium">
-                  {formatDate(transaction.date)}
+                  <a
+                    href={getTransactionLink(transaction.txid)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-bitcoin hover:text-bitcoin-dark transition-colors underline decoration-dotted underline-offset-2 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                    aria-label={`View transaction on Mempool.space (opens in new tab)`}
+                  >
+                    {formatDate(transaction.date)}
+                  </a>
                 </dd>
               </div>
               
               <div>
                 <dt className="font-medium text-gray-500 dark:text-slate-400 mb-1">Amount</dt>
                 <dd className="text-gray-900 dark:text-white font-mono font-bold">
-                  {formatBTC(transaction.amountBTC)}
+                  {transaction.amountBTC.toFixed(3)}
                 </dd>
               </div>
               
@@ -342,27 +350,14 @@ export default function VestingTrackerResults({
                 </dd>
               </div>
               
-              <div>
-                <dt className="font-medium text-gray-500 dark:text-slate-400 mb-1">Transaction</dt>
-                <dd>
-                  <a
-                    href={getTransactionLink(transaction.txid)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-bitcoin hover:text-bitcoin-dark transition-colors font-mono text-xs underline decoration-dotted underline-offset-2 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
-                    aria-label={`View transaction ${transaction.txid} on Mempool.space (opens in new tab)`}
-                  >
-                    {transaction.txid.slice(0, 8)}...{transaction.txid.slice(-6)}
-                  </a>
-                </dd>
-              </div>
+
             </div>
 
             {/* Manual override */}
             <div className="pt-2 border-t border-gray-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-gray-500 dark:text-slate-400">
-                  Manual Override
+                  Match
                 </span>
                 <ManualAnnotationOverride
                   transaction={transaction}
@@ -408,7 +403,7 @@ export default function VestingTrackerResults({
                 className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Grant Year ${sortField === 'grantYear' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
-                Grant Year
+                Year
                 <SortIcon field="grantYear" />
               </button>
             </th>
@@ -422,7 +417,7 @@ export default function VestingTrackerResults({
                 className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Date ${sortField === 'date' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
-                Date Confirmed
+                Date
                 <SortIcon field="date" />
               </button>
             </th>
@@ -450,7 +445,7 @@ export default function VestingTrackerResults({
                 className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Bitcoin Amount ${sortField === 'amountBTC' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
-                Amount BTC
+                BTC
                 <SortIcon field="amountBTC" />
               </button>
             </th>
@@ -464,7 +459,7 @@ export default function VestingTrackerResults({
                 className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by USD Value ${sortField === 'valueAtTimeOfTx' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
-                USD Value
+                USD
                 <SortIcon field="valueAtTimeOfTx" />
               </button>
             </th>
@@ -474,16 +469,7 @@ export default function VestingTrackerResults({
               scope="col"
             >
               <span className="font-medium text-gray-700 dark:text-slate-300">
-                Transaction ID
-              </span>
-            </th>
-            
-            <th 
-              className="text-left py-3 px-4"
-              scope="col"
-            >
-              <span className="font-medium text-gray-700 dark:text-slate-300">
-                Manual Override
+                Match
               </span>
             </th>
           </tr>
@@ -516,7 +502,15 @@ export default function VestingTrackerResults({
               </td>
               
               <td className="py-4 px-4 text-gray-900 dark:text-white font-medium" role="gridcell">
-                {formatDate(transaction.date)}
+                <a
+                  href={getTransactionLink(transaction.txid)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-bitcoin hover:text-bitcoin-dark transition-colors underline decoration-dotted underline-offset-2 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                  aria-label={`View transaction on Mempool.space (opens in new tab)`}
+                >
+                  {formatDate(transaction.date)}
+                </a>
               </td>
               
               <td className="py-4 px-4" role="gridcell">
@@ -529,7 +523,7 @@ export default function VestingTrackerResults({
               </td>
               
               <td className="py-4 px-4 text-gray-900 dark:text-white font-mono font-medium" role="gridcell">
-                {formatBTC(transaction.amountBTC)}
+                {transaction.amountBTC.toFixed(3)}
               </td>
               
               <td className="py-4 px-4 text-gray-900 dark:text-white font-medium" role="gridcell">
@@ -541,18 +535,6 @@ export default function VestingTrackerResults({
                     </span>
                   )
                 }
-              </td>
-              
-              <td className="py-4 px-4" role="gridcell">
-                <a
-                  href={getTransactionLink(transaction.txid)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-bitcoin hover:text-bitcoin-dark transition-colors font-mono text-sm underline decoration-dotted underline-offset-2 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
-                  aria-label={`View transaction ${transaction.txid} on Mempool.space (opens in new tab)`}
-                >
-                  {transaction.txid.slice(0, 8)}...{transaction.txid.slice(-6)}
-                </a>
               </td>
               
               <td className="py-4 px-4" role="gridcell">

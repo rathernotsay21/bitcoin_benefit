@@ -4,11 +4,11 @@ import { RawTransaction, AnnotatedTransaction, ExpectedGrant, AnnotationConfig }
  * Default configuration for the annotation algorithm
  */
 export const DEFAULT_ANNOTATION_CONFIG: AnnotationConfig = {
-  dateWeight: 0.4,
-  amountWeight: 0.6,
-  matchThreshold: 0.75,
-  maxDateToleranceDays: 90,
-  maxAmountTolerancePercent: 20,
+  dateWeight: 0.3,
+  amountWeight: 0.7,
+  matchThreshold: 0.6,
+  maxDateToleranceDays: 180,
+  maxAmountTolerancePercent: 25,
 };
 
 /**
@@ -17,12 +17,15 @@ export const DEFAULT_ANNOTATION_CONFIG: AnnotationConfig = {
 export function generateExpectedGrants(
   vestingStartDate: string,
   annualGrantBtc: number,
-  totalGrants: number = 10
+  totalGrants: number
 ): ExpectedGrant[] {
+  // Ensure totalGrants is a valid positive number
+  const validTotalGrants = Math.max(1, Math.min(20, totalGrants || 5));
+  
   const startDate = new Date(vestingStartDate);
   const grants: ExpectedGrant[] = [];
 
-  for (let year = 1; year <= totalGrants; year++) {
+  for (let year = 1; year <= validTotalGrants; year++) {
     const expectedDate = new Date(startDate);
     expectedDate.setFullYear(startDate.getFullYear() + year - 1);
 
@@ -190,7 +193,7 @@ export function annotateTransactions(
   userAddress: string,
   vestingStartDate: string,
   annualGrantBtc: number,
-  totalGrants: number = 10,
+  totalGrants: number,
   config: AnnotationConfig = DEFAULT_ANNOTATION_CONFIG
 ): {
   annotatedTransactions: AnnotatedTransaction[];
@@ -203,8 +206,11 @@ export function annotateTransactions(
     matchedGrants: number;
   };
 } {
+  // Validate totalGrants parameter
+  const validTotalGrants = Math.max(1, Math.min(20, totalGrants || 5));
+  
   // Generate expected grants
-  const expectedGrants = generateExpectedGrants(vestingStartDate, annualGrantBtc, totalGrants);
+  const expectedGrants = generateExpectedGrants(vestingStartDate, annualGrantBtc, validTotalGrants);
 
   // Filter for incoming transactions only
   const incomingTransactions = transactions.filter(tx => {
@@ -256,6 +262,7 @@ export function annotateTransactions(
 
 /**
  * Apply manual annotation overrides to existing annotated transactions
+ * Enforces constraint that each grant year can only have one transaction
  */
 export function applyManualAnnotations(
   annotatedTransactions: AnnotatedTransaction[],
@@ -265,10 +272,35 @@ export function applyManualAnnotations(
   annotatedTransactions: AnnotatedTransaction[];
   expectedGrants: ExpectedGrant[];
 } {
+  // Track which grant years are already assigned
+  const usedGrantYears = new Set<number>();
+  
+  // First pass: collect all valid grant years from expected grants
+  const validGrantYears = new Set(expectedGrants.map(grant => grant.year));
+  
   // Create a copy of transactions with manual annotations applied
   const updatedTransactions = annotatedTransactions.map(tx => {
     if (manualAnnotations.has(tx.txid)) {
       const newGrantYear = manualAnnotations.get(tx.txid) ?? null;
+      
+      // Validate the manual annotation
+      if (newGrantYear !== null) {
+        // Check if grant year is valid (exists in expected grants)
+        if (!validGrantYears.has(newGrantYear)) {
+          console.warn(`Invalid grant year ${newGrantYear} for transaction ${tx.txid}. Ignoring manual annotation.`);
+          return tx; // Keep original annotation
+        }
+        
+        // Check if grant year is already used
+        if (usedGrantYears.has(newGrantYear)) {
+          console.warn(`Grant year ${newGrantYear} already assigned to another transaction. Ignoring duplicate assignment for ${tx.txid}.`);
+          return tx; // Keep original annotation
+        }
+        
+        // Valid assignment - mark grant year as used
+        usedGrantYears.add(newGrantYear);
+      }
+      
       return {
         ...tx,
         grantYear: newGrantYear,
@@ -276,10 +308,26 @@ export function applyManualAnnotations(
         isManuallyAnnotated: true,
       };
     }
+    
+    // For non-manually annotated transactions, check if their grant year is still available
+    if (tx.grantYear !== null && !tx.isManuallyAnnotated) {
+      if (usedGrantYears.has(tx.grantYear)) {
+        // This grant year has been manually assigned to another transaction
+        // Demote this transaction to "Other Transaction"
+        return {
+          ...tx,
+          grantYear: null,
+          type: 'Other Transaction' as const,
+        };
+      }
+      // Grant year is still available, mark it as used
+      usedGrantYears.add(tx.grantYear);
+    }
+    
     return tx;
   });
 
-  // Update expected grants based on manual annotations
+  // Update expected grants based on final transaction assignments
   const updatedExpectedGrants = expectedGrants.map(grant => {
     const matchedTransaction = updatedTransactions.find(tx => tx.grantYear === grant.year);
     return {
