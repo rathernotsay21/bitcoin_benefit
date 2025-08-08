@@ -19,6 +19,7 @@ export default function VestingTrackerForm({
     address,
     vestingStartDate,
     annualGrantBtc,
+    totalGrants,
     formErrors,
     isLoading,
     error,
@@ -31,11 +32,13 @@ export default function VestingTrackerForm({
   const [localErrors, setLocalErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [showTooltips, setShowTooltips] = useState<Record<string, boolean>>({});
+  const [rawAmountInput, setRawAmountInput] = useState<string>('');
   
   // Refs for form elements
   const addressRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
   const amountRef = useRef<HTMLInputElement>(null);
+  const totalGrantsRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   // Focus management
@@ -93,17 +96,46 @@ export default function VestingTrackerForm({
   };
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(event.target.value) || 0;
-    setFormData({ annualGrantBtc: value });
+    const inputValue = event.target.value;
     
-    if (touched.annualGrantBtc || value > 0) {
-      validateFieldWithAnnouncement('annualGrantBtc', value);
+    // Allow empty string, "0", or valid decimal numbers
+    if (inputValue === '' || /^\d*\.?\d*$/.test(inputValue)) {
+      // Store the raw input for display
+      setRawAmountInput(inputValue);
+      
+      // Convert to numeric for validation and storage
+      const numericValue = inputValue === '' ? 0 : parseFloat(inputValue) || 0;
+      setFormData({ annualGrantBtc: numericValue });
+      
+      // Real-time validation - validate if touched or has meaningful content
+      if (touched.annualGrantBtc || (inputValue.length > 0 && inputValue !== '0')) {
+        validateFieldWithAnnouncement('annualGrantBtc', numericValue);
+      }
+    }
+  };
+
+  const handleTotalGrantsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    const numericValue = inputValue === '' ? 0 : parseInt(inputValue);
+    
+    // Allow empty string or valid integers
+    if (inputValue === '' || (!isNaN(numericValue) && numericValue > 0)) {
+      setFormData({ totalGrants: numericValue });
+      
+      if (touched.totalGrants || inputValue.length > 0) {
+        validateFieldWithAnnouncement('totalGrants', numericValue);
+      }
     }
   };
 
   // Handle field blur events
   const handleBlur = (field: keyof TrackerFormData) => {
     setTouched(prev => ({ ...prev, [field]: true }));
+    
+    // Clear raw input for amount field when it loses focus
+    if (field === 'annualGrantBtc') {
+      setRawAmountInput('');
+    }
     
     // Validate on blur with announcement for errors
     let value: any;
@@ -117,9 +149,24 @@ export default function VestingTrackerForm({
       case 'annualGrantBtc':
         value = annualGrantBtc;
         break;
+      case 'totalGrants':
+        value = totalGrants;
+        break;
     }
     
     validateFieldWithAnnouncement(field, value, true);
+  };
+
+  // Format number to avoid scientific notation
+  const formatNumberForDisplay = (value: number): string => {
+    if (value === 0) return '';
+    // Convert to string and handle very small numbers that might show as scientific notation
+    const str = value.toString();
+    if (str.includes('e')) {
+      // Convert scientific notation to decimal
+      return value.toFixed(8).replace(/\.?0+$/, '');
+    }
+    return str;
   };
 
   // Handle form submission with comprehensive validation
@@ -134,13 +181,15 @@ export default function VestingTrackerForm({
     setTouched({
       address: true,
       vestingStartDate: true,
-      annualGrantBtc: true
+      annualGrantBtc: true,
+      totalGrants: true
     });
 
     // Validate all fields
     const addressValid = validateFieldWithAnnouncement('address', address, true);
     const dateValid = validateFieldWithAnnouncement('vestingStartDate', vestingStartDate, true);
     const amountValid = validateFieldWithAnnouncement('annualGrantBtc', annualGrantBtc, true);
+    const totalGrantsValid = validateFieldWithAnnouncement('totalGrants', totalGrants, true);
 
     // Focus first invalid field
     if (!addressValid && addressRef.current) {
@@ -155,9 +204,16 @@ export default function VestingTrackerForm({
       amountRef.current.focus();
       return;
     }
+    if (!totalGrantsValid && totalGrantsRef.current) {
+      totalGrantsRef.current.focus();
+      return;
+    }
 
     // If validation passes, submit
-    if (addressValid && dateValid && amountValid) {
+    if (addressValid && dateValid && amountValid && totalGrantsValid) {
+      // Clear raw input after successful validation
+      setRawAmountInput('');
+      
       // Announce successful submission start
       const announcement = 'Form submitted successfully. Processing vesting tracker request.';
       const liveRegion = document.createElement('div');
@@ -170,7 +226,7 @@ export default function VestingTrackerForm({
       setTimeout(() => document.body.removeChild(liveRegion), 1000);
 
       if (onSubmit) {
-        onSubmit({ address, vestingStartDate, annualGrantBtc });
+        onSubmit({ address, vestingStartDate, annualGrantBtc, totalGrants });
       } else {
         await validateAndFetch();
       }
@@ -190,6 +246,7 @@ export default function VestingTrackerForm({
   const isFormValid = address.length > 0 && 
                      vestingStartDate.length > 0 && 
                      annualGrantBtc > 0 && 
+                     totalGrants > 0 &&
                      !hasErrors;
 
   // Toggle tooltip visibility
@@ -418,11 +475,17 @@ export default function VestingTrackerForm({
               ref={amountRef}
               id="annual-grant-btc"
               type="number"
-              step="0.00000001"
-              min="0.00000001"
+              step="0.001"
+              min="0"
               max="21"
-              value={annualGrantBtc || ''}
+              value={rawAmountInput || (annualGrantBtc === 0 ? '' : formatNumberForDisplay(annualGrantBtc))}
               onChange={handleAmountChange}
+              onFocus={() => {
+                // When focused, if there's a formatted value, put it in raw input for editing
+                if (annualGrantBtc > 0 && !rawAmountInput) {
+                  setRawAmountInput(annualGrantBtc.toString());
+                }
+              }}
               onBlur={() => handleBlur('annualGrantBtc')}
               disabled={isLoading}
               placeholder="0.00000000"
@@ -457,6 +520,92 @@ export default function VestingTrackerForm({
                 className="text-sm text-gray-500 dark:text-white/70"
               >
                 The amount of Bitcoin you receive annually (minimum: 1 satoshi)
+              </p>
+            )}
+          </div>
+
+          {/* Total Number of Grants Input */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <label 
+                htmlFor="total-grants"
+                className="block text-sm font-medium text-gray-700 dark:text-white"
+              >
+                Total Number of Grants <span className="text-red-500" aria-label="required">*</span>
+              </label>
+              
+              <button
+                type="button"
+                onClick={() => toggleTooltip('totalGrants')}
+                className="p-1 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
+                aria-label="More information about total grants field"
+                aria-expanded={showTooltips.totalGrants}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Tooltip */}
+            {showTooltips.totalGrants && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
+                <p className="font-medium mb-1">Total Number of Grants:</p>
+                <ul className="space-y-1 text-xs">
+                  <li>• Total grants over the vesting period</li>
+                  <li>• 10 for yearly grants over 10 years</li>
+                  <li>• 5 for grants only in first 5 years</li>
+                  <li>• 1 for single grant scenarios</li>
+                </ul>
+                <p className="mt-2 text-xs text-blue-600 dark:text-blue-300">
+                  Example: 10 grants for standard 10-year vesting
+                </p>
+              </div>
+            )}
+            
+            <input
+              ref={totalGrantsRef}
+              id="total-grants"
+              type="number"
+              step="1"
+              min="1"
+              max="20"
+              value={totalGrants === 0 ? '' : totalGrants}
+              onChange={handleTotalGrantsChange}
+              onBlur={() => handleBlur('totalGrants')}
+              disabled={isLoading}
+              placeholder="10"
+              className={`input-field ${
+                displayErrors.totalGrants ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
+              } ${isLoading ? 'bg-gray-100 cursor-not-allowed dark:bg-slate-700' : ''}`}
+              aria-label="Total number of vesting grants"
+              aria-invalid={!!displayErrors.totalGrants}
+              aria-describedby={displayErrors.totalGrants ? 'total-grants-error' : 'total-grants-help'}
+              aria-required="true"
+            />
+
+            {/* Error message */}
+            {displayErrors.totalGrants && (
+              <p 
+                id="total-grants-error" 
+                className="text-sm text-red-600 dark:text-red-400 flex items-center gap-1"
+                role="alert"
+                aria-live="polite"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {displayErrors.totalGrants}
+              </p>
+            )}
+
+            {/* Helper text */}
+            {!displayErrors.totalGrants && (
+              <p 
+                id="total-grants-help"
+                className="text-sm text-gray-500 dark:text-white/70"
+              >
+                Total number of grants over the vesting period (1-20)
               </p>
             )}
           </div>
@@ -529,11 +678,12 @@ export default function VestingTrackerForm({
         {/* Form progress indicator */}
         <div className="text-center">
           <div className="flex justify-center space-x-2 mb-2">
-            {[1, 2, 3].map((step) => {
+            {[1, 2, 3, 4].map((step) => {
               let isComplete = false;
               if (step === 1) isComplete = !!address && !displayErrors.address;
               if (step === 2) isComplete = !!vestingStartDate && !displayErrors.vestingStartDate;
               if (step === 3) isComplete = !!annualGrantBtc && !displayErrors.annualGrantBtc;
+              if (step === 4) isComplete = !!totalGrants && !displayErrors.totalGrants;
 
               return (
                 <div

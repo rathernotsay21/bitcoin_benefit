@@ -48,9 +48,9 @@ class AnnotationCache {
   private getExpectedGrantsKey(
     vestingStartDate: string,
     annualGrantBtc: number,
-    yearsToGenerate: number
+    totalGrants: number
   ): string {
-    return `${vestingStartDate}-${annualGrantBtc}-${yearsToGenerate}`;
+    return `${vestingStartDate}-${annualGrantBtc}-${totalGrants}`;
   }
   
   /**
@@ -102,10 +102,10 @@ class AnnotationCache {
   getExpectedGrants(
     vestingStartDate: string,
     annualGrantBtc: number,
-    yearsToGenerate: number,
+    totalGrants: number,
     generator: () => ExpectedGrant[]
   ): ExpectedGrant[] {
-    const key = this.getExpectedGrantsKey(vestingStartDate, annualGrantBtc, yearsToGenerate);
+    const key = this.getExpectedGrantsKey(vestingStartDate, annualGrantBtc, totalGrants);
     
     if (this.expectedGrantsCache.has(key)) {
       return this.expectedGrantsCache.get(key)!;
@@ -191,15 +191,15 @@ class AnnotationCache {
 export function generateExpectedGrantsOptimized(
   vestingStartDate: string,
   annualGrantBtc: number,
-  yearsToGenerate: number = 10
+  totalGrants: number = 10
 ): ExpectedGrant[] {
   const cache = AnnotationCache.getInstance();
   
   return cache.getExpectedGrants(
     vestingStartDate,
     annualGrantBtc,
-    yearsToGenerate,
-    () => generateExpectedGrants(vestingStartDate, annualGrantBtc, yearsToGenerate)
+    totalGrants,
+    () => generateExpectedGrants(vestingStartDate, annualGrantBtc, totalGrants)
   );
 }
 
@@ -398,6 +398,7 @@ export async function annotateTransactionsOptimized(
   userAddress: string,
   vestingStartDate: string,
   annualGrantBtc: number,
+  totalGrants: number = 10,
   config: AnnotationConfig = DEFAULT_ANNOTATION_CONFIG
 ): Promise<{
   annotatedTransactions: AnnotatedTransaction[];
@@ -418,7 +419,7 @@ export async function annotateTransactionsOptimized(
   const startTime = performance.now();
   
   // Generate expected grants with memoization
-  const expectedGrants = generateExpectedGrantsOptimized(vestingStartDate, annualGrantBtc);
+  const expectedGrants = generateExpectedGrantsOptimized(vestingStartDate, annualGrantBtc, totalGrants);
   
   // Filter for incoming transactions only
   const incomingTransactions = transactions.filter(tx => {
@@ -583,6 +584,7 @@ export function annotateTransactionsWithPerformance(
   userAddress: string,
   vestingStartDate: string,
   annualGrantBtc: number,
+  totalGrants: number = 10,
   config: AnnotationConfig = DEFAULT_ANNOTATION_CONFIG,
   useOptimized: boolean = true
 ) {
@@ -593,6 +595,7 @@ export function annotateTransactionsWithPerformance(
       userAddress,
       vestingStartDate,
       annualGrantBtc,
+      totalGrants,
       config
     );
   } else {
@@ -602,6 +605,7 @@ export function annotateTransactionsWithPerformance(
       userAddress,
       vestingStartDate,
       annualGrantBtc,
+      totalGrants,
       config
     );
     

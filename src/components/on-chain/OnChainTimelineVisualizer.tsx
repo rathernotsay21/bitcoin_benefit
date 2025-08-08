@@ -15,7 +15,7 @@ import {
   ReferenceDot,
 } from 'recharts';
 import { ExpectedGrant, AnnotatedTransaction } from '@/types/on-chain';
-import { formatBTC, formatUSD, formatUSDCompact } from '@/lib/utils';
+import { formatBTC, formatBTCSummary, formatUSD, formatUSDCompact } from '@/lib/utils';
 
 interface OnChainTimelineVisualizerProps {
   expectedGrants: ExpectedGrant[];
@@ -462,11 +462,11 @@ export default function OnChainTimelineVisualizer({
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Expected Total:</span>
-            <span className="text-blue-600 dark:text-blue-400 font-bold">{formatBTC(totalExpected)}</span>
+            <span className="text-blue-600 dark:text-blue-400 font-bold">{formatBTCSummary(totalExpected)}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Received:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{formatBTC(totalReceived)}</span>
+            <span className="text-green-600 dark:text-green-400 font-bold">{formatBTCSummary(totalReceived)}</span>
           </span>
         </div>
       </div>
@@ -561,12 +561,6 @@ export default function OnChainTimelineVisualizer({
                 axisLine={{ stroke: '#6b7280', strokeWidth: 1 }}
                 tick={{ fill: '#6b7280', fontSize: 11, fontWeight: 500 }}
                 tickLine={false}
-                label={{ 
-                  value: 'BTC Amount', 
-                  angle: -90, 
-                  position: 'insideLeft', 
-                  style: { fill: '#6b7280', fontSize: 11 } 
-                }}
               />
 
               <Tooltip 
@@ -668,7 +662,7 @@ export default function OnChainTimelineVisualizer({
             </div>
           </div>
           <div className="text-3xl font-bold text-blue-900 dark:text-blue-100 mb-1">
-            {formatBTC(totalExpected)}
+            {formatBTCSummary(totalExpected)}
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-400">
             Over 10 years
@@ -685,7 +679,7 @@ export default function OnChainTimelineVisualizer({
             </div>
           </div>
           <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-1">
-            {formatBTC(totalReceived)}
+            {formatBTCSummary(totalReceived)}
           </div>
           <div className="text-xs text-green-700 dark:text-green-400">
             {totalExpected > 0 ? `${((totalReceived / totalExpected) * 100).toFixed(1)}% of expected` : 'N/A'}

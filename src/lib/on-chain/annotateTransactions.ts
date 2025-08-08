@@ -17,12 +17,12 @@ export const DEFAULT_ANNOTATION_CONFIG: AnnotationConfig = {
 export function generateExpectedGrants(
   vestingStartDate: string,
   annualGrantBtc: number,
-  yearsToGenerate: number = 10
+  totalGrants: number = 10
 ): ExpectedGrant[] {
   const startDate = new Date(vestingStartDate);
   const grants: ExpectedGrant[] = [];
 
-  for (let year = 1; year <= yearsToGenerate; year++) {
+  for (let year = 1; year <= totalGrants; year++) {
     const expectedDate = new Date(startDate);
     expectedDate.setFullYear(startDate.getFullYear() + year - 1);
 
@@ -190,6 +190,7 @@ export function annotateTransactions(
   userAddress: string,
   vestingStartDate: string,
   annualGrantBtc: number,
+  totalGrants: number = 10,
   config: AnnotationConfig = DEFAULT_ANNOTATION_CONFIG
 ): {
   annotatedTransactions: AnnotatedTransaction[];
@@ -203,7 +204,7 @@ export function annotateTransactions(
   };
 } {
   // Generate expected grants
-  const expectedGrants = generateExpectedGrants(vestingStartDate, annualGrantBtc);
+  const expectedGrants = generateExpectedGrants(vestingStartDate, annualGrantBtc, totalGrants);
 
   // Filter for incoming transactions only
   const incomingTransactions = transactions.filter(tx => {

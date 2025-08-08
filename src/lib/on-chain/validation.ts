@@ -71,6 +71,15 @@ function validateGrantAmount(amount: number): boolean {
 }
 
 /**
+ * Validates that total grants is within reasonable bounds
+ * @param totalGrants - Total number of grants to validate
+ * @returns boolean indicating if total grants is valid
+ */
+function validateTotalGrants(totalGrants: number): boolean {
+  return totalGrants >= 1 && totalGrants <= 20; // Reasonable range for vesting periods
+}
+
+/**
  * Complete form validation schema using Zod
  */
 export const trackerFormSchema = z.object({
@@ -84,7 +93,14 @@ export const trackerFormSchema = z.object({
     invalid_type_error: 'Annual grant must be a number'
   })
     .positive('Annual grant must be positive')
-    .refine(validateGrantAmount, 'Annual grant must be between 1 satoshi and 21 BTC')
+    .refine(validateGrantAmount, 'Annual grant must be between 1 satoshi and 21 BTC'),
+  totalGrants: z.number({
+    required_error: 'Total grants is required',
+    invalid_type_error: 'Total grants must be a number'
+  })
+    .int('Total grants must be a whole number')
+    .positive('Total grants must be positive')
+    .refine(validateTotalGrants, 'Total grants must be between 1 and 20')
 });
 
 /**
@@ -151,6 +167,10 @@ export function validateField(field: keyof TrackerFormValidation, value: unknown
       case 'annualGrantBtc':
         const amountSchema = trackerFormSchema.shape.annualGrantBtc;
         amountSchema.parse(value);
+        return null;
+      case 'totalGrants':
+        const totalGrantsSchema = trackerFormSchema.shape.totalGrants;
+        totalGrantsSchema.parse(value);
         return null;
       default:
         return null;

@@ -13,6 +13,13 @@ export function formatBTC(amount: number, decimals = 6): string {
 }
 
 /**
+ * Format Bitcoin amounts with limited decimal places for summary display
+ */
+export function formatBTCSummary(amount: number): string {
+  return `₿${amount.toFixed(4)}`;
+}
+
+/**
  * Format USD amounts with currency symbol
  */
 export function formatUSD(amount: number): string {

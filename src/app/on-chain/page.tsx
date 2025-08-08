@@ -385,7 +385,7 @@ export default function OnChainTrackerPage() {
     setTimeout(() => document.body.removeChild(liveRegion), 1000);
   };
 
-  const handleFormSubmit = (formData: { address: string; vestingStartDate: string; annualGrantBtc: number }) => {
+  const handleFormSubmit = (formData: { address: string; vestingStartDate: string; annualGrantBtc: number; totalGrants: number }) => {
     setFormData(formData);
     validateAndFetch();
     announceToScreenReader('Starting transaction analysis');

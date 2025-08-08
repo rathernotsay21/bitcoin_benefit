@@ -40,6 +40,7 @@ interface OnChainState {
   address: string;
   vestingStartDate: string;
   annualGrantBtc: number;
+  totalGrants: number;
   
   // Validation
   formErrors: FormErrors;
@@ -79,8 +80,8 @@ interface OnChainState {
   togglePerformanceOptimizations: () => void;
   clearPerformanceCaches: () => void;
   getPerformanceStats: () => any;
-  processWithConcurrentOptimizations: (address: string, vestingStartDate: string, annualGrantBtc: number) => Promise<void>;
-  processWithStandardAlgorithm: (address: string, vestingStartDate: string, annualGrantBtc: number) => Promise<void>;
+  processWithConcurrentOptimizations: (address: string, vestingStartDate: string, annualGrantBtc: number, totalGrants: number) => Promise<void>;
+  processWithStandardAlgorithm: (address: string, vestingStartDate: string, annualGrantBtc: number, totalGrants: number) => Promise<void>;
 }
 
 export const useOnChainStore = create<OnChainState>((set, get) => ({
@@ -88,6 +89,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   address: '',
   vestingStartDate: '',
   annualGrantBtc: 0,
+  totalGrants: 10,
   formErrors: {},
   rawTransactions: [],
   annotatedTransactions: [],
@@ -110,12 +112,14 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       address: data.address !== undefined ? data.address : state.address,
       vestingStartDate: data.vestingStartDate !== undefined ? data.vestingStartDate : state.vestingStartDate,
       annualGrantBtc: data.annualGrantBtc !== undefined ? data.annualGrantBtc : state.annualGrantBtc,
+      totalGrants: data.totalGrants !== undefined ? data.totalGrants : state.totalGrants,
       // Clear errors for updated fields
       formErrors: {
         ...state.formErrors,
         ...(data.address !== undefined && { address: undefined }),
         ...(data.vestingStartDate !== undefined && { vestingStartDate: undefined }),
         ...(data.annualGrantBtc !== undefined && { annualGrantBtc: undefined }),
+        ...(data.totalGrants !== undefined && { totalGrants: undefined }),
         general: undefined
       }
     }));
@@ -132,7 +136,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   validateAndFetch: async () => {
-    const { address, vestingStartDate, annualGrantBtc, retryCount, enablePerformanceOptimizations } = get();
+    const { address, vestingStartDate, annualGrantBtc, totalGrants, retryCount, enablePerformanceOptimizations } = get();
     
     // Start performance monitoring
     const performanceId = PerformanceMonitor.startMeasurement('validateAndFetch');
@@ -163,7 +167,8 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       const validation = validateTrackerForm({
         address,
         vestingStartDate,
-        annualGrantBtc
+        annualGrantBtc,
+        totalGrants
       });
       
       if (!validation.success) {
@@ -183,9 +188,9 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       
       // Use optimized concurrent processing if enabled
       if (enablePerformanceOptimizations) {
-        await get().processWithConcurrentOptimizations(address, vestingStartDate, annualGrantBtc);
+        await get().processWithConcurrentOptimizations(address, vestingStartDate, annualGrantBtc, totalGrants);
       } else {
-        await get().processWithStandardAlgorithm(address, vestingStartDate, annualGrantBtc);
+        await get().processWithStandardAlgorithm(address, vestingStartDate, annualGrantBtc, totalGrants);
       }
       
       // Record performance metrics
@@ -230,7 +235,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   // Performance-optimized processing with concurrent operations
-  processWithConcurrentOptimizations: async (address: string, vestingStartDate: string, annualGrantBtc: number) => {
+  processWithConcurrentOptimizations: async (address: string, vestingStartDate: string, annualGrantBtc: number, totalGrants: number) => {
     try {
       set({ currentStep: 'fetching' });
       
@@ -239,6 +244,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
         address,
         vestingStartDate,
         annualGrantBtc,
+        totalGrants,
         {
           maxConcurrentOperations: 5,
           batchSize: 10,
@@ -264,7 +270,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   // Standard processing algorithm (fallback)
-  processWithStandardAlgorithm: async (address: string, vestingStartDate: string, annualGrantBtc: number) => {
+  processWithStandardAlgorithm: async (address: string, vestingStartDate: string, annualGrantBtc: number, totalGrants: number) => {
     // Step 1: Fetch transactions
     set({ currentStep: 'fetching' });
     const rawTransactions = await errorHandler.executeWithRetry(
@@ -283,7 +289,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
         currentStep: 'complete',
         rawTransactions: [],
         annotatedTransactions: [],
-        expectedGrants: generateExpectedGrants(vestingStartDate, annualGrantBtc)
+        expectedGrants: generateExpectedGrants(vestingStartDate, annualGrantBtc, totalGrants)
       });
       return;
     }
@@ -297,6 +303,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       address,
       vestingStartDate,
       annualGrantBtc,
+      totalGrants,
       undefined,
       true // Use optimized version
     );
@@ -411,6 +418,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       address: '',
       vestingStartDate: '',
       annualGrantBtc: 0,
+      totalGrants: 10,
       formErrors: {},
       rawTransactions: [],
       annotatedTransactions: [],

@@ -88,7 +88,8 @@ export class ConcurrentProcessingService {
   async processOnChainData(
     address: string,
     vestingStartDate: string,
-    annualGrantBtc: number
+    annualGrantBtc: number,
+    totalGrants: number = 10
   ): Promise<{
     transactions: RawTransaction[];
     annotatedTransactions: any[];
@@ -103,7 +104,7 @@ export class ConcurrentProcessingService {
       // Phase 1: Concurrent transaction fetching and expected grants generation
       const [transactions, _] = await Promise.all([
         this.fetchTransactionsWithOptimization(address),
-        this.precomputeExpectedGrants(vestingStartDate, annualGrantBtc)
+        this.precomputeExpectedGrants(vestingStartDate, annualGrantBtc, totalGrants)
       ]);
       
       const transactionFetchTime = performance.now();
@@ -120,7 +121,8 @@ export class ConcurrentProcessingService {
           transactions,
           address,
           vestingStartDate,
-          annualGrantBtc
+          annualGrantBtc,
+          totalGrants
         )
       ]);
       
@@ -216,13 +218,15 @@ export class ConcurrentProcessingService {
     transactions: RawTransaction[],
     address: string,
     vestingStartDate: string,
-    annualGrantBtc: number
+    annualGrantBtc: number,
+    totalGrants: number = 10
   ) {
     return await annotateTransactionsOptimized(
       transactions,
       address,
       vestingStartDate,
-      annualGrantBtc
+      annualGrantBtc,
+      totalGrants
     );
   }
   
@@ -231,7 +235,8 @@ export class ConcurrentProcessingService {
    */
   private async precomputeExpectedGrants(
     vestingStartDate: string,
-    annualGrantBtc: number
+    annualGrantBtc: number,
+    totalGrants: number = 10
   ): Promise<void> {
     // This runs concurrently with transaction fetching
     // Expected grants computation is cached in the optimized function
@@ -415,10 +420,11 @@ export async function processOnChainDataConcurrently(
   address: string,
   vestingStartDate: string,
   annualGrantBtc: number,
+  totalGrants: number = 10,
   config?: Partial<ConcurrentProcessingConfig>
 ) {
   const service = ConcurrentProcessingService.getInstance(config);
-  return await service.processOnChainData(address, vestingStartDate, annualGrantBtc);
+  return await service.processOnChainData(address, vestingStartDate, annualGrantBtc, totalGrants);
 }
 
 /**

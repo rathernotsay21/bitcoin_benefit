@@ -54,6 +54,7 @@ export interface TrackerFormData {
   address: string;
   vestingStartDate: string;
   annualGrantBtc: number;
+  totalGrants: number;
 }
 
 // Validation errors
@@ -61,6 +62,7 @@ export interface FormErrors {
   address?: string;
   vestingStartDate?: string;
   annualGrantBtc?: string;
+  totalGrants?: string;
   general?: string;
 }
 
