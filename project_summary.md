@@ -406,3 +406,17 @@ The Bitcoin Vesting Calculator has evolved from concept to fully functional web 
 The technical architecture is scalable and well-organized, making future enhancements straightforward to implement. The use of modern technologies (Next.js, TypeScript, Zustand) ensures maintainability and performance.
 
 **The project is ready for production use** and provides immediate value to employers interested in Bitcoin vesting schemes. Future development will focus on enhanced visualizations, advanced features, and enterprise-grade capabilities.
+
+## Useful Commands
+
+# Regular build (fast with caching)
+npm run build
+
+# Update static historical data (monthly)
+npm run update-bitcoin-data
+
+# Update specific year
+npm run update-bitcoin-year=2024
+
+# Clear all caches (force fresh data)
+npm run clear-bitcoin-cache

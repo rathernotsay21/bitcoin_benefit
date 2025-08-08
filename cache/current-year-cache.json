@@ -1,0 +1,15 @@
+{
+  "data": {
+    "year": 2025,
+    "high": 119955.8,
+    "low": 76329.09,
+    "average": 99372.89,
+    "open": 94384.18,
+    "close": 117463.47,
+    "dataPoints": 219,
+    "source": "live",
+    "lastUpdated": "2025-08-08T11:13:02.454Z"
+  },
+  "timestamp": 1754651582454,
+  "generatedAt": "2025-08-08T11:13:02.454Z"
+}

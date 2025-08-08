@@ -1,82 +1,93 @@
 {
+  "2015": {
+    "high": 504,
+    "low": 152,
+    "average": 264,
+    "open": 314,
+    "close": 430,
+    "source": "static"
+  },
   "2016": {
-    "year": 2016,
     "high": 975,
     "low": 365,
     "average": 574,
     "open": 430,
-    "close": 963
+    "close": 963,
+    "source": "static"
   },
   "2017": {
-    "year": 2017,
     "high": 19783,
     "low": 775,
     "average": 4951,
     "open": 963,
-    "close": 13880
+    "close": 13880,
+    "source": "static"
   },
   "2018": {
-    "year": 2018,
     "high": 17527,
     "low": 3191,
     "average": 7532,
     "open": 13880,
-    "close": 3742
+    "close": 3742,
+    "source": "static"
   },
   "2019": {
-    "year": 2019,
     "high": 13016,
     "low": 3391,
     "average": 7179,
     "open": 3742,
-    "close": 7179
+    "close": 7179,
+    "source": "static"
   },
   "2020": {
-    "year": 2020,
     "high": 28994,
     "low": 4106,
     "average": 11111,
     "open": 7179,
-    "close": 28994
+    "close": 28994,
+    "source": "static"
   },
   "2021": {
-    "year": 2021,
     "high": 68789,
     "low": 28994,
     "average": 47686,
     "open": 28994,
-    "close": 46306
+    "close": 46306,
+    "source": "static"
   },
   "2022": {
-    "year": 2022,
     "high": 48086,
     "low": 15460,
     "average": 31717,
     "open": 46306,
-    "close": 16547
+    "close": 16547,
+    "source": "static"
   },
   "2023": {
-    "year": 2023,
     "high": 44700,
     "low": 15460,
     "average": 29234,
     "open": 16547,
-    "close": 42258
+    "close": 42258,
+    "source": "static"
   },
   "2024": {
-    "year": 2024,
     "high": 108000,
     "low": 38000,
     "average": 65000,
     "open": 42258,
-    "close": 95000
+    "close": 95000,
+    "source": "static"
   },
   "2025": {
     "year": 2025,
-    "high": 120000,
-    "low": 95000,
-    "average": 105000,
-    "open": 95000,
-    "close": 110000
+    "high": 119955.8,
+    "low": 76329.09,
+    "average": 99372.89,
+    "open": 94384.18,
+    "close": 117463.47,
+    "dataPoints": 219,
+    "source": "live",
+    "lastUpdated": "2025-08-08T11:13:02.454Z"
   }
 }
