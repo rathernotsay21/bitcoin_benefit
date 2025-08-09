@@ -2,15 +2,24 @@
 
 import Link from 'next/link';
 import { useEffect, useState, Suspense, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { useCalculatorStore } from '@/stores/calculatorStore';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { VestingScheme } from '@/types/vesting';
-import VestingTimelineChart from '@/components/VestingTimelineChart';
 import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
-import { CalculatorSkeleton } from '@/components/loading/Skeletons';
+import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
+
+// Lazy load the chart component
+const VestingTimelineChart = dynamic(
+  () => import('@/components/VestingTimelineChart'),
+  {
+    ssr: false, // Disable server-side rendering for this client-side component
+    loading: () => <ChartSkeleton /> // Show a loading component
+  }
+);
 
 interface CalculatorPlanClientProps {
   initialScheme: VestingScheme | undefined;

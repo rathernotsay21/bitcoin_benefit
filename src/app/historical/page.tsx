@@ -2,15 +2,24 @@
 
 import Link from 'next/link';
 import { useEffect, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useHistoricalCalculatorStore } from '@/stores/historicalCalculatorStore';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import YearSelector from '@/components/YearSelector';
-import HistoricalTimelineVisualization from '@/components/HistoricalTimelineVisualization';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
-import { HistoricalSkeleton } from '@/components/loading/Skeletons';
+import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
+
+// Lazy load the historical visualization component
+const HistoricalTimelineVisualization = dynamic(
+  () => import('@/components/HistoricalTimelineVisualization'),
+  {
+    ssr: false, // Disable server-side rendering for this client-side component
+    loading: () => <ChartSkeleton /> // Show a loading component
+  }
+);
 
 function formatBTC(amount: number): string {
   return `₿${amount.toFixed(3)}`;

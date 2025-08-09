@@ -1,5 +1,26 @@
 import Navigation from '@/components/Navigation';
 
+export function ChartSkeleton() {
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-4">
+        <div className="h-6 bg-gray-200 dark:bg-slate-700 rounded w-1/3 animate-pulse"></div>
+        <div className="flex gap-2">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-8 w-20 bg-gray-200 dark:bg-slate-700 rounded animate-pulse"></div>
+          ))}
+        </div>
+      </div>
+      <div className="h-96 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center animate-pulse">
+        <div className="text-center text-gray-400 dark:text-slate-500">
+          <div className="text-4xl mb-2">📊</div>
+          <div className="text-sm">Loading chart...</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function CalculatorSkeleton() {
   return (
     <div className="min-h-screen transition-colors duration-300">
