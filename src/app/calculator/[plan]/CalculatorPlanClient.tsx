@@ -57,6 +57,21 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     loadStaticData,
   } = useCalculatorStore();
 
+  // Define all callbacks at the component level
+  const handleInitialGrantChange = useCallback((schemeId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value) || 0;
+    updateSchemeCustomization(schemeId, { initialGrant: value });
+  }, [updateSchemeCustomization]);
+
+  const handleAnnualGrantChange = useCallback((schemeId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value) || 0;
+    updateSchemeCustomization(schemeId, { annualGrant: value });
+  }, [updateSchemeCustomization]);
+
+  const handleBitcoinGrowthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 });
+  }, [updateInputs]);
+
   // Load static data first, then Bitcoin price, then handle URL parameters
   useEffect(() => {
     const initializeCalculator = async () => {
@@ -154,10 +169,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       type="number"
                       step="0.001"
                       value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                      onChange={useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-                        const value = parseFloat(e.target.value) || 0;
-                        updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
-                      }, [selectedScheme.id, updateSchemeCustomization])}
+                      onChange={handleInitialGrantChange(selectedScheme.id)}
                       className="input-field"
                     />
                   </div>
@@ -171,10 +183,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                         type="number"
                         step="0.001"
                         value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
-                        onChange={useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-                          const value = parseFloat(e.target.value) || 0;
-                          updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
-                        }, [selectedScheme.id, updateSchemeCustomization])}
+                        onChange={handleAnnualGrantChange(selectedScheme.id)}
                         className="input-field"
                       />
                     </div>
@@ -187,7 +196,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     <input
                       type="number"
                       value={inputs.projectedBitcoinGrowth || 15}
-                      onChange={useCallback((e: React.ChangeEvent<HTMLInputElement>) => updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 }), [updateInputs])}
+                      onChange={handleBitcoinGrowthChange}
                       className="input-field"
                     />
                   </div>

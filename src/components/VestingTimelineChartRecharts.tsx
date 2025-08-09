@@ -17,6 +17,7 @@ import {
   AreaChart
 } from 'recharts';
 import { VestingTimelinePoint } from '@/types/vesting';
+import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdown';
 
 interface VestingTimelineChartProps {
   timeline: VestingTimelinePoint[];
@@ -538,111 +539,15 @@ function VestingTimelineChartRecharts({
         </div>
       </div>
 
-      {/* Annual Breakdown Table - keeping the original table but with enhanced styling */}
-      <div className="mt-6 w-full overflow-hidden">
-      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Annual Breakdown</h4>
-      <div className="overflow-x-auto rounded-xl shadow-lg w-full">
-          <table className="min-w-full w-full bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700">
-            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700">
-              <tr>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Year</th>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Grant Cost</th>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">BTC</th>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">BTC Price</th>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">USD Value</th>
-              <th className="px-2 sm:px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
-              {yearlyData.slice(0, 11).map((point) => {
-                const year = point.year;
-                const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
-
-                let grantCost = 0;
-                if (year === 0 && initialGrant > 0) {
-                  grantCost = initialGrant * currentBitcoinPrice;
-                } else if (year > 0 && annualGrant && annualGrant > 0) {
-                  const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
-                  if (year <= maxAnnualYears) {
-                    grantCost = annualGrant * point.bitcoinPrice;
-                  }
-                }
-
-                return (
-                  <tr key={year} className={`
-                    hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors
-                    ${year === 10 ? 'bg-green-50/50 dark:bg-green-900/20' : 
-                    year === 5 ? 'bg-yellow-50/50 dark:bg-yellow-900/20' : ''}
-                  `}>
-                    <td className="px-2 sm:px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{year}</td>
-                    <td className="px-2 sm:px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hidden sm:table-cell">
-                      {grantCost > 0 ? (
-                        <span className="font-semibold text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
-                      ) : (
-                        <span className="text-gray-400 dark:text-gray-600">—</span>
-                      )}
-                    </td>
-                    <td className="px-2 sm:px-4 py-3 text-sm font-medium text-blue-600 dark:text-blue-400">{formatBTC(point.btcBalance)}</td>
-                    <td className="px-2 sm:px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hidden md:table-cell">{formatUSD(point.bitcoinPrice)}</td>
-                    <td className="px-2 sm:px-4 py-3 text-sm font-bold text-gray-900 dark:text-white">{formatUSD(point.usdValue)}</td>
-                    <td className="px-2 sm:px-4 py-3 text-sm">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
-                        vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md' :
-                        vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :
-                        'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
-                      }`}>
-                        {vestingPercent}% Vested
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Enhanced Total Grant Cost Summary */}
-        <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl shadow-lg">
-          <div className="flex justify-between items-center">
-            <div>
-              <h5 className="text-base font-bold text-orange-900 dark:text-orange-200 mb-1">Total Grant Cost</h5>
-              <p className="text-xs text-orange-700 dark:text-orange-400">
-                Based on projected Bitcoin price for each grant year
-              </p>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-orange-900 dark:text-orange-100 mb-1">
-                {(() => {
-                  let totalCost = 0;
-                  yearlyData.slice(0, 11).forEach((point) => {
-                    const year = point.year;
-                    if (year === 0 && initialGrant > 0) {
-                      totalCost += initialGrant * currentBitcoinPrice;
-                    } else if (year > 0 && annualGrant && annualGrant > 0) {
-                      const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
-                      if (year <= maxAnnualYears) {
-                        totalCost += annualGrant * point.bitcoinPrice;
-                      }
-                    }
-                  });
-                  return formatUSD(totalCost);
-                })()}
-              </div>
-              <div className="text-sm font-medium text-orange-700 dark:text-orange-300">
-                {(() => {
-                  let totalBTC = 0;
-                  if (initialGrant > 0) totalBTC += initialGrant;
-                  if (annualGrant && annualGrant > 0) {
-                    const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
-                    totalBTC += annualGrant * maxAnnualYears;
-                  }
-                  return `${formatBTC(totalBTC)} total grants`;
-                })()}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Virtualized Annual Breakdown Table */}
+      <VirtualizedAnnualBreakdown
+        yearlyData={yearlyData}
+        initialGrant={initialGrant}
+        annualGrant={annualGrant}
+        currentBitcoinPrice={currentBitcoinPrice}
+        schemeId={schemeId}
+        maxDisplayYears={11}
+      />
     </div>
   );
 }

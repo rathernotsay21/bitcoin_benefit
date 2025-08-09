@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode, useState } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -38,6 +38,10 @@ export class ErrorBoundary extends Component<Props, State> {
     // Example: logErrorToService(error, errorInfo);
   }
 
+  resetError = () => {
+    this.setState({ hasError: false, error: null });
+  }
+
   render() {
     if (this.state.hasError) {
       // Use custom fallback if provided
@@ -70,25 +74,46 @@ export class ErrorBoundary extends Component<Props, State> {
             <p className="text-gray-600 dark:text-white/90 mb-6">
               We encountered an error while processing your request. Please try refreshing the page.
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="inline-flex items-center px-4 py-2 bg-bitcoin dark:bg-slate-700 text-white font-medium rounded-lg hover:bg-bitcoin-600 dark:hover:bg-slate-600 transition-colors"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={this.resetError}
+                className="inline-flex items-center px-4 py-2 bg-bitcoin dark:bg-slate-700 text-white font-medium rounded-lg hover:bg-bitcoin-600 dark:hover:bg-slate-600 transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Refresh Page
-            </button>
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Try Again
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                className="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-slate-600 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-slate-500 transition-colors"
+              >
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+                Refresh Page
+              </button>
+            </div>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500 dark:text-white/70 hover:text-gray-700 dark:hover:text-white">
@@ -111,8 +136,15 @@ export class ErrorBoundary extends Component<Props, State> {
 
 // Specialized error boundary for calculator sections
 export function CalculatorErrorBoundary({ children }: { children: ReactNode }) {
+  const [errorBoundaryKey, setErrorBoundaryKey] = useState(0);
+
+  const resetCalculatorError = () => {
+    setErrorBoundaryKey(prev => prev + 1);
+  };
+
   return (
     <ErrorBoundary
+      key={errorBoundaryKey}
       fallback={
         <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
           <div className="flex items-start">
@@ -136,12 +168,20 @@ export function CalculatorErrorBoundary({ children }: { children: ReactNode }) {
               <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
                 The calculator encountered an error. Please check your inputs and try again.
               </p>
-              <button
-                onClick={() => window.location.reload()}
-                className="mt-3 text-sm font-medium text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300"
-              >
-                Reload Calculator →
-              </button>
+              <div className="mt-3 flex gap-3">
+                <button
+                  onClick={resetCalculatorError}
+                  className="text-sm font-medium text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300"
+                >
+                  Reset Calculator →
+                </button>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                >
+                  Reload Page
+                </button>
+              </div>
             </div>
           </div>
         </div>

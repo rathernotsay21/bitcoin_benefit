@@ -59,7 +59,8 @@ A comprehensive web application for employers to plan and visualize Bitcoin vest
 - **Real-time Feedback**: Instant calculation updates as inputs change
 - **Comprehensive Scheme Details**: Full breakdown of vesting schedules and bonuses
 - **Results Display**: Multiple views of calculated data (summary cards, detailed breakdowns)
-- **Interactive Charts**: Visualizations powered by Recharts.
+- **Interactive Charts**: Visualizations powered by Recharts
+- **Virtualized Tables**: Efficient rendering of large datasets using react-window for optimal performance
 
 ### 🔧 TECHNICAL IMPLEMENTATION
 
@@ -72,6 +73,7 @@ src/
 │   ├── calculator/     # Future calculator page
 │   └── historical/     # Historical calculator page
 ├── components/         # Reusable React components
+│   ├── VirtualizedAnnualBreakdown.tsx # Virtualized table for large datasets
 ├── hooks/              # Custom React hooks (Bitcoin price fetching)  
 ├── lib/                # Core business logic
 │   ├── bitcoin-api.ts  # CoinGecko API integration
