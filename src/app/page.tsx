@@ -218,10 +218,10 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-6">
-                Learn from Bitcoin's History
+                See How Employee Benefits Grow
               </h3>
               <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-                See how your vesting scheme would have performed using real historical Bitcoin data from 2015 onwards.
+                Track how your employee benefits would have grown in value using real historical data from 2015 onwards.
               </p>
 
               <div className="space-y-5 mb-10">
@@ -229,32 +229,32 @@ export default function HomePage() {
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <ChartBarIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-slate-600 dark:text-slate-300 text-lg">Analyze real historical performance</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Track real benefit value growth</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <ScaleIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-slate-600 dark:text-slate-300 text-lg">Compare different cost basis methods</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Compare different benefit structures</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-10 h-10 bg-bitcoin dark:bg-slate-700 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                     <CalculatorIcon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-slate-600 dark:text-slate-300 text-lg">Calculate actual returns and growth</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-lg">Calculate benefit growth and value</span>
                 </div>
               </div>
 
               <Link href="/historical" className="btn-primary text-lg px-10 py-4 inline-flex items-center space-x-2">
                 <ClockIcon className="w-5 h-5" />
-                <span>Try Historical Analysis</span>
+                <span>See Benefit Growth</span>
               </Link>
             </div>
 
             <div className="card lg:p-10 glass glow-orange">
               <div className="text-center">
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-8">
-                  Historical Performance Example
+                  Employee Benefit Growth Example
                 </h4>
 
                 <div className="space-y-4">
@@ -269,21 +269,21 @@ export default function HomePage() {
                   </div>
 
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 rounded-xl border-2 border-bitcoin dark:border-slate-700">
-                    <span className="font-medium text-orange-800 dark:text-slate-300">Cost Basis (2020)</span>
+                    <span className="font-medium text-orange-800 dark:text-slate-300">Initial Benefit Cost (2020)</span>
                     <span className="font-bold text-orange-900 dark:text-slate-100 text-lg">
                       {isLoading ? '$1,100' : formatUSD(costBasis)}
                     </span>
                   </div>
 
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-700 dark:to-slate-600 rounded-xl">
-                    <span className="font-medium text-blue-800 dark:text-slate-300">Present Value (2025)</span>
+                    <span className="font-medium text-blue-800 dark:text-slate-300">Current Benefit Value (2025)</span>
                     <span className="font-bold text-blue-900 dark:text-slate-100 text-lg">
                       {isLoading ? '$11,398' : formatUSD(presentValue)}
                     </span>
                   </div>
 
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-xl">
-                    <span className="font-medium text-green-800 dark:text-green-100">Total Return</span>
+                    <span className="font-medium text-green-800 dark:text-green-100">Benefit Growth</span>
                     <span className="font-bold text-green-900 dark:text-green-100 text-lg">
                       {isLoading
                         ? '+936% ($10,298)'
@@ -295,8 +295,8 @@ export default function HomePage() {
 
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    * Example based on Pioneer strategy (₿0.1) starting in 2020.
-                    Past performance does not guarantee future results.
+                    * Example based on Pioneer benefit package (₿0.1) starting in 2020.
+                    Past employee benefit performance does not guarantee future results.
                   </p>
                 </div>
               </div>

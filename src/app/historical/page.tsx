@@ -90,7 +90,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Historical Results
+                  Benefit Growth Analysis
                 </h2>
               </div>
 
@@ -128,7 +128,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-4">
                 <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Historical Analysis Settings
+                  Benefit Analysis Settings
                 </h3>
               </div>
 
@@ -141,7 +141,7 @@ function HistoricalCalculatorContent() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
-                    Cost Basis Method
+                    Benefit Cost Method
                   </label>
                   <select
                     value={costBasisMethod}
@@ -154,7 +154,7 @@ function HistoricalCalculatorContent() {
                     <option value="low">Yearly Low Price</option>
                   </select>
                   <p className="text-sm text-gray-500 dark:text-slate-400">
-                    Method used to calculate the cost basis for Bitcoin grants
+                    Method used to calculate the initial cost for employee benefit grants
                   </p>
                 </div>
 
@@ -255,7 +255,7 @@ function HistoricalCalculatorContent() {
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatUSD(historicalResults.totalCostBasis)}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Cost Basis</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Benefit Cost</div>
                   </div>
                   <div className="card text-center">
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
@@ -406,9 +406,9 @@ function HistoricalCalculatorContent() {
                   <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">Total Grant Cost</h5>
+                        <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">Total Benefit Cost</h5>
                         <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
-                          Based on historical {costBasisMethod} Bitcoin prices for each grant year
+                          Based on historical {costBasisMethod} benefit values for each grant year
                         </p>
 
                       </div>
@@ -462,7 +462,7 @@ function HistoricalCalculatorContent() {
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Cost Basis Method:</span>
+                          <span className="text-gray-600 dark:text-white/80">Benefit Cost Method:</span>
                           <span className="font-semibold dark:text-white capitalize">
                             {historicalResults.summary.costBasisMethod}
                           </span>
@@ -476,9 +476,9 @@ function HistoricalCalculatorContent() {
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Current Bitcoin Price:</span>
+                          <span className="text-gray-600 dark:text-white/80">Current Benefit Value:</span>
                           <span className="font-semibold dark:text-white">
-                            {formatUSD(currentBitcoinPrice)}
+                            {formatUSD(currentBitcoinPrice)} per unit
                           </span>
                         </div>
                       </div>
