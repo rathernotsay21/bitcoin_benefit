@@ -21,9 +21,11 @@
   - _Requirements: 1.2, 1.3, 3.2_
 
 - [ ] 4. Update historical analysis section for business context
-  - Reframe historical performance as employee benefit value rather than investment returns
-  - Update section title and description to emphasize business planning over Bitcoin analysis
-  - Modify example calculations to show business impact rather than crypto gains
+  - Change section title from "Learn from Bitcoin's History" to "See How Employee Benefits Grow"
+  - Update description to emphasize benefit value tracking rather than Bitcoin performance analysis
+  - Modify labels in the example calculation card: "Cost Basis" → "Initial Benefit Cost", "Present Value" → "Current Benefit Value", "Total Return" → "Benefit Growth"
+  - Update disclaimer text to reference "employee benefit performance" instead of "Bitcoin Pioneer strategy"
+  - Keep all calculation formulas and logic unchanged - only modify display labels and contextual text
   - _Requirements: 3.3, 2.3_
 
 - [ ] 5. Revise call-to-action sections with business-focused messaging
