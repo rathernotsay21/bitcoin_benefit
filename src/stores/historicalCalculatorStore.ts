@@ -11,6 +11,7 @@ import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
+import { syncBitcoinPrice } from '@/lib/utils/store-sync';
 
 interface HistoricalCalculatorState {
   // Input state
@@ -172,11 +173,9 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   
   fetchCurrentBitcoinPrice: async () => {
     try {
-      const { price } = await OptimizedBitcoinAPI.getCurrentPrice();
-      set({ currentBitcoinPrice: price });
-      
-      // Auto-recalculate with new current price
-      get().calculateHistoricalResults();
+      const { price, change24h } = await OptimizedBitcoinAPI.getCurrentPrice();
+      // Use sync utility to update all stores
+      syncBitcoinPrice(price, change24h);
       
     } catch (error) {
       console.error('Failed to fetch current Bitcoin price:', error);

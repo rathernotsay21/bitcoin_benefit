@@ -4,6 +4,7 @@ import { VestingCalculator } from '@/lib/vesting-calculations';
 import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
+import { syncBitcoinPrice } from '@/lib/utils/store-sync';
 
 interface CalculatorState {
   // Input state
@@ -142,20 +143,17 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   },
   
   setBitcoinPrice: (price, change24h) => {
-    set({ currentBitcoinPrice: price, bitcoinChange24h: change24h });
-    get().calculateResults();
+    // Use sync utility to update all stores
+    syncBitcoinPrice(price, change24h);
   },
   
   fetchBitcoinPrice: async () => {
     set({ isLoadingPrice: true });
     try {
       const { price, change24h } = await OptimizedBitcoinAPI.getCurrentPrice();
-      set({ 
-        currentBitcoinPrice: price, 
-        bitcoinChange24h: change24h,
-        isLoadingPrice: false 
-      });
-      get().calculateResults();
+      // Use sync utility to update all stores
+      syncBitcoinPrice(price, change24h);
+      set({ isLoadingPrice: false });
     } catch (error) {
       console.error('Failed to fetch Bitcoin price:', error);
       set({ isLoadingPrice: false });

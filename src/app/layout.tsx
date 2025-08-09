@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import './globals.css'
 
 const inter = Inter({ 
@@ -57,9 +58,11 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
-          <div className="min-h-screen transition-colors duration-300">
-            <main>{children}</main>
-          </div>
+          <StoreSyncProvider>
+            <div className="min-h-screen transition-colors duration-300">
+              <main>{children}</main>
+            </div>
+          </StoreSyncProvider>
         </ThemeProvider>
       </body>
     </html>
