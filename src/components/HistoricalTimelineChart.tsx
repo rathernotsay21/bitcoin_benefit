@@ -168,9 +168,10 @@ export default function HistoricalTimelineChart({
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg p-4 overflow-hidden">
-        <ResponsiveContainer width="100%" height={480}>
+        <ResponsiveContainer width="100%" height={480} debounce={100}>
           <ComposedChart
             data={chartData}
+            throttleDelay={50}
             margin={isMobile
               ? { top: 10, right: 40, bottom: 40, left: 40 }
               : { top: 20, right: 80, bottom: 60, left: 80 }
@@ -238,7 +239,7 @@ export default function HistoricalTimelineChart({
               strokeDasharray="5 5"
               name="BTC Balance"
               dot={<CustomDot startingYear={startingYear} />}
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={1500}
             />
 
@@ -250,7 +251,7 @@ export default function HistoricalTimelineChart({
               strokeWidth={3}
               name="USD Value"
               dot={<CustomDot startingYear={startingYear} />}
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={1500}
             />
 
@@ -263,7 +264,7 @@ export default function HistoricalTimelineChart({
               strokeDasharray="3 3"
               name="Cost Basis"
               dot={false}
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={1500}
             />
           </ComposedChart>

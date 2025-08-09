@@ -335,9 +335,11 @@ export default function VestingTimelineChartRecharts({
           width="100%" 
           height={isMobile ? 320 : 420} 
           minHeight={280}
+          debounce={100}
         >
           <ComposedChart
             data={yearlyData}
+            throttleDelay={50}
             margin={isMobile
               ? { top: 20, right: 20, bottom: 25, left: 30 }
               : { top: 40, right: 70, bottom: 40, left: 70 }
@@ -462,7 +464,7 @@ export default function VestingTimelineChartRecharts({
               dataKey="usdValue"
               fill="url(#usdAreaGradient)"
               stroke="none"
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={2000}
               name="" // Hide from legend
             />
@@ -477,7 +479,7 @@ export default function VestingTimelineChartRecharts({
               strokeDasharray="8 4"
               name="BTC Balance"
               dot={<CustomDot />}
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={2000}
               animationEasing="ease-in-out"
               filter="url(#glow)"
@@ -491,7 +493,7 @@ export default function VestingTimelineChartRecharts({
               strokeWidth={4}
               name="USD Value"
               dot={<CustomDot />}
-              isAnimationActive={true}
+              isAnimationActive={!isMobile}
               animationDuration={2000}
               animationEasing="ease-in-out"
               filter="url(#glow)"
