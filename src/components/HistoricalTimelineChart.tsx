@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -107,7 +107,7 @@ const CustomDot = ({ cx, cy, payload, startingYear = 2020 }: CustomDotProps) => 
   );
 };
 
-export default function HistoricalTimelineChart({
+function HistoricalTimelineChart({
   results,
   startingYear,
   currentBitcoinPrice
@@ -306,3 +306,26 @@ export default function HistoricalTimelineChart({
     </div>
   );
 }
+
+// Memoize the component with custom comparison
+export default React.memo(HistoricalTimelineChart, (prevProps, nextProps) => {
+  // Return true if props are equal (skip re-render), false if different (re-render)
+  return (
+    prevProps.startingYear === nextProps.startingYear &&
+    prevProps.currentBitcoinPrice === nextProps.currentBitcoinPrice &&
+    // Deep comparison for results object
+    prevProps.results.totalBitcoinGranted === nextProps.results.totalBitcoinGranted &&
+    prevProps.results.totalCostBasis === nextProps.results.totalCostBasis &&
+    prevProps.results.currentTotalValue === nextProps.results.currentTotalValue &&
+    prevProps.results.totalReturn === nextProps.results.totalReturn &&
+    prevProps.results.annualizedReturn === nextProps.results.annualizedReturn &&
+    prevProps.results.summary.yearsAnalyzed === nextProps.results.summary.yearsAnalyzed &&
+    prevProps.results.summary.costBasisMethod === nextProps.results.summary.costBasisMethod &&
+    prevProps.results.timeline.length === nextProps.results.timeline.length &&
+    // Check first and last timeline points for changes
+    (prevProps.results.timeline.length === 0 || 
+      (prevProps.results.timeline[0].month === nextProps.results.timeline[0].month &&
+       prevProps.results.timeline[prevProps.results.timeline.length - 1].month === 
+       nextProps.results.timeline[nextProps.results.timeline.length - 1].month))
+  );
+});

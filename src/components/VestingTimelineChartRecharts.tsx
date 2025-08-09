@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   LineChart,
   Line,
@@ -174,7 +174,7 @@ const CustomLegend = () => {
   );
 };
 
-export default function VestingTimelineChartRecharts({
+function VestingTimelineChartRecharts({
   timeline,
   initialGrant,
   annualGrant,
@@ -646,3 +646,25 @@ export default function VestingTimelineChartRecharts({
     </div>
   );
 }
+
+// Memoize the component with custom comparison
+export default React.memo(VestingTimelineChartRecharts, (prevProps, nextProps) => {
+  // Return true if props are equal (skip re-render), false if different (re-render)
+  return (
+    prevProps.initialGrant === nextProps.initialGrant &&
+    prevProps.annualGrant === nextProps.annualGrant &&
+    prevProps.projectedBitcoinGrowth === nextProps.projectedBitcoinGrowth &&
+    prevProps.currentBitcoinPrice === nextProps.currentBitcoinPrice &&
+    prevProps.schemeId === nextProps.schemeId &&
+    // Check timeline array
+    prevProps.timeline.length === nextProps.timeline.length &&
+    // Check first and last timeline points for changes
+    (prevProps.timeline.length === 0 || 
+      (prevProps.timeline[0].month === nextProps.timeline[0].month &&
+       prevProps.timeline[0].bitcoinPrice === nextProps.timeline[0].bitcoinPrice &&
+       prevProps.timeline[prevProps.timeline.length - 1].month === 
+       nextProps.timeline[nextProps.timeline.length - 1].month &&
+       prevProps.timeline[prevProps.timeline.length - 1].bitcoinPrice === 
+       nextProps.timeline[nextProps.timeline.length - 1].bitcoinPrice))
+  );
+});

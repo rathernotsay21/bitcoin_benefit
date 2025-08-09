@@ -6,12 +6,6 @@ This document outlines the findings of our React architecture analysis and provi
 
 ## Zustand State Management
 
-### Strengths
-
-* Clean separation between 3 domain stores (calculator, historical, on-chain).
-* Excellent async operation handling with loading states.
-* Smart static data caching in `calculatorStore`.
-
 ### Critical Optimizations
 
 -   [x] **Fix Debounce Logic Issue:** The current `setTimeout` should be replaced with a proper debouncing function to prevent excessive calculations on rapid input changes.
@@ -81,7 +75,7 @@ This document outlines the findings of our React architecture analysis and provi
     }
     ```
 
--   [ ] **Memoize Chart Components:** Wrap expensive chart components with `React.memo` to prevent unnecessary re-renders when their props have not changed.
+-   [x] **Memoize Chart Components:** Wrap expensive chart components with `React.memo` to prevent unnecessary re-renders when their props have not changed.
 
     ```typescript
     // Wrap expensive chart computations to avoid re-renders
@@ -230,10 +224,4 @@ export function useBitcoinPriceSync() {
 
 Here is the prioritized list of actions to address the most critical issues first.
 
-1.  **Fix Debouncing Logic:** This is the highest priority to prevent API spam and unnecessary re-renders.
-2.  **Add Memoization to Chart Components:** Immediately improve UI performance by preventing needless re-renders of expensive components.
-3.  **Implement `useMemo` and `useCallback`:** Apply these hooks to data calculations and event handlers to cut down on redundant processing.
-4.  **Add Abort Controllers / Memory Leak Fixes:** Ensure application stability by preventing memory leaks and state updates on unmounted components.
-5.  **Refactor with Custom Hooks:** Abstract logic into custom hooks (`useCalculation`, `useChartData`) to improve code organization and reusability.
-6.  **Optimize Recharts Rendering:** Apply throttling and other performance props to existing charts.
-7.  **Implement Lazy Loading and Virtualization:** Address initial load time and performance with large datasets as a final polish.
+1.  **Implement Lazy Loading and Virtualization:** Address initial load time and performance with large datasets as a final polish.
