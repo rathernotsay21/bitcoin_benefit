@@ -4,7 +4,7 @@ import VestingTrackerResults from '../VestingTrackerResults';
 
 // Mock the utils functions
 jest.mock('@/lib/utils', () => ({
-  formatBTC: (amount: number) => `₿${amount.toFixed(6)}`,
+  formatBTC: (amount: number) => `₿${amount.toFixed(3)}`,
   formatUSD: (amount: number) => `$${amount.toLocaleString()}`
 }));
 
@@ -342,7 +342,7 @@ describe('VestingTrackerResults', () => {
       expect(screen.getByText('2')).toBeInTheDocument(); // Vesting grants matched
       expect(screen.getByText('Vesting Grants Matched')).toBeInTheDocument();
 
-      expect(screen.getByText('₿1.100000')).toBeInTheDocument(); // Total BTC
+      expect(screen.getByText('₿1.100')).toBeInTheDocument(); // Total BTC
       expect(screen.getByText('Total BTC Received')).toBeInTheDocument();
 
       expect(screen.getByText('$27,500')).toBeInTheDocument(); // Total USD value

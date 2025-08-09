@@ -123,7 +123,7 @@ export default function LearnMorePage() {
                             </div>
                             <div className="card glass glow-orange lg:p-10">
                                 <div className="text-center">
-                                    <div className="text-3xl font-bold text-bitcoin mb-3">₿0.0075</div>
+                                    <div className="text-3xl font-bold text-bitcoin mb-3">₿0.008</div>
                                     <div className="text-lg text-gray-600 dark:text-white/90 mb-6">Currently Vested</div>
                                     <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-4 mb-4 overflow-hidden">
                                         <div className="bg-bitcoin-gradient h-full rounded-full animate-pulse-slow" style={{ width: '50%' }}></div>
@@ -314,7 +314,7 @@ export default function LearnMorePage() {
                                     <div>
                                         <h5 className="font-bold text-gray-900 dark:text-white mb-2">The Solution</h5>
                                         <p className="text-gray-600 dark:text-white/90 leading-relaxed">
-                                            "Started with the Stacker plan - ₿0.01 per instructor annually, plus they can add their own contributions. Now they talk about their 'pottery portfolio' and see their benefit growing alongside their craft."
+                                            "Started with the Stacker plan - ₿0.010 per instructor annually, plus they can add their own contributions. Now they talk about their 'pottery portfolio' and see their benefit growing alongside their craft."
                                         </p>
                                     </div>
                                     
@@ -418,7 +418,7 @@ export default function LearnMorePage() {
                                     <div>
                                         <h5 className="font-bold text-gray-900 dark:text-white mb-2">The Solution</h5>
                                         <p className="text-gray-600 dark:text-white/90 leading-relaxed">
-                                            "Implemented the Pioneer plan for senior mechanics - ₿0.05 upfront vesting. We showed them how this could outperform any signing bonus over time, with complete transparency."
+                                            "Implemented the Pioneer plan for senior mechanics - ₿0.050 upfront vesting. We showed them how this could outperform any signing bonus over time, with complete transparency."
                                         </p>
                                     </div>
                                     

@@ -8,7 +8,7 @@ export function cn(...inputs: string[]): string {
 /**
  * Format Bitcoin amounts with appropriate decimal places
  */
-export function formatBTC(amount: number, decimals = 6): string {
+export function formatBTC(amount: number, decimals = 3): string {
   return `₿${amount.toFixed(decimals)}`;
 }
 
@@ -16,7 +16,7 @@ export function formatBTC(amount: number, decimals = 6): string {
  * Format Bitcoin amounts with limited decimal places for summary display
  */
 export function formatBTCSummary(amount: number): string {
-  return `₿${amount.toFixed(4)}`;
+  return `₿${amount.toFixed(3)}`;
 }
 
 /**

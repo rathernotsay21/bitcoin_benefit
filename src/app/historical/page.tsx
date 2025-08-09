@@ -13,7 +13,7 @@ import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton } from '@/components/loading/Skeletons';
 
 function formatBTC(amount: number): string {
-  return `₿${amount.toFixed(6)}`;
+  return `₿${amount.toFixed(3)}`;
 }
 
 function formatUSD(amount: number): string {
@@ -214,7 +214,7 @@ function HistoricalCalculatorContent() {
                   Loading Historical Data
                 </h3>
                 <p className="text-gray-600 dark:text-slate-300">
-                  Fetching Bitcoin price data from {startingYear} to {currentYear}...
+                  Fetching benefit value data from {startingYear} to {currentYear}...
                 </p>
               </div>
             )}
@@ -249,7 +249,7 @@ function HistoricalCalculatorContent() {
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatBTC(historicalResults.totalBitcoinGranted)}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Bitcoin Granted</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Benefits Granted</div>
                   </div>
                   <div className="card text-center">
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
@@ -342,25 +342,25 @@ function HistoricalCalculatorContent() {
                               }, 0);
                             }
                             
-                            // Get historical Bitcoin price for this year
+                            // Get historical benefit value for this year
                             const yearPrices = historicalPrices[year];
-                            let historicalBitcoinPrice = 0;
+                            let historicalBenefitValue = 0;
                             if (yearPrices) {
                               switch (costBasisMethod) {
                                 case 'high':
-                                  historicalBitcoinPrice = yearPrices.high;
+                                  historicalBenefitValue = yearPrices.high;
                                   break;
                                 case 'low':
-                                  historicalBitcoinPrice = yearPrices.low;
+                                  historicalBenefitValue = yearPrices.low;
                                   break;
                                 case 'average':
-                                  historicalBitcoinPrice = yearPrices.average;
+                                  historicalBenefitValue = yearPrices.average;
                                   break;
                               }
                             }
                             
-                            // Calculate historical USD value using that year's price
-                            const historicalUsdValue = point.cumulativeBitcoin * historicalBitcoinPrice;
+                            // Calculate historical USD value using that year's value
+                            const historicalUsdValue = point.cumulativeBitcoin * historicalBenefitValue;
 
                             return (
                               <tr key={year} className={
@@ -377,10 +377,10 @@ function HistoricalCalculatorContent() {
                                 </td>
                                 <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.cumulativeBitcoin)}</td>
                                 <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden md:table-cell">
-                                  {historicalBitcoinPrice > 0 ? formatUSD(historicalBitcoinPrice) : '—'}
+                                  {historicalBenefitValue > 0 ? formatUSD(historicalBenefitValue) : '—'}
                                 </td>
                                 <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden lg:table-cell">
-                                  {historicalBitcoinPrice > 0 ? formatUSD(historicalUsdValue) : '—'}
+                                  {historicalBenefitValue > 0 ? formatUSD(historicalUsdValue) : '—'}
                                 </td>
                                 <td className="px-2 sm:px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400">
                                   {formatUSD(point.currentValue)}

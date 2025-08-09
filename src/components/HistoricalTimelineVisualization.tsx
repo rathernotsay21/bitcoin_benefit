@@ -17,7 +17,7 @@ function formatBTC(amount: number): string {
   if (amount === 0) return '₿0';
   if (amount >= 1) return `₿${amount.toFixed(2)}`;
   if (amount >= 0.1) return `₿${amount.toFixed(3)}`;
-  return `₿${amount.toFixed(4)}`;
+  return `₿${amount.toFixed(3)}`;
 }
 
 function formatBTCCompact(amount: number): string {

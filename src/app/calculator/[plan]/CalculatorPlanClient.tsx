@@ -18,7 +18,7 @@ interface CalculatorPlanClientProps {
 }
 
 function formatBTC(amount: number): string {
-  return `₿${amount.toFixed(6)}`;
+  return `₿${amount.toFixed(3)}`;
 }
 
 function formatUSD(amount: number): string {

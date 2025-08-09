@@ -259,7 +259,7 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Started with Stacker plan - 0.01 benefit units per instructor annually. Now they see their benefit growing and talk about their 'pottery portfolio.'"
+                    "Started with Stacker plan - ₿0.010 per instructor annually. Now they see their benefit growing and talk about their 'pottery portfolio.'"
                   </p>
                 </div>
 
@@ -302,7 +302,7 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Implemented Pioneer plan for senior mechanics - ₿0.05 upfront. Showed them how it could outperform any signing bonus."
+                    "Implemented Pioneer plan for senior mechanics - ₿0.050 upfront. Showed them how it could outperform any signing bonus."
                   </p>
                 </div>
 
@@ -429,7 +429,7 @@ export default function HomePage() {
 
                   <div className="flex justify-between items-center p-4 bg-white/80 dark:bg-slate-800/80 rounded-xl">
                     <span className="font-medium text-slate-600 dark:text-slate-300">Initial Grant</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-100 text-lg">₿0.1</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-100 text-lg">₿0.100</span>
                   </div>
 
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 rounded-xl border-2 border-bitcoin dark:border-slate-700">
@@ -459,7 +459,7 @@ export default function HomePage() {
 
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    * Example based on Pioneer benefit package (₿0.1) starting in 2020.
+                    * Example based on Pioneer benefit package (₿0.100) starting in 2020.
                     Past employee benefit performance does not guarantee future results.
                   </p>
                 </div>

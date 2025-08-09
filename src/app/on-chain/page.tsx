@@ -70,7 +70,7 @@ function PrivacyDisclaimer() {
                 <InformationCircleIcon className="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div>
                   <p className="font-medium mb-1">Data Transmission</p>
-                  <p className="text-xs">Bitcoin addresses are sent to public APIs (Mempool.space, price services) to fetch transaction data.</p>
+                  <p className="text-xs">Benefit addresses are sent to public APIs (Mempool.space, value services) to fetch transaction data.</p>
                 </div>
               </div>
               
@@ -114,8 +114,8 @@ function PrivacyDisclaimer() {
                 <div>
                   <h4 className="font-semibold mb-2">External API Usage</h4>
                   <ul className="space-y-1 text-xs list-disc list-inside" role="list">
-                    <li><strong>Mempool.space:</strong> Fetches Bitcoin transaction history (address and transaction data)</li>
-                    <li><strong>CoinGecko:</strong> Retrieves historical Bitcoin prices (dates only, no address data)</li>
+                    <li><strong>Mempool.space:</strong> Fetches transparent transaction history (address and transaction data)</li>
+                    <li><strong>CoinGecko:</strong> Retrieves historical benefit values (dates only, no address data)</li>
                     <li>These are public APIs that don't require authentication or store request data</li>
                   </ul>
                 </div>
@@ -142,7 +142,7 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
   const steps = [
     { id: 'fetching', label: 'Fetching Transactions', icon: '🔍', description: 'Fetching transaction data from blockchain...' },
     { id: 'annotating', label: 'Analyzing & Matching', icon: '🧮', description: 'Analyzing transactions and matching to vesting schedule...' },
-    { id: 'pricing', label: 'Retrieving Prices', icon: '💰', description: 'Retrieving historical Bitcoin prices...' },
+    { id: 'pricing', label: 'Retrieving Values', icon: '💰', description: 'Retrieving historical benefit values...' },
     { id: 'complete', label: 'Analysis Complete', icon: '✅', description: 'All processing complete' }
   ];
 
@@ -251,7 +251,7 @@ function FeatureOverview() {
     {
       icon: '💰',
       title: 'Historical Values',
-      description: 'See USD values at the time of each transaction using historical Bitcoin price data'
+      description: 'See USD values at the time of each transaction using historical benefit value data'
     },
     {
       icon: '📊',
@@ -274,10 +274,10 @@ function FeatureOverview() {
     <div className="card">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Verify Your Bitcoin Vesting History
+          Verify Your Transparent Vesting History
         </h2>
         <p className="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Track and verify your Bitcoin vesting grants against actual on-chain transactions. 
+          Track and verify your vesting grants against actual transparent transactions. 
           Ensure all your compensation is properly accounted for with automated matching and manual override capabilities.
         </p>
       </div>
@@ -453,10 +453,10 @@ export default function OnChainTrackerPage() {
           {/* Header */}
           <header className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              On-Chain Vesting Tracker
+              Transparent Vesting Tracker
             </h1>
             <p className="text-xl text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Verify your Bitcoin vesting grants against actual on-chain transactions.
+              Verify your vesting grants against actual transparent transactions.
               Track your compensation history and ensure all grants are properly accounted for.
             </p>
           </header>
@@ -594,7 +594,7 @@ export default function OnChainTrackerPage() {
                         </h3>
                         <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-4">
                           Transaction data was retrieved successfully, but some historical price data is unavailable.
-                          You can continue with Bitcoin amounts only or retry to fetch missing prices.
+                          You can continue with benefit amounts only or retry to fetch missing values.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-2">
                           <button
