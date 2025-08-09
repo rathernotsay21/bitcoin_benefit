@@ -10,6 +10,7 @@ import { HistoricalCalculator } from '@/lib/historical-calculations';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
+import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
 
 interface HistoricalCalculatorState {
   // Input state
@@ -30,6 +31,10 @@ interface HistoricalCalculatorState {
   isCalculating: boolean;
   calculationError: string | null;
   
+  // Debounced functions
+  debouncedCalculate: DebouncedFunction<() => void> | null;
+  debouncedFetch: DebouncedFunction<() => Promise<void>> | null;
+  
   // Actions
   setStartingYear: (year: number) => void;
   setCostBasisMethod: (method: CostBasisMethod) => void;
@@ -41,71 +46,96 @@ interface HistoricalCalculatorState {
   resetCalculator: () => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
   loadStaticData: () => Promise<void>;
+  cleanup: () => void;
 }
 
-export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((set, get) => ({
-  // Initial state
-  selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
-  startingYear: 2020, // Default to 2020
-  costBasisMethod: 'average',
-  schemeCustomizations: {},
-  
-  // Historical data state
-  historicalPrices: {},
-  currentBitcoinPrice: 45000, // Default fallback price
-  isLoadingHistoricalData: false,
-  historicalDataError: null,
-  staticDataLoaded: false,
-  
-  // Results state
-  historicalResults: null,
-  isCalculating: false,
-  calculationError: null,
-  
-  // Actions
-  setStartingYear: (year) => {
-    set({ startingYear: year });
+export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((set, get) => {
+  // Create debounced functions that will be initialized after store creation
+  let debouncedCalculate: DebouncedFunction<() => void> | null = null;
+  let debouncedFetch: DebouncedFunction<() => Promise<void>> | null = null;
+
+  // Initialize debounced functions after get() is available
+  const initDebouncedFunctions = () => {
+    if (!debouncedCalculate) {
+      debouncedCalculate = debounce(() => {
+        get().calculateHistoricalResults();
+      }, 100);
+    }
+    if (!debouncedFetch) {
+      debouncedFetch = debounce(async () => {
+        await get().fetchHistoricalData();
+      }, 100);
+    }
+    return { debouncedCalculate, debouncedFetch };
+  };
+
+  return {
+    // Initial state
+    selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
+    startingYear: 2020, // Default to 2020
+    costBasisMethod: 'average',
+    schemeCustomizations: {},
     
-    // Auto-fetch historical data and recalculate
-    setTimeout(() => {
-      get().fetchHistoricalData();
-    }, 100);
-  },
-  
-  setCostBasisMethod: (method) => {
-    set({ costBasisMethod: method });
+    // Historical data state
+    historicalPrices: {},
+    currentBitcoinPrice: 45000, // Default fallback price
+    isLoadingHistoricalData: false,
+    historicalDataError: null,
+    staticDataLoaded: false,
     
-    // Auto-recalculate with new method
-    setTimeout(() => {
-      get().calculateHistoricalResults();
-    }, 100);
-  },
-  
-  setSelectedScheme: (scheme) => {
-    set({ selectedScheme: scheme });
+    // Results state
+    historicalResults: null,
+    isCalculating: false,
+    calculationError: null,
     
-    // Auto-calculate if we have enough data
-    setTimeout(() => {
-      get().calculateHistoricalResults();
-    }, 100);
-  },
+    // Debounced functions
+    debouncedCalculate: null,
+    debouncedFetch: null,
   
-  updateSchemeCustomization: (schemeId, customization) => {
-    set((state) => ({
-      schemeCustomizations: {
-        ...state.schemeCustomizations,
-        [schemeId]: {
-          ...state.schemeCustomizations[schemeId],
-          ...customization
+    // Actions
+    setStartingYear: (year) => {
+      const { debouncedFetch } = initDebouncedFunctions();
+      
+      set({ startingYear: year });
+      
+      // Auto-fetch historical data and recalculate with debounce
+      debouncedFetch();
+    },
+    
+    setCostBasisMethod: (method) => {
+      const { debouncedCalculate } = initDebouncedFunctions();
+      
+      set({ costBasisMethod: method });
+      
+      // Auto-recalculate with new method using debounce
+      debouncedCalculate();
+    },
+    
+    setSelectedScheme: (scheme) => {
+      const { debouncedCalculate } = initDebouncedFunctions();
+      
+      set({ selectedScheme: scheme });
+      
+      // Auto-calculate if we have enough data using debounce
+      debouncedCalculate();
+    },
+    
+    updateSchemeCustomization: (schemeId, customization) => {
+      const { debouncedCalculate } = initDebouncedFunctions();
+      
+      set((state) => ({
+        schemeCustomizations: {
+          ...state.schemeCustomizations,
+          [schemeId]: {
+            ...state.schemeCustomizations[schemeId],
+            ...customization
+          }
         }
-      }
-    }));
-    
-    // Auto-recalculate with new customization
-    setTimeout(() => {
-      get().calculateHistoricalResults();
-    }, 100);
-  },
+      }));
+      
+      // Auto-recalculate with new customization using debounce
+      debouncedCalculate();
+    },
   
   fetchHistoricalData: async () => {
     const { startingYear } = get();
@@ -219,20 +249,28 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     }
   },
   
-  resetCalculator: () => {
-    set({
-      selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
-      startingYear: 2020,
-      costBasisMethod: 'average',
-      schemeCustomizations: {},
-      historicalPrices: {},
-      historicalResults: null,
-      isCalculating: false,
-      calculationError: null,
-      historicalDataError: null,
-      isLoadingHistoricalData: false
-    });
-  },
+    resetCalculator: () => {
+      // Cancel any pending debounced operations
+      if (debouncedCalculate) {
+        debouncedCalculate.cancel();
+      }
+      if (debouncedFetch) {
+        debouncedFetch.cancel();
+      }
+      
+      set({
+        selectedScheme: HISTORICAL_VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
+        startingYear: 2020,
+        costBasisMethod: 'average',
+        schemeCustomizations: {},
+        historicalPrices: {},
+        historicalResults: null,
+        isCalculating: false,
+        calculationError: null,
+        historicalDataError: null,
+        isLoadingHistoricalData: false
+      });
+    },
   
   getEffectiveScheme: (scheme) => {
     const { schemeCustomizations } = get();
@@ -271,4 +309,15 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
       set({ staticDataLoaded: true });
     }
   },
-}));
+    
+    cleanup: () => {
+      // Cancel all pending debounced operations
+      if (debouncedCalculate) {
+        debouncedCalculate.cancel();
+      }
+      if (debouncedFetch) {
+        debouncedFetch.cancel();
+      }
+    },
+  };
+});

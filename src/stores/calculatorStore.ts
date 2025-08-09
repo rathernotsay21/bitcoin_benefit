@@ -3,6 +3,7 @@ import { CalculationInputs, VestingCalculationResult, VestingScheme } from '@/ty
 import { VestingCalculator } from '@/lib/vesting-calculations';
 import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
+import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
 
 interface CalculatorState {
   // Input state
@@ -25,6 +26,10 @@ interface CalculatorState {
   // Scheme customization
   schemeCustomizations: Record<string, Partial<VestingScheme>>;
   
+  // Debounced functions
+  debouncedCalculate: DebouncedFunction<() => void> | null;
+  debouncedSchemeCalculate: DebouncedFunction<() => void> | null;
+  
   // Actions
   setSelectedScheme: (scheme: VestingScheme) => void;
   updateInputs: (inputs: Partial<CalculationInputs>) => void;
@@ -35,6 +40,7 @@ interface CalculatorState {
   updateSchemeCustomization: (schemeId: string, customization: Partial<VestingScheme>) => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
   loadStaticData: () => Promise<void>;
+  cleanup: () => void;
 }
 
 // Static data cache
@@ -43,48 +49,70 @@ let staticDataCache: {
   calculations?: Record<string, VestingCalculationResult>;
 } = {};
 
-export const useCalculatorStore = create<CalculatorState>((set, get) => ({
-  // Initial state
-  selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
-  inputs: {
-    projectedBitcoinGrowth: 15,
-  },
-  results: null,
-  isCalculating: false,
-  currentBitcoinPrice: 45000,
-  bitcoinChange24h: 0,
-  isLoadingPrice: false,
-  staticDataLoaded: false,
-  staticCalculations: {},
-  schemeCustomizations: {},
-  
-  // Actions
-  setSelectedScheme: (scheme) => {
-    set({ selectedScheme: scheme });
-    
-    // Check if we have static calculation for this scheme
-    const { staticCalculations, staticDataLoaded } = get();
-    if (staticDataLoaded && staticCalculations[scheme.id]) {
-      // Use static calculation immediately for instant display
-      set({ results: staticCalculations[scheme.id] });
+export const useCalculatorStore = create<CalculatorState>((set, get) => {
+  // Create debounced functions that will be initialized after store creation
+  let debouncedCalculate: DebouncedFunction<() => void> | null = null;
+  let debouncedSchemeCalculate: DebouncedFunction<() => void> | null = null;
+
+  // Initialize debounced functions after get() is available
+  const initDebouncedFunctions = () => {
+    if (!debouncedCalculate) {
+      debouncedCalculate = debounce(() => {
+        get().calculateResults();
+      }, 300);
     }
-    
-    // Auto-calculate with current inputs
-    setTimeout(() => {
-      get().calculateResults();
-    }, 100);
-  },
+    if (!debouncedSchemeCalculate) {
+      debouncedSchemeCalculate = debounce(() => {
+        get().calculateResults();
+      }, 100);
+    }
+    return { debouncedCalculate, debouncedSchemeCalculate };
+  };
+
+  return {
+    // Initial state
+    selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
+    inputs: {
+      projectedBitcoinGrowth: 15,
+    },
+    results: null,
+    isCalculating: false,
+    currentBitcoinPrice: 45000,
+    bitcoinChange24h: 0,
+    isLoadingPrice: false,
+    staticDataLoaded: false,
+    staticCalculations: {},
+    schemeCustomizations: {},
+    debouncedCalculate: null,
+    debouncedSchemeCalculate: null,
   
-  updateInputs: (newInputs) => {
-    set((state) => ({
-      inputs: { ...state.inputs, ...newInputs }
-    }));
-    
-    // Auto-calculate with debounce
-    setTimeout(() => {
-      get().calculateResults();
-    }, 300);
-  },
+    // Actions
+    setSelectedScheme: (scheme) => {
+      const { debouncedCalculate: debounced, debouncedSchemeCalculate: schemeDebounced } = initDebouncedFunctions();
+      
+      set({ selectedScheme: scheme });
+      
+      // Check if we have static calculation for this scheme
+      const { staticCalculations, staticDataLoaded } = get();
+      if (staticDataLoaded && staticCalculations[scheme.id]) {
+        // Use static calculation immediately for instant display
+        set({ results: staticCalculations[scheme.id] });
+      }
+      
+      // Auto-calculate with current inputs using debounced function
+      schemeDebounced();
+    },
+  
+    updateInputs: (newInputs) => {
+      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      
+      set((state) => ({
+        inputs: { ...state.inputs, ...newInputs }
+      }));
+      
+      // Auto-calculate with proper debounce
+      debounced();
+    },
   
   calculateResults: () => {
     const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme } = get();
@@ -189,42 +217,65 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => ({
     }
   },
   
-  resetCalculator: () => {
-    set({
-      selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
-      inputs: {
-        projectedBitcoinGrowth: 15,
-      },
-      results: null,
-      isCalculating: false,
-      schemeCustomizations: {},
-    });
-  },
-  
-  updateSchemeCustomization: (schemeId, customization) => {
-    set((state) => ({
-      schemeCustomizations: {
-        ...state.schemeCustomizations,
-        [schemeId]: {
-          ...state.schemeCustomizations[schemeId],
-          ...customization
-        }
+    resetCalculator: () => {
+      // Cancel any pending debounced calculations
+      if (debouncedCalculate) {
+        debouncedCalculate.cancel();
       }
-    }));
-    get().calculateResults();
-  },
+      if (debouncedSchemeCalculate) {
+        debouncedSchemeCalculate.cancel();
+      }
+      
+      set({
+        selectedScheme: VESTING_SCHEMES.find(scheme => scheme.id === 'accelerator') || null,
+        inputs: {
+          projectedBitcoinGrowth: 15,
+        },
+        results: null,
+        isCalculating: false,
+        schemeCustomizations: {},
+      });
+    },
   
-  getEffectiveScheme: (scheme) => {
-    const { schemeCustomizations } = get();
-    const customization = schemeCustomizations[scheme.id];
+    updateSchemeCustomization: (schemeId, customization) => {
+      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      
+      set((state) => ({
+        schemeCustomizations: {
+          ...state.schemeCustomizations,
+          [schemeId]: {
+            ...state.schemeCustomizations[schemeId],
+            ...customization
+          }
+        }
+      }));
+      
+      // Use debounced calculation
+      debounced();
+    },
+  
+    getEffectiveScheme: (scheme) => {
+      const { schemeCustomizations } = get();
+      const customization = schemeCustomizations[scheme.id];
+      
+      if (!customization) {
+        return scheme;
+      }
+      
+      return {
+        ...scheme,
+        ...customization
+      };
+    },
     
-    if (!customization) {
-      return scheme;
-    }
-    
-    return {
-      ...scheme,
-      ...customization
-    };
-  },
-}));
+    cleanup: () => {
+      // Cancel all pending debounced operations
+      if (debouncedCalculate) {
+        debouncedCalculate.cancel();
+      }
+      if (debouncedSchemeCalculate) {
+        debouncedSchemeCalculate.cancel();
+      }
+    },
+  };
+});
