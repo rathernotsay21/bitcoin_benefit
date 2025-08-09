@@ -47,13 +47,13 @@
   - Update "The Ultimate Retention Tool" with small business specific retention statistics
   - _Requirements: 4.2, 4.3, 5.2, 3.1_
 
-- [ ] 8. Add small business examples and scenarios throughout both pages
+- [x] 8. Add small business examples and scenarios throughout both pages
   - Integrate pottery studio, auto shop, and construction company examples
   - Create relatable scenarios showing how each business type benefits
   - Add specific use cases that address common small business retention challenges
   - _Requirements: 3.2, 5.1, 5.4_
 
-- [ ] 9. Update all technical Bitcoin terminology for accessibility
+- [-] 9. Update all technical Bitcoin terminology for accessibility
   - Replace "sound money" with "valuable employee benefit" or similar business terms
   - Change "digital asset" to "modern benefit" or "wealth-building benefit"
   - Update "on-chain" references to "transparent" or "verifiable"

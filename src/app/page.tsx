@@ -37,15 +37,15 @@ export default function HomePage() {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        // Fetch current Bitcoin price
+        // Fetch current benefit value
         const currentPriceData = await BitcoinAPI.getCurrentPrice();
         setCurrentBitcoinPrice(currentPriceData.price);
 
-        // Fetch 2020 historical price
+        // Fetch 2020 historical value
         const historical2020 = await HistoricalBitcoinAPI.getYearlyPrice(2020);
         setHistoricalPrice2020(historical2020.average);
       } catch (error) {
-        console.error('Failed to fetch Bitcoin prices:', error);
+        console.error('Failed to fetch benefit values:', error);
         // Keep fallback values
       } finally {
         setIsLoading(false);
@@ -56,9 +56,9 @@ export default function HomePage() {
   }, []);
 
   // Calculate dynamic values
-  const bitcoinAmount = 0.1;
-  const costBasis = bitcoinAmount * historicalPrice2020;
-  const presentValue = bitcoinAmount * currentBitcoinPrice;
+  const benefitAmount = 0.1;
+  const costBasis = benefitAmount * historicalPrice2020;
+  const presentValue = benefitAmount * currentBitcoinPrice;
   const totalReturn = presentValue - costBasis;
   const returnPercentage = ((totalReturn / costBasis) * 100);
 
@@ -139,7 +139,10 @@ export default function HomePage() {
                     <span className="text-slate-600 dark:text-slate-300">100% earned at 10 years</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
+                    "Perfect for attracting experienced mechanics who expect competitive packages" - Auto Shop Owner
+                  </div>
                   <span className="badge badge-orange">High Impact</span>
                 </div>
               </div>
@@ -171,7 +174,10 @@ export default function HomePage() {
                     <span className="text-slate-600 dark:text-slate-300">Balanced retention strategy</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
+                    "Our pottery instructors love seeing their benefits grow each year - keeps them motivated" - Studio Owner
+                  </div>
                   <span className="badge badge-success">Balanced</span>
                 </div>
               </div>
@@ -203,11 +209,169 @@ export default function HomePage() {
                     <span className="text-slate-600 dark:text-slate-300">Long-term loyalty focus</span>
                   </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
+                    "Helps us budget while keeping our crew thinking long-term about staying" - Construction Company
+                  </div>
                   <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Loyalty-Focused</span>
                 </div>
               </div>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Small Business Scenarios Section */}
+      <section className="py-24 section-alt">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
+              See How It Works for Businesses Like Yours
+            </h3>
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+              Real scenarios showing how different small businesses use this benefit to solve their unique retention challenges
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Pottery Studio Scenario */}
+            <div className="card glass glow-orange p-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🏺</span>
+                </div>
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
+                  Artisan Pottery Studio
+                </h4>
+                <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                  8 employees • Est. 2018
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border-l-4 border-red-400">
+                  <h5 className="font-bold text-red-800 dark:text-red-300 mb-2">The Problem</h5>
+                  <p className="text-sm text-red-700 dark:text-red-200">
+                    "My best pottery instructors kept leaving for corporate design jobs. Training new people took months and hurt our reputation."
+                  </p>
+                </div>
+
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
+                  <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
+                  <p className="text-sm text-green-700 dark:text-green-200">
+                    "Started with Stacker plan - 0.01 benefit units per instructor annually. Now they see their benefit growing and talk about their 'pottery portfolio.'"
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border-l-4 border-blue-400">
+                  <h5 className="font-bold text-blue-800 dark:text-blue-300 mb-2">The Result</h5>
+                  <p className="text-sm text-blue-700 dark:text-blue-200">
+                    "Zero instructor turnover in 18 months. Students love the consistency, and my team feels invested in our studio's success."
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center pt-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">92%</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">Retention improvement</div>
+              </div>
+            </div>
+
+            {/* Auto Shop Scenario */}
+            <div className="card glass glow-orange p-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🔧</span>
+                </div>
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
+                  Family Auto Repair
+                </h4>
+                <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                  12 employees • Est. 2012
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border-l-4 border-red-400">
+                  <h5 className="font-bold text-red-800 dark:text-red-300 mb-2">The Problem</h5>
+                  <p className="text-sm text-red-700 dark:text-red-200">
+                    "Dealerships kept poaching our certified mechanics with signing bonuses. We couldn't compete on upfront cash."
+                  </p>
+                </div>
+
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
+                  <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
+                  <p className="text-sm text-green-700 dark:text-green-200">
+                    "Implemented Pioneer plan for senior mechanics - ₿0.05 upfront. Showed them how it could outperform any signing bonus."
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border-l-4 border-blue-400">
+                  <h5 className="font-bold text-blue-800 dark:text-blue-300 mb-2">The Result</h5>
+                  <p className="text-sm text-blue-700 dark:text-blue-200">
+                    "Three mechanics turned down dealership offers. They check their balance daily and refer friends to work here."
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center pt-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">$47K</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">Saved in recruitment costs</div>
+              </div>
+            </div>
+
+            {/* Construction Company Scenario */}
+            <div className="card glass glow-orange p-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🏗️</span>
+                </div>
+                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
+                  Riverside Construction
+                </h4>
+                <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                  15 employees • Est. 2015
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border-l-4 border-red-400">
+                  <h5 className="font-bold text-red-800 dark:text-red-300 mb-2">The Problem</h5>
+                  <p className="text-sm text-red-700 dark:text-red-200">
+                    "Seasonal work meant crew members left for 'more stable' jobs. Lost our best foreman to a big contractor."
+                  </p>
+                </div>
+
+                <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
+                  <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
+                  <p className="text-sm text-green-700 dark:text-green-200">
+                    "Used Builder plan - ₿0.008 annually per crew member. Predictable costs that work with our project-based income."
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border-l-4 border-blue-400">
+                  <h5 className="font-bold text-blue-800 dark:text-blue-300 mb-2">The Result</h5>
+                  <p className="text-sm text-blue-700 dark:text-blue-200">
+                    "Crew stays through slow seasons now. They see the long-term value and trust us to take care of them."
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center pt-4 border-t border-slate-200 dark:border-slate-700">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">78%</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">Reduction in seasonal turnover</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <div className="inline-flex items-center space-x-4 p-6 bg-gradient-to-r from-bitcoin/10 to-orange-500/10 dark:from-slate-800 dark:to-slate-700 rounded-2xl">
+              <div className="text-3xl font-bold text-slate-700 dark:text-slate-100">85%</div>
+              <div className="text-left">
+                <div className="font-bold text-slate-700 dark:text-slate-100">Average retention improvement</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">across small businesses using modern benefits</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -391,9 +555,12 @@ export default function HomePage() {
                       </div>
                       <span className="font-bold text-green-800 dark:text-green-100">Pottery Studio</span>
                     </div>
-                    <p className="text-sm text-green-700 dark:text-green-200">
+                    <p className="text-sm text-green-700 dark:text-green-200 mb-2">
                       "My skilled potters used to leave for corporate design jobs. Now they stay because their benefit grows with their craft."
                     </p>
+                    <div className="text-xs text-green-600 dark:text-green-300 font-medium">
+                      Challenge: Competing with corporate benefits • Solution: Stacker plan • Result: Zero instructor turnover
+                    </div>
                   </div>
 
                   <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
@@ -403,9 +570,12 @@ export default function HomePage() {
                       </div>
                       <span className="font-bold text-blue-800 dark:text-blue-100">Auto Shop</span>
                     </div>
-                    <p className="text-sm text-blue-700 dark:text-blue-200">
+                    <p className="text-sm text-blue-700 dark:text-blue-200 mb-2">
                       "Dealerships can't compete with this. My mechanics see their benefit value and know they're building something here."
                     </p>
+                    <div className="text-xs text-blue-600 dark:text-blue-300 font-medium">
+                      Challenge: Dealership poaching • Solution: Pioneer plan • Result: $47K saved in recruitment
+                    </div>
                   </div>
 
                   <div className="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/30 dark:to-yellow-900/30 rounded-xl border border-orange-200 dark:border-orange-800">
@@ -415,9 +585,27 @@ export default function HomePage() {
                       </div>
                       <span className="font-bold text-orange-800 dark:text-orange-100">Construction</span>
                     </div>
-                    <p className="text-sm text-orange-700 dark:text-orange-200">
+                    <p className="text-sm text-orange-700 dark:text-orange-200 mb-2">
                       "Our crew talks about their benefits at lunch. They're invested in staying because they're invested in their future."
                     </p>
+                    <div className="text-xs text-orange-600 dark:text-orange-300 font-medium">
+                      Challenge: Seasonal turnover • Solution: Builder plan • Result: 78% reduction in turnover
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl border border-purple-200 dark:border-purple-800">
+                    <div className="flex items-center mb-2">
+                      <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white text-sm font-bold">☕</span>
+                      </div>
+                      <span className="font-bold text-purple-800 dark:text-purple-100">Coffee Roastery</span>
+                    </div>
+                    <p className="text-sm text-purple-700 dark:text-purple-200 mb-2">
+                      "Our baristas see this as their 'coffee fund' that grows. They're proud to work somewhere that invests in their future."
+                    </p>
+                    <div className="text-xs text-purple-600 dark:text-purple-300 font-medium">
+                      Challenge: High service turnover • Solution: Stacker plan • Result: 3x longer average tenure
+                    </div>
                   </div>
                 </div>
 

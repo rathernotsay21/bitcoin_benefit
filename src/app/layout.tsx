@@ -10,12 +10,12 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Bitcoin Benefits - Employee Vesting Solutions',
-  description: 'Create an employee retention protocol that works—powered by Bitcoin. Plan vesting schemes, analyze historical performance, and secure your team\'s future.',
-  keywords: ['bitcoin', 'vesting', 'employee benefits', 'cryptocurrency', 'retirement', 'employee retention', 'compensation'],
+  title: 'Modern Employee Benefits - Retention Solutions',
+  description: 'Create an employee retention protocol that works—powered by valuable benefits. Plan vesting schemes, analyze historical performance, and secure your team\'s future.',
+  keywords: ['employee benefits', 'vesting', 'retention', 'modern benefits', 'retirement', 'employee retention', 'compensation'],
   openGraph: {
-    title: 'Bitcoin Benefits - Employee Vesting Solutions',
-    description: 'Reward loyalty with sound money. Create Bitcoin-based employee vesting schemes.',
+    title: 'Modern Employee Benefits - Retention Solutions',
+    description: 'Reward loyalty with valuable employee benefits. Create modern employee vesting schemes.',
     type: 'website',
   },
 }
