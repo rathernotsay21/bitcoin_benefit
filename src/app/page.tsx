@@ -445,19 +445,19 @@ export default function HomePage() {
 
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
           <h3 className="text-4xl font-bold text-white mb-6">
-            Ready to Start Planning?
+            Ready to Keep Your Best People?
           </h3>
           <p className="text-2xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
-            Use our calculators to model different vesting scenarios and analyze historical performance.
+            See how much this modern benefit could save you in turnover costs and help you compete for top talent.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
               <CalculatorIcon className="w-5 h-5" />
-              <span>Planning Calculator</span>
+              <span>Calculate Your Savings</span>
             </Link>
             <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
               <ClockIcon className="w-5 h-5" />
-              <span>Historical Results</span>
+              <span>See Success Stories</span>
             </Link>
           </div>
         </div>
@@ -470,9 +470,9 @@ export default function HomePage() {
             <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
               <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
-            <h4 className="text-3xl font-bold mb-4">Secure their future. Secure your team.</h4>
+            <h4 className="text-3xl font-bold mb-4">Build loyalty. Reduce turnover. Keep your best people.</h4>
             <p className="text-gray-400 mb-8 text-lg">
-              Empowering employers to reward teams with sound money
+              The modern employee benefit that small businesses use to compete with big companies
             </p>
             <div className="text-sm text-gray-500 space-y-1">
               <p>Webmaster - Rather Notsay</p>

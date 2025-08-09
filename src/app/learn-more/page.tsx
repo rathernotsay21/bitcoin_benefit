@@ -37,8 +37,8 @@ export default function LearnMorePage() {
                     </div>
                     
                     <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-8">
-                        Why is Bitcoin the best way to<br />
-                        <span className="text-bitcoin dark:text-white">secure your team?</span>
+                        Tired of losing your best people to<br />
+                        <span className="text-bitcoin dark:text-white">bigger companies?</span>
                     </h2>
 
                     <div className="grid md:grid-cols-2 gap-8 text-left mt-12">
@@ -47,8 +47,8 @@ export default function LearnMorePage() {
                                 <TrophyIcon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Reduce Turnover</h3>
-                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Give top talent a compelling reason to stay and grow with you.</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Stop the Revolving Door</h3>
+                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Give your skilled workers a real reason to stay instead of jumping to the next opportunity.</p>
                             </div>
                         </div>
 
@@ -57,8 +57,8 @@ export default function LearnMorePage() {
                                 <ShieldCheckIcon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Total Transparency</h3>
-                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Employees track their grants on-chain, anytime. No more guessing.</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Build Trust</h3>
+                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Show employees exactly what they're earning with complete transparency - no hidden terms or fine print.</p>
                             </div>
                         </div>
 
@@ -67,8 +67,8 @@ export default function LearnMorePage() {
                                 <UserGroupIcon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Employee Empowerment</h3>
-                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Allow direct contributions so your team can accelerate their savings.</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Compete for Talent</h3>
+                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Offer something big companies can't - a benefit that grows with your business success.</p>
                             </div>
                         </div>
 
@@ -77,8 +77,8 @@ export default function LearnMorePage() {
                                 <BanknotesIcon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Financial Wellness</h3>
-                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Introduce your team to sound money principles and long-term wealth building.</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Attract Quality People</h3>
+                                <p className="text-gray-600 dark:text-white/90 leading-relaxed">Stand out from other small businesses with a modern benefit that shows you invest in your team's future.</p>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@ export default function LearnMorePage() {
             <section className="py-24 bg-white dark:bg-bitcoin transition-colors duration-300">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* On-Chain Tracking & Transparency */}
+                    {/* Trust Building Through Transparency */}
                     <div className="mb-24">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div>
@@ -97,10 +97,10 @@ export default function LearnMorePage() {
                                     <CheckCircleIcon className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                                    Radical Transparency
+                                    Build Trust Through Complete Transparency
                                 </h3>
                                 <p className="text-xl text-gray-600 dark:text-white/90 leading-relaxed">
-                                    Every grant is recorded on-chain. Employees have a real-time, immutable view of their growing assets, building unparalleled trust.
+                                    Your employees can see exactly what they've earned and when they'll get it. No hidden terms, no surprises - just honest communication that builds lasting trust between you and your team.
                                 </p>
                             </div>
                             <div className="card glass glow-orange lg:p-10">
@@ -147,10 +147,10 @@ export default function LearnMorePage() {
                                     <PlusIcon className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                                    Empower Financial Ownership
+                                    Give Your Team Real Control
                                 </h3>
                                 <p className="text-xl text-gray-600 dark:text-white/90 leading-relaxed">
-                                    Employees can contribute directly to their plan 24/7, giving them direct control and turning their benefit into a personal wealth-building engine.
+                                    Let employees boost their own benefits whenever they want. When your team has control over their financial future, they feel more invested in your business success.
                                 </p>
                             </div>
                         </div>
@@ -164,10 +164,10 @@ export default function LearnMorePage() {
                                     <ArrowTrendingUpIcon className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                                    Powered by Sound Money
+                                    Your Secret Competitive Advantage
                                 </h3>
                                 <p className="text-xl text-gray-600 dark:text-white/90 leading-relaxed">
-                                    Move beyond traditional plans. Offer a benefit with the potential for significant long-term growth, backed by the world's premier digital asset.
+                                    While other small businesses offer the same old benefits, you're offering something that could actually change your employees' lives. That's how you win the talent war.
                                 </p>
                             </div>
                             <div className="card glass glow-orange lg:p-10">
@@ -197,25 +197,28 @@ export default function LearnMorePage() {
                             <div className="order-2 lg:order-1">
                                 <div className="card glass glow-orange lg:p-10">
                                     <div className="text-center">
-                                        <div className="text-lg text-gray-600 dark:text-white/90 mb-6">Industry Comparison</div>
+                                        <div className="text-lg text-gray-600 dark:text-white/90 mb-6">Small Business Retention Rates</div>
                                         <div className="space-y-6">
                                             <div>
                                                 <div className="flex justify-between mb-2">
-                                                    <span className="font-medium dark:text-white">Traditional Benefits</span>
-                                                    <span className="font-medium dark:text-white">65% retention</span>
+                                                    <span className="font-medium dark:text-white">Traditional Small Business</span>
+                                                    <span className="font-medium dark:text-white">58% retention</span>
                                                 </div>
                                                 <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
-                                                    <div className="bg-gray-400 dark:bg-slate-500 h-full rounded-full" style={{ width: '65%' }}></div>
+                                                    <div className="bg-gray-400 dark:bg-slate-500 h-full rounded-full" style={{ width: '58%' }}></div>
                                                 </div>
                                             </div>
                                             <div>
                                                 <div className="flex justify-between mb-2">
-                                                    <span className="font-medium dark:text-white">Bitcoin Vesting</span>
-                                                    <span className="font-medium text-green-600 dark:text-green-400">89% retention</span>
+                                                    <span className="font-medium dark:text-white">With Modern Benefits</span>
+                                                    <span className="font-medium text-green-600 dark:text-green-400">82% retention</span>
                                                 </div>
                                                 <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
-                                                    <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-full rounded-full" style={{ width: '89%' }}></div>
+                                                    <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-full rounded-full" style={{ width: '82%' }}></div>
                                                 </div>
+                                            </div>
+                                            <div className="text-sm text-gray-500 dark:text-white/70 pt-2">
+                                                *Based on small businesses with 5-15 employees
                                             </div>
                                         </div>
                                     </div>
@@ -226,10 +229,10 @@ export default function LearnMorePage() {
                                     <UserGroupIcon className="w-8 h-8 text-white" />
                                 </div>
                                 <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                                    The Ultimate Retention Tool
+                                    Stop Losing People to Big Companies
                                 </h3>
                                 <p className="text-xl text-gray-600 dark:text-white/90 leading-relaxed">
-                                    In a competitive market, a truly valuable benefit makes the difference. Attract and keep top talent who are invested in the company's long-term vision.
+                                    Small businesses using modern benefits like this see 40% less turnover than those stuck with traditional packages. Your skilled workers stay because they see a real future with you.
                                 </p>
                             </div>
                         </div>
@@ -247,14 +250,14 @@ export default function LearnMorePage() {
 
                 <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
                     <h3 className="text-4xl font-bold text-white mb-6">
-                        Ready to Transform Your Benefits?
+                        Ready to Stop Losing Your Best People?
                     </h3>
                     <p className="text-2xl text-orange-100 dark:text-white/90 mb-10 leading-relaxed">
-                        Start planning your Bitcoin vesting program today and give your team a reason to stay.
+                        Find out how much this employee benefit could save your business in turnover costs and recruitment expenses.
                     </p>
                     <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin-dark dark:text-white hover:bg-orange-50 dark:hover:bg-slate-900 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
                         <CalculatorIcon className="w-5 h-5" />
-                        <span>Try the Calculator</span>
+                        <span>Calculate Your ROI</span>
                     </Link>
                 </div>
             </section>
@@ -266,9 +269,9 @@ export default function LearnMorePage() {
                         <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
                             <BitcoinIcon className="w-8 h-8 text-bitcoin" />
                         </div>
-                        <h4 className="text-3xl font-bold mb-4">Secure their future. Secure your team.</h4>
+                        <h4 className="text-3xl font-bold mb-4">Build loyalty. Reduce turnover. Keep your best people.</h4>
                         <p className="text-gray-400 mb-8 text-lg">
-                            Empowering employers to reward teams with sound money
+                            The modern employee benefit that small businesses use to compete with big companies
                         </p>
                         <div className="text-sm text-gray-500 space-y-1">
                             <p>Webmaster - Rather Notsay</p>
