@@ -65,16 +65,17 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="icon-container group-hover:rotate-12 transition-transform duration-300">
-              <SatoshiOutlineIcon className="w-9 h-9" size={36} />
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0 flex-1">
+            <div className="icon-container group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
+              <SatoshiOutlineIcon className="w-8 h-8 sm:w-9 sm:h-9" size={36} />
             </div>
-            <div className="flex flex-col">
-              <h1 className="text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
+            <div className="flex flex-col min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300 truncate">
                 BitcoinBenefits.me
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300">
-                Secure their future. Secure your team.
+              <p className="text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
+                <span className="hidden sm:inline">Secure their future. Secure your team.</span>
+                <span className="sm:hidden">Secure their future.<br />Secure your team.</span>
               </p>
             </div>
           </Link>
@@ -105,7 +106,7 @@ export default function Navigation() {
           </nav>
 
           {/* Right Side: Dark Mode Toggle + CTA Button */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
@@ -122,7 +123,7 @@ export default function Navigation() {
             {/* CTA Button */}
             <Link 
               href="/calculator" 
-              className="btn-primary text-sm"
+              className="btn-primary text-sm whitespace-nowrap"
             >
               <span className="hidden sm:inline">Start Planning</span>
               <span className="sm:hidden">Start</span>
