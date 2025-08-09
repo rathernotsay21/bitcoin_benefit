@@ -168,10 +168,13 @@ export function withPerformanceMonitoring<P extends object>(
 ) {
   const displayName = componentName || Component.displayName || Component.name || 'Unknown';
 
-  return React.forwardRef<any, P>((props, ref) => {
+  const WrappedComponent = (props: P) => {
     usePerformanceMonitor(displayName);
-    return <Component {...props} ref={ref} />;
-  });
+    return <Component {...props} />;
+  };
+
+  WrappedComponent.displayName = `withPerformanceMonitoring(${displayName})`;
+  return WrappedComponent;
 }
 
 /**
