@@ -15,7 +15,8 @@ import {
   ScaleIcon,
   ClockIcon,
   AcademicCapIcon,
-  EyeIcon
+  EyeIcon,
+  SparklesIcon
 } from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
 import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
@@ -80,7 +81,7 @@ export default function HomePage() {
               <SatoshiIcon className="w-8 h-8 text-white" />
             </div>
 
-            <h2 className="text-5xl font-bold text-slate-700 dark:text-slate-100 sm:text-6xl md:text-7xl leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-700 dark:text-slate-100 leading-tight">
               Keep your best people with
               <span className="text-bitcoin dark:text-bitcoin block mt-2">benefits they actually want.</span>
             </h2>
@@ -266,7 +267,7 @@ export default function HomePage() {
             <div className="card glass glow-orange p-8">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🏺</span>
+                  <AcademicCapIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                   Artisan Pottery Studio
@@ -313,7 +314,7 @@ export default function HomePage() {
             <div className="card glass glow-orange p-8">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🔧</span>
+                  <ShieldCheckIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                   Family Auto Repair
@@ -360,7 +361,7 @@ export default function HomePage() {
             <div className="card glass glow-orange p-8">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🏗️</span>
+                  <UserGroupIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
                   Riverside Construction
@@ -612,7 +613,7 @@ export default function HomePage() {
                   <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl border border-green-200 dark:border-green-800">
                     <div className="flex items-center mb-2">
                       <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-sm font-bold">🏺</span>
+                        <AcademicCapIcon className="w-4 h-4 text-white" />
                       </div>
                       <span className="font-bold text-green-800 dark:text-green-100">Pottery Studio</span>
                     </div>
@@ -627,7 +628,7 @@ export default function HomePage() {
                   <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
                     <div className="flex items-center mb-2">
                       <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-sm font-bold">🔧</span>
+                        <ShieldCheckIcon className="w-4 h-4 text-white" />
                       </div>
                       <span className="font-bold text-blue-800 dark:text-blue-100">Auto Shop</span>
                     </div>
@@ -642,7 +643,7 @@ export default function HomePage() {
                   <div className="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/30 dark:to-yellow-900/30 rounded-xl border border-orange-200 dark:border-orange-800">
                     <div className="flex items-center mb-2">
                       <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-sm font-bold">🏗️</span>
+                        <UserGroupIcon className="w-4 h-4 text-white" />
                       </div>
                       <span className="font-bold text-orange-800 dark:text-orange-100">Construction</span>
                     </div>
@@ -657,7 +658,7 @@ export default function HomePage() {
                   <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl border border-purple-200 dark:border-purple-800">
                     <div className="flex items-center mb-2">
                       <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-sm font-bold">☕</span>
+                        <SparklesIcon className="w-4 h-4 text-white" />
                       </div>
                       <span className="font-bold text-purple-800 dark:text-purple-100">Coffee Roastery</span>
                     </div>

@@ -312,7 +312,7 @@ export default function LearnMorePage() {
                             <div>
                                 <div className="flex items-center mb-6">
                                     <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mr-4">
-                                        <span className="text-2xl">🏺</span>
+                                    <AcademicCapIcon className="w-8 h-8 text-white" />
                                     </div>
                                     <div>
                                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white">Artisan Pottery Studio</h4>
@@ -416,7 +416,7 @@ export default function LearnMorePage() {
                             <div className="order-1 lg:order-2">
                                 <div className="flex items-center mb-6">
                                     <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center mr-4">
-                                        <span className="text-2xl">🔧</span>
+                                    <ShieldCheckIcon className="w-8 h-8 text-white" />
                                     </div>
                                     <div>
                                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white">Family Auto Repair</h4>
@@ -465,7 +465,7 @@ export default function LearnMorePage() {
                             <div>
                                 <div className="flex items-center mb-6">
                                     <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mr-4">
-                                        <span className="text-2xl">🏗️</span>
+                                    <UserGroupIcon className="w-8 h-8 text-white" />
                                     </div>
                                     <div>
                                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white">Riverside Construction</h4>

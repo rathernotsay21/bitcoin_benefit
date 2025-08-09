@@ -13,7 +13,22 @@ import {
   PriceFetchErrorBoundary, 
   TimelineErrorBoundary 
 } from '@/components/on-chain/OnChainErrorBoundaries';
-import { ShieldCheckIcon, InformationCircleIcon, ChartBarIcon, ClockIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { 
+  ShieldCheckIcon, 
+  InformationCircleIcon, 
+  ChartBarIcon, 
+  ClockIcon, 
+  ExclamationTriangleIcon,
+  MagnifyingGlassIcon,
+  CalculatorIcon,
+  CurrencyDollarIcon,
+  CheckIcon,
+  DocumentMagnifyingGlassIcon,
+  PencilIcon,
+  BanknotesIcon,
+  LockClosedIcon,
+  BoltIcon
+} from '@heroicons/react/24/outline';
 
 // Privacy Disclaimer Component
 function PrivacyDisclaimer() {
@@ -140,10 +155,10 @@ function PrivacyDisclaimer() {
 // Loading Steps Component
 function LoadingSteps({ currentStep }: { currentStep: string }) {
   const steps = [
-    { id: 'fetching', label: 'Fetching Transactions', icon: '🔍', description: 'Fetching transaction data from blockchain...' },
-    { id: 'annotating', label: 'Analyzing & Matching', icon: '🧮', description: 'Analyzing transactions and matching to vesting schedule...' },
-    { id: 'pricing', label: 'Retrieving Values', icon: '💰', description: 'Retrieving historical benefit values...' },
-    { id: 'complete', label: 'Analysis Complete', icon: '✅', description: 'All processing complete' }
+    { id: 'fetching', label: 'Fetching Transactions', icon: MagnifyingGlassIcon, description: 'Fetching transaction data from blockchain...' },
+    { id: 'annotating', label: 'Analyzing & Matching', icon: CalculatorIcon, description: 'Analyzing transactions and matching to vesting schedule...' },
+    { id: 'pricing', label: 'Retrieving Values', icon: CurrencyDollarIcon, description: 'Retrieving historical benefit values...' },
+    { id: 'complete', label: 'Analysis Complete', icon: CheckIcon, description: 'All processing complete' }
   ];
 
   const getCurrentStepIndex = () => {
@@ -192,10 +207,14 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
               aria-current={isActive ? 'step' : undefined}
             >
               <div 
-                className={`text-2xl mr-3 ${isActive ? 'animate-pulse' : ''}`}
+                className={`mr-3 ${isActive ? 'animate-pulse' : ''}`}
                 aria-hidden="true"
               >
-                {isActive ? '⏳' : step.icon}
+                {isActive ? (
+                  <ClockIcon className="w-6 h-6 text-bitcoin" />
+                ) : (
+                  <step.icon className="w-6 h-6 text-slate-500 dark:text-slate-400" />
+                )}
               </div>
               <div className="flex-1">
                 <p className={`font-medium ${
@@ -223,9 +242,7 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
                 ></div>
               )}
               {isCompleted && (
-                <div className="w-4 h-4 text-green-600 dark:text-green-400 ml-2" aria-hidden="true">
-                  ✓
-                </div>
+                <CheckIcon className="w-4 h-4 text-green-600 dark:text-green-400 ml-2" aria-hidden="true" />
               )}
             </div>
           );
@@ -239,32 +256,32 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
 function FeatureOverview() {
   const features = [
     {
-      icon: '🔍',
+      icon: MagnifyingGlassIcon,
       title: 'Automatic Matching',
       description: 'Smart algorithm matches transactions to expected vesting grants based on timing and amounts'
     },
     {
-      icon: '✏️',
+      icon: PencilIcon,
       title: 'Manual Overrides',
       description: 'Easily reassign transactions to different grant years with dropdown controls and undo functionality'
     },
     {
-      icon: '💰',
+      icon: BanknotesIcon,
       title: 'Historical Values',
       description: 'See USD values at the time of each transaction using historical benefit value data'
     },
     {
-      icon: '📊',
+      icon: ChartBarIcon,
       title: 'Visual Timeline',
       description: 'Compare your actual grants against expected vesting schedule with interactive charts'
     },
     {
-      icon: '🔒',
+      icon: LockClosedIcon,
       title: 'Privacy Focused',
       description: 'All processing happens locally in your browser with no server-side data storage'
     },
     {
-      icon: '⚡',
+      icon: BoltIcon,
       title: 'Real-time Updates',
       description: 'See instant feedback as you make changes with responsive interface and visual indicators'
     }
@@ -293,7 +310,7 @@ function FeatureOverview() {
             className="text-center p-4 focus-within:ring-2 focus-within:ring-bitcoin focus-within:ring-offset-2 rounded-lg"
             role="listitem"
           >
-            <div className="text-3xl mb-3" aria-hidden="true">{feature.icon}</div>
+            <feature.icon className="w-8 h-8 text-bitcoin dark:text-bitcoin mx-auto mb-3" aria-hidden="true" />
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
               {feature.title}
             </h3>
