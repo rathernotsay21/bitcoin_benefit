@@ -14,7 +14,7 @@ const mockBitcoinAPI = BitcoinAPI as jest.Mocked<typeof BitcoinAPI>;
 // Real vesting scheme from the existing system
 const bitcoinPioneerScheme: VestingScheme = {
   id: 'accelerator',
-  name: 'Bitcoin Pioneer',
+  name: 'Pioneer',
   description: 'Front-loaded Bitcoin allocation for early believers',
   initialGrant: 0.5,
   employeeMatchPercentage: 0,
@@ -166,7 +166,7 @@ describe('Historical Calculator Store Integration', () => {
     expect(results).toHaveProperty('summary');
     
     // Verify calculation logic
-    expect(results.totalBitcoinGranted).toBe(0.5); // Only initial grant for Bitcoin Pioneer
+    expect(results.totalBitcoinGranted).toBe(0.5); // Only initial grant for Pioneer
     expect(results.totalCostBasis).toBe(0.5 * realisticHistoricalPrices[2020].average); // 0.5 * 11111
     expect(results.currentTotalValue).toBe(0.5 * 70000); // 0.5 * current price
     expect(results.totalReturn).toBe(results.currentTotalValue - results.totalCostBasis);

@@ -1,11 +1,11 @@
 import { HISTORICAL_VESTING_SCHEMES } from '../historical-vesting-schemes';
 
 describe('Historical Vesting Schemes', () => {
-  it('should have the correct default values for Bitcoin Pioneer', () => {
+  it('should have the correct default values for Pioneer', () => {
     const bitcoinPioneer = HISTORICAL_VESTING_SCHEMES.find(s => s.id === 'accelerator');
     
     expect(bitcoinPioneer).toBeDefined();
-    expect(bitcoinPioneer?.name).toBe('Bitcoin Pioneer');
+    expect(bitcoinPioneer?.name).toBe('Pioneer');
     expect(bitcoinPioneer?.initialGrant).toBe(0.1);
     expect(bitcoinPioneer?.annualGrant).toBeUndefined();
   });
@@ -19,11 +19,11 @@ describe('Historical Vesting Schemes', () => {
     expect(dollarCostAdvantage?.annualGrant).toBe(0.01);
   });
 
-  it('should have the correct default values for Wealth Builder', () => {
+  it('should have the correct default values for Builder', () => {
     const wealthBuilder = HISTORICAL_VESTING_SCHEMES.find(s => s.id === 'slow-burn');
     
     expect(wealthBuilder).toBeDefined();
-    expect(wealthBuilder?.name).toBe('Wealth Builder');
+    expect(wealthBuilder?.name).toBe('Builder');
     expect(wealthBuilder?.initialGrant).toBe(0.0);
     expect(wealthBuilder?.annualGrant).toBe(0.02);
   });

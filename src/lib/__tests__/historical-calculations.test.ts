@@ -53,7 +53,7 @@ const mockHistoricalPrices: Record<number, BitcoinYearlyPrices> = {
 
 const mockBitcoinPioneerScheme: VestingScheme = {
   id: 'accelerator',
-  name: 'Bitcoin Pioneer',
+  name: 'Pioneer',
   description: 'Test scheme',
   initialGrant: 0.02,
   employeeMatchPercentage: 0,
@@ -84,7 +84,7 @@ const mockBitcoinPioneerScheme: VestingScheme = {
 
 const mockDollarCostAdvantageScheme: VestingScheme = {
   id: 'steady-builder',
-  name: 'Dollar Cost Advantage',
+  name: 'Stacker',
   description: 'Test scheme',
   initialGrant: 0.015,
   employeeMatchPercentage: 0,
@@ -116,7 +116,7 @@ const mockDollarCostAdvantageScheme: VestingScheme = {
 
 const mockWealthBuilderScheme: VestingScheme = {
   id: 'slow-burn',
-  name: 'Wealth Builder',
+  name: 'Builder',
   description: 'Test scheme',
   initialGrant: 0.0,
   employeeMatchPercentage: 0,
@@ -148,7 +148,7 @@ const mockWealthBuilderScheme: VestingScheme = {
 
 describe('HistoricalCalculator', () => {
   describe('calculate', () => {
-    it('should calculate historical results for Bitcoin Pioneer scheme', () => {
+    it('should calculate historical results for Pioneer scheme', () => {
       const inputs: HistoricalCalculationInputs = {
         scheme: mockBitcoinPioneerScheme,
         startingYear: 2020,
@@ -169,7 +169,7 @@ describe('HistoricalCalculator', () => {
       expect(result).toHaveProperty('grantBreakdown');
       expect(result).toHaveProperty('summary');
 
-      // Verify calculations for Bitcoin Pioneer (only initial grant)
+      // Verify calculations for Pioneer (only initial grant)
       expect(result.totalBitcoinGranted).toBe(0.02);
       expect(result.totalCostBasis).toBe(0.02 * 11500); // 0.02 BTC * $11,500 average price in 2020
       expect(result.currentTotalValue).toBe(0.02 * 50000); // 0.02 BTC * $50,000 current price
@@ -187,10 +187,10 @@ describe('HistoricalCalculator', () => {
       // Verify summary
       expect(result.summary.startingYear).toBe(2020);
       expect(result.summary.costBasisMethod).toBe('average');
-      expect(result.summary.averageAnnualGrant).toBe(0); // No annual grants for Bitcoin Pioneer
+      expect(result.summary.averageAnnualGrant).toBe(0); // No annual grants for Pioneer
     });
 
-    it('should calculate historical results for Dollar Cost Advantage scheme', () => {
+    it('should calculate historical results for Stacker scheme', () => {
       const inputs: HistoricalCalculationInputs = {
         scheme: mockDollarCostAdvantageScheme,
         startingYear: 2020,
@@ -232,7 +232,7 @@ describe('HistoricalCalculator', () => {
       expect(result.summary.averageAnnualGrant).toBe(annualGrantYears.length > 0 ? 0.001 : 0);
     });
 
-    it('should calculate historical results for Wealth Builder scheme', () => {
+    it('should calculate historical results for Builder scheme', () => {
       const inputs: HistoricalCalculationInputs = {
         scheme: mockWealthBuilderScheme,
         startingYear: 2021,

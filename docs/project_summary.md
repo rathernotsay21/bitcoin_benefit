@@ -22,9 +22,9 @@ A comprehensive web application for employers to plan and visualize Bitcoin vest
 
 #### **Future Calculator Functionality** 
 - **Three Pre-configured Vesting Schemes**:
-  - **Bitcoin Pioneer**: An aggressive plan with a large upfront grant.
-  - **Sat Stacker**: A balanced approach with an initial grant and annual bonuses.
-  - **Wealth Builder**: A long-term plan with annual grants over a decade.
+  - **Pioneer**: An aggressive plan with a large upfront grant.
+  - **Stacker**: A balanced approach with an initial grant and annual bonuses.
+  - **Builder**: A long-term plan with annual grants over a decade.
 - **Custom Plan Creator**: Users can create completely custom vesting schemes
 - **Real-time Calculations**: Instant updates as parameters change
 - **Interactive Plan Selection**: Visual feedback, radio button controls

@@ -78,9 +78,9 @@ describe('Historical Calculator Page', () => {
   it('renders vesting scheme selection', () => {
     render(<HistoricalCalculatorPage />);
 
-    expect(screen.getByText('Bitcoin Pioneer')).toBeInTheDocument();
+    expect(screen.getByText('Pioneer')).toBeInTheDocument();
     expect(screen.getByText('Dollar Cost Advantage')).toBeInTheDocument();
-    expect(screen.getByText('Wealth Builder')).toBeInTheDocument();
+    expect(screen.getByText('Builder')).toBeInTheDocument();
   });
 
   it('calls fetch functions on mount', () => {

@@ -94,7 +94,7 @@ export default function HomePage() {
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <ClockIcon className="w-6 h-6" />
-                <span>View Success Stories</span>
+                <span>See How it Worked</span>
               </Link>
             </div>
           </div>
@@ -706,7 +706,7 @@ export default function HomePage() {
             </Link>
             <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
               <ClockIcon className="w-5 h-5" />
-              <span>See Success Stories</span>
+              <span>See How it Worked</span>
             </Link>
           </div>
         </div>

@@ -9,9 +9,9 @@ Bitcoin Benefit provides employers with tools to design, visualize, and implemen
 ## Features
 
 ### 🚀 Vesting Schemes
-- **Bitcoin Pioneer**: Immediate grants for early Bitcoin adopters (0.02 BTC upfront)
-- **Sat Stacker**: Strategic yearly distributions to minimize market timing risk (0.015 BTC + 0.001 BTC/year)
-- **Wealth Builder**: Long-term retention incentive with 10-year distribution (0.002 BTC/year)
+- **Pioneer**: Immediate grants for early Bitcoin adopters (0.02 BTC upfront)
+- **Stacker**: Strategic yearly distributions to minimize market timing risk (0.015 BTC + 0.001 BTC/year)
+- **Builder**: Long-term retention incentive with 10-year distribution (0.002 BTC/year)
 
 ### 📊 Interactive Tools
 - **Future Calculator**: 20-year projections with customizable growth assumptions
@@ -71,7 +71,7 @@ src/
 ├── app/                    # Next.js app router pages
 │   ├── calculator/         # Future vesting calculator
 │   ├── historical/         # Historical analysis calculator
-│   ├── learn-more/         # Information page
+│   ├── learn/         # Information page
 │   └── page.tsx           # Landing page
 ├── components/            # React components
 │   ├── VestingTimelineChart.tsx    # Future projections chart
@@ -97,19 +97,19 @@ src/
 
 All schemes follow a standardized vesting schedule: 50% at 5 years, 100% at 10 years.
 
-### Bitcoin Pioneer
+### Pioneer
 - **Structure**: 0.02 BTC upfront grant
 - **Philosophy**: Jump-start Bitcoin adoption with immediate commitment
 - **Best for**: Companies ready to lead in digital asset compensation
 - **Customizable**: Initial grant amount and projected growth rate
 
-### Sat Stacker 
+### Stacker 
 - **Structure**: 0.015 BTC initial + 0.001 BTC yearly (5 years)
 - **Philosophy**: Minimize market timing risk with strategic distributions
 - **Best for**: Conservative approaches to Bitcoin adoption
 - **Customizable**: Initial grant, annual grant, and projected growth rate
 
-### Wealth Builder
+### Builder
 - **Structure**: 0.002 BTC yearly for 10 years
 - **Philosophy**: Maximum retention through long-term wealth building
 - **Best for**: Companies prioritizing employee loyalty

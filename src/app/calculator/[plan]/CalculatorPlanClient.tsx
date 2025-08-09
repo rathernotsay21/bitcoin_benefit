@@ -408,7 +408,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   Historical Analysis
                 </Link>
                 <Link 
-                  href="/learn-more" 
+                  href="/learn" 
                   className="btn-secondary flex items-center justify-center"
                 >
                   <SparklesIcon className="w-5 h-5 mr-2" />

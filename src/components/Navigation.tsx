@@ -47,14 +47,14 @@ export default function Navigation() {
       activeIcon: ClockIconSolid,
     },
     {
-      name: 'On-Chain',
-      href: '/on-chain',
+      name: 'Track',
+      href: '/track',
       icon: LinkIcon,
       activeIcon: LinkIconSolid,
     },
     {
-      name: 'Learn More',
-      href: '/learn-more',
+      name: 'Learn',
+      href: '/learn',
       icon: AcademicCapIcon,
       activeIcon: AcademicCapIconSolid,
     },

@@ -4,7 +4,7 @@ import { VestingScheme } from '@/types/vesting';
 export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
-    name: 'Bitcoin Pioneer',
+    name: 'Pioneer',
     description: 'Immediate grants for companies ready to lead in digital asset compensation.',
     initialGrant: 0.1, // Increased from 0.02 for historical analysis
     employeeMatchPercentage: 0,
@@ -34,7 +34,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   },
   {
     id: 'steady-builder',
-    name: 'Sat Stacker',
+    name: 'Stacker',
     description: 'Minimize market timing risk with annual grants during the first five years.',
     initialGrant: 0.05, // Increased from 0.015 for historical analysis
     employeeMatchPercentage: 0,
@@ -66,7 +66,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   },
   {
     id: 'slow-burn',
-    name: 'Wealth Builder',
+    name: 'Builder',
     description: 'Most conservative approach to spread costs across entire vesting period.',
     initialGrant: 0.0, // Remains 0 as specified
     employeeMatchPercentage: 0,
