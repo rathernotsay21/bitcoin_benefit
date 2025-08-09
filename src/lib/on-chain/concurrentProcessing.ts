@@ -34,6 +34,7 @@ export interface ConcurrentProcessingConfig {
   enableCaching: boolean;
   timeoutMs: number;
   retryAttempts: number;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -173,7 +174,7 @@ export class ConcurrentProcessingService {
           retryDelay: 1000
         });
         
-        return await api.fetchTransactions(address);
+        return await api.fetchTransactions(address, this.config.abortSignal);
       },
       {
         operation: 'transaction_fetch',

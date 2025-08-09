@@ -18,7 +18,8 @@ import {
   processOnChainDataConcurrently,
   ConcurrentProcessingMetrics,
   PerformanceMonitor,
-  MemoryOptimizer
+  MemoryOptimizer,
+  ConcurrentProcessingService
 } from '@/lib/on-chain/concurrentProcessing';
 import { 
   annotateTransactionsWithPerformance,
@@ -84,6 +85,10 @@ interface OnChainState {
   processWithStandardAlgorithm: (address: string, vestingStartDate: string, annualGrantBtc: number, totalGrants: number) => Promise<void>;
 }
 
+// Track active operations for cleanup
+let abortController: AbortController | null = null;
+let pendingTimers: Set<NodeJS.Timeout> = new Set();
+
 export const useOnChainStore = create<OnChainState>((set, get) => ({
   // Initial state
   address: '',
@@ -141,6 +146,12 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   
   validateAndFetch: async () => {
     const { address, vestingStartDate, annualGrantBtc, totalGrants, retryCount, enablePerformanceOptimizations } = get();
+    
+    // Create new AbortController for this operation
+    if (abortController) {
+      abortController.abort();
+    }
+    abortController = new AbortController();
     
     // Start performance monitoring
     const performanceId = PerformanceMonitor.startMeasurement('validateAndFetch');
@@ -251,7 +262,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
     try {
       set({ currentStep: 'fetching' });
       
-      // Use concurrent processing service
+      // Use concurrent processing service with abort signal
       const result = await processOnChainDataConcurrently(
         address,
         vestingStartDate,
@@ -262,6 +273,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
           batchSize: 10,
           enableRequestBatching: true,
           enableCaching: true,
+          abortSignal: abortController?.signal,
         }
       );
       
@@ -286,7 +298,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
     // Step 1: Fetch transactions
     set({ currentStep: 'fetching' });
     const rawTransactions = await errorHandler.executeWithRetry(
-      () => mempoolAPI.fetchTransactions(address),
+      () => mempoolAPI.fetchTransactions(address, abortController?.signal),
       {
         operation: 'transaction_fetch',
         step: 'fetch_transactions',
@@ -422,9 +434,29 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   resetTracker: () => {
+    // Clear all intervals and timers to prevent memory leaks
+    pendingTimers.forEach(timer => clearTimeout(timer));
+    pendingTimers.clear();
+    
+    // Cancel pending promises to prevent state updates on unmounted components
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+    
     // Clear performance caches when resetting
     clearAnnotationCache();
     MemoryOptimizer.optimizeMemory();
+    
+    // Clear all performance measurements
+    PerformanceMonitor.clearMeasurements();
+    
+    // Clear price fetcher cache
+    OnChainPriceFetcher.clearCache();
+    
+    // Get concurrent processing service instance and clear its caches
+    const processingService = ConcurrentProcessingService.getInstance();
+    processingService.clearCaches();
     
     set({
       address: '',

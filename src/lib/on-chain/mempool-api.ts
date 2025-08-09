@@ -104,13 +104,18 @@ function isRetryableError(error: any): boolean {
 /**
  * Makes HTTP request with timeout and error handling
  */
-async function makeRequest(url: string, config: APIConfig): Promise<Response> {
+async function makeRequest(url: string, config: APIConfig, abortSignal?: AbortSignal): Promise<Response> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), config.timeout);
   
+  // Combine timeout and external abort signals
+  const combinedSignal = abortSignal 
+    ? AbortSignal.any([controller.signal, abortSignal])
+    : controller.signal;
+  
   try {
     const response = await fetch(url, {
-      signal: controller.signal,
+      signal: combinedSignal,
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Bitcoin-Vesting-Tracker/1.0'
@@ -157,13 +162,19 @@ async function makeRequest(url: string, config: APIConfig): Promise<Response> {
  */
 async function makeRequestWithRetry(
   url: string, 
-  config: APIConfig = DEFAULT_CONFIG
+  config: APIConfig = DEFAULT_CONFIG,
+  abortSignal?: AbortSignal
 ): Promise<any> {
   let lastError: MempoolAPIError = new MempoolAPIError('No attempts made');
   
   for (let attempt = 0; attempt <= config.maxRetries; attempt++) {
+    // Check if aborted before making request
+    if (abortSignal?.aborted) {
+      throw new MempoolAPIError('Request cancelled', 499, false);
+    }
+    
     try {
-      const response = await makeRequest(url, config);
+      const response = await makeRequest(url, config, abortSignal);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -252,10 +263,11 @@ export class MempoolAPI {
   /**
    * Fetches all transactions for a given Bitcoin address
    * @param address - Bitcoin address to fetch transactions for
+   * @param abortSignal - Optional abort signal to cancel the request
    * @returns Promise resolving to array of RawTransaction objects
    * @throws MempoolAPIError for validation or API errors
    */
-  async fetchTransactions(address: string): Promise<RawTransaction[]> {
+  async fetchTransactions(address: string, abortSignal?: AbortSignal): Promise<RawTransaction[]> {
     // Validate address format first
     if (!MempoolAPI.validateAddress(address)) {
       throw new MempoolAPIError('Invalid Bitcoin address format', 400, false);
@@ -264,7 +276,7 @@ export class MempoolAPI {
     const url = `${this.config.baseURL}/address/${address}/txs`;
     
     try {
-      const data = await makeRequestWithRetry(url, this.config);
+      const data = await makeRequestWithRetry(url, this.config, abortSignal);
       
       // Validate response structure
       if (!validateTransactionResponse(data)) {
