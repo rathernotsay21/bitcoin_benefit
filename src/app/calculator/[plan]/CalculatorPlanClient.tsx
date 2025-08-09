@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useCallback } from 'react';
 import { useCalculatorStore } from '@/stores/calculatorStore';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { VestingScheme } from '@/types/vesting';
@@ -67,14 +67,14 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     initializeCalculator();
   }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData]);
 
-  const handleSchemeSelect = (schemeId: string) => {
+  const handleSchemeSelect = useCallback((schemeId: string) => {
     const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
     if (scheme) {
       setSelectedScheme(scheme);
       // Update URL without page reload
       window.history.replaceState(null, '', `/calculator/${schemeId}`);
     }
-  };
+  }, [setSelectedScheme]);
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
   const maxVestingMonths = displayScheme ? Math.max(...displayScheme.vestingSchedule.map(m => m.months)) : 0;
@@ -145,10 +145,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       type="number"
                       step="0.001"
                       value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                      onChange={(e) => {
+                      onChange={useCallback((e) => {
                         const value = parseFloat(e.target.value) || 0;
                         updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
-                      }}
+                      }, [selectedScheme.id, updateSchemeCustomization])}
                       className="input-field"
                     />
                   </div>
@@ -162,10 +162,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                         type="number"
                         step="0.001"
                         value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
-                        onChange={(e) => {
+                        onChange={useCallback((e) => {
                           const value = parseFloat(e.target.value) || 0;
                           updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
-                        }}
+                        }, [selectedScheme.id, updateSchemeCustomization])}
                         className="input-field"
                       />
                     </div>
@@ -178,7 +178,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     <input
                       type="number"
                       value={inputs.projectedBitcoinGrowth || 15}
-                      onChange={(e) => updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 })}
+                      onChange={useCallback((e) => updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 }), [updateInputs])}
                       className="input-field"
                     />
                   </div>

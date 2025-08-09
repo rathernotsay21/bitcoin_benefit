@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -126,21 +126,24 @@ export default function HistoricalTimelineChart({
   }, []);
 
   // Transform historical timeline data for the chart - filter to yearly data points (December of each year)
-  const chartData = results.timeline
-    .filter((point) => point.month === 12 || (point.year === new Date().getFullYear() && point.month === new Date().getMonth() + 1))
-    .map((point) => ({
-      year: point.year, // Use the actual year from the timeline point
-      btcBalance: point.cumulativeBitcoin,
-      usdValue: point.currentValue,
-      costBasis: point.cumulativeCostBasis,
-      vestedAmount: point.vestedAmount
-    }));
+  const chartData = useMemo(() => 
+    results.timeline
+      .filter((point) => point.month === 12 || (point.year === new Date().getFullYear() && point.month === new Date().getMonth() + 1))
+      .map((point) => ({
+        year: point.year, // Use the actual year from the timeline point
+        btcBalance: point.cumulativeBitcoin,
+        usdValue: point.currentValue,
+        costBasis: point.cumulativeCostBasis,
+        vestedAmount: point.vestedAmount
+      })),
+    [results.timeline]
+  );
 
   // Calculate vesting milestones
-  const vestingMilestones = [
+  const vestingMilestones = useMemo(() => [
     { year: startingYear + 5, label: '50% Vested', color: '#f59e0b' },
     { year: startingYear + 10, label: '100% Vested', color: '#10b981' }
-  ];
+  ], [startingYear]);
 
   const currentYear = new Date().getFullYear();
   const finalPoint = chartData[chartData.length - 1];

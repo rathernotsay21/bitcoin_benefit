@@ -100,7 +100,7 @@ This document outlines the findings of our React architecture analysis and provi
 
 ### Critical Issues
 
--   [ ] **Add `useMemo` for Chart Data:** Expensive data calculations, like processing yearly data for charts, should be wrapped in `useMemo` to ensure they only run when their dependencies change.
+-   [x] **Add `useMemo` for Chart Data:** Expensive data calculations, like processing yearly data for charts, should be wrapped in `useMemo` to ensure they only run when their dependencies change.
 
     ```typescript
     const yearlyData = useMemo(() =>
@@ -112,15 +112,12 @@ This document outlines the findings of our React architecture analysis and provi
     );
     ```
 
--   [ ] **Use `useCallback` for Event Handlers:** Wrap event handlers passed to child components (especially memoized ones) in `useCallback` to prevent them from being recreated on every render.
-
-    ```typescript
-    const handleMouseMove = useCallback((e: any) => {
-      if (e?.activeLabel !== undefined) {
-        setHoveredYear(e.activeLabel);
-      }
-    }, [setHoveredYear]); // Dependency array ensures function stability
-    ```
+-   [x] **Use `useCallback` for Event Handlers:** Wrap event handlers passed to child components (especially memoized ones) in `useCallback` to prevent them from being recreated on every render.
+    - Wrapped handleSchemeSelect and input onChange handlers in CalculatorPlanClient
+    - Wrapped onMouseMove and onMouseLeave in VestingTimelineChartRecharts
+    - Wrapped handleYearChange in YearSelector
+    - Wrapped showAdvanced toggle in RiskAnalysisCard
+    - VestingTrackerFormOptimized already had all handlers properly wrapped
 
 -   [ ] **Optimize Recharts Rendering:** Add optimization props to the Recharts components to improve rendering performance, especially on mobile devices.
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface YearSelectorProps {
   selectedYear: number;
@@ -39,7 +39,7 @@ export default function YearSelector({
     }
   }, [selectedYear, minYear, maxYear]);
 
-  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleYearChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     if (disabled) {
       return;
     }
@@ -49,7 +49,7 @@ export default function YearSelector({
     if (!isNaN(year)) {
       onYearChange(year);
     }
-  };
+  }, [disabled, onYearChange]);
 
   return (
     <div className={`space-y-2 ${className}`}>

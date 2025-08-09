@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   LineChart,
   Line,
@@ -197,50 +197,56 @@ export default function VestingTimelineChartRecharts({
   }, []);
 
   // Extend timeline to 20 years (240 months) if needed
-  const extendedTimeline = [...timeline];
-  const maxMonth = Math.max(...timeline.map(p => p.month));
-  const targetMonths = 240; // 20 years
+  const extendedTimeline = useMemo(() => {
+    const extended = [...timeline];
+    const maxMonth = Math.max(...timeline.map(p => p.month));
+    const targetMonths = 240; // 20 years
 
-  if (maxMonth < targetMonths) {
-    const monthlyGrowthRate = projectedBitcoinGrowth / 12 / 100;
-    const lastPoint = timeline[timeline.length - 1];
+    if (maxMonth < targetMonths) {
+      const monthlyGrowthRate = projectedBitcoinGrowth / 12 / 100;
+      const lastPoint = timeline[timeline.length - 1];
 
-    for (let month = maxMonth + 1; month <= targetMonths; month++) {
-      const bitcoinPrice = currentBitcoinPrice * Math.pow(1 + monthlyGrowthRate, month);
-      const employerBalance = lastPoint.employerBalance;
+      for (let month = maxMonth + 1; month <= targetMonths; month++) {
+        const bitcoinPrice = currentBitcoinPrice * Math.pow(1 + monthlyGrowthRate, month);
+        const employerBalance = lastPoint.employerBalance;
 
-      extendedTimeline.push({
-        month,
-        employeeBalance: lastPoint.employeeBalance,
-        employerBalance: employerBalance,
-        vestedAmount: lastPoint.vestedAmount,
-        totalBalance: lastPoint.totalBalance,
-        bitcoinPrice,
-        usdValue: employerBalance * bitcoinPrice,
-      });
+        extended.push({
+          month,
+          employeeBalance: lastPoint.employeeBalance,
+          employerBalance: employerBalance,
+          vestedAmount: lastPoint.vestedAmount,
+          totalBalance: lastPoint.totalBalance,
+          bitcoinPrice,
+          usdValue: employerBalance * bitcoinPrice,
+        });
+      }
     }
-  }
+    return extended;
+  }, [timeline, projectedBitcoinGrowth, currentBitcoinPrice]);
 
   // Data processing for yearly points
-  const yearlyData = extendedTimeline
-    .filter((_, index) => index % 12 === 0)
-    .slice(0, 21)
-    .map((point, index) => ({
-      year: index,
-      btcBalance: point.employerBalance,
-      usdValue: point.employerBalance * point.bitcoinPrice,
-      bitcoinPrice: point.bitcoinPrice,
-      vestedAmount: point.vestedAmount
-    }));
+  const yearlyData = useMemo(() => 
+    extendedTimeline
+      .filter((_, index) => index % 12 === 0)
+      .slice(0, 21)
+      .map((point, index) => ({
+        year: index,
+        btcBalance: point.employerBalance,
+        usdValue: point.employerBalance * point.bitcoinPrice,
+        bitcoinPrice: point.bitcoinPrice,
+        vestedAmount: point.vestedAmount
+      })),
+    [extendedTimeline]
+  );
 
-  const vestingMilestones = [
+  const vestingMilestones = useMemo(() => [
     { year: 5, label: '50% Vested', color: '#fbbf24' },
     { year: 10, label: '100% Vested', color: '#10b981' }
-  ];
+  ], []);
 
   const finalYear = yearlyData[20];
   
-  const calculateGrowthMultiple = () => {
+  const growthMultiple = useMemo(() => {
     if (!finalYear) return 0;
     
     const finalValue = finalYear.btcBalance * finalYear.bitcoinPrice;
@@ -262,36 +268,37 @@ export default function VestingTimelineChartRecharts({
     
     const initialInvestment = initialGrant * currentBitcoinPrice;
     return initialInvestment > 0 ? finalValue / initialInvestment : 0;
-  };
-  
-  const growthMultiple = calculateGrowthMultiple();
+  }, [finalYear, initialGrant, annualGrant, schemeId, yearlyData, currentBitcoinPrice]);
 
   // Calculate Y-axis domains with better padding
-  const btcValues = yearlyData.map(d => d.btcBalance);
-  const usdValues = yearlyData.map(d => d.usdValue);
+  const { btcDomain, usdDomain } = useMemo(() => {
+    const btcValues = yearlyData.map(d => d.btcBalance);
+    const usdValues = yearlyData.map(d => d.usdValue);
 
-  const minBtc = Math.min(...btcValues);
-  const maxBtc = Math.max(...btcValues);
-  const minUsd = Math.min(...usdValues);
-  const maxUsd = Math.max(...usdValues);
+    const minBtc = Math.min(...btcValues);
+    const maxBtc = Math.max(...btcValues);
+    const minUsd = Math.min(...usdValues);
+    const maxUsd = Math.max(...usdValues);
 
-  // Improved padding calculation
-  const btcRange = maxBtc - minBtc;
-  const usdRange = maxUsd - minUsd;
-  
-  // Use 15% padding for better visual balance
-  const btcPadding = btcRange > 0 ? btcRange * 0.15 : maxBtc * 0.15;
-  const usdPadding = usdRange > 0 ? usdRange * 0.15 : maxUsd * 0.15;
+    // Improved padding calculation
+    const btcRange = maxBtc - minBtc;
+    const usdRange = maxUsd - minUsd;
+    
+    // Use 15% padding for better visual balance
+    const btcPadding = btcRange > 0 ? btcRange * 0.15 : maxBtc * 0.15;
+    const usdPadding = usdRange > 0 ? usdRange * 0.15 : maxUsd * 0.15;
 
-  const btcDomain = [
-    Math.max(0, minBtc - btcPadding),
-    maxBtc + btcPadding
-  ];
-
-  const usdDomain = [
-    Math.max(0, minUsd - usdPadding),
-    maxUsd + usdPadding
-  ];
+    return {
+      btcDomain: [
+        Math.max(0, minBtc - btcPadding),
+        maxBtc + btcPadding
+      ],
+      usdDomain: [
+        Math.max(0, minUsd - usdPadding),
+        maxUsd + usdPadding
+      ]
+    };
+  }, [yearlyData]);
 
   return (
     <div className="w-full max-w-full overflow-hidden">
@@ -336,12 +343,12 @@ export default function VestingTimelineChartRecharts({
               : { top: 40, right: 70, bottom: 40, left: 70 }
             }
             maxBarSize={isMobile ? 20 : undefined}
-            onMouseMove={(e: any) => {
+            onMouseMove={useCallback((e: any) => {
               if (e && e.activeLabel !== undefined) {
                 setHoveredYear(e.activeLabel);
               }
-            }}
-            onMouseLeave={() => setHoveredYear(null)}
+            }, [])}
+            onMouseLeave={useCallback(() => setHoveredYear(null), [])}
           >
             <defs>
               {/* Gradient for BTC line */}
