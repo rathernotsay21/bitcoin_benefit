@@ -328,7 +328,6 @@ export default function VestingTimelineChartRecharts({
           width="100%" 
           height={isMobile ? 320 : 420} 
           minHeight={280}
-          maxWidth={isMobile ? '100vw' : undefined}
         >
           <ComposedChart
             data={yearlyData}
