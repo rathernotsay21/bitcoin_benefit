@@ -211,6 +211,16 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
       return;
     }
     
+    // Validate that all price data has required fields
+    for (const [year, priceData] of Object.entries(historicalPrices)) {
+      if (!priceData || typeof priceData !== 'object' || !priceData.year) {
+        set({ 
+          calculationError: `Invalid price data structure for year ${year}. Please refresh and try again.` 
+        });
+        return;
+      }
+    }
+    
     // Check if we have price data for the starting year
     if (!historicalPrices[startingYear]) {
       set({ 

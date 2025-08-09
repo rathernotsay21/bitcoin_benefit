@@ -60,7 +60,7 @@
   - Ensure all copy is understandable without Bitcoin knowledge
   - _Requirements: 1.4, 4.1, 4.4_
 
-- [ ] 10. Implement progressive disclosure for technical details
+- [x] 10. Implement progressive disclosure for technical details
   - Keep Bitcoin technical information available but secondary
   - Add expandable sections or tooltips for users who want technical details
   - Ensure primary messaging focuses on business outcomes with technical details as supporting information

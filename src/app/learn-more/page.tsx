@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
+import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
 import { 
   AcademicCapIcon,
   UserGroupIcon,
@@ -123,7 +124,11 @@ export default function LearnMorePage() {
                             </div>
                             <div className="card glass glow-orange lg:p-10">
                                 <div className="text-center">
-                                    <div className="text-3xl font-bold text-bitcoin mb-3">₿0.008</div>
+                                    <TechnicalDetails 
+                                      summary="₿0.008"
+                                      details="₿ is the symbol for Bitcoin. 0.008 Bitcoin is worth approximately $910 at current market prices."
+                                      className="text-3xl font-bold text-bitcoin mb-3 justify-center"
+                                    />
                                     <div className="text-lg text-gray-600 dark:text-white/90 mb-6">Currently Vested</div>
                                     <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-4 mb-4 overflow-hidden">
                                         <div className="bg-bitcoin-gradient h-full rounded-full animate-pulse-slow" style={{ width: '50%' }}></div>
@@ -144,16 +149,28 @@ export default function LearnMorePage() {
                                         <div className="space-y-4">
                                             <div className="flex justify-between items-center p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-xl">
                                                 <span className="font-medium text-gray-700 dark:text-white">Company Grant</span>
-                                                <span className="font-bold text-lg dark:text-white">₿0.015</span>
+                                                <TechnicalDetails 
+                                                  summary="₿0.015"
+                                                  details="0.015 Bitcoin provided by the company, worth approximately $1,710 at current prices."
+                                                  className="font-bold text-lg dark:text-white"
+                                                />
                                             </div>
                                             <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl">
                                                 <span className="font-medium text-gray-700 dark:text-white">Personal Contributions</span>
-                                                <span className="font-bold text-green-600 dark:text-green-400 text-lg">₿0.008</span>
+                                                <TechnicalDetails 
+                                                  summary="₿0.008"
+                                                  details="0.008 Bitcoin purchased by the employee with their own money, worth approximately $910 at current prices."
+                                                  className="font-bold text-green-600 dark:text-green-400 text-lg"
+                                                />
                                             </div>
                                             <div className="border-t-2 pt-4">
                                                 <div className="flex justify-between items-center">
                                                     <span className="font-bold text-lg dark:text-white">Total Balance</span>
-                                                    <span className="text-2xl font-bold text-bitcoin dark:text-white">₿0.023</span>
+                                                    <TechnicalDetails 
+                                                      summary="₿0.023"
+                                                      details="Combined total of 0.023 Bitcoin (company grant + personal contributions), worth approximately $2,620 at current prices."
+                                                      className="text-2xl font-bold text-bitcoin dark:text-white"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -536,6 +553,74 @@ export default function LearnMorePage() {
                                 <div className="text-sm text-gray-600 dark:text-white/80">ROI on benefit investment</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Bitcoin Basics Section */}
+            <section className="py-16 bg-gray-50 dark:bg-slate-800 transition-colors duration-300">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-8">
+                        <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                            Want to Learn More About the Technology?
+                        </h3>
+                        <p className="text-lg text-gray-600 dark:text-white/90">
+                            While you don't need to understand Bitcoin to offer this benefit, here are the basics for those who are curious.
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        <ExpandableSection title="What is Bitcoin?">
+                            <div className="space-y-3 text-gray-700 dark:text-gray-300">
+                                <p>
+                                    Bitcoin is a digital currency that exists only electronically. Think of it like digital gold - 
+                                    it has value because people agree it has value, and there's a limited supply (only 21 million will ever exist).
+                                </p>
+                                <p>
+                                    Unlike traditional money controlled by governments, Bitcoin operates on a decentralized network, 
+                                    meaning no single entity controls it. This has made it attractive as a store of value over time.
+                                </p>
+                            </div>
+                        </ExpandableSection>
+
+                        <ExpandableSection title="Why Has Bitcoin Grown in Value?">
+                            <div className="space-y-3 text-gray-700 dark:text-gray-300">
+                                <p>
+                                    Bitcoin's value has increased over time due to growing adoption by individuals, companies, and even countries. 
+                                    Major corporations like Tesla, MicroStrategy, and Square have added Bitcoin to their balance sheets.
+                                </p>
+                                <p>
+                                    The limited supply (like digital real estate) combined with increasing demand has historically driven price appreciation. 
+                                    However, Bitcoin is volatile and past performance doesn't guarantee future results.
+                                </p>
+                            </div>
+                        </ExpandableSection>
+
+                        <ExpandableSection title="How Do Employees Access Their Bitcoin?">
+                            <div className="space-y-3 text-gray-700 dark:text-gray-300">
+                                <p>
+                                    Employees can view their Bitcoin balance anytime through a secure digital wallet or dashboard. 
+                                    When vested, they can transfer it to their personal wallet, sell it for cash, or hold it as an investment.
+                                </p>
+                                <p>
+                                    The process is similar to accessing a 401(k) - employees have full control over their vested Bitcoin 
+                                    and can make their own decisions about what to do with it.
+                                </p>
+                            </div>
+                        </ExpandableSection>
+
+                        <ExpandableSection title="Is This Safe for My Business?">
+                            <div className="space-y-3 text-gray-700 dark:text-gray-300">
+                                <p>
+                                    Your business risk is limited to the dollar amount you choose to invest in employee benefits. 
+                                    You're not speculating on Bitcoin - you're offering a modern benefit that happens to use Bitcoin as the vehicle.
+                                </p>
+                                <p>
+                                    Many businesses set aside the same budget they would for traditional benefits and simply purchase Bitcoin instead. 
+                                    The employee gets the upside potential, while your costs remain predictable.
+                                </p>
+                            </div>
+                        </ExpandableSection>
                     </div>
                 </div>
             </section>

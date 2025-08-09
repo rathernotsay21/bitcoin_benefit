@@ -36,7 +36,9 @@ export const syncBitcoinPrice = (price: number, change24h: number = 0) => {
     calculatorStore.calculateResults();
   }
   
-  if (historicalStore.selectedScheme && Object.keys(historicalStore.historicalPrices).length > 0) {
+  if (historicalStore.selectedScheme && 
+      Object.keys(historicalStore.historicalPrices).length > 0 &&
+      !historicalStore.isLoadingHistoricalData) {
     historicalStore.calculateHistoricalResults();
   }
 };

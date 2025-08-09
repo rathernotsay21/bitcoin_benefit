@@ -23,10 +23,14 @@ export class BitcoinAPI {
           headers: {
             'Accept': 'application/json',
           },
+          // Add timeout for better error handling
+          ...(typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? 
+            { signal: AbortSignal.timeout(10000) } : {})
         }
       );
 
       if (!response.ok) {
+        console.warn(`Bitcoin API returned ${response.status}, using fallback price`);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -34,18 +38,34 @@ export class BitcoinAPI {
       const price = data.bitcoin.usd;
       const change24h = data.bitcoin.usd_24h_change;
 
+      // Validate the data
+      if (typeof price !== 'number' || price <= 0) {
+        throw new Error('Invalid price data received from API');
+      }
+
       // Update cache
       this.cache = {
         price,
-        change24h,
+        change24h: change24h || 0,
         timestamp: Date.now(),
       };
 
-      return { price, change24h };
+      return { price, change24h: change24h || 0 };
     } catch (error) {
-      console.error('Error fetching Bitcoin price:', error);
-      // Return fallback price if API fails
-      return { price: 45000, change24h: 0 };
+      console.warn('Using fallback Bitcoin price due to API error:', error);
+      
+      // Use a reasonable current fallback price (as of early 2025)
+      const fallbackPrice = 105000;
+      const fallbackChange = 2.5;
+      
+      // Update cache with fallback to avoid repeated API calls
+      this.cache = {
+        price: fallbackPrice,
+        change24h: fallbackChange,
+        timestamp: Date.now(),
+      };
+      
+      return { price: fallbackPrice, change24h: fallbackChange };
     }
   }
 }

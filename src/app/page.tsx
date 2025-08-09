@@ -18,6 +18,7 @@ import {
   EyeIcon
 } from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
+import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
 
 function formatUSD(amount: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -128,15 +129,24 @@ export default function HomePage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Full benefit upfront</span>
+                    <TechnicalDetails 
+                      summary="Full benefit upfront"
+                      details="Employee receives the complete Bitcoin allocation immediately upon hire, but it vests over time according to the schedule."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">50% earned at 5 years</span>
+                    <TechnicalDetails 
+                      summary="50% earned at 5 years"
+                      details="After 5 years of employment, the employee owns 50% of their Bitcoin allocation and can access it even if they leave."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">100% earned at 10 years</span>
+                    <TechnicalDetails 
+                      summary="100% earned at 10 years"
+                      details="Full vesting occurs at 10 years, meaning the employee owns the complete Bitcoin allocation with no restrictions."
+                    />
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -163,15 +173,24 @@ export default function HomePage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Strong starting benefit</span>
+                    <TechnicalDetails 
+                      summary="Strong starting benefit"
+                      details="Employee receives a substantial initial Bitcoin allocation that begins vesting immediately."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Annual loyalty bonuses</span>
+                    <TechnicalDetails 
+                      summary="Annual loyalty bonuses"
+                      details="Additional Bitcoin allocations are granted each year the employee remains with the company, creating compound growth."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Balanced retention strategy</span>
+                    <TechnicalDetails 
+                      summary="Balanced retention strategy"
+                      details="Combines immediate value with long-term incentives, balancing employee satisfaction with retention goals."
+                    />
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -198,15 +217,24 @@ export default function HomePage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Annual benefit payments</span>
+                    <TechnicalDetails 
+                      summary="Annual benefit payments"
+                      details="Bitcoin allocations are granted annually rather than upfront, spreading the company's investment over time."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Predictable costs</span>
+                    <TechnicalDetails 
+                      summary="Predictable costs"
+                      details="Company knows exactly how much Bitcoin to purchase each year, making budgeting and cash flow planning easier."
+                    />
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Long-term loyalty focus</span>
+                    <TechnicalDetails 
+                      summary="Long-term loyalty focus"
+                      details="Employees must stay multiple years to accumulate meaningful Bitcoin holdings, maximizing retention incentives."
+                    />
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -259,7 +287,11 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Started with Stacker plan - ₿0.010 per instructor annually. Now they see their benefit growing and talk about their 'pottery portfolio.'"
+                    "Started with Stacker plan - <TechnicalDetails 
+                      summary="₿0.010 per instructor annually"
+                      details="₿ is the symbol for Bitcoin. 0.010 Bitcoin equals about $1,140 at current prices, granted to each instructor every year."
+                      className="inline"
+                    />. Now they see their benefit growing and talk about their 'pottery portfolio.'"
                   </p>
                 </div>
 
@@ -302,7 +334,11 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Implemented Pioneer plan for senior mechanics - ₿0.050 upfront. Showed them how it could outperform any signing bonus."
+                    "Implemented Pioneer plan for senior mechanics - <TechnicalDetails 
+                      summary="₿0.050 upfront"
+                      details="0.050 Bitcoin (about $5,700 at current prices) given immediately but vesting over 10 years to encourage long-term employment."
+                      className="inline"
+                    />. Showed them how it could outperform any signing bonus."
                   </p>
                 </div>
 
@@ -345,7 +381,11 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Used Builder plan - ₿0.008 annually per crew member. Predictable costs that work with our project-based income."
+                    "Used Builder plan - <TechnicalDetails 
+                      summary="₿0.008 annually per crew member"
+                      details="0.008 Bitcoin (about $910 at current prices) granted to each crew member every year they stay with the company."
+                      className="inline"
+                    />. Predictable costs that work with our project-based income."
                   </p>
                 </div>
 
@@ -458,10 +498,31 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                     * Example based on Pioneer benefit package (₿0.100) starting in 2020.
                     Past employee benefit performance does not guarantee future results.
                   </p>
+                  
+                  <ExpandableSection title="How This Calculation Works" className="mt-4">
+                    <div className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                      <p>
+                        <strong>Bitcoin (₿):</strong> A digital currency that has grown significantly in value over time. 
+                        The symbol ₿ represents Bitcoin, similar to how $ represents dollars.
+                      </p>
+                      <p>
+                        <strong>Initial Benefit Cost:</strong> The dollar amount it cost to purchase 0.100 Bitcoin in 2020 
+                        (approximately $11,000 based on average price that year).
+                      </p>
+                      <p>
+                        <strong>Current Benefit Value:</strong> What that same 0.100 Bitcoin is worth today 
+                        (approximately ${formatUSD(presentValue).replace('$', '')} based on current market price).
+                      </p>
+                      <p>
+                        <strong>Why Bitcoin?</strong> Unlike traditional benefits that maintain fixed values, 
+                        Bitcoin has historically appreciated, potentially making employee benefits more valuable over time.
+                      </p>
+                    </div>
+                  </ExpandableSection>
                 </div>
               </div>
             </div>
