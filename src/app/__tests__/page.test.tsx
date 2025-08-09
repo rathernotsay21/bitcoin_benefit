@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import HomePage from '../page';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 // Mock the APIs
 jest.mock('@/lib/bitcoin-api');
@@ -34,20 +35,32 @@ describe('Home Page', () => {
     jest.clearAllMocks();
   });
   it('renders the main heading', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
     expect(screen.getAllByText('Secure their future. Secure your team.')).toHaveLength(2);
   });
 
   it('renders navigation links', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
-    expect(screen.getAllByText('Historical Analysis')).toHaveLength(3);
-    expect(screen.getByText('Try Calculator')).toBeInTheDocument();
+    expect(screen.getAllByText('Calculator')).toHaveLength(2); // Desktop and mobile nav
+    expect(screen.getByText('Start Planning')).toBeInTheDocument();
   });
 
   it('renders the historical performance example with cost basis and present value', async () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
     // Check that the historical performance example section exists
     expect(screen.getByText('Historical Performance Example')).toBeInTheDocument();
@@ -72,34 +85,50 @@ describe('Home Page', () => {
   });
 
   it('renders the vesting scheme cards', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
-    expect(screen.getByText('Bitcoin Pioneer')).toBeInTheDocument();
-    expect(screen.getByText('Dollar Cost Advantage')).toBeInTheDocument();
-    expect(screen.getByText('Wealth Builder')).toBeInTheDocument();
+    expect(screen.getByText('Pioneer')).toBeInTheDocument();
+    expect(screen.getByText('Stacker')).toBeInTheDocument();
+    expect(screen.getByText('Builder')).toBeInTheDocument();
   });
 
   it('renders the benefits section', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
-    expect(screen.getByText('Why Bitcoin Vesting?')).toBeInTheDocument();
-    expect(screen.getByText('Enhanced Retention')).toBeInTheDocument();
-    expect(screen.getByText('Financial Education')).toBeInTheDocument();
-    expect(screen.getByText('Transparent & Trackable')).toBeInTheDocument();
+    expect(screen.getByText('Stop Losing Your Best People')).toBeInTheDocument();
+    expect(screen.getByText('Compete with Big Companies')).toBeInTheDocument();
+    expect(screen.getByText('Build Employee Loyalty')).toBeInTheDocument();
+    expect(screen.getByText('Easy to Understand & Track')).toBeInTheDocument();
   });
 
   it('renders the CTA section with both calculators', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
     expect(screen.getByText('Ready to Start Planning?')).toBeInTheDocument();
-    expect(screen.getByText('Future Calculator')).toBeInTheDocument();
-    expect(screen.getAllByText('Historical Analysis')).toHaveLength(3);
+    expect(screen.getByText('Planning Calculator')).toBeInTheDocument();
+    expect(screen.getByText('Historical Results')).toBeInTheDocument();
   });
 
   it('has proper links to the historical calculator', () => {
-    render(<HomePage />);
+    render(
+      <ThemeProvider>
+        <HomePage />
+      </ThemeProvider>
+    );
     
-    const historicalLinks = screen.getAllByText('Historical Analysis');
+    const historicalLinks = screen.getAllByText('Try Historical Analysis');
     expect(historicalLinks.length).toBeGreaterThan(0);
     
     // Check that at least one link points to /historical

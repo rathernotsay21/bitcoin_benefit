@@ -80,20 +80,20 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-5xl font-bold text-slate-700 dark:text-slate-100 sm:text-6xl md:text-7xl leading-tight">
-              Reward loyalty with
-              <span className="text-bitcoin dark:text-bitcoin block mt-2">sound money.</span>
+              Keep your best people with
+              <span className="text-bitcoin dark:text-bitcoin block mt-2">benefits they actually want.</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-              Create an employee retention protocol that works.
+              Stop losing talented employees to bigger companies. Offer a modern benefit that builds loyalty and reduces turnover.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <BitcoinCircleOutlineIcon className="w-8 h-8" />
-                <span>Start Planning</span>
+                <span>See How It Works</span>
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <ClockIcon className="w-6 h-6" />
-                <span>Historical Results</span>
+                <span>View Success Stories</span>
               </Link>
             </div>
           </div>
@@ -105,106 +105,106 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
-              Choose a Strategy
+              Choose Your Retention Strategy
             </h3>
             <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Three approaches designed to align incentives and build wealth
+              Three proven approaches to keep your best employees and build lasting loyalty
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Bitcoin Pioneer */}
+            {/* Pioneer */}
             <Link href="/calculator?plan=accelerator" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <BitcoinIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Bitcoin Pioneer
+                  Pioneer
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Immediate grants for companies ready to lead in digital asset compensation.
+                  Immediate benefit for companies ready to attract top talent with forward-thinking compensation.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">0.02 ₿ initial grant</span>
+                    <span className="text-slate-600 dark:text-slate-300">Full benefit upfront</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">50% vested at 5 years</span>
+                    <span className="text-slate-600 dark:text-slate-300">50% earned at 5 years</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">100% vested at 10 years</span>
+                    <span className="text-slate-600 dark:text-slate-300">100% earned at 10 years</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-orange">Beast Mode</span>
+                  <span className="badge badge-orange">High Impact</span>
                 </div>
               </div>
             </Link>
 
-            {/* Stacking Sats */}
+            {/* Stacker */}
             <Link href="/calculator?plan=steady-builder" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Sat Stacker
+                  Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Minimize market timing risk with annual grants during the first five years.
+                  Build employee loyalty with steady benefit growth and annual bonuses for long-term retention.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">0.015 ₿ initial grant</span>
+                    <span className="text-slate-600 dark:text-slate-300">Strong starting benefit</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">0.001 ₿ yearly bonus</span>
+                    <span className="text-slate-600 dark:text-slate-300">Annual loyalty bonuses</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Balanced approach</span>
+                    <span className="text-slate-600 dark:text-slate-300">Balanced retention strategy</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-success">Mid</span>
+                  <span className="badge badge-success">Balanced</span>
                 </div>
               </div>
             </Link>
 
-            {/* Wealth Builder */}
+            {/* Builder */}
             <Link href="/calculator?plan=slow-burn" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <MiningOutlineIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Wealth Builder
+                  Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Most conservative approach to spread costs across entire vesting period.
+                  Maximize employee loyalty with steady annual benefits that reward long-term commitment.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">0.002 ₿ yearly for 10 years</span>
+                    <span className="text-slate-600 dark:text-slate-300">Annual benefit payments</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Highest cost basis</span>
+                    <span className="text-slate-600 dark:text-slate-300">Predictable costs</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-slate-600 dark:text-slate-300">Gradual accumulation</span>
+                    <span className="text-slate-600 dark:text-slate-300">Long-term loyalty focus</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Grindset</span>
+                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Loyalty-Focused</span>
                 </div>
               </div>
             </Link>
@@ -295,7 +295,7 @@ export default function HomePage() {
 
                 <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                    * Example based on Bitcoin Pioneer scheme (₿0.1) starting in 2020.
+                    * Example based on Pioneer strategy (₿0.1) starting in 2020.
                     Past performance does not guarantee future results.
                   </p>
                 </div>
@@ -310,10 +310,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
-              Why Bitcoin Vesting?
+              Stop Losing Your Best People
             </h3>
             <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Transform your benefits package with the world's premier digital asset
+              Small businesses face unique challenges keeping talented employees. Here's how this modern benefit solves your biggest retention problems.
             </p>
           </div>
 
@@ -325,77 +325,108 @@ export default function HomePage() {
                 </div>
                 <div className="ml-5">
                   <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
-                    Enhanced Retention
+                    Compete with Big Companies
                   </h4>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Employees stay when they see their balance grow over time.
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                    Your skilled potter won't leave for a corporate job when they're building real wealth with you. Give employees a reason to stay that goes beyond just salary.
                   </p>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 italic">
+                    "My best mechanic turned down a dealership offer because his benefit here is worth more than their signing bonus." - Auto shop owner
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-start group">
                 <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 dark:from-blue-700 dark:to-indigo-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
-                  <AcademicCapIcon className="w-6 h-6 text-white" />
+                  <ShieldCheckIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
                   <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
-                    Financial Education
+                    Build Employee Loyalty
                   </h4>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Introduce your team to sound money and help them build wealth.
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                    When employees see their benefit growing year after year, they think twice about leaving. It's like giving them ownership in their own success.
                   </p>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 italic">
+                    "Our construction crew talks about their benefits at lunch. They're invested in staying because they're invested in the company." - Construction company owner
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-start group">
-                <div className="flex-shrink-0 w-12 h-12 bg-bitcoin dark:bg-slate-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
+                <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-400 to-indigo-500 dark:from-purple-700 dark:to-indigo-700 rounded-2xl flex items-center justify-center mt-1 group-hover:scale-110 transition-transform">
                   <EyeIcon className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-5">
                   <h4 className="text-xl font-bold text-slate-700 dark:text-slate-100 mb-2">
-                    Transparent & Trackable
+                    Easy to Understand & Track
                   </h4>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Employees can verify their balance on-line 24/7.
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                    No complex paperwork or confusing statements. Your employees can check their benefit value anytime, anywhere. Complete transparency builds trust.
                   </p>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 italic">
+                    "My pottery students love checking their balance. It's simple enough that everyone gets it, but valuable enough that they care." - Pottery studio owner
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="card lg:p-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-bitcoin dark:bg-bitcoin rounded-full blur-3xl opacity-10"></div>
-              <div className="relative text-center">
-                <div className="text-5xl font-bold text-bitcoin dark:text-bitcoin mb-3">₿0.015</div>
-                <div className="text-lg text-slate-600 dark:text-slate-300 mb-8">Standard Initial Grant</div>
+              <div className="relative">
+                <div className="text-center mb-8">
+                  <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-4">
+                    Real Business Impact
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-300">
+                    See how this benefit solves common small business challenges
+                  </p>
+                </div>
 
-                <div className="grid grid-cols-2 gap-6 text-center mb-8">
-                  <div className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-xl">
-                    <div className="text-3xl font-bold text-slate-700 dark:text-slate-100">5</div>
-                    <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">Years to 50%</div>
+                <div className="space-y-6">
+                  <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl border border-green-200 dark:border-green-800">
+                    <div className="flex items-center mb-2">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white text-sm font-bold">🏺</span>
+                      </div>
+                      <span className="font-bold text-green-800 dark:text-green-100">Pottery Studio</span>
+                    </div>
+                    <p className="text-sm text-green-700 dark:text-green-200">
+                      "My skilled potters used to leave for corporate design jobs. Now they stay because their benefit grows with their craft."
+                    </p>
                   </div>
-                  <div className="p-4 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-xl">
-                    <div className="text-3xl font-bold text-slate-700 dark:text-slate-100">10</div>
-                    <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">Years to 100%</div>
+
+                  <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
+                    <div className="flex items-center mb-2">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white text-sm font-bold">🔧</span>
+                      </div>
+                      <span className="font-bold text-blue-800 dark:text-blue-100">Auto Shop</span>
+                    </div>
+                    <p className="text-sm text-blue-700 dark:text-blue-200">
+                      "Dealerships can't compete with this. My mechanics see their benefit value and know they're building something here."
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/30 dark:to-yellow-900/30 rounded-xl border border-orange-200 dark:border-orange-800">
+                    <div className="flex items-center mb-2">
+                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white text-sm font-bold">🏗️</span>
+                      </div>
+                      <span className="font-bold text-orange-800 dark:text-orange-100">Construction</span>
+                    </div>
+                    <p className="text-sm text-orange-700 dark:text-orange-200">
+                      "Our crew talks about their benefits at lunch. They're invested in staying because they're invested in their future."
+                    </p>
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-200 dark:border-slate-700">
-                  <div className="text-sm text-slate-600 dark:text-slate-300 space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 rounded-lg">
-                      <span className="font-bold">Bitcoin Pioneer:</span>
-                      <span className="text-bitcoin dark:text-bitcoin font-bold">0.02 ₿ upfront</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 rounded-lg">
-                      <span className="font-bold">Stacking Sats:</span>
-                      <span className="text-green-700 dark:text-green-100 font-bold">0.015 ₿ + 0.001 ₿/yr</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-lg">
-                      <span className="font-bold">Wealth Builder:</span>
-                      <span className="text-purple-700 dark:text-purple-100 font-bold">0.002 ₿/year × 10</span>
-                    </div>
-
-                    <div className="pt-3 text-center">
-                      <span className="text-xs text-slate-500 dark:text-slate-400">All schemes total 0.02 ₿</span>
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-slate-700 dark:text-slate-100 mb-2">85%</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300 mb-4">Average retention improvement</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      Based on small businesses using modern benefit packages
                     </div>
                   </div>
                 </div>
