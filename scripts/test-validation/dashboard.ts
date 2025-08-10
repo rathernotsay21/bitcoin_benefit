@@ -54,6 +54,14 @@ export class TestInfrastructureDashboard {
     this.hookSetup = new PreCommitHookSetup(projectRoot);
   }
 
+  public validateAllTestFiles() {
+    return this.validator.validateAllTestFiles();
+  }
+
+  public runHealthCheck() {
+    return this.healthMonitor.runHealthCheck();
+  }
+
   async generateReport(): Promise<DashboardReport> {
     console.log('📊 Generating test infrastructure health report...');
     console.log('This may take a few minutes...\n');
@@ -462,7 +470,7 @@ if (require.main === module) {
       break;
 
     case 'validate':
-      dashboard.validator.validateAllTestFiles()
+      dashboard.validateAllTestFiles()
         .then(result => {
           TestFileValidator.printResults(result);
           process.exit(result.passed ? 0 : 1);
@@ -474,7 +482,7 @@ if (require.main === module) {
       break;
 
     case 'health':
-      dashboard.healthMonitor.runHealthCheck()
+      dashboard.runHealthCheck()
         .then(metrics => {
           TestHealthMonitor.printHealthReport(metrics);
         })

@@ -64,7 +64,7 @@ export class PreCommitHookSetup {
     console.log('✅ Pre-commit hooks installed successfully!');
     console.log('\n📋 Hook Configuration:');
     Object.entries(finalConfig).forEach(([key, value]) => {
-      console.log(`  ${key}: ${value}`);
+      console.log('  ' + key + ': ' + value);
     });
 
     console.log('\n💡 To temporarily bypass hooks, use: git commit --no-verify');
@@ -76,7 +76,7 @@ export class PreCommitHookSetup {
     await writeFile(this.preCommitHook, hookScript, { mode: 0o755 });
     await chmod(this.preCommitHook, 0o755);
     
-    console.log(`✅ Created pre-commit hook: ${this.preCommitHook}`);
+    console.log('✅ Created pre-commit hook: ' + this.preCommitHook);
   }
 
   private generateHookScript(config: HookConfig): string {
@@ -310,7 +310,7 @@ async function runQuickValidation() {
     return;
   }
 
-  console.log(\`🔍 Validating \${stagedFiles.length} staged test files...\`);
+  console.log('🔍 Validating ' + stagedFiles.length + ' staged test files...');
   
   const result = await validator.validateSpecificFiles(stagedFiles);
   validator.printResults(result);
@@ -454,7 +454,7 @@ fixTestIssues();
     const finalConfig = { ...defaultConfig, ...config };
     
     await writeFile(configPath, JSON.stringify(finalConfig, null, 2));
-    console.log(\`✅ Created config file: \${configPath}\`);
+    console.log('✅ Created config file: ' + configPath);
   }
 }
 
