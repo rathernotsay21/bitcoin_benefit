@@ -166,9 +166,9 @@ export class ConcurrentProcessingService {
   private async fetchTransactionsWithOptimization(address: string): Promise<RawTransaction[]> {
     return await errorHandler.executeWithRetry(
       async () => {
-        // Use enhanced API with connection pooling
+        // Use enhanced API with proxy endpoint
         const api = new MempoolAPI({
-          baseURL: 'https://mempool.space/api',
+          baseURL: '/api/mempool',
           timeout: this.config.timeoutMs,
           maxRetries: this.config.retryAttempts,
           retryDelay: 1000

@@ -65,25 +65,27 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0 flex-1">
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink">
             <div className="icon-container group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
-              <SatoshiOutlineIcon className="w-8 h-8 sm:w-9 sm:h-9" size={36} />
+              <SatoshiOutlineIcon className="w-7 h-7 sm:w-8 sm:h-8" size={32} />
             </div>
             <div className="flex flex-col min-w-0">
-              <h1 className="text-lg sm:text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300 truncate">
-                BitcoinBenefits.me
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
+                <span className="hidden sm:inline">BitcoinBenefits.me</span>
+                <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
-                <span className="hidden sm:inline">Secure their future. Secure your team.</span>
-                <span className="sm:hidden">Secure their future.<br />Secure your team.</span>
+              <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
+                Secure their future. Secure your team.
               </p>
             </div>
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = item.href === '/calculator' 
+                ? pathname.startsWith('/calculator')
+                : pathname === item.href;
               const Icon = isActive ? item.activeIcon : item.icon;
               
               return (
@@ -99,14 +101,18 @@ export default function Navigation() {
                       ? 'text-bitcoin dark:text-bitcoin' 
                       : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
                   }`} />
-                  <span>{item.name}</span>
+                  <span className={`transition-all duration-300 ${
+                    isActive 
+                      ? 'text-bitcoin dark:text-bitcoin' 
+                      : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                  }`}>{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
           {/* Right Side: Dark Mode Toggle + CTA Button */}
-          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-3 ml-2 sm:ml-4 flex-shrink-0">
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
@@ -123,7 +129,7 @@ export default function Navigation() {
             {/* CTA Button */}
             <Link 
               href="/calculator" 
-              className="btn-primary text-sm whitespace-nowrap"
+              className="btn-primary text-xs sm:text-sm px-3 sm:px-6 py-2 sm:py-3 whitespace-nowrap"
             >
               <span className="hidden sm:inline">Start Planning</span>
               <span className="sm:hidden">Start</span>
@@ -133,30 +139,34 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4 overflow-x-auto">
-          <div className="flex items-center space-x-3 sm:space-x-6 min-w-0 flex-1">
+          <div className="flex items-center justify-around w-full px-2">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = item.href === '/calculator' 
+                ? pathname.startsWith('/calculator')
+                : pathname === item.href;
               const Icon = isActive ? item.activeIcon : item.icon;
               
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex flex-col items-center space-y-1 ${
-                    isActive ? 'text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300'
+                  className={`nav-link flex flex-col items-center space-y-1 px-2 py-1 transition-all duration-300 ${
+                    isActive ? 'active text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin'
                   }`}
                 >
-                  <Icon className={`w-6 h-6 transition-all duration-300 ${
-                    isActive ? 'text-bitcoin dark:text-bitcoin scale-110' : 'text-slate-500 dark:text-slate-300'
+                  <Icon className={`w-5 h-5 transition-all duration-300 ${
+                    isActive ? 'text-bitcoin dark:text-bitcoin scale-110' : 'text-slate-500 dark:text-slate-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin'
                   }`} />
-                  <span className="text-xs font-medium">{item.name}</span>
+                  <span className={`text-xs font-medium transition-all duration-300 ${
+                    isActive ? 'text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300'
+                  }`}>{item.name}</span>
                 </Link>
               );
             })}
           </div>
           
-          {/* Mobile Dark Mode Toggle */}
-          <button
+          {/* Mobile Dark Mode Toggle - Remove from mobile nav as it's already in header */}
+          {/* <button
             onClick={toggleTheme}
             className="theme-toggle group"
             aria-label="Toggle dark mode"
@@ -166,7 +176,7 @@ export default function Navigation() {
             ) : (
               <SunIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
             )}
-          </button>
+          </button> */}
         </nav>
       </div>
     </header>

@@ -17,7 +17,7 @@ interface BatchPriceRequest {
 }
 
 export class OnChainPriceFetcher {
-  private static readonly BASE_URL = 'https://api.coingecko.com/api/v3';
+  private static readonly BASE_URL = '/api/coingecko';
   private static readonly CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
   private static readonly BATCH_DELAY = 100; // 100ms delay for batching
   private static readonly MAX_BATCH_SIZE = 10; // Maximum dates per batch request
@@ -184,7 +184,7 @@ export class OnChainPriceFetcher {
     const fromTimestamp = Math.floor(dayBefore.getTime() / 1000);
     const toTimestamp = Math.floor(dayAfter.getTime() / 1000);
 
-    const url = `${this.BASE_URL}/coins/bitcoin/market_chart/range?vs_currency=usd&from=${fromTimestamp}&to=${toTimestamp}`;
+    const url = `${this.BASE_URL}?vs_currency=usd&from=${fromTimestamp}&to=${toTimestamp}`;
 
     const response = await fetch(url, {
       headers: {

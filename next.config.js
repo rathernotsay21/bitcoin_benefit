@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Note: Removed 'output: export' to enable API routes
+  // For static deployment, consider using Netlify Functions instead
   trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  distDir: 'out',
   images: {
     unoptimized: true
   },

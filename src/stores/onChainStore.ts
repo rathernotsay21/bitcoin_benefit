@@ -145,7 +145,13 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   validateAndFetch: async () => {
-    const { address, vestingStartDate, annualGrantBtc, totalGrants, retryCount, enablePerformanceOptimizations } = get();
+    const { address, vestingStartDate, annualGrantBtc, totalGrants, retryCount, enablePerformanceOptimizations, isLoading } = get();
+    
+    // Prevent multiple concurrent operations
+    if (isLoading) {
+      console.warn('Validation already in progress, ignoring duplicate request');
+      return;
+    }
     
     // Create new AbortController for this operation
     if (abortController) {
@@ -434,29 +440,29 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   },
   
   resetTracker: () => {
-    // Clear all intervals and timers to prevent memory leaks
-    pendingTimers.forEach(timer => clearTimeout(timer));
-    pendingTimers.clear();
-    
-    // Cancel pending promises to prevent state updates on unmounted components
+    // Cancel any ongoing operations first
     if (abortController) {
       abortController.abort();
       abortController = null;
     }
     
+    // Clear all intervals and timers to prevent memory leaks
+    pendingTimers.forEach(timer => clearTimeout(timer));
+    pendingTimers.clear();
+    
     // Clear performance caches when resetting
-    clearAnnotationCache();
-    MemoryOptimizer.optimizeMemory();
-    
-    // Clear all performance measurements
-    PerformanceMonitor.clearMeasurements();
-    
-    // Clear price fetcher cache
-    OnChainPriceFetcher.clearCache();
-    
-    // Get concurrent processing service instance and clear its caches
-    const processingService = ConcurrentProcessingService.getInstance();
-    processingService.clearCaches();
+    try {
+      clearAnnotationCache();
+      MemoryOptimizer.optimizeMemory();
+      PerformanceMonitor.clearMeasurements();
+      OnChainPriceFetcher.clearCache();
+      
+      // Get concurrent processing service instance and clear its caches
+      const processingService = ConcurrentProcessingService.getInstance();
+      processingService.clearCaches();
+    } catch (error) {
+      console.warn('Error clearing caches during reset:', error);
+    }
     
     set({
       address: '',

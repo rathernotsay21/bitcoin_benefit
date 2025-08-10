@@ -26,10 +26,10 @@ interface APIConfig {
 }
 
 /**
- * Default configuration for Mempool.space API
+ * Default configuration for Mempool.space API (via proxy)
  */
 const DEFAULT_CONFIG: APIConfig = {
-  baseURL: 'https://mempool.space/api',
+  baseURL: '/api/mempool',
   timeout: 30000, // 30 seconds
   maxRetries: 3,
   retryDelay: 1000, // 1 second
