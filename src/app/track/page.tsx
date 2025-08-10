@@ -325,7 +325,7 @@ function FeatureOverview() {
 }
 
 // Main Page Component
-export default function OnChainTrackerPage() {
+export default function TrackerPage() {
   const {
     address,
     vestingStartDate,

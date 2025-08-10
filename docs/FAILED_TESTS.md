@@ -1,3 +1,58 @@
+# Test Infrastructure Fix Priority Plan
+
+## Phase 1: Critical Configuration (High Impact, Low Effort)
+**Target: Fix 80% of failures in ~2-4 hours**
+
+[x] 1.1 Module Resolution Fix
+```bash
+# Update vitest.config.ts to resolve CommonJS conflicts
+# Ensure all test files use ES imports consistently
+```
+
+[x] 1.2 String Parsing Fix
+```typescript
+// Fix unicode escape issues in test files
+// Break up large template literals
+// Update SWC configuration
+```
+
+[x] 1.3 Import Path Updates
+```typescript
+// Update outdated import paths:
+// @/app/on-chain/page → @/app/track/page.tsx
+// Fix component reference mismatches
+```
+
+## Phase 2: Component Test Updates (Medium Impact)
+**Target: Fix remaining UI test failures**
+
+### 2.1 Bitcoin Formatting
+```typescript
+// Update test expectations to match actual output
+// Fix ₿ symbol handling in assertions
+```
+
+### 2.2 Chart Component Selectors
+```typescript
+// Update test IDs and selectors
+// Match current component structure
+```
+
+## Phase 3: Performance Test Stability
+**Target: Ensure reliable performance validation**
+
+### 3.1 Performance Test Configuration
+```typescript
+// Resolve ES module imports
+// Stabilize timing-sensitive tests
+```
+
+## Expected Outcome
+- **From**: 28 failing suites (70% failure rate)
+- **To**: 0-2 failing suites (95%+ success rate)
+- **Timeline**: 4-8 hours of focused work
+- **Risk**: Low (configuration changes, not functional code)
+
 # Test Failure Summary
 
 ## Overview

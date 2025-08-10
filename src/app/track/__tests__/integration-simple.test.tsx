@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import OnChainTrackerPage from '../page';
+import TrackerPage from '../page';
 import { useOnChainStore } from '@/stores/onChainStore';
 
 // Mock the store
@@ -34,7 +34,7 @@ jest.mock('@/components/on-chain/OnChainErrorBoundaries', () => ({
   TimelineErrorBoundary: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
 }));
 
-describe('OnChainTrackerPage Simple Integration Test', () => {
+describe('TrackerPage Simple Integration Test', () => {
   const mockStore = {
     address: '',
     vestingStartDate: '',
@@ -58,7 +58,7 @@ describe('OnChainTrackerPage Simple Integration Test', () => {
   });
 
   it('should render the main page components', () => {
-    render(<OnChainTrackerPage />);
+    render(<TrackerPage />);
 
     expect(screen.getByText('On-Chain Vesting Tracker')).toBeInTheDocument();
     expect(screen.getByTestId('navigation')).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('OnChainTrackerPage Simple Integration Test', () => {
   });
 
   it('should show privacy disclaimer', () => {
-    render(<OnChainTrackerPage />);
+    render(<TrackerPage />);
 
     expect(screen.getByText(/Privacy & Data Usage Notice/i)).toBeInTheDocument();
   });

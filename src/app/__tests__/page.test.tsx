@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
 import HomePage from '../page';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';

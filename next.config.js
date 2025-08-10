@@ -7,8 +7,26 @@ const nextConfig = {
     unoptimized: true
   },
   
+  // SWC configuration for better unicode escape handling
+  swcMinify: true,
+  
+  // Compiler options for SWC
+  compiler: {
+    // Remove console logs in production
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn']
+    } : false,
+    
+    // Enable emotion if needed
+    emotion: false,
+    
+    // SWC transform options
+    styledComponents: false
+  },
+  
   // Performance optimizations
   experimental: {
+    swcTraceProfiling: false,
     optimizePackageImports: ['recharts', '@heroicons/react', 'zustand'],
   },
   

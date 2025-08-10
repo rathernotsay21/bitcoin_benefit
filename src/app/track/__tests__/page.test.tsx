@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import OnChainTrackerPage from '../page';
+import TrackerPage from '../page';
 import { useOnChainStore } from '@/stores/onChainStore';
 import { AnnotatedTransaction, ExpectedGrant } from '@/types/on-chain';
 
@@ -152,7 +152,7 @@ const mockExpectedGrants: ExpectedGrant[] = [
   }
 ];
 
-describe('OnChainTrackerPage Integration Tests', () => {
+describe('TrackerPage Integration Tests', () => {
   const mockStore = {
     address: '',
     vestingStartDate: '',
@@ -181,7 +181,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
 
   describe('Initial page load', () => {
     it('renders the main page with privacy disclaimer and feature overview', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('On-Chain Vesting Tracker')).toBeInTheDocument();
       expect(screen.getByText(/Privacy & Data Usage Notice/i)).toBeInTheDocument();
@@ -190,7 +190,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
     });
 
     it('shows feature overview when no analysis has been performed', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Automatic Matching')).toBeInTheDocument();
       expect(screen.getByText('Manual Overrides')).toBeInTheDocument();
@@ -201,7 +201,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
     });
 
     it('renders privacy disclaimer with collapsible details', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const expandButton = screen.getByText('Read full privacy details');
       expect(expandButton).toBeInTheDocument();
@@ -221,7 +221,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
 
   describe('Form submission flow', () => {
     it('handles form submission and triggers validation', async () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const submitButton = screen.getByTestId('submit-button');
       fireEvent.click(submitButton);
@@ -241,7 +241,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithErrors);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByTestId('error-address')).toHaveTextContent('Invalid Bitcoin address');
       expect(screen.getByTestId('error-annualGrantBtc')).toHaveTextContent('Amount must be positive');
@@ -257,7 +257,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(loadingStore);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Processing Your Data')).toBeInTheDocument();
       expect(screen.getByText('Fetching Transactions')).toBeInTheDocument();
@@ -274,7 +274,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(annotatingStore);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analyzing transactions and matching to vesting schedule...')).toBeInTheDocument();
     });
@@ -287,7 +287,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(loadingStore);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const submitButton = screen.getByTestId('submit-button');
       expect(submitButton).toBeDisabled();
@@ -305,7 +305,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByTestId('vesting-tracker-results')).toBeInTheDocument();
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -321,7 +321,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByTestId('timeline-visualizer')).toBeInTheDocument();
       expect(screen.getByText('Vesting Timeline Analysis')).toBeInTheDocument();
@@ -337,7 +337,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analysis Summary')).toBeInTheDocument();
       
@@ -366,7 +366,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
       expect(screen.getByText('Network connection failed')).toBeInTheDocument();
@@ -386,7 +386,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // The error should be passed to the results component
       expect(screen.getByTestId('vesting-tracker-results')).toBeInTheDocument();
@@ -403,7 +403,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Find and click manual override button
       const overrideButton = screen.getByTestId('manual-override-tx1');
@@ -424,7 +424,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithManualAnnotation);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Manual Overrides')).toBeInTheDocument();
     });
@@ -440,7 +440,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const resetButton = screen.getByText('Reset Analysis');
       fireEvent.click(resetButton);
@@ -456,7 +456,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         currentStep: 'complete' as const
       };
 
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Simulate reset
       storeState = {
@@ -467,7 +467,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       vi.mocked(useOnChainStore).mockReturnValue(storeState);
 
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Should show feature overview again
       expect(screen.getByText('Verify Your Bitcoin Vesting History')).toBeInTheDocument();
@@ -483,7 +483,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       
       // Initial render
       mockUseOnChainStore.mockReturnValue(currentStore);
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Step 1: Submit form
       const submitButton = screen.getByTestId('submit-button');
@@ -499,7 +499,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         currentStep: 'fetching' as const
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       expect(screen.getByText('Processing Your Data')).toBeInTheDocument();
       expect(screen.getByText('Fetching transaction data from blockchain...')).toBeInTheDocument();
@@ -513,7 +513,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         expectedGrants: mockExpectedGrants
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
       expect(screen.getByTestId('timeline-visualizer')).toBeInTheDocument();
@@ -535,7 +535,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
 
   describe('Accessibility and UI behavior', () => {
     it('maintains proper focus management during state changes', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const submitButton = screen.getByTestId('submit-button');
       submitButton.focus();
@@ -543,20 +543,20 @@ describe('OnChainTrackerPage Integration Tests', () => {
     });
 
     it('provides proper error boundaries', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByTestId('error-boundary')).toBeInTheDocument();
       expect(screen.getByTestId('chart-error-boundary')).toBeInTheDocument();
     });
 
     it('includes navigation component', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByTestId('navigation')).toBeInTheDocument();
     });
 
     it('has responsive layout structure', () => {
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       const mainContainer = screen.getByText('On-Chain Vesting Tracker').closest('.max-w-7xl');
       expect(mainContainer).toBeInTheDocument();

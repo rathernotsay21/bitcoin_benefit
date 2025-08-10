@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import userEvent from '@testing-library/user-event';
-import OnChainTrackerPage from '../page';
+import TrackerPage from '../page';
 import { useOnChainStore } from '@/stores/onChainStore';
 import { MempoolAPI } from '@/lib/on-chain/mempool-api';
 import { OnChainPriceFetcher } from '@/lib/on-chain/price-fetcher';
@@ -222,7 +222,7 @@ const mockExpectedGrants: ExpectedGrant[] = [
   }
 ];
 
-describe('OnChainTrackerPage Integration Tests', () => {
+describe('TrackerPage Integration Tests', () => {
   const mockStore = {
     address: '',
     vestingStartDate: '',
@@ -276,7 +276,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       
       // Initial render
       mockUseOnChainStore.mockReturnValue(currentStore);
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Verify initial state
       expect(screen.getByText('On-Chain Vesting Tracker')).toBeInTheDocument();
@@ -304,7 +304,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         annualGrantBtc: 0.5
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       expect(screen.getByText('Processing Your Data')).toBeInTheDocument();
       expect(screen.getByText('Fetching transaction data from blockchain...')).toBeInTheDocument();
@@ -320,7 +320,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         currentStep: 'annotating' as const
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       expect(screen.getByText('Analyzing transactions and matching to vesting schedule...')).toBeInTheDocument();
 
@@ -333,7 +333,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         expectedGrants: mockExpectedGrants
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Verify results are displayed
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -379,7 +379,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Verify all transactions are properly displayed
       expect(screen.getByTestId('transaction-tx1_annual_grant')).toBeInTheDocument();
@@ -411,7 +411,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithValidationError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Verify validation errors are displayed
       expect(screen.getByTestId('error-address')).toHaveTextContent('Invalid Bitcoin address format');
@@ -437,7 +437,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Verify error state is displayed
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
@@ -474,7 +474,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithPartialData);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Results should still be displayed
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -502,7 +502,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithEmptyResults);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Should show results component but with empty state
       expect(screen.getByTestId('vesting-tracker-results')).toBeInTheDocument();
@@ -529,7 +529,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithRateLimitError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
       expect(screen.getByText('API rate limit exceeded. Please wait a moment and try again.')).toBeInTheDocument();
@@ -553,7 +553,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithTimeoutError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
       expect(screen.getByText('Request timed out. Please check your connection and try again.')).toBeInTheDocument();
@@ -575,7 +575,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       const mockUseOnChainStore = jest.mocked(useOnChainStore);
       mockUseOnChainStore.mockReturnValue(currentStore);
       
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Verify initial automatic annotations
       expect(screen.getByTestId('tx-year-tx1_annual_grant')).toHaveTextContent('1');
@@ -601,7 +601,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         manualAnnotations: new Map([['tx2_other_transaction', 2]])
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Verify the manual annotation is reflected
       expect(screen.getByTestId('tx-year-tx2_other_transaction')).toHaveTextContent('2');
@@ -628,7 +628,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         ])
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Verify both manual annotations
       expect(screen.getByTestId('tx-year-tx1_annual_grant')).toHaveTextContent('2');
@@ -651,7 +651,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithManualAnnotations);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Verify analysis summary reflects manual changes
       expect(screen.getByText('Analysis Summary')).toBeInTheDocument();
@@ -680,7 +680,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       const mockUseOnChainStore = jest.mocked(useOnChainStore);
       mockUseOnChainStore.mockReturnValue(currentStore);
       
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Verify manual annotation is active
       expect(screen.getByTestId('tx-year-tx2_other_transaction')).toHaveTextContent('2');
@@ -698,7 +698,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         manualAnnotations: new Map() // Cleared
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Verify annotation is back to original
       expect(screen.getByTestId('tx-year-tx2_other_transaction')).toHaveTextContent('Unmatched');
@@ -719,7 +719,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithValidationErrors);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // All validation errors should be displayed
       expect(screen.getByTestId('error-address')).toHaveTextContent('Invalid Bitcoin address format');
@@ -740,7 +740,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       const mockUseOnChainStore = jest.mocked(useOnChainStore);
       mockUseOnChainStore.mockReturnValue(currentStore);
       
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Verify error state
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
@@ -759,7 +759,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         currentStep: 'fetching' as const
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Should show loading state
       expect(screen.getByText('Processing Your Data')).toBeInTheDocument();
@@ -775,7 +775,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         expectedGrants: mockExpectedGrants
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Should show results
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -800,7 +800,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithPartialData);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Results should still be displayed
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -832,7 +832,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       const mockUseOnChainStore = jest.mocked(useOnChainStore);
       mockUseOnChainStore.mockReturnValue(currentStore);
       
-      const { rerender } = render(<OnChainTrackerPage />);
+      const { rerender } = render(<TrackerPage />);
 
       // Verify results are displayed
       expect(screen.getByTestId('results-content')).toBeInTheDocument();
@@ -857,7 +857,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
         formErrors: {}
       };
       mockUseOnChainStore.mockReturnValue(currentStore);
-      rerender(<OnChainTrackerPage />);
+      rerender(<TrackerPage />);
 
       // Should be back to initial state
       expect(screen.getByText('Verify Your Bitcoin Vesting History')).toBeInTheDocument();
@@ -878,7 +878,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(loadingStore);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       // Form should be disabled but maintain values
       const submitButton = screen.getByTestId('submit-button');
@@ -928,7 +928,7 @@ describe('OnChainTrackerPage Integration Tests', () => {
       };
       jest.mocked(useOnChainStore).mockReturnValue(storeWithMockedError);
 
-      render(<OnChainTrackerPage />);
+      render(<TrackerPage />);
 
       expect(screen.getByText('Analysis Error')).toBeInTheDocument();
       expect(screen.getByText('Mocked API failure')).toBeInTheDocument();

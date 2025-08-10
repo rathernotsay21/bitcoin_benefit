@@ -43,7 +43,16 @@
     "benchmark": "vitest run src/**/performance/performanceValidation.test.ts",
     "benchmark:report": "vitest run src/**/performance/performanceValidation.test.ts --reporter=verbose",
     "test:all": "vitest run",
-    "validate:optimizations": "vitest run src/**/performance/ --reporter=verbose"
+    "validate:optimizations": "vitest run src/**/performance/ --reporter=verbose",
+    "test:validate": "node scripts/test-validation/test-file-validator.ts",
+    "test:health": "node scripts/test-validation/test-health-monitor.ts",
+    "test:dashboard": "node scripts/test-validation/dashboard.ts report",
+    "test:maintenance": "node scripts/test-validation/dashboard.ts maintenance",
+    "test:fix-strings": "node scripts/test-string-normalizer.ts",
+    "test:fix-issues": "node scripts/fix-test-issues.js",
+    "test:hooks:install": "node scripts/test-validation/pre-commit-setup.ts install",
+    "test:hooks:remove": "node scripts/test-validation/pre-commit-setup.ts remove",
+    "test:hooks:status": "node scripts/test-validation/pre-commit-setup.ts status"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",

@@ -3,6 +3,7 @@
  * Tests error scenarios, retry logic, and recovery mechanisms
  */
 
+import { describe, it, expect, beforeEach, beforeAll, afterAll, vi } from 'vitest';
 import { 
   OnChainErrorHandler, 
   OnChainTrackingError,
@@ -17,7 +18,7 @@ import { MempoolAPIError } from '../mempool-api';
 // Mock console.error to avoid noise in tests
 const originalConsoleError = console.error;
 beforeAll(() => {
-  console.error = jest.fn();
+  console.error = vi.fn();
 });
 
 afterAll(() => {
@@ -128,7 +129,7 @@ describe('OnChainErrorHandler', () => {
   describe('Retry Logic', () => {
     it('should retry retryable operations', async () => {
       let callCount = 0;
-      const operation = jest.fn().mockImplementation(() => {
+      const operation = vi.fn().mockImplementation(() => {
         callCount++;
         if (callCount < 3) {
           throw new NetworkError('Network error', 503);
@@ -157,7 +158,7 @@ describe('OnChainErrorHandler', () => {
     });
 
     it('should not retry non-retryable errors', async () => {
-      const operation = jest.fn().mockImplementation(() => {
+      const operation = vi.fn().mockImplementation(() => {
         throw new ValidationError('Invalid input');
       });
 
@@ -181,7 +182,7 @@ describe('OnChainErrorHandler', () => {
     });
 
     it('should respect max retry limit', async () => {
-      const operation = jest.fn().mockImplementation(() => {
+      const operation = vi.fn().mockImplementation(() => {
         throw new NetworkError('Persistent network error', 503);
       });
 
@@ -207,7 +208,7 @@ describe('OnChainErrorHandler', () => {
     it('should use exponential backoff when enabled', async () => {
       let callCount = 0;
       const startTime = Date.now();
-      const operation = jest.fn().mockImplementation(() => {
+      const operation = vi.fn().mockImplementation(() => {
         callCount++;
         if (callCount < 3) {
           throw new NetworkError('Network error', 503);
@@ -443,7 +444,7 @@ describe('Integration Tests', () => {
 
   it('should handle complete error flow with retry and recovery', async () => {
     let callCount = 0;
-    const mockOperation = jest.fn().mockImplementation(async () => {
+    const mockOperation = vi.fn().mockImplementation(async () => {
       callCount++;
 
       if (callCount === 1) {
