@@ -44,13 +44,23 @@ Project Root
 ### String Formatting and Unicode Handling
 
 **Root Cause Analysis:**
-The unicode escape errors are caused by malformed string literals in test files where newline characters have been escaped as `\\n` instead of actual newlines. This creates invalid JavaScript syntax that the SWC parser cannot process.
+The unicode escape errors are caused by malformed string literals in test files where newline characters have been escaped as `\n` instead of actual newlines. This creates invalid JavaScript syntax that the SWC parser cannot process. The issue is particularly visible in comment blocks at the top of test files.
 
 **Solution Strategy:**
 - Implement automated string literal normalization
 - Configure SWC/Babel to handle unicode characters properly
 - Establish string formatting standards for test files
 - Create validation tools to prevent similar issues
+
+### Import Path Updates
+
+**Current Issue:**
+Recent React restructuring has moved components, causing import path mismatches. Tests are importing from `@/app/on-chain/page` but the actual component is now at `@/app/track/page.tsx`.
+
+**Solution Strategy:**
+- Update all test import paths to match current component locations
+- Implement automated import path validation
+- Create mapping documentation for component relocations
 
 ## Components and Interfaces
 

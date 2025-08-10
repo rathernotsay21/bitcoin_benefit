@@ -1,35 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 import OnChainTimelineVisualizer from '../OnChainTimelineVisualizer';
 import { ExpectedGrant, AnnotatedTransaction } from '@/types/on-chain';
-
-// Mock Recharts components
-jest.mock('recharts', () => ({
-  ComposedChart: ({ children, onMouseMove, onMouseLeave, ...props }: any) => (
-    <div 
-      data-testid="composed-chart" 
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      {...props}
-    >
-      {children}
-    </div>
-  ),
-  Line: ({ dataKey, ...props }: any) => <div data-testid={`line-${dataKey}`} {...props} />,
-  Scatter: ({ dataKey, ...props }: any) => <div data-testid={`scatter-${dataKey}`} {...props} />,
-  XAxis: (props: any) => <div data-testid="x-axis" {...props} />,
-  YAxis: (props: any) => <div data-testid="y-axis" {...props} />,
-  CartesianGrid: (props: any) => <div data-testid="cartesian-grid" {...props} />,
-  Tooltip: ({ content, ...props }: any) => <div data-testid="tooltip" {...props} />,
-  Legend: ({ content, ...props }: any) => <div data-testid="legend" {...props} />,
-  ResponsiveContainer: ({ children, ...props }: any) => (
-    <div data-testid="responsive-container" {...props}>
-      {children}
-    </div>
-  ),
-  ReferenceLine: (props: any) => <div data-testid="reference-line" {...props} />,
-}));
 
 // Mock window.innerWidth for responsive testing
 Object.defineProperty(window, 'innerWidth', {
@@ -133,23 +106,12 @@ describe('OnChainTimelineVisualizer', () => {
       expect(screen.getByText('• Received:')).toBeInTheDocument();
     });
 
-    it('renders the chart components', () => {
+    it('renders the statistics cards', () => {
       render(<OnChainTimelineVisualizer {...defaultProps} />);
       
-      expect(screen.getByTestId('responsive-container')).toBeInTheDocument();
-      expect(screen.getByTestId('composed-chart')).toBeInTheDocument();
-      expect(screen.getByTestId('line-expectedAmount')).toBeInTheDocument();
-      expect(screen.getByTestId('scatter-actualAmount')).toBeInTheDocument();
-      expect(screen.getByTestId('x-axis')).toBeInTheDocument();
-      expect(screen.getByTestId('y-axis')).toBeInTheDocument();
-    });
-
-    it('renders statistics cards', () => {
-      render(<OnChainTimelineVisualizer {...defaultProps} />);
-      
-      expect(screen.getByText('Expected Total')).toBeInTheDocument();
-      expect(screen.getAllByText('Received').length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByText('Grants Matched')).toBeInTheDocument();
+      expect(screen.getAllByText('Expected')).toHaveLength(2); // Card + table header
+      expect(screen.getAllByText('Received')).toHaveLength(3); // Card + table status badges
+      expect(screen.getByText('Grants')).toBeInTheDocument();
       expect(screen.getByText('Total Value')).toBeInTheDocument();
     });
 
@@ -158,7 +120,7 @@ describe('OnChainTimelineVisualizer', () => {
       
       expect(screen.getByText('Grant Status Breakdown')).toBeInTheDocument();
       expect(screen.getByText('Year')).toBeInTheDocument();
-      expect(screen.getByText('Expected')).toBeInTheDocument();
+      expect(screen.getAllByText('Expected')).toHaveLength(2); // Card + table header
       expect(screen.getByText('Actual')).toBeInTheDocument();
       expect(screen.getByText('Status')).toBeInTheDocument();
     });
@@ -168,11 +130,11 @@ describe('OnChainTimelineVisualizer', () => {
     it('calculates and displays correct statistics', () => {
       render(<OnChainTimelineVisualizer {...defaultProps} />);
       
-      // Expected total: 0.1 + 0.1 + 0.1 = 0.3 BTC (should appear in multiple places)
-      expect(screen.getAllByText('₿0.300000').length).toBeGreaterThanOrEqual(1);
+      // Expected total: 0.1 + 0.1 + 0.1 = 0.3 BTC (3 decimal places)
+      expect(screen.getAllByText('₿0.300').length).toBeGreaterThanOrEqual(1);
       
-      // Received: 0.095 + 0.102 = 0.197 BTC (should appear in multiple places)
-      expect(screen.getAllByText('₿0.197000').length).toBeGreaterThanOrEqual(1);
+      // Received: 0.095 + 0.102 = 0.197 BTC (3 decimal places)
+      expect(screen.getAllByText('₿0.197').length).toBeGreaterThanOrEqual(1);
       
       // Grants matched: 2/3
       expect(screen.getByText('2/3')).toBeInTheDocument();
@@ -209,9 +171,9 @@ describe('OnChainTimelineVisualizer', () => {
     it('formats BTC and USD values correctly', () => {
       render(<OnChainTimelineVisualizer {...defaultProps} />);
       
-      // Check BTC formatting
-      expect(screen.getByText('₿0.095000')).toBeInTheDocument();
-      expect(screen.getByText('₿0.102000')).toBeInTheDocument();
+      // Check BTC formatting (3 decimal places)
+      expect(screen.getByText('₿0.095')).toBeInTheDocument();
+      expect(screen.getByText('₿0.102')).toBeInTheDocument();
       
       // Check USD formatting
       expect(screen.getByText('$4,500')).toBeInTheDocument();
@@ -230,8 +192,8 @@ describe('OnChainTimelineVisualizer', () => {
       fireEvent(window, new Event('resize'));
       
       await waitFor(() => {
-        const chart = screen.getByTestId('composed-chart');
-        expect(chart).toBeInTheDocument();
+        const table = screen.getByRole('table');
+        expect(table).toBeInTheDocument();
       });
     });
 
@@ -245,8 +207,8 @@ describe('OnChainTimelineVisualizer', () => {
       fireEvent(window, new Event('resize'));
       
       await waitFor(() => {
-        const chart = screen.getByTestId('composed-chart');
-        expect(chart).toBeInTheDocument();
+        const table = screen.getByRole('table');
+        expect(table).toBeInTheDocument();
       });
     });
   });
@@ -262,7 +224,7 @@ describe('OnChainTimelineVisualizer', () => {
       );
       
       // Check for expected total in the statistics card
-      expect(screen.getAllByText('₿0.000000').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('₿0.000').length).toBeGreaterThanOrEqual(1);
       
       expect(screen.getByText('0/0')).toBeInTheDocument(); // Grants matched
     });
@@ -277,7 +239,7 @@ describe('OnChainTimelineVisualizer', () => {
       );
       
       // Check for received amount (should be 0)
-      expect(screen.getAllByText('₿0.000000').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('₿0.000').length).toBeGreaterThanOrEqual(1);
       
       expect(screen.getByText('0/3')).toBeInTheDocument(); // Grants matched
       expect(screen.getAllByText('Missing')).toHaveLength(3); // All missing
@@ -316,24 +278,33 @@ describe('OnChainTimelineVisualizer', () => {
       );
       
       // Check for expected total (should be 0)
-      expect(screen.getAllByText('₿0.000000').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('₿0.000').length).toBeGreaterThanOrEqual(1);
     });
   });
 
   describe('Interactive Features', () => {
-    it('handles chart mouse interactions', () => {
+    it('handles table keyboard navigation', () => {
       render(<OnChainTimelineVisualizer {...defaultProps} />);
       
-      const chart = screen.getByTestId('composed-chart');
+      const table = screen.getByRole('table');
       
-      // Test mouse move
-      fireEvent.mouseMove(chart, { target: { activeLabel: 1 } });
-      
-      // Test mouse leave
-      fireEvent.mouseLeave(chart);
+      // Test table focus
+      fireEvent.focus(table);
       
       // Should not throw errors
-      expect(chart).toBeInTheDocument();
+      expect(table).toBeInTheDocument();
+    });
+
+    it('handles skip to table functionality', () => {
+      render(<OnChainTimelineVisualizer {...defaultProps} />);
+      
+      const skipButton = screen.getByText('Skip to data table');
+      
+      // Test skip button click
+      fireEvent.click(skipButton);
+      
+      // Should not throw errors
+      expect(skipButton).toBeInTheDocument();
     });
   });
 

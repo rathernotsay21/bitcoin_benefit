@@ -1,6 +1,6 @@
 [build]
-  command = "npm run export"
-  publish = "out"
+  command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.20.4"
@@ -16,11 +16,8 @@
   [headers.values]
     Cache-Control = "public, max-age=300"
 
-# SPA fallback for client-side routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Let Next.js handle routing
+# No redirects needed for Next.js with Netlify plugin
 
 # Security headers
 [[headers]]

@@ -10,9 +10,17 @@ import YearSelector from '@/components/YearSelector';
 import RiskAnalysisCard from '@/components/RiskAnalysisCard';
 import VestingTrackerFormOptimized from '@/components/on-chain/VestingTrackerFormOptimized';
 
+import { vi } from 'vitest';
+
+// Use centralized Recharts mock
+vi.mock('recharts', async () => {
+  const rechartsMock = await import('../../__mocks__/recharts');
+  return rechartsMock.default;
+});
+
 // Mock the stores
-jest.mock('@/stores/calculatorStore', () => ({
-  useCalculatorStore: jest.fn(() => ({
+vi.mock('@/stores/calculatorStore', () => ({
+  useCalculatorStore: vi.fn(() => ({
     selectedScheme: null,
     inputs: { projectedBitcoinGrowth: 15 },
     results: null,
@@ -21,17 +29,17 @@ jest.mock('@/stores/calculatorStore', () => ({
     bitcoinChange24h: 2.5,
     isLoadingPrice: false,
     schemeCustomizations: {},
-    setSelectedScheme: jest.fn(),
-    updateInputs: jest.fn(),
-    fetchBitcoinPrice: jest.fn(),
-    updateSchemeCustomization: jest.fn(),
-    getEffectiveScheme: jest.fn(scheme => scheme),
-    loadStaticData: jest.fn(),
+    setSelectedScheme: vi.fn(),
+    updateInputs: vi.fn(),
+    fetchBitcoinPrice: vi.fn(),
+    updateSchemeCustomization: vi.fn(),
+    getEffectiveScheme: vi.fn(scheme => scheme),
+    loadStaticData: vi.fn(),
   }))
 }));
 
-jest.mock('@/stores/onChainStore', () => ({
-  useOnChainStore: jest.fn(() => ({
+vi.mock('@/stores/onChainStore', () => ({
+  useOnChainStore: vi.fn(() => ({
     address: '',
     vestingStartDate: '',
     annualGrantBtc: 0,
@@ -39,53 +47,53 @@ jest.mock('@/stores/onChainStore', () => ({
     formErrors: {},
     isLoading: false,
     error: null,
-    setFormData: jest.fn(),
-    validateField: jest.fn(),
-    validateAndFetch: jest.fn(),
+    setFormData: vi.fn(),
+    validateField: vi.fn(),
+    validateAndFetch: vi.fn(),
   }))
 }));
 
 // Mock the icons and other components
-jest.mock('@heroicons/react/24/solid', () => ({
+vi.mock('@heroicons/react/24/solid', () => ({
   ChartBarIcon: () => <div>ChartBarIcon</div>,
   CogIcon: () => <div>CogIcon</div>,
   SparklesIcon: () => <div>SparklesIcon</div>,
 }));
 
-jest.mock('@/components/icons', () => ({
+vi.mock('@/components/icons', () => ({
   SatoshiIcon: () => <div>SatoshiIcon</div>,
 }));
 
-jest.mock('@/components/VestingTimelineChart', () => {
+vi.mock('@/components/VestingTimelineChart', () => {
   return function VestingTimelineChart() {
     return <div>VestingTimelineChart</div>;
   };
 });
 
-jest.mock('@/components/ErrorBoundary', () => ({
+vi.mock('@/components/ErrorBoundary', () => ({
   ErrorBoundary: ({ children }: any) => <>{children}</>,
   CalculatorErrorBoundary: ({ children }: any) => <>{children}</>,
   ChartErrorBoundary: ({ children }: any) => <>{children}</>,
 }));
 
-jest.mock('@/components/Navigation', () => {
+vi.mock('@/components/Navigation', () => {
   return function Navigation() {
     return <nav>Navigation</nav>;
   };
 });
 
-jest.mock('@/components/loading/Skeletons', () => ({
+vi.mock('@/components/loading/Skeletons', () => ({
   CalculatorSkeleton: () => <div>Loading...</div>,
 }));
 
-jest.mock('next/link', () => {
+vi.mock('next/link', () => {
   return ({ children, href }: any) => <a href={href}>{children}</a>;
 });
 
 describe('useCallback Event Handler Optimizations', () => {
   describe('YearSelector', () => {
     it('should memoize handleYearChange callback', () => {
-      const onYearChange = jest.fn();
+      const onYearChange = vi.fn();
       const { rerender } = render(
         <YearSelector
           selectedYear={2020}
@@ -112,8 +120,8 @@ describe('useCallback Event Handler Optimizations', () => {
     });
 
     it('should update handler when dependencies change', () => {
-      const onYearChange1 = jest.fn();
-      const onYearChange2 = jest.fn();
+      const onYearChange1 = vi.fn();
+      const onYearChange2 = vi.fn();
       
       const { rerender } = render(
         <YearSelector
@@ -196,7 +204,7 @@ describe('useCallback Event Handler Optimizations', () => {
 
   describe('VestingTrackerFormOptimized', () => {
     it('should have all handlers wrapped in useCallback', () => {
-      const onSubmit = jest.fn();
+      const onSubmit = vi.fn();
       const { container } = render(
         <VestingTrackerFormOptimized onSubmit={onSubmit} />
       );
@@ -220,7 +228,7 @@ describe('useCallback Event Handler Optimizations', () => {
     });
 
     it('should maintain stable handlers on rerender', () => {
-      const onSubmit = jest.fn();
+      const onSubmit = vi.fn();
       const { container, rerender } = render(
         <VestingTrackerFormOptimized onSubmit={onSubmit} />
       );

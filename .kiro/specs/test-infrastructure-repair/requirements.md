@@ -2,7 +2,9 @@
 
 ## Introduction
 
-The Bitcoin Benefits project has undergone significant React and content changes over the past 24 hours, resulting in widespread test failures that are primarily infrastructure-related rather than functional code issues. The test suite currently shows 28 failed test suites out of 40 total, with 151 individual test failures. These failures stem from configuration conflicts between Jest and Vitest, module resolution issues, string formatting problems, and outdated test expectations that no longer match the updated React components.
+The Bitcoin Benefits project has undergone significant React and content changes over the past 24 hours, resulting in widespread test failures that are primarily infrastructure-related rather than functional code issues. Recent commits include "Chart improvement", "track page broke", "icons and nav bar", and "React Plan finished", indicating substantial UI and component restructuring.
+
+Current test failures include unicode escape errors in test files, Jest/Vitest configuration conflicts causing "Vitest cannot be imported in a CommonJS module" errors, and outdated import paths where tests reference `@/app/on-chain/page` but the actual component is at `@/app/track/page.tsx`. The test suite shows critical syntax errors preventing any tests from running.
 
 The goal is to systematically repair and modernize the test infrastructure to ensure reliable, maintainable testing that supports the development workflow without blocking deployments or reducing developer confidence.
 
@@ -42,6 +44,7 @@ The goal is to systematically repair and modernize the test infrastructure to en
 3. WHEN testing component interactions THEN the system SHALL use assertions that match the current component behavior
 4. IF component structure has changed THEN the system SHALL update test expectations to match the new structure
 5. WHEN testing responsive behavior THEN the system SHALL properly mock and test viewport changes
+6. WHEN importing components THEN the system SHALL use correct import paths that match the current file structure
 
 ### Requirement 4
 

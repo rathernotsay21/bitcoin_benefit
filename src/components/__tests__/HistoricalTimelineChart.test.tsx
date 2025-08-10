@@ -1,21 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { describe, it, expect, vi } from 'vitest';
+import { renderWithProviders, screen } from '../../test-utils';
 import HistoricalTimelineChart from '../HistoricalTimelineChart';
 import { HistoricalCalculationResult } from '@/types/vesting';
 
-// Mock recharts
-jest.mock('recharts', () => ({
-  ResponsiveContainer: ({ children }: any) => <div data-testid="responsive-container">{children}</div>,
-  ComposedChart: ({ children }: any) => <div data-testid="composed-chart">{children}</div>,
-  LineChart: ({ children }: any) => <div data-testid="line-chart">{children}</div>,
-  Line: () => <div data-testid="line" />,
-  XAxis: () => <div data-testid="x-axis" />,
-  YAxis: () => <div data-testid="y-axis" />,
-  CartesianGrid: () => <div data-testid="cartesian-grid" />,
-  Tooltip: () => <div data-testid="tooltip" />,
-  Legend: () => <div data-testid="legend" />,
-  ReferenceLine: () => <div data-testid="reference-line" />,
-}));
+// Use centralized Recharts mock
+vi.mock('recharts', async () => {
+  const rechartsMock = await import('../../__mocks__/recharts');
+  return rechartsMock.default;
+});
 
 const mockHistoricalResults: HistoricalCalculationResult = {
   timeline: [
@@ -71,45 +63,39 @@ describe('HistoricalTimelineChart', () => {
     currentBitcoinPrice: 113976
   };
 
-  beforeEach(() => {
-    // Mock window.innerWidth for mobile detection
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 1024,
-    });
-  });
-
   it('renders the chart title and description', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     expect(screen.getByText('Historical Performance Timeline (2020-2025)')).toBeInTheDocument();
-    expect(screen.getByText(/Total Bitcoin Granted.*₿0.100000/)).toBeInTheDocument();
+    expect(screen.getByText(/Total Bitcoin Granted.*₿0.100/)).toBeInTheDocument();
     expect(screen.getByText(/Cost Basis Method.*average/)).toBeInTheDocument();
     expect(screen.getByText(/Analysis Period.*5 years/)).toBeInTheDocument();
     expect(screen.getByText(/Annualized Return.*45.0%/)).toBeInTheDocument();
   });
 
   it('renders the chart components', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     expect(screen.getByTestId('responsive-container')).toBeInTheDocument();
     expect(screen.getByTestId('composed-chart')).toBeInTheDocument();
-    expect(screen.getAllByTestId('line')).toHaveLength(3); // BTC Balance, USD Value, Cost Basis
+    expect(screen.getByTestId('line-btcBalance')).toBeInTheDocument();
+    expect(screen.getByTestId('line-usdValue')).toBeInTheDocument();
+    expect(screen.getByTestId('line-costBasis')).toBeInTheDocument();
     expect(screen.getByTestId('x-axis')).toBeInTheDocument();
-    expect(screen.getAllByTestId('y-axis')).toHaveLength(2); // Left and right axes
+    expect(screen.getByTestId('y-axis-btc')).toBeInTheDocument();
+    expect(screen.getByTestId('y-axis-usd')).toBeInTheDocument();
     expect(screen.getByTestId('cartesian-grid')).toBeInTheDocument();
     expect(screen.getByTestId('tooltip')).toBeInTheDocument();
     expect(screen.getByTestId('legend')).toBeInTheDocument();
   });
 
   it('renders key insights cards', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     // Current Value card
     expect(screen.getByText('Current Value')).toBeInTheDocument();
     expect(screen.getByText('11K')).toBeInTheDocument();
-    expect(screen.getByText('₿0.100000 total')).toBeInTheDocument();
+    expect(screen.getByText('₿0.100 total')).toBeInTheDocument();
 
     // Total Cost Basis card
     expect(screen.getByText('Total Cost Basis')).toBeInTheDocument();
@@ -130,7 +116,7 @@ describe('HistoricalTimelineChart', () => {
       value: 600,
     });
 
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     // Chart should still render
     expect(screen.getByTestId('responsive-container')).toBeInTheDocument();
@@ -145,7 +131,7 @@ describe('HistoricalTimelineChart', () => {
       totalReturn: 1450000
     };
 
-    render(
+    renderWithProviders(
       <HistoricalTimelineChart
         {...defaultProps}
         results={largeValueResults}
@@ -159,20 +145,20 @@ describe('HistoricalTimelineChart', () => {
   });
 
   it('calculates return percentage correctly', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     // (10298 / 1100) * 100 = 936%
     expect(screen.getByText('936% gain')).toBeInTheDocument();
   });
 
   it('displays the correct analysis period', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     expect(screen.getByText('Historical Performance Timeline (2020-2025)')).toBeInTheDocument();
   });
 
   it('shows annualized return as percentage', () => {
-    render(<HistoricalTimelineChart {...defaultProps} />);
+    renderWithProviders(<HistoricalTimelineChart {...defaultProps} />);
 
     // 0.45 * 100 = 45.0%
     expect(screen.getByText(/Annualized Return.*45.0%/)).toBeInTheDocument();

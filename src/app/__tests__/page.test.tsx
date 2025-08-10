@@ -1,16 +1,26 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
+import { vi } from 'vitest';
 import HomePage from '../page';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 // Mock the APIs
-jest.mock('@/lib/bitcoin-api');
-jest.mock('@/lib/historical-bitcoin-api');
+vi.mock('@/lib/bitcoin-api', () => ({
+  BitcoinAPI: {
+    getCurrentPrice: vi.fn()
+  }
+}));
 
-const mockBitcoinAPI = BitcoinAPI as jest.Mocked<typeof BitcoinAPI>;
-const mockHistoricalBitcoinAPI = HistoricalBitcoinAPI as jest.Mocked<typeof HistoricalBitcoinAPI>;
+vi.mock('@/lib/historical-bitcoin-api', () => ({
+  HistoricalBitcoinAPI: {
+    getYearlyPrice: vi.fn()
+  }
+}));
+
+const mockBitcoinAPI = BitcoinAPI as any;
+const mockHistoricalBitcoinAPI = HistoricalBitcoinAPI as any;
 
 describe('Home Page', () => {
   beforeEach(() => {
@@ -32,7 +42,7 @@ describe('Home Page', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   it('renders the main heading', () => {
     render(
