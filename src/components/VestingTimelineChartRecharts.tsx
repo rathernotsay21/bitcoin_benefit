@@ -468,9 +468,19 @@ function VestingTimelineChartRecharts({
             {yearlyData.map((point, index) => {
               if (!point.grantSize || point.grantSize === 0) return null;
               
-              // Calculate radius based on grant size
-              const baseRadius = 10;
-              const radius = baseRadius * Math.sqrt(point.grantSize / 0.02);
+              // Calculate radius with logarithmic scaling and bounds
+              const minRadius = 8;   // Minimum circle size
+              const maxRadius = 25;  // Maximum circle size
+              const referenceGrant = 0.1; // Reference grant size for scaling
+              
+              // Use logarithmic scaling to handle wide range of values
+              // This provides good visual distinction while preventing huge circles
+              const scaleFactor = Math.log10(1 + point.grantSize / referenceGrant);
+              const normalizedScale = Math.min(scaleFactor / 2, 1); // Cap at 1
+              
+              // Interpolate between min and max radius
+              const radius = minRadius + (maxRadius - minRadius) * normalizedScale;
+              
               const fillColor = point.isInitialGrant ? '#f97316' : '#fb923c';
               const strokeColor = point.isInitialGrant ? '#c2410c' : '#ea580c';
               
