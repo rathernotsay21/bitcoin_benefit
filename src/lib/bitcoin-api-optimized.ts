@@ -67,6 +67,12 @@ export class OptimizedBitcoinAPI {
   }
 
   private static async fetchAndUpdatePrice(): Promise<{ price: number; change24h: number }> {
+    // Create abort controller for timeout support across all browsers
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 10000); // 10 second timeout
+
     try {
       const response = await fetch(
         `${this.BASE_URL}/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true`,
@@ -74,10 +80,12 @@ export class OptimizedBitcoinAPI {
           headers: {
             'Accept': 'application/json',
           },
-          // Add timeout and cache control
-          signal: AbortSignal.timeout ? AbortSignal.timeout(10000) : undefined,
+          signal: controller.signal,
         }
       );
+
+      // Clear timeout on successful response
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -95,7 +103,15 @@ export class OptimizedBitcoinAPI {
 
       return { price: priceData.price, change24h: priceData.change24h };
     } catch (error) {
-      console.warn('Failed to fetch Bitcoin price:', error);
+      // Clear timeout on error
+      clearTimeout(timeoutId);
+      
+      // Handle specific abort error
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.warn('Bitcoin price fetch timed out after 10 seconds');
+      } else {
+        console.warn('Failed to fetch Bitcoin price:', error);
+      }
       
       // Try to return cached data even if stale
       const staleCache = this.getCachedPrice();
