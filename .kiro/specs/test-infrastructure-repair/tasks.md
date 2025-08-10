@@ -36,19 +36,19 @@
   - Correct responsive behavior test assertions to match actual component behavior
   - _Requirements: 3.1, 3.2, 3.3_
 
-- [ ] 7. Standardize Recharts mocking across all component tests
+- [x] 7. Standardize Recharts mocking across all component tests
   - Create centralized Recharts mock in src/__mocks__/recharts.tsx
   - Update all chart component tests to use consistent mocking patterns
   - Ensure mock components provide proper test IDs and interaction handlers
   - _Requirements: 3.2, 3.3_
 
-- [ ] 8. Fix performance test module resolution and imports
+- [x] 8. Fix performance test module resolution and imports
   - Update performance test files to use proper ES module imports
   - Fix Vitest import statements in performanceValidation.test.ts and related files
   - Ensure performance tests can access test utilities and mocks properly
   - _Requirements: 1.1, 1.2, 4.1, 4.2_
 
-- [ ] 9. Update integration test mocking and expectations
+- [x] 9. Update integration test mocking and expectations
   - Fix module resolution issues in error-handling-integration.test.tsx
   - Update component mocks to match current component interfaces and behavior
   - Ensure integration tests properly validate error handling and recovery flows

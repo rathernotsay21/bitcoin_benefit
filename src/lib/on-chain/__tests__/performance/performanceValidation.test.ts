@@ -9,13 +9,13 @@ import {
   PerformanceMonitor,
   MemoryOptimizer,
   ConcurrentProcessingMetrics 
-} from '../../lib/on-chain/concurrentProcessing';
+} from '../../concurrentProcessing';
 import { 
   annotateTransactionsWithPerformance,
   clearAnnotationCache
-} from '../../lib/on-chain/annotateTransactionsOptimized';
-import { OnChainPriceFetcher } from '../../lib/on-chain/price-fetcher';
-import { runPerformanceBenchmark } from '../../components/on-chain/__tests__/performance/componentPerformance.test';
+} from '../../annotateTransactionsOptimized';
+import { OnChainPriceFetcher } from '../../price-fetcher';
+import { runPerformanceBenchmark } from '../../../../components/on-chain/__tests__/performance/componentPerformance.test';
 
 // Performance thresholds and benchmarks
 const PERFORMANCE_THRESHOLDS = {

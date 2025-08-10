@@ -7,25 +7,26 @@
 
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
+import { vi, type MockedFunction } from 'vitest';
 import { useOnChainStore } from '@/stores/onChainStore';
 import OnChainTrackerPage from '@/app/track/page';
 import { MempoolAPIError } from '@/lib/on-chain/mempool-api';
 import { OnChainTrackingError } from '@/lib/on-chain/error-handler';
 
 // Mock the store
-jest.mock('@/stores/onChainStore');
-const mockUseOnChainStore = useOnChainStore as jest.MockedFunction<typeof useOnChainStore>;
+vi.mock('@/stores/onChainStore');
+const mockUseOnChainStore = useOnChainStore as MockedFunction<typeof useOnChainStore>;
 
 // Mock Navigation component
-jest.mock('@/components/Navigation', () => {
-  return function MockNavigation() {
+vi.mock('@/components/Navigation', () => ({
+  default: function MockNavigation() {
     return <div data-testid="navigation">Navigation</div>;
-  };
-});
+  }
+}));
 
 // Mock the icon components
-jest.mock('@heroicons/react/24/outline', () => ({
+vi.mock('@heroicons/react/24/outline', () => ({
   ShieldCheckIcon: ({ className, ...props }: any) => (
     <svg className={className} data-testid="shield-icon" {...props}>
       <path d="shield" />
@@ -50,12 +51,57 @@ jest.mock('@heroicons/react/24/outline', () => ({
     <svg className={className} data-testid="warning-icon" {...props}>
       <path d="warning" />
     </svg>
+  ),
+  MagnifyingGlassIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="magnifying-glass-icon" {...props}>
+      <path d="magnifying-glass" />
+    </svg>
+  ),
+  CalculatorIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="calculator-icon" {...props}>
+      <path d="calculator" />
+    </svg>
+  ),
+  CurrencyDollarIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="currency-dollar-icon" {...props}>
+      <path d="currency-dollar" />
+    </svg>
+  ),
+  CheckIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="check-icon" {...props}>
+      <path d="check" />
+    </svg>
+  ),
+  DocumentMagnifyingGlassIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="document-magnifying-glass-icon" {...props}>
+      <path d="document-magnifying-glass" />
+    </svg>
+  ),
+  PencilIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="pencil-icon" {...props}>
+      <path d="pencil" />
+    </svg>
+  ),
+  BanknotesIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="banknotes-icon" {...props}>
+      <path d="banknotes" />
+    </svg>
+  ),
+  LockClosedIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="lock-closed-icon" {...props}>
+      <path d="lock-closed" />
+    </svg>
+  ),
+  BoltIcon: ({ className, ...props }: any) => (
+    <svg className={className} data-testid="bolt-icon" {...props}>
+      <path d="bolt" />
+    </svg>
   )
 }));
 
-// Mock the on-chain components
-jest.mock('@/components/on-chain/VestingTrackerForm', () => {
-  return function MockVestingTrackerForm({ onSubmit }: any) {
+// Mock the on-chain components - using optimized versions that match current implementation
+vi.mock('@/components/on-chain/VestingTrackerFormOptimized', () => ({
+  default: function MockVestingTrackerFormOptimized({ onSubmit }: any) {
     return (
       <div data-testid="vesting-tracker-form">
         <button
@@ -63,18 +109,19 @@ jest.mock('@/components/on-chain/VestingTrackerForm', () => {
           onClick={() => onSubmit({
             address: 'test-address',
             vestingStartDate: '2020-01-01',
-            annualGrantBtc: 1.0
+            annualGrantBtc: 1.0,
+            totalGrants: 5
           })}
         >
           Submit Form
         </button>
       </div>
     );
-  };
-});
+  }
+}));
 
-jest.mock('@/components/on-chain/VestingTrackerResults', () => {
-  return function MockVestingTrackerResults({ 
+vi.mock('@/components/on-chain/VestingTrackerResultsOptimized', () => ({
+  default: function MockVestingTrackerResultsOptimized({ 
     transactions, 
     error, 
     onRetry, 
@@ -108,28 +155,53 @@ jest.mock('@/components/on-chain/VestingTrackerResults', () => {
         <p>Transactions: {transactions.length}</p>
       </div>
     );
-  };
-});
+  }
+}));
 
-jest.mock('@/components/on-chain/OnChainTimelineVisualizer', () => {
-  return function MockOnChainTimelineVisualizer() {
+vi.mock('@/components/on-chain/OnChainTimelineVisualizer', () => ({
+  default: function MockOnChainTimelineVisualizer() {
     return <div data-testid="timeline-visualizer">Timeline Chart</div>;
-  };
-});
+  }
+}));
+
+vi.mock('@/components/on-chain/PerformanceMonitoringDashboard', () => ({
+  default: function MockPerformanceMonitoringDashboard() {
+    return <div data-testid="performance-dashboard">Performance Dashboard</div>;
+  }
+}));
+
+vi.mock('@/components/on-chain/OnChainErrorBoundaries', () => ({
+  OnChainErrorBoundary: ({ children, onRetry }: any) => (
+    <div data-testid="error-boundary">
+      {children}
+      {onRetry && <button data-testid="error-boundary-retry" onClick={onRetry}>Retry</button>}
+    </div>
+  ),
+  TransactionFetchErrorBoundary: ({ children }: any) => (
+    <div data-testid="transaction-error-boundary">{children}</div>
+  ),
+  PriceFetchErrorBoundary: ({ children }: any) => (
+    <div data-testid="price-error-boundary">{children}</div>
+  ),
+  TimelineErrorBoundary: ({ children }: any) => (
+    <div data-testid="timeline-error-boundary">{children}</div>
+  )
+}));
 
 // Mock window.open
-const mockWindowOpen = jest.fn();
+const mockWindowOpen = vi.fn();
 Object.defineProperty(window, 'open', {
   value: mockWindowOpen,
   writable: true
 });
 
 describe('OnChain Error Handling Integration', () => {
-  // Default mock store state
+  // Default mock store state - updated to match current store interface
   const defaultMockState = {
     address: '',
     vestingStartDate: '',
     annualGrantBtc: 0,
+    totalGrants: 5,
     annotatedTransactions: [],
     expectedGrants: [],
     manualAnnotations: new Map(),
@@ -140,17 +212,17 @@ describe('OnChain Error Handling Integration', () => {
     partialDataAvailable: false,
     lastError: null,
     retryCount: 0,
-    setFormData: jest.fn(),
-    validateAndFetch: jest.fn(),
-    updateManualAnnotation: jest.fn(),
-    resetTracker: jest.fn(),
-    retryOperation: jest.fn(),
-    continueWithPartialData: jest.fn(),
-    clearError: jest.fn()
+    setFormData: vi.fn(),
+    validateAndFetch: vi.fn(),
+    updateManualAnnotation: vi.fn(),
+    resetTracker: vi.fn(),
+    retryOperation: vi.fn(),
+    continueWithPartialData: vi.fn(),
+    clearError: vi.fn()
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockUseOnChainStore.mockReturnValue(defaultMockState);
   });
 
@@ -167,14 +239,14 @@ describe('OnChain Error Handling Integration', () => {
       render(<OnChainTrackerPage />);
 
       expect(screen.getByText('Connection Error')).toBeInTheDocument();
-      expect(screen.getByText(/Network connection failed/)).toBeInTheDocument();
+      expect(screen.getByText('Network connection failed. Please check your connection and try again.')).toBeInTheDocument();
       expect(screen.getByText('Retry attempt: 1')).toBeInTheDocument();
 
       // Should have Try Again button
       expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
 
       // Should have Check Mempool.space button for network errors
-      expect(screen.getByRole('button', { name: /check mempool\\.space/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /check mempool\.space service status/i })).toBeInTheDocument();
 
       // Should have Reset button
       expect(screen.getByRole('button', { name: /reset/i })).toBeInTheDocument();
@@ -197,15 +269,15 @@ describe('OnChain Error Handling Integration', () => {
       expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
 
       // Should NOT have Check Mempool.space button for validation errors
-      expect(screen.queryByRole('button', { name: /check mempool\\.space/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /check mempool\.space service status/i })).not.toBeInTheDocument();
 
       // Should have Reset button
       expect(screen.getByRole('button', { name: /reset/i })).toBeInTheDocument();
     });
 
     it('should handle retry operation with error clearing', async () => {
-      const mockClearError = jest.fn();
-      const mockRetryOperation = jest.fn();
+      const mockClearError = vi.fn();
+      const mockRetryOperation = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -233,14 +305,14 @@ describe('OnChain Error Handling Integration', () => {
 
       render(<OnChainTrackerPage />);
 
-      const mempoolButton = screen.getByRole('button', { name: /check mempool\\.space/i });
+      const mempoolButton = screen.getByRole('button', { name: /check mempool\.space service status/i });
       fireEvent.click(mempoolButton);
 
       expect(mockWindowOpen).toHaveBeenCalledWith('https://mempool.space', '_blank');
     });
 
     it('should handle reset tracker operation', async () => {
-      const mockResetTracker = jest.fn();
+      const mockResetTracker = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -278,15 +350,15 @@ describe('OnChain Error Handling Integration', () => {
       render(<OnChainTrackerPage />);
 
       expect(screen.getByText('Partial Data Available')).toBeInTheDocument();
-      expect(screen.getByText(/transaction data was retrieved successfully/)).toBeInTheDocument();
+      expect(screen.getByText(/Transaction data was retrieved successfully, but some historical price data is unavailable/)).toBeInTheDocument();
 
       // Should have both continuation options
-      expect(screen.getByRole('button', { name: /continue with partial data/i })).toBeInTheDocument();
+      expect(screen.getAllByRole('button', { name: /continue with partial data/i })).toHaveLength(2);
       expect(screen.getByRole('button', { name: /retry price fetch/i })).toBeInTheDocument();
     });
 
     it('should handle continue with partial data', async () => {
-      const mockContinueWithPartialData = jest.fn();
+      const mockContinueWithPartialData = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -297,15 +369,15 @@ describe('OnChain Error Handling Integration', () => {
 
       render(<OnChainTrackerPage />);
 
-      const continueButton = screen.getByRole('button', { name: /continue with partial data/i });
-      fireEvent.click(continueButton);
+      const continueButtons = screen.getAllByRole('button', { name: /continue with partial data/i });
+      fireEvent.click(continueButtons[0]);
 
       expect(mockContinueWithPartialData).toHaveBeenCalledTimes(1);
     });
 
     it('should handle retry price fetch from partial data state', async () => {
-      const mockClearError = jest.fn();
-      const mockRetryOperation = jest.fn();
+      const mockClearError = vi.fn();
+      const mockRetryOperation = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -364,8 +436,8 @@ describe('OnChain Error Handling Integration', () => {
       mockUseOnChainStore.mockReturnValue(mockState);
       rerender(<OnChainTrackerPage />);
 
-      expect(screen.getByText('Retrieving Prices')).toBeInTheDocument();
-      expect(screen.getByText('Retrieving historical Bitcoin prices...')).toBeInTheDocument();
+      expect(screen.getByText('Retrieving Values')).toBeInTheDocument();
+      expect(screen.getByText('Retrieving historical benefit values...')).toBeInTheDocument();
     });
   });
 
@@ -405,8 +477,8 @@ describe('OnChain Error Handling Integration', () => {
     });
 
     it('should display results error with retry functionality', async () => {
-      const mockRetryOperation = jest.fn();
-      const mockClearError = jest.fn();
+      const mockRetryOperation = vi.fn();
+      const mockClearError = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -419,10 +491,10 @@ describe('OnChain Error Handling Integration', () => {
 
       render(<OnChainTrackerPage />);
 
-      expect(screen.getByTestId('results-error')).toBeInTheDocument();
+      expect(screen.getByText('Analysis Error')).toBeInTheDocument();
       expect(screen.getByText('Failed to load transaction data')).toBeInTheDocument();
 
-      const retryButton = screen.getByTestId('retry-results');
+      const retryButton = screen.getByRole('button', { name: /try again/i });
       fireEvent.click(retryButton);
 
       expect(mockClearError).toHaveBeenCalledTimes(1);
@@ -432,10 +504,10 @@ describe('OnChain Error Handling Integration', () => {
 
   describe('Complete Error Recovery Flow', () => {
     it('should handle complete error-to-success flow', async () => {
-      const mockSetFormData = jest.fn();
-      const mockValidateAndFetch = jest.fn();
-      const mockClearError = jest.fn();
-      const mockRetryOperation = jest.fn();
+      const mockSetFormData = vi.fn();
+      const mockValidateAndFetch = vi.fn();
+      const mockClearError = vi.fn();
+      const mockRetryOperation = vi.fn();
 
       // Start with error state
       let mockState = {
@@ -519,8 +591,8 @@ describe('OnChain Error Handling Integration', () => {
     });
 
     it('should handle form submission with error handling', async () => {
-      const mockSetFormData = jest.fn();
-      const mockValidateAndFetch = jest.fn();
+      const mockSetFormData = vi.fn();
+      const mockValidateAndFetch = vi.fn();
 
       const mockState = {
         ...defaultMockState,
@@ -538,15 +610,16 @@ describe('OnChain Error Handling Integration', () => {
       expect(mockSetFormData).toHaveBeenCalledWith({
         address: 'test-address',
         vestingStartDate: '2020-01-01',
-        annualGrantBtc: 1.0
+        annualGrantBtc: 1.0,
+        totalGrants: 5
       });
       expect(mockValidateAndFetch).toHaveBeenCalledTimes(1);
     });
 
     it('should handle multiple error types in sequence', async () => {
-      const mockClearError = jest.fn();
-      const mockRetryOperation = jest.fn();
-      const mockContinueWithPartialData = jest.fn();
+      const mockClearError = vi.fn();
+      const mockRetryOperation = vi.fn();
+      const mockContinueWithPartialData = vi.fn();
 
       // Start with network error
       let mockState = {
@@ -585,9 +658,9 @@ describe('OnChain Error Handling Integration', () => {
 
       expect(screen.getByText('Partial Data Available')).toBeInTheDocument();
 
-      // Continue with partial data
-      const continueButton = screen.getByRole('button', { name: /continue with partial data/i });
-      fireEvent.click(continueButton);
+      // Continue with partial data - use the first button (from the page component)
+      const continueButtons = screen.getAllByRole('button', { name: /continue with partial data/i });
+      fireEvent.click(continueButtons[0]);
 
       expect(mockContinueWithPartialData).toHaveBeenCalledTimes(1);
     });
@@ -604,7 +677,7 @@ describe('OnChain Error Handling Integration', () => {
 
       render(<OnChainTrackerPage />);
 
-      expect(screen.getByText('Verify Your Bitcoin Vesting History')).toBeInTheDocument();
+      expect(screen.getByText('Verify Your Transparent Vesting History')).toBeInTheDocument();
       expect(screen.getByText('Automatic Matching')).toBeInTheDocument();
       expect(screen.getByText('Manual Overrides')).toBeInTheDocument();
       expect(screen.getByText('Historical Values')).toBeInTheDocument();

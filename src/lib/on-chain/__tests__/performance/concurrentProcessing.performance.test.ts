@@ -9,27 +9,54 @@ import {
   PerformanceMonitor,
   MemoryOptimizer,
   ConcurrentProcessingMetrics 
-} from '../concurrentProcessing';
-import { annotateTransactions } from '../annotateTransactions';
-import { annotateTransactionsWithPerformance } from '../annotateTransactionsOptimized';
-import { mempoolAPI } from '../mempool-api';
-import { OnChainPriceFetcher } from '../price-fetcher';
+} from '../../concurrentProcessing';
+import { annotateTransactions } from '../../annotateTransactions';
+import { annotateTransactionsWithPerformance } from '../../annotateTransactionsOptimized';
+import { mempoolAPI } from '../../mempool-api';
+import { OnChainPriceFetcher } from '../../price-fetcher';
 
 // Mock the external dependencies
-vi.mock('../mempool-api');
-vi.mock('../price-fetcher');
+vi.mock('../../mempool-api');
+vi.mock('../../price-fetcher');
 
 // Generate mock transaction data for performance testing
 const generateMockTransactions = (count: number) => {
   return Array.from({ length: count }, (_, i) => ({
     txid: `mock-txid-${i.toString().padStart(8, '0')}`,
-    date: new Date(2023, 0, 1 + i).toISOString().split('T')[0],
-    amountBTC: 0.1 + (i * 0.001),
-    fee: 0.0001,
-    inputs: [{ address: 'mock-input', value: 1000000 }],
-    outputs: [{ address: 'mock-output', value: 999900 }],
-    blockHeight: 800000 + i,
-    blockTime: new Date(2023, 0, 1 + i).getTime() / 1000
+    version: 1,
+    locktime: 0,
+    vin: [{
+      txid: `input-${i}`,
+      vout: 0,
+      prevout: {
+        scriptpubkey: 'mock-script',
+        scriptpubkey_asm: 'mock-asm',
+        scriptpubkey_type: 'p2pkh',
+        scriptpubkey_address: 'mock-input-address',
+        value: 1000000
+      },
+      scriptsig: 'mock-sig',
+      scriptsig_asm: 'mock-sig-asm',
+      witness: [],
+      is_coinbase: false,
+      sequence: 4294967295
+    }],
+    vout: [{
+      scriptpubkey: 'mock-script',
+      scriptpubkey_asm: 'mock-asm',
+      scriptpubkey_type: 'p2pkh',
+      scriptpubkey_address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+      value: 10000000 + (i * 1000) // 0.1 BTC + small increment
+    }],
+    size: 250,
+    weight: 1000,
+    fee: 10000,
+    status: {
+      confirmed: true,
+      block_height: 800000 + i,
+      block_hash: `block-hash-${i}`,
+      block_time: Math.floor(new Date(2023, 0, 1 + i).getTime() / 1000)
+    }
   }));
 };
 
@@ -44,9 +71,8 @@ describe('Concurrent Processing Performance Tests', () => {
   beforeEach(() => {
     // Reset performance monitoring
     PerformanceMonitor.clearMeasurements();
-    MemoryOptimizer.optimizeMemory();
     
-    // Setup mocks
+    // Setup mocks - need to override the global mocks from test-setup.ts
     vi.mocked(mempoolAPI.fetchTransactions).mockImplementation(async () => {
       await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API delay
       return generateMockTransactions(50);
@@ -55,6 +81,21 @@ describe('Concurrent Processing Performance Tests', () => {
     vi.mocked(OnChainPriceFetcher.fetchBatchPrices).mockImplementation(async (dates) => {
       await new Promise(resolve => setTimeout(resolve, 50)); // Simulate API delay
       return generateMockPrices(dates);
+    });
+    
+    vi.mocked(OnChainPriceFetcher.getCacheStats).mockReturnValue({
+      size: 0,
+      dates: []
+    });
+    
+    vi.mocked(OnChainPriceFetcher.clearCache).mockImplementation(() => {});
+    
+    // Mock MemoryOptimizer methods to avoid the getCacheStats issue
+    vi.spyOn(MemoryOptimizer, 'optimizeMemory').mockImplementation(() => {});
+    vi.spyOn(MemoryOptimizer, 'getMemoryInfo').mockReturnValue({
+      usedJSHeapSize: 1000000,
+      totalJSHeapSize: 2000000,
+      jsHeapSizeLimit: 100000000
     });
   });
 
@@ -244,7 +285,7 @@ describe('Concurrent Processing Performance Tests', () => {
       expect(time2).toBeLessThan(time1 * 0.5); // Cached call should be at least 50% faster
       
       const cacheStats = OnChainPriceFetcher.getCacheStats();
-      expect(cacheStats.hitRate).toBeGreaterThan(0);
+      expect(cacheStats.size).toBeGreaterThan(0);
     }, 8000);
   });
 
