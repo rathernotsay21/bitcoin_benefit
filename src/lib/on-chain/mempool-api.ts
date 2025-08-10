@@ -108,10 +108,21 @@ async function makeRequest(url: string, config: APIConfig, abortSignal?: AbortSi
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), config.timeout);
   
-  // Combine timeout and external abort signals
-  const combinedSignal = abortSignal 
-    ? AbortSignal.any([controller.signal, abortSignal])
-    : controller.signal;
+  // Combine timeout and external abort signals if AbortSignal.any is available
+  let combinedSignal: AbortSignal;
+  if (abortSignal && 'any' in AbortSignal && typeof AbortSignal.any === 'function') {
+    combinedSignal = AbortSignal.any([controller.signal, abortSignal]);
+  } else if (abortSignal) {
+    // Fallback for environments without AbortSignal.any
+    combinedSignal = abortSignal;
+    // Listen to abort signal to clean up timeout
+    abortSignal.addEventListener('abort', () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    });
+  } else {
+    combinedSignal = controller.signal;
+  }
   
   try {
     const response = await fetch(url, {
@@ -137,6 +148,14 @@ async function makeRequest(url: string, config: APIConfig, abortSignal?: AbortSi
     clearTimeout(timeoutId);
     
     if (error instanceof Error && error.name === 'AbortError') {
+      // Check if it was cancelled by external signal or timeout
+      if (abortSignal?.aborted) {
+        throw new MempoolAPIError(
+          'Request cancelled',
+          499,
+          false
+        );
+      }
       throw new MempoolAPIError(
         'Request timeout',
         408,

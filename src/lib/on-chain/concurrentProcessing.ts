@@ -79,8 +79,34 @@ export class ConcurrentProcessingService {
   static getInstance(config?: Partial<ConcurrentProcessingConfig>): ConcurrentProcessingService {
     if (!ConcurrentProcessingService.instance) {
       ConcurrentProcessingService.instance = new ConcurrentProcessingService(config);
+    } else if (config) {
+      // Update config if provided
+      ConcurrentProcessingService.instance.updateConfig(config);
     }
     return ConcurrentProcessingService.instance;
+  }
+  
+  /**
+   * Reset singleton instance (useful for cleanup)
+   */
+  static resetInstance(): void {
+    if (ConcurrentProcessingService.instance) {
+      ConcurrentProcessingService.instance.cleanup();
+      ConcurrentProcessingService.instance = null as any;
+    }
+  }
+  
+  /**
+   * Cleanup resources
+   */
+  private cleanup(): void {
+    if (this.processingTimer) {
+      clearTimeout(this.processingTimer);
+      this.processingTimer = null;
+    }
+    this.requestQueue = [];
+    this.activeOperations.clear();
+    this.metrics = {};
   }
   
   /**
@@ -102,6 +128,10 @@ export class ConcurrentProcessingService {
     this.resetMetrics();
     
     try {
+      // Check if aborted before starting
+      if (this.config.abortSignal?.aborted) {
+        throw new Error('Request cancelled');
+      }
       // Phase 1: Concurrent transaction fetching and expected grants generation
       const [transactions, _] = await Promise.all([
         this.fetchTransactionsWithOptimization(address),
@@ -166,6 +196,11 @@ export class ConcurrentProcessingService {
   private async fetchTransactionsWithOptimization(address: string): Promise<RawTransaction[]> {
     return await errorHandler.executeWithRetry(
       async () => {
+        // Check if aborted before making request
+        if (this.config.abortSignal?.aborted) {
+          throw new Error('Request cancelled');
+        }
+        
         // Use enhanced API with proxy endpoint
         const api = new MempoolAPI({
           baseURL: '/api/mempool',
@@ -262,6 +297,10 @@ export class ConcurrentProcessingService {
     const activeBatches: Promise<R>[] = [];
     
     for (const batch of batches) {
+      // Check if aborted during processing
+      if (this.config.abortSignal?.aborted) {
+        throw new Error('Request cancelled during batch processing');
+      }
       // Limit concurrent operations
       if (activeBatches.length >= this.config.maxConcurrentOperations) {
         const completed = await Promise.race(activeBatches);
@@ -382,6 +421,8 @@ export class ConcurrentProcessingService {
    */
   clearCaches(): void {
     OnChainPriceFetcher.clearCache();
+    OnChainPriceFetcher.clearBatchQueue();
+    this.cleanup();
     // Clear other caches as they become available
   }
   

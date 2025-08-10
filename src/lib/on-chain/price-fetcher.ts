@@ -20,7 +20,9 @@ export class OnChainPriceFetcher {
   private static readonly BASE_URL = '/api/coingecko';
   private static readonly CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
   private static readonly BATCH_DELAY = 100; // 100ms delay for batching
-  private static readonly MAX_BATCH_SIZE = 10; // Maximum dates per batch request
+  private static readonly MAX_BATCH_SIZE = 5; // Reduced batch size to avoid rate limits
+  private static readonly MIN_REQUEST_INTERVAL = 1000; // Minimum 1 second between API calls
+  private static lastRequestTime = 0;
   
   // Session-based cache for price data
   private static cache: Map<string, CachedPriceData> = new Map();
@@ -171,9 +173,17 @@ export class OnChainPriceFetcher {
   }
 
   /**
-   * Fetches price for a single date from CoinGecko API
+   * Fetches price for a single date from CoinGecko API with rate limiting
    */
-  private static async fetchSingleDateFromAPI(date: string): Promise<number> {
+  private static async fetchSingleDateFromAPI(date: string, retryCount = 0): Promise<number> {
+    // Implement rate limiting
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    if (timeSinceLastRequest < this.MIN_REQUEST_INTERVAL) {
+      await new Promise(resolve => setTimeout(resolve, this.MIN_REQUEST_INTERVAL - timeSinceLastRequest));
+    }
+    this.lastRequestTime = Date.now();
+
     const targetDate = new Date(date);
     const dayBefore = new Date(targetDate);
     dayBefore.setDate(dayBefore.getDate() - 1);
@@ -191,6 +201,14 @@ export class OnChainPriceFetcher {
         'Accept': 'application/json',
       },
     });
+
+    if (response.status === 429 && retryCount < 3) {
+      // Rate limited - use exponential backoff
+      const backoffTime = Math.min(1000 * Math.pow(2, retryCount), 10000);
+      console.warn(`Rate limited, retrying after ${backoffTime}ms...`);
+      await new Promise(resolve => setTimeout(resolve, backoffTime));
+      return this.fetchSingleDateFromAPI(date, retryCount + 1);
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -291,5 +309,6 @@ export class OnChainPriceFetcher {
       this.batchTimeout = null;
     }
     this.batchQueue = [];
+    this.lastRequestTime = 0; // Reset rate limiting
   }
 }

@@ -180,6 +180,17 @@ export class OnChainErrorHandler {
       return new ValidationError(error.message, 'Bitcoin address');
     }
     
+    // Handle request cancellation (not an actual error, just user action)
+    if (error.message.includes('Request cancelled') || error.statusCode === 499) {
+      return new OnChainTrackingError(
+        'Request was cancelled',
+        'REQUEST_CANCELLED',
+        false,
+        'Search cancelled',
+        'The search was cancelled. Please try again.'
+      );
+    }
+    
     if (error.message.includes('timeout')) {
       return new NetworkError(
         'Request timed out while fetching transaction data',
@@ -211,6 +222,17 @@ export class OnChainErrorHandler {
    * Process generic JavaScript errors
    */
   private processGenericError(error: Error, context: ErrorContext): OnChainTrackingError {
+    // Handle request cancellation
+    if (error.message.includes('Request cancelled') || error.message.includes('cancelled')) {
+      return new OnChainTrackingError(
+        'Request was cancelled',
+        'REQUEST_CANCELLED',
+        false,
+        'Search cancelled',
+        'The search was cancelled. Please try again.'
+      );
+    }
+    
     // Network/fetch errors
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
       return new NetworkError('Unable to connect to external services');
@@ -252,6 +274,11 @@ export class OnChainErrorHandler {
       } catch (error) {
         const processedError = this.processError(error, { ...context, retryAttempt: attempt });
         lastError = processedError;
+        
+        // Don't retry on cancelled requests
+        if (processedError.code === 'REQUEST_CANCELLED') {
+          break;
+        }
         
         // Don't retry on the last attempt or if error is not retryable
         if (attempt === retryConfig.maxRetries || !processedError.isRetryable) {
@@ -347,6 +374,14 @@ export class OnChainErrorHandler {
           message: error.userFriendlyMessage || 'Some data could not be retrieved',
           actionable: error.actionableGuidance || 'You can continue with partial data or try again.',
           canRetry: true
+        };
+        
+      case 'REQUEST_CANCELLED':
+        return {
+          title: 'Search Cancelled',
+          message: 'The search was cancelled',
+          actionable: 'Start a new search when ready.',
+          canRetry: false
         };
         
       default:

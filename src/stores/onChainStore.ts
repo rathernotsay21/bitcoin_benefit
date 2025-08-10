@@ -153,10 +153,16 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       return;
     }
     
-    // Create new AbortController for this operation
+    // Properly cleanup previous AbortController
     if (abortController) {
       abortController.abort();
+      abortController = null;
     }
+    
+    // Clear any pending timers from price fetcher
+    OnChainPriceFetcher.clearBatchQueue();
+    
+    // Create new AbortController for this operation
     abortController = new AbortController();
     
     // Start performance monitoring
@@ -446,6 +452,9 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       abortController = null;
     }
     
+    // Clear any pending batch operations
+    OnChainPriceFetcher.clearBatchQueue();
+    
     // Clear all intervals and timers to prevent memory leaks
     pendingTimers.forEach(timer => clearTimeout(timer));
     pendingTimers.clear();
@@ -457,9 +466,8 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       PerformanceMonitor.clearMeasurements();
       OnChainPriceFetcher.clearCache();
       
-      // Get concurrent processing service instance and clear its caches
-      const processingService = ConcurrentProcessingService.getInstance();
-      processingService.clearCaches();
+      // Reset concurrent processing service singleton
+      ConcurrentProcessingService.resetInstance();
     } catch (error) {
       console.warn('Error clearing caches during reset:', error);
     }
@@ -533,8 +541,10 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
   clearPerformanceCaches: () => {
     clearAnnotationCache();
     OnChainPriceFetcher.clearCache();
+    OnChainPriceFetcher.clearBatchQueue();
     MemoryOptimizer.optimizeMemory();
     PerformanceMonitor.clearMeasurements();
+    ConcurrentProcessingService.resetInstance();
   },
   
   getPerformanceStats: () => {
