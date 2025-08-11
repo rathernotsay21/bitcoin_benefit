@@ -79,28 +79,42 @@ scroll-behavior: smooth;
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply relative font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105;
+    @apply relative font-bold py-3 px-6 rounded-xl transition-all duration-300;
+    /* GPU acceleration for better performance */
+    will-change: transform;
+    transform: translateZ(0);
     /* Light Mode */
     @apply bg-bitcoin text-white shadow-lg hover:bg-bitcoin-600 hover:shadow-xl;
     /* Dark Mode */
     @apply dark:bg-bitcoin dark:text-white dark:hover:bg-bitcoin-600;
   }
 
+  .btn-primary:hover {
+    transform: translateY(-2px) translateZ(0);
+  }
+
   .btn-primary:active {
-    @apply transform scale-100;
+    transform: translateY(0) translateZ(0);
   }
   
   /* Secondary Button */
   .btn-secondary {
-    @apply font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105;
+    @apply font-bold py-3 px-6 rounded-xl transition-all duration-300;
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
     /* Light Mode */
     @apply bg-white text-slate-600 border-2 border-slate-200 hover:border-bitcoin hover:bg-bitcoin-50;
     /* Dark Mode */
     @apply dark:bg-slate-800 dark:border-2 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-700;
   }
 
+  .btn-secondary:hover {
+    transform: translateY(-2px) translateZ(0);
+  }
+
   .btn-secondary:active {
-    @apply transform scale-100;
+    transform: translateY(0) translateZ(0);
   }
 
   /* Dark Mode Toggle Button */
@@ -148,6 +162,9 @@ scroll-behavior: smooth;
   /* Cards */
   .card {
     @apply rounded-2xl p-6 transition-all duration-300;
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
     /* Light Mode */
     @apply bg-white border border-slate-200 shadow-sm hover:shadow-lg;
     /* Dark Mode */
@@ -160,12 +177,15 @@ scroll-behavior: smooth;
   }
 
   .card:hover {
-    @apply transform -translate-y-0.5;
+    transform: translateY(-2px) translateZ(0);
   }
 
   /* Feature Card */
   .feature-card {
     @apply card relative overflow-hidden cursor-pointer;
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
     /* Light Mode */
     @apply bg-white hover:bg-bitcoin-50 hover:border-bitcoin;
     /* Dark Mode */
@@ -186,12 +206,15 @@ scroll-behavior: smooth;
   }
 
   .feature-card:hover {
-    @apply transform -translate-y-1;
+    transform: translateY(-4px) translateZ(0);
   }
 
   /* Icon Container */
   .icon-container {
     @apply w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300;
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
     /* Light Mode */
     @apply bg-bitcoin-100;
     /* Dark Mode */
@@ -200,9 +223,10 @@ scroll-behavior: smooth;
 
   .feature-card:hover .icon-container {
     /* Light Mode */
-    @apply bg-bitcoin transform rotate-3 scale-110;
+    @apply bg-bitcoin;
     /* Dark Mode */
     @apply dark:bg-bitcoin;
+    transform: rotate(3deg) scale(1.1) translateZ(0);
   }
 
   .feature-card:hover .icon-container svg {
@@ -319,15 +343,18 @@ scroll-behavior: smooth;
   /* Animations */
   .animate-float {
     animation: float 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0px) translateZ(0); }
+    50% { transform: translateY(-10px) translateZ(0); }
   }
 
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: opacity;
   }
 
   @keyframes pulse {
