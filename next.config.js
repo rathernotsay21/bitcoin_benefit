@@ -8,10 +8,16 @@ const nextConfig = {
   // Enable compression for static assets
   compress: true,
   
-  // Simplified experimental features
+  // Performance optimizations
   experimental: {
-    optimizePackageImports: ['recharts', '@heroicons/react'],
+    optimizePackageImports: ['recharts', '@heroicons/react', '@headlessui/react'],
   },
+  
+  // Optimize JavaScript bundles
+  swcMinify: true,
+  
+  // Additional performance settings
+  poweredByHeader: false,
   
   env: {
     NEXT_PUBLIC_SITE_URL: process.env.NODE_ENV === 'production' 

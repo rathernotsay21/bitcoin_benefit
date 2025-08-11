@@ -3,24 +3,26 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '@/components/ThemeProvider';
-import { 
-  HomeIcon, 
-  CalculatorIcon, 
-  SunIcon,
-  MoonIcon,
-  ClockIcon,
-  AcademicCapIcon,
-  LinkIcon
-} from '@heroicons/react/24/outline';
-import { 
-  HomeIcon as HomeIconSolid, 
-  CalculatorIcon as CalculatorIconSolid, 
-  SunIcon as SunIconSolid,
-  MoonIcon as MoonIconSolid,
-  ClockIcon as ClockIconSolid,
-  AcademicCapIcon as AcademicCapIconSolid,
-  LinkIcon as LinkIconSolid
-} from '@heroicons/react/24/solid';
+// Optimize icon imports with dynamic loading
+import dynamic from 'next/dynamic';
+
+// Load essential navigation icons dynamically  
+const HomeIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
+const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
+const SunIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.SunIcon })), { ssr: false });
+const MoonIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
+const ClockIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
+const AcademicCapIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
+const LinkIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
+
+// Load solid versions dynamically
+const HomeIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
+const CalculatorIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
+const SunIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.SunIcon })), { ssr: false });
+const MoonIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
+const ClockIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
+const AcademicCapIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
+const LinkIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {

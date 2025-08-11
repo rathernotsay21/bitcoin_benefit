@@ -5,11 +5,12 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
 import { SatoshiOutlineIcon } from '@/components/icons/SatoshiOutlineIcon';
-import { ExpandableSection } from '@/components/ProgressiveDisclosure';
-import {
-    BanknotesIcon,
-    CalculatorIcon
-} from '@heroicons/react/24/solid';
+// Lazy load ExpandableSection since it's used at the bottom of the page
+const ExpandableSection = dynamic(() => import('@/components/ProgressiveDisclosure').then(mod => ({ default: mod.ExpandableSection })), { ssr: false });
+// Optimize icon imports
+import dynamic from 'next/dynamic';
+const BanknotesIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BanknotesIcon })), { ssr: false });
+const CalculatorIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
 
 export default function LearnMorePage() {
     return (

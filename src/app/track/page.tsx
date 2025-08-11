@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useOnChainStore } from '@/stores/onChainStore';
-import VestingTrackerFormOptimized from '@/components/on-chain/VestingTrackerFormOptimized';
-import VestingTrackerResultsOptimized from '@/components/on-chain/VestingTrackerResultsOptimized';
-import OnChainTimelineVisualizer from '@/components/on-chain/OnChainTimelineVisualizer';
-import PerformanceMonitoringDashboard from '@/components/on-chain/PerformanceMonitoringDashboard';
+// Lazy load heavy components for better performance
+const VestingTrackerFormOptimized = dynamic(() => import('@/components/on-chain/VestingTrackerFormOptimized'), { ssr: false });
+const VestingTrackerResultsOptimized = dynamic(() => import('@/components/on-chain/VestingTrackerResultsOptimized'), { ssr: false });
+const OnChainTimelineVisualizer = dynamic(() => import('@/components/on-chain/OnChainTimelineVisualizer'), { ssr: false });
+const PerformanceMonitoringDashboard = dynamic(() => import('@/components/on-chain/PerformanceMonitoringDashboard'), { ssr: false });
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { 
@@ -14,22 +15,26 @@ import {
   PriceFetchErrorBoundary, 
   TimelineErrorBoundary 
 } from '@/components/on-chain/OnChainErrorBoundaries';
+// Optimize icon imports - only import what's used immediately
 import { 
   ShieldCheckIcon, 
   InformationCircleIcon, 
-  ChartBarIcon, 
   ClockIcon, 
-  ExclamationTriangleIcon,
-  MagnifyingGlassIcon,
-  CalculatorIcon,
-  CurrencyDollarIcon,
-  CheckIcon,
-  DocumentMagnifyingGlassIcon,
-  PencilIcon,
-  BanknotesIcon,
-  LockClosedIcon,
-  BoltIcon
+  CheckIcon
 } from '@heroicons/react/24/outline';
+
+// Lazy load heavy icons
+const ChartBarIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ChartBarIcon })), { ssr: false });
+const ExclamationTriangleIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ExclamationTriangleIcon })), { ssr: false });
+const MagnifyingGlassIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
+const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
+const CurrencyDollarIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CurrencyDollarIcon })), { ssr: false });
+const PencilIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.PencilIcon })), { ssr: false });
+const BanknotesIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BanknotesIcon })), { ssr: false });
+const LockClosedIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LockClosedIcon })), { ssr: false });
+const BoltIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BoltIcon })), { ssr: false });
+
+import dynamic from 'next/dynamic';
 
 // Privacy Disclaimer Component
 function PrivacyDisclaimer() {
