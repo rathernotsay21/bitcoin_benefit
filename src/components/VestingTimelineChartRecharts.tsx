@@ -342,6 +342,36 @@ function VestingTimelineChartRecharts({
     return data;
   }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice]);
 
+  // Calculate cost basis based on scheme
+  const costBasis = useMemo(() => {
+    let totalCost = 0;
+    const annualGrowthRate = 1 + (projectedBitcoinGrowth / 100);
+    
+    // Initial grant cost (year 0 at current price)
+    if (initialGrant > 0) {
+      totalCost += initialGrant * currentBitcoinPrice;
+    }
+    
+    // Annual grant costs at projected future prices
+    if (annualGrant && annualGrant > 0) {
+      if (schemeId === 'slow-burn') {
+        // 10 years of annual grants at projected prices
+        for (let year = 1; year <= 10; year++) {
+          const projectedPrice = currentBitcoinPrice * Math.pow(annualGrowthRate, year);
+          totalCost += annualGrant * projectedPrice;
+        }
+      } else if (schemeId === 'steady-builder') {
+        // 5 years of annual grants at projected prices
+        for (let year = 1; year <= 5; year++) {
+          const projectedPrice = currentBitcoinPrice * Math.pow(annualGrowthRate, year);
+          totalCost += annualGrant * projectedPrice;
+        }
+      }
+    }
+    
+    return totalCost;
+  }, [initialGrant, annualGrant, currentBitcoinPrice, schemeId, projectedBitcoinGrowth]);
+
   // Calculate current year for vesting display
   const currentYear = new Date().getFullYear();
 
@@ -404,8 +434,8 @@ function VestingTimelineChartRecharts({
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-1">
           <span className="flex items-center gap-1">
-            <span className="font-medium">Current BTC Price:</span>
-            <span className="text-gray-800 dark:text-gray-200 font-bold">{formatUSD(currentBitcoinPrice)}</span>
+            <span className="font-medium">Cost Basis:</span>
+            <span className="text-gray-800 dark:text-gray-200 font-bold">{formatUSD(costBasis)}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Projected Growth:</span>
