@@ -48,7 +48,7 @@ export default function Footer() {
                 className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <ClockIcon className="w-5 h-5" />
-                <span>See How it Worked</span>
+                <span>Past Performance</span>
               </Link>
             </div>
           </div>

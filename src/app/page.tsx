@@ -86,16 +86,16 @@ export default function HomePage() {
               <span className="text-bitcoin dark:text-bitcoin block mb-2">Reward Loyalty with Sound Money</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-              Stop losing talent. Keep your best people with modern benefits they actually want.
+              Keep your best people with modern benefits they actually want.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <BitcoinCircleOutlineIcon className="w-8 h-8" />
-                <span>See How It Works</span>
+                <span>Pick a Strategy</span>
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <ClockIcon className="w-6 h-6" />
-                <span>See How it Worked</span>
+                <span>Past Performance</span>
               </Link>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function HomePage() {
                   Pioneer
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Upfront investment with maximum upside.
+                  Maximum upside
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -141,7 +141,7 @@ export default function HomePage() {
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
                     "When I locked up a bitcoin for two of my best guys the competition gave up on recruiting them away from me forever" - Mike, Construction Company
                   </div>
-                  <span className="badge badge-orange">High Impact</span>
+                  <span className="badge badge-orange">All In</span>
                 </div>
               </div>
             </Link>
@@ -156,7 +156,7 @@ export default function HomePage() {
                   Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Build a stack with annual grants to distribute cost
+                  Build a stack
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
@@ -192,22 +192,18 @@ export default function HomePage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Annual benefit payments</span>
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Ten Years of Annual grants</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Predictable costs</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Long-term loyalty focus</span>
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Lowest yearly costs</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
                     "Steady mechanics are hard to come by these days. We can't afford to lose the best ones." - Jeff, Crook Auto-Electric
                   </div>
-                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Loyalty-Focused</span>
+                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Conservative</span>
                 </div>
               </div>
             </Link>

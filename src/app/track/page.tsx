@@ -724,7 +724,7 @@ export default function TrackerPage() {
                   <div className="flex items-center mb-6">
                     <ChartBarIcon className="w-6 h-6 text-bitcoin mr-2" aria-hidden="true" />
                     <h3 id="timeline-heading" className="text-xl font-bold text-gray-900 dark:text-white">
-                      Vesting Timeline Analysis
+                      Vesting Timeline
                     </h3>
                   </div>
                   
