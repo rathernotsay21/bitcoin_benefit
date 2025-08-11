@@ -85,7 +85,7 @@ function PrivacyDisclaimer() {
                 <InformationCircleIcon className="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div>
                   <p className="font-medium mb-1">Data Transmission</p>
-                  <p className="text-xs">Benefit addresses are sent to public APIs (Mempool.space, value services) to fetch transaction data.</p>
+                  <p className="text-xs">Addresses are sent to public APIs to fetch transaction data.</p>
                 </div>
               </div>
               
@@ -93,7 +93,7 @@ function PrivacyDisclaimer() {
                 <ShieldCheckIcon className="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div>
                   <p className="font-medium mb-1">No Data Storage</p>
-                  <p className="text-xs">No data is stored on our servers. All processing happens client-side in your browser.</p>
+                  <p className="text-xs">No data is stored on our servers.</p>
                 </div>
               </div>
             </div>
@@ -272,8 +272,8 @@ function FeatureOverview() {
     },
     {
       icon: ChartBarIcon,
-      title: 'Visual Timeline',
-      description: 'Compare your actual grants against expected vesting schedule with interactive charts'
+      title: 'Verify On-Chain',
+      description: 'See grants and vesting anytime online without creating yet another account with some bank you\'ll never use again'
     },
     {
       icon: LockClosedIcon,
@@ -291,11 +291,11 @@ function FeatureOverview() {
     <div className="card">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Verify Your Transparent Vesting History
+          Don't Trust. Verify.
         </h2>
         <p className="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Track and verify your vesting grants against actual transparent transactions. 
-          Ensure all your compensation is properly accounted for with automated matching and manual override capabilities.
+          Track and verify your vesting grants against actual transaction data. 
+          Ensure your compensation is properly accounted for with automated matching and manual override capabilities.
         </p>
       </div>
 
@@ -470,11 +470,10 @@ export default function TrackerPage() {
           {/* Header */}
           <header className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Transparent Vesting Tracker
+              Vesting Tracker
             </h1>
             <p className="text-xl text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Verify your vesting grants against actual transparent transactions.
-              Track your compensation history and ensure all grants are properly accounted for.
+              Verify grant history any time with complete transparency
             </p>
           </header>
 

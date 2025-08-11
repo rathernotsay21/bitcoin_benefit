@@ -82,11 +82,10 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-700 dark:text-slate-100 leading-tight">
-              Keep your best people with
-              <span className="text-bitcoin dark:text-bitcoin block mt-2">benefits they actually want.</span>
+              <span className="text-bitcoin dark:text-bitcoin block mb-2">Reward Loyalty with Sound Money</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-              Stop losing talented employees to bigger companies. Offer a modern benefit that builds loyalty and reduces turnover.
+              Stop losing talent. Keep your best people with modern benefits they actually want.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
@@ -107,10 +106,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
-              Choose Your Retention Strategy
+              Customize Your Plan
             </h3>
             <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Three proven approaches to keep your best employees and build lasting loyalty
+              Three approaches to reward loyalty
             </p>
           </div>
 
@@ -125,34 +124,21 @@ export default function HomePage() {
                   Pioneer
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Immediate benefit for companies ready to attract top talent with forward-thinking compensation.
+                  Upfront investment with maximum upside.
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Full benefit upfront"
-                      details="Employee receives the complete Bitcoin allocation immediately upon hire, but it vests over time according to the schedule."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Full grant on day one</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="50% earned at 5 years"
-                      details="After 5 years of employment, the employee owns 50% of their Bitcoin allocation and can access it even if they leave."
-                    />
-                  </div>
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="100% earned at 10 years"
-                      details="Full vesting occurs at 10 years, meaning the employee owns the complete Bitcoin allocation with no restrictions."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Nothing else to worry about</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Perfect for attracting experienced mechanics who expect competitive packages" - Auto Shop Owner
+                    "When I locked up a bitcoin for two of my best guys the competition gave up on recruiting them away from me forever" - Mike, Construction Company
                   </div>
                   <span className="badge badge-orange">High Impact</span>
                 </div>
@@ -169,34 +155,21 @@ export default function HomePage() {
                   Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Build employee loyalty with steady benefit growth and annual bonuses for long-term retention.
+                  Build a stack with annual grants to distribute cost
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Strong starting benefit"
-                      details="Employee receives a substantial initial Bitcoin allocation that begins vesting immediately."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Strong starting grant</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Annual loyalty bonuses"
-                      details="Additional Bitcoin allocations are granted each year the employee remains with the company, creating compound growth."
-                    />
-                  </div>
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Balanced retention strategy"
-                      details="Combines immediate value with long-term incentives, balancing employee satisfaction with retention goals."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Annual additions</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Our pottery instructors love seeing their benefits grow each year - keeps them motivated" - Studio Owner
+                    "Our artist deserve a retirement benefit and nothing beats the simplicity of vested Bitcoin" - Casey, Turtle Farm Pottery
                   </div>
                   <span className="badge badge-success">Balanced</span>
                 </div>
@@ -213,34 +186,25 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Maximize employee loyalty with steady annual benefits that reward long-term commitment.
+                  Minimize yearly expenses
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Annual benefit payments"
-                      details="Bitcoin allocations are granted annually rather than upfront, spreading the company's investment over time."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Annual benefit payments</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Predictable costs"
-                      details="Company knows exactly how much Bitcoin to purchase each year, making budgeting and cash flow planning easier."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Predictable costs</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <TechnicalDetails 
-                      summary="Long-term loyalty focus"
-                      details="Employees must stay multiple years to accumulate meaningful Bitcoin holdings, maximizing retention incentives."
-                    />
+                    <span className="text-sm text-slate-600 dark:text-slate-300">Long-term loyalty focus</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Helps us budget while keeping our crew thinking long-term about staying" - Construction Company
+                    "Steady mechanics are hard to come by these days. We can't afford to lose the best ones." - Jeff, Crook Auto-Electric
                   </div>
                   <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Loyalty-Focused</span>
                 </div>
@@ -263,17 +227,17 @@ export default function HomePage() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Pottery Studio Scenario */}
+            {/* Turtle Farm Pottery Scenario */}
             <div className="card glass glow-orange p-8">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <AcademicCapIcon className="w-8 h-8 text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-2">
-                  Artisan Pottery Studio
+                  Turtle Farm Pottery
                 </h4>
                 <div className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                  8 employees • Est. 2018
+                  3 employees • Est. 2018
                 </div>
               </div>
 
@@ -281,25 +245,21 @@ export default function HomePage() {
                 <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border-l-4 border-red-400">
                   <h5 className="font-bold text-red-800 dark:text-red-300 mb-2">The Problem</h5>
                   <p className="text-sm text-red-700 dark:text-red-200">
-                    "My best pottery instructors kept leaving for corporate design jobs. Training new people took months and hurt our reputation."
+                    "My best potters kept leaving for graduate school or to chase some other dream. Finding and training new people is near impossible for a company as small as ours."
                   </p>
                 </div>
 
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Started with Stacker plan - <TechnicalDetails 
-                      summary="₿0.010 per instructor annually"
-                      details="₿ is the symbol for Bitcoin. 0.010 Bitcoin equals about $1,140 at current prices, granted to each instructor every year."
-                      className="inline"
-                    />. Now they see their benefit growing and talk about their 'pottery portfolio.'"
+                    "Started with Stacker plan - ₿0.010 per year. Now they see their benefit growing."
                   </p>
                 </div>
 
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border-l-4 border-blue-400">
                   <h5 className="font-bold text-blue-800 dark:text-blue-300 mb-2">The Result</h5>
                   <p className="text-sm text-blue-700 dark:text-blue-200">
-                    "Zero instructor turnover in 18 months. Students love the consistency, and my team feels invested in our studio's success."
+                    "Zero turnover and my team feels invested in our future together."
                   </p>
                 </div>
               </div>

@@ -515,8 +515,6 @@ function VestingTimelineChartRecharts({
               tickLine={false}
               tick={(props: any) => {
                 const { x, y, payload } = props;
-                const yearData = yearlyData.find(d => d.year === payload.value);
-                const hasGrant = yearData && yearData.grantSize > 0;
                 const isVestingMilestone = payload.value === 5 || payload.value === 10;
                 
                 return (
@@ -532,14 +530,6 @@ function VestingTimelineChartRecharts({
                     >
                       {payload.value}
                     </text>
-                    {hasGrant && (
-                      <circle
-                        cx={0}
-                        cy={24}
-                        r={3}
-                        fill="#f97316"
-                      />
-                    )}
                   </g>
                 );
               }}
@@ -582,22 +572,7 @@ function VestingTimelineChartRecharts({
               wrapperStyle={{ paddingTop: '20px' }}
             />
 
-            {/* Vertical reference lines for grant years */}
-            {yearlyData.map((point, index) => {
-              if (!point.grantSize || point.grantSize === 0) return null;
-              if (point.year === 0) return null; // Skip year 0 to avoid clutter
-              
-              return (
-                <ReferenceLine
-                  key={`grant-line-${index}`}
-                  x={point.year}
-                  stroke="#fb923c"
-                  strokeDasharray="3 3"
-                  strokeOpacity={0.3}
-                  strokeWidth={1}
-                />
-              );
-            })}
+
             
             {/* BTC Grant circles positioned correctly on the balance line */}
             {yearlyData.map((point, index) => {

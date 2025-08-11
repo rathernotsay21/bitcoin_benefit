@@ -99,7 +99,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Benefit Growth Analysis
+                  Historical Strategy
                 </h2>
               </div>
 
@@ -137,7 +137,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-4">
                 <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Benefit Analysis Settings
+                  Historical Strategy
                 </h3>
               </div>
 
@@ -268,9 +268,9 @@ function HistoricalCalculatorContent() {
                   </div>
                   <div className="card text-center">
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                      {formatUSD(historicalResults.currentTotalValue)}
+                    {formatUSD(historicalResults.currentTotalValue)}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Current Value</div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">Value</div>
                   </div>
                 </div>
 
