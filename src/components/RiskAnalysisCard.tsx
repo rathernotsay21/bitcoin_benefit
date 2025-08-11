@@ -81,7 +81,7 @@ export default function RiskAnalysisCard({
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Risk Analysis</h3>
         <button
-          onClick={useCallback(() => setShowAdvanced(prev => !prev), [])}
+          onClick={() => setShowAdvanced(prev => !prev)}
           className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
         >
           {showAdvanced ? 'Simple' : 'Advanced'} View
