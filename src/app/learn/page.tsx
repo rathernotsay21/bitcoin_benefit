@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
+import { SatoshiOutlineIcon } from '@/components/icons/SatoshiOutlineIcon';
 import { ExpandableSection } from '@/components/ProgressiveDisclosure';
 import {
     BanknotesIcon,
@@ -25,7 +26,7 @@ export default function LearnMorePage() {
                             Ready to Get Started?
                         </h3>
                         <p className="text-lg text-gray-600 dark:text-white/90 max-w-2xl mx-auto">
-                            Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">recurring buys</a> to fund each grants over a few weeks or month and easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">River</a>.
+                            Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">recurring buys</a> to fund each grant over a few weeks or months. Easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">River</a>.
                         </p>
                     </div>
 
@@ -71,8 +72,72 @@ export default function LearnMorePage() {
                 </div>
             </section>
 
+            {/* Hardware Wallets Section */}
+            <section className="py-16 sm:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center justify-center p-3 bg-orange-500 rounded-2xl mb-6">
+                            <SatoshiOutlineIcon size={32} className="text-white" />
+                        </div>
+                        <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                            Ready to Move On-Chain?
+                        </h3>
+                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-2xl mx-auto mb-8">
+                            Secure your bitcoin with a hardware wallet from these trusted manufacturers.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="card glass p-6 text-center flex flex-col h-full">
+                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Foundation Passport</h4>
+                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
+                                For those who seek a balance of robust security and a user-friendly, intuitive experience.
+                            </p>
+                            <a 
+                                href="https://foundationdevices.com/passport/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-block w-full mt-auto"
+                            >
+                                Buy from Foundation
+                            </a>
+                        </div>
+
+                        <div className="card glass p-6 text-center flex flex-col h-full">
+                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Blockstream Jade</h4>
+                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
+                                Offers an innovative security model from a highly reputable company, appealing to those interested in cutting-edge cryptographic solutions.
+                            </p>
+                            <a 
+                                href="https://blockstream.com/jade/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-block w-full mt-auto"
+                            >
+                                Buy from Blockstream
+                            </a>
+                        </div>
+
+                        <div className="card glass p-6 text-center flex flex-col h-full">
+                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">BitBox02</h4>
+                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
+                                The Bitcoin-only edition provides a sleek, secure, and straightforward experience backed by Swiss engineering.
+                            </p>
+                            <a 
+                                href="https://shiftcrypto.ch/bitbox02/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-block w-full mt-auto"
+                            >
+                                Buy from Shift Crypto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Bitcoin Basics Section */}
-            <section className="py-16 bg-white dark:bg-slate-900 transition-colors duration-300">
+            <section className="py-16 bg-gray-50 dark:bg-slate-800 transition-colors duration-300">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-8">
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
