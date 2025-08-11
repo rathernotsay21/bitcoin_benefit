@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { useTheme } from '@/components/ThemeProvider';
 import {
   ChartBarIcon,
@@ -646,50 +647,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-bitcoin dark:bg-slate-700 relative overflow-hidden transition-colors duration-300">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
-          <h3 className="text-4xl font-bold text-white mb-6">
-            Ready to Keep Your Best People?
-          </h3>
-          <p className="text-2xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
-            See how much this modern benefit could save you in turnover costs and help you compete for top talent.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/calculator" className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2">
-              <CalculatorIcon className="w-5 h-5" />
-              <span>Calculate Your Savings</span>
-            </Link>
-            <Link href="/historical" className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2">
-              <ClockIcon className="w-5 h-5" />
-              <span>See How it Worked</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="footer py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
-              <BitcoinIcon className="w-8 h-8 text-bitcoin" />
-            </div>
-            <h4 className="text-3xl font-bold mb-4">Build loyalty. Reduce turnover. Keep your best people.</h4>
-            <p className="text-gray-400 mb-8 text-lg">
-              The modern employee benefit that small businesses use to compete with big companies
-            </p>
-            <div className="text-sm text-gray-500 space-y-1">
-              <p>Webmaster - Rather Notsay</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

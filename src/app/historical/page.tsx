@@ -8,6 +8,7 @@ import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import YearSelector from '@/components/YearSelector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
@@ -512,6 +513,9 @@ function HistoricalCalculatorContent() {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

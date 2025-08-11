@@ -8,6 +8,7 @@ import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { VestingScheme } from '@/types/vesting';
 import { ErrorBoundary, CalculatorErrorBoundary, ChartErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
@@ -437,6 +438,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

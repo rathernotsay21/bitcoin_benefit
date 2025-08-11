@@ -45,6 +45,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
     return () => {
       debouncedFn.cancel();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [delay, ...deps]);
 
   // Return a stable debounced function (fallback to no-op if not initialized)

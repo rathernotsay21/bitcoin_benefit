@@ -7,6 +7,7 @@ import VestingTrackerResultsOptimized from '@/components/on-chain/VestingTracker
 import OnChainTimelineVisualizer from '@/components/on-chain/OnChainTimelineVisualizer';
 import PerformanceMonitoringDashboard from '@/components/on-chain/PerformanceMonitoringDashboard';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { 
   OnChainErrorBoundary, 
   TransactionFetchErrorBoundary, 
@@ -767,6 +768,9 @@ export default function TrackerPage() {
             </main>
           </div>
         </main>
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </OnChainErrorBoundary>
   );

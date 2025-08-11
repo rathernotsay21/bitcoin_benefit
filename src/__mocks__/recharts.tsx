@@ -251,7 +251,7 @@ export const Cell = ({ fill, ...props }: any) => (
 );
 
 // Export default object for compatibility
-export default {
+const RechartsTestMock = {
   ComposedChart,
   LineChart,
   AreaChart,
@@ -272,3 +272,5 @@ export default {
   Brush,
   Cell,
 };
+
+export default RechartsTestMock;

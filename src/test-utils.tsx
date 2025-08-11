@@ -413,7 +413,7 @@ export { vi } from 'vitest';
 // Note: Individual utilities are already exported above
 
 // Default export for convenience
-export default {
+const bitcoinTestUtils = {
   render: renderWithProviders,
   ...bitcoinTestData,
   ...bitcoinFormatUtils,
@@ -423,3 +423,5 @@ export default {
   ...formTestUtils,
   ...responsiveTestUtils,
 };
+
+export default bitcoinTestUtils;
