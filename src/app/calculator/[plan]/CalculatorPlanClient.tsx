@@ -365,16 +365,16 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       )}
                       {displayScheme.id === 'steady-builder' && (
                         <div>
-                          <p className="mb-2">• <strong>Strategic distribution:</strong> 0.015 BTC initial + 0.001 BTC yearly grants</p>
-                          <p className="mb-2">• <strong>Risk mitigation:</strong> Minimize market timing risk with conservative approach</p>
+                          <p className="mb-2">• <strong>Strategic distribution:</strong> Large initial grant + small yearly grants</p>
+                          <p className="mb-2">• <strong>Risk mitigation:</strong> Reduce market timing risk with conservative approach</p>
                           <p>• <strong>Dollar-cost advantage:</strong> Ideal for companies taking measured steps into Bitcoin adoption</p>
                         </div>
                       )}
                       {displayScheme.id === 'slow-burn' && (
                         <div>
-                          <p className="mb-2">• <strong>Maximum retention:</strong> 0.002 BTC yearly for 10 years (no initial grant)</p>
-                          <p className="mb-2">• <strong>Loyalty focus:</strong> Designed for companies prioritizing long-term employee commitment</p>
-                          <p>• <strong>Wealth building:</strong> Creates strong incentive for employees to stay and grow with the company</p>
+                          <p className="mb-2">• <strong>Delayed expense:</strong> BTC yearly for 10 years (no initial grant)</p>
+                          <p className="mb-2">• <strong>Highest Cost:</strong> Designed for companies prioritizing short-term savings</p>
+                          <p>• <strong>Wealth building:</strong> Build the same reserve at a slower rate</p>
                         </div>
                       )}
                     </div>
