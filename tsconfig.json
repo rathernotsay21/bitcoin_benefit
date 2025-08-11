@@ -42,6 +42,8 @@
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "**/test-setup.ts",
+    "**/test-utils.tsx",
+    "**/test-utils.ts",
     "vitest.config.ts",
     "scripts/**/*"
   ]
