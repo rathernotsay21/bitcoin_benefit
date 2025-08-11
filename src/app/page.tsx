@@ -115,7 +115,7 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Pioneer */}
-            <Link href="/calculator?plan=accelerator" className="feature-card group">
+            <Link href="/calculator/accelerator" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <BitcoinIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
@@ -146,7 +146,7 @@ export default function HomePage() {
             </Link>
 
             {/* Stacker */}
-            <Link href="/calculator?plan=steady-builder" className="feature-card group">
+            <Link href="/calculator/steady-builder" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
@@ -177,7 +177,7 @@ export default function HomePage() {
             </Link>
 
             {/* Builder */}
-            <Link href="/calculator?plan=slow-burn" className="feature-card group">
+            <Link href="/calculator/slow-burn" className="feature-card group">
               <div className="text-center">
                 <div className="icon-container mx-auto mb-6">
                   <MiningOutlineIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
@@ -295,7 +295,7 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Implemented Pioneer plan for senior mechanics - <TechnicalDetails 
+                    "Implemented Pioneer plan for senior mechanics - <TechnicalDetails
                       summary="₿0.050 upfront"
                       details="0.050 Bitcoin (about $5,700 at current prices) given immediately but vesting over 10 years to encourage long-term employment."
                       className="inline"
@@ -342,7 +342,7 @@ export default function HomePage() {
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border-l-4 border-green-400">
                   <h5 className="font-bold text-green-800 dark:text-green-300 mb-2">The Solution</h5>
                   <p className="text-sm text-green-700 dark:text-green-200">
-                    "Used Builder plan - <TechnicalDetails 
+                    "Used Builder plan - <TechnicalDetails
                       summary="₿0.008 annually per crew member"
                       details="0.008 Bitcoin (about $910 at current prices) granted to each crew member every year they stay with the company."
                       className="inline"
@@ -463,23 +463,23 @@ export default function HomePage() {
                     * Example based on Pioneer benefit package (₿0.100) starting in 2020.
                     Past employee benefit performance does not guarantee future results.
                   </p>
-                  
+
                   <ExpandableSection title="How This Calculation Works" className="mt-4">
                     <div className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
                       <p>
-                        <strong>Bitcoin (₿):</strong> A digital currency that has grown significantly in value over time. 
+                        <strong>Bitcoin (₿):</strong> A digital currency that has grown significantly in value over time.
                         The symbol ₿ represents Bitcoin, similar to how $ represents dollars.
                       </p>
                       <p>
-                        <strong>Initial Benefit Cost:</strong> The dollar amount it cost to purchase 0.100 Bitcoin in 2020 
+                        <strong>Initial Benefit Cost:</strong> The dollar amount it cost to purchase 0.100 Bitcoin in 2020
                         (approximately $11,000 based on average price that year).
                       </p>
                       <p>
-                        <strong>Current Benefit Value:</strong> What that same 0.100 Bitcoin is worth today 
+                        <strong>Current Benefit Value:</strong> What that same 0.100 Bitcoin is worth today
                         (approximately ${formatUSD(presentValue).replace('$', '')} based on current market price).
                       </p>
                       <p>
-                        <strong>Why Bitcoin?</strong> Unlike traditional benefits that maintain fixed values, 
+                        <strong>Why Bitcoin?</strong> Unlike traditional benefits that maintain fixed values,
                         Bitcoin has historically appreciated, potentially making employee benefits more valuable over time.
                       </p>
                     </div>
