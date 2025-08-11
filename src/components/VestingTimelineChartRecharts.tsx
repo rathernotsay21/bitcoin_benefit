@@ -380,7 +380,7 @@ function VestingTimelineChartRecharts({
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          10-Year Vesting Timeline Projection
+          10-Year Projection
         </h3>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
           <span className="flex items-center gap-1">

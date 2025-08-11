@@ -127,13 +127,15 @@ export default function Navigation() {
             </button>
 
             {/* CTA Button */}
-            <Link 
-              href="/calculator" 
+            <a 
+              href="https://river.com/signup?r=RH5MJKJM" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary text-xs sm:text-sm px-3 sm:px-6 py-2 sm:py-3 whitespace-nowrap"
             >
-              <span className="hidden sm:inline">Start Planning</span>
-              <span className="sm:hidden">Start</span>
-            </Link>
+              <span className="hidden sm:inline">Buy Bitcoin</span>
+              <span className="sm:hidden">Buy</span>
+            </a>
           </div>
         </div>
 

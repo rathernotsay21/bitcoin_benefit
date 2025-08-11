@@ -62,7 +62,7 @@ describe('Home Page', () => {
     );
     
     expect(screen.getAllByText('Calculator')).toHaveLength(2); // Desktop and mobile nav
-    expect(screen.getByText('Start Planning')).toBeInTheDocument();
+    expect(screen.getByText('Buy Bitcoin')).toBeInTheDocument();
   });
 
   it('renders the historical performance example with cost basis and present value', async () => {
