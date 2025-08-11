@@ -35,25 +35,25 @@ export default function Navigation() {
       activeIcon: HomeIconSolid,
     },
     {
-      name: 'Calculator',
+      name: 'Forecast',
       href: '/calculator',
       icon: CalculatorIcon,
       activeIcon: CalculatorIconSolid,
     },
     {
-      name: 'Historical',
+      name: 'Performance',
       href: '/historical',
       icon: ClockIcon,
       activeIcon: ClockIconSolid,
     },
     {
-      name: 'Track',
+      name: 'Status',
       href: '/track',
       icon: LinkIcon,
       activeIcon: LinkIconSolid,
     },
     {
-      name: 'Learn',
+      name: 'Guide',
       href: '/learn',
       icon: AcademicCapIcon,
       activeIcon: AcademicCapIconSolid,
@@ -83,9 +83,9 @@ export default function Navigation() {
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
             {navItems.map((item) => {
-              const isActive = item.href === '/calculator' 
-                ? pathname.startsWith('/calculator')
-                : pathname === item.href;
+              const isActive = item.href === '/' 
+                ? pathname === '/'
+                : pathname.startsWith(item.href);
               const Icon = isActive ? item.activeIcon : item.icon;
               
               return (
@@ -143,9 +143,9 @@ export default function Navigation() {
         <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4 overflow-x-auto">
           <div className="flex items-center justify-around w-full px-2">
             {navItems.map((item) => {
-              const isActive = item.href === '/calculator' 
-                ? pathname.startsWith('/calculator')
-                : pathname === item.href;
+              const isActive = item.href === '/' 
+                ? pathname === '/'
+                : pathname.startsWith(item.href);
               const Icon = isActive ? item.activeIcon : item.icon;
               
               return (

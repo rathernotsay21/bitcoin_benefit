@@ -423,14 +423,14 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   className="btn-secondary flex items-center justify-center"
                 >
                   <ChartBarIcon className="w-5 h-5 mr-2" />
-                  Historical Analysis
+                  Performance Analysis
                 </Link>
                 <Link 
                   href="/learn" 
                   className="btn-secondary flex items-center justify-center"
                 >
                   <SparklesIcon className="w-5 h-5 mr-2" />
-                  Learn More
+                  Guide
                 </Link>
               </div>
             </div>
