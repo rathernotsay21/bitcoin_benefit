@@ -28,35 +28,21 @@ const nextConfig = {
   experimental: {
     swcTraceProfiling: false,
     optimizePackageImports: ['recharts', '@heroicons/react', 'zustand'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   
   // Enable compression for static assets
   compress: true,
   
-  // Bundle optimization
+  // Bundle optimization - simplified for stability
   webpack: (config, { dev, isServer }) => {
     // Optimize for client-side bundles
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        minRemainingSize: 0,
         maxAsyncRequests: 30,
         maxInitialRequests: 30,
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
@@ -94,13 +80,6 @@ const nextConfig = {
           },
         },
       };
-      
-      // Tree shake unused code
-      config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
-      
-      // Add module concatenation for better performance
-      config.optimization.concatenateModules = true;
     }
     
     return config;
