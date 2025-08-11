@@ -5,6 +5,7 @@ import {
   LineChart,
   Line,
   Area,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -232,11 +233,11 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
     <div className="flex flex-col items-center gap-4 mt-4">
       <div className="flex justify-center gap-8">
         <div className="flex items-center gap-3">
-          <svg width="24" height="24" className="overflow-visible">
-            <circle cx="12" cy="12" r="8" fill="#f97316" opacity="0.8" stroke="#c2410c" strokeWidth="2" />
+          <svg width="24" height="12" className="overflow-visible">
+            <rect x="0" y="0" width="24" height="12" fill="#fb923c" opacity="0.9" stroke="#f97316" strokeWidth="1" rx="2" />
           </svg>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            BTC Grants (size = value)
+          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
+            Annual Grant Cost
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -251,13 +252,13 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
               filter="drop-shadow(0 0 4px #10b98140)"
             />
           </svg>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            USD Value
+          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
+            Total Value (USD)
           </span>
         </div>
       </div>
       {/* Grant schedule subtitle */}
-      <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
         {schemeId === 'accelerator' && `Single grant of ${formatBTC(initialGrant)} at year 0`}
         {schemeId === 'steady-builder' && `Initial ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} annually for 5 years`}
         {schemeId === 'slow-burn' && `${formatBTC(annualGrant || 0)} annually for 10 years`}
@@ -288,11 +289,11 @@ function VestingTimelineChartRecharts({
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
-  // Extend timeline to 20 years (240 months) if needed
+  // Extend timeline to 10 years (120 months) if needed
   const extendedTimeline = useMemo(() => {
     const extended = [...timeline];
     const maxMonth = Math.max(...timeline.map(p => p.month));
-    const targetMonths = 240; // 20 years
+    const targetMonths = 120; // 10 years
 
     if (maxMonth < targetMonths) {
       const monthlyGrowthRate = projectedBitcoinGrowth / 12 / 100;
@@ -320,22 +321,26 @@ function VestingTimelineChartRecharts({
   const yearlyData = useMemo(() => {
     const data = extendedTimeline
       .filter((_, index) => index % 12 === 0)
-      .slice(0, 21)
+      .slice(0, 11) // Only 11 points for 0-10 years
       .map((point, index) => {
         const year = index;
         let grantSize = 0;
+        let grantCost = 0; // Annual cost to employer
         let isInitialGrant = false;
         
-        // Determine if this year has a grant
+        // Determine if this year has a grant and its cost
         if (year === 0 && initialGrant > 0) {
           grantSize = initialGrant;
+          grantCost = initialGrant * currentBitcoinPrice; // Cost at today's price
           isInitialGrant = true;
         } else if (annualGrant && annualGrant > 0 && year > 0) {
           // Check scheme-specific grant rules
           if (schemeId === 'slow-burn' && year <= 10) {
             grantSize = annualGrant;
+            grantCost = annualGrant * currentBitcoinPrice;
           } else if (schemeId === 'steady-builder' && year <= 5) {
             grantSize = annualGrant;
+            grantCost = annualGrant * currentBitcoinPrice;
           }
         }
         
@@ -346,83 +351,53 @@ function VestingTimelineChartRecharts({
           bitcoinPrice: point.bitcoinPrice,
           vestedAmount: point.vestedAmount,
           grantSize,
+          grantCost, // Annual grant cost in USD
           isInitialGrant
         };
       });
       
     return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId]);
+  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice]);
 
   // Calculate current year for vesting display
   const currentYear = new Date().getFullYear();
 
-  const finalYear = yearlyData[20];
+  const finalYear = yearlyData[10]; // Year 10 is the final year
   
   const growthMultiple = useMemo(() => {
     if (!finalYear) return 0;
     
     const finalValue = finalYear.btcBalance * finalYear.bitcoinPrice;
     
-    if (initialGrant === 0) {
-      let totalCostInvested = 0;
-      yearlyData.slice(0, 11).forEach((point) => {
-        const year = point.year;
-        if (year > 0 && annualGrant && annualGrant > 0) {
-          const maxAnnualYears = schemeId === 'slow-burn' ? 10 : 5;
-          if (year <= maxAnnualYears) {
-            totalCostInvested += annualGrant * point.bitcoinPrice;
-          }
-        }
-      });
-      
-      return totalCostInvested > 0 ? finalValue / totalCostInvested : 0;
-    }
+    // Calculate total cost invested (sum of all grant costs)
+    let totalCostInvested = 0;
+    yearlyData.forEach((point) => {
+      if (point.grantCost > 0) {
+        totalCostInvested += point.grantCost;
+      }
+    });
     
-    const initialInvestment = initialGrant * currentBitcoinPrice;
-    return initialInvestment > 0 ? finalValue / initialInvestment : 0;
-  }, [finalYear, initialGrant, annualGrant, schemeId, yearlyData, currentBitcoinPrice]);
+    return totalCostInvested > 0 ? finalValue / totalCostInvested : 0;
+  }, [finalYear, yearlyData]);
 
-  // Calculate Y-axis domains with consistent padding across schemes
-  const { btcDomain, usdDomain } = useMemo(() => {
-    // For BTC axis, use a fixed domain based on total possible grants
-    // This ensures consistency across different schemes with same grant amounts
-    let maxPossibleBtc = 0;
-    
-    if (schemeId === 'accelerator') {
-      maxPossibleBtc = initialGrant;
-    } else if (schemeId === 'steady-builder') {
-      maxPossibleBtc = initialGrant + (annualGrant || 0) * 5;
-    } else if (schemeId === 'slow-burn') {
-      maxPossibleBtc = (annualGrant || 0) * 10;
-    } else {
-      // Fallback to actual max
-      maxPossibleBtc = Math.max(...yearlyData.map(d => d.btcBalance));
-    }
-    
-    // Add consistent 20% padding
-    const btcPadding = maxPossibleBtc * 0.20;
-    
-    // For USD, calculate based on the projected value at year 20
+  // Calculate Y-axis domain for USD only
+  const usdDomain = useMemo(() => {
+    // Get max value from either grant cost or USD value
     const maxUsd = Math.max(...yearlyData.map(d => d.usdValue));
-    const usdPadding = maxUsd * 0.20;
+    const maxCost = Math.max(...yearlyData.map(d => d.grantCost));
+    const maxValue = Math.max(maxUsd, maxCost);
     
-    return {
-      btcDomain: [
-        0,
-        maxPossibleBtc + btcPadding
-      ],
-      usdDomain: [
-        0,
-        maxUsd + usdPadding
-      ]
-    };
-  }, [yearlyData, schemeId, initialGrant, annualGrant]);
+    // Add 20% padding for visual clarity
+    const padding = maxValue * 0.20;
+    
+    return [0, maxValue + padding];
+  }, [yearlyData]);
 
   return (
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          20-Year Vesting Timeline Projection
+          10-Year Vesting Timeline Projection
         </h3>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
           <span className="flex items-center gap-1">
@@ -467,8 +442,8 @@ function VestingTimelineChartRecharts({
             data={yearlyData}
             throttleDelay={50}
             margin={isMobile
-              ? { top: 20, right: 20, bottom: 25, left: 30 }
-              : { top: 40, right: 70, bottom: 40, left: 70 }
+              ? { top: 20, right: 15, bottom: 25, left: 25 }
+              : { top: 30, right: 30, bottom: 40, left: 45 }
             }
             maxBarSize={isMobile ? 20 : undefined}
             onMouseMove={useCallback((e: any) => {
@@ -499,18 +474,23 @@ function VestingTimelineChartRecharts({
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
+
+              {/* Bar gradient for cost */}
+              <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#fb923c" stopOpacity={0.9} />
+                <stop offset="100%" stopColor="#f97316" stopOpacity={0.9} />
+              </linearGradient>
             </defs>
 
             <CartesianGrid 
-              strokeDasharray="3 3" 
-              stroke="#e5e7eb30" 
+              stroke="transparent" 
               vertical={false}
             />
 
             <XAxis
               dataKey="year"
-              ticks={[0, 5, 10, 15, 20]}
-              domain={[0, 20]}
+              ticks={[0, 2, 4, 6, 8, 10]}
+              domain={[0, 10]}
               axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
               tickLine={false}
               tick={(props: any) => {
@@ -536,24 +516,13 @@ function VestingTimelineChartRecharts({
             />
 
             <YAxis
-              yAxisId="btc"
-              orientation="left"
-              tickFormatter={(value) => formatBTC(value)}
-              stroke="#f97316"
-              domain={btcDomain}
-              axisLine={{ stroke: '#f97316', strokeWidth: 2 }}
-              tick={{ fill: '#f97316', fontSize: 11, fontWeight: 500 }}
-              tickLine={false}
-            />
-
-            <YAxis
               yAxisId="usd"
-              orientation="right"
+              orientation="left"
               tickFormatter={(value) => formatUSDCompact(value)}
               stroke="#10b981"
               domain={usdDomain}
               axisLine={{ stroke: '#10b981', strokeWidth: 2 }}
-              tick={{ fill: '#10b981', fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: '#10b981', fontSize: 13, fontWeight: 600 }}
               tickLine={false}
             />
 
@@ -573,42 +542,17 @@ function VestingTimelineChartRecharts({
             />
 
 
-            
-            {/* BTC Grant circles positioned correctly on the balance line */}
-            {yearlyData.map((point, index) => {
-              if (!point.grantSize || point.grantSize === 0) return null;
-              
-              // Calculate radius with logarithmic scaling and bounds
-              const minRadius = 8;   // Minimum circle size
-              const maxRadius = 25;  // Maximum circle size
-              const referenceGrant = 0.1; // Reference grant size for scaling
-              
-              // Use logarithmic scaling to handle wide range of values
-              // This provides good visual distinction while preventing huge circles
-              const scaleFactor = Math.log10(1 + point.grantSize / referenceGrant);
-              const normalizedScale = Math.min(scaleFactor / 2, 1); // Cap at 1
-              
-              // Interpolate between min and max radius
-              const radius = minRadius + (maxRadius - minRadius) * normalizedScale;
-              
-              const fillColor = point.isInitialGrant ? '#f97316' : '#fb923c';
-              const strokeColor = point.isInitialGrant ? '#c2410c' : '#ea580c';
-              
-              return (
-                <ReferenceDot
-                  key={`grant-${index}`}
-                  x={point.year}
-                  y={point.btcBalance}
-                  r={radius}
-                  fill={fillColor}
-                  stroke={strokeColor}
-                  strokeWidth={2}
-                  fillOpacity={0.85}
-                  yAxisId="btc"
-                  ifOverflow="visible"
-                />
-              );
-            })}
+            {/* Bar chart for annual grant costs */}
+            <Bar
+              yAxisId="usd"
+              dataKey="grantCost"
+              fill="url(#costGradient)"
+              name="Annual Grant Cost"
+              isAnimationActive={!isMobile}
+              animationDuration={1500}
+              radius={[4, 4, 0, 0]}
+              maxBarSize={30}
+            />
 
             {/* Add subtle area fills */}
             <Area
@@ -644,7 +588,7 @@ function VestingTimelineChartRecharts({
       {/* Enhanced Key Insights Cards */}
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
-          <div className="text-sm font-semibold text-green-800 dark:text-green-300 mb-2 uppercase tracking-wide">20-Year Projection</div>
+          <div className="text-sm font-semibold text-green-800 dark:text-green-300 mb-2 uppercase tracking-wide">10-Year Projection</div>
           <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-1">
             {formatUSDCompact(finalYear?.usdValue || 0)}
           </div>
@@ -672,7 +616,7 @@ function VestingTimelineChartRecharts({
             }
           </div>
           <div className="text-xs text-blue-700 dark:text-blue-400">
-            {initialGrant > 0 ? 'From initial investment' : 'From total cost invested'}
+            From total cost invested
           </div>
         </div>
       </div>
@@ -690,24 +634,5 @@ function VestingTimelineChartRecharts({
   );
 }
 
-// Memoize the component with custom comparison
-export default React.memo(VestingTimelineChartRecharts, (prevProps, nextProps) => {
-  // Return true if props are equal (skip re-render), false if different (re-render)
-  return (
-    prevProps.initialGrant === nextProps.initialGrant &&
-    prevProps.annualGrant === nextProps.annualGrant &&
-    prevProps.projectedBitcoinGrowth === nextProps.projectedBitcoinGrowth &&
-    prevProps.currentBitcoinPrice === nextProps.currentBitcoinPrice &&
-    prevProps.schemeId === nextProps.schemeId &&
-    // Check timeline array
-    prevProps.timeline.length === nextProps.timeline.length &&
-    // Check first and last timeline points for changes
-    (prevProps.timeline.length === 0 || 
-      (prevProps.timeline[0].month === nextProps.timeline[0].month &&
-       prevProps.timeline[0].bitcoinPrice === nextProps.timeline[0].bitcoinPrice &&
-       prevProps.timeline[prevProps.timeline.length - 1].month === 
-       nextProps.timeline[nextProps.timeline.length - 1].month &&
-       prevProps.timeline[prevProps.timeline.length - 1].bitcoinPrice === 
-       nextProps.timeline[nextProps.timeline.length - 1].bitcoinPrice))
-  );
-});
+// Export without memoization to ensure updates when props change
+export default VestingTimelineChartRecharts;
