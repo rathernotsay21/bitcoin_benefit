@@ -54,27 +54,47 @@ interface CustomTooltipProps {
   active?: boolean;
   payload?: any[];
   label?: string;
+  yearlyData?: any[];
+  initialGrant?: number;
+  annualGrant?: number;
+  schemeId?: string;
 }
 
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-  if (active && payload && payload.length) {
+const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annualGrant, schemeId }: CustomTooltipProps) => {
+  if (active && payload && payload.length && yearlyData) {
     const year = Number(label);
     const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
+    
+    // Find the data point for this year
+    const yearData = yearlyData.find(d => d.year === year);
+    if (!yearData) return null;
+    
+    // Calculate cumulative BTC granted up to this year
+    let cumulativeBTC = 0;
+    for (let i = 0; i <= year && i < yearlyData.length; i++) {
+      const currentYearData = yearlyData[i];
+      if (currentYearData.grantSize > 0) {
+        cumulativeBTC += currentYearData.grantSize;
+      }
+    }
+    
+    // Calculate vested BTC amount
+    const vestedBTC = yearData.btcBalance * (vestingPercent / 100);
+    const unvestedBTC = yearData.btcBalance * ((100 - vestingPercent) / 100);
+    
+    // Calculate year-over-year growth if not year 0
+    let yoyGrowth = null;
+    if (year > 0 && yearlyData[year - 1]) {
+      const prevYearValue = yearlyData[year - 1].usdValue;
+      if (prevYearValue > 0) {
+        yoyGrowth = ((yearData.usdValue - prevYearValue) / prevYearValue) * 100;
+      }
+    }
 
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-xl shadow-2xl">
-        <p className="font-bold text-gray-900 dark:text-white mb-3 text-base">Year {year}</p>
-        {payload.map((entry: any, index: number) => (
-          <div key={index} className="flex items-center justify-between gap-4 mb-2">
-            <span className="text-sm font-medium" style={{ color: entry.color }}>
-              {entry.name}:
-            </span>
-            <span className="text-sm font-bold" style={{ color: entry.color }}>
-              {entry.name.includes('BTC') ? formatBTC(entry.value) : formatUSDCompact(entry.value)}
-            </span>
-          </div>
-        ))}
-        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-slate-700">
+      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-xl shadow-2xl min-w-[280px]">
+        <div className="flex items-center justify-between mb-3">
+          <p className="font-bold text-gray-900 dark:text-white text-base">Year {year}</p>
           <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
             vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
             vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
@@ -83,6 +103,70 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
             {vestingPercent}% Vested
           </span>
         </div>
+        
+        {/* Bitcoin Holdings Section */}
+        <div className="space-y-2 mb-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-orange-600 dark:text-orange-400">Total BTC Balance:</span>
+            <span className="text-sm font-bold text-orange-700 dark:text-orange-300">{formatBTC(yearData.btcBalance)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Cumulative Granted:</span>
+            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{formatBTC(cumulativeBTC)}</span>
+          </div>
+          {vestingPercent > 0 && (
+            <>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-green-600 dark:text-green-400">Vested BTC:</span>
+                <span className="text-sm font-bold text-green-700 dark:text-green-300">{formatBTC(vestedBTC)}</span>
+              </div>
+              {vestingPercent < 100 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-amber-600 dark:text-amber-400">Unvested BTC:</span>
+                  <span className="text-sm font-bold text-amber-700 dark:text-amber-300">{formatBTC(unvestedBTC)}</span>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+        
+        {/* Value Section */}
+        <div className="pt-3 border-t border-gray-200 dark:border-slate-700 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-green-600 dark:text-green-400">Total USD Value:</span>
+            <span className="text-sm font-bold text-green-700 dark:text-green-300">{formatUSD(yearData.usdValue)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">BTC Price:</span>
+            <span className="text-sm font-bold text-blue-700 dark:text-blue-300">{formatUSD(yearData.bitcoinPrice)}</span>
+          </div>
+        </div>
+        
+        {/* Year-over-year growth */}
+        {yoyGrowth !== null && (
+          <div className="pt-3 border-t border-gray-200 dark:border-slate-700">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-purple-600 dark:text-purple-400">YoY Growth:</span>
+              <span className={`text-sm font-bold ${
+                yoyGrowth >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'
+              }`}>
+                {yoyGrowth >= 0 ? '+' : ''}{yoyGrowth.toFixed(1)}%
+              </span>
+            </div>
+          </div>
+        )}
+        
+        {/* Grant Info for this year if applicable */}
+        {yearData.grantSize > 0 && (
+          <div className="mt-3 pt-3 border-t border-gray-200 dark:border-slate-700">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white">
+                New Grant
+              </span>
+              <span className="text-sm font-bold text-orange-700 dark:text-orange-300">+{formatBTC(yearData.grantSize)}</span>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -429,7 +513,36 @@ function VestingTimelineChartRecharts({
               domain={[0, 20]}
               axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
               tickLine={false}
-              tick={{ fill: '#6b7280', fontSize: 12, fontWeight: 500 }}
+              tick={(props: any) => {
+                const { x, y, payload } = props;
+                const yearData = yearlyData.find(d => d.year === payload.value);
+                const hasGrant = yearData && yearData.grantSize > 0;
+                const isVestingMilestone = payload.value === 5 || payload.value === 10;
+                
+                return (
+                  <g transform={`translate(${x},${y})`}>
+                    <text
+                      x={0}
+                      y={0}
+                      dy={16}
+                      textAnchor="middle"
+                      fill={isVestingMilestone ? '#059669' : '#6b7280'}
+                      fontSize={12}
+                      fontWeight={isVestingMilestone ? 600 : 500}
+                    >
+                      {payload.value}
+                    </text>
+                    {hasGrant && (
+                      <circle
+                        cx={0}
+                        cy={24}
+                        r={3}
+                        fill="#f97316"
+                      />
+                    )}
+                  </g>
+                );
+              }}
             />
 
             <YAxis
@@ -455,7 +568,12 @@ function VestingTimelineChartRecharts({
             />
 
             <Tooltip 
-              content={<CustomTooltip />} 
+              content={<CustomTooltip 
+                yearlyData={yearlyData} 
+                initialGrant={initialGrant} 
+                annualGrant={annualGrant} 
+                schemeId={schemeId}
+              />} 
               cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '5 5' }}
             />
 
@@ -464,6 +582,23 @@ function VestingTimelineChartRecharts({
               wrapperStyle={{ paddingTop: '20px' }}
             />
 
+            {/* Vertical reference lines for grant years */}
+            {yearlyData.map((point, index) => {
+              if (!point.grantSize || point.grantSize === 0) return null;
+              if (point.year === 0) return null; // Skip year 0 to avoid clutter
+              
+              return (
+                <ReferenceLine
+                  key={`grant-line-${index}`}
+                  x={point.year}
+                  stroke="#fb923c"
+                  strokeDasharray="3 3"
+                  strokeOpacity={0.3}
+                  strokeWidth={1}
+                />
+              );
+            })}
+            
             {/* BTC Grant circles positioned correctly on the balance line */}
             {yearlyData.map((point, index) => {
               if (!point.grantSize || point.grantSize === 0) return null;
