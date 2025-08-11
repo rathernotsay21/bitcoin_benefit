@@ -56,12 +56,10 @@ interface CustomTooltipProps {
   payload?: any[];
   label?: string;
   yearlyData?: any[];
-  initialGrant?: number;
-  annualGrant?: number;
-  schemeId?: string;
+  coordinate?: { x?: number; y?: number };
 }
 
-const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annualGrant, schemeId }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label, yearlyData, coordinate }: CustomTooltipProps) => {
   if (active && payload && payload.length && yearlyData) {
     const year = Number(label);
     const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
@@ -69,15 +67,6 @@ const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annua
     // Find the data point for this year
     const yearData = yearlyData.find(d => d.year === year);
     if (!yearData) return null;
-    
-    // Calculate cumulative BTC granted up to this year
-    let cumulativeBTC = 0;
-    for (let i = 0; i <= year && i < yearlyData.length; i++) {
-      const currentYearData = yearlyData[i];
-      if (currentYearData.grantSize > 0) {
-        cumulativeBTC += currentYearData.grantSize;
-      }
-    }
     
     // Calculate vested BTC amount
     const vestedBTC = yearData.btcBalance * (vestingPercent / 100);
@@ -93,7 +82,7 @@ const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annua
     }
 
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-xl shadow-2xl min-w-[280px]">
+      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-xl shadow-2xl min-w-[240px]">
         <div className="flex items-center justify-between mb-3">
           <p className="font-bold text-gray-900 dark:text-white text-base">Year {year}</p>
           <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
@@ -111,10 +100,7 @@ const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annua
             <span className="text-sm font-medium text-orange-600 dark:text-orange-400">Total BTC Balance:</span>
             <span className="text-sm font-bold text-orange-700 dark:text-orange-300">{formatBTC(yearData.btcBalance)}</span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Cumulative Granted:</span>
-            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{formatBTC(cumulativeBTC)}</span>
-          </div>
+
           {vestingPercent > 0 && (
             <>
               <div className="flex items-center justify-between">
@@ -137,10 +123,7 @@ const CustomTooltip = ({ active, payload, label, yearlyData, initialGrant, annua
             <span className="text-sm font-medium text-green-600 dark:text-green-400">Total USD Value:</span>
             <span className="text-sm font-bold text-green-700 dark:text-green-300">{formatUSD(yearData.usdValue)}</span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">BTC Price:</span>
-            <span className="text-sm font-bold text-blue-700 dark:text-blue-300">{formatUSD(yearData.bitcoinPrice)}</span>
-          </div>
+
         </div>
         
         {/* Year-over-year growth */}
@@ -527,13 +510,19 @@ function VestingTimelineChartRecharts({
             />
 
             <Tooltip 
-              content={<CustomTooltip 
-                yearlyData={yearlyData} 
-                initialGrant={initialGrant} 
-                annualGrant={annualGrant} 
-                schemeId={schemeId}
-              />} 
+              content={(props) => (
+                <CustomTooltip 
+                  {...props}
+                  yearlyData={yearlyData} 
+                />
+              )} 
               cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '5 5' }}
+              isAnimationActive={false}
+              wrapperStyle={{ 
+                pointerEvents: 'none', 
+                zIndex: 1000,
+                outline: 'none'
+              }}
             />
 
             <Legend
@@ -551,7 +540,7 @@ function VestingTimelineChartRecharts({
               isAnimationActive={!isMobile}
               animationDuration={1500}
               radius={[4, 4, 0, 0]}
-              maxBarSize={30}
+              maxBarSize={15}
             />
 
             {/* Add subtle area fills */}
