@@ -7,13 +7,13 @@ interface IconProps {
   color?: string; // Keep for API compatibility, but ignored for PNG
 }
 
-export const SatoshiOutlineIcon: React.FC<IconProps> = ({ 
-  className = '', 
-  size = 24, 
+export const SatoshiOutlineIcon: React.FC<IconProps> = ({
+  className = '',
+  size = 24,
   // color prop is ignored for PNG images
 }) => {
   return (
-    <div 
+    <div
       className={`inline-flex items-center justify-center ${className}`}
       style={{ width: size, height: size }}
     >
