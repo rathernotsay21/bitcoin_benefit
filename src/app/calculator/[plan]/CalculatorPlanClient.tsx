@@ -383,58 +383,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               </div>
             )}
 
-            {/* Results Summary */}
-            {results && (
-              <div className="card mt-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
-                  Calculation Results
-                </h3>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <div className="text-2xl font-bold text-bitcoin">
-                      {formatBTC(results.totalBitcoinNeeded)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Bitcoin Needed</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                      {formatUSD(results.totalCost)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Cost (Current Price)</div>
-                  </div>
-                </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
-                  <div className="text-sm text-gray-600 dark:text-slate-300">
-                    <p>Projections assume {inputs.projectedBitcoinGrowth || 15}% annual Bitcoin growth.</p>
-                  </div>
-                </div>
-              </div>
-            )}
 
-            {/* Quick Actions */}
-            <div className="card mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
-                Explore More
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <Link 
-                  href="/historical" 
-                  className="btn-secondary flex items-center justify-center"
-                >
-                  <ChartBarIcon className="w-5 h-5 mr-2" />
-                  Performance Analysis
-                </Link>
-                <Link 
-                  href="/learn" 
-                  className="btn-secondary flex items-center justify-center"
-                >
-                  <SparklesIcon className="w-5 h-5 mr-2" />
-                  Guide
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>
