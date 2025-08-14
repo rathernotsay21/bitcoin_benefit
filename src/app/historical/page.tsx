@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { useHistoricalCalculatorStore } from '@/stores/historicalCalculatorStore';
 import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import YearSelector from '@/components/YearSelector';
@@ -38,6 +39,8 @@ function formatPercent(value: number): string {
 }
 
 function HistoricalCalculatorContent() {
+  const searchParams = useSearchParams();
+  
   const {
     selectedScheme,
     startingYear,
@@ -60,6 +63,31 @@ function HistoricalCalculatorContent() {
     getEffectiveScheme,
     loadStaticData,
   } = useHistoricalCalculatorStore();
+
+  // Handle scheme query parameter
+  useEffect(() => {
+    const schemeParam = searchParams.get('scheme');
+    if (schemeParam) {
+      // Map scheme names to valid IDs
+      const schemeMap: Record<string, string> = {
+        'accelerator': 'accelerator',
+        'steady-builder': 'steady-builder',
+        'slow-burn': 'slow-burn',
+        // Also handle the display names
+        'pioneer': 'accelerator',
+        'stacker': 'steady-builder',
+        'builder': 'slow-burn'
+      };
+      
+      const schemeId = schemeMap[schemeParam.toLowerCase()];
+      if (schemeId) {
+        const scheme = HISTORICAL_VESTING_SCHEMES.find(s => s.id === schemeId);
+        if (scheme && (!selectedScheme || selectedScheme.id !== schemeId)) {
+          setSelectedScheme(scheme);
+        }
+      }
+    }
+  }, [searchParams, selectedScheme, setSelectedScheme]);
 
   // Load initial data
   useEffect(() => {

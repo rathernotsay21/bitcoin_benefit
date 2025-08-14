@@ -5,10 +5,6 @@ import { usePathname } from 'next/navigation';
 import { 
   CalculatorIcon,
   ClockIcon,
-  ChartBarIcon,
-  BookOpenIcon,
-  LinkIcon,
-  HomeIcon
 } from '@heroicons/react/24/outline';
 import { BitcoinIcon } from '@/components/icons';
 
@@ -17,6 +13,16 @@ export default function Footer() {
 
   // Don't show CTA on calculator/historical pages (they already have their own calculators)
   const showCTA = !pathname.includes('/calculator') && !pathname.includes('/historical');
+
+  // Get page name for bottom left display
+  const getPageName = () => {
+    if (pathname === '/') return 'Home';
+    if (pathname.includes('/calculator')) return 'Forecast Calculator';
+    if (pathname.includes('/historical')) return 'Historical Performance';
+    if (pathname.includes('/track')) return 'Status Tracker';
+    if (pathname.includes('/learn')) return 'Learn More';
+    return 'Bitcoin Benefit';
+  };
 
   return (
     <>
@@ -55,111 +61,11 @@ export default function Footer() {
         </section>
       )}
 
-      {/* Explore More Section */}
-      <section className="py-16 bg-slate-800 dark:bg-slate-900 transition-colors duration-300">
+      {/* Footer Section */}
+      <footer className="bg-slate-800 dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h3 className="text-2xl font-bold text-white mb-8 text-center">Explore More</h3>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12">
-            {/* Home */}
-            <Link 
-              href="/"
-              className={`group relative p-6 bg-slate-700 dark:bg-slate-800 rounded-xl hover:bg-slate-600 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 ${
-                pathname === '/' ? 'ring-2 ring-bitcoin' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <HomeIcon className="w-6 h-6 text-bitcoin dark:text-bitcoin group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Home</h4>
-                  <p className="text-xs text-slate-300 mt-1">Start here</p>
-                </div>
-              </div>
-            </Link>
-
-            {/* Forecast Calculator */}
-            <Link 
-              href="/calculator"
-              className={`group relative p-6 bg-slate-700 dark:bg-slate-800 rounded-xl hover:bg-slate-600 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 ${
-                pathname.includes('/calculator') ? 'ring-2 ring-bitcoin' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <CalculatorIcon className="w-6 h-6 text-bitcoin dark:text-bitcoin group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Forecast</h4>
-                  <p className="text-xs text-slate-300 mt-1">Plan future benefits</p>
-                </div>
-              </div>
-            </Link>
-
-            {/* Performance Analysis */}
-            <Link 
-              href="/historical"
-              className={`group relative p-6 bg-slate-700 dark:bg-slate-800 rounded-xl hover:bg-slate-600 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 ${
-                pathname === '/historical' ? 'ring-2 ring-bitcoin' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <ChartBarIcon className="w-6 h-6 text-bitcoin dark:text-bitcoin group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Performance</h4>
-                  <p className="text-xs text-slate-300 mt-1">Historical analysis</p>
-                </div>
-              </div>
-            </Link>
-
-            {/* Status Tracker */}
-            <Link 
-              href="/track"
-              className={`group relative p-6 bg-slate-700 dark:bg-slate-800 rounded-xl hover:bg-slate-600 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 ${
-                pathname === '/track' ? 'ring-2 ring-bitcoin' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <LinkIcon className="w-6 h-6 text-bitcoin dark:text-bitcoin group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Status</h4>
-                  <p className="text-xs text-slate-300 mt-1">Track on-chain</p>
-                </div>
-              </div>
-            </Link>
-
-            {/* Guide */}
-            <Link 
-              href="/learn"
-              className={`group relative p-6 bg-slate-700 dark:bg-slate-800 rounded-xl hover:bg-slate-600 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 ${
-                pathname === '/learn' ? 'ring-2 ring-bitcoin' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <BookOpenIcon className="w-6 h-6 text-bitcoin dark:text-bitcoin group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Guide</h4>
-                  <p className="text-xs text-slate-300 mt-1">Learn more</p>
-                </div>
-              </div>
-            </Link>
-
-            {/* Buy Bitcoin */}
-            <a 
-              href="https://river.com/signup?r=RH5MJKJM"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative p-6 bg-gradient-to-br from-bitcoin to-orange-600 rounded-xl hover:from-orange-600 hover:to-bitcoin transition-all duration-300 hover:scale-105"
-            >
-              <div className="flex items-center space-x-3">
-                <BitcoinIcon className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-                <div>
-                  <h4 className="font-semibold text-white">Buy Bitcoin</h4>
-                  <p className="text-xs text-orange-100 mt-1">Get started with River</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          {/* Footer Bottom */}
-          <div className="text-center pt-8 border-t border-slate-700">
+          {/* Footer Top - Logo and Tagline */}
+          <div className="text-center pt-12 pb-8">
             <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
               <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
@@ -169,12 +75,178 @@ export default function Footer() {
             <p className="text-slate-400 mb-8">
               The modern employee benefit that small businesses use to compete with big companies
             </p>
-            <div className="text-sm text-slate-500">
-              <p>Webmaster - Rather Notsay</p>
+          </div>
+
+          <div className="border-t border-slate-700 py-12">
+            {/* Navigation Links */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+              {/* Main Pages */}
+              <div>
+                <h5 className="text-white font-semibold mb-4">Quick Links</h5>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/track" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Status Tracker
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/learn" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Learn More
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Forecast Calculator */}
+              <div>
+                <h5 className="text-white font-semibold mb-4">Forecast Calculator</h5>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/calculator" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Open Calculator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/calculator?scheme=accelerator" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Pioneer Scheme
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/calculator?scheme=steady-builder" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Stacker Scheme
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/calculator?scheme=slow-burn" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Builder Scheme
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Historical Calculator */}
+              <div>
+                <h5 className="text-white font-semibold mb-4">Historical Analysis</h5>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/historical" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Open Analysis
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/historical?scheme=accelerator" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Pioneer History
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/historical?scheme=steady-builder" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Stacker History
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/historical?scheme=slow-burn" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Builder History
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Resources */}
+              <div>
+                <h5 className="text-white font-semibold mb-4">Resources</h5>
+                <ul className="space-y-2">
+                  <li>
+                    <a 
+                      href="https://river.com/signup?r=RH5MJKJM" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-slate-400 hover:text-bitcoin transition-colors"
+                    >
+                      Buy Bitcoin (River)
+                    </a>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/learn#hardware-wallets" 
+                      className="text-slate-400 hover:text-bitcoin transition-colors"
+                    >
+                      Hardware Wallets
+                    </Link>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://foundationdevices.com/passport/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Foundation Passport
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://blockstream.com/jade/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → Blockstream Jade
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="https://shiftcrypto.ch/bitbox02/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
+                    >
+                      → BitBox02
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Page Name & Credits */}
+            <div className="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-start md:items-end">
+              {/* Large Page Name - Bottom Left */}
+              <div className="w-full md:w-1/3 mb-4 md:mb-0">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white/20">
+                  {getPageName()}
+                </h2>
+              </div>
+
+              {/* Credits - Bottom Right */}
+              <div className="text-sm text-slate-500">
+                <p>Webmaster - Rather Notsay</p>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </footer>
     </>
   );
 }

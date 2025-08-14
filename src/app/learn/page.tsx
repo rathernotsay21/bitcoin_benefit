@@ -75,7 +75,7 @@ export default function LearnMorePage() {
             </section>
 
             {/* Hardware Wallets Section */}
-            <section className="py-16 sm:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+            <section id="hardware-wallets" className="py-16 sm:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center justify-center p-3 bg-orange-500 rounded-2xl mb-6">
