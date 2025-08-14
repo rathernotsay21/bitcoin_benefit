@@ -454,7 +454,7 @@ function HistoricalCalculatorContent() {
                         <div className="text-lg font-bold text-orange-900 dark:text-orange-200">
                           {formatUSD(historicalResults.totalCostBasis)}
                         </div>
-                        <div className="text-xs text-orange-700 dark:text-orange-300">
+                        <div className="text-xs text-bitcoin dark:text-bitcoin">
                           {formatBTC(historicalResults.totalBitcoinGranted)} total grants
                         </div>
                       </div>

@@ -10,6 +10,7 @@ const ExpandableSection = dynamic(() => import('@/components/ProgressiveDisclosu
 // Optimize icon imports
 import dynamic from 'next/dynamic';
 const BanknotesIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BanknotesIcon })), { ssr: false });
+const LockClosedIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LockClosedIcon })), { ssr: false });
 const CalculatorIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
 
 export default function LearnMorePage() {
@@ -21,7 +22,7 @@ export default function LearnMorePage() {
             <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 transition-colors duration-300">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
-                        <div className="inline-flex items-center justify-center p-3 bg-blue-500 rounded-2xl mb-6">
+                        <div className="inline-flex items-center justify-center p-3 bg-green-500 rounded-2xl mb-6">
                             <BanknotesIcon className="w-8 h-8 text-white" />
                         </div>
                         <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -79,7 +80,7 @@ export default function LearnMorePage() {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12">
                         <div className="inline-flex items-center justify-center p-3 bg-orange-500 rounded-2xl mb-6">
-                            <SatoshiOutlineIcon size={32} className="text-white" />
+                            <LockClosedIcon className="w-8 h-8 text-white" />
                         </div>
                         <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                             Ready to Move On-Chain?

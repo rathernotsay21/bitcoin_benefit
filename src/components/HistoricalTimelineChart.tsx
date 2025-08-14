@@ -278,7 +278,7 @@ function HistoricalTimelineChart({
           <div className="text-2xl font-bold text-orange-900">
             {formatUSDCompact(results.currentTotalValue)}
           </div>
-          <div className="text-xs text-orange-700">
+          <div className="text-xs text-bitcoin">
             {formatBTC(results.totalBitcoinGranted)} total
           </div>
         </div>

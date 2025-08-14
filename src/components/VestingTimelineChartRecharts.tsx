@@ -97,8 +97,8 @@ const CustomTooltip = ({ active, payload, label, yearlyData, coordinate }: Custo
         {/* Bitcoin Holdings Section */}
         <div className="space-y-2 mb-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-orange-600 dark:text-orange-400">Total BTC Balance:</span>
-            <span className="text-sm font-bold text-orange-700 dark:text-orange-300">{formatBTC(yearData.btcBalance)}</span>
+            <span className="text-sm font-medium text-bitcoin dark:text-bitcoin">Total BTC Balance:</span>
+            <span className="text-sm font-bold text-bitcoin dark:text-bitcoin">{formatBTC(yearData.btcBalance)}</span>
           </div>
 
           {vestingPercent > 0 && (
@@ -147,7 +147,7 @@ const CustomTooltip = ({ active, payload, label, yearlyData, coordinate }: Custo
               <span className="inline-flex px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white">
                 New Grant
               </span>
-              <span className="text-sm font-bold text-orange-700 dark:text-orange-300">+{formatBTC(yearData.grantSize)}</span>
+              <span className="text-sm font-bold text-bitcoin dark:text-bitcoin">+{formatBTC(yearData.grantSize)}</span>
             </div>
           </div>
         )}
@@ -170,7 +170,7 @@ const CustomDot = ({ cx, cy, payload, dataKey }: CustomDotProps) => {
 
   if (!isVestingMilestone) return null;
 
-  const color = dataKey === 'btcBalance' ? '#3b82f6' : '#f97316';
+  const color = dataKey === 'btcBalance' ? '#3b82f6' : '#F7931A';
   const glowColor = year === 5 ? '#fbbf24' : '#10b981';
 
   return (
@@ -217,7 +217,7 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
       <div className="flex justify-center gap-8">
         <div className="flex items-center gap-3">
           <svg width="24" height="12" className="overflow-visible">
-            <rect x="0" y="0" width="24" height="12" fill="#fb923c" opacity="0.9" stroke="#f97316" strokeWidth="1" rx="2" />
+            <rect x="0" y="0" width="24" height="12" fill="#F7931A" opacity="0.9" stroke="#F7931A" strokeWidth="1" rx="2" />
           </svg>
           <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
             Annual Grant Cost
@@ -415,27 +415,27 @@ function VestingTimelineChartRecharts({
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
           <span className="flex items-center gap-1">
             <span className="font-medium">Initial:</span>
-            <span className="text-orange-600 dark:text-orange-400 font-bold">{formatBTC(initialGrant)}</span>
+            <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
           </span>
           {annualGrant && (
             <span className="flex items-center gap-1">
               <span className="font-medium">• Annual:</span>
-              <span className="text-orange-600 dark:text-orange-400 font-bold">{formatBTC(annualGrant)} per year</span>
+              <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(annualGrant)} per year</span>
             </span>
           )}
           <span className="flex items-center gap-1">
             <span className="font-medium">• 50% vests:</span>
-            <span className="text-amber-600 dark:text-amber-400 font-bold">{currentYear + 5}</span>
+            <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 5}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• 100% vests:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{currentYear + 10}</span>
+            <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 10}</span>
           </span>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-1">
           <span className="flex items-center gap-1">
             <span className="font-medium">Cost Basis:</span>
-            <span className="text-gray-800 dark:text-gray-200 font-bold">{formatUSD(costBasis)}</span>
+            <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Projected Growth:</span>
@@ -490,8 +490,8 @@ function VestingTimelineChartRecharts({
 
               {/* Bar gradient for cost */}
               <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#fb923c" stopOpacity={0.9} />
-                <stop offset="100%" stopColor="#f97316" stopOpacity={0.9} />
+                <stop offset="0%" stopColor="#F7931A" stopOpacity={0.9} />
+                <stop offset="100%" stopColor="#F7931A" stopOpacity={0.9} />
               </linearGradient>
             </defs>
 
@@ -617,8 +617,8 @@ function VestingTimelineChartRecharts({
         </div>
 
         <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow">
-          <div className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-2 uppercase tracking-wide">Total BTC Grants</div>
-          <div className="text-3xl font-bold text-orange-900 dark:text-orange-100 mb-1">
+          <div className="text-sm font-semibold text-bitcoin dark:text-bitcoin mb-2 uppercase tracking-wide">Total BTC Grants</div>
+          <div className="text-3xl font-bold text-bitcoin dark:text-bitcoin mb-1">
             {formatBTC(yearlyData[10]?.btcBalance || 0)}
           </div>
           <div className="text-xs text-orange-700 dark:text-orange-400">

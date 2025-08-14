@@ -17,10 +17,10 @@ export default function Footer() {
   // Get page name for bottom left display
   const getPageName = () => {
     if (pathname === '/') return 'Home';
-    if (pathname.includes('/calculator')) return 'Forecast Calculator';
-    if (pathname.includes('/historical')) return 'Historical Performance';
-    if (pathname.includes('/track')) return 'Status Tracker';
-    if (pathname.includes('/learn')) return 'Learn More';
+    if (pathname.includes('/calculator')) return 'Forecast';
+    if (pathname.includes('/historical')) return 'Performance';
+    if (pathname.includes('/track')) return 'Status';
+    if (pathname.includes('/learn')) return 'Guide';
     return 'Bitcoin Benefit';
   };
 
@@ -91,7 +91,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/track" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Status Tracker
+                      Status
                     </Link>
                   </li>
                   <li>
@@ -104,11 +104,11 @@ export default function Footer() {
 
               {/* Forecast Calculator */}
               <div>
-                <h5 className="text-white font-semibold mb-4">Forecast Calculator</h5>
+                <h5 className="text-white font-semibold mb-4">Forecast</h5>
                 <ul className="space-y-2">
                   <li>
                     <Link href="/calculator" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Open Calculator
+                      Open Forecast
                     </Link>
                   </li>
                   <li>
@@ -116,7 +116,7 @@ export default function Footer() {
                       href="/calculator?scheme=accelerator" 
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Pioneer Scheme
+                      → Pioneer Strategy
                     </Link>
                   </li>
                   <li>
@@ -140,11 +140,11 @@ export default function Footer() {
 
               {/* Historical Calculator */}
               <div>
-                <h5 className="text-white font-semibold mb-4">Historical Analysis</h5>
+                <h5 className="text-white font-semibold mb-4">Historical Strategy</h5>
                 <ul className="space-y-2">
                   <li>
                     <Link href="/historical" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Open Analysis
+                      Open Performance
                     </Link>
                   </li>
                   <li>

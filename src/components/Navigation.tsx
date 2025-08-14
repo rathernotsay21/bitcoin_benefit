@@ -85,29 +85,26 @@ export default function Navigation() {
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
             {navItems.map((item) => {
-              const isActive = item.href === '/' 
+              const isActive = item.href === '/'
                 ? pathname === '/'
                 : pathname.startsWith(item.href);
               const Icon = isActive ? item.activeIcon : item.icon;
-              
+
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link flex items-center space-x-2 group ${
-                    isActive ? 'active' : ''
-                  }`}
+                  className={`nav-link flex items-center space-x-2 group ${isActive ? 'active' : ''
+                    }`}
                 >
-                  <Icon className={`w-5 h-5 transition-all duration-300 ${
-                    isActive 
-                      ? 'text-bitcoin dark:text-bitcoin' 
-                      : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
-                  }`} />
-                  <span className={`transition-all duration-300 ${
-                    isActive 
-                      ? 'text-bitcoin dark:text-bitcoin' 
-                      : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
-                  }`}>{item.name}</span>
+                  <Icon className={`w-5 h-5 transition-all duration-300 ${isActive
+                    ? 'text-bitcoin dark:text-bitcoin'
+                    : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                    }`} />
+                  <span className={`transition-all duration-300 ${isActive
+                    ? 'text-bitcoin dark:text-bitcoin'
+                    : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                    }`}>{item.name}</span>
                 </Link>
               );
             })}
@@ -129,8 +126,8 @@ export default function Navigation() {
             </button>
 
             {/* CTA Button */}
-            <a 
-              href="https://river.com/signup?r=RH5MJKJM" 
+            <a
+              href="https://river.com/signup?r=RH5MJKJM"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary text-xs sm:text-sm px-3 sm:px-6 py-2 sm:py-3 whitespace-nowrap"
@@ -145,30 +142,27 @@ export default function Navigation() {
         <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4 overflow-x-auto">
           <div className="flex items-center justify-around w-full px-2">
             {navItems.map((item) => {
-              const isActive = item.href === '/' 
+              const isActive = item.href === '/'
                 ? pathname === '/'
                 : pathname.startsWith(item.href);
               const Icon = isActive ? item.activeIcon : item.icon;
-              
+
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link flex flex-col items-center space-y-1 px-2 py-1 transition-all duration-300 ${
-                    isActive ? 'active text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin'
-                  }`}
+                  className={`nav-link flex flex-col items-center space-y-1 px-2 py-1 transition-all duration-300 ${isActive ? 'active text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin'
+                    }`}
                 >
-                  <Icon className={`w-5 h-5 transition-all duration-300 ${
-                    isActive ? 'text-bitcoin dark:text-bitcoin scale-110' : 'text-slate-500 dark:text-slate-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin'
-                  }`} />
-                  <span className={`text-xs font-medium transition-all duration-300 ${
-                    isActive ? 'text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300'
-                  }`}>{item.name}</span>
+                  <Icon className={`w-5 h-5 transition-all duration-300 ${isActive ? 'text-bitcoin dark:text-bitcoin scale-110' : 'text-slate-500 dark:text-slate-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin'
+                    }`} />
+                  <span className={`text-xs font-medium transition-all duration-300 ${isActive ? 'text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300'
+                    }`}>{item.name}</span>
                 </Link>
               );
             })}
           </div>
-          
+
           {/* Mobile Dark Mode Toggle - Remove from mobile nav as it's already in header */}
           {/* <button
             onClick={toggleTheme}
