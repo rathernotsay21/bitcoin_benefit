@@ -70,13 +70,35 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
         hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors
       `}
     >
-      {/* Year column */}
+      {/* Mobile-first layout with essential columns */}
       <div className="flex-none w-12 sm:w-16 text-sm font-bold text-gray-900 dark:text-white">
         {year}
       </div>
       
-      {/* Grant Cost column - hidden on small screens */}
-      <div className="flex-none w-28 sm:w-32 text-sm text-gray-700 dark:text-gray-300 hidden sm:block">
+      {/* BTC column */}
+      <div className="flex-none w-20 sm:w-24 text-sm font-medium text-blue-600 dark:text-blue-400">
+        {formatBTC(point.btcBalance)}
+      </div>
+      
+      {/* USD Value column */}
+      <div className="flex-1 min-w-0 text-sm font-bold text-gray-900 dark:text-white">
+        {formatUSD(point.usdValue)}
+      </div>
+      
+      {/* Status column - simplified on mobile */}
+      <div className="flex-none w-20 sm:w-32 text-sm">
+        <span className={`inline-flex px-1 sm:px-3 py-1 rounded-full text-xs font-bold ${
+          vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md' :
+          vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :
+          'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
+        }`}>
+          <span className="hidden sm:inline">{vestingPercent}% Vested</span>
+          <span className="sm:hidden">{vestingPercent}%</span>
+        </span>
+      </div>
+      
+      {/* Desktop-only columns */}
+      <div className="flex-none w-28 sm:w-32 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
         {grantCost > 0 ? (
           <span className="font-semibold text-orange-600 dark:text-orange-400">
             {formatUSD(grantCost)}
@@ -86,30 +108,8 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
         )}
       </div>
       
-      {/* BTC column */}
-      <div className="flex-none w-20 sm:w-24 text-sm font-medium text-blue-600 dark:text-blue-400">
-        {formatBTC(point.btcBalance)}
-      </div>
-      
-      {/* BTC Price column - hidden on medium screens */}
-      <div className="flex-none w-24 sm:w-28 text-sm text-gray-700 dark:text-gray-300 hidden md:block">
+      <div className="flex-none w-24 sm:w-28 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
         {formatUSD(point.bitcoinPrice)}
-      </div>
-      
-      {/* USD Value column */}
-      <div className="flex-1 min-w-0 text-sm font-bold text-gray-900 dark:text-white">
-        {formatUSD(point.usdValue)}
-      </div>
-      
-      {/* Status column */}
-      <div className="flex-none w-24 sm:w-32 text-sm">
-        <span className={`inline-flex px-2 sm:px-3 py-1 rounded-full text-xs font-bold ${
-          vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md' :
-          vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :
-          'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
-        }`}>
-          {vestingPercent}% Vested
-        </span>
       </div>
     </div>
   );
@@ -177,31 +177,33 @@ function VirtualizedAnnualBreakdown({
       
       {/* Header */}
       <div className="overflow-x-auto rounded-t-xl shadow-lg w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 border-x border-t border-gray-200 dark:border-slate-700">
-        <div className="flex items-center px-2 sm:px-4 py-3 min-w-[500px]">
+        <div className="flex items-center px-2 sm:px-4 py-3 min-w-[300px] sm:min-w-[500px]">
           <div className="flex-none w-12 sm:w-16 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             Year
-          </div>
-          <div className="flex-none w-28 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden sm:block">
-            Grant Cost
           </div>
           <div className="flex-none w-20 sm:w-24 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             BTC
           </div>
-          <div className="flex-none w-24 sm:w-28 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden md:block">
-            BTC Price
-          </div>
           <div className="flex-1 min-w-0 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             USD Value
           </div>
-          <div className="flex-none w-24 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <div className="flex-none w-20 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             Status
+          </div>
+          
+          {/* Desktop-only columns */}
+          <div className="flex-none w-28 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
+            Grant Cost
+          </div>
+          <div className="flex-none w-24 sm:w-28 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
+            BTC Price
           </div>
         </div>
       </div>
 
       {/* Virtualized Table Body */}
       <div className="overflow-x-auto rounded-b-xl shadow-lg w-full bg-white dark:bg-slate-900 border-x border-b border-gray-200 dark:border-slate-700">
-        <div className="min-w-[500px]">
+        <div className="min-w-[300px] lg:min-w-[500px]">
           {displayData.length > 10 ? (
             // Use virtualization for large datasets
             <List

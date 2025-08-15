@@ -79,12 +79,36 @@ const Row = memo(({
 
   return (
     <div style={style}>
-      <div className={`grid grid-cols-7 items-center px-4 py-3 border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors ${rowClass}`}>
-        <div className="text-sm font-medium text-gray-900 dark:text-white">
+      <div className={`flex items-center px-2 sm:px-4 py-3 border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors ${rowClass}`}>
+        {/* Year */}
+        <div className="flex-none w-12 sm:w-16 text-sm font-medium text-gray-900 dark:text-white">
           {yearData.year}
         </div>
         
-        <div className="text-sm text-gray-700 dark:text-white/90">
+        {/* BTC Balance */}
+        <div className="flex-none w-20 sm:w-24 text-sm text-gray-700 dark:text-white/90">
+          {formatBTC(yearData.btcBalance)}
+        </div>
+        
+        {/* USD Value */}
+        <div className="flex-1 min-w-0 text-sm font-semibold text-green-600 dark:text-green-400">
+          {formatUSD(yearData.usdValue)}
+        </div>
+        
+        {/* Status - simplified on mobile */}
+        <div className="flex-none w-20 sm:w-32 text-sm">
+          <span className={`px-1 sm:px-2 py-1 rounded-full text-xs font-medium ${
+            vestingPercent === 100 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
+            vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' :
+            'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+          }`}>
+            <span className="hidden sm:inline">{vestingPercent}% Vested</span>
+            <span className="sm:hidden">{vestingPercent}%</span>
+          </span>
+        </div>
+        
+        {/* Desktop-only columns */}
+        <div className="hidden lg:block flex-none w-28 text-sm text-gray-700 dark:text-white/90">
           {yearData.grantSize > 0 ? (
             <span className="font-medium text-bitcoin">{formatBTC(yearData.grantSize)}</span>
           ) : (
@@ -92,19 +116,11 @@ const Row = memo(({
           )}
         </div>
         
-        <div className="text-sm text-gray-700 dark:text-white/90">
-          {formatBTC(yearData.btcBalance)}
-        </div>
-        
-        <div className="text-sm text-gray-700 dark:text-white/90">
+        <div className="hidden lg:block flex-none w-24 text-sm text-gray-700 dark:text-white/90">
           {formatUSD(yearData.bitcoinPrice)}
         </div>
         
-        <div className="text-sm font-semibold text-green-600 dark:text-green-400">
-          {formatUSD(yearData.usdValue)}
-        </div>
-        
-        <div className="text-sm">
+        <div className="hidden lg:block flex-none w-20 text-sm">
           {yoyGrowth !== null ? (
             <span className={`font-medium ${yoyGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {yoyGrowth >= 0 ? '+' : ''}{formatPercent(yoyGrowth)}
@@ -112,16 +128,6 @@ const Row = memo(({
           ) : (
             <span className="text-gray-400">—</span>
           )}
-        </div>
-        
-        <div className="text-sm">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-            vestingPercent === 100 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
-            vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' :
-            'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
-          }`}>
-            {vestingPercent}% Vested
-          </span>
         </div>
       </div>
     </div>
@@ -194,14 +200,16 @@ function VirtualizedAnnualBreakdownOptimized({
       {/* Table Container */}
       <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
         {/* Table Header */}
-        <div className="grid grid-cols-7 bg-gray-50 dark:bg-slate-700 px-4 py-3 text-xs font-medium text-gray-500 dark:text-white/80 uppercase tracking-wider border-b border-gray-200 dark:border-slate-600">
-          <div>Year</div>
-          <div>Grant</div>
-          <div>Total BTC</div>
-          <div>BTC Price</div>
-          <div>USD Value</div>
-          <div>YoY Growth</div>
-          <div>Status</div>
+        <div className="flex items-center bg-gray-50 dark:bg-slate-700 px-2 sm:px-4 py-3 text-xs font-medium text-gray-500 dark:text-white/80 uppercase tracking-wider border-b border-gray-200 dark:border-slate-600">
+          <div className="flex-none w-12 sm:w-16">Year</div>
+          <div className="flex-none w-20 sm:w-24">BTC</div>
+          <div className="flex-1 min-w-0">USD Value</div>
+          <div className="flex-none w-20 sm:w-32">Status</div>
+          
+          {/* Desktop-only headers */}
+          <div className="hidden lg:block flex-none w-28">Grant</div>
+          <div className="hidden lg:block flex-none w-24">BTC Price</div>
+          <div className="hidden lg:block flex-none w-20">YoY Growth</div>
         </div>
 
         {/* Table Body - Virtualized for performance */}
