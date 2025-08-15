@@ -2,20 +2,14 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
-  LineChart,
   Line,
-  Area,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
-  ComposedChart,
-  ReferenceDot,
-  AreaChart
+  ComposedChart
 } from 'recharts';
 import { VestingTimelinePoint } from '@/types/vesting';
 import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdown';
@@ -56,10 +50,9 @@ interface CustomTooltipProps {
   payload?: any[];
   label?: string;
   yearlyData?: any[];
-  coordinate?: { x?: number; y?: number };
 }
 
-const CustomTooltip = ({ active, payload, label, yearlyData, coordinate }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label, yearlyData }: CustomTooltipProps) => {
   if (active && payload && payload.length && yearlyData) {
     const year = Number(label);
     const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
@@ -157,21 +150,24 @@ const CustomTooltip = ({ active, payload, label, yearlyData, coordinate }: Custo
   return null;
 };
 
-interface CustomDotProps {
+interface CustomGrantDotProps {
   cx?: number;
   cy?: number;
   payload?: any;
-  dataKey?: string;
 }
 
-const CustomDot = ({ cx, cy, payload, dataKey }: CustomDotProps) => {
-  const year = payload.year;
-  const isVestingMilestone = year === 5 || year === 10;
+const CustomGrantDot = React.memo(({ cx, cy, payload }: CustomGrantDotProps) => {
+  // Only render if we have valid coordinates and grant data
+  if (!cx || !cy || !payload || payload.grantSize <= 0) return null;
 
-  if (!isVestingMilestone) return null;
-
-  const color = dataKey === 'btcBalance' ? '#3b82f6' : '#F7931A';
-  const glowColor = year === 5 ? '#fbbf24' : '#10b981';
+  // Calculate dot size based on grant size with min/max constraints
+  const minRadius = 4;
+  const maxRadius = 12;
+  const maxGrant = 0.02; // Maximum expected grant size for scaling
+  
+  // Scale the radius based on grant size
+  const normalizedSize = Math.min(payload.grantSize / maxGrant, 1);
+  const radius = minRadius + (maxRadius - minRadius) * normalizedSize;
 
   return (
     <g>
@@ -179,29 +175,32 @@ const CustomDot = ({ cx, cy, payload, dataKey }: CustomDotProps) => {
       <circle
         cx={cx}
         cy={cy}
-        r={8}
-        fill={glowColor}
-        opacity={0.2}
+        r={radius + 4}
+        fill="#F7931A"
+        opacity={0.15}
       />
       <circle
         cx={cx}
         cy={cy}
-        r={6}
-        fill={glowColor}
-        opacity={0.3}
+        r={radius + 2}
+        fill="#F7931A"
+        opacity={0.25}
       />
       {/* Main dot */}
       <circle
         cx={cx}
         cy={cy}
-        r={4}
-        fill={color}
+        r={radius}
+        fill="#F7931A"
         stroke="white"
         strokeWidth={2}
+        opacity={0.9}
       />
     </g>
   );
-};
+});
+
+CustomGrantDot.displayName = 'CustomGrantDot';
 
 
 
@@ -217,10 +216,10 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
       <div className="flex justify-center gap-8">
         <div className="flex items-center gap-3">
           <svg width="24" height="12" className="overflow-visible">
-            <rect x="0" y="0" width="24" height="12" fill="#F7931A" opacity="0.9" stroke="#F7931A" strokeWidth="1" rx="2" />
+            <circle cx="12" cy="6" r="6" fill="#F7931A" stroke="white" strokeWidth="2" opacity="0.9" />
           </svg>
           <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
-            Annual Grant Cost
+            Grant Events
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -231,7 +230,7 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
               x2="24"
               y2="1.5"
               stroke="#10b981"
-              strokeWidth="4"
+              strokeWidth="3"
               filter="drop-shadow(0 0 4px #10b98140)"
             />
           </svg>
@@ -259,7 +258,7 @@ function VestingTimelineChartRecharts({
   schemeId
 }: VestingTimelineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+  const [, setHoveredYear] = useState<number | null>(null);
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -302,6 +301,10 @@ function VestingTimelineChartRecharts({
 
   // Data processing for yearly points with grant information
   const yearlyData = useMemo(() => {
+    if (!extendedTimeline || extendedTimeline.length === 0) {
+      return []; // Return empty array if no timeline data
+    }
+    
     const data = extendedTimeline
       .filter((_, index) => index % 12 === 0)
       .slice(0, 11) // Only 11 points for 0-10 years
@@ -327,14 +330,19 @@ function VestingTimelineChartRecharts({
           }
         }
         
+        // Ensure all values are valid numbers
+        const btcBalance = isFinite(point.employerBalance) ? point.employerBalance : 0;
+        const bitcoinPrice = isFinite(point.bitcoinPrice) ? point.bitcoinPrice : currentBitcoinPrice;
+        const usdValue = btcBalance * bitcoinPrice;
+        
         return {
           year,
-          btcBalance: point.employerBalance,
-          usdValue: point.employerBalance * point.bitcoinPrice,
-          bitcoinPrice: point.bitcoinPrice,
-          vestedAmount: point.vestedAmount,
-          grantSize,
-          grantCost, // Annual grant cost in USD
+          btcBalance,
+          usdValue: isFinite(usdValue) ? usdValue : 0,
+          bitcoinPrice,
+          vestedAmount: isFinite(point.vestedAmount) ? point.vestedAmount : 0,
+          grantSize: isFinite(grantSize) ? grantSize : 0,
+          grantCost: isFinite(grantCost) ? grantCost : 0,
           isInitialGrant
         };
       });
@@ -395,16 +403,57 @@ function VestingTimelineChartRecharts({
 
   // Calculate Y-axis domain for USD only
   const usdDomain = useMemo(() => {
+    if (!yearlyData || yearlyData.length === 0) {
+      return [0, 1000000]; // Default domain if no data
+    }
+    
     // Get max value from either grant cost or USD value
-    const maxUsd = Math.max(...yearlyData.map(d => d.usdValue));
-    const maxCost = Math.max(...yearlyData.map(d => d.grantCost));
+    const usdValues = yearlyData.map(d => d.usdValue || 0).filter(v => isFinite(v));
+    const costValues = yearlyData.map(d => d.grantCost || 0).filter(v => isFinite(v));
+    
+    if (usdValues.length === 0 && costValues.length === 0) {
+      return [0, 1000000]; // Default domain if no valid values
+    }
+    
+    const maxUsd = usdValues.length > 0 ? Math.max(...usdValues) : 0;
+    const maxCost = costValues.length > 0 ? Math.max(...costValues) : 0;
     const maxValue = Math.max(maxUsd, maxCost);
     
     // Add 20% padding for visual clarity
     const padding = maxValue * 0.20;
     
-    return [0, maxValue + padding];
+    return [0, Math.max(maxValue + padding, 1000)]; // Ensure minimum domain
   }, [yearlyData]);
+
+  // Callbacks for mouse events
+  const handleMouseMove = useCallback((e: any) => {
+    if (e && e.activeLabel !== undefined) {
+      setHoveredYear(e.activeLabel);
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => setHoveredYear(null), []);
+
+  // Early return if no valid data - after all hooks
+  if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
+    return (
+      <div className="w-full max-w-full overflow-hidden">
+        <div className="mb-6">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
+            10-Year Projection
+          </h3>
+        </div>
+        <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+          <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+            <div className="text-center text-gray-500 dark:text-slate-400">
+              <div className="text-4xl mb-2">📊</div>
+              <div>Loading chart data...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-full overflow-hidden">
@@ -459,12 +508,8 @@ function VestingTimelineChartRecharts({
               : { top: 30, right: 30, bottom: 40, left: 45 }
             }
             maxBarSize={isMobile ? 20 : undefined}
-            onMouseMove={useCallback((e: any) => {
-              if (e && e.activeLabel !== undefined) {
-                setHoveredYear(e.activeLabel);
-              }
-            }, [])}
-            onMouseLeave={useCallback(() => setHoveredYear(null), [])}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
           >
             <defs>
               {/* Gradient for USD line (green) */}
@@ -502,13 +547,18 @@ function VestingTimelineChartRecharts({
 
             <XAxis
               dataKey="year"
-              ticks={[0, 2, 4, 6, 8, 10]}
+              ticks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
               domain={[0, 10]}
               axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
               tickLine={false}
               tick={(props: any) => {
                 const { x, y, payload } = props;
                 const isVestingMilestone = payload.value === 5 || payload.value === 10;
+                
+                // Don't render label for year 0 - return empty group instead of null
+                if (payload.value === 0) {
+                  return <g></g>;
+                }
                 
                 return (
                   <g transform={`translate(${x},${y})`}>
@@ -517,9 +567,9 @@ function VestingTimelineChartRecharts({
                       y={0}
                       dy={16}
                       textAnchor="middle"
-                      fill={isVestingMilestone ? '#059669' : '#6b7280'}
+                      fill={isVestingMilestone ? '#eab308' : '#6b7280'}
                       fontSize={12}
-                      fontWeight={isVestingMilestone ? 600 : 500}
+                      fontWeight={isVestingMilestone ? 700 : 500}
                     >
                       {payload.value}
                     </text>
@@ -561,43 +611,16 @@ function VestingTimelineChartRecharts({
             />
 
 
-            {/* Bar chart for annual grant costs */}
-            <Bar
-              yAxisId="usd"
-              dataKey="grantCost"
-              fill="url(#costGradient)"
-              name="Annual Grant Cost"
-              isAnimationActive={!isMobile}
-              animationDuration={1500}
-              radius={[4, 4, 0, 0]}
-              maxBarSize={15}
-            />
-
-            {/* Add subtle area fills */}
-            <Area
-              yAxisId="usd"
-              type="monotone"
-              dataKey="usdValue"
-              fill="url(#usdAreaGradient)"
-              stroke="none"
-              isAnimationActive={!isMobile}
-              animationDuration={2000}
-              name="" // Hide from legend
-            />
-
-            {/* USD Value line only - no BTC line */}
-
+            {/* USD Value line - made 30% thinner, no area fill */}
             <Line
               yAxisId="usd"
               type="monotone"
               dataKey="usdValue"
               stroke="url(#usdGradient)"
-              strokeWidth={4}
+              strokeWidth={2.8} // 30% thinner than original 4
               name="USD Value"
-              dot={false}
-              isAnimationActive={!isMobile}
-              animationDuration={2000}
-              animationEasing="ease-in-out"
+              dot={<CustomGrantDot />}
+              isAnimationActive={false} // Disable animation for better performance
               filter="url(#glow)"
             />
           </ComposedChart>
