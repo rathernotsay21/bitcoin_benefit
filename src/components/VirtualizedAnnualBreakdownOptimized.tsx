@@ -81,10 +81,7 @@ const Row = memo(({
     <div style={style}>
       <div className={`grid grid-cols-7 items-center px-4 py-3 border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors ${rowClass}`}>
         <div className="text-sm font-medium text-gray-900 dark:text-white">
-          Year {yearData.year}
-          {isCurrentYear && (
-            <span className="ml-2 text-xs text-blue-600 dark:text-blue-400">(Current)</span>
-          )}
+          {yearData.year}
         </div>
         
         <div className="text-sm text-gray-700 dark:text-white/90">
