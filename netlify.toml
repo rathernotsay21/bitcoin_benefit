@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = ".next"
 
+# Use Next.js runtime for proper asset serving
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   NODE_VERSION = "20.19.4"
   NPM_FLAGS = "--omit=dev"

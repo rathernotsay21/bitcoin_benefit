@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Configure for Netlify deployment
+  trailingSlash: true,
   images: {
     unoptimized: true
   },

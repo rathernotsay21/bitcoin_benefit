@@ -6,11 +6,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 function CalculatorRedirect() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   useEffect(() => {
     // Check for scheme query parameter
     const scheme = searchParams.get('scheme');
-    
+
     // Map scheme names to valid routes
     const schemeMap: Record<string, string> = {
       'accelerator': 'accelerator',
@@ -21,7 +21,7 @@ function CalculatorRedirect() {
       'stacker': 'steady-builder',
       'builder': 'slow-burn'
     };
-    
+
     // Redirect to the specified scheme or default to accelerator
     const targetScheme = scheme && schemeMap[scheme.toLowerCase()] ? schemeMap[scheme.toLowerCase()] : 'accelerator';
     router.replace(`/calculator/${targetScheme}`);

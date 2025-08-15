@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
+import {
   CalculatorIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline';
@@ -42,15 +42,15 @@ export default function Footer() {
               See how much this modern benefit could save you in turnover costs and help you compete for top talent.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link 
-                href="/calculator" 
+              <Link
+                href="/calculator"
                 className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <CalculatorIcon className="w-5 h-5" />
                 <span>Calculate Your ROI</span>
               </Link>
-              <Link 
-                href="/historical" 
+              <Link
+                href="/historical"
                 className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <ClockIcon className="w-5 h-5" />
@@ -108,31 +108,31 @@ export default function Footer() {
                 <ul className="space-y-2">
                   <li>
                     <Link href="/calculator" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Open Forecast
+                      ROI Calculator
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/calculator?scheme=accelerator" 
+                    <Link
+                      href="/calculator?scheme=accelerator"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
                       → Pioneer Strategy
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/calculator?scheme=steady-builder" 
+                    <Link
+                      href="/calculator?scheme=steady-builder"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Stacker Scheme
+                      → Stacker Strategy
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/calculator?scheme=slow-burn" 
+                    <Link
+                      href="/calculator?scheme=slow-burn"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Builder Scheme
+                      → Builder Strategy
                     </Link>
                   </li>
                 </ul>
@@ -140,32 +140,32 @@ export default function Footer() {
 
               {/* Historical Calculator */}
               <div>
-                <h5 className="text-white font-semibold mb-4">Historical Strategy</h5>
+                <h5 className="text-white font-semibold mb-4">Past Performance</h5>
                 <ul className="space-y-2">
                   <li>
                     <Link href="/historical" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Open Performance
+                      Past Performance
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/historical?scheme=accelerator" 
+                    <Link
+                      href="/historical?scheme=accelerator"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
                       → Pioneer History
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/historical?scheme=steady-builder" 
+                    <Link
+                      href="/historical?scheme=steady-builder"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
                       → Stacker History
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/historical?scheme=slow-burn" 
+                    <Link
+                      href="/historical?scheme=slow-burn"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
                       → Builder History
@@ -179,9 +179,9 @@ export default function Footer() {
                 <h5 className="text-white font-semibold mb-4">Resources</h5>
                 <ul className="space-y-2">
                   <li>
-                    <a 
-                      href="https://river.com/signup?r=RH5MJKJM" 
-                      target="_blank" 
+                    <a
+                      href="https://river.com/signup?r=RH5MJKJM"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors"
                     >
@@ -189,16 +189,16 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <Link 
-                      href="/learn#hardware-wallets" 
+                    <Link
+                      href="/learn#hardware-wallets"
                       className="text-slate-400 hover:text-bitcoin transition-colors"
                     >
                       Hardware Wallets
                     </Link>
                   </li>
                   <li>
-                    <a 
-                      href="https://foundationdevices.com/passport/" 
+                    <a
+                      href="https://foundationdevices.com/passport/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
@@ -207,8 +207,8 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a 
-                      href="https://blockstream.com/jade/" 
+                    <a
+                      href="https://blockstream.com/jade/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
@@ -217,8 +217,8 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a 
-                      href="https://shiftcrypto.ch/bitbox02/" 
+                    <a
+                      href="https://shiftcrypto.ch/bitbox02/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
