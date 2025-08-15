@@ -12,7 +12,7 @@ import {
   ComposedChart
 } from 'recharts';
 import { VestingTimelinePoint } from '@/types/vesting';
-import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdown';
+import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdownOptimized';
 
 interface VestingTimelineChartProps {
   timeline: VestingTimelinePoint[];

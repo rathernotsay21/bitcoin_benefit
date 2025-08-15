@@ -53,7 +53,10 @@
     "test:fix-issues": "node scripts/fix-test-issues.js",
     "test:hooks:install": "node scripts/test-validation/pre-commit-setup.ts install",
     "test:hooks:remove": "node scripts/test-validation/pre-commit-setup.ts remove",
-    "test:hooks:status": "node scripts/test-validation/pre-commit-setup.ts status"
+    "test:hooks:status": "node scripts/test-validation/pre-commit-setup.ts status",
+    "optimize": "sh optimize-performance.sh",
+    "optimize:analyze": "sh optimize-performance.sh --analyze",
+    "build:optimized": "cp next.config.optimized.js next.config.js && npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",

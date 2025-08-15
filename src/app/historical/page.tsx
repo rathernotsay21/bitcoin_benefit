@@ -14,9 +14,9 @@ import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 
-// Lazy load the historical visualization component
+// Lazy load the optimized historical visualization component
 const HistoricalTimelineVisualization = dynamic(
-  () => import('@/components/HistoricalTimelineVisualization'),
+  () => import('@/components/HistoricalTimelineVisualizationOptimized'),
   {
     ssr: false, // Disable server-side rendering for this client-side component
     loading: () => <ChartSkeleton /> // Show a loading component
