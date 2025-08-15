@@ -203,7 +203,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Foundation Passport
+                      → Passport
                     </a>
                   </li>
                   <li>
@@ -213,7 +213,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Blockstream Jade
+                      → Jade
                     </a>
                   </li>
                   <li>
