@@ -125,6 +125,7 @@ export class VestingScheduleCalculator {
       case 'steady-builder':
         return month <= 60; // 5 years
       case 'slow-burn':
+        return month <= 108; // 9 years (grants at months 12, 24, 36, 48, 60, 72, 84, 96, 108)
       case 'custom':
         return month <= 120; // 10 years
       default:

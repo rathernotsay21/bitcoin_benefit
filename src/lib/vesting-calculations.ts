@@ -86,6 +86,8 @@ export class VestingCalculator {
         grantMonths = Math.min(60, maxMonths); // 5 years max
         break;
       case 'slow-burn':
+        grantMonths = Math.min(108, maxMonths); // 9 years max (grants at months 12, 24, 36, 48, 60, 72, 84, 96, 108)
+        break;
       case 'custom':
         grantMonths = Math.min(120, maxMonths); // 10 years max
         break;

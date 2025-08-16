@@ -66,10 +66,10 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     id: 'slow-burn',
     name: 'Builder',
     description: 'Conservatively spread costs across entire vesting period.',
-    initialGrant: 0.0,
+    initialGrant: 0.002,
     employeeMatchPercentage: 0,
     annualGrant: 0.002,
-    maxAnnualGrants: 10,
+    maxAnnualGrants: 9,
     vestingSchedule: [
       {
         months: 0,

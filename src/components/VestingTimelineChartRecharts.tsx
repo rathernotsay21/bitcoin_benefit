@@ -245,7 +245,7 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
       <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
         {schemeId === 'accelerator' && `Single grant of ${formatBTC(initialGrant)} at year 0`}
         {schemeId === 'steady-builder' && `Initial ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} annually for 5 years`}
-        {schemeId === 'slow-burn' && `${formatBTC(annualGrant || 0)} annually for 10 years`}
+        {schemeId === 'slow-burn' && `Initial ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} annually for 9 years`}
       </div>
     </div>
   );
@@ -323,7 +323,7 @@ function VestingTimelineChartRecharts({
           isInitialGrant = true;
         } else if (annualGrant && annualGrant > 0 && year > 0) {
           // Check scheme-specific grant rules
-          if (schemeId === 'slow-burn' && year <= 10) {
+          if (schemeId === 'slow-burn' && year <= 9) {
             grantSize = annualGrant;
             grantCost = annualGrant * currentBitcoinPrice;
           } else if (schemeId === 'steady-builder' && year <= 5) {
@@ -364,8 +364,8 @@ function VestingTimelineChartRecharts({
     // Annual grant costs at current price (employer's actual cost)
     if (annualGrant && annualGrant > 0) {
       if (schemeId === 'slow-burn') {
-        // 10 years of annual grants at current price
-        totalCost += annualGrant * currentBitcoinPrice * 10;
+        // 9 years of annual grants at current price
+        totalCost += annualGrant * currentBitcoinPrice * 9;
       } else if (schemeId === 'steady-builder') {
         // 5 years of annual grants at current price  
         totalCost += annualGrant * currentBitcoinPrice * 5;
