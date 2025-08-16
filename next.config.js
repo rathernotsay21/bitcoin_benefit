@@ -134,7 +134,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Link',
-            value: '</data/bitcoin-price.json>; rel=preload; as=fetch; crossorigin=anonymous, </data/static-calculations.json>; rel=preload; as=fetch; crossorigin=anonymous'
+            value: '</data/bitcoin-price.json>; rel=preload; as=fetch, </data/static-calculations.json>; rel=preload; as=fetch'
           },
         ],
       },
@@ -143,7 +143,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Link',
-            value: '</data/historical-bitcoin.json>; rel=preload; as=fetch; crossorigin=anonymous, </data/bitcoin-price.json>; rel=preload; as=fetch; crossorigin=anonymous'
+            value: '</data/historical-bitcoin.json>; rel=preload; as=fetch, </data/bitcoin-price.json>; rel=preload; as=fetch'
           },
         ],
       },
