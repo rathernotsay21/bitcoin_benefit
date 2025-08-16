@@ -401,28 +401,57 @@ function VestingTimelineChartRecharts({
     return totalCostInvested > 0 ? finalValue / totalCostInvested : 0;
   }, [finalYear, yearlyData]);
 
-  // Calculate Y-axis domain for USD only
-  const usdDomain = useMemo(() => {
+  // Calculate Y-axis domain and ticks for USD only - similar to old graph
+  const { usdDomain, usdTicks } = useMemo(() => {
     if (!yearlyData || yearlyData.length === 0) {
-      return [0, 1000000]; // Default domain if no data
+      return { 
+        usdDomain: [0, 12000],
+        usdTicks: [0, 2000, 4000, 6000, 8000, 10000, 12000]
+      };
     }
     
-    // Get max value from either grant cost or USD value
+    // Get max value from USD values
     const usdValues = yearlyData.map(d => d.usdValue || 0).filter(v => isFinite(v));
-    const costValues = yearlyData.map(d => d.grantCost || 0).filter(v => isFinite(v));
     
-    if (usdValues.length === 0 && costValues.length === 0) {
-      return [0, 1000000]; // Default domain if no valid values
+    if (usdValues.length === 0) {
+      return { 
+        usdDomain: [0, 12000],
+        usdTicks: [0, 2000, 4000, 6000, 8000, 10000, 12000]
+      };
     }
     
-    const maxUsd = usdValues.length > 0 ? Math.max(...usdValues) : 0;
-    const maxCost = costValues.length > 0 ? Math.max(...costValues) : 0;
-    const maxValue = Math.max(maxUsd, maxCost);
+    const maxUsd = Math.max(...usdValues);
     
-    // Add 20% padding for visual clarity
-    const padding = maxValue * 0.20;
+    // Calculate nice round maximum for the scale
+    let maxDomain: number;
+    let ticks: number[];
     
-    return [0, Math.max(maxValue + padding, 1000)]; // Ensure minimum domain
+    if (maxUsd <= 12000) {
+      maxDomain = 12000;
+      ticks = [0, 2000, 4000, 6000, 8000, 10000, 12000];
+    } else if (maxUsd <= 20000) {
+      maxDomain = 20000;
+      ticks = [0, 4000, 8000, 12000, 16000, 20000];
+    } else if (maxUsd <= 50000) {
+      maxDomain = 50000;
+      ticks = [0, 10000, 20000, 30000, 40000, 50000];
+    } else if (maxUsd <= 100000) {
+      maxDomain = 100000;
+      ticks = [0, 20000, 40000, 60000, 80000, 100000];
+    } else if (maxUsd <= 200000) {
+      maxDomain = 200000;
+      ticks = [0, 40000, 80000, 120000, 160000, 200000];
+    } else if (maxUsd <= 500000) {
+      maxDomain = 500000;
+      ticks = [0, 100000, 200000, 300000, 400000, 500000];
+    } else {
+      // For very large values, round up to nearest 100K
+      maxDomain = Math.ceil(maxUsd / 100000) * 100000;
+      const tickInterval = maxDomain / 5;
+      ticks = Array.from({length: 6}, (_, i) => i * tickInterval);
+    }
+    
+    return { usdDomain: [0, maxDomain], usdTicks: ticks };
   }, [yearlyData]);
 
   // Callbacks for mouse events
@@ -496,8 +525,8 @@ function VestingTimelineChartRecharts({
       <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
         <ResponsiveContainer 
           width="100%" 
-          height={isMobile ? 320 : 420} 
-          minHeight={280}
+          height={isMobile ? 380 : 480} 
+          minHeight={320}
           debounce={100}
         >
           <ComposedChart
@@ -584,6 +613,7 @@ function VestingTimelineChartRecharts({
               tickFormatter={(value) => formatUSDCompact(value)}
               stroke="#10b981"
               domain={usdDomain}
+              ticks={usdTicks}
               axisLine={{ stroke: '#10b981', strokeWidth: 2 }}
               tick={{ fill: '#10b981', fontSize: 13, fontWeight: 600 }}
               tickLine={false}
