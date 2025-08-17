@@ -9,6 +9,7 @@ export interface VestingScheme {
   vestingSchedule: VestingMilestone[];
   bonuses?: VestingBonus[];
   maxAnnualGrants?: number;
+  customVestingEvents?: CustomVestingEvent[]; // Custom vesting schedule if defined
 }
 
 export interface VestingMilestone {
@@ -17,6 +18,14 @@ export interface VestingMilestone {
   employerContributionPercent: number; // Deprecated, not used
   grantPercent: number;
   description: string;
+}
+
+// Custom vesting event for flexible scheduling
+export interface CustomVestingEvent {
+  id: string;
+  timePeriod: number; // in months (3 for 90 days, 12 for 1 year, etc.)
+  percentageVested: number; // cumulative percentage vested at this point
+  label: string; // e.g., "90 days", "1 year", etc.
 }
 
 export interface VestingBonus {

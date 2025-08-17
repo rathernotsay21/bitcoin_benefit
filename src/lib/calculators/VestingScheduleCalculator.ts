@@ -1,4 +1,4 @@
-import { VestingTimelinePoint } from '@/types/vesting';
+import { VestingTimelinePoint, CustomVestingEvent } from '@/types/vesting';
 
 interface VestingMilestone {
   months: number;
@@ -12,6 +12,7 @@ interface VestingSchedule {
     months: number;
     bonusPercent: number;
   }>;
+  customVestingEvents?: CustomVestingEvent[];
 }
 
 export class VestingScheduleCalculator {
@@ -25,6 +26,35 @@ export class VestingScheduleCalculator {
    * Get the current vesting milestone for a given month
    */
   getCurrentMilestone(month: number): VestingMilestone {
+    // If custom vesting events are defined, use them instead
+    if (this.schedule.customVestingEvents && this.schedule.customVestingEvents.length > 0) {
+      const sortedEvents = [...this.schedule.customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
+      
+      // Find the applicable custom vesting event
+      let applicableEvent = null;
+      for (let i = sortedEvents.length - 1; i >= 0; i--) {
+        if (month >= sortedEvents[i].timePeriod) {
+          applicableEvent = sortedEvents[i];
+          break;
+        }
+      }
+      
+      if (applicableEvent) {
+        return {
+          employeeContributionPercent: 100,
+          grantPercent: applicableEvent.percentageVested,
+          months: applicableEvent.timePeriod
+        };
+      }
+      
+      return {
+        employeeContributionPercent: 100,
+        grantPercent: 0,
+        months: 0
+      };
+    }
+    
+    // Use default milestones if no custom events
     const sortedMilestones = [...this.schedule.milestones].sort((a, b) => a.months - b.months);
     
     for (let i = sortedMilestones.length - 1; i >= 0; i--) {

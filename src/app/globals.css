@@ -47,18 +47,22 @@ scroll-behavior: smooth;
     @apply bg-slate-900;
   }
 
-  /* Typography */
+  /* Typography - Enhanced */
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight font-bold transition-colors duration-300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   /* Light Mode Typography */
   h1, h2 {
     @apply text-slate-700;
+    line-height: 1.15;
   }
 
   h3, h4, h5, h6 {
     @apply text-slate-600;
+    line-height: 1.25;
   }
 
   /* Dark Mode Typography */
@@ -68,53 +72,111 @@ scroll-behavior: smooth;
 
   p {
     @apply text-slate-600 dark:text-slate-300;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
   }
 
-  /* Links */
+  /* Links - Enhanced */
   a {
-    @apply transition-colors duration-200;
+    @apply transition-all duration-300;
+    position: relative;
+  }
+  
+  a:hover {
+    transform: translateX(1px);
   }
 }
 
 @layer components {
-  /* Primary Button */
+  /* Primary Button - Enhanced */
   .btn-primary {
-    @apply relative font-bold py-3 px-6 rounded-xl transition-all duration-300;
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden;
+    /* Unique asymmetric border radius */
+    border-radius: 18px 24px 20px 16px;
     /* GPU acceleration for better performance */
-    will-change: transform;
-    transform: translateZ(0);
+    will-change: transform, box-shadow;
+    transform: translateZ(0) perspective(1000px) rotateX(0deg);
+    /* Subtle gradient background */
+    background: linear-gradient(135deg, #F7931A 0%, #F7931A 60%, #FFB347 100%);
+    /* Enhanced shadow with colored glow */
+    box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.3),
+                0 8px 25px -5px rgba(247, 147, 26, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
     /* Light Mode */
-    @apply bg-bitcoin text-white shadow-lg hover:bg-bitcoin-600 hover:shadow-xl;
+    @apply text-white;
     /* Dark Mode */
-    @apply dark:bg-bitcoin dark:text-white dark:hover:bg-bitcoin-600;
+    @apply dark:text-white;
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: inherit;
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px) translateZ(0);
+    transform: translateY(-3px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
+    box-shadow: 0 6px 20px -3px rgba(247, 147, 26, 0.4),
+                0 12px 35px -5px rgba(247, 147, 26, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
   }
 
   .btn-primary:active {
-    transform: translateY(0) translateZ(0);
+    transform: translateY(-1px) translateZ(0) perspective(1000px) rotateX(0deg) scale(0.98);
+    box-shadow: 0 2px 10px -3px rgba(247, 147, 26, 0.3),
+                0 4px 15px -5px rgba(247, 147, 26, 0.15),
+                inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* Secondary Button */
+  /* Secondary Button - Enhanced */
   .btn-secondary {
-    @apply font-bold py-3 px-6 rounded-xl transition-all duration-300;
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden;
+    /* Softer asymmetric border radius */
+    border-radius: 20px 16px 18px 22px;
     /* GPU acceleration */
-    will-change: transform;
+    will-change: transform, border-color, background-color;
     transform: translateZ(0);
+    /* Subtle gradient border effect */
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+    border-image-slice: 1;
     /* Light Mode */
-    @apply bg-white text-slate-600 border-2 border-slate-200 hover:border-bitcoin hover:bg-bitcoin-50;
+    @apply bg-white text-slate-600 shadow-sm;
     /* Dark Mode */
-    @apply dark:bg-slate-800 dark:border-2 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-700;
+    @apply dark:bg-slate-800 dark:text-slate-100;
+  }
+
+  .btn-secondary::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-all duration-500;
+    background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, transparent 100%);
+    border-radius: inherit;
   }
 
   .btn-secondary:hover {
-    transform: translateY(-2px) translateZ(0);
+    transform: translateY(-3px) translateZ(0) scale(1.02);
+    border-image: linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
+    border-image-slice: 1;
+    box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1),
+                0 8px 25px -5px rgba(247, 147, 26, 0.1);
+    /* Light Mode */
+    @apply bg-gradient-to-br from-bitcoin-50 to-orange-50;
+    /* Dark Mode */
+    @apply dark:bg-slate-700;
+  }
+
+  .btn-secondary:hover::before {
+    opacity: 1;
   }
 
   .btn-secondary:active {
-    transform: translateY(0) translateZ(0);
+    transform: translateY(-1px) translateZ(0) scale(0.98);
+    box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
   }
 
   /* Dark Mode Toggle Button */
@@ -134,114 +196,246 @@ scroll-behavior: smooth;
     @apply dark:bg-slate-900 dark:border-slate-800;
   }
 
-  /* Navigation Link */
+  /* Navigation Link - Enhanced */
   .nav-link {
-    @apply relative font-medium transition-all duration-300 px-1 py-2;
+    @apply relative font-medium transition-all duration-500 px-2 py-2;
     /* Light Mode */
-    @apply text-slate-600 hover:text-bitcoin;
+    @apply text-slate-600;
     /* Dark Mode */
-    @apply dark:text-slate-300 dark:hover:text-bitcoin;
+    @apply dark:text-slate-300;
+  }
+
+  .nav-link::before {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 100%);
+  }
+
+  .nav-link:hover {
+    @apply text-bitcoin dark:text-bitcoin;
+    transform: translateY(-1px);
+  }
+
+  .nav-link:hover::before {
+    @apply w-full;
   }
 
   .nav-link.active {
-    /* Light Mode */
-    @apply text-bitcoin;
-    /* Dark Mode */
-    @apply dark:text-bitcoin;
+    @apply text-bitcoin dark:text-bitcoin;
   }
 
   .nav-link.active::after {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-0.5;
-    /* Light Mode */
-    @apply bg-bitcoin;
-    /* Dark Mode */
-    @apply dark:bg-bitcoin;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background-size: 200% 100%;
+    animation: navShimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes navShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
   
-  /* Cards */
+  /* Cards - Enhanced */
   .card {
-    @apply rounded-2xl p-6 transition-all duration-300;
+    @apply relative p-5 sm:p-6 transition-all duration-500 overflow-visible;
+    /* Softer border radius for friendlier feel */
+    border-radius: 20px;
     /* GPU acceleration */
-    will-change: transform;
-    transform: translateZ(0);
-    /* Light Mode */
-    @apply bg-white border border-slate-200 shadow-sm hover:shadow-lg;
+    will-change: transform, box-shadow;
+    transform: translateZ(0) perspective(1000px) rotateX(0deg);
+    /* Subtle gradient background */
+    background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 1) 0%, 
+                rgba(255, 255, 255, 0.97) 50%,
+                rgba(248, 249, 250, 1) 100%);
+    /* Enhanced border with subtle color */
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    /* Multi-layered shadow for depth */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 8px 24px rgba(0, 0, 0, 0.03),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6);
     /* Dark Mode */
-    @apply dark:bg-slate-800 dark:border-slate-700 dark:shadow-2xl;
+    @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
+    @apply dark:border-slate-700/50;
   }
   
   /* Ensure dark mode cards override any other styles */
   .dark .card {
-    @apply bg-slate-800 border-slate-700 shadow-2xl !important;
+    background: linear-gradient(135deg, 
+                rgba(30, 41, 59, 1) 0%, 
+                rgba(30, 41, 59, 0.98) 50%,
+                rgba(15, 23, 42, 0.95) 100%) !important;
+    @apply border-slate-700/50 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500 pointer-events-none;
+    background: radial-gradient(circle at 50% 0%, rgba(247, 147, 26, 0.03) 0%, transparent 70%);
+    border-radius: inherit;
   }
 
   .card:hover {
-    transform: translateY(-2px) translateZ(0);
+    transform: translateY(-4px) translateZ(0) perspective(1000px) rotateX(1deg) scale(1.01);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02),
+                0 8px 20px rgba(0, 0, 0, 0.06),
+                0 16px 40px rgba(0, 0, 0, 0.04),
+                0 0 60px rgba(247, 147, 26, 0.02),
+                inset 0 1px 3px rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(247, 147, 26, 0.15);
   }
 
-  /* Feature Card */
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  /* Feature Card - Enhanced */
   .feature-card {
     @apply card relative overflow-hidden cursor-pointer;
     /* GPU acceleration */
-    will-change: transform;
-    transform: translateZ(0);
-    /* Light Mode */
-    @apply bg-white hover:bg-bitcoin-50 hover:border-bitcoin;
-    /* Dark Mode */
-    @apply dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-700;
+    will-change: transform, background-color;
+    transform: translateZ(0) perspective(1000px) rotateX(0deg);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .feature-card::before {
     content: '';
-    @apply absolute top-0 left-0 w-full h-1 opacity-0 transition-opacity duration-300;
-    /* Light Mode */
-    @apply bg-bitcoin;
-    /* Dark Mode */
-    @apply dark:bg-bitcoin;
+    @apply absolute top-0 left-0 w-full opacity-0 transition-all duration-500;
+    height: 3px;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite paused;
   }
 
   .feature-card:hover::before {
     @apply opacity-100;
+    animation-play-state: running;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .feature-card::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500 pointer-events-none;
+    background: radial-gradient(circle at 50% 50%, rgba(247, 147, 26, 0.05) 0%, transparent 70%);
+    border-radius: inherit;
   }
 
   .feature-card:hover {
-    transform: translateY(-4px) translateZ(0);
+    transform: translateY(-6px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
+    @apply bg-gradient-to-br from-bitcoin-50/50 to-orange-50/30;
+    @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-800;
   }
 
-  /* Icon Container */
+  .feature-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Icon Container - Enhanced */
   .icon-container {
-    @apply w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300;
+    @apply w-14 h-14 flex items-center justify-center transition-all duration-500;
+    /* Softer, more organic border radius */
+    border-radius: 18px 22px 20px 16px;
     /* GPU acceleration */
-    will-change: transform;
-    transform: translateZ(0);
-    /* Light Mode */
-    @apply bg-bitcoin-100;
+    will-change: transform, background-color;
+    transform: translateZ(0) rotate(0deg);
+    /* Subtle gradient background */
+    background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(247, 147, 26, 0.15) 100%);
+    /* Soft inner shadow for depth */
+    box-shadow: inset 0 2px 4px rgba(247, 147, 26, 0.1),
+                0 2px 8px rgba(247, 147, 26, 0.05);
     /* Dark Mode */
-    @apply dark:bg-slate-700;
+    @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-600;
   }
 
   .feature-card:hover .icon-container {
-    /* Light Mode */
-    @apply bg-bitcoin;
+    /* Smooth rotation and scale with spring effect */
+    transform: rotate(5deg) scale(1.15) translateZ(0);
+    animation: iconBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Enhanced gradient on hover */
+    background: linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
+    box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3),
+                0 8px 24px rgba(247, 147, 26, 0.15);
     /* Dark Mode */
-    @apply dark:bg-bitcoin;
-    transform: rotate(3deg) scale(1.1) translateZ(0);
+    @apply dark:bg-gradient-to-br dark:from-bitcoin dark:to-bitcoin-600;
+  }
+
+  @keyframes iconBounce {
+    0% { transform: rotate(0deg) scale(1) translateZ(0); }
+    30% { transform: rotate(-3deg) scale(1.2) translateZ(0); }
+    60% { transform: rotate(7deg) scale(1.1) translateZ(0); }
+    100% { transform: rotate(5deg) scale(1.15) translateZ(0); }
   }
 
   .feature-card:hover .icon-container svg {
     @apply text-white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   }
   
-  /* Input Field */
+  /* Input Field - Enhanced */
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl transition-all duration-200 font-medium;
+    @apply w-full px-4 py-3 transition-all duration-300 font-medium;
+    /* Softer border radius */
+    border-radius: 14px;
+    /* Subtle gradient border */
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    /* Enhanced shadow */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
     /* Light Mode */
-    @apply bg-white border-2 border-slate-200 text-slate-700 placeholder-slate-400;
-    @apply focus:outline-none focus:border-bitcoin focus:ring-4 focus:ring-bitcoin-100;
+    @apply text-slate-700 placeholder-slate-400;
     /* Dark Mode */
-    @apply dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100 dark:placeholder-slate-400;
-    @apply dark:focus:border-bitcoin dark:focus:ring-4 dark:focus:ring-bitcoin/20;
+    @apply dark:text-slate-100 dark:placeholder-slate-400;
+    /* Prevent overflow */
+    min-height: 44px;
+    max-height: 52px;
+  }
+
+  .dark .input-field {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #475569 0%, #334155 100%);
+  }
+
+  .input-field:hover {
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04),
+                inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  .dark .input-field:hover {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #64748B 0%, #475569 100%);
+  }
+
+  .input-field:focus {
+    @apply outline-none;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
+                0 2px 8px rgba(247, 147, 26, 0.05),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+  }
+
+  .dark .input-field:focus {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2),
+                0 2px 8px rgba(247, 147, 26, 0.1);
   }
 
   /* Badge */
@@ -279,17 +473,34 @@ scroll-behavior: smooth;
     @apply dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-900;
   }
 
-  /* Glass Effect */
+  /* Glass Effect - Enhanced */
   .glass {
-    /* Light Mode */
-    @apply bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl;
+    /* Enhanced glass morphism */
+    background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.8) 0%, 
+                rgba(255, 255, 255, 0.6) 100%);
+    /* Ensure content doesn't get cut off */
+    @apply overflow-visible;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
+                inset 0 1px 3px rgba(255, 255, 255, 0.7),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.02);
     /* Dark Mode */
-    @apply dark:bg-slate-800/70 dark:border-slate-700/50;
+    @apply dark:bg-gradient-to-br dark:from-slate-800/80 dark:to-slate-800/60;
+    @apply dark:border-slate-700/60;
   }
   
   /* Ensure dark mode glass override */
   .dark .glass {
-    @apply bg-slate-800/70 border-slate-700/50 !important;
+    background: linear-gradient(135deg, 
+                rgba(30, 41, 59, 0.85) 0%, 
+                rgba(30, 41, 59, 0.7) 100%) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+    @apply border-slate-700/60 !important;
   }
 
   /* Glow Effect */
@@ -395,6 +606,205 @@ scroll-behavior: smooth;
   /* Ensure all containers respect viewport width */
   * {
     box-sizing: border-box;
+  }
+
+  /* Enhanced Radio Buttons */
+  input[type="radio"] {
+    @apply appearance-none w-5 h-5 border-2 border-slate-300 rounded-full transition-all duration-300 cursor-pointer;
+    @apply dark:border-slate-600;
+  }
+
+  input[type="radio"]:hover {
+    @apply border-bitcoin scale-110;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1);
+  }
+
+  input[type="radio"]:checked {
+    @apply border-bitcoin bg-bitcoin;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.15),
+                inset 0 0 0 3px white;
+  }
+
+  input[type="radio"]:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2);
+  }
+
+  /* Enhanced Checkboxes */
+  input[type="checkbox"] {
+    @apply appearance-none w-5 h-5 border-2 border-slate-300 rounded-md transition-all duration-300 cursor-pointer;
+    @apply dark:border-slate-600;
+  }
+
+  input[type="checkbox"]:hover {
+    @apply border-bitcoin scale-110;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1);
+  }
+
+  input[type="checkbox"]:checked {
+    @apply border-bitcoin bg-bitcoin;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.15);
+  }
+
+  input[type="checkbox"]:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2);
+  }
+
+  /* Enhanced Select Dropdowns */
+  select {
+    @apply appearance-none w-full px-4 py-3 pr-10 transition-all duration-300 font-medium cursor-pointer;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-origin: border-box;
+    background-clip: padding-box, border-box, content-box;
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: auto, auto, 1.5em 1.5em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    @apply text-slate-700;
+    @apply dark:text-slate-100;
+  }
+
+  .dark select {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #475569 0%, #334155 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  }
+
+  select:hover {
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04),
+                inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  .dark select:hover {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #64748B 0%, #475569 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  }
+
+  select:focus {
+    @apply outline-none;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
+                0 2px 8px rgba(247, 147, 26, 0.05),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+  }
+
+  .dark select:focus {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2),
+                0 2px 8px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Smooth Page Transitions */
+  .page-transition {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading States */
+  .skeleton {
+    @apply animate-pulse bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200;
+    @apply dark:from-slate-700 dark:via-slate-600 dark:to-slate-700;
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Enhanced Tables */
+  table {
+    @apply w-full;
+  }
+
+  thead {
+    @apply bg-gradient-to-r from-slate-50 to-slate-100;
+    @apply dark:from-slate-800 dark:to-slate-700;
+  }
+
+  th {
+    @apply px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider;
+    @apply dark:text-slate-400;
+  }
+
+  tbody tr {
+    @apply transition-all duration-300;
+  }
+
+  tbody tr:hover {
+    @apply bg-bitcoin-50/30;
+    @apply dark:bg-bitcoin/5;
+    transform: translateX(2px);
+  }
+
+  td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-slate-900;
+    @apply dark:text-slate-100;
+  }
+
+  /* Enhanced Tooltips */
+  .tooltip {
+    @apply relative inline-block;
+  }
+
+  .tooltip .tooltip-text {
+    @apply invisible absolute z-10 px-3 py-2 text-sm text-white bg-slate-900 rounded-lg opacity-0 transition-all duration-300;
+    @apply dark:bg-slate-700;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .tooltip:hover .tooltip-text {
+    @apply visible opacity-100;
+    transform: translateX(-50%) translateY(-4px);
+  }
+
+  .tooltip .tooltip-text::after {
+    content: "";
+    @apply absolute top-full left-1/2 -ml-1 border-4 border-transparent border-t-slate-900;
+    @apply dark:border-t-slate-700;
+  }
+
+  /* Enhanced Dividers */
+  hr {
+    @apply border-0 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent;
+    @apply dark:via-slate-600;
+  }
+
+  .divider-bitcoin {
+    @apply border-0 h-px bg-gradient-to-r from-transparent via-bitcoin/30 to-transparent;
   }
 
   /* Scrollbar Styling */

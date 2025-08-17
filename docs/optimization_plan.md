@@ -4,7 +4,7 @@
 This document outlines performance optimizations for the Bitcoin Benefit application, organized by priority. Each item includes specific implementation details, file paths, and code snippets to facilitate rapid implementation by the development team.
 
 **Current Performance Baseline:**
-- Lighthouse Score: 98 (but with noticeable slowness)
+- Lighthouse Score: 84 (but with noticeable slowness)
 - Primary Issue: Chart rendering and data processing bottlenecks
 - Bundle Size: ~450KB (needs reduction)
 
@@ -12,7 +12,7 @@ This document outlines performance optimizations for the Bitcoin Benefit applica
 
 ## 🔴 CRITICAL OPTIMIZATIONS (Immediate Impact)
 
-### 1. ✅ Chart Rendering Bottlenecks [COMPLETED]
+### 1. ✅ Chart Rendering Bottlenecks
 **Status:** ✅ Completed by Performance Engineer
 **Impact:** 40% faster chart rendering, 52% faster LCP
 
@@ -30,83 +30,8 @@ This document outlines performance optimizations for the Bitcoin Benefit applica
 
 ---
 
-### 2. ✅ Replace Recharts with Lightweight Alternative
-**Priority:** Critical
-**Estimated Impact:** 150KB bundle reduction, 30% faster initial load
-**Effort:** High (8-12 hours)
 
-**Problem:**
-Recharts imports the entire D3 dependency tree (~200KB), causing significant bundle bloat.
-
-**Solution Approach:**
-Replace with Chart.js or a custom Canvas/SVG solution.
-
-**Implementation Steps:**
-
-1. **Install Chart.js and React wrapper:**
-```bash
-npm install chart.js react-chartjs-2
-```
-
-2. **Create new chart component:**
-```typescript
-// /src/components/charts/LightweightTimelineChart.tsx
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
-
-export const LightweightTimelineChart = memo(({ data, options }) => {
-  const chartData = useMemo(() => ({
-    labels: data.map(d => `Year ${d.year}`),
-    datasets: [{
-      label: 'USD Value',
-      data: data.map(d => d.usdValue),
-      borderColor: '#10b981',
-      backgroundColor: 'rgba(16, 185, 129, 0.1)',
-      tension: 0.4
-    }]
-  }), [data]);
-
-  return <Line data={chartData} options={options} />;
-});
-```
-
-3. **Update imports in these files:**
-- `/src/components/VestingTimelineChart.tsx`
-- `/src/components/VestingTimelineChartRecharts.tsx`
-- `/src/app/calculator/[plan]/CalculatorPlanClient.tsx`
-
-4. **Remove Recharts from package.json after migration**
-
-**Testing Required:**
-- Verify all chart interactions work
-- Test responsiveness on mobile
-- Ensure tooltips display correctly
-- Check animation performance
-
----
-
-### 3. ⬜ Implement Parallel Data Loading
+### 2. ⬜ Implement Parallel Data Loading
 **Priority:** Critical
 **Estimated Impact:** 500ms faster initial data load
 **Effort:** Medium (4-6 hours)
@@ -148,7 +73,7 @@ export function useParallelDataLoader() {
 
 ## 🟡 IMPORTANT OPTIMIZATIONS (Significant Impact)
 
-### 4. ⬜ Implement Service Worker for Offline Support
+### 3. ⬜ Implement Service Worker for Offline Support
 **Priority:** Important
 **Estimated Impact:** Instant load for returning users, offline capability
 **Effort:** Medium (6-8 hours)
@@ -226,7 +151,7 @@ useEffect(() => {
 
 ---
 
-### 5. ⬜ Optimize Store Updates with Selectors
+### 4. ⬜ Optimize Store Updates with Selectors
 **Priority:** Important
 **Estimated Impact:** 30% fewer re-renders
 **Effort:** Medium (4-5 hours)
@@ -292,7 +217,7 @@ const { results, isCalculating } = useCalculatorStore(selectCalculatorResults, s
 
 ---
 
-### 6. ⬜ Implement Code Splitting for Routes
+### 5. ⬜ Implement Code Splitting for Routes
 **Priority:** Important
 **Estimated Impact:** 40% smaller initial bundle
 **Effort:** Low (2-3 hours)
@@ -327,7 +252,7 @@ export const TimelineChart = dynamic(() => import('./TimelineChart'));
 
 ---
 
-### 7. ⬜ Optimize Image and Icon Loading
+### 6. ⬜ Optimize Image and Icon Loading
 **Priority:** Important
 **Estimated Impact:** 20KB reduction, better CLS
 **Effort:** Low (2-3 hours)
@@ -368,7 +293,7 @@ export const IconSprite = () => (
 
 ## 🟢 NON-ESSENTIAL OPTIMIZATIONS (Nice to Have)
 
-### 8. ⬜ Implement Request Coalescing for Bitcoin Price
+### 7. ⬜ Implement Request Coalescing for Bitcoin Price
 **Priority:** Non-Essential
 **Estimated Impact:** Reduce API calls by 60%
 **Effort:** Low (2-3 hours)
@@ -397,7 +322,7 @@ class CoalescedBitcoinAPI {
 
 ---
 
-### 9. ⬜ Add WebSocket for Real-time Price Updates
+### 8. ⬜ Add WebSocket for Real-time Price Updates
 **Priority:** Non-Essential
 **Estimated Impact:** Real-time price updates, better UX
 **Effort:** Medium (4-6 hours)
@@ -421,7 +346,7 @@ export function useBitcoinWebSocket() {
 
 ---
 
-### 10. ⬜ Implement Progressive Enhancement
+### 9. ⬜ Implement Progressive Enhancement
 **Priority:** Non-Essential
 **Estimated Impact:** Better experience on slow connections
 **Effort:** Medium (4-5 hours)
@@ -452,7 +377,7 @@ export function ProgressiveChart({ data }) {
 
 ---
 
-### 11. ⬜ Add Performance Monitoring
+### 10. ⬜ Add Performance Monitoring
 **Priority:** Non-Essential
 **Estimated Impact:** Visibility into real-world performance
 **Effort:** Low (2 hours)
@@ -478,7 +403,7 @@ export { reportWebVitals } from '@/lib/performance-monitor';
 
 ---
 
-### 12. ⬜ Optimize Font Loading
+### 11. ⬜ Optimize Font Loading
 **Priority:** Non-Essential
 **Estimated Impact:** 100ms faster text rendering
 **Effort:** Low (1 hour)
@@ -511,23 +436,6 @@ After implementing each optimization:
 - [ ] Verify mobile responsiveness
 - [ ] Check memory usage in DevTools
 
-## 🚀 Deployment Strategy
-
-1. **Phase 1 (Week 1):** Complete all Critical optimizations
-2. **Phase 2 (Week 2):** Implement Important optimizations
-3. **Phase 3 (Week 3):** Add Non-Essential improvements
-4. **Monitoring:** Track metrics for 2 weeks post-deployment
-
-## 📈 Expected Cumulative Impact
-
-| Metric | Current | After Critical | After Important | After All |
-|--------|---------|----------------|-----------------|-----------|
-| **LCP** | 2.5s | 1.2s | 0.9s | 0.8s |
-| **FID** | 120ms | 50ms | 40ms | 35ms |
-| **CLS** | 0.12 | 0.00 | 0.00 | 0.00 |
-| **Bundle Size** | 450KB | 315KB | 250KB | 220KB |
-| **Lighthouse** | 88 | 94 | 96 | 98 |
-
 ## 🛠️ Development Resources
 
 ### Testing Tools
@@ -545,22 +453,8 @@ After implementing each optimization:
 - [Sentry Performance](https://sentry.io/for/performance/)
 - [DataDog RUM](https://www.datadoghq.com/dg/real-user-monitoring/)
 
-## 👥 Team Assignments
-
-**Suggested Division of Work:**
-- **Frontend Team:** Items 2, 6, 7, 10
-- **Backend Team:** Items 3, 4, 9
-- **Full-Stack Team:** Items 5, 8, 11, 12
-
 ## 📝 Notes
 
-- Always test on real devices, not just DevTools emulation
-- Consider A/B testing major changes
+- Always test on real devices, not just DevTools emulation (Use MCP server tools to execute commands directly in terminal, open browser to check changes, and for other needs)
 - Keep accessibility in mind during optimizations
 - Document any breaking changes in the changelog
-
----
-
-**Last Updated:** August 2025
-**Document Version:** 1.0
-**Performance Engineer:** Completed initial critical optimization (Chart Rendering)

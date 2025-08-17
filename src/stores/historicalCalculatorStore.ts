@@ -297,21 +297,27 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   
   loadStaticData: async () => {
     try {
-      // Load static historical data
-      const historicalResponse = await fetch('/data/historical-bitcoin.json');
-      if (historicalResponse.ok) {
-        const historicalData = await historicalResponse.json();
+      // Load historical data and Bitcoin price in parallel
+      const [historicalResponse, staticBitcoinData] = await Promise.allSettled([
+        fetch('/data/historical-bitcoin.json'),
+        OptimizedBitcoinAPI.getStaticPrice()
+      ]);
+      
+      // Process historical data
+      if (historicalResponse.status === 'fulfilled' && historicalResponse.value.ok) {
+        const historicalData = await historicalResponse.value.json();
         set({
           historicalPrices: historicalData,
           staticDataLoaded: true,
         });
       }
       
-      // Load current Bitcoin price using optimized API
-      const staticBitcoinData = await OptimizedBitcoinAPI.getStaticPrice();
-      set({
-        currentBitcoinPrice: staticBitcoinData.price,
-      });
+      // Process Bitcoin price (already fetched in parallel)
+      if (staticBitcoinData.status === 'fulfilled' && staticBitcoinData.value) {
+        set({
+          currentBitcoinPrice: staticBitcoinData.value.price,
+        });
+      }
       
     } catch (error) {
       console.warn('Failed to load static historical data, will fetch from API:', error);

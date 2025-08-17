@@ -21,6 +21,7 @@ interface VestingTimelineChartProps {
   projectedBitcoinGrowth: number;
   currentBitcoinPrice: number;
   schemeId?: string;
+  customVestingEvents?: import('@/types/vesting').CustomVestingEvent[];
 }
 
 function formatBTC(amount: number): string {
@@ -257,7 +258,8 @@ function VestingTimelineChartRecharts({
   annualGrant,
   projectedBitcoinGrowth,
   currentBitcoinPrice,
-  schemeId
+  schemeId,
+  customVestingEvents
 }: VestingTimelineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [, setHoveredYear] = useState<number | null>(null);
@@ -690,6 +692,7 @@ function VestingTimelineChartRecharts({
         currentBitcoinPrice={currentBitcoinPrice}
         schemeId={schemeId}
         maxDisplayYears={11}
+        customVestingEvents={customVestingEvents}
       />
     </div>
   );

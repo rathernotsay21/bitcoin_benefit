@@ -39,6 +39,9 @@ interface CalculatorState {
   fetchBitcoinPrice: () => Promise<void>;
   resetCalculator: () => void;
   updateSchemeCustomization: (schemeId: string, customization: Partial<VestingScheme>) => void;
+  addCustomVestingEvent: (schemeId: string, event: import('@/types/vesting').CustomVestingEvent) => void;
+  removeCustomVestingEvent: (schemeId: string, eventId: string) => void;
+  updateCustomVestingEvent: (schemeId: string, eventId: string, updates: Partial<import('@/types/vesting').CustomVestingEvent>) => void;
   getEffectiveScheme: (scheme: VestingScheme) => VestingScheme;
   loadStaticData: () => Promise<void>;
   cleanup: () => void;
@@ -192,10 +195,15 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     }
     
     try {
-      // Load static calculations
-      const calculationsResponse = await fetch('/data/static-calculations.json');
-      if (calculationsResponse.ok) {
-        const calculationsData = await calculationsResponse.json();
+      // Load static calculations and Bitcoin price in parallel
+      const [calculationsResponse, bitcoinData] = await Promise.allSettled([
+        fetch('/data/static-calculations.json'),
+        OptimizedBitcoinAPI.getCurrentPrice()
+      ]);
+      
+      // Process static calculations
+      if (calculationsResponse.status === 'fulfilled' && calculationsResponse.value.ok) {
+        const calculationsData = await calculationsResponse.value.json();
         staticDataCache.calculations = calculationsData.calculations;
         set({
           staticCalculations: calculationsData.calculations,
@@ -207,6 +215,19 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         if (selectedScheme && calculationsData.calculations[selectedScheme.id]) {
           set({ results: calculationsData.calculations[selectedScheme.id] });
         }
+      }
+      
+      // Process Bitcoin price (already fetched in parallel)
+      if (bitcoinData.status === 'fulfilled' && bitcoinData.value) {
+        staticDataCache.bitcoinPrice = {
+          price: bitcoinData.value.price,
+          change24h: bitcoinData.value.change24h,
+          timestamp: Date.now()
+        };
+        set({
+          currentBitcoinPrice: bitcoinData.value.price,
+          bitcoinChange24h: bitcoinData.value.change24h,
+        });
       }
       
     } catch (error) {
@@ -249,6 +270,71 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
       }));
       
       // Use debounced calculation
+      debounced();
+    },
+    
+    addCustomVestingEvent: (schemeId, event) => {
+      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      
+      set((state) => {
+        const currentCustomization = state.schemeCustomizations[schemeId] || {};
+        const currentEvents = currentCustomization.customVestingEvents || [];
+        
+        return {
+          schemeCustomizations: {
+            ...state.schemeCustomizations,
+            [schemeId]: {
+              ...currentCustomization,
+              customVestingEvents: [...currentEvents, event]
+            }
+          }
+        };
+      });
+      
+      debounced();
+    },
+    
+    removeCustomVestingEvent: (schemeId, eventId) => {
+      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      
+      set((state) => {
+        const currentCustomization = state.schemeCustomizations[schemeId] || {};
+        const currentEvents = currentCustomization.customVestingEvents || [];
+        
+        return {
+          schemeCustomizations: {
+            ...state.schemeCustomizations,
+            [schemeId]: {
+              ...currentCustomization,
+              customVestingEvents: currentEvents.filter(e => e.id !== eventId)
+            }
+          }
+        };
+      });
+      
+      debounced();
+    },
+    
+    updateCustomVestingEvent: (schemeId, eventId, updates) => {
+      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      
+      set((state) => {
+        const currentCustomization = state.schemeCustomizations[schemeId] || {};
+        const currentEvents = currentCustomization.customVestingEvents || [];
+        
+        return {
+          schemeCustomizations: {
+            ...state.schemeCustomizations,
+            [schemeId]: {
+              ...currentCustomization,
+              customVestingEvents: currentEvents.map(e => 
+                e.id === eventId ? { ...e, ...updates } : e
+              )
+            }
+          }
+        };
+      });
+      
       debounced();
     },
   

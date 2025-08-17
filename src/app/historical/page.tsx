@@ -89,15 +89,18 @@ function HistoricalCalculatorContent() {
     }
   }, [searchParams, selectedScheme, setSelectedScheme]);
 
-  // Load initial data
+  // Load initial data in parallel for faster startup
   useEffect(() => {
     const initializeHistorical = async () => {
-      // Load static data first for instant display
-      await loadStaticData();
+      // Load all data in parallel for maximum speed
+      const promises = [
+        loadStaticData(),
+        fetchCurrentBitcoinPrice(),
+        fetchHistoricalData()
+      ];
       
-      // Then fetch current price and historical data in background
-      fetchCurrentBitcoinPrice();
-      fetchHistoricalData();
+      // Execute in parallel and handle errors gracefully
+      await Promise.allSettled(promises);
     };
     
     initializeHistorical();

@@ -12,6 +12,7 @@ import Footer from '@/components/Footer';
 import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
+import CustomVestingSchedule from '@/components/CustomVestingSchedule';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -54,6 +55,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     updateInputs,
     fetchBitcoinPrice,
     updateSchemeCustomization,
+    addCustomVestingEvent,
+    removeCustomVestingEvent,
+    updateCustomVestingEvent,
     getEffectiveScheme,
     loadStaticData,
   } = useCalculatorStore();
@@ -73,14 +77,17 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 });
   }, [updateInputs]);
 
-  // Load static data first, then Bitcoin price, then handle URL parameters
+  // Load all data in parallel for faster initialization
   useEffect(() => {
     const initializeCalculator = async () => {
-      // Load static data first for instant display
-      await loadStaticData();
+      // Load static data and Bitcoin price in parallel
+      const promises = [
+        loadStaticData(),
+        fetchBitcoinPrice()
+      ];
       
-      // Then fetch live Bitcoin price in background
-      fetchBitcoinPrice();
+      // Execute in parallel and handle errors gracefully
+      await Promise.allSettled(promises);
 
       // Handle URL plan parameter
       if (planId && initialScheme && !isLoaded) {
@@ -202,6 +209,15 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     />
                   </div>
                 </div>
+                
+                {/* Custom Vesting Schedule Component */}
+                <CustomVestingSchedule
+                  schemeId={selectedScheme.id}
+                  customVestingEvents={schemeCustomizations[selectedScheme.id]?.customVestingEvents || []}
+                  onAddEvent={(event) => addCustomVestingEvent(selectedScheme.id, event)}
+                  onRemoveEvent={(eventId) => removeCustomVestingEvent(selectedScheme.id, eventId)}
+                  onUpdateEvent={(eventId, updates) => updateCustomVestingEvent(selectedScheme.id, eventId, updates)}
+                />
               </div>
             )}
           </div>
@@ -280,6 +296,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
                     currentBitcoinPrice={currentBitcoinPrice}
                     schemeId={displayScheme.id}
+                    customVestingEvents={displayScheme.customVestingEvents}
                   />
                 ) : (
                 <div>
@@ -338,23 +355,50 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 <div className="mt-6">
                   <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Vesting Schedule</h4>
                   <div className="space-y-2">
-                    {displayScheme.vestingSchedule.map((milestone, index) => (
-                      <div key={index} className="flex justify-between items-center text-sm py-2 border-b border-gray-50 dark:border-slate-700">
-                        <span className="text-gray-600 dark:text-slate-300">
-                          {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
-                        </span>
-                        <span className="font-medium dark:text-slate-100">
-                          {milestone.grantPercent}% grant vested
-                        </span>
-                      </div>
-                    ))}
+                    {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
+                      // Show custom vesting events
+                      displayScheme.customVestingEvents
+                        .sort((a, b) => a.timePeriod - b.timePeriod)
+                        .map((event, index) => (
+                          <div key={event.id} className="flex justify-between items-center text-sm py-2 border-b border-gray-50 dark:border-slate-700">
+                            <span className="text-gray-600 dark:text-slate-300">
+                              {event.label}
+                            </span>
+                            <span className="font-medium dark:text-slate-100">
+                              {event.percentageVested}% vested (cumulative)
+                            </span>
+                          </div>
+                        ))
+                    ) : (
+                      // Show default vesting schedule
+                      displayScheme.vestingSchedule.map((milestone, index) => (
+                        <div key={index} className="flex justify-between items-center text-sm py-2 border-b border-gray-50 dark:border-slate-700">
+                          <span className="text-gray-600 dark:text-slate-300">
+                            {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
+                          </span>
+                          <span className="font-medium dark:text-slate-100">
+                            {milestone.grantPercent}% grant vested
+                          </span>
+                        </div>
+                      ))
+                    )}
                   </div>
                   
                   {/* Vesting Schedule Explanation */}
                   <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">Standardized Vesting Timeline:</h5>
+                    <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                      {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 
+                        ? 'Custom Vesting Timeline:'
+                        : 'Standardized Vesting Timeline:'}
+                    </h5>
                     <div className="text-sm text-blue-800 dark:text-blue-300">
-                      <p className="mb-3"><strong>All schemes follow the same vesting schedule:</strong> 50% at 5 years, 100% at 10 years</p>
+                      {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
+                        <p className="mb-3">
+                          <strong>Using custom vesting schedule</strong> with {displayScheme.customVestingEvents.length} vesting event(s)
+                        </p>
+                      ) : (
+                        <p className="mb-3"><strong>All schemes follow the same vesting schedule:</strong> 50% at 5 years, 100% at 10 years</p>
+                      )}
                       
                       {displayScheme.id === 'accelerator' && (
                         <div>

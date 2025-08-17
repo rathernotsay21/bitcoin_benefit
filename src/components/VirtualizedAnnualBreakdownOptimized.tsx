@@ -21,6 +21,7 @@ interface VirtualizedAnnualBreakdownProps {
   currentBitcoinPrice: number;
   schemeId?: string;
   maxDisplayYears?: number;
+  customVestingEvents?: import('@/types/vesting').CustomVestingEvent[];
 }
 
 // Memoized formatting functions
@@ -55,11 +56,26 @@ const Row = memo(({
     yearlyData: YearlyDataPoint[]; 
     currentYear: number;
     schemeId?: string;
+    customVestingEvents?: import('@/types/vesting').CustomVestingEvent[];
   } 
 }) => {
   const yearData = data.yearlyData[index];
-  const { currentYear, schemeId } = data;
-  const vestingPercent = yearData.year >= 10 ? 100 : yearData.year >= 5 ? 50 : 0;
+  const { currentYear, schemeId, customVestingEvents } = data;
+  
+  // Calculate vesting percent based on custom events or default schedule
+  let vestingPercent = 0;
+  if (customVestingEvents && customVestingEvents.length > 0) {
+    // Use custom vesting events
+    const yearInMonths = yearData.year * 12;
+    const applicableEvents = customVestingEvents.filter(e => e.timePeriod <= yearInMonths);
+    if (applicableEvents.length > 0) {
+      // Get the highest percentage from applicable events (cumulative vesting)
+      vestingPercent = Math.max(...applicableEvents.map(e => e.percentageVested));
+    }
+  } else {
+    // Use default 5-year/10-year vesting
+    vestingPercent = yearData.year >= 10 ? 100 : yearData.year >= 5 ? 50 : 0;
+  }
   const isCurrentYear = yearData.year === new Date().getFullYear() - currentYear + index;
   
   // Calculate growth metrics
@@ -137,14 +153,16 @@ const Row = memo(({
 Row.displayName = 'VirtualizedRow';
 
 // Main component with optimizations
-function VirtualizedAnnualBreakdownOptimized({
-  yearlyData,
-  initialGrant,
-  annualGrant,
-  currentBitcoinPrice,
-  schemeId,
-  maxDisplayYears = 11
-}: VirtualizedAnnualBreakdownProps) {
+function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownProps) {
+  const {
+    yearlyData,
+    initialGrant,
+    annualGrant,
+    currentBitcoinPrice,
+    schemeId,
+    maxDisplayYears = 11,
+    customVestingEvents
+  } = props;
   
   // Calculate total invested
   const totalInvested = useMemo(() => {
@@ -180,8 +198,9 @@ function VirtualizedAnnualBreakdownOptimized({
   const listData = useMemo(() => ({
     yearlyData,
     currentYear,
-    schemeId
-  }), [yearlyData, currentYear, schemeId]);
+    schemeId,
+    customVestingEvents: customVestingEvents
+  }), [yearlyData, currentYear, schemeId, customVestingEvents]);
 
   // Only show table if we have data
   if (!yearlyData || yearlyData.length === 0) {

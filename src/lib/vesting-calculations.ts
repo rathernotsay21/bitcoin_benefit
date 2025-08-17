@@ -14,7 +14,8 @@ export class VestingCalculator {
     // Initialize specialized calculators
     const vestingCalculator = new VestingScheduleCalculator({
       milestones: scheme.vestingSchedule,
-      bonuses: scheme.bonuses
+      bonuses: scheme.bonuses,
+      customVestingEvents: scheme.customVestingEvents
     });
     
     const growthProjector = new BitcoinGrowthProjector(
