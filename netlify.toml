@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "node scripts/verify-types.js && npm run build"
   publish = ".next"
 
 # Use Next.js runtime for proper asset serving
@@ -8,9 +8,11 @@
 
 [build.environment]
   NODE_VERSION = "20.19.4"
-  NPM_FLAGS = "--omit=dev"
+  NPM_FLAGS = ""
   NODE_OPTIONS = "--max-old-space-size=6144"
   NEXT_TELEMETRY_DISABLED = "1"
+  # Force cache refresh for react-dom types
+  NETLIFY_CACHE_BUST = "2025-08-17-types-fix"
   
 # Build settings
 [build.processing]
