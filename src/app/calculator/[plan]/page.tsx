@@ -1,5 +1,24 @@
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
-import CalculatorPlanClient from './CalculatorPlanClient';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+const CalculatorPlanClient = dynamic(
+  () => import('./CalculatorPlanClient'),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded w-1/3 mb-4"></div>
+            <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded mb-4"></div>
+            <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+);
 
 interface PageProps {
   params: { plan: string };

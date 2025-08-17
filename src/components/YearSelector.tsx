@@ -15,18 +15,24 @@ export default function YearSelector({
   selectedYear,
   onYearChange,
   minYear = 2015,
-  maxYear = new Date().getFullYear(),
+  maxYear = 2025, // Fixed value to prevent hydration mismatch
   disabled = false,
   className = ''
 }: YearSelectorProps) {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [mounted, setMounted] = useState(false);
 
   // Generate array of years from minYear to maxYear
   const years = Array.from(
     { length: maxYear - minYear + 1 },
     (_, i) => maxYear - i
   );
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Validate selected year
   useEffect(() => {
@@ -51,8 +57,21 @@ export default function YearSelector({
     }
   }, [disabled, onYearChange]);
 
+  if (!mounted) {
+    return (
+      <div className={`space-y-2 input-container ${className}`}>
+        <label className="block text-sm font-medium text-gray-700 dark:text-white">
+          Starting Year
+        </label>
+        <div className="input-field animate-pulse bg-gray-200 dark:bg-slate-700 h-12 flex items-center px-3">
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-2 input-container ${className}`}>
       <label className="block text-sm font-medium text-gray-700 dark:text-white">
         Starting Year
       </label>

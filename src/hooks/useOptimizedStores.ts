@@ -1,6 +1,19 @@
 import { useCalculatorStore } from '@/stores/calculatorStore';
 import { useHistoricalCalculatorStore } from '@/stores/historicalCalculatorStore';
-import { shallow } from 'zustand/shallow';
+import {
+  selectCalculatorInputs,
+  selectCalculatorResults,
+  selectBitcoinPrice,
+  selectStaticData,
+  selectCustomVestingSchedule,
+  selectHistoricalInputs,
+  selectHistoricalResults,
+  selectHistoricalPrices,
+  selectHistoricalStaticData,
+  selectCalculatorEssentials,
+  selectHistoricalEssentials,
+  shallow
+} from '@/stores/selectors';
 
 /**
  * Optimized hooks that use selectors to prevent unnecessary re-renders

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font optimization with font-display: swap for better performance */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2-variations'),
+       url('/fonts/inter-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Color Palette Variables */
 :root {
   /* Light Mode Palette */
@@ -383,59 +394,94 @@ scroll-behavior: smooth;
   
   /* Input Field - Enhanced */
   .input-field {
-    @apply w-full px-4 py-3 transition-all duration-300 font-medium;
+    @apply w-full px-3 py-3 transition-all duration-300 font-medium;
+    @apply border-2 border-gray-200 dark:border-slate-600;
+    @apply bg-white dark:bg-slate-800;
+    @apply text-slate-700 placeholder-slate-400;
+    @apply dark:text-slate-100 dark:placeholder-slate-400;
+    /* Ensure proper box sizing */
+    box-sizing: border-box !important;
     /* Softer border radius */
     border-radius: 14px;
-    /* Subtle gradient border */
-    border: 2px solid transparent;
-    background-image: linear-gradient(white, white),
-                      linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     /* Enhanced shadow */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
                 inset 0 1px 2px rgba(0, 0, 0, 0.02);
-    /* Light Mode */
-    @apply text-slate-700 placeholder-slate-400;
-    /* Dark Mode */
-    @apply dark:text-slate-100 dark:placeholder-slate-400;
     /* Prevent overflow */
     min-height: 44px;
     max-height: 52px;
-  }
-
-  .dark .input-field {
-    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
-                      linear-gradient(135deg, #475569 0%, #334155 100%);
+    /* Ensure it doesn't overflow container */
+    max-width: 100%;
+    width: 100%;
   }
 
   .input-field:hover {
-    background-image: linear-gradient(white, white),
-                      linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%);
+    @apply border-gray-300 dark:border-slate-500;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04),
                 inset 0 1px 2px rgba(0, 0, 0, 0.03);
   }
 
-  .dark .input-field:hover {
-    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
-                      linear-gradient(135deg, #64748B 0%, #475569 100%);
-  }
-
   .input-field:focus {
-    @apply outline-none;
-    background-image: linear-gradient(white, white),
-                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
+    @apply outline-none border-orange-500 dark:border-orange-400;
     box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
                 0 2px 8px rgba(247, 147, 26, 0.05),
                 inset 0 1px 2px rgba(0, 0, 0, 0.02);
     transform: translateY(-1px);
   }
 
-  .dark .input-field:focus {
-    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
-                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
-    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2),
-                0 2px 8px rgba(247, 147, 26, 0.1);
+  /* Fix for input field width issues */
+  .input-container {
+    @apply w-full;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .input-container .input-field {
+    @apply w-full;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box !important;
+  }
+
+  /* Historical page specific fixes */
+  .historical-config-card {
+    @apply p-4 sm:p-5;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .historical-config-card .input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .historical-config-card .input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Force proper sizing on all screen sizes */
+  .historical-config-card select.input-field,
+  .historical-config-card input.input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Simplified input field fixes */
+  .historical-config-card .input-field {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   /* Badge */

@@ -85,7 +85,7 @@ export function useParallelDataLoader({
     };
     
     loadAllData();
-  }, []); // Run once on mount
+  }, [loadStaticData, setBitcoinPrice, setHistoricalPrices, startYear, endYear, onError]);
 }
 
 // Enhanced version with request coalescing

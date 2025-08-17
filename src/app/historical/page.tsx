@@ -92,18 +92,27 @@ function HistoricalCalculatorContent() {
   // Load initial data in parallel for faster startup
   useEffect(() => {
     const initializeHistorical = async () => {
-      // Load all data in parallel for maximum speed
-      const promises = [
-        loadStaticData(),
-        fetchCurrentBitcoinPrice(),
-        fetchHistoricalData()
-      ];
-      
-      // Execute in parallel and handle errors gracefully
-      await Promise.allSettled(promises);
+      try {
+        // Load all data in parallel for maximum speed
+        const promises = [
+          loadStaticData(),
+          fetchCurrentBitcoinPrice(),
+          fetchHistoricalData()
+        ];
+        
+        // Execute in parallel and handle errors gracefully
+        await Promise.allSettled(promises);
+      } catch (error) {
+        console.warn('Failed to initialize historical data:', error);
+      }
     };
     
-    initializeHistorical();
+    // Use requestIdleCallback for better performance
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      requestIdleCallback(() => initializeHistorical());
+    } else {
+      setTimeout(initializeHistorical, 0);
+    }
   }, [fetchCurrentBitcoinPrice, fetchHistoricalData, loadStaticData]);
 
   const handleSchemeSelect = (schemeId: string) => {
@@ -123,9 +132,9 @@ function HistoricalCalculatorContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden">
 
         {/* Calculator Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
           {/* Left Panel - Configuration */}
-          <div className="lg:col-span-1 w-full min-w-0 space-y-6">
+          <div className="lg:col-span-1 w-full min-w-0 space-y-6 overflow-hidden max-w-full">
             {/* Scheme Selection */}
             <div className="card glass">
               <div className="flex items-center mb-6">
@@ -165,7 +174,7 @@ function HistoricalCalculatorContent() {
             </div>
 
             {/* Historical Configuration */}
-            <div className="card glass">
+            <div className="card glass overflow-hidden historical-config-card">
               <div className="flex items-center mb-4">
                 <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
@@ -173,14 +182,16 @@ function HistoricalCalculatorContent() {
                 </h3>
               </div>
 
-              <div className="space-y-4">
-                <YearSelector
-                  selectedYear={startingYear}
-                  onYearChange={setStartingYear}
-                  disabled={isLoadingHistoricalData}
-                />
+              <div className="space-y-4 w-full max-w-full overflow-hidden">
+                <div className="input-container">
+                  <YearSelector
+                    selectedYear={startingYear}
+                    onYearChange={setStartingYear}
+                    disabled={isLoadingHistoricalData}
+                  />
+                </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 input-container">
                   <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
                     Benefit Cost Method
                   </label>
@@ -202,7 +213,7 @@ function HistoricalCalculatorContent() {
                 {/* Grant Customization */}
                 {selectedScheme && (
                   <>
-                    <div>
+                    <div className="input-container">
                       <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Initial Grant (BTC)
                       </label>
@@ -220,7 +231,7 @@ function HistoricalCalculatorContent() {
                     </div>
 
                     {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
-                      <div>
+                      <div className="input-container">
                         <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                           Annual Grant (BTC)
                         </label>

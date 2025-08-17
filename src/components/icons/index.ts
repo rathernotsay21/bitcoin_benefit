@@ -1,3 +1,6 @@
+// Icon Sprite for optimized loading
+export { IconSprite, Icon } from './IconSprite';
+
 // Bitcoin Icons - Filled versions
 export { BitcoinIcon } from './BitcoinIcon';
 export { BitcoinCircleIcon } from './BitcoinCircleIcon';
