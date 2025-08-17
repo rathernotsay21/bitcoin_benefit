@@ -447,7 +447,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
 
   return (
     <OnChainErrorBoundary onRetry={onRetry}>
-      <div className="card">
+      <div className="card" style={{ overflow: 'visible' }}>
         <div className="mb-6">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
             Transaction Analysis Results
@@ -458,7 +458,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
           </p>
         </div>
 
-        <div className="overflow-x-auto w-full overflow-y-visible">
+        <div className="overflow-x-auto w-full" style={{ overflowY: 'visible' }}>
           <table className="min-w-full w-full">
             <thead>
               <tr className="border-b border-gray-200 dark:border-slate-700">

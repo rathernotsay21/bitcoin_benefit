@@ -152,33 +152,30 @@ scroll-behavior: smooth;
     /* GPU acceleration */
     will-change: transform, border-color, background-color;
     transform: translateZ(0);
-    /* Subtle gradient border effect */
-    border: 2px solid;
-    border-image: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
-    border-image-slice: 1;
+    /* Simple border */
+    border: 2px solid #E2E8F0;
     /* Light Mode */
     @apply bg-white text-slate-600 shadow-sm;
     /* Dark Mode */
-    @apply dark:bg-slate-800 dark:text-slate-100;
+    @apply dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600;
   }
 
   .btn-secondary::before {
     content: '';
     @apply absolute top-0 left-0 w-full h-full opacity-0 transition-all duration-500;
-    background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, transparent 100%);
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.05) 0%, transparent 100%);
     border-radius: inherit;
   }
 
   .btn-secondary:hover {
     transform: translateY(-3px) translateZ(0) scale(1.02);
-    border-image: linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
-    border-image-slice: 1;
+    border-color: #CBD5E1;
     box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1),
-                0 8px 25px -5px rgba(247, 147, 26, 0.1);
+                0 8px 25px -5px rgba(0, 0, 0, 0.05);
     /* Light Mode */
-    @apply bg-gradient-to-br from-bitcoin-50 to-orange-50;
+    @apply bg-slate-50;
     /* Dark Mode */
-    @apply dark:bg-slate-700;
+    @apply dark:bg-slate-700 dark:border-slate-600;
   }
 
   .btn-secondary:hover::before {
@@ -771,6 +768,41 @@ scroll-behavior: smooth;
     }
     to {
       opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Dropdown Animation Classes */
+  .animate-in {
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-top-2 {
+    animation-name: slideInFromTop;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-8px);
+    }
+    to {
       transform: translateY(0);
     }
   }

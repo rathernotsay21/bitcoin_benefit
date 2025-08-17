@@ -518,7 +518,8 @@ export default function TrackerPage() {
 
         <main
           id="main-content"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"
+          style={{ overflowX: 'hidden', overflowY: 'visible' }}
           role="main"
         >
           {/* Header */}
