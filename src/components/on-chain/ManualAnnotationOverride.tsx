@@ -20,6 +20,7 @@ export default function ManualAnnotationOverride({
   const [selectedValue, setSelectedValue] = useState<number | null>(transaction.grantYear);
   const [showUndoFeedback, setShowUndoFeedback] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [dropdownPosition, setDropdownPosition] = useState<'left' | 'right'>('right');
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerButtonRef = useRef<HTMLButtonElement>(null);
@@ -97,6 +98,27 @@ export default function ManualAnnotationOverride({
   }
 
   function openDropdown() {
+    // Calculate dropdown position based on available space
+    if (triggerButtonRef.current) {
+      const rect = triggerButtonRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const dropdownWidth = 224; // w-56 = 14rem = 224px
+      
+      // Check if there's enough space on the right
+      const spaceOnRight = viewportWidth - rect.right;
+      const spaceOnLeft = rect.left;
+      
+      // Position dropdown to the right if there's space, otherwise to the left
+      if (spaceOnRight >= dropdownWidth) {
+        setDropdownPosition('right');
+      } else if (spaceOnLeft >= dropdownWidth) {
+        setDropdownPosition('left');
+      } else {
+        // If neither side has enough space, prefer right and let it scroll
+        setDropdownPosition('right');
+      }
+    }
+    
     setIsOpen(true);
     // Focus the currently selected item
     const currentIndex = dropdownOptions.findIndex(opt => opt.value === selectedValue);
@@ -231,7 +253,7 @@ export default function ManualAnnotationOverride({
   }
 
   return (
-    <div className="relative inline-flex items-center gap-2" ref={dropdownRef}>
+    <div className="relative inline-flex items-center gap-2" ref={dropdownRef} style={{ zIndex: isOpen ? 60 : 'auto' }}>
       {/* Screen reader only description */}
       <span id={`override-description-${transaction.txid}`} className="sr-only">
         Manual grant year override for transaction {transaction.txid.slice(0, 8)}. 
@@ -253,8 +275,10 @@ export default function ManualAnnotationOverride({
               ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-700'
               : 'bg-gray-50 text-gray-700 border border-gray-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600'
             }
-            ${isOpen ? 'ring-2 ring-bitcoin ring-offset-2' : ''}
-            hover:bg-gray-100 dark:hover:bg-slate-700
+            ${isOpen 
+              ? 'ring-2 ring-bitcoin ring-offset-2 bg-gray-100 dark:bg-slate-700' 
+              : 'hover:bg-gray-100 dark:hover:bg-slate-700'
+            }
             disabled:opacity-50 disabled:cursor-not-allowed
           `}
           aria-expanded={isOpen}
@@ -291,7 +315,12 @@ export default function ManualAnnotationOverride({
         {/* Dropdown menu */}
         {isOpen && (
           <div 
-            className="absolute z-50 mt-1 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-600 py-1 max-h-60 overflow-y-auto"
+            className={`absolute z-[60] mt-1 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-200 dark:border-slate-600 py-1 max-h-60 overflow-y-auto ${
+              dropdownPosition === 'left' ? 'right-0' : 'left-0'
+            }`}
+            style={{ 
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' 
+            }}
             role="listbox"
             aria-labelledby={`override-description-${transaction.txid}`}
           >
@@ -314,13 +343,13 @@ export default function ManualAnnotationOverride({
                       ? 'bg-bitcoin/10 text-bitcoin dark:bg-bitcoin/20' 
                       : 'text-gray-700 dark:text-slate-300'
                     }
-                    ${isFocused && !isOccupied
+                    ${isFocused && !isOccupied && !isSelected
                       ? 'bg-gray-100 dark:bg-slate-700'
                       : ''
                     }
                     ${isOccupied
                       ? 'opacity-50 cursor-not-allowed'
-                      : 'hover:bg-gray-100 dark:hover:bg-slate-700'
+                      : !isSelected ? 'hover:bg-gray-100 dark:hover:bg-slate-700' : ''
                     }
                   `}
                   role="option"

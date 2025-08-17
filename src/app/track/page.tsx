@@ -2,37 +2,63 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useOnChainStore } from '@/stores/onChainStore';
-// Lazy load heavy components for better performance
-const VestingTrackerFormOptimized = dynamic(() => import('@/components/on-chain/VestingTrackerFormOptimized'), { ssr: false });
-const VestingTrackerResultsOptimized = dynamic(() => import('@/components/on-chain/VestingTrackerResultsOptimized'), { ssr: false });
-const OnChainTimelineVisualizer = dynamic(() => import('@/components/on-chain/OnChainTimelineVisualizer'), { ssr: false });
-const PerformanceMonitoringDashboard = dynamic(() => import('@/components/on-chain/PerformanceMonitoringDashboard'), { ssr: false });
+// Lazy load heavy components for better performance with loading states
+const VestingTrackerFormOptimized = dynamic(
+  () => import('@/components/on-chain/VestingTrackerFormOptimized'),
+  { 
+    ssr: false,
+    loading: () => <div className="animate-pulse h-96 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+  }
+);
+const VestingTrackerResultsOptimized = dynamic(
+  () => import('@/components/on-chain/VestingTrackerResultsOptimized'),
+  { 
+    ssr: false,
+    loading: () => <div className="animate-pulse h-64 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+  }
+);
+const OnChainTimelineVisualizer = dynamic(
+  () => import('@/components/on-chain/OnChainTimelineVisualizer'),
+  { 
+    ssr: false,
+    loading: () => <div className="animate-pulse h-48 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+  }
+);
+const PerformanceMonitoringDashboard = dynamic(
+  () => import('@/components/on-chain/PerformanceMonitoringDashboard'),
+  { 
+    ssr: false,
+    loading: () => <div className="animate-pulse h-32 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+  }
+);
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { 
-  OnChainErrorBoundary, 
-  TransactionFetchErrorBoundary, 
-  PriceFetchErrorBoundary, 
-  TimelineErrorBoundary 
+import {
+  OnChainErrorBoundary,
+  TransactionFetchErrorBoundary,
+  PriceFetchErrorBoundary,
+  TimelineErrorBoundary
 } from '@/components/on-chain/OnChainErrorBoundaries';
 // Optimize icon imports - only import what's used immediately
-import { 
-  ShieldCheckIcon, 
-  InformationCircleIcon, 
-  ClockIcon, 
+import {
+  ShieldCheckIcon,
+  InformationCircleIcon,
+  ClockIcon,
   CheckIcon
 } from '@heroicons/react/24/outline';
 
-// Lazy load heavy icons
-const ChartBarIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ChartBarIcon })), { ssr: false });
-const ExclamationTriangleIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ExclamationTriangleIcon })), { ssr: false });
-const MagnifyingGlassIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
-const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
-const CurrencyDollarIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CurrencyDollarIcon })), { ssr: false });
-const PencilIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.PencilIcon })), { ssr: false });
-const BanknotesIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BanknotesIcon })), { ssr: false });
-const LockClosedIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LockClosedIcon })), { ssr: false });
-const BoltIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BoltIcon })), { ssr: false });
+// Import all icons directly to avoid excessive preloading
+import {
+  ChartBarIcon,
+  ExclamationTriangleIcon,
+  MagnifyingGlassIcon,
+  CalculatorIcon,
+  CurrencyDollarIcon,
+  PencilIcon,
+  BanknotesIcon,
+  LockClosedIcon,
+  BoltIcon
+} from '@heroicons/react/24/outline';
 
 import dynamic from 'next/dynamic';
 
@@ -49,7 +75,7 @@ function PrivacyDisclaimer() {
     liveRegion.setAttribute('aria-atomic', 'true');
     liveRegion.className = 'sr-only';
     liveRegion.textContent = announcement;
-    
+
     document.body.appendChild(liveRegion);
     setTimeout(() => document.body.removeChild(liveRegion), 1000);
   };
@@ -58,7 +84,7 @@ function PrivacyDisclaimer() {
     const newExpanded = !isExpanded;
     setIsExpanded(newExpanded);
     announceToggle(newExpanded);
-    
+
     // Focus the expanded content for screen readers
     if (newExpanded && contentRef.current) {
       setTimeout(() => {
@@ -68,7 +94,7 @@ function PrivacyDisclaimer() {
   };
 
   return (
-    <div 
+    <div
       className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-8"
       role="region"
       aria-labelledby="privacy-heading"
@@ -78,13 +104,13 @@ function PrivacyDisclaimer() {
           <ShieldCheckIcon className="w-6 h-6 text-blue-500" aria-hidden="true" />
         </div>
         <div className="ml-3 flex-1">
-          <h3 
+          <h3
             id="privacy-heading"
             className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2"
           >
             Privacy & Data Usage Notice
           </h3>
-          
+
           <div className="space-y-3 text-sm text-blue-700 dark:text-blue-300">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="flex items-start">
@@ -94,7 +120,7 @@ function PrivacyDisclaimer() {
                   <p className="text-xs">Addresses are sent to public APIs to fetch transaction data.</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <ShieldCheckIcon className="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div>
@@ -114,7 +140,7 @@ function PrivacyDisclaimer() {
             </button>
 
             {isExpanded && (
-              <div 
+              <div
                 id="privacy-details"
                 ref={contentRef}
                 className="mt-4 p-4 bg-blue-100 dark:bg-blue-800/30 rounded-lg space-y-3"
@@ -131,7 +157,7 @@ function PrivacyDisclaimer() {
                     <li>No user data is logged, stored, or transmitted to our servers</li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold mb-2">External API Usage</h4>
                   <ul className="space-y-1 text-xs list-disc list-inside" role="list">
@@ -159,7 +185,10 @@ function PrivacyDisclaimer() {
 }
 
 // Loading Steps Component
-function LoadingSteps({ currentStep }: { currentStep: string }) {
+function LoadingSteps({ currentStep, pricingProgress }: {
+  currentStep: string;
+  pricingProgress?: { current: number; total: number; currentDate?: string }
+}) {
   const steps = [
     { id: 'fetching', label: 'Fetching Transactions', icon: MagnifyingGlassIcon, description: 'Fetching transaction data from blockchain...' },
     { id: 'annotating', label: 'Analyzing & Matching', icon: CalculatorIcon, description: 'Analyzing transactions and matching to vesting schedule...' },
@@ -176,7 +205,7 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
   const currentStepData = steps[currentIndex];
 
   return (
-    <div 
+    <div
       className="bg-gray-50 dark:bg-slate-800 rounded-lg p-6"
       role="status"
       aria-live="polite"
@@ -188,7 +217,7 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
           Processing Your Data
         </h3>
       </div>
-      
+
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         Currently {currentStepData?.label.toLowerCase()}. Step {currentIndex + 1} of {steps.length}.
       </div>
@@ -202,17 +231,16 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
           return (
             <div
               key={step.id}
-              className={`flex items-center p-3 rounded-lg transition-all duration-300 ${
-                isActive
-                  ? 'bg-bitcoin/10 border-2 border-bitcoin'
-                  : isCompleted
+              className={`flex items-center p-3 rounded-lg transition-all duration-300 ${isActive
+                ? 'bg-bitcoin/10 border-2 border-bitcoin'
+                : isCompleted
                   ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700'
                   : 'bg-gray-100 dark:bg-slate-700 border border-gray-200 dark:border-slate-600'
-              }`}
+                }`}
               role="listitem"
               aria-current={isActive ? 'step' : undefined}
             >
-              <div 
+              <div
                 className={`mr-3 ${isActive ? 'animate-pulse' : ''}`}
                 aria-hidden="true"
               >
@@ -223,26 +251,45 @@ function LoadingSteps({ currentStep }: { currentStep: string }) {
                 )}
               </div>
               <div className="flex-1">
-                <p className={`font-medium ${
-                  isActive
-                    ? 'text-bitcoin'
-                    : isCompleted
+                <p className={`font-medium ${isActive
+                  ? 'text-bitcoin'
+                  : isCompleted
                     ? 'text-green-700 dark:text-green-300'
                     : 'text-gray-600 dark:text-slate-400'
-                }`}>
+                  }`}>
                   {step.label}
                   <span className="sr-only">
                     {isActive ? ' (in progress)' : isCompleted ? ' (completed)' : ' (pending)'}
                   </span>
                 </p>
                 {isActive && (
-                  <p className="text-sm text-gray-600 dark:text-slate-400 mt-1">
-                    {step.description}
-                  </p>
+                  <div className="mt-1">
+                    <p className="text-sm text-gray-600 dark:text-slate-400">
+                      {step.description}
+                    </p>
+                    {step.id === 'pricing' && pricingProgress && (
+                      <div className="mt-2">
+                        <div className="flex justify-between text-xs text-gray-500 dark:text-slate-500 mb-1">
+                          <span>Fetching prices ({pricingProgress.current}/{pricingProgress.total})</span>
+                          {pricingProgress.currentDate && (
+                            <span>{pricingProgress.currentDate}</span>
+                          )}
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                          <div
+                            className="bg-bitcoin h-2 rounded-full transition-all duration-300"
+                            style={{
+                              width: `${Math.min((pricingProgress.current / pricingProgress.total) * 100, 100)}%`
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
               {isActive && (
-                <div 
+                <div
                   className="w-4 h-4 border-2 border-bitcoin border-t-transparent rounded-full animate-spin ml-2"
                   aria-hidden="true"
                 ></div>
@@ -300,19 +347,19 @@ function FeatureOverview() {
           Don't Trust. Verify.
         </h2>
         <p className="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Track and verify your vesting grants against actual transaction data. 
+          Track and verify your vesting grants against actual transaction data.
           Ensure your compensation is properly accounted for with automated matching and manual override capabilities.
         </p>
       </div>
 
-      <div 
+      <div
         className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         role="list"
         aria-label="Application features"
       >
         {features.map((feature, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className="text-center p-4 focus-within:ring-2 focus-within:ring-bitcoin focus-within:ring-offset-2 rounded-lg"
             role="listitem"
           >
@@ -347,6 +394,7 @@ export default function TrackerPage() {
     partialDataAvailable,
     lastError,
     retryCount,
+    pricingProgress,
     setFormData,
     validateAndFetch,
     updateManualAnnotation,
@@ -358,7 +406,7 @@ export default function TrackerPage() {
 
   // Track original annotations for undo functionality
   const [originalAnnotations, setOriginalAnnotations] = useState<Map<string, number | null>>(new Map());
-  
+
   // Refs for accessibility announcements
   const statusRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
@@ -405,7 +453,7 @@ export default function TrackerPage() {
     liveRegion.setAttribute('aria-atomic', 'true');
     liveRegion.className = 'sr-only';
     liveRegion.textContent = message;
-    
+
     document.body.appendChild(liveRegion);
     setTimeout(() => document.body.removeChild(liveRegion), 1000);
   };
@@ -413,10 +461,10 @@ export default function TrackerPage() {
   const handleFormSubmit = async (formData: { address: string; vestingStartDate: string; annualGrantBtc: number; totalGrants: number }) => {
     // Update form data immediately
     setFormData(formData);
-    
+
     // Announce to screen reader
     announceToScreenReader('Starting new transaction analysis');
-    
+
     // Start fresh analysis immediately (validateAndFetch will clear all previous state)
     await validateAndFetch();
   };
@@ -452,14 +500,14 @@ export default function TrackerPage() {
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
         {/* Skip links for accessibility */}
         <div className="sr-only focus:not-sr-only">
-          <a 
-            href="#main-content" 
+          <a
+            href="#main-content"
             className="fixed top-4 left-4 bg-bitcoin text-white px-4 py-2 rounded z-50 focus:outline-none focus:ring-2 focus:ring-bitcoin-light"
           >
             Skip to main content
           </a>
-          <a 
-            href="#form-section" 
+          <a
+            href="#form-section"
             className="fixed top-4 left-32 bg-bitcoin text-white px-4 py-2 rounded z-50 focus:outline-none focus:ring-2 focus:ring-bitcoin-light"
           >
             Skip to tracker form
@@ -467,8 +515,8 @@ export default function TrackerPage() {
         </div>
 
         <Navigation />
-        
-        <main 
+
+        <main
           id="main-content"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden"
           role="main"
@@ -487,19 +535,19 @@ export default function TrackerPage() {
           <PrivacyDisclaimer />
 
           {/* Status announcements for screen readers */}
-          <div 
+          <div
             ref={statusRef}
-            className="sr-only" 
-            aria-live="polite" 
+            className="sr-only"
+            aria-live="polite"
             aria-atomic="true"
             id="status-announcements"
           ></div>
 
           {/* Error announcements for screen readers */}
-          <div 
+          <div
             ref={errorRef}
-            className="sr-only" 
-            aria-live="assertive" 
+            className="sr-only"
+            aria-live="assertive"
             aria-atomic="true"
             id="error-announcements"
           ></div>
@@ -510,7 +558,7 @@ export default function TrackerPage() {
             <aside className="lg:col-span-1 w-full min-w-0" role="complementary" aria-label="Tracker configuration and status">
               <div className="sticky top-8 space-y-6">
                 {/* Input Form */}
-                <section 
+                <section
                   id="form-section"
                   className="card"
                   aria-labelledby="form-heading"
@@ -518,7 +566,7 @@ export default function TrackerPage() {
                   <h2 id="form-heading" className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                     Tracking Configuration
                   </h2>
-                  
+
                   <VestingTrackerFormOptimized
                     onSubmit={handleFormSubmit}
                   />
@@ -528,44 +576,44 @@ export default function TrackerPage() {
                 {showLoadingSteps && (
                   <section aria-labelledby="loading-heading">
                     <h2 id="loading-heading" className="sr-only">Processing Status</h2>
-                    <LoadingSteps currentStep={currentStep} />
+                    <LoadingSteps currentStep={currentStep} pricingProgress={pricingProgress} />
                   </section>
                 )}
 
                 {/* Status Summary */}
                 {hasResults && (
-                  <section 
+                  <section
                     className="card"
                     aria-labelledby="summary-heading"
                   >
                     <h3 id="summary-heading" className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                       Analysis Summary
                     </h3>
-                    
+
                     <div className="space-y-4" role="list" aria-label="Analysis statistics">
-                      <div 
+                      <div
                         className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-800 rounded-lg"
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
                           Transactions Found
                         </span>
-                        <span 
+                        <span
                           className="text-lg font-bold text-gray-900 dark:text-white"
                           aria-label={`${annotatedTransactions.length} transactions found`}
                         >
                           {annotatedTransactions.length}
                         </span>
                       </div>
-                      
-                      <div 
+
+                      <div
                         className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-green-700 dark:text-green-300">
                           Vesting Grants Matched
                         </span>
-                        <span 
+                        <span
                           className="text-lg font-bold text-green-800 dark:text-green-300"
                           aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)} vesting grants matched`}
                         >
@@ -574,14 +622,14 @@ export default function TrackerPage() {
                       </div>
 
                       {manualAnnotations.size > 0 && (
-                        <div 
+                        <div
                           className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
                           role="listitem"
                         >
                           <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
                             Manual Overrides
                           </span>
-                          <span 
+                          <span
                             className="text-lg font-bold text-blue-800 dark:text-blue-300"
                             aria-label={`${manualAnnotations.size} manual overrides applied`}
                           >
@@ -603,7 +651,7 @@ export default function TrackerPage() {
 
                 {/* Partial Data Notice */}
                 {partialDataAvailable && (
-                  <section 
+                  <section
                     className="card border-yellow-200 dark:border-yellow-800"
                     role="alert"
                     aria-labelledby="partial-data-heading"
@@ -644,7 +692,7 @@ export default function TrackerPage() {
 
                 {/* Enhanced Error Display */}
                 {error && !isLoading && !partialDataAvailable && (
-                  <section 
+                  <section
                     className="card"
                     role="alert"
                     aria-labelledby="error-heading"
@@ -659,20 +707,20 @@ export default function TrackerPage() {
                         {error.includes('Network') || error.includes('connection') || error.includes('timeout')
                           ? 'Connection Error'
                           : error.includes('Invalid') || error.includes('address') || error.includes('format')
-                          ? 'Invalid Input'
-                          : 'Analysis Error'
+                            ? 'Invalid Input'
+                            : 'Analysis Error'
                         }
                       </h3>
                       <p className="text-gray-500 dark:text-slate-400 mb-4">
                         {error}
                       </p>
-                      
+
                       {retryCount > 0 && (
                         <p className="text-sm text-gray-400 dark:text-slate-500 mb-4">
                           Retry attempt: {retryCount}
                         </p>
                       )}
-                      
+
                       <div className="flex flex-col sm:flex-row gap-2 justify-center">
                         <button
                           onClick={handleRetryWithErrorHandling}
@@ -684,7 +732,7 @@ export default function TrackerPage() {
                           </svg>
                           Try Again
                         </button>
-                        
+
                         {(error.includes('Network') || error.includes('connection') || error.includes('timeout')) && (
                           <button
                             onClick={() => window.open('https://mempool.space', '_blank')}
@@ -697,7 +745,7 @@ export default function TrackerPage() {
                             Check Mempool.space
                           </button>
                         )}
-                        
+
                         <button
                           onClick={handleReset}
                           className="btn-secondary"
@@ -712,7 +760,7 @@ export default function TrackerPage() {
             </aside>
 
             {/* Right Content - Results and Visualization */}
-            <main className="lg:col-span-2 w-full min-w-0 overflow-hidden" role="main" aria-label="Analysis results and visualization">
+            <main className="lg:col-span-2 w-full min-w-0" role="main" aria-label="Analysis results and visualization">
               {showFeatureOverview && (
                 <section aria-labelledby="features-heading">
                   <h2 id="features-heading" className="sr-only">Application Features</h2>
@@ -722,7 +770,7 @@ export default function TrackerPage() {
 
               {/* Timeline Visualization with Enhanced Error Boundaries */}
               {hasResults && !isLoading && expectedGrants.length > 0 && (
-                <section 
+                <section
                   className="card mb-8"
                   aria-labelledby="timeline-heading"
                 >
@@ -732,9 +780,9 @@ export default function TrackerPage() {
                       Vesting Timeline
                     </h3>
                   </div>
-                  
+
                   <TimelineErrorBoundary fallbackMessage="Timeline visualization encountered an error. The data table below still shows your complete transaction history.">
-                    <PriceFetchErrorBoundary 
+                    <PriceFetchErrorBoundary
                       onRetry={handleRetryWithErrorHandling}
                       allowPartialData={true}
                     >
@@ -750,7 +798,7 @@ export default function TrackerPage() {
 
               {/* Results Table with Error Boundary */}
               {(hasResults || isLoading) && (
-                <section 
+                <section
                   className="mb-8"
                   aria-labelledby="results-heading"
                 >
@@ -773,7 +821,7 @@ export default function TrackerPage() {
             </main>
           </div>
         </main>
-        
+
         {/* Footer */}
         <Footer />
       </div>

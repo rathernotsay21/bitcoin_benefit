@@ -41,12 +41,12 @@ export interface ConcurrentProcessingConfig {
  * Default configuration optimized for performance
  */
 const DEFAULT_CONFIG: ConcurrentProcessingConfig = {
-  maxConcurrentOperations: 5,
-  batchSize: 10,
+  maxConcurrentOperations: 1, // Process one at a time for price API rate limits
+  batchSize: 3, // Even smaller batches for price requests
   enableRequestBatching: true,
   enableCaching: true,
-  timeoutMs: 30000,
-  retryAttempts: 3,
+  timeoutMs: 120000, // Increased timeout for very slow rate-limited requests
+  retryAttempts: 3, // Fewer retries but longer delays
 };
 
 /**
@@ -237,14 +237,9 @@ export class ConcurrentProcessingService {
       return {};
     }
     
-    // Use concurrent batch processing for price requests
-    return await this.processInConcurrentBatches(
-      uniqueDates,
-      async (batch) => {
-        return await OnChainPriceFetcher.fetchBatchPrices(batch);
-      },
-      this.config.batchSize
-    );
+    // Use sequential processing for price requests to avoid rate limits
+    // CoinGecko has strict rate limits, so we process sequentially
+    return await OnChainPriceFetcher.fetchBatchPrices(uniqueDates);
   }
   
   /**

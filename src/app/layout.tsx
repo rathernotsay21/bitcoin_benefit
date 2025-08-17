@@ -35,7 +35,7 @@ export default function RootLayout({
         {/* Critical performance optimizations */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://api.coingecko.com" />
+        <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://mempool.space" />
         
         {/* Critical CSS - minimal for above-the-fold */}

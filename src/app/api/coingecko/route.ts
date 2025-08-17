@@ -1,5 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Simple in-memory rate limiting for server-side requests
+class ServerRateLimit {
+  private static requests: number[] = [];
+  private static readonly MAX_REQUESTS_PER_MINUTE = 10; // Match client-side limit (conservative)
+  private static readonly WINDOW_MS = 60000; // 1 minute
+
+  static async checkRateLimit(): Promise<boolean> {
+    const now = Date.now();
+    
+    // Clean up old requests
+    this.requests = this.requests.filter(time => now - time < this.WINDOW_MS);
+    
+    // Check if we're at the limit
+    if (this.requests.length >= this.MAX_REQUESTS_PER_MINUTE) {
+      return false; // Rate limited
+    }
+    
+    // Add current request
+    this.requests.push(now);
+    return true; // Allow request
+  }
+}
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const fromTimestamp = searchParams.get('from');
@@ -41,9 +64,21 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Check server-side rate limit
+  const rateLimitOk = await ServerRateLimit.checkRateLimit();
+  if (!rateLimitOk) {
+    return NextResponse.json(
+      { error: 'Server rate limit exceeded. Please wait before making another request.' },
+      { status: 429 }
+    );
+  }
+
   try {
     // Build CoinGecko API URL
     const coinGeckoUrl = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=${vsCurrency}&from=${fromTimestamp}&to=${toTimestamp}`;
+    
+    // Add a small delay to be extra conservative with CoinGecko's rate limits
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
     const response = await fetch(coinGeckoUrl, {
       headers: {

@@ -59,6 +59,7 @@ interface OnChainState {
   isLoading: boolean;
   error: string | null;
   currentStep: 'idle' | 'fetching' | 'annotating' | 'pricing' | 'complete';
+  pricingProgress?: { current: number; total: number; currentDate?: string };
   partialDataAvailable: boolean;
   lastError: OnChainTrackingError | null;
   retryCount: number;
@@ -370,7 +371,11 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
     if (uniqueDates.length > 0) {
       try {
         const historicalPrices = await errorHandler.executeWithRetry(
-          () => OnChainPriceFetcher.fetchBatchPrices(uniqueDates),
+          () => OnChainPriceFetcher.fetchBatchPrices(uniqueDates, (current, total, currentDate) => {
+            set({ 
+              pricingProgress: { current, total, currentDate }
+            });
+          }),
           {
             operation: 'price_fetch',
             step: 'fetch_historical_prices',
@@ -409,7 +414,8 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
     set({
       isLoading: false,
       currentStep: 'complete',
-      error: null
+      error: null,
+      pricingProgress: undefined
     });
   },
   
@@ -490,7 +496,8 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
       lastError: null,
       retryCount: 0,
       performanceMetrics: null,
-      lastProcessingTimeMs: 0
+      lastProcessingTimeMs: 0,
+      pricingProgress: undefined
     });
   },
   

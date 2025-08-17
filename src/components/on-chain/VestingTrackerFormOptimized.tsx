@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, memo } from 'react';
 import { useOnChainStore } from '@/stores/onChainStore';
 import { TrackerFormData, FormErrors } from '@/types/on-chain';
 import { validateField } from '@/lib/on-chain/validation';
+import { useBitcoinDataPreload } from '@/hooks/useConditionalPreload';
 
 interface VestingTrackerFormProps {
   onSubmit?: (data: TrackerFormData) => void | Promise<void>;
@@ -214,6 +215,10 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
     !hasErrors,
     [address, vestingStartDate, annualGrantBtc, totalGrants, hasErrors]
   );
+
+  // Conditionally preload bitcoin price data when form is valid and ready to submit
+  // This prevents "preload not used" warnings by only preloading when actually needed
+  useBitcoinDataPreload(isFormValid && !isLoading);
 
   const maxDate = React.useMemo(() => 
     new Date().toISOString().split('T')[0],

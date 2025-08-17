@@ -144,7 +144,10 @@ export class OptimizedBitcoinAPI {
    */
   static async getStaticPrice(): Promise<{ price: number; change24h: number }> {
     try {
-      const response = await fetch('/data/bitcoin-price.json');
+      const response = await fetch('/data/bitcoin-price.json', {
+        credentials: 'same-origin',
+        mode: 'cors'
+      });
       if (response.ok) {
         const data = await response.json();
         return { price: data.price, change24h: data.change24h };

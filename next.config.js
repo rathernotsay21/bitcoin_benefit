@@ -113,7 +113,7 @@ const nextConfig = {
     return config;
   },
   
-  // Headers for better caching and preloading
+  // Headers for better caching
   async headers() {
     return [
       {
@@ -130,20 +130,11 @@ const nextConfig = {
         ],
       },
       {
-        source: '/calculator/:path*',
+        source: '/track',
         headers: [
           {
-            key: 'Link',
-            value: '</data/bitcoin-price.json>; rel=preload; as=fetch, </data/static-calculations.json>; rel=preload; as=fetch'
-          },
-        ],
-      },
-      {
-        source: '/historical',
-        headers: [
-          {
-            key: 'Link',
-            value: '</data/historical-bitcoin.json>; rel=preload; as=fetch, </data/bitcoin-price.json>; rel=preload; as=fetch'
+            key: 'Cache-Control',
+            value: 'no-cache'
           },
         ],
       },

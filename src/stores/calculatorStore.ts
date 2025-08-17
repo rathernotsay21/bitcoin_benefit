@@ -197,7 +197,10 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     try {
       // Load static calculations and Bitcoin price in parallel
       const [calculationsResponse, bitcoinData] = await Promise.allSettled([
-        fetch('/data/static-calculations.json'),
+        fetch('/data/static-calculations.json', {
+          credentials: 'same-origin',
+          mode: 'cors'
+        }),
         OptimizedBitcoinAPI.getCurrentPrice()
       ]);
       

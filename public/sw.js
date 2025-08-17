@@ -20,18 +20,35 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Stale-while-revalidate strategy
+  // Skip chrome-extension URLs
+  if (event.request.url.startsWith('chrome-extension://')) {
+    return;
+  }
+  
+  // Skip API calls to avoid caching dynamic content
+  if (event.request.url.includes('/api/')) {
+    return;
+  }
+  
+  // Stale-while-revalidate strategy for other resources
   event.respondWith(
     caches.match(event.request)
       .then(response => {
         const fetchPromise = fetch(event.request)
           .then(networkResponse => {
-            if (networkResponse.ok && networkResponse.clone) {
-              // Clone the response before using it
+            // Only cache successful GET requests
+            if (networkResponse.ok && 
+                event.request.method === 'GET' &&
+                !event.request.url.includes('chrome-extension')) {
               const responseClone = networkResponse.clone();
               caches.open(CACHE_NAME)
                 .then(cache => cache.put(event.request, responseClone))
-                .catch(err => console.warn('Cache put failed:', err));
+                .catch(err => {
+                  // Silently fail for unsupported schemes
+                  if (!err.message.includes('chrome-extension')) {
+                    console.warn('Cache put failed:', err);
+                  }
+                });
             }
             return networkResponse;
           })

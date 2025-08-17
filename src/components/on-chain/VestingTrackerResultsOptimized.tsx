@@ -458,7 +458,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
           </p>
         </div>
 
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full overflow-y-visible">
           <table className="min-w-full w-full">
             <thead>
               <tr className="border-b border-gray-200 dark:border-slate-700">

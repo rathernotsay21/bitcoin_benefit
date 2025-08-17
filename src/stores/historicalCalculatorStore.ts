@@ -299,7 +299,10 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     try {
       // Load historical data and Bitcoin price in parallel
       const [historicalResponse, staticBitcoinData] = await Promise.allSettled([
-        fetch('/data/historical-bitcoin.json'),
+        fetch('/data/historical-bitcoin.json', {
+          credentials: 'same-origin',
+          mode: 'cors'
+        }),
         OptimizedBitcoinAPI.getStaticPrice()
       ]);
       
