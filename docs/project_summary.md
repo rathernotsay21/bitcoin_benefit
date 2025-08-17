@@ -1,141 +1,98 @@
 # Bitcoin Vesting Calculator - Project Summary
 
-## Project Overview
+## 1. Project Overview
 A comprehensive web application for employers to plan and visualize Bitcoin vesting schemes for their employees. The calculator offers multiple vesting strategies designed to incentivize employee retention while introducing them to Bitcoin as a store of value. The application features two main calculators: a "Future Calculator" for projecting potential outcomes and a "Historical Calculator" for analyzing past performance.
 
-## 🎯 Current Implementation Status
+## 2. 🎯 Current Implementation Status
 
 #### **Core Application Infrastructure**
-- **Next.js 14 with App Router**: Modern React framework with TypeScript
-- **Tailwind CSS**: Professional responsive design system with Bitcoin-themed styling
-- **Zustand State Management**: Efficient global state for both calculator functionalities
-- **Real-time Bitcoin API**: Live price integration via CoinGecko API with caching
-- **Static Site Generation**: Optimized for Netlify deployment
+- **Framework**: Next.js 14 with App Router, deployed on Netlify.
+- **Language**: TypeScript, with strict type checking.
+- **Styling**: Tailwind CSS for a professional and responsive design.
+- **State Management**: Zustand for efficient, centralized state management.
+- **Data Fetching**: Integration with CoinGecko API for live and historical Bitcoin prices, with caching and fallback mechanisms.
+- **Performance**: Heavily optimized with code splitting, static data generation, and optimized components.
 
-#### **Homepage & Navigation**
-- **Professional Landing Page**: Hero section, features overview, benefits explanation
-- **Interactive Plan Tiles**: Clickable cards that link directly to the calculator with pre-selected plans
-- **Responsive Design**: Mobile-first approach, works seamlessly on all devices
-- **SEO Optimized**: Proper meta tags, semantic HTML structure
+#### **Calculators & Features**
+- **Future Calculator**:
+  - Three pre-configured vesting schemes with customizable grant amounts.
+  - Real-time calculations and interactive charts (Recharts).
+  - URL deep linking for sharing specific plan configurations.
+- **Historical Calculator**:
+  - Analyzes scheme performance using historical data from 2015.
+  - Supports multiple cost basis methods (Average, High, Low).
+  - Detailed annual breakdown and performance metrics (Total Return, Annualized Return).
+- **Vesting Schemes**:
+  - **Pioneer (`accelerator`)**: Aggressive plan with a large upfront grant.
+  - **Stacker (`steady-builder`)**: Balanced approach with an initial grant and annual bonuses.
+  - **Builder (`slow-burn`)**: Conservative, long-term plan with annual grants over a decade.
 
-#### **Future Calculator Functionality** 
-- **Three Pre-configured Vesting Schemes**:
-  - **Pioneer**: An aggressive plan with a large upfront grant.
-  - **Stacker**: A balanced approach with an initial grant and annual bonuses.
-  - **Builder**: A long-term plan with annual grants over a decade.
-- **Custom Plan Creator**: Users can create completely custom vesting schemes
-- **Real-time Calculations**: Instant updates as parameters change
-- **Interactive Plan Selection**: Visual feedback, radio button controls
-- **URL Deep Linking**: Direct links to calculator with specific plans pre-selected
-
-#### **Historical Calculator Functionality**
-- **Historical Price Data**: Fetches real Bitcoin prices from 2015 to present.
-- **Cost Basis Methods**: Three calculation methods - Average, High, Low yearly prices.
-- **Interactive Visualization**: Recharts-based timeline showing BTC balance and USD value over time.
-- **Performance Metrics**: Total return, annualized return, and growth multiples.
-- **Annual Breakdown**: Detailed table showing grants, costs, and values by year.
-
-#### **Live Data Integration**
-- **Real-time Bitcoin Prices**: Current USD price with 24-hour change percentage
-- **API Caching**: 5-minute cache to prevent excessive API calls
-- **Fallback Handling**: Graceful degradation if API fails
-- **Loading States**: Professional UX during data fetching
-
-#### **Calculation Engine**
-- **Advanced Vesting Mathematics**: Complete timeline calculations with compound growth
-- **Multiple Parameter Support**:
-  - Employee annual ₿ contributions
-  - Number of employees
-  - Projected Bitcoin growth rates
-  - Custom vesting schedules
-  - Employer matching percentages
-  - Initial grant amounts
-  - Bonus structures
-- **Financial Projections**: USD and ₿ values over full vesting periods
-- **Summary Analytics**: Total costs, Bitcoin requirements, vesting periods
-
-#### **User Experience**
-- **Intuitive Interface**: Clean, professional design with clear information hierarchy
-- **Real-time Feedback**: Instant calculation updates as inputs change
-- **Comprehensive Scheme Details**: Full breakdown of vesting schedules and bonuses
-- **Results Display**: Multiple views of calculated data (summary cards, detailed breakdowns)
-- **Interactive Charts**: Visualizations powered by Recharts
-- **Virtualized Tables**: Efficient rendering of large datasets using react-window for optimal performance
-
-### 🔧 TECHNICAL IMPLEMENTATION
+## 3. 🔧 Technical Implementation
 
 #### **Architecture**
+The project follows a modern frontend architecture, leveraging the Next.js App Router for server-side rendering and static site generation where appropriate.
+
 ```
-src/
-├── app/                 # Next.js App Router pages
-│   ├── layout.tsx      # Root layout with SEO
-│   ├── page.tsx        # Homepage with plan tiles
-│   ├── calculator/     # Future calculator page
-│   └── historical/     # Historical calculator page
-├── components/         # Reusable React components
-│   ├── VirtualizedAnnualBreakdown.tsx # Virtualized table for large datasets
-├── hooks/              # Custom React hooks (Bitcoin price fetching)  
-├── lib/                # Core business logic
-│   ├── bitcoin-api.ts  # CoinGecko API integration
-│   ├── historical-bitcoin-api.ts # Historical CoinGecko API integration
-│   ├── vesting-calculations.ts # Mathematical calculation engine for the future calculator
-│   ├── historical-calculations.ts # Mathematical calculation engine for the historical calculator
-│   ├── vesting-schemes.ts # Pre-configured plan definitions
-│   └── utils.ts        # Utility functions
-├── stores/             # Zustand state management
-│   ├── calculatorStore.ts # Global state for the future calculator
-│   └── historicalCalculatorStore.ts # Global state for the historical calculator
-└── types/              # TypeScript definitions
-    └── vesting.ts      # Type safety for all data structures
+/
+├── public/                 # Static assets, including pre-generated JSON data
+├── scripts/                # Node.js scripts for data management and other tasks
+├── src/
+│   ├── app/                # Next.js pages and layouts
+│   ├── components/         # Reusable React components
+│   ├── lib/                # Core business logic and API clients
+│   │   ├── calculators/    # Specialized calculation modules (tax, risk, etc.)
+│   │   └── ...
+│   ├── stores/             # Zustand state management stores
+│   └── types/              # TypeScript definitions
+└── next.config.js          # Next.js configuration with webpack optimizations
 ```
 
-#### **State Management Flow**
-1. User selects vesting scheme → Zustand store updates
-2. Bitcoin price fetched → Store updated with live data  
-3. User modifies parameters → Debounced calculation trigger
-4. Calculation engine processes → Results stored and displayed
-5. Real-time UI updates → Professional user experience
+#### **State Management & Data Flow**
+- **Zustand Stores**: `calculatorStore.ts` and `historicalCalculatorStore.ts` manage the state for their respective calculators. They handle user inputs, API data, and calculation results.
+- **Data Fetching**: The `BitcoinAPI` and `HistoricalBitcoinAPI` classes in `src/lib/` are responsible for fetching data from CoinGecko. They include caching to minimize API calls.
+- **Component Interaction**: Components dispatch actions to the Zustand stores. The stores then update their state, and the components re-render with the new data. Calculations are often debounced to prevent excessive processing while the user is typing.
 
-#### **API Integration**
-- **CoinGecko Integration**: Reliable cryptocurrency price data
-- **Caching Strategy**: 5-minute cache prevents rate limiting
-- **Error Handling**: Fallback to default prices if API unavailable
-- **Type Safety**: Full TypeScript coverage for API responses
+#### **Performance & Optimization**
+The application is designed for high performance:
+- **Static Data**: `scripts/generate-static-data.js` and `scripts/update-bitcoin-data.js` are used to create static JSON files for historical prices and pre-calculated results. This reduces client-side processing and API calls.
+- **Code Splitting**: The `next.config.js` file contains extensive webpack optimizations to split code into logical chunks (e.g., for Recharts, UI libraries), which are loaded on demand.
+- **Optimized Components**: Components like `HistoricalTimelineVisualizationOptimized` are used to ensure smooth rendering of charts and data.
+- **Lazy Loading**: `next/dynamic` is used to lazy-load components that are not needed for the initial render.
 
-## 🚀 GETTING STARTED
+## 4. 🚀 Getting Started & Useful Commands
 
-### **Current Setup Commands**
+### **Setup**
 ```bash
-# Clone and setup
+# Clone the repository and navigate into it
+git clone https://github.com/yourusername/bitcoin_benefit.git
 cd bitcoin_benefit
+
+# Install dependencies
 npm install
 
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run export       # Generate static files
-npm run deploy       # Deploy to Netlify
+# Run the development server
+npm run dev
 ```
 
+### **Key Scripts**
+This project comes with a rich set of scripts defined in `package.json`:
+
+| Command                       | Description                                                                  |
+| ----------------------------- | ---------------------------------------------------------------------------- |
+| `npm run dev`                 | Starts the development server with hot-reloading.                            |
+| `npm run build`               | Creates a production-ready build of the application.                         |
+| `npm run lint`                | Lints the codebase using ESLint.                                             |
+| `npm run test`                | Runs the full test suite using Vitest.                                       |
+| `npm run test:watch`          | Runs tests in watch mode.                                                    |
+| `npm run test:coverage`       | Runs tests and generates a coverage report.                                  |
+| `npm run update-bitcoin-data` | Fetches the latest historical Bitcoin data from CoinGecko and updates static files. |
+| `npm run deploy`              | Builds and deploys the application to Netlify.                               |
+
 ### **Key Files to Understand**
-- `src/stores/calculatorStore.ts` - Global state management for the future calculator
-- `src/stores/historicalCalculatorStore.ts` - Global state management for the historical calculator
-- `src/lib/vesting-calculations.ts` - Core calculation engine for the future calculator
-- `src/lib/historical-calculations.ts` - Core calculation engine for the historical calculator
-- `src/lib/vesting-schemes.ts` - Pre-configured plans
-- `src/app/calculator/page.tsx` - Main future calculator interface
-- `src/app/historical/page.tsx` - Main historical calculator interface
-
-## Useful Commands
-
-# Regular build (fast with caching)
-npm run build
-
-# Update static historical data (monthly)
-npm run update-bitcoin-data
-
-# Update specific year
-npm run update-bitcoin-year=2024
-
-# Clear all caches (force fresh data)
-npm run clear-bitcoin-cache
+-   `src/stores/calculatorStore.ts`: Global state for the Future Calculator.
+-   `src/stores/historicalCalculatorStore.ts`: Global state for the Historical Calculator.
+-   `src/lib/vesting-calculations.ts`: Core calculation engine for the Future Calculator.
+-   `src/lib/historical-calculations.ts`: Core calculation engine for the Historical Calculator.
+-   `src/lib/vesting-schemes.ts`: Definitions for the pre-configured vesting plans.
+-   `next.config.js`: Webpack and Next.js configurations, crucial for understanding performance optimizations.
+-   `scripts/update-bitcoin-data.js`: The script for managing historical data.

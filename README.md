@@ -6,137 +6,112 @@ A comprehensive Bitcoin vesting calculator and benefits platform designed to hel
 
 Bitcoin Benefit provides employers with tools to design, visualize, and implement Bitcoin vesting schemes for employee retention and compensation. The platform offers both future projections and historical analysis capabilities, with three distinct vesting strategies tailored to different company needs and risk profiles.
 
-## Features
+## 🚀 Features
 
-### 🚀 Vesting Schemes
-- **Pioneer**: Immediate grants for early Bitcoin adopters (0.02 BTC upfront)
-- **Stacker**: Strategic yearly distributions to minimize market timing risk (0.015 BTC + 0.001 BTC/year)
-- **Builder**: Long-term retention incentive with 10-year distribution (0.002 BTC/year)
+### Vesting Schemes
+
+The platform includes three pre-configured vesting schemes, each with a unique ID and display name:
+
+- **Pioneer (`accelerator`)**: An aggressive strategy with a large, immediate grant (e.g., 0.02 BTC) to attract top talent.
+- **Stacker (`steady-builder`)**: A balanced approach combining an initial grant with annual additions to minimize market timing risk.
+- **Builder (`slow-burn`)**: A long-term incentive plan with smaller annual grants over a decade, designed for maximum employee retention.
 
 ### 📊 Interactive Tools
-- **Future Calculator**: 20-year projections with customizable growth assumptions
-- **Historical Calculator**: Analyze actual performance from 2015 onwards
-- Real-time Bitcoin price integration via CoinGecko API
-- Interactive Recharts-based timeline visualizations
-- Customizable grant parameters for all schemes
-- Multiple cost basis methods (Average, High, Low)
-- Annual breakdown tables with vesting milestones
 
-### 🎯 Key Benefits
-- Transparent vesting tracking with standardized 5/10-year schedule
-- Historical performance analysis to validate strategies
-- Employee empowerment through Bitcoin-based compensation
-- Competitive advantage in talent retention
-- Financial wellness education for teams
+- **Future Calculator**: Projects potential vesting outcomes over 20 years with customizable Bitcoin growth assumptions.
+- **Historical Calculator**: Analyzes the actual performance of vesting schemes from 2015 to the present.
+- **Real-time Data**: Integrates with the CoinGecko API for live Bitcoin prices, with caching and fallbacks.
+- **Interactive Visualizations**: Utilizes Recharts to create dynamic and responsive timeline charts.
+- **Customizable Parameters**: Allows for customization of grant amounts for all schemes.
+- **Multiple Cost Basis Methods**: Supports Average, High, and Low cost basis calculations for historical analysis.
+- **Performance Optimized**: Features include code splitting, static data generation, and optimized components for a fast user experience.
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: Zustand
-- **Charts**: Recharts for interactive visualizations
-- **API**: CoinGecko for real-time Bitcoin prices
+- **Charts**: Recharts
+- **Testing**: Vitest, React Testing Library
+- **Deployment**: Netlify
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+
+- Node.js 20.18.0+
+- npm 10.0.0+
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/bitcoin_benefit.git
-cd bitcoin_benefit
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/bitcoin_benefit.git
+    cd bitcoin_benefit
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
 ```
-src/
-├── app/                    # Next.js app router pages
-│   ├── calculator/         # Future vesting calculator
-│   ├── historical/         # Historical analysis calculator
-│   ├── learn/         # Information page
-│   └── page.tsx           # Landing page
-├── components/            # React components
-│   ├── VestingTimelineChart.tsx    # Future projections chart
-│   ├── HistoricalTimelineChart.tsx # Historical analysis chart
-│   ├── YearSelector.tsx           # Year picker component
-│   ├── ErrorBoundary.tsx          # Error handling wrapper
-│   └── AdvancedAnalyticsDashboard.tsx # Tax/Risk/Retention analysis
-├── lib/                   # Business logic
-│   ├── vesting-schemes.ts         # Scheme configurations
-│   ├── vesting-calculations.ts    # Future calculation engine
-│   ├── historical-calculations.ts # Historical calculation engine
-│   ├── bitcoin-api.ts             # Current price integration
-│   ├── historical-bitcoin-api.ts  # Historical price data
-│   └── cost-basis-calculator.ts   # Cost basis methods
-├── stores/                # State management
-│   ├── calculatorStore.ts         # Future calculator state
-│   └── historicalCalculatorStore.ts # Historical calculator state
-└── types/                 # TypeScript definitions
-    └── vesting.ts        # Comprehensive type definitions
+/
+├── public/                 # Static assets and data
+│   └── data/               # Static JSON data for prices
+├── scripts/                # Node.js scripts for maintenance
+│   ├── update-bitcoin-data.js # Updates historical data
+│   └── generate-static-data.js # Pre-build script
+├── src/
+│   ├── app/                # Next.js app router pages
+│   │   ├── calculator/     # Future vesting calculator
+│   │   ├── historical/     # Historical analysis calculator
+│   │   └── page.tsx        # Landing page
+│   ├── components/         # React components
+│   │   ├── VestingTimelineChartRecharts.tsx # Future projections chart
+│   │   └── HistoricalTimelineVisualizationOptimized.tsx # Optimized historical chart
+│   ├── lib/                # Core business logic
+│   │   ├── vesting-schemes.ts      # Scheme configurations
+│   │   ├── vesting-calculations.ts # Future calculation engine
+│   │   └── historical-calculations.ts # Historical calculation engine
+│   ├── stores/             # Zustand state management stores
+│   │   ├── calculatorStore.ts      # Future calculator state
+│   │   └── historicalCalculatorStore.ts # Historical calculator state
+│   └── types/              # TypeScript definitions
+└── package.json            # Project dependencies and scripts
 ```
 
-## Vesting Schemes
+## Available Scripts
 
-All schemes follow a standardized vesting schedule: 50% at 5 years, 100% at 10 years.
+This project includes a variety of scripts to help with development and maintenance:
 
-### Pioneer
-- **Structure**: 0.02 BTC upfront grant
-- **Philosophy**: Jump-start Bitcoin adoption with immediate commitment
-- **Best for**: Companies ready to lead in digital asset compensation
-- **Customizable**: Initial grant amount and projected growth rate
+-   `npm run dev`: Starts the development server.
+-   `npm run build`: Builds the application for production.
+-   `npm run test`: Runs all tests using Vitest.
+-   `npm run lint`: Lints the codebase.
+-   `npm run update-bitcoin-data`: Updates the static historical Bitcoin price data from the CoinGecko API.
+-   `npm run deploy`: Builds and deploys the application to Netlify.
 
-### Stacker 
-- **Structure**: 0.015 BTC initial + 0.001 BTC yearly (5 years)
-- **Philosophy**: Minimize market timing risk with strategic distributions
-- **Best for**: Conservative approaches to Bitcoin adoption
-- **Customizable**: Initial grant, annual grant, and projected growth rate
-
-### Builder
-- **Structure**: 0.002 BTC yearly for 10 years
-- **Philosophy**: Maximum retention through long-term wealth building
-- **Best for**: Companies prioritizing employee loyalty
-- **Customizable**: Annual grant amount and projected growth rate
-
+For a full list of scripts, see the `scripts` section in `package.json`.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/amazing-feature`).
+3.  Commit your changes (`git commit -m 'Add amazing feature'`).
+4.  Push to the branch (`git push origin feature/amazing-feature`).
+5.  Open a Pull Request.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Bitcoin price data provided by [CoinGecko](https://www.coingecko.com/)
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-
-## Support
-
-For support, please open an issue on GitHub or contact the maintainers.
 
 ---
 
