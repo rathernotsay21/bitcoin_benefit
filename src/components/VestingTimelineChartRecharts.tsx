@@ -58,7 +58,8 @@ const CustomTooltip = ({ active, payload, label, yearlyData }: CustomTooltipProp
     const year = Number(label);
     if (!isFinite(year) || year < 0 || year > 10) return null;
     
-    const vestingPercent = year >= 10 ? 100 : year >= 5 ? 50 : 0;
+    // Get vesting percent from payload data
+    const vestingPercent = yearlyData.find(d => d.year === year)?.vestingPercent || 0;
     
     // Find the data point for this year
     const yearData = yearlyData.find(d => d.year === year);
@@ -83,7 +84,10 @@ const CustomTooltip = ({ active, payload, label, yearlyData }: CustomTooltipProp
           <p className="font-bold text-gray-900 dark:text-white text-base">Year {year}</p>
           <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
             vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
-            vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
+            vestingPercent >= 75 ? 'bg-gradient-to-r from-lime-400 to-green-500 text-white' :
+            vestingPercent >= 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
+            vestingPercent >= 25 ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-white' :
+            vestingPercent > 0 ? 'bg-gradient-to-r from-orange-400 to-yellow-500 text-white' :
             'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
           }`}>
             {vestingPercent}% Vested
@@ -264,6 +268,33 @@ function VestingTimelineChartRecharts({
   const [isMobile, setIsMobile] = useState(false);
   const [, setHoveredYear] = useState<number | null>(null);
 
+  // Helper function to get vesting percentage for a given month
+  const getVestingPercentage = useCallback((months: number) => {
+    if (!customVestingEvents || customVestingEvents.length === 0) {
+      // Fallback to default vesting schedule
+      if (months >= 120) return 100;
+      if (months >= 60) return 50;
+      return 0;
+    }
+    
+    // Find the highest vesting percentage that has been reached
+    const sortedEvents = [...customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
+    for (let i = sortedEvents.length - 1; i >= 0; i--) {
+      if (months >= sortedEvents[i].timePeriod) {
+        return sortedEvents[i].percentageVested;
+      }
+    }
+    return 0;
+  }, [customVestingEvents]);
+
+  // Get vesting milestone years from custom events
+  const vestingMilestoneYears = useMemo(() => {
+    if (!customVestingEvents || customVestingEvents.length === 0) {
+      return [5, 10]; // Default milestones
+    }
+    return customVestingEvents.map(event => Math.floor(event.timePeriod / 12));
+  }, [customVestingEvents]);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -339,12 +370,16 @@ function VestingTimelineChartRecharts({
         const bitcoinPrice = (isFinite(point.bitcoinPrice) && point.bitcoinPrice > 0) ? point.bitcoinPrice : currentBitcoinPrice;
         const usdValue = btcBalance * bitcoinPrice;
         
+        // Calculate vesting percentage for this year
+        const vestingPercent = getVestingPercentage(year * 12);
+        
         return {
           year,
           btcBalance,
           usdValue: isFinite(usdValue) ? usdValue : 0,
           bitcoinPrice,
           vestedAmount: isFinite(point.vestedAmount) ? point.vestedAmount : 0,
+          vestingPercent,
           grantSize: isFinite(grantSize) ? grantSize : 0,
           grantCost: isFinite(grantCost) ? grantCost : 0,
           isInitialGrant
@@ -352,7 +387,7 @@ function VestingTimelineChartRecharts({
       });
       
     return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice]);
+  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage]);
 
   // Calculate cost basis based on scheme - all at current price (what employer actually pays)
   const costBasis = useMemo(() => {
@@ -491,14 +526,27 @@ function VestingTimelineChartRecharts({
               <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(annualGrant)} per year</span>
             </span>
           )}
-          <span className="flex items-center gap-1">
-            <span className="font-medium">• 50% vests:</span>
-            <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 5}</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="font-medium">• 100% vests:</span>
-            <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 10}</span>
-          </span>
+          {customVestingEvents && customVestingEvents.length > 0 ? (
+            customVestingEvents.slice(0, 2).map((event, index) => (
+              <span key={event.id} className="flex items-center gap-1">
+                <span className="font-medium">• {event.percentageVested}% vests:</span>
+                <span className="text-gray-600 dark:text-gray-400 font-bold">
+                  {event.timePeriod < 12 ? event.label : currentYear + Math.floor(event.timePeriod / 12)}
+                </span>
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="flex items-center gap-1">
+                <span className="font-medium">• 50% vests:</span>
+                <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 5}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="font-medium">• 100% vests:</span>
+                <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 10}</span>
+              </span>
+            </>
+          )}
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-1">
           <span className="flex items-center gap-1">
@@ -572,7 +620,7 @@ function VestingTimelineChartRecharts({
               tickLine={false}
               tick={(props: any) => {
                 const { x, y, payload } = props;
-                const isVestingMilestone = payload.value === 5 || payload.value === 10;
+                const isVestingMilestone = vestingMilestoneYears.includes(payload.value);
                 
                 // Don't render label for year 0 - return empty group instead of null
                 if (payload.value === 0) {

@@ -12,7 +12,7 @@ import Footer from '@/components/Footer';
 import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
-import CustomVestingSchedule from '@/components/CustomVestingSchedule';
+import VestingPresets from '@/components/VestingPresets';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -41,6 +41,7 @@ function formatUSD(amount: number): string {
 
 function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>('recruit'); // Default to Recruit
 
   const {
     selectedScheme,
@@ -77,6 +78,24 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 });
   }, [updateInputs]);
 
+  // Helper to set default vesting preset
+  const applyDefaultVestingPreset = useCallback((schemeId: string) => {
+    // Define default Recruit preset events
+    const recruitEvents = [
+      { id: `recruit-1-${Date.now()}`, timePeriod: 3, percentageVested: 5, label: '90 Days' },
+      { id: `recruit-2-${Date.now()}`, timePeriod: 12, percentageVested: 20, label: 'Year 1' },
+      { id: `recruit-3-${Date.now()}`, timePeriod: 24, percentageVested: 40, label: 'Year 2' },
+      { id: `recruit-4-${Date.now()}`, timePeriod: 36, percentageVested: 60, label: 'Year 3' },
+      { id: `recruit-5-${Date.now()}`, timePeriod: 48, percentageVested: 100, label: 'Year 4' },
+    ];
+    
+    // Clear any existing custom events and apply Recruit preset
+    const currentEvents = schemeCustomizations[schemeId]?.customVestingEvents || [];
+    currentEvents.forEach(event => removeCustomVestingEvent(schemeId, event.id));
+    recruitEvents.forEach(event => addCustomVestingEvent(schemeId, event));
+    setSelectedVestingPreset('recruit');
+  }, [schemeCustomizations, removeCustomVestingEvent, addCustomVestingEvent]);
+
   // Load all data in parallel for faster initialization
   useEffect(() => {
     const initializeCalculator = async () => {
@@ -92,21 +111,25 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
       // Handle URL plan parameter
       if (planId && initialScheme && !isLoaded) {
         setSelectedScheme(initialScheme);
+        // Apply default Recruit preset
+        applyDefaultVestingPreset(initialScheme.id);
         setIsLoaded(true);
       }
     };
 
     initializeCalculator();
-  }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData]);
+  }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData, applyDefaultVestingPreset]);
 
   const handleSchemeSelect = useCallback((schemeId: string) => {
     const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
     if (scheme) {
       setSelectedScheme(scheme);
+      // Apply default Recruit preset for new scheme
+      applyDefaultVestingPreset(scheme.id);
       // Update URL without page reload
       window.history.replaceState(null, '', `/calculator/${schemeId}`);
     }
-  }, [setSelectedScheme]);
+  }, [setSelectedScheme, applyDefaultVestingPreset]);
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
   const maxVestingMonths = displayScheme ? Math.max(...displayScheme.vestingSchedule.map(m => m.months)) : 0;
@@ -210,13 +233,17 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   </div>
                 </div>
                 
-                {/* Custom Vesting Schedule Component */}
-                <CustomVestingSchedule
+                {/* Vesting Presets Component */}
+                <VestingPresets
                   schemeId={selectedScheme.id}
-                  customVestingEvents={schemeCustomizations[selectedScheme.id]?.customVestingEvents || []}
-                  onAddEvent={(event) => addCustomVestingEvent(selectedScheme.id, event)}
-                  onRemoveEvent={(eventId) => removeCustomVestingEvent(selectedScheme.id, eventId)}
-                  onUpdateEvent={(eventId, updates) => updateCustomVestingEvent(selectedScheme.id, eventId, updates)}
+                  selectedPreset={selectedVestingPreset}
+                  onPresetSelect={(presetId, events) => {
+                    setSelectedVestingPreset(presetId);
+                    // Clear existing custom events and add new ones
+                    const currentEvents = schemeCustomizations[selectedScheme.id]?.customVestingEvents || [];
+                    currentEvents.forEach(event => removeCustomVestingEvent(selectedScheme.id, event.id));
+                    events.forEach(event => addCustomVestingEvent(selectedScheme.id, event));
+                  }}
                 />
               </div>
             )}
