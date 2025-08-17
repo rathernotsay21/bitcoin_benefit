@@ -392,7 +392,12 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                               {event.label}
                             </span>
                             <span className="font-medium dark:text-slate-100">
-                              {event.percentageVested}% vested (cumulative)
+                              {(() => {
+                                const events = displayScheme.customVestingEvents?.sort((a, b) => a.timePeriod - b.timePeriod) || [];
+                                const currentIndex = events.findIndex(e => e.id === event.id);
+                                const incrementalPercent = currentIndex === 0 ? event.percentageVested : event.percentageVested - events[currentIndex - 1].percentageVested;
+                                return `+${incrementalPercent}% → ${event.percentageVested}% total`;
+                              })()}
                             </span>
                           </div>
                         ))

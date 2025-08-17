@@ -99,10 +99,7 @@ export default function VestingPresets({
                   {event.label}
                 </span>
                 <span className="font-medium text-blue-900 dark:text-blue-200">
-                  {index === 0 ? event.percentageVested : event.percentageVested - VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events[index - 1].percentageVested}% vested
-                  <span className="text-xs ml-2 text-blue-600 dark:text-blue-400">
-                    (cumulative: {event.percentageVested}%)
-                  </span>
+                  +{index === 0 ? event.percentageVested : event.percentageVested - VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events[index - 1].percentageVested}% → {event.percentageVested}% total
                 </span>
               </div>
             ))}
