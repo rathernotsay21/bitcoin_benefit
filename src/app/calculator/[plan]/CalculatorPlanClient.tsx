@@ -387,11 +387,11 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       displayScheme.customVestingEvents
                         .sort((a, b) => a.timePeriod - b.timePeriod)
                         .map((event, index) => (
-                          <div key={event.id} className="flex justify-between items-center text-sm py-2 border-b border-gray-50 dark:border-slate-700">
-                            <span className="text-gray-600 dark:text-slate-300">
+                          <div key={event.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
+                            <span className="text-gray-600 dark:text-slate-300 font-medium">
                               {event.label}
                             </span>
-                            <span className="font-medium dark:text-slate-100">
+                            <span className="font-bold text-base sm:text-sm dark:text-slate-100 text-right sm:text-left">
                               {(() => {
                                 const events = displayScheme.customVestingEvents?.sort((a, b) => a.timePeriod - b.timePeriod) || [];
                                 const currentIndex = events.findIndex(e => e.id === event.id);
@@ -404,11 +404,11 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     ) : (
                       // Show default vesting schedule
                       displayScheme.vestingSchedule.map((milestone, index) => (
-                        <div key={index} className="flex justify-between items-center text-sm py-2 border-b border-gray-50 dark:border-slate-700">
-                          <span className="text-gray-600 dark:text-slate-300">
+                        <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
+                          <span className="text-gray-600 dark:text-slate-300 font-medium">
                             {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
                           </span>
-                          <span className="font-medium dark:text-slate-100">
+                          <span className="font-bold text-base sm:text-sm dark:text-slate-100 text-right sm:text-left">
                             {milestone.grantPercent}% grant vested
                           </span>
                         </div>

@@ -228,7 +228,7 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
           {/* Desktop-only headers */}
           <div className="hidden lg:block flex-none w-28">Grant</div>
           <div className="hidden lg:block flex-none w-24">BTC Price</div>
-          <div className="hidden lg:block flex-none w-20">YoY Growth</div>
+          <div className="hidden lg:block flex-none w-20">Growth</div>
         </div>
 
         {/* Table Body - Virtualized for performance */}

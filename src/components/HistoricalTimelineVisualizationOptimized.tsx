@@ -323,15 +323,15 @@ function HistoricalTimelineVisualizationOptimized({
                 return (
                   <div
                     key={yearData.year}
-                    className={`relative flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border-2 cursor-pointer transition-all ${
+                    className={`relative flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border-2 cursor-pointer transition-all min-h-[120px] ${
                       isSelected
                         ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
                         : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md'
                     }`}
                     onClick={() => handleYearClick(yearData.year)}
                   >
-                    <div className="flex-shrink-0 relative">
-                      <div className={`w-10 h-10 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                    <div className="flex-shrink-0 relative self-start sm:self-center">
+                      <div className={`w-12 h-12 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
                         yearData.isCurrent
                           ? 'bg-gradient-to-br from-blue-400 to-blue-600 border-blue-600 shadow-md'
                           : yearData.isVestingMilestone && yearData.vestingPercent === 100
@@ -342,18 +342,18 @@ function HistoricalTimelineVisualizationOptimized({
                           ? 'bg-gradient-to-br from-bitcoin to-bitcoin-600 border-bitcoin-600 shadow-md'
                           : 'bg-gradient-to-br from-gray-300 to-gray-400 border-gray-400 shadow-sm'
                       }`}>
-                        {yearData.hasGrants && <SatoshiIcon className="w-5 h-5 text-white" />}
+                        {yearData.hasGrants && <SatoshiIcon className="w-6 h-6 sm:w-5 sm:h-5 text-white" />}
                       </div>
                       {yearData.hasGrants && (
                         <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full border-2 border-white animate-pulse"></div>
                       )}
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">{yearData.year}</h4>
+                    <div className="flex-1 min-w-0 w-full">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                        <h4 className="text-xl sm:text-lg font-bold text-gray-900 dark:text-white">{yearData.year}</h4>
                         {yearData.vestingPercent > 0 && (
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-md ${
+                          <span className={`self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold shadow-md whitespace-nowrap ${
                             yearData.vestingPercent === 100
                               ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
                               : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
@@ -363,23 +363,29 @@ function HistoricalTimelineVisualizationOptimized({
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2">
-                          <div className="text-gray-600 dark:text-white/80 text-xs">BTC Balance</div>
-                          <div className="font-bold text-bitcoin dark:text-bitcoin">{formatBTC(yearData.btcBalance)}</div>
-                        </div>
-                        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2">
-                          <div className="text-gray-600 dark:text-white/80 text-xs">
-                            {yearData.historicalValue > 0 ? 'Historical Value' : 'Current Value'}
+                      <div className="space-y-3 text-sm">
+                        <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
+                          <div>
+                            <div className="text-gray-600 dark:text-white/80 text-xs font-medium">BTC Balance</div>
+                            <div className="font-bold text-bitcoin dark:text-bitcoin text-base">{formatBTC(yearData.btcBalance)}</div>
                           </div>
-                          <div className="font-bold text-green-600 dark:text-green-400">
-                            {formatUSDCompact(yearData.historicalValue > 0 ? yearData.historicalValue : yearData.usdValue)}
+                        </div>
+                        <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
+                          <div>
+                            <div className="text-gray-600 dark:text-white/80 text-xs font-medium">
+                              {yearData.historicalValue > 0 ? 'Historical Value' : 'Current Value'}
+                            </div>
+                            <div className="font-bold text-green-600 dark:text-green-400 text-base">
+                              {formatUSDCompact(yearData.historicalValue > 0 ? yearData.historicalValue : yearData.usdValue)}
+                            </div>
                           </div>
                         </div>
                         {yearData.grantCost > 0 && (
-                          <div className="col-span-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2">
-                            <div className="text-gray-600 dark:text-white/80 text-xs">Grant Cost</div>
-                            <div className="font-bold text-orange-600 dark:text-orange-400">{formatUSDCompact(yearData.grantCost)}</div>
+                          <div className="flex items-center justify-between bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3">
+                            <div>
+                              <div className="text-gray-600 dark:text-white/80 text-xs font-medium">Grant Cost</div>
+                              <div className="font-bold text-orange-600 dark:text-orange-400 text-base">{formatUSDCompact(yearData.grantCost)}</div>
+                            </div>
                           </div>
                         )}
                       </div>

@@ -344,7 +344,7 @@ function HistoricalCalculatorContent() {
                           <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden md:table-cell">BTC Price</th>
                           <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden lg:table-cell">Historical USD</th>
                           <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Current USD</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Status</th>
+                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Vesting</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
@@ -443,7 +443,7 @@ function HistoricalCalculatorContent() {
                                     vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800' :
                                     'bg-gray-100 text-gray-800'
                                   }`}>
-                                    {vestingPercent}% Vested
+                                    {vestingPercent}%
                                   </span>
                                 </td>
                               </tr>
