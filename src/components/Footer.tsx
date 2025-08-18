@@ -44,7 +44,7 @@ export default function Footer() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/calculator"
-                className="bg-white dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-orange-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2"
+                className="bg-offWhite dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-bitcoin-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <CalculatorIcon className="w-5 h-5" />
                 <span>Calculate Your ROI</span>

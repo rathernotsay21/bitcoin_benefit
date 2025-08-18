@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Benefit - Color Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #F4F6F8; /* Light Grey background */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: #1E2A3A; /* Deep Slate Blue text */
+        }
+        
+        h1 {
+            color: #1E2A3A;
+            margin-bottom: 30px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .color-card {
+            background: #FAFAFA; /* Off-White for cards */
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .color-swatch {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .bitcoin-orange {
+            background-color: #F7931A;
+        }
+        
+        .deep-slate {
+            background-color: #1E2A3A;
+        }
+        
+        .light-grey {
+            background-color: #F4F6F8;
+            color: #1E2A3A;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .off-white {
+            background-color: #FAFAFA;
+            color: #1E2A3A;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .hex {
+            color: #666;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .usage {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .test-section {
+            margin: 40px 0;
+        }
+        
+        .button-primary {
+            background: #F7931A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .button-primary:hover {
+            background: #DE8417;
+            transform: translateY(-2px);
+        }
+        
+        .button-secondary {
+            background: #FAFAFA;
+            color: #1E2A3A;
+            border: 2px solid #E2E8F0;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .button-secondary:hover {
+            border-color: #F7931A;
+        }
+        
+        .navbar {
+            background: #FAFAFA;
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .wrong-colors {
+            background: white;
+        }
+        
+        .wrong-colors .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .correct-colors {
+            background: #F4F6F8;
+        }
+        
+        .correct-colors .card {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .warning {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .success {
+            background: #F0FDF4;
+            border: 1px solid #86EFAC;
+            color: #166534;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bitcoin Benefit - Color Palette Test</h1>
+        
+        <div class="success">
+            ✅ This page shows the CORRECT colors. Your site should look like this!
+        </div>
+        
+        <div class="color-grid">
+            <div class="color-card">
+                <div class="color-swatch bitcoin-orange">#F7931A</div>
+                <div class="label">Bitcoin Orange</div>
+                <div class="hex">#F7931A</div>
+                <div class="usage">Primary buttons, accents, links</div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-swatch deep-slate">#1E2A3A</div>
+                <div class="label">Deep Slate Blue</div>
+                <div class="hex">#1E2A3A</div>
+                <div class="usage">All text, headings</div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-swatch light-grey">#F4F6F8</div>
+                <div class="label">Light Grey</div>
+                <div class="hex">#F4F6F8</div>
+                <div class="usage">Page background</div>
+            </div>
+            
+            <div class="color-card">
+                <div class="color-swatch off-white">#FAFAFA</div>
+                <div class="label">Off-White</div>
+                <div class="hex">#FAFAFA</div>
+                <div class="usage">Cards, nav bar, secondary buttons</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Component Examples</h2>
+            
+            <div class="navbar">
+                <div>Navigation Bar (Should be Off-White #FAFAFA)</div>
+                <div>
+                    <button class="button-primary">Buy Bitcoin</button>
+                </div>
+            </div>
+            
+            <div class="color-card">
+                <h3>Sample Card</h3>
+                <p>This card should have an off-white background (#FAFAFA), not pure white. The text should be deep slate blue (#1E2A3A).</p>
+                <div style="margin-top: 20px;">
+                    <button class="button-primary">Primary Button</button>
+                    <button class="button-secondary">Secondary Button</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison">
+            <div>
+                <h3>❌ WRONG (What you might be seeing)</h3>
+                <div class="wrong-colors" style="padding: 20px; border-radius: 8px;">
+                    <div class="card">
+                        <strong>White Background</strong><br>
+                        Pure white cards (#FFFFFF)
+                    </div>
+                    <div class="card">
+                        <strong>White Page</strong><br>
+                        No background color
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3>✅ CORRECT (What it should look like)</h3>
+                <div class="correct-colors" style="padding: 20px; border-radius: 8px;">
+                    <div class="card">
+                        <strong>Light Grey Background</strong><br>
+                        Off-white cards (#FAFAFA)
+                    </div>
+                    <div class="card">
+                        <strong>Subtle Contrast</strong><br>
+                        Comfortable to read
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning">
+            ⚠️ If your site doesn't match these colors, the CSS isn't loading properly. Follow the steps in STYLE_FIX_GUIDE.md
+        </div>
+        
+        <div class="test-section">
+            <h2>Quick Test Checklist</h2>
+            <ul>
+                <li>☐ Page background is light grey, not white</li>
+                <li>☐ Cards are off-white, not pure white</li>
+                <li>☐ Navigation bar is off-white</li>
+                <li>☐ All text is deep slate blue</li>
+                <li>☐ Buttons are Bitcoin orange</li>
+                <li>☐ No harsh white anywhere</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

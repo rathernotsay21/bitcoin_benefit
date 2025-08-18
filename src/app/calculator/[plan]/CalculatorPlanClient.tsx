@@ -145,6 +145,32 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Panel - Scheme Selection */}
           <div className="lg:col-span-1 w-full min-w-0">
+            {/* Bitcoin Price Banner */}
+            <div className="card mb-6 bg-gradient-to-r from-bitcoin/10 to-yellow-500/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <SatoshiIcon className="w-8 h-8 text-bitcoin mr-3" />
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+                      {formatUSD(currentBitcoinPrice)}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">
+                      Current Bitcoin Price
+                      {isLoadingPrice && <span className="ml-2 animate-pulse">Updating...</span>}
+                    </div>
+                  </div>
+                </div>
+                {bitcoinChange24h !== 0 && bitcoinChange24h != null && (
+                  <div className={`text-right ${bitcoinChange24h > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <div className="text-lg font-semibold">
+                      {bitcoinChange24h > 0 ? '+' : ''}{bitcoinChange24h.toFixed(2)}%
+                    </div>
+                    <div className="text-sm">24h Change</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="card glass">
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
@@ -188,7 +214,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 <div className="flex items-center mb-4">
                   <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                   <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                    Customize Your Scheme
+                    Customize Your Strategy
                   </h3>
                 </div>
 
@@ -252,32 +278,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
           {/* Right Panel - Results */}
           <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
-            {/* Bitcoin Price Banner */}
-            <div className="card mb-6 bg-gradient-to-r from-bitcoin/10 to-yellow-500/10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <SatoshiIcon className="w-8 h-8 text-bitcoin mr-3" />
-                  <div>
-                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                      {formatUSD(currentBitcoinPrice)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">
-                      Current Bitcoin Price
-                      {isLoadingPrice && <span className="ml-2 animate-pulse">Updating...</span>}
-                    </div>
-                  </div>
-                </div>
-                {bitcoinChange24h !== 0 && bitcoinChange24h != null && (
-                  <div className={`text-right ${bitcoinChange24h > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    <div className="text-lg font-semibold">
-                      {bitcoinChange24h > 0 ? '+' : ''}{bitcoinChange24h.toFixed(2)}%
-                    </div>
-                    <div className="text-sm">24h Change</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
             {/* Metric Cards Carousel */}
             <CalculatorErrorBoundary>
               <MetricCards

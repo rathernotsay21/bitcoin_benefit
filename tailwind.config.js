@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // New color palette based on Bitcoin Orange #F7931A
+        // Refined color palette for consistency
         bitcoin: {
           DEFAULT: '#F7931A',     // Primary Bitcoin Orange
           50: '#FFF4E0',          // Lightest
@@ -22,6 +22,15 @@ module.exports = {
           700: '#C47014',
           800: '#A05C11',
           900: '#7D480E',
+        },
+        deepSlate: {
+          DEFAULT: '#1E2A3A',     // Deep Slate Blue for text
+        },
+        lightGrey: {
+          DEFAULT: '#F4F6F8',     // Light Grey for site background  
+        },
+        offWhite: {
+          DEFAULT: '#FAFAFA',      // Off-White for cards/buttons
         },
         slate: {
           DEFAULT: '#2D3748',     // Dark Slate
@@ -50,9 +59,9 @@ module.exports = {
           900: '#00295C',
         },
         neutral: {
-          DEFAULT: '#F8F9FA',     // Off-White
-          50: '#FAFBFC',
-          100: '#F8F9FA',         // Main Off-White
+          DEFAULT: '#FAFAFA',     // Off-White
+          50: '#FAFAFA',          // Off-White for cards
+          100: '#F4F6F8',         // Light Grey background
           200: '#F1F3F5',
           300: '#E9ECEF',
           400: '#DEE2E6',

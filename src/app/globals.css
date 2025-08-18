@@ -17,10 +17,11 @@
 :root {
   /* Light Mode Palette */
   --primary-bitcoin: #F7931A;
-  --secondary-slate: #2D3748;
+  --text-dark: #1E2A3A;
+  --bg-light-grey: #F4F6F8;
+  --bg-off-white: #FAFAFA;
   --accent-blue: #1A7EF7;
-  --neutral-bg: #F8F9FA;
-  --neutral-text: #4A5568;
+  --neutral-text: #1E2A3A;
   --border-light: #E2E8F0;
 }
 
@@ -46,7 +47,9 @@ scroll-behavior: smooth;
   
   /* Light Mode Body */
   body {
-    @apply text-slate-700 antialiased bg-neutral-100 transition-colors duration-300;
+    @apply antialiased transition-colors duration-300;
+    background-color: #F4F6F8;
+    color: #1E2A3A;
   }
 
   /* Dark Mode Body - Professional Dark Background */
@@ -67,12 +70,12 @@ scroll-behavior: smooth;
 
   /* Light Mode Typography */
   h1, h2 {
-    @apply text-slate-700;
+    color: #1E2A3A;
     line-height: 1.15;
   }
 
   h3, h4, h5, h6 {
-    @apply text-slate-600;
+    color: #1E2A3A;
     line-height: 1.25;
   }
 
@@ -82,7 +85,8 @@ scroll-behavior: smooth;
   }
 
   p {
-    @apply text-slate-600 dark:text-slate-300;
+    color: #1E2A3A;
+    @apply dark:text-slate-300;
     line-height: 1.7;
     letter-spacing: 0.01em;
   }
@@ -154,8 +158,10 @@ scroll-behavior: smooth;
     transform: translateZ(0);
     /* Simple border */
     border: 2px solid #E2E8F0;
-    /* Light Mode */
-    @apply bg-white text-slate-600 shadow-sm;
+    /* Light Mode - Off-White background */
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply shadow-sm;
     /* Dark Mode */
     @apply dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600;
   }
@@ -169,11 +175,11 @@ scroll-behavior: smooth;
 
   .btn-secondary:hover {
     transform: translateY(-3px) translateZ(0) scale(1.02);
-    border-color: #CBD5E1;
-    box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1),
-                0 8px 25px -5px rgba(0, 0, 0, 0.05);
-    /* Light Mode */
-    @apply bg-slate-50;
+    border-color: #F7931A;
+    box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.15),
+                0 8px 25px -5px rgba(247, 147, 26, 0.08);
+    /* Light Mode - Keep off-white */
+    background-color: #FAFAFA;
     /* Dark Mode */
     @apply dark:bg-slate-700 dark:border-slate-600;
   }
@@ -190,16 +196,19 @@ scroll-behavior: smooth;
   /* Dark Mode Toggle Button */
   .theme-toggle {
     @apply p-2 rounded-lg transition-all duration-300;
-    /* Light Mode */
-    @apply bg-slate-100 text-slate-600 hover:bg-slate-200;
+    /* Light Mode - Off-white background */
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply hover:bg-bitcoin-50;
     /* Dark Mode */
     @apply dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700;
   }
 
   /* Navigation Bar */
   .navbar {
-    /* Light Mode */
-    @apply bg-neutral-100 backdrop-blur-md border-b border-slate-200;
+    /* Light Mode - Off-White background */
+    background-color: rgba(250, 250, 250, 0.95);
+    @apply backdrop-blur-md border-b border-slate-200;
     /* Dark Mode */
     @apply dark:bg-slate-900 dark:border-slate-800;
   }
@@ -207,8 +216,8 @@ scroll-behavior: smooth;
   /* Navigation Link - Enhanced */
   .nav-link {
     @apply relative font-medium transition-all duration-500 px-2 py-2;
-    /* Light Mode */
-    @apply text-slate-600;
+    /* Light Mode - Deep Slate text */
+    color: #1E2A3A;
     /* Dark Mode */
     @apply dark:text-slate-300;
   }
@@ -253,21 +262,19 @@ scroll-behavior: smooth;
     /* GPU acceleration */
     will-change: transform, box-shadow;
     transform: translateZ(0) perspective(1000px) rotateX(0deg);
-    /* Subtle gradient background */
-    background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 1) 0%, 
-                rgba(255, 255, 255, 0.97) 50%,
-                rgba(248, 249, 250, 1) 100%);
+    /* Off-White background */
+    background: #FAFAFA;
     /* Enhanced border with subtle color */
     border: 1px solid rgba(226, 232, 240, 0.8);
     /* Multi-layered shadow for depth */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
                 0 4px 12px rgba(0, 0, 0, 0.04),
-                0 8px 24px rgba(0, 0, 0, 0.03),
-                inset 0 1px 2px rgba(255, 255, 255, 0.6);
+                0 8px 24px rgba(0, 0, 0, 0.03);
+    /* Text color */
+    color: #1E2A3A;
     /* Dark Mode */
     @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
-    @apply dark:border-slate-700/50;
+    @apply dark:border-slate-700/50 dark:text-slate-100;
   }
   
   /* Ensure dark mode cards override any other styles */
@@ -305,11 +312,17 @@ scroll-behavior: smooth;
 
   /* Feature Card - Enhanced */
   .feature-card {
-    @apply card relative overflow-hidden cursor-pointer;
+    @apply relative p-5 sm:p-6 overflow-hidden cursor-pointer;
+    background: #FAFAFA;
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    color: #1E2A3A;
     /* GPU acceleration */
     will-change: transform, background-color;
     transform: translateZ(0) perspective(1000px) rotateX(0deg);
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
+    @apply dark:border-slate-700/50 dark:text-slate-100;
   }
 
   .feature-card::before {
@@ -340,7 +353,7 @@ scroll-behavior: smooth;
 
   .feature-card:hover {
     transform: translateY(-6px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
-    @apply bg-gradient-to-br from-bitcoin-50/50 to-orange-50/30;
+    background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, #FAFAFA 100%);
     @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-800;
   }
 
@@ -393,9 +406,10 @@ scroll-behavior: smooth;
   .input-field {
     @apply w-full px-3 py-3 transition-all duration-300 font-medium;
     @apply border-2 border-gray-200 dark:border-slate-600;
-    @apply bg-white dark:bg-slate-800;
-    @apply text-slate-700 placeholder-slate-400;
-    @apply dark:text-slate-100 dark:placeholder-slate-400;
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply placeholder-slate-400;
+    @apply dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-400;
     /* Ensure proper box sizing */
     box-sizing: border-box !important;
     /* Softer border radius */
@@ -502,10 +516,33 @@ scroll-behavior: smooth;
 
   /* Hero Section */
   .hero-gradient {
-    /* Light Mode */
-    @apply bg-gradient-to-br from-bitcoin-50 via-neutral-100 to-white;
+    /* Light Mode - Using light grey */
+    background: linear-gradient(135deg, #F4F6F8 0%, #F4F6F8 50%, #F4F6F8 100%);
     /* Dark Mode */
     @apply dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900;
+  }
+
+  /* Hero Background Texture */
+  .hero-texture {
+    position: relative;
+  }
+
+  .hero-texture::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23F7931A' fill-opacity='0.6'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .dark .hero-texture::after {
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23F8FAFC' fill-opacity='1'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   /* Section Background */
@@ -518,15 +555,15 @@ scroll-behavior: smooth;
 
   /* Glass Effect - Enhanced */
   .glass {
-    /* Enhanced glass morphism */
+    /* Enhanced glass morphism with off-white */
     background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.8) 0%, 
-                rgba(255, 255, 255, 0.6) 100%);
+                rgba(250, 250, 250, 0.85) 0%, 
+                rgba(250, 250, 250, 0.7) 100%);
     /* Ensure content doesn't get cut off */
     @apply overflow-visible;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(250, 250, 250, 0.5);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
                 inset 0 1px 3px rgba(255, 255, 255, 0.7),
                 inset 0 -1px 2px rgba(0, 0, 0, 0.02);
@@ -703,9 +740,9 @@ scroll-behavior: smooth;
     @apply appearance-none w-full px-4 py-3 pr-10 transition-all duration-300 font-medium cursor-pointer;
     border-radius: 14px;
     border: 2px solid transparent;
-    background-image: linear-gradient(white, white),
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
                       linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%),
-                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231E2A3A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     background-origin: border-box;
     background-clip: padding-box, border-box, content-box;
     background-position: right 0.5rem center;
@@ -713,7 +750,7 @@ scroll-behavior: smooth;
     background-size: auto, auto, 1.5em 1.5em;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
                 inset 0 1px 2px rgba(0, 0, 0, 0.02);
-    @apply text-slate-700;
+    color: #1E2A3A;
     @apply dark:text-slate-100;
   }
 
@@ -724,10 +761,10 @@ scroll-behavior: smooth;
   }
 
   select:hover {
-    background-image: linear-gradient(white, white),
-                      linear-gradient(135deg, #CBD5E1 0%, #94A3B8 100%),
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
                       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04),
+    box-shadow: 0 2px 4px rgba(247, 147, 26, 0.1),
                 inset 0 1px 2px rgba(0, 0, 0, 0.03);
   }
 
@@ -739,7 +776,7 @@ scroll-behavior: smooth;
 
   select:focus {
     @apply outline-none;
-    background-image: linear-gradient(white, white),
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
                       linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
                       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),

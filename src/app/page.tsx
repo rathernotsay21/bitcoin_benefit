@@ -58,26 +58,27 @@ export default function HomePage() {
   const returnPercentage = ((totalReturn / costBasis) * 100);
 
   return (
-    <div className="min-h-screen bg-neutral-100 dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-screen transition-colors duration-300" style={{ backgroundColor: '#F4F6F8' }}>
       <Navigation />
 
       {/* Hero Section */}
-      <section className="hero-gradient py-24 relative overflow-hidden">
+      <section className="hero-gradient hero-texture py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 dark:opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 bg-bitcoin dark:bg-white rounded-full blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-bitcoin-gradient dark:bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6 animate-float">
               <SatoshiIcon className="w-8 h-8 text-white" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-700 dark:text-slate-100 leading-tight">
-              <span className="text-bitcoin dark:text-bitcoin block mb-2">Reward Loyalty with Sound Money</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-deepSlate dark:text-slate-100 leading-tight">
+              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Reward Loyalty </span>
+              <span className="text-bitcoin dark:text-bitcoin">with Sound Money</span>
             </h2>
-            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="mt-8 max-w-2xl mx-auto text-xl text-deepSlate dark:text-slate-300 leading-relaxed">
               Keep your best people with modern benefits they actually want.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
@@ -95,13 +96,13 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
+      <section className="py-24 bg-lightGrey dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-slate-700 dark:text-slate-100 mb-4">
+            <h3 className="text-4xl font-bold text-deepSlate dark:text-slate-100 mb-4">
               Customize Your Plan
             </h3>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <p className="text-xl text-deepSlate dark:text-slate-300 max-w-2xl mx-auto">
               Three approaches to reward loyalty
             </p>
           </div>
@@ -113,20 +114,20 @@ export default function HomePage() {
                 <div className="icon-container mx-auto mb-6">
                   <BitcoinIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
                 </div>
-                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
+                <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
                   Pioneer
                 </h4>
-                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                <p className="text-deepSlate dark:text-slate-300 mb-6 leading-relaxed">
                   Maximum upside
                 </p>
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Full grant on day one</span>
+                    <span className="text-sm text-deepSlate dark:text-slate-300">Full grant on day one</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Nothing else to worry about</span>
+                    <span className="text-sm text-deepSlate dark:text-slate-300">Nothing else to worry about</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -144,7 +145,7 @@ export default function HomePage() {
                 <div className="icon-container mx-auto mb-6">
                   <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
                 </div>
-                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
+                <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
                   Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">

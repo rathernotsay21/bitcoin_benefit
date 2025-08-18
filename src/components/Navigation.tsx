@@ -72,7 +72,7 @@ export default function Navigation() {
               <SatoshiOutlineIcon className="w-7 h-7 sm:w-8 sm:h-8" size={32} />
             </div>
             <div className="flex flex-col min-w-0">
-              <h1 className="text-base sm:text-lg md:text-xl font-bold text-slate-700 dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
                 <span className="hidden sm:inline">BitcoinBenefits.me</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
@@ -103,7 +103,7 @@ export default function Navigation() {
                     }`} />
                   <span className={`transition-all duration-300 ${isActive
                     ? 'text-bitcoin dark:text-bitcoin'
-                    : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                    : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
                     }`}>{item.name}</span>
                 </Link>
               );

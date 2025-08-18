@@ -141,7 +141,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Historical Strategy
+                  Performance History
                 </h2>
               </div>
 
@@ -179,7 +179,7 @@ function HistoricalCalculatorContent() {
               <div className="flex items-center mb-4">
                 <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Historical Strategy
+                  Performance History
                 </h3>
               </div>
 
@@ -321,7 +321,7 @@ function HistoricalCalculatorContent() {
                   </h3>
                   
                   <div className="overflow-x-auto w-full">
-                    <table className="min-w-full w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
+                    <table className="min-w-full w-full bg-offWhite dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                       <thead className="bg-gray-50 dark:bg-slate-700">
                         <tr>
                           <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>

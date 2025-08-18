@@ -41,10 +41,11 @@ export default function RootLayout({
         {/* Critical CSS - minimal for above-the-fold */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            /* Minimal critical CSS - let globals.css handle the enhanced styles */
-            .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 50%,#cbd5e1 100%)}
+            /* Minimal critical CSS with new color palette */
+            .hero-gradient{background:#F4F6F8}
             .dark .hero-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)}
-            body{margin:0;padding:0;min-height:100vh}
+            body{margin:0;padding:0;min-height:100vh;background-color:#F4F6F8}
+            .dark body{background-color:#0f172a}
           `
         }} />
         
