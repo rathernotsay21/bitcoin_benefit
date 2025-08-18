@@ -113,7 +113,8 @@ export class HistoricalCalculator {
     // Add annual grants if they exist
     if (scheme.annualGrant && scheme.annualGrant > 0) {
       // Determine how many years of annual grants based on scheme
-      let maxYears = scheme.maxAnnualGrants || 0;
+      // Default to 10 years if maxAnnualGrants is not specified
+      let maxYears = scheme.maxAnnualGrants !== undefined ? scheme.maxAnnualGrants : 10;
       
       for (let year = startingYear + 1; year <= Math.min(startingYear + maxYears, currentYear); year++) {
         // Only add grant if we have historical price data for this year

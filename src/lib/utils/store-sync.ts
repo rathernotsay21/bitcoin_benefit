@@ -16,15 +16,19 @@ interface SyncableData {
  * This ensures consistency when price updates occur from any source
  */
 export const syncBitcoinPrice = (price: number, change24h: number = 0) => {
+  // Ensure values are valid numbers
+  const validPrice = typeof price === 'number' && !isNaN(price) && price > 0 ? price : 45000;
+  const validChange = typeof change24h === 'number' && !isNaN(change24h) ? change24h : 0;
+  
   // Update calculator store
   useCalculatorStore.setState({ 
-    currentBitcoinPrice: price, 
-    bitcoinChange24h: change24h 
+    currentBitcoinPrice: validPrice, 
+    bitcoinChange24h: validChange 
   });
   
   // Update historical calculator store
   useHistoricalCalculatorStore.setState({ 
-    currentBitcoinPrice: price 
+    currentBitcoinPrice: validPrice 
   });
   
   // Trigger recalculations in both stores with current inputs

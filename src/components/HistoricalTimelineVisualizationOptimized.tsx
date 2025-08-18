@@ -47,32 +47,7 @@ const formatPercent = (value: number): string => {
   return `${(value * 100).toFixed(1)}%`;
 };
 
-// Memoized performance card component
-const PerformanceCard = memo(({ 
-  title, 
-  value, 
-  subtitle, 
-  gradient, 
-  textColor 
-}: {
-  title: string;
-  value: string;
-  subtitle: string;
-  gradient: string;
-  textColor: string;
-}) => (
-  <div className={`${gradient} border border-opacity-50 rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow`}>
-    <div className={`text-sm font-semibold ${textColor} mb-2 uppercase tracking-wide`}>{title}</div>
-    <div className={`text-3xl font-bold ${textColor.replace('800', '900').replace('300', '100')} mb-1`}>
-      {value}
-    </div>
-    <div className={`text-xs ${textColor.replace('800', '700').replace('300', '400')}`}>
-      {subtitle}
-    </div>
-  </div>
-));
 
-PerformanceCard.displayName = 'PerformanceCard';
 
 // Memoized timeline marker component
 const TimelineMarker = memo(({ 
@@ -255,12 +230,14 @@ function HistoricalTimelineVisualizationOptimized({
 
   return (
     <div className="w-full max-w-full overflow-hidden">
-      {/* Header */}
-      <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          Historical Performance ({startingYear}-{currentYear})
-        </h3>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
+      {/* Interactive Timeline */}
+      <div className="mt-4">
+        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+          Interactive Timeline Explorer
+        </h4>
+        
+        {/* Summary Information */}
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
           <span className="flex items-center gap-1">
             <span className="font-medium">Total Granted:</span>
             <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(results.totalBitcoinGranted)}</span>
@@ -274,45 +251,6 @@ function HistoricalTimelineVisualizationOptimized({
             <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(results.annualizedReturn)}</span>
           </span>
         </div>
-      </div>
-
-      {/* Performance Cards - Memoized */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <PerformanceCard
-          title="Current Value"
-          value={formatUSDCompact(results.currentTotalValue)}
-          subtitle={`${formatBTC(results.totalBitcoinGranted)} total Bitcoin`}
-          gradient="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border-orange-200 dark:border-orange-800"
-          textColor="text-orange-800 dark:text-orange-300"
-        />
-        <PerformanceCard
-          title="Cost Basis"
-          value={formatUSDCompact(results.totalCostBasis)}
-          subtitle={`Historical ${results.summary.costBasisMethod} prices`}
-          gradient="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-blue-200 dark:border-blue-800"
-          textColor="text-blue-800 dark:text-blue-300"
-        />
-        <PerformanceCard
-          title="Return"
-          value={formatUSDCompact(Math.max(0, results.totalReturn))}
-          subtitle={`${results.totalCostBasis > 0 ? ((results.totalReturn / results.totalCostBasis) * 100).toFixed(0) : '0'}% gain over ${totalYears} years`}
-          gradient="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-green-200 dark:border-green-800"
-          textColor="text-green-800 dark:text-green-300"
-        />
-        <PerformanceCard
-          title="Annualized"
-          value={formatPercent(results.annualizedReturn)}
-          subtitle="Compound annual growth rate"
-          gradient="bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 border-purple-200 dark:border-purple-800"
-          textColor="text-purple-800 dark:text-purple-300"
-        />
-      </div>
-
-      {/* Interactive Timeline */}
-      <div className="mt-10">
-        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-          Interactive Timeline Explorer
-        </h4>
 
         <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-slate-700/60 rounded-2xl p-8 shadow-lg">
           {isMobile ? (

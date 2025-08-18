@@ -146,8 +146,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   },
   
   setBitcoinPrice: (price, change24h) => {
+    // Ensure values are valid numbers
+    const validPrice = typeof price === 'number' && !isNaN(price) ? price : 45000;
+    const validChange = typeof change24h === 'number' && !isNaN(change24h) ? change24h : 0;
     // Use sync utility to update all stores
-    syncBitcoinPrice(price, change24h);
+    syncBitcoinPrice(validPrice, validChange);
   },
   
   fetchBitcoinPrice: async () => {

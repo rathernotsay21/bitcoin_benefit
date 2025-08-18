@@ -1,7 +1,7 @@
 /**
  * Utility function to combine class names conditionally
  */
-export function cn(...inputs: string[]): string {
+export function cn(...inputs: (string | undefined | null)[]): string {
   return inputs.filter(Boolean).join(' ');
 }
 

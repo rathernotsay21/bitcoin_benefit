@@ -13,6 +13,7 @@ import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import VestingPresets from '@/components/VestingPresets';
+import MetricCards from '@/components/MetricCards';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -266,7 +267,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     </div>
                   </div>
                 </div>
-                {bitcoinChange24h !== 0 && (
+                {bitcoinChange24h !== 0 && bitcoinChange24h != null && (
                   <div className={`text-right ${bitcoinChange24h > 0 ? 'text-green-600' : 'text-red-600'}`}>
                     <div className="text-lg font-semibold">
                       {bitcoinChange24h > 0 ? '+' : ''}{bitcoinChange24h.toFixed(2)}%
@@ -277,40 +278,15 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               </div>
             </div>
 
-            {/* Summary Cards */}
-            {displayScheme && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">{formatBTC(displayScheme.initialGrant)}</div>
-                  <div className="text-sm text-gray-600 dark:text-slate-300">Initial Grant</div>
-                </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                    {formatUSD(displayScheme.initialGrant * currentBitcoinPrice)}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-slate-300">Initial USD Value</div>
-                </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                    {results && results.timeline.length > 120 
-                      ? formatUSD(results.timeline[120].employerBalance * results.timeline[120].bitcoinPrice)
-                      : (() => {
-                        // Calculate fallback 10-year value based on scheme type
-                        let totalBTC = displayScheme.initialGrant;
-                        if (displayScheme.annualGrant) {
-                          const maxAnnualYears = displayScheme.id === 'slow-burn' ? 10 : 5;
-                          const yearsToAdd = Math.min(10, maxAnnualYears);
-                          totalBTC += displayScheme.annualGrant * yearsToAdd;
-                        }
-                        const projectedPrice = currentBitcoinPrice * Math.pow(1.15, 10);
-                        return formatUSD(totalBTC * projectedPrice);
-                      })()
-                    }
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-slate-300">10-Year USD Value</div>
-                </div>
-              </div>
-            )}
+            {/* Metric Cards Carousel */}
+            <CalculatorErrorBoundary>
+              <MetricCards
+                displayScheme={displayScheme}
+                currentBitcoinPrice={currentBitcoinPrice}
+                results={results}
+                inputs={inputs}
+              />
+            </CalculatorErrorBoundary>
 
             {/* Vesting Timeline Chart */}
             <div className="card w-full overflow-hidden">

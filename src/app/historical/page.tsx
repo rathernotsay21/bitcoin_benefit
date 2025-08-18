@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
+import HistoricalMetricCards from '@/components/HistoricalMetricCards';
 
 // Lazy load the optimized historical visualization component
 const HistoricalTimelineVisualization = dynamic(
@@ -295,27 +296,12 @@ function HistoricalCalculatorContent() {
             {/* Results */}
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
-                {/* Summary Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                  <div className="card text-center">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                      {formatBTC(historicalResults.totalBitcoinGranted)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Benefits Granted</div>
-                  </div>
-                  <div className="card text-center">
-                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                      {formatUSD(historicalResults.totalCostBasis)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Total Benefit Cost</div>
-                  </div>
-                  <div className="card text-center">
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                    {formatUSD(historicalResults.currentTotalValue)}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">Value</div>
-                  </div>
-                </div>
+                {/* Metric Cards Carousel */}
+                <HistoricalMetricCards
+                  historicalResults={historicalResults}
+                  currentBitcoinPrice={currentBitcoinPrice}
+                  startingYear={startingYear}
+                />
 
                 {/* Historical Timeline Visualization */}
                 <div className="card mb-6">
@@ -476,67 +462,7 @@ function HistoricalCalculatorContent() {
                   </div>
                 </div>
 
-                {/* Performance Metrics */}
-                <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Performance Summary
-                  </h3>
-                  
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                      <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-1">
-                        {formatUSD(historicalResults.totalReturn)}
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-white/80 mb-2">Total Return</div>
-                      <div className="text-sm text-gray-500 dark:text-white/70">
-                        {formatPercent(historicalResults.totalReturn / historicalResults.totalCostBasis)} gain
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">
-                        {formatPercent(historicalResults.annualizedReturn)}
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-white/80 mb-2">Annualized Return</div>
-                      <div className="text-sm text-gray-500 dark:text-white/70">
-                        Over {historicalResults.summary.yearsAnalyzed} years
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="pt-6 border-t border-gray-200 dark:border-slate-700">
-                    <div className="grid md:grid-cols-2 gap-6 text-sm">
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Analysis Period:</span>
-                          <span className="font-semibold dark:text-white">
-                            {historicalResults.summary.startingYear} - {historicalResults.summary.endingYear}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Benefit Cost Method:</span>
-                          <span className="font-semibold dark:text-white capitalize">
-                            {historicalResults.summary.costBasisMethod}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Average Annual Grant:</span>
-                          <span className="font-semibold dark:text-white">
-                            {formatBTC(historicalResults.summary.averageAnnualGrant)}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-white/80">Current Benefit Value:</span>
-                          <span className="font-semibold dark:text-white">
-                            {formatUSD(currentBitcoinPrice)} per unit
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </>
             )}
 

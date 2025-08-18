@@ -118,9 +118,10 @@ const mockWealthBuilderScheme: VestingScheme = {
   id: 'slow-burn',
   name: 'Builder',
   description: 'Test scheme',
-  initialGrant: 0.0,
+  initialGrant: 0.002,
   employeeMatchPercentage: 0,
   annualGrant: 0.002,
+  maxAnnualGrants: 9,
   vestingSchedule: [
     {
       months: 0,
@@ -243,8 +244,8 @@ describe('HistoricalCalculator', () => {
 
       const result = HistoricalCalculator.calculate(inputs);
 
-      // Should have only annual grants (no initial grant)
-      // Count actual years from 2022 to current year
+      // Should have initial grant plus annual grants
+      // Count actual years from 2022 to current year (annual grants start year after initial)
       const annualGrantYears = [];
       for (let year = 2022; year <= currentYear; year++) {
         if (mockHistoricalPrices[year]) {
@@ -252,18 +253,24 @@ describe('HistoricalCalculator', () => {
         }
       }
       
-      const expectedTotalBitcoin = 0.002 * annualGrantYears.length;
+      // Total = initial grant + annual grants (limited by maxAnnualGrants)
+      const maxAnnualGrants = Math.min(annualGrantYears.length, 9); // Builder scheme has maxAnnualGrants: 9
+      const expectedTotalBitcoin = 0.002 + (0.002 * maxAnnualGrants);
       expect(result.totalBitcoinGranted).toBe(expectedTotalBitcoin);
 
       // Verify cost basis calculation using high prices
-      let expectedCostBasis = 0;
-      for (const year of annualGrantYears) {
+      let expectedCostBasis = 0.002 * mockHistoricalPrices[2021].high; // Initial grant cost
+      for (let i = 0; i < maxAnnualGrants; i++) {
+        const year = annualGrantYears[i];
         expectedCostBasis += 0.002 * mockHistoricalPrices[year].high;
       }
       expect(result.totalCostBasis).toBe(expectedCostBasis);
 
-      // Verify no initial grant
-      expect(result.grantBreakdown.every(g => g.type === 'annual')).toBe(true);
+      // Verify we have both initial and annual grants
+      const hasInitialGrant = result.grantBreakdown.some(g => g.type === 'initial');
+      const hasAnnualGrants = result.grantBreakdown.some(g => g.type === 'annual');
+      expect(hasInitialGrant).toBe(true);
+      expect(hasAnnualGrants).toBe(true);
     });
 
     it('should generate correct timeline with vesting progression', () => {
@@ -404,8 +411,13 @@ describe('HistoricalCalculator', () => {
 
   describe('edge cases', () => {
     it('should handle scheme with zero initial grant', () => {
+      const zeroInitialGrantScheme: VestingScheme = {
+        ...mockWealthBuilderScheme,
+        initialGrant: 0.0
+      };
+      
       const inputs: HistoricalCalculationInputs = {
-        scheme: mockWealthBuilderScheme,
+        scheme: zeroInitialGrantScheme,
         startingYear: 2022,
         costBasisMethod: 'average',
         historicalPrices: mockHistoricalPrices,
