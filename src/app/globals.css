@@ -106,8 +106,8 @@ scroll-behavior: smooth;
   /* Primary Button - Enhanced */
   .btn-primary {
     @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden;
-    /* Unique asymmetric border radius */
-    border-radius: 18px 24px 20px 16px;
+    /* Uniform border radius for clean appearance */
+    border-radius: 20px;
     /* GPU acceleration for better performance */
     will-change: transform, box-shadow;
     transform: translateZ(0) perspective(1000px) rotateX(0deg);

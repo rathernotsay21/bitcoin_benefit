@@ -18,7 +18,7 @@ export const SatoshiOutlineIcon: React.FC<IconProps> = ({
       style={{ width: size, height: size }}
     >
       <Image
-        src="/satoshi_logo.png"
+        src="/satoshi_logo.svg"
         alt="Bitcoin Benefits Logo"
         width={size}
         height={size}

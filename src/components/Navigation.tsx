@@ -69,10 +69,10 @@ export default function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink">
             <div className="icon-container group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
-              <SatoshiOutlineIcon className="w-7 h-7 sm:w-8 sm:h-8" size={32} />
+              <SatoshiOutlineIcon className="w-12 h-12 sm:w-16 sm:h-16" size={64} />
             </div>
             <div className="flex flex-col min-w-0">
-              <h1 className="text-base sm:text-lg md:text-xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
                 <span className="hidden sm:inline">BitcoinBenefits.me</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
