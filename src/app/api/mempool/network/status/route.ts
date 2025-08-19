@@ -1,0 +1,183 @@
+import { NextRequest, NextResponse } from 'next/server';
+import type { NetworkHealth } from '@/types/bitcoin-tools';
+
+interface MempoolInfo {
+  count: number;
+  vsize: number;
+  total_fee: number;
+  fee_histogram: number[][];
+}
+
+interface MempoolFeeEstimates {
+  fastestFee: number;
+  halfHourFee: number;
+  hourFee: number;
+  economyFee: number;
+  minimumFee: number;
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    // Fetch mempool info and fee estimates in parallel
+    const [mempoolResponse, feeResponse] = await Promise.all([
+      fetch('https://mempool.space/api/mempool', {
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
+        },
+        signal: AbortSignal.timeout(15000)
+      }),
+      fetch('https://mempool.space/api/v1/fees/recommended', {
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
+        },
+        signal: AbortSignal.timeout(15000)
+      })
+    ]);
+
+    if (!mempoolResponse.ok || !feeResponse.ok) {
+      throw new Error(`API error: ${mempoolResponse.status} / ${feeResponse.status}`);
+    }
+
+    const [mempoolData, feeData]: [MempoolInfo, MempoolFeeEstimates] = await Promise.all([
+      mempoolResponse.json(),
+      feeResponse.json()
+    ]);
+
+    // Analyze network health
+    const networkHealth = analyzeNetworkHealth(mempoolData, feeData);
+
+    return NextResponse.json(networkHealth, {
+      headers: {
+        'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+        'Content-Type': 'application/json'
+      }
+    });
+
+  } catch (error) {
+    console.error('Network status API error:', error);
+    
+    if (error instanceof Error && error.name === 'AbortError') {
+      return NextResponse.json(
+        { error: 'Request timeout - mempool.space is not responding' },
+        { status: 408 }
+      );
+    }
+
+    // Return fallback network status
+    const fallbackStatus: NetworkHealth = {
+      congestionLevel: 'normal',
+      mempoolSize: 0,
+      mempoolBytes: 0,
+      averageFee: 20,
+      nextBlockETA: 'Unknown',
+      recommendation: 'Unable to determine current network conditions',
+      humanReadable: {
+        congestionDescription: 'Network status unavailable',
+        userAdvice: 'Consider waiting a few minutes and trying again',
+        colorScheme: 'yellow'
+      }
+    };
+
+    return NextResponse.json(fallbackStatus, {
+      status: 503,
+      headers: {
+        'Cache-Control': 'public, max-age=10, stale-while-revalidate=30',
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+}
+
+function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstimates): NetworkHealth {
+  const mempoolSize = mempoolData.count;
+  const mempoolBytes = mempoolData.vsize;
+  const averageFee = feeData.halfHourFee;
+  
+  // Determine congestion level
+  let congestionLevel: NetworkHealth['congestionLevel'];
+  let colorScheme: NetworkHealth['humanReadable']['colorScheme'];
+  let congestionDescription: string;
+  let userAdvice: string;
+  let recommendation: string;
+
+  if (mempoolSize < 5000 && averageFee < 10) {
+    congestionLevel = 'low';
+    colorScheme = 'green';
+    congestionDescription = 'Low network activity';
+    userAdvice = 'Perfect time to send Bitcoin! Low fees and fast confirmations expected.';
+    recommendation = 'Great time to send transactions - use Economy fees for savings';
+  } else if (mempoolSize < 20000 && averageFee < 50) {
+    congestionLevel = 'normal';
+    colorScheme = 'green';
+    congestionDescription = 'Normal network activity';
+    userAdvice = 'Good time to send Bitcoin. Standard fees recommended for reliable confirmation.';
+    recommendation = 'Normal conditions - Balanced fees recommended';
+  } else if (mempoolSize < 50000 && averageFee < 200) {
+    congestionLevel = 'high';
+    colorScheme = 'orange';
+    congestionDescription = 'High network activity';
+    userAdvice = 'Network is busy. Consider using higher fees or waiting for off-peak hours.';
+    recommendation = 'Network busy - Consider Priority fees or wait for calmer periods';
+  } else {
+    congestionLevel = 'extreme';
+    colorScheme = 'red';
+    congestionDescription = 'Extreme network congestion';
+    userAdvice = 'Network extremely busy! High fees required or wait for off-peak hours (weekends/nights).';
+    recommendation = 'CAUTION: Extreme congestion - High fees required or wait several hours';
+  }
+
+  // Calculate next block ETA (rough estimate)
+  const nextBlockETA = calculateNextBlockETA(congestionLevel, averageFee);
+
+  return {
+    congestionLevel,
+    mempoolSize,
+    mempoolBytes,
+    averageFee,
+    nextBlockETA,
+    recommendation,
+    humanReadable: {
+      congestionDescription,
+      userAdvice,
+      colorScheme
+    }
+  };
+}
+
+function calculateNextBlockETA(
+  congestionLevel: NetworkHealth['congestionLevel'], 
+  averageFee: number
+): string {
+  // Bitcoin blocks are mined approximately every 10 minutes on average
+  // But actual times can vary significantly
+  
+  const baseMinutes = 10;
+  let multiplier = 1;
+
+  switch (congestionLevel) {
+    case 'low':
+      multiplier = 0.8; // Slightly faster than average
+      break;
+    case 'normal':
+      multiplier = 1.0; // Average
+      break;
+    case 'high':
+      multiplier = 1.2; // Slightly slower
+      break;
+    case 'extreme':
+      multiplier = 1.5; // Much slower for lower fee transactions
+      break;
+  }
+
+  const estimatedMinutes = Math.round(baseMinutes * multiplier);
+  
+  if (estimatedMinutes <= 5) {
+    return '< 5 minutes';
+  } else if (estimatedMinutes <= 15) {
+    return `~${estimatedMinutes} minutes`;
+  } else {
+    return `${Math.round(estimatedMinutes / 5) * 5} minutes`;
+  }
+}

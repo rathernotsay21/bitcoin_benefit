@@ -14,6 +14,7 @@ const MoonIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod =>
 const ClockIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
 const AcademicCapIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
 const LinkIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
+const WrenchScrewdriverIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.WrenchScrewdriverIcon })), { ssr: false });
 
 // Load solid versions dynamically
 const HomeIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
@@ -23,6 +24,7 @@ const MoonIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod
 const ClockIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
 const AcademicCapIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
 const LinkIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
+const WrenchScrewdriverIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.WrenchScrewdriverIcon })), { ssr: false });
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
@@ -53,6 +55,12 @@ export default function Navigation() {
       href: '/track',
       icon: LinkIcon,
       activeIcon: LinkIconSolid,
+    },
+    {
+      name: 'Tools',
+      href: '/bitcoin-tools',
+      icon: WrenchScrewdriverIcon,
+      activeIcon: WrenchScrewdriverIconSolid,
     },
     {
       name: 'Guide',
@@ -110,37 +118,25 @@ export default function Navigation() {
             })}
           </nav>
 
-          {/* Right Side: Dark Mode Toggle + CTA Button */}
-          <div className="flex items-center space-x-2 sm:space-x-3 ml-2 sm:ml-4 flex-shrink-0">
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="theme-toggle group"
-              aria-label="Toggle dark mode"
-            >
-              {theme === 'light' ? (
-                <MoonIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-[-20deg]" />
-              ) : (
-                <SunIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
-              )}
-            </button>
-
-            {/* CTA Button */}
-            <a
-              href="https://river.com/signup?r=RH5MJKJM"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary text-xs sm:text-sm px-3 sm:px-6 py-2 sm:py-3 whitespace-nowrap"
-            >
-              <span className="hidden sm:inline">Buy Bitcoin</span>
-              <span className="sm:hidden">Buy</span>
-            </a>
-          </div>
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle-btn ml-4 lg:ml-6"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark' ? (
+              <SunIconSolid className="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" />
+            ) : (
+              <MoonIconSolid className="w-6 h-6 text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
+            )}
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        <nav className="md:hidden flex items-center justify-between pb-4 border-t border-slate-200 dark:border-slate-800 pt-4 overflow-x-auto">
-          <div className="flex items-center justify-around w-full px-2">
+      {/* Mobile Navigation */}
+      <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex justify-around py-2">
             {navItems.map((item) => {
               const isActive = item.href === '/'
                 ? pathname === '/'
@@ -151,31 +147,22 @@ export default function Navigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link flex flex-col items-center space-y-1 px-2 py-1 transition-all duration-300 ${isActive ? 'active text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin'
+                  className={`nav-link-mobile flex flex-col items-center py-2 px-3 rounded-lg min-w-0 ${isActive ? 'active' : ''
                     }`}
                 >
-                  <Icon className={`w-5 h-5 transition-all duration-300 ${isActive ? 'text-bitcoin dark:text-bitcoin scale-110' : 'text-slate-500 dark:text-slate-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin'
+                  <Icon className={`w-6 h-6 mb-1 transition-all duration-300 ${isActive
+                    ? 'text-bitcoin dark:text-bitcoin'
+                    : 'text-slate-500 dark:text-slate-400'
                     }`} />
-                  <span className={`text-xs font-medium transition-all duration-300 ${isActive ? 'text-bitcoin dark:text-bitcoin' : 'text-slate-500 dark:text-slate-300'
+                  <span className={`text-xs font-medium transition-all duration-300 text-center ${isActive
+                    ? 'text-bitcoin dark:text-bitcoin'
+                    : 'text-slate-600 dark:text-slate-300'
                     }`}>{item.name}</span>
                 </Link>
               );
             })}
           </div>
-
-          {/* Mobile Dark Mode Toggle - Remove from mobile nav as it's already in header */}
-          {/* <button
-            onClick={toggleTheme}
-            className="theme-toggle group"
-            aria-label="Toggle dark mode"
-          >
-            {theme === 'light' ? (
-              <MoonIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-[-20deg]" />
-            ) : (
-              <SunIcon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
-            )}
-          </button> */}
-        </nav>
+        </div>
       </div>
     </header>
   );
