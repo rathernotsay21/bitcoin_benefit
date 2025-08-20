@@ -1,30 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { NetworkHealth, FeeRate } from '@/types/bitcoin-tools';
-import { toFeeRate, toUnixTimestamp, toBlockHeight } from '@/types/bitcoin-tools';
-
-interface MempoolInfo {
-  count: number;
-  vsize: number;
-  total_fee: number;
-  fee_histogram: number[][];
-}
-
-interface MempoolFeeEstimates {
-  fastestFee: number;
-  halfHourFee: number;
-  hourFee: number;
-  economyFee: number;
-  minimumFee: number;
-}
-
-interface EnhancedNetworkHealth extends NetworkHealth {
-  feeEstimates: {
-    fastestFee: FeeRate;
-    halfHourFee: FeeRate;
-    hourFee: FeeRate;
-    economyFee: FeeRate;
-  };
-}
+import type { 
+  NetworkHealth, 
+  FeeRate, 
+  EnhancedNetworkHealth,
+  MempoolInfo,
+  MempoolFeeEstimates
+} from '@/types/bitcoin-tools';
+import { 
+  toFeeRateUnsafe, 
+  toUnixTimestamp, 
+  toBlockHeight,
+  toSatoshiAmount,
+  validateAndConvertMempoolInfo,
+  validateAndConvertMempoolFeeEstimates,
+  createToolError,
+  isToolError,
+  getStatusCodeFromError
+} from '@/types/bitcoin-tools';
 
 export async function GET(_request: NextRequest) {
   try {
@@ -47,13 +39,97 @@ export async function GET(_request: NextRequest) {
     ]);
 
     if (!mempoolResponse.ok || !feeResponse.ok) {
-      throw new Error(`API error: ${mempoolResponse.status} / ${feeResponse.status}`);
+      const error = createToolError(
+        'api',
+        'API_ERROR',
+        new Error(`API error: ${mempoolResponse.status} / ${feeResponse.status}`),
+        {
+          statusCode: mempoolResponse.status || feeResponse.status,
+          endpoint: 'mempool.space'
+        }
+      );
+      throw error;
     }
 
-    const [mempoolData, feeData]: [MempoolInfo, MempoolFeeEstimates] = await Promise.all([
+    // Parse raw responses
+    const [rawMempoolData, rawFeeData]: [unknown, unknown] = await Promise.all([
       mempoolResponse.json(),
       feeResponse.json()
     ]);
+
+    // Log raw data for debugging during build
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Raw mempool data keys:', Object.keys(rawMempoolData as any));
+      console.log('Raw fee data:', rawFeeData);
+    }
+
+    // Validate and convert API responses
+    const mempoolData = validateAndConvertMempoolInfo(rawMempoolData);
+    const feeData = validateAndConvertMempoolFeeEstimates(rawFeeData);
+
+    if (!mempoolData || !feeData) {
+      // Try a more lenient fallback for mempool data
+      if (!mempoolData && rawMempoolData && typeof rawMempoolData === 'object') {
+        const raw = rawMempoolData as any;
+        // Check if it has the required fields but maybe in different format
+        if ('count' in raw && 'vsize' in raw) {
+          // Use a fallback conversion
+          const fallbackMempool: MempoolInfo = {
+            count: Number(raw.count) || 0,
+            vsize: Number(raw.vsize) || 0,
+            total_fee: toSatoshiAmount(Number(raw.total_fee) || Number(raw.totalFee) || 0),
+            fee_histogram: Array.isArray(raw.fee_histogram) ? raw.fee_histogram : []
+          };
+          
+          // Use the fallback if it seems valid
+          if (fallbackMempool.count >= 0 && fallbackMempool.vsize >= 0) {
+            const fallbackFees: MempoolFeeEstimates = feeData || {
+              fastestFee: toFeeRateUnsafe(25),
+              halfHourFee: toFeeRateUnsafe(20),
+              hourFee: toFeeRateUnsafe(15),
+              economyFee: toFeeRateUnsafe(10),
+              minimumFee: toFeeRateUnsafe(1)
+            };
+            
+            // Continue with fallback data
+            const networkHealth = analyzeNetworkHealth(fallbackMempool, fallbackFees);
+            const enhancedNetworkHealth: EnhancedNetworkHealth = {
+              ...networkHealth,
+              feeEstimates: {
+                fastestFee: fallbackFees.fastestFee,
+                halfHourFee: fallbackFees.halfHourFee,
+                hourFee: fallbackFees.hourFee,
+                economyFee: fallbackFees.economyFee
+              },
+              analysis: {
+                congestionPercentage: calculateCongestionPercentage(fallbackMempool, fallbackFees),
+                feeSpreadRatio: calculateFeeSpreadRatio(fallbackFees),
+                mempoolEfficiency: calculateMempoolEfficiency(fallbackMempool),
+                trafficLevel: determineTrafficLevel(fallbackMempool, fallbackFees)
+              }
+            };
+            
+            return NextResponse.json(enhancedNetworkHealth, {
+              headers: {
+                'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+                'Content-Type': 'application/json'
+              }
+            });
+          }
+        }
+      }
+      
+      const error = createToolError(
+        'validation',
+        'API_ERROR',
+        new Error('Invalid API response format'),
+        {
+          field: !mempoolData ? 'mempoolData' : 'feeData',
+          invalidValue: !mempoolData ? rawMempoolData : rawFeeData
+        }
+      );
+      throw error;
+    }
 
     // Analyze network health
     const networkHealth = analyzeNetworkHealth(mempoolData, feeData);
@@ -62,10 +138,16 @@ export async function GET(_request: NextRequest) {
     const enhancedNetworkHealth: EnhancedNetworkHealth = {
       ...networkHealth,
       feeEstimates: {
-        fastestFee: toFeeRate(feeData.fastestFee),
-        halfHourFee: toFeeRate(feeData.halfHourFee),
-        hourFee: toFeeRate(feeData.hourFee),
-        economyFee: toFeeRate(feeData.economyFee)
+        fastestFee: feeData.fastestFee,
+        halfHourFee: feeData.halfHourFee,
+        hourFee: feeData.hourFee,
+        economyFee: feeData.economyFee
+      },
+      analysis: {
+        congestionPercentage: calculateCongestionPercentage(mempoolData, feeData),
+        feeSpreadRatio: calculateFeeSpreadRatio(feeData),
+        mempoolEfficiency: calculateMempoolEfficiency(mempoolData),
+        trafficLevel: determineTrafficLevel(mempoolData, feeData)
       }
     };
 
@@ -79,19 +161,39 @@ export async function GET(_request: NextRequest) {
   } catch (error) {
     console.error('Network status API error:', error);
     
+    // Handle different error types appropriately
     if (error instanceof Error && error.name === 'AbortError') {
+      const timeoutError = createToolError(
+        'timeout',
+        'API_TIMEOUT',
+        error,
+        {
+          timeoutMs: 15000,
+          operation: 'fetch network status'
+        }
+      );
+      
       return NextResponse.json(
-        { error: 'Request timeout - mempool.space is not responding' },
+        { error: timeoutError },
         { status: 408 }
       );
     }
 
-    // Return fallback network status
+    // Handle specific ToolError types
+    if (isToolError(error)) {
+      const statusCode = getStatusCodeFromError(error);
+      return NextResponse.json(
+        { error },
+        { status: statusCode }
+      );
+    }
+
+    // Return fallback network status for unknown errors
     const fallbackStatus: EnhancedNetworkHealth = {
       congestionLevel: 'normal',
       mempoolSize: 0,
       mempoolBytes: 0,
-      averageFee: toFeeRate(20),
+      averageFee: toFeeRateUnsafe(20),
       nextBlockETA: 'Unknown',
       recommendation: 'Unable to determine current network conditions',
       humanReadable: {
@@ -99,13 +201,19 @@ export async function GET(_request: NextRequest) {
         userAdvice: 'Consider waiting a few minutes and trying again',
         colorScheme: 'yellow'
       },
-      timestamp: toUnixTimestamp(Date.now() / 1000),
+      timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000)),
       blockchainTip: toBlockHeight(800000), // Placeholder value
       feeEstimates: {
-        fastestFee: toFeeRate(25),
-        halfHourFee: toFeeRate(20),
-        hourFee: toFeeRate(15),
-        economyFee: toFeeRate(10)
+        fastestFee: toFeeRateUnsafe(25),
+        halfHourFee: toFeeRateUnsafe(20),
+        hourFee: toFeeRateUnsafe(15),
+        economyFee: toFeeRateUnsafe(10)
+      },
+      analysis: {
+        congestionPercentage: 50,
+        feeSpreadRatio: 2.5,
+        mempoolEfficiency: 75,
+        trafficLevel: 'normal'
       }
     };
 
@@ -138,30 +246,31 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
   // - Normal: halfHourFee 6-20 sat/vByte (typical usage)
   // - High: halfHourFee 21-50 sat/vByte (busy periods)
   // - Extreme: halfHourFee > 50 sat/vByte (high demand events)
-  if (feeData.halfHourFee <= 5) {
+  const halfHourFeeValue = Number(feeData.halfHourFee);
+  if (halfHourFeeValue <= 5) {
     congestionLevel = 'low';
     colorScheme = 'green';
     congestionDescription = 'Low network congestion - excellent fee rates';
     userAdvice = 'Perfect time to send Bitcoin! Fees are extremely low right now.';
-    recommendation = `Excellent conditions - use Economy fees (${feeData.economyFee} sat/vB) for maximum savings`;
-  } else if (feeData.halfHourFee <= 20) {
+    recommendation = `Excellent conditions - use Economy fees (${Number(feeData.economyFee)} sat/vB) for maximum savings`;
+  } else if (halfHourFeeValue <= 20) {
     congestionLevel = 'normal';
     colorScheme = 'green';
     congestionDescription = 'Normal network congestion - reasonable fees';
     userAdvice = 'Good time to send Bitcoin. Fees are at typical levels.';
-    recommendation = `Good conditions - Standard fees (${feeData.halfHourFee} sat/vB) recommended`;
-  } else if (feeData.halfHourFee <= 50) {
+    recommendation = `Good conditions - Standard fees (${halfHourFeeValue} sat/vB) recommended`;
+  } else if (halfHourFeeValue <= 50) {
     congestionLevel = 'high';
     colorScheme = 'orange';
     congestionDescription = 'High network congestion - elevated fees';
     userAdvice = 'Network is busier than usual. Fees are elevated but manageable.';
-    recommendation = `Network busy - Consider Priority fees (${feeData.fastestFee} sat/vB) or wait for calmer periods`;
+    recommendation = `Network busy - Consider Priority fees (${Number(feeData.fastestFee)} sat/vB) or wait for calmer periods`;
   } else {
     congestionLevel = 'extreme';
     colorScheme = 'red';
     congestionDescription = 'Extreme network congestion - very high fees';
     userAdvice = 'Network extremely busy! Very high fees required unless you can wait.';
-    recommendation = `CAUTION: Extreme congestion - High fees (${feeData.fastestFee} sat/vB) required or wait several hours`;
+    recommendation = `CAUTION: Extreme congestion - High fees (${Number(feeData.fastestFee)} sat/vB) required or wait several hours`;
   }
 
   // Calculate next block ETA (rough estimate)
@@ -169,7 +278,7 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
   
   // Add context about why there might be many transactions but low fees
   // This is common and normal - many low-fee transactions queue during low congestion periods
-  if (mempoolSize > 50000 && feeData.halfHourFee <= 5) {
+  if (mempoolSize > 50000 && halfHourFeeValue <= 5) {
     congestionDescription += ' (many low-priority transactions queued)';
     userAdvice += ' The high transaction count consists mostly of low-fee transactions that will clear over time.';
   }
@@ -178,7 +287,7 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
     congestionLevel,
     mempoolSize,
     mempoolBytes,
-    averageFee: toFeeRate(averageFee),
+    averageFee,
     nextBlockETA,
     recommendation,
     humanReadable: {
@@ -186,14 +295,14 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
       userAdvice,
       colorScheme
     },
-    timestamp: toUnixTimestamp(Date.now() / 1000),
+    timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000)),
     blockchainTip: toBlockHeight(800000) // Placeholder - could be enhanced with actual tip from mempool.space
   };
 }
 
 function calculateNextBlockETA(
   congestionLevel: NetworkHealth['congestionLevel'], 
-  _averageFee: number
+  _averageFee: FeeRate
 ): string {
   // Bitcoin blocks are mined approximately every 10 minutes on average
   // But actual times can vary significantly
@@ -225,4 +334,42 @@ function calculateNextBlockETA(
   } else {
     return `${Math.round(estimatedMinutes / 5) * 5} minutes`;
   }
+}
+
+// Additional analysis functions for enhanced network health
+function calculateCongestionPercentage(
+  mempoolData: MempoolInfo, 
+  feeData: MempoolFeeEstimates
+): number {
+  // Calculate congestion based on both mempool size and fee pressure
+  const sizeWeight = Math.min(mempoolData.count / 100000, 1) * 40; // 40% weight
+  const feeWeight = Math.min(Number(feeData.halfHourFee) / 100, 1) * 60; // 60% weight
+  return Math.round(sizeWeight + feeWeight);
+}
+
+function calculateFeeSpreadRatio(feeData: MempoolFeeEstimates): number {
+  // Ratio between fastest and economy fees indicates fee pressure
+  return Number((Number(feeData.fastestFee) / Number(feeData.economyFee)).toFixed(2));
+}
+
+function calculateMempoolEfficiency(mempoolData: MempoolInfo): number {
+  // Efficiency based on average transaction size vs total vsize
+  const avgTxSize = mempoolData.count > 0 ? mempoolData.vsize / mempoolData.count : 250;
+  const efficiency = Math.max(0, Math.min(100, 100 - ((avgTxSize - 200) / 10)));
+  return Math.round(efficiency);
+}
+
+function determineTrafficLevel(
+  mempoolData: MempoolInfo, 
+  feeData: MempoolFeeEstimates
+): 'light' | 'normal' | 'heavy' | 'extreme' {
+  const totalTrafficScore = (
+    (mempoolData.count / 50000) * 0.3 +
+    (Number(feeData.halfHourFee) / 20) * 0.7
+  );
+
+  if (totalTrafficScore <= 0.5) return 'light';
+  if (totalTrafficScore <= 1.5) return 'normal';
+  if (totalTrafficScore <= 3.0) return 'heavy';
+  return 'extreme';
 }

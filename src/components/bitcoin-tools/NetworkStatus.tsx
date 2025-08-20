@@ -1,19 +1,36 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import type { NetworkHealth } from '@/types/bitcoin-tools';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import type { 
+  NetworkHealth, 
+  EnhancedNetworkHealth,
+  FeeRate,
+  ToolError
+} from '@/types/bitcoin-tools';
+import { isToolError } from '@/types/bitcoin-tools';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import ToolErrorBoundary from './ToolErrorBoundary';
 
-interface FeeEstimates {
-  fastestFee: number;
-  halfHourFee: number;
-  hourFee: number;
-  economyFee: number;
-}
-
-interface EnhancedNetworkHealth extends NetworkHealth {
-  feeEstimates?: FeeEstimates;
+// Validation function for network health response
+function isValidNetworkHealthResponse(data: unknown): data is EnhancedNetworkHealth {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  
+  return (
+    typeof obj.congestionLevel === 'string' &&
+    ['low', 'normal', 'high', 'extreme'].includes(obj.congestionLevel) &&
+    typeof obj.mempoolSize === 'number' &&
+    typeof obj.mempoolBytes === 'number' &&
+    (typeof obj.averageFee === 'number' || typeof obj.averageFee === 'object') &&
+    typeof obj.nextBlockETA === 'string' &&
+    typeof obj.recommendation === 'string' &&
+    typeof obj.humanReadable === 'object' &&
+    obj.humanReadable !== null &&
+    typeof obj.timestamp === 'number' &&
+    typeof obj.blockchainTip === 'number' &&
+    typeof obj.feeEstimates === 'object' &&
+    obj.feeEstimates !== null
+  );
 }
 
 interface BitcoinPrice {
@@ -21,13 +38,20 @@ interface BitcoinPrice {
   change24h: number;
 }
 
+interface NetworkStatusError {
+  message: string;
+  isRetryable: boolean;
+  retryAfter?: number;
+}
+
 const NetworkStatus: React.FC = () => {
   const [networkHealth, setNetworkHealth] = useState<EnhancedNetworkHealth | null>(null);
   const [bitcoinPrice, setBitcoinPrice] = useState<BitcoinPrice | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<NetworkStatusError | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
-  const fetchNetworkHealth = async () => {
+  const fetchNetworkHealth = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -37,56 +61,81 @@ const NetworkStatus: React.FC = () => {
         fetch('/api/mempool/network/status/', {
           headers: {
             'Accept': 'application/json'
-          }
+          },
+          signal: AbortSignal.timeout(15000)
         }),
         BitcoinAPI.getCurrentPrice()
       ]);
       
       if (!networkResponse.ok) {
-        throw new Error('Failed to fetch network status');
+        const errorData = await networkResponse.json().catch(() => null);
+        
+        if (errorData?.error && isToolError(errorData.error)) {
+          const toolError = errorData.error as ToolError;
+          setError({
+            message: toolError.userFriendlyMessage,
+            isRetryable: toolError.retryable,
+            retryAfter: toolError.type === 'rate_limit' && 'resetTime' in toolError 
+              ? (toolError.resetTime as number) * 1000 
+              : undefined
+          });
+          return;
+        }
+        
+        throw new Error(`HTTP ${networkResponse.status}: Failed to fetch network status`);
       }
       
       const networkData = await networkResponse.json();
       
-      // Fetch detailed fee estimates
-      try {
-        const feeResponse = await fetch('https://mempool.space/api/v1/fees/recommended', {
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (feeResponse.ok) {
-          const feeData = await feeResponse.json();
-          networkData.feeEstimates = {
-            fastestFee: feeData.fastestFee,
-            halfHourFee: feeData.halfHourFee,
-            hourFee: feeData.hourFee,
-            economyFee: feeData.economyFee
-          };
-        }
-      } catch (feeError) {
-        console.warn('Failed to fetch fee estimates:', feeError);
+      // Validate the response structure
+      if (!isValidNetworkHealthResponse(networkData)) {
+        throw new Error('Invalid network status response format');
       }
       
       setNetworkHealth(networkData);
       setBitcoinPrice(bitcoinPriceData);
+      setRetryCount(0); // Reset retry count on success
+      
     } catch (err) {
       console.error('Error fetching network health:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      
+      const isTimeout = err instanceof Error && err.name === 'AbortError';
+      const shouldRetry = retryCount < 3 && (isTimeout || err instanceof TypeError);
+      
+      setError({
+        message: isTimeout 
+          ? 'Request timed out. The Bitcoin network might be experiencing delays.' 
+          : err instanceof Error 
+          ? err.message 
+          : 'An unexpected error occurred',
+        isRetryable: shouldRetry
+      });
+      
+      // Automatic retry with exponential backoff
+      if (shouldRetry) {
+        const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+        setTimeout(() => {
+          setRetryCount(prev => prev + 1);
+          fetchNetworkHealth();
+        }, retryDelay);
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [retryCount]);
 
   useEffect(() => {
     fetchNetworkHealth();
     
     // Set up auto-refresh every 30 seconds
-    const interval = setInterval(fetchNetworkHealth, 30000);
+    const interval = setInterval(() => {
+      if (!isLoading) {
+        fetchNetworkHealth();
+      }
+    }, 30000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchNetworkHealth, isLoading]);
 
   const getStatusIcon = (congestionLevel: NetworkHealth['congestionLevel']) => {
     switch (congestionLevel) {
@@ -152,49 +201,52 @@ const NetworkStatus: React.FC = () => {
     return new Intl.NumberFormat().format(num);
   };
 
-  const calculateTxCostUSD = (feeRate: number, txSize: number = 140): number => {
+  const calculateTxCostUSD = useCallback((feeRate: FeeRate, txSize: number = 140): number => {
     if (!bitcoinPrice) return 0;
-    const satoshiCost = feeRate * txSize;
+    const satoshiCost = Number(feeRate) * txSize;
     const btcCost = satoshiCost / 100000000;
     return btcCost * bitcoinPrice.price;
-  };
+  }, [bitcoinPrice]);
 
-  const getCongestionProgress = (): { percentage: number; color: string; label: string } => {
-    if (!networkHealth) return { percentage: 0, color: 'bg-gray-400', label: 'Unknown' };
+  const congestionProgress = useMemo((): { percentage: number; color: string; label: string } => {
+    if (!networkHealth || !networkHealth.analysis) {
+      return { percentage: 0, color: 'bg-gray-400', label: 'Unknown' };
+    }
     
-    // Base congestion on fee rates rather than just transaction count
-    const avgFee = networkHealth.averageFee;
-    const mempoolSize = networkHealth.mempoolSize;
+    // Use the enhanced analysis from the API
+    const { congestionPercentage, trafficLevel } = networkHealth.analysis;
     
-    // Low congestion: fees < 10 sat/vB
-    // Normal: 10-30 sat/vB
-    // High: 30-100 sat/vB  
-    // Extreme: 100+ sat/vB
-    
-    let percentage: number;
     let color: string;
     let label: string;
     
-    if (avgFee < 10) {
-      percentage = Math.min(25, (mempoolSize / 10000) * 25);
-      color = 'bg-green-500';
-      label = 'Low Congestion';
-    } else if (avgFee < 30) {
-      percentage = 25 + Math.min(25, ((avgFee - 10) / 20) * 25);
-      color = 'bg-yellow-500';
-      label = 'Normal Congestion';
-    } else if (avgFee < 100) {
-      percentage = 50 + Math.min(25, ((avgFee - 30) / 70) * 25);
-      color = 'bg-orange-500';
-      label = 'High Congestion';
-    } else {
-      percentage = 75 + Math.min(25, Math.min(avgFee / 200, 1) * 25);
-      color = 'bg-red-500';
-      label = 'Extreme Congestion';
+    switch (trafficLevel) {
+      case 'light':
+        color = 'bg-green-500';
+        label = 'Light Traffic';
+        break;
+      case 'normal':
+        color = 'bg-yellow-500';
+        label = 'Normal Traffic';
+        break;
+      case 'heavy':
+        color = 'bg-orange-500';
+        label = 'Heavy Traffic';
+        break;
+      case 'extreme':
+        color = 'bg-red-500';
+        label = 'Extreme Congestion';
+        break;
+      default:
+        color = 'bg-gray-400';
+        label = 'Unknown';
     }
     
-    return { percentage: Math.round(percentage), color, label };
-  };
+    return { 
+      percentage: Math.max(5, Math.min(100, congestionPercentage)), 
+      color, 
+      label 
+    };
+  }, [networkHealth]);
 
   const getFeeLabel = (feeType: string): { label: string; emoji: string; timeEstimate: string } => {
     const feeLabels = {
@@ -223,14 +275,43 @@ const NetworkStatus: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Unable to load network status</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">We're having trouble connecting to the Bitcoin network data.</p>
-        <button
-          onClick={fetchNetworkHealth}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bitcoin hover:bg-bitcoin-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin"
-        >
-          Try Again
-        </button>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          {error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          {error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
+        </p>
+        
+        {error?.retryAfter && (
+          <p className="text-sm text-orange-600 dark:text-orange-400 mb-4">
+            Rate limit exceeded. Please wait {Math.ceil((error.retryAfter - Date.now()) / 1000)} seconds.
+          </p>
+        )}
+        
+        {(!error?.retryAfter || error.retryAfter <= Date.now()) && (
+          <div className="space-x-3">
+            <button
+              onClick={fetchNetworkHealth}
+              disabled={isLoading || retryCount >= 3}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bitcoin hover:bg-bitcoin-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Retrying...' : retryCount >= 3 ? 'Max Retries Reached' : 'Try Again'}
+            </button>
+            
+            {retryCount >= 3 && (
+              <button
+                onClick={() => {
+                  setRetryCount(0);
+                  setError(null);
+                  fetchNetworkHealth();
+                }}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin"
+              >
+                Reset and Retry
+              </button>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -274,15 +355,15 @@ const NetworkStatus: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {getCongestionProgress().label}
+              {congestionProgress.label}
             </span>
           </div>
           
           <div className="relative">
             <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4 mb-3">
               <div
-                className={`h-4 rounded-full transition-all duration-500 ${getCongestionProgress().color}`}
-                style={{ width: `${getCongestionProgress().percentage}%` }}
+                className={`h-4 rounded-full transition-all duration-500 ${congestionProgress.color}`}
+                style={{ width: `${congestionProgress.percentage}%` }}
               ></div>
             </div>
             <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
@@ -317,14 +398,14 @@ const NetworkStatus: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {Object.entries(networkHealth.feeEstimates).map(([feeType, feeRate]) => {
               const feeInfo = getFeeLabel(feeType);
-              const costUSD = calculateTxCostUSD(feeRate);
+              const costUSD = calculateTxCostUSD(feeRate as FeeRate);
               
               return (
                 <div key={feeType} className="bg-white dark:bg-gray-700 rounded-xl p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
                   <div className="text-center">
                     <div className="text-2xl mb-2">{feeInfo.emoji}</div>
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
-                    <div className="text-lg font-bold text-bitcoin mb-1">{feeRate} sat/vB</div>
+                    <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
                     {bitcoinPrice && (
                       <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                         ~${costUSD.toFixed(2)} USD
@@ -367,13 +448,7 @@ const NetworkStatus: React.FC = () => {
              '🚨 Network is very congested'}
           </p>
           <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
-            {networkHealth.congestionLevel === 'low' 
-              ? 'Fees are at their lowest and transactions will confirm quickly. This is the best time to send Bitcoin if you want to save on fees.'
-              : networkHealth.congestionLevel === 'normal'
-              ? 'Standard fees apply and transactions will confirm at normal speed. Most transactions will be processed within 10-30 minutes.'
-              : networkHealth.congestionLevel === 'high'
-              ? 'Fees are higher than usual due to increased demand. Consider waiting if your transaction is not urgent, or pay higher fees for faster processing.'
-              : 'Fees are very high right now. Unless your transaction is urgent, consider waiting a few hours for the network to clear up.'}
+            {networkHealth.humanReadable.userAdvice}
           </p>
           
           {/* Fee-based recommendations */}
@@ -381,17 +456,17 @@ const NetworkStatus: React.FC = () => {
             <div className="bg-white/50 dark:bg-black/20 rounded-lg p-4 mt-4">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2">💰 Fee Recommendation:</h4>
               <div className="text-sm text-gray-700 dark:text-gray-300">
-                {networkHealth.averageFee < 10 && (
-                  <span>Use <strong>Economy fees</strong> ({networkHealth.feeEstimates.economyFee} sat/vB) to save money!</span>
+                {Number(networkHealth.averageFee) < 10 && (
+                  <span>Use <strong>Economy fees</strong> ({Number(networkHealth.feeEstimates.economyFee)} sat/vB) to save money!</span>
                 )}
-                {networkHealth.averageFee >= 10 && networkHealth.averageFee < 30 && (
-                  <span>Use <strong>Standard fees</strong> ({networkHealth.feeEstimates.halfHourFee} sat/vB) for reliable confirmation.</span>
+                {Number(networkHealth.averageFee) >= 10 && Number(networkHealth.averageFee) < 30 && (
+                  <span>Use <strong>Standard fees</strong> ({Number(networkHealth.feeEstimates.halfHourFee)} sat/vB) for reliable confirmation.</span>
                 )}
-                {networkHealth.averageFee >= 30 && networkHealth.averageFee < 100 && (
-                  <span>Consider <strong>Priority fees</strong> ({networkHealth.feeEstimates.fastestFee} sat/vB) or wait for lower congestion.</span>
+                {Number(networkHealth.averageFee) >= 30 && Number(networkHealth.averageFee) < 100 && (
+                  <span>Consider <strong>Priority fees</strong> ({Number(networkHealth.feeEstimates.fastestFee)} sat/vB) or wait for lower congestion.</span>
                 )}
-                {networkHealth.averageFee >= 100 && (
-                  <span>⚠️ <strong>High fees required</strong> ({networkHealth.feeEstimates.fastestFee} sat/vB) - consider waiting unless urgent.</span>
+                {Number(networkHealth.averageFee) >= 100 && (
+                  <span>⚠️ <strong>High fees required</strong> ({Number(networkHealth.feeEstimates.fastestFee)} sat/vB) - consider waiting unless urgent.</span>
                 )}
               </div>
             </div>
@@ -404,13 +479,7 @@ const NetworkStatus: React.FC = () => {
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm">
           <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
-            {networkHealth.congestionLevel === 'low' 
-              ? '💡 Send your transactions now to take advantage of low fees. This is the ideal time for non-urgent transfers.'
-              : networkHealth.congestionLevel === 'normal'
-              ? '💡 Network conditions are normal. Feel free to send transactions with standard fee settings.'
-              : networkHealth.congestionLevel === 'high'
-              ? '💡 If possible, wait a few hours for lower fees. If you must send now, use priority fees to ensure confirmation.'
-              : '💡 We strongly recommend waiting unless absolutely necessary. Fees could be 5-10x higher than normal right now.'}
+            {networkHealth.recommendation}
           </p>
         </div>
       </div>
@@ -425,9 +494,10 @@ const NetworkStatus: React.FC = () => {
         </div>
         <button
           onClick={fetchNetworkHealth}
-          className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors"
+          disabled={isLoading}
+          className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Refresh
+          {isLoading ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
     </div>

@@ -189,12 +189,50 @@ export interface MempoolInfo {
   readonly timestamp: UnixTimestamp;
 }
 
+// Raw API response types (before validation and branding)
+export interface RawMempoolInfo {
+  readonly count: number;
+  readonly vsize: number;
+  readonly total_fee: number;
+  readonly fee_histogram: number[][];
+}
+
+export interface RawMempoolFeeEstimates {
+  readonly fastestFee: number;
+  readonly halfHourFee: number;
+  readonly hourFee: number;
+  readonly economyFee: number;
+  readonly minimumFee: number;
+}
+
 export interface MempoolFeeEstimates {
   readonly fastestFee: FeeRate;
   readonly halfHourFee: FeeRate;
   readonly hourFee: FeeRate;
   readonly economyFee: FeeRate;
   readonly minimumFee: FeeRate;
+}
+
+// Enhanced network health with detailed fee estimates
+export interface EnhancedNetworkHealth extends NetworkHealth {
+  readonly feeEstimates: {
+    readonly fastestFee: FeeRate;
+    readonly halfHourFee: FeeRate;
+    readonly hourFee: FeeRate;
+    readonly economyFee: FeeRate;
+  };
+  readonly analysis: {
+    readonly congestionPercentage: number;
+    readonly feeSpreadRatio: number;
+    readonly mempoolEfficiency: number;
+    readonly trafficLevel: 'light' | 'normal' | 'heavy' | 'extreme';
+  };
+  readonly usdCosts?: {
+    readonly fastestFee: USDAmount;
+    readonly halfHourFee: USDAmount;
+    readonly hourFee: USDAmount;
+    readonly economyFee: USDAmount;
+  };
 }
 
 // Template literal types for route safety
@@ -458,6 +496,58 @@ export const isValidFeeRate = (value: number): value is FeeRate => {
   return value > 0 && value <= 1000000 && Number.isFinite(value);
 };
 
+export const isValidBlockHeight = (value: number): value is BlockHeight => {
+  return Number.isInteger(value) && value >= 0 && value <= 10000000;
+};
+
+export const isValidUnixTimestamp = (value: number): value is UnixTimestamp => {
+  return Number.isInteger(value) && value > 0 && value <= 2147483647;
+};
+
+// Type guards for API response validation
+export const isValidRawMempoolInfo = (data: unknown): data is RawMempoolInfo => {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  
+  return (
+    typeof obj.count === 'number' &&
+    typeof obj.vsize === 'number' &&
+    typeof obj.total_fee === 'number' &&
+    Array.isArray(obj.fee_histogram) &&
+    obj.count >= 0 &&
+    obj.vsize >= 0 &&
+    obj.total_fee >= 0
+  );
+};
+
+export const isValidRawMempoolFeeEstimates = (data: unknown): data is RawMempoolFeeEstimates => {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  
+  return (
+    typeof obj.fastestFee === 'number' &&
+    typeof obj.halfHourFee === 'number' &&
+    typeof obj.hourFee === 'number' &&
+    typeof obj.economyFee === 'number' &&
+    typeof obj.minimumFee === 'number' &&
+    obj.fastestFee > 0 &&
+    obj.halfHourFee > 0 &&
+    obj.hourFee > 0 &&
+    obj.economyFee > 0 &&
+    obj.minimumFee > 0
+  );
+};
+
+export const isValidNetworkCongestionLevel = (value: string): value is NetworkCongestionLevel => {
+  const validLevels: NetworkCongestionLevel[] = ['low', 'normal', 'high', 'extreme'];
+  return validLevels.includes(value as NetworkCongestionLevel);
+};
+
+export const isValidNetworkColorScheme = (value: string): value is NetworkColorScheme => {
+  const validSchemes: NetworkColorScheme[] = ['green', 'yellow', 'orange', 'red'];
+  return validSchemes.includes(value as NetworkColorScheme);
+};
+
 // Factory functions for branded types
 export const createBitcoinTxId = (value: string): BitcoinTxId | null => {
   return isBitcoinTxId(value) ? (value as BitcoinTxId) : null;
@@ -471,13 +561,56 @@ export const createFeeRate = (value: number): FeeRate | null => {
   return isValidFeeRate(value) ? (value as FeeRate) : null;
 };
 
-// Safe conversion utilities for numbers to branded types
-export const toSatoshiAmount = (value: number): SatoshiAmount => value as SatoshiAmount;
-export const toBTCAmount = (value: number): BTCAmount => value as BTCAmount;
-export const toUSDAmount = (value: number): USDAmount => value as USDAmount;
-export const toFeeRate = (value: number): FeeRate => value as FeeRate;
-export const toBlockHeight = (value: number): BlockHeight => value as BlockHeight;
-export const toUnixTimestamp = (value: number): UnixTimestamp => value as UnixTimestamp;
+// Safe conversion utilities for numbers to branded types with validation
+export const toSatoshiAmount = (value: number): SatoshiAmount => {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error(`Invalid satoshi amount: ${value}`);
+  }
+  return value as SatoshiAmount;
+};
+
+export const toBTCAmount = (value: number): BTCAmount => {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error(`Invalid BTC amount: ${value}`);
+  }
+  return value as BTCAmount;
+};
+
+export const toUSDAmount = (value: number): USDAmount => {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new Error(`Invalid USD amount: ${value}`);
+  }
+  return value as USDAmount;
+};
+
+export const toFeeRate = (value: number): FeeRate => {
+  if (!isValidFeeRate(value)) {
+    throw new Error(`Invalid fee rate: ${value}`);
+  }
+  return value as FeeRate;
+};
+
+export const toBlockHeight = (value: number): BlockHeight => {
+  if (!isValidBlockHeight(value)) {
+    throw new Error(`Invalid block height: ${value}`);
+  }
+  return value as BlockHeight;
+};
+
+export const toUnixTimestamp = (value: number): UnixTimestamp => {
+  if (!isValidUnixTimestamp(value)) {
+    throw new Error(`Invalid unix timestamp: ${value}`);
+  }
+  return value as UnixTimestamp;
+};
+
+// Safe conversion utilities without validation (for trusted sources)
+export const toSatoshiAmountUnsafe = (value: number): SatoshiAmount => value as SatoshiAmount;
+export const toBTCAmountUnsafe = (value: number): BTCAmount => value as BTCAmount;
+export const toUSDAmountUnsafe = (value: number): USDAmount => value as USDAmount;
+export const toFeeRateUnsafe = (value: number): FeeRate => value as FeeRate;
+export const toBlockHeightUnsafe = (value: number): BlockHeight => value as BlockHeight;
+export const toUnixTimestampUnsafe = (value: number): UnixTimestamp => value as UnixTimestamp;
 
 // Safe conversion utilities for strings to branded types
 export const toDocumentHash = (value: string): DocumentHash => value as DocumentHash;
@@ -494,6 +627,61 @@ export const validateAndConvertAddress = (value: string): BitcoinAddress | null 
   return isBitcoinAddress(value) ? toBitcoinAddress(value) : null;
 };
 
+export const validateAndConvertFeeRate = (value: number): FeeRate | null => {
+  return isValidFeeRate(value) ? toFeeRateUnsafe(value) : null;
+};
+
+export const validateAndConvertBlockHeight = (value: number): BlockHeight | null => {
+  return isValidBlockHeight(value) ? toBlockHeightUnsafe(value) : null;
+};
+
+export const validateAndConvertUnixTimestamp = (value: number): UnixTimestamp | null => {
+  return isValidUnixTimestamp(value) ? toUnixTimestampUnsafe(value) : null;
+};
+
+// API response validation and conversion
+export const validateAndConvertMempoolInfo = (data: unknown): MempoolInfo | null => {
+  if (!isValidRawMempoolInfo(data)) return null;
+  
+  try {
+    return {
+      count: data.count,
+      vsize: data.vsize,
+      total_fee: toSatoshiAmount(data.total_fee),
+      fee_histogram: data.fee_histogram
+        .filter((entry): entry is [number, number] => 
+          Array.isArray(entry) && 
+          entry.length === 2 && 
+          typeof entry[0] === 'number' && 
+          typeof entry[1] === 'number'
+        )
+        .map(([fee, count]) => [
+          toFeeRate(fee),
+          count
+        ] as const),
+      timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000)) // Add current timestamp since API doesn't provide one
+    };
+  } catch {
+    return null;
+  }
+};
+
+export const validateAndConvertMempoolFeeEstimates = (data: unknown): MempoolFeeEstimates | null => {
+  if (!isValidRawMempoolFeeEstimates(data)) return null;
+  
+  try {
+    return {
+      fastestFee: toFeeRate(data.fastestFee),
+      halfHourFee: toFeeRate(data.halfHourFee),
+      hourFee: toFeeRate(data.hourFee),
+      economyFee: toFeeRate(data.economyFee),
+      minimumFee: toFeeRate(data.minimumFee)
+    };
+  } catch {
+    return null;
+  }
+};
+
 // Type assertion helpers for use when you know the type is correct
 export const assertBitcoinTxId = (value: string): asserts value is BitcoinTxId => {
   if (!isBitcoinTxId(value)) {
@@ -507,15 +695,8 @@ export const assertBitcoinAddress = (value: string): asserts value is BitcoinAdd
   }
 };
 
-// Enhanced error creation with type-specific context
-type CreateErrorOptions<T extends ToolErrorType> = 
-  T extends 'validation' ? { field?: string; invalidValue?: unknown } :
-  T extends 'network' ? { statusCode?: number; endpoint?: string } :
-  T extends 'api' ? { statusCode: number; endpoint: string; rateLimitReset?: number } :
-  T extends 'timeout' ? { timeoutMs: number; operation: string } :
-  T extends 'rate_limit' ? { resetTime: UnixTimestamp; requestsRemaining: number } :
-  T extends 'not_found' ? { resourceType: 'transaction' | 'address' | 'block'; resourceId: string } :
-  Record<string, never>;
+// Type alias for error options (used in createToolError function)
+type ErrorOptions = Record<string, unknown>;
 
 // Enhanced error creation with simplified interface
 export function createToolError(
@@ -529,7 +710,7 @@ export function createToolError(
   type: ToolErrorType,
   errorKey: string,
   originalError?: Error,
-  options?: any
+  options?: ErrorOptions
 ): ToolError {
   const errorTemplate = ERROR_MESSAGES[errorKey] || ERROR_MESSAGES.UNKNOWN_ERROR;
   
@@ -611,4 +792,57 @@ export const isValidToolId = (value: string): value is ToolId => {
 export const validateToolId = (value: string | undefined): ToolId | null => {
   if (!value || !isValidToolId(value)) return null;
   return value;
+};
+
+// Type guards for network status validation
+export const isValidEnhancedNetworkHealth = (data: unknown): data is EnhancedNetworkHealth => {
+  if (!data || typeof data !== 'object') return false;
+  const obj = data as Record<string, unknown>;
+  
+  return (
+    typeof obj.congestionLevel === 'string' &&
+    isValidNetworkCongestionLevel(obj.congestionLevel) &&
+    typeof obj.mempoolSize === 'number' &&
+    typeof obj.mempoolBytes === 'number' &&
+    typeof obj.averageFee === 'number' &&
+    typeof obj.nextBlockETA === 'string' &&
+    typeof obj.recommendation === 'string' &&
+    typeof obj.humanReadable === 'object' &&
+    obj.humanReadable !== null &&
+    typeof obj.timestamp === 'number' &&
+    typeof obj.blockchainTip === 'number'
+  );
+};
+
+// Helper function to check if error is a ToolError
+export const isToolError = (error: unknown): error is ToolError => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'type' in error &&
+    'message' in error &&
+    'userFriendlyMessage' in error &&
+    'suggestions' in error &&
+    'retryable' in error
+  );
+};
+
+// Helper function to get status code from error
+export const getStatusCodeFromError = (error: ToolError): number => {
+  switch (error.type) {
+    case 'validation':
+      return 400;
+    case 'timeout':
+      return 408;
+    case 'rate_limit':
+      return 429;
+    case 'not_found':
+      return 404;
+    case 'api':
+      return (error as any).statusCode || 503;
+    case 'network':
+      return (error as any).statusCode || 502;
+    default:
+      return 500;
+  }
 };
