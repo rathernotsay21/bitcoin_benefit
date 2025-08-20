@@ -134,7 +134,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
       {/* Main Tool Content - 60% width */}
       <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
         {/* Transaction ID Input */}

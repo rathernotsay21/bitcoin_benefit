@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -204,62 +204,129 @@ export default function ToolTabsNavigation({
   // Use search params tool if provided and valid, otherwise use defaultTool
   const initialTool = processedParams.tool || defaultTool;
   const [activeTab, setActiveTab] = useState<ToolId>(initialTool);
+  
+  // Handle opening command palette
+  const openCommandPalette = () => {
+    const event = new KeyboardEvent('keydown', {
+      key: 'k',
+      metaKey: true,
+      bubbles: true
+    });
+    document.dispatchEvent(event);
+  };
+  
+  // Add keyboard shortcut listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        // Command palette will be opened by the ToolCommandPalette component
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div className="w-full">
+
       <Tabs value={activeTab} onValueChange={(value: string) => {
         if (value && value in tools.reduce((acc, tool) => ({ ...acc, [tool.id]: true }), {})) {
           setActiveTab(value as ToolId);
         }
       }} className="w-full">
-        {/* Tab Navigation */}
-        <TabsList className="flex w-full justify-center gap-0.5 h-auto p-1 bg-transparent">
-          {tools.map((tool) => (
-            <TabsTrigger
-              key={tool.id}
-              value={tool.id}
-              className="relative flex flex-col items-center py-3 px-1.5 w-20 sm:w-24 transition-all duration-300 rounded-lg data-[state=active]:bg-bitcoin data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border-0 bg-transparent shadow-none"
-            >
-              <div className="w-7 h-7 mb-2 text-gray-600 dark:text-gray-400 data-[state=active]:text-white transition-colors">
-                <tool.icon className="w-full h-full" />
-              </div>
-              <span className="text-xs font-medium hidden sm:inline text-center leading-tight">
-                {tool.label}
-              </span>
-              <span className="text-xs font-semibold sm:hidden text-center">
-                {tool.shortLabel}
-              </span>
-              {tool.badge && (
-                <Badge 
-                  variant="secondary" 
-                  className="absolute -top-2 -right-2 text-[9px] px-1.5 py-0.5 h-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 rounded-full shadow-sm"
+        {/* Enhanced Tab Navigation */}
+        <div className="relative mb-8">
+          <TabsList className="w-full h-auto p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-lg">
+            <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 w-full">
+              {tools.map((tool) => (
+                <TabsTrigger
+                  key={tool.id}
+                  value={tool.id}
+                  className="relative flex flex-col items-center py-4 px-3 transition-all duration-300 rounded-lg data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[100px] data-[state=active]:transform data-[state=active]:scale-[1.02]"
                 >
-                  {tool.badge}
-                </Badge>
-              )}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+                  <div className="w-8 h-8 mb-3 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110">
+                    <tool.icon className="w-full h-full" />
+                  </div>
+                  <span className="text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-300">
+                    {tool.label}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 group-data-[state=active]:text-white/80 text-center mt-1 transition-colors duration-300">
+                    {tool.description.length > 30 ? tool.description.substring(0, 30) + '...' : tool.description}
+                  </span>
+                  {tool.badge && (
+                    <Badge 
+                      variant="secondary" 
+                      className="absolute -top-1 -right-1 text-[9px] px-1.5 py-0.5 h-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 rounded-full shadow-sm z-10"
+                    >
+                      {tool.badge}
+                    </Badge>
+                  )}
+                </TabsTrigger>
+              ))}
+            </div>
+          </TabsList>
+        </div>
 
-        {/* Tab Content */}
+        {/* Enhanced Tab Content */}
         {tools.map((tool) => {
           const Component = tool.component;
           return (
-            <TabsContent key={tool.id} value={tool.id} className="mt-8 space-y-6">
-              <div className="text-center sm:text-left space-y-3">
-                <div className="flex items-center justify-center sm:justify-start gap-4">
-                  <div className="w-8 h-8 text-bitcoin flex-shrink-0">
-                    <tool.icon className="w-full h-full" />
+            <TabsContent key={tool.id} value={tool.id} className="space-y-8 animate-in fade-in-50 duration-300">
+              {/* Enhanced Tool Header */}
+              <div className="bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-6 border border-gray-200 dark:border-slate-600">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 bg-bitcoin/10 dark:bg-bitcoin/20 rounded-xl flex items-center justify-center">
+                    <tool.icon className="w-8 h-8 text-bitcoin" />
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    {tool.label}
-                  </h2>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                        {tool.label}
+                      </h2>
+                      {tool.badge && (
+                        <Badge 
+                          variant="secondary" 
+                          className="bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 px-2 py-1"
+                        >
+                          {tool.badge}
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {tool.description}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto sm:mx-0 leading-relaxed">
-                  {tool.description}
-                </p>
+                
+                {/* Tool Stats with Search */}
+                <div className="flex flex-wrap items-center gap-4 text-sm">
+                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
+                  </div>
+                  <div className="ml-auto">
+                    <button
+                      onClick={openCommandPalette}
+                      className="bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2"
+                      aria-label="Open search (⌘K)"
+                    >
+                      Press{" "}
+                      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1 mr-1">
+                        <span className="text-xs">⌘</span>K
+                      </kbd>{" "}
+                      to search
+                    </button>
+                  </div>
+                </div>
               </div>
               
+              {/* Tool Component Container */}
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden">
                 <Component 
                   initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}

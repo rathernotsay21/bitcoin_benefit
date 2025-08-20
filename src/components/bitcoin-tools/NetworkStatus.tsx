@@ -137,7 +137,7 @@ const NetworkStatus: React.FC = () => {
   }
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
       {/* Explanatory Text for New Users */}
       <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700 shadow-sm">
         <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">

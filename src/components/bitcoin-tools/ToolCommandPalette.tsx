@@ -145,17 +145,6 @@ export function ToolCommandPalette() {
 
   return (
     <>
-      {/* Keyboard shortcut hint */}
-      <div className="hidden sm:flex items-center justify-center mb-4">
-        <div className="bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-          Press{" "}
-          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1 mr-1">
-            <span className="text-xs">⌘</span>K
-          </kbd>{" "}
-          to search tools
-        </div>
-      </div>
-
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search tools and pages..." className="border-0" />
         <CommandList className="max-h-[400px]">

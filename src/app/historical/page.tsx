@@ -134,17 +134,17 @@ function HistoricalCalculatorContent() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <section className="relative min-h-[150px] py-8 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
-              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Learn from </span>
-              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin's Track Record</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Learn </span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">from Bitcoin</span>
             </h1>
-            <p className="max-w-3xl mx-auto text-lg text-slate-300 leading-relaxed">
-              See exactly how Bitcoin benefits would have grown for your employees if you had started years ago. Real data, real results.
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+              See how bitcoin benefits would have grown over the years.
             </p>
           </div>
         </div>

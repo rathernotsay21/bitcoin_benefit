@@ -123,3 +123,12 @@
 {"level":"debug","message":"Executing script in browser","scriptLength":98,"service":"mcp-puppeteer","timestamp":"2025-08-20 11:51:26.811"}
 {"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-20 11:51:26.812"}
 {"arguments":{"height":900,"name":"network-status-final-working","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-20 11:51:36.459","tool":"puppeteer_screenshot"}
+{"arguments":{"targetUrl":"http://localhost:3001/bitcoin-tools"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:31.968","tool":"puppeteer_connect_active_tab"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","targetUrl":"http://localhost:3001/bitcoin-tools","timestamp":"2025-08-20 13:58:31.970","wsEndpoint":"ws://localhost:9222/devtools/browser/bb04f22b-c76d-4346-b138-f3ef03d7a3ee"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:31.970"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:31.974"}
+{"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:31.978","title":"New Tab","url":"chrome://new-tab-page/"}
+{"arguments":{"url":"http://localhost:3001/bitcoin-tools"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:36.698","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:36.698","url":"http://localhost:3001/bitcoin-tools"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-20 13:58:40.257","url":"http://localhost:3001/bitcoin-tools"}
+{"arguments":{"height":900,"name":"bitcoin-tools-fixed-spacing","width":1440},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:44.801","tool":"puppeteer_screenshot"}

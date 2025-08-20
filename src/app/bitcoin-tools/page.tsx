@@ -61,12 +61,13 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
       </a>
 
       {/* Hero Section */}
-      <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <section className="relative min-h-[150px] py-8 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-              <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin Tools</span>
+              <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin </span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Tools</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               Simple blockchain tools for everyone
@@ -76,13 +77,8 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-8">
-          {/* Command Palette Hint */}
-          <ToolCommandPalette />
-        </div>
-      </div>
+      {/* Command Palette - Functionality available via keyboard shortcut */}
+      <ToolCommandPalette />
 
       {/* Enhanced Tools Interface */}
       <main id="main-tools" className="pb-24" role="main">

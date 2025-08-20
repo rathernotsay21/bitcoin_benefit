@@ -19,75 +19,233 @@ export default function LearnMorePage() {
             <Navigation />
             
             {/* Hero Section */}
-            <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <section className="relative min-h-[150px] py-8 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
               <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
 
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
-                    <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Everything You Need to Know About </span>
-                    <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+                    <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Ready to </span>
+                    <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Get Started?</span>
                   </h1>
-                  <p className="max-w-3xl mx-auto text-lg text-slate-300 leading-relaxed">
-                    Simple answers for regular folks. No crypto jargon, just straight talk about employee benefits that actually work.
+                  <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+                    Business is Hard, Bitcoin is Easy
                   </p>
                 </div>
               </div>
             </section>
 
-            {/* River Implementation Section */}
-            <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 transition-colors duration-300">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center justify-center p-3 bg-green-500 rounded-2xl mb-6">
-                            <BanknotesIcon className="w-8 h-8 text-white" />
-                        </div>
-                        <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                            Ready to Get Started?
+            {/* Bitcoin Exchange Showcase Section */}
+            <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 transition-colors duration-300 relative overflow-hidden">
+                {/* Background decorative elements */}
+                <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/5 to-orange-500/5" aria-hidden="true"></div>
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-bitcoin/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-16">
+                        <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                            <span className="bg-gradient-to-r from-bitcoin via-orange-500 to-bitcoin bg-clip-text text-transparent">
+                                Buying bitcoin has never been easier
+                            </span>
                         </h3>
-                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-2xl mx-auto">
-                            Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">recurring buys</a> to fund each grant over a few weeks or months. Easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">River</a>.
+                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
+                            Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">recurring buys</a> to fund each grant over a few weeks or months. Easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">River</a>.
                         </p>
                     </div>
 
-                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                        <div>
-                            <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                                What sets River apart?
-                            </h4>
-                            <div className="space-y-4 text-gray-600 dark:text-white/90">
-                                <p>
-                                    For U.S. investors prioritizing security and long-term accumulation, River Financial offers a premier, Bitcoin-only platform. River's commitment to security is backed by industry-leading transparency, including monthly <a href="https://river.com/reserves" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">proof of reserves</a> that allow clients to verify their holdings are fully backed, and SOC 2 compliance audits.
-                                </p>
-                                <p>
-                                    River is particularly attractive for dollar-cost averaging (DCA) strategies, offering zero fees on recurring buys, a significant advantage over competitors. As a U.S.-based and regulated institution (NMLS ID 1906809), River combines institutional-grade security with high-touch human support, making it a trusted choice for building a Bitcoin position with confidence.
-                                </p>
-                            </div>
+                    {/* Trusted Exchange Partners */}
+                    <div className="mb-12">
+                        <div className="text-center mb-8">
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Exchange Partners</p>
+                            <div className="w-24 h-1 bg-gradient-to-r from-bitcoin to-orange-500 mx-auto rounded-full"></div>
                         </div>
-
-                        <div className="card glass glow-orange p-6 lg:p-8">
-                            <div className="text-center">
-                                <div className="text-lg font-bold text-gray-900 dark:text-white mb-6">River Advantages</div>
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl">
-                                        <span className="font-medium text-sm text-gray-700 dark:text-white">Recurring Buy Fees</span>
-                                        <span className="font-bold text-green-600 dark:text-green-400 text-lg">$0</span>
-                                    </div>
-                                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl">
-                                        <span className="font-medium text-sm text-gray-700 dark:text-white">Security Audits</span>
-                                        <span className="font-bold text-blue-600 dark:text-blue-400 text-sm">SOC 2</span>
-                                    </div>
-                                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl">
-                                        <span className="font-medium text-sm text-gray-700 dark:text-white">Proof of Reserves</span>
-                                        <span className="font-bold text-purple-600 dark:text-purple-400 text-sm">Monthly</span>
-                                    </div>
-                                    <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 rounded-xl">
-                                        <span className="font-medium text-sm text-gray-700 dark:text-white">Regulation</span>
-                                        <span className="font-bold text-orange-600 dark:text-orange-400 text-sm">NMLS ID 1906809</span>
+                        
+                        {/* Exchange Cards Grid */}
+                        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
+                            {/* Cash App - Left */}
+                            <a 
+                                href="https://cash.app/app/MGZQCNL" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                            >
+                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
+                                    <div className="text-center">
+                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center group-hover:from-green-100 group-hover:to-emerald-100 dark:group-hover:from-green-800/40 dark:group-hover:to-emerald-800/40 transition-colors duration-300">
+                                            <img 
+                                                src="/256px-Square_Cash_app_logo.svg.png" 
+                                                alt="Cash App" 
+                                                className="w-12 h-12 object-contain"
+                                            />
+                                        </div>
+                                        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                                            Cash App
+                                        </h4>
+                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                                            Simple, mobile-first bitcoin buying with instant access and easy peer-to-peer transfers.
+                                        </p>
+                                        
+                                        {/* Security badges */}
+                                        <div className="space-y-1 mb-4">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                </svg>
+                                                PCI-DSS Level 1
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                                </svg>
+                                                Mobile Only
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                                                </svg>
+                                                S&P 500 Company
+                                            </div>
+                                        </div>
+                                        <div className="inline-flex items-center text-green-600 dark:text-green-400 text-sm font-medium group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
+                                            Get Started
+                                            <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
+
+                            {/* River - Center (Featured) */}
+                            <a 
+                                href="https://river.com/signup?r=RH5MJKJM" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="group block transform transition-all duration-300 hover:scale-110 hover:-translate-y-3 relative"
+                            >
+                                {/* Featured Badge */}
+                                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                                    <div className="bg-gradient-to-r from-bitcoin to-orange-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                                        Recommended
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-gradient-to-br from-white to-blue-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-bitcoin/30 dark:border-bitcoin/40 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:border-bitcoin group-hover:shadow-bitcoin/20 h-full relative overflow-hidden">
+                                    {/* Glow effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-bitcoin/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    
+                                    <div className="text-center relative z-10">
+                                        <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-bitcoin/10 to-orange-500/10 rounded-2xl flex items-center justify-center group-hover:from-bitcoin/20 group-hover:to-orange-500/20 transition-colors duration-300">
+                                            <img 
+                                                src="/River_idKJqge62z_1.png" 
+                                                alt="River Financial" 
+                                                className="w-16 h-16 object-contain"
+                                            />
+                                        </div>
+                                        <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-bitcoin transition-colors duration-300">
+                                            River Financial
+                                        </h4>
+                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
+                                            Bitcoin-only platform with zero recurring fees, institutional security, and monthly proof of reserves.
+                                        </p>
+                                        
+                                        {/* Feature highlights */}
+                                        <div className="space-y-2 mb-6">
+                                            <div className="flex items-center justify-center text-xs text-green-600 dark:text-green-400">
+                                                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                $0 Recurring Fees
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-blue-600 dark:text-blue-400">
+                                                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                SOC 2 Certified
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-purple-600 dark:text-purple-400">
+                                                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                Monthly Proof of Reserves
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="inline-flex items-center bg-gradient-to-r from-bitcoin to-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold group-hover:from-orange-500 group-hover:to-bitcoin transition-all duration-300">
+                                            Start with River
+                                            <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            {/* Kraken - Right */}
+                            <a 
+                                href="https://invite.kraken.com/JDNW/f98kz0z6" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                            >
+                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-purple-400 dark:group-hover:border-purple-500 h-full">
+                                    <div className="text-center">
+                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center group-hover:from-purple-100 group-hover:to-indigo-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
+                                            <img 
+                                                src="/kraken-logo.svg" 
+                                                alt="Kraken" 
+                                                className="w-12 h-12 object-contain"
+                                            />
+                                        </div>
+                                        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                                            Kraken
+                                        </h4>
+                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                                            Established exchange with advanced trading features, strong security, and global reach.
+                                        </p>
+                                        
+                                        {/* Security badges */}
+                                        <div className="space-y-1 mb-4">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                </svg>
+                                                SOC 2 Type I
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
+                                                </svg>
+                                                ISO/IEC 27001
+                                            </div>
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                                <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                </svg>
+                                                97% Funds Offline
+                                            </div>
+                                        </div>
+                                        <div className="inline-flex items-center text-purple-600 dark:text-purple-400 text-sm font-medium group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-300">
+                                            Join Kraken
+                                            <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
+                    </div>
+
+                    {/* Why These Platforms */}
+                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
+                        <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Why These Platforms?
+                        </h5>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
+                            Each platform offers unique advantages for different needs. River excels in Bitcoin-only focus and institutional features, Cash App provides mobile simplicity, and Kraken offers advanced trading capabilities. All are trusted, regulated, and proven platforms for acquiring Bitcoin safely.
+                        </p>
                     </div>
                 </div>
             </section>
