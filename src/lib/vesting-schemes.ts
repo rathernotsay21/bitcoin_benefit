@@ -8,7 +8,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     initialGrant: 0.02,
     employeeMatchPercentage: 0,
     icon: 'rocket',
-    tagline: 'Maximum Impact',
+    tagline: 'Impact',
     bestFor: 'Bold companies ready to lead',
     riskLevel: 'High',
     vestingSchedule: [
@@ -43,7 +43,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     employeeMatchPercentage: 0,
     annualGrant: 0.001,
     icon: 'chart-trending-up',
-    tagline: 'Smart & Balanced',
+    tagline: 'Balance',
     bestFor: 'Growing businesses',
     riskLevel: 'Medium',
     vestingSchedule: [

@@ -24,9 +24,9 @@ const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(
 const SunIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.SunIcon })), { ssr: false });
 const MoonIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
 const ClockIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const AcademicCapIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
+const BookOpenIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
 const LinkIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const WrenchScrewdriverIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.WrenchScrewdriverIcon })), { ssr: false });
+const MagnifyingGlassIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
 
 // Load solid versions dynamically
 const HomeIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
@@ -34,9 +34,9 @@ const CalculatorIconSolid = dynamic(() => import('@heroicons/react/24/solid').th
 const SunIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.SunIcon })), { ssr: false });
 const MoonIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
 const ClockIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const AcademicCapIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.AcademicCapIcon })), { ssr: false });
+const BookOpenIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
 const LinkIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const WrenchScrewdriverIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.WrenchScrewdriverIcon })), { ssr: false });
+const MagnifyingGlassIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
 
 export default function MobileNavSheet() {
   const pathname = usePathname();
@@ -76,25 +76,25 @@ export default function MobileNavSheet() {
       description: 'See how plans performed historically'
     },
     {
-      name: 'Bonuses',
+      name: 'Track',
       href: '/track' as const,
-      icon: LinkIcon,
-      activeIcon: LinkIconSolid,
-      description: 'Monitor employee bonus progress'
+      icon: MagnifyingGlassIcon,
+      activeIcon: MagnifyingGlassIconSolid,
+      description: 'Verify and track vesting on-chain'
     },
     {
       name: 'Tools',
       href: '/bitcoin-tools' as const,
-      icon: WrenchScrewdriverIcon,
-      activeIcon: WrenchScrewdriverIconSolid,
-      description: 'Helpful Bitcoin calculators and tools'
+      icon: LinkIcon,
+      activeIcon: LinkIconSolid,
+      description: 'Blockchain tools and calculators'
     },
     {
-      name: 'Learn',
+      name: 'Guide',
       href: '/learn' as const,
-      icon: AcademicCapIcon,
-      activeIcon: AcademicCapIconSolid,
-      description: 'Learn about Bitcoin bonuses'
+      icon: BookOpenIcon,
+      activeIcon: BookOpenIconSolid,
+      description: 'Implementation guide and resources'
     },
   ] as const;
 

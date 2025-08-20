@@ -89,11 +89,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   const applyDefaultVestingPreset = useCallback((schemeId: string) => {
     // Define default Recruit preset events
     const recruitEvents = [
-      { id: `recruit-1-${Date.now()}`, timePeriod: 3, percentageVested: 5, label: '90 Days' },
-      { id: `recruit-2-${Date.now()}`, timePeriod: 12, percentageVested: 20, label: 'Year 1' },
-      { id: `recruit-3-${Date.now()}`, timePeriod: 24, percentageVested: 40, label: 'Year 2' },
-      { id: `recruit-4-${Date.now()}`, timePeriod: 36, percentageVested: 60, label: 'Year 3' },
-      { id: `recruit-5-${Date.now()}`, timePeriod: 48, percentageVested: 100, label: 'Year 4' },
+      { id: `recruit-1-${Date.now()}`, timePeriod: 3, percentageVested: 10, label: '90 Days' },
+      { id: `recruit-2-${Date.now()}`, timePeriod: 12, percentageVested: 40, label: 'Year 1' },
+      { id: `recruit-3-${Date.now()}`, timePeriod: 24, percentageVested: 100, label: 'Year 2' },
     ];
     
     // Clear any existing custom events and apply Recruit preset

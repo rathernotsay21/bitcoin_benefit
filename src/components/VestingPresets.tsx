@@ -16,11 +16,9 @@ const VESTING_PRESETS = {
     name: 'Recruit',
     description: 'Fast earning to attract new talent',
     events: [
-      { id: 'recruit-1', timePeriod: 3, percentageVested: 5, label: '90 Days' },
-      { id: 'recruit-2', timePeriod: 12, percentageVested: 20, label: 'Year 1' },
-      { id: 'recruit-3', timePeriod: 24, percentageVested: 40, label: 'Year 2' },
-      { id: 'recruit-4', timePeriod: 36, percentageVested: 60, label: 'Year 3' },
-      { id: 'recruit-5', timePeriod: 48, percentageVested: 100, label: 'Year 4' },
+      { id: 'recruit-1', timePeriod: 3, percentageVested: 10, label: '90 Days' },
+      { id: 'recruit-2', timePeriod: 12, percentageVested: 40, label: 'Year 1' },
+      { id: 'recruit-3', timePeriod: 24, percentageVested: 100, label: 'Year 2' },
     ] as CustomVestingEvent[],
   },
   retain: {

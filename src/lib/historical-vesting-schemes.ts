@@ -9,7 +9,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
     initialGrant: 0.1, // Increased from 0.02 for historical analysis
     employeeMatchPercentage: 0,
     icon: '🚀',
-    tagline: 'Maximum Impact',
+    tagline: 'Impact',
     bestFor: 'Bold companies ready to lead',
     riskLevel: 'High',
     vestingSchedule: [
@@ -45,7 +45,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
     annualGrant: 0.01, // Increased from 0.001 for historical analysis
     maxAnnualGrants: 5, // Annual grants for the first 5 years
     icon: '📈',
-    tagline: 'Smart & Balanced',
+    tagline: 'Balance',
     bestFor: 'Growing businesses',
     riskLevel: 'Medium',
     vestingSchedule: [

@@ -75,8 +75,8 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-deepSlate dark:text-slate-100 leading-tight">
-              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Keep Your Best People </span>
-              <span className="text-bitcoin dark:text-bitcoin">with Bitcoin Bonuses</span>
+              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Reward Loyalty </span>
+              <span className="text-bitcoin dark:text-bitcoin">with Sound Money</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-deepSlate dark:text-slate-300 leading-relaxed">
               Simple, powerful employee bonuses that grow in value over time.
@@ -118,12 +118,12 @@ export default function HomePage() {
                   Pioneer
                 </h4>
                 <p className="text-deepSlate dark:text-slate-300 mb-6 leading-relaxed">
-                  Big bonus upfront - highest potential returns
+                  Upfront spend for highest potential returns
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-deepSlate dark:text-slate-300">Give the full bonus on day one</span>
+                    <span className="text-base text-deepSlate dark:text-slate-300">Give the full grant on day one</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -149,7 +149,7 @@ export default function HomePage() {
                   Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Good starting bonus with yearly additions
+                  Start big and keep stacking
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
@@ -180,7 +180,7 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Small yearly bonuses - lowest annual cost
+                  Small yearly spend with the lowest annual cost
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
