@@ -75,7 +75,7 @@ export default function LearnMorePage() {
                                     <div className="text-center">
                                         <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center group-hover:from-green-100 group-hover:to-emerald-100 dark:group-hover:from-green-800/40 dark:group-hover:to-emerald-800/40 transition-colors duration-300">
                                             <Image 
-                                                src="/256px-Square_Cash_app_logo.svg.png" 
+                                                src="/cash_app_logo.webp" 
                                                 alt="Cash App" 
                                                 width={48}
                                                 height={48}
@@ -141,7 +141,7 @@ export default function LearnMorePage() {
                                     <div className="text-center relative z-10">
                                         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-bitcoin/10 to-orange-500/10 rounded-2xl flex items-center justify-center group-hover:from-bitcoin/20 group-hover:to-orange-500/20 transition-colors duration-300">
                                             <Image 
-                                                src="/River_idKJqge62z_1.png" 
+                                                src="/river_logo.webp" 
                                                 alt="River Financial" 
                                                 width={64}
                                                 height={64}
@@ -198,7 +198,7 @@ export default function LearnMorePage() {
                                     <div className="text-center">
                                         <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center group-hover:from-purple-100 group-hover:to-indigo-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
                                             <Image 
-                                                src="/kraken-logo.svg" 
+                                                src="/kraken_logo.svg" 
                                                 alt="Kraken" 
                                                 width={48}
                                                 height={48}
