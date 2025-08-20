@@ -4,7 +4,6 @@ import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import Noise from '@/components/ui/noise';
 
 function CalculatorRedirect() {
   const router = useRouter();
@@ -35,21 +34,8 @@ function CalculatorRedirect() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
-        {/* Noise Background */}
-        <div className="absolute inset-0">
-          <Noise 
-            patternSize={100}
-            patternScaleX={1}
-            patternScaleY={1}
-            patternRefreshInterval={200}
-            patternAlpha={0.1}
-            className="opacity-40"
-          />
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/60 via-slate-900/80 to-slate-950/90"></div>
+      <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
@@ -84,21 +70,8 @@ export default function CalculatorPage() {
         <Navigation />
         
         {/* Hero Section */}
-        <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
-          {/* Noise Background */}
-          <div className="absolute inset-0">
-            <Noise 
-              patternSize={100}
-              patternScaleX={1}
-              patternScaleY={1}
-              patternRefreshInterval={200}
-              patternAlpha={0.1}
-              className="opacity-40"
-            />
-          </div>
-          
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-800/60 via-slate-900/80 to-slate-950/90"></div>
+        <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+          <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center">

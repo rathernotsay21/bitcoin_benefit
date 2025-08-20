@@ -97,6 +97,7 @@ export default function Noise({
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patternScaleX, patternScaleY, theme]);
   
   // Animation loop for refreshing pattern
@@ -114,6 +115,7 @@ export default function Noise({
     } else {
       generateNoise();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patternRefreshInterval, theme, patternAlpha]);
   
   return (

@@ -85,11 +85,12 @@ export default function HomePage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Build Your Future with </span>
-              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
+              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Reward Loyalty</span>
+              <br />
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
             </h1>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
-              Simple, no-nonsense employee bonuses that grow stronger over time.
+              No-nonsense benefits that grow stronger over time.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 backdrop-blur-sm">

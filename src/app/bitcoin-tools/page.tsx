@@ -60,28 +60,28 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         Skip to main content
       </a>
 
-      {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <header className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 rounded-3xl shadow-xl" role="banner">
-          <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10 rounded-3xl" aria-hidden="true"></div>
-          <div className="relative px-8 sm:px-12 lg:px-16 pt-16 pb-12">
-            <div className="text-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-                Bitcoin Tools
-                <span className="block text-xl sm:text-3xl lg:text-4xl font-normal text-gray-600 dark:text-gray-300 mt-2">
-                  Simple blockchain tools for everyone
-                </span>
-              </h1>
-              <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed px-4 mb-8">
-                Explore the Bitcoin blockchain with user-friendly tools. Check transactions, calculate fees, 
-                monitor network status, and more - all without needing technical expertise.
-              </p>
+      {/* Hero Section */}
+      <section className="relative min-h-[300px] py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin Tools</span>
+            </h1>
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+              Simple blockchain tools for everyone
+            </p>
               
-              {/* Command Palette Hint */}
-              <ToolCommandPalette />
-            </div>
           </div>
-        </header>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-8">
+          {/* Command Palette Hint */}
+          <ToolCommandPalette />
+        </div>
       </div>
 
       {/* Enhanced Tools Interface */}

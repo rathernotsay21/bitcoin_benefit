@@ -86,10 +86,11 @@ export default function Particles({
       };
     };
     
-    canvasRef.current.addEventListener('mousemove', handleMouseMove);
+    const canvas = canvasRef.current;
+    canvas.addEventListener('mousemove', handleMouseMove);
     
     return () => {
-      canvasRef.current?.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
   

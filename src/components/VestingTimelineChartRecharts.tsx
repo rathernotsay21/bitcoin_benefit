@@ -405,7 +405,7 @@ function VestingTimelineChartRecharts({
       });
       
     return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage, customVestingEvents]);
+  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage]);
 
   // Calculate cost basis based on scheme - all at current price (what employer actually pays)
   const costBasis = useMemo(() => {
