@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
+import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
 import './globals.css'
 
 // Optimize font loading with better performance
@@ -39,12 +40,22 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://mempool.space" />
         
+        {/* Resource hints for better performance */}
+        <link rel="prefetch" href="/data/bitcoin-price.json" />
+        <link rel="prefetch" href="/data/historical-bitcoin.json" />
+        <link rel="prefetch" href="/data/schemes-meta.json" />
+        
         {/* CSS preload will be handled by Next.js automatically */}
         
-        {/* Minimal critical CSS to prevent FOUC */}
+        {/* Enhanced critical CSS to prevent FOUC and improve LCP */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            body{margin:0;padding:0;min-height:100vh}
+            body{margin:0;padding:0;min-height:100vh;font-display:swap}
+            .btn-primary{background:linear-gradient(135deg,#f7931a 0%,#f7931a 100%);padding:14px 28px;border-radius:12px;color:white;font-weight:600;border:none;cursor:pointer;transition:all 0.2s ease;transform:translateZ(0);will-change:transform}
+            .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
+            @keyframes loading{0%{background-position:200% 0}to{background-position:-200% 0}}
+            .chart-container{contain:layout style paint;will-change:contents}
+            .performance-optimized{contain:layout;will-change:auto}
           `
         }} />
         
@@ -79,13 +90,21 @@ export default function RootLayout({
           }}
         />
         <CSSLoadingGuard>
-          <ThemeProvider>
-            <StoreSyncProvider>
-              <div className="min-h-screen transition-colors duration-300">
-                <main>{children}</main>
-              </div>
-            </StoreSyncProvider>
-          </ThemeProvider>
+          <PerformanceMonitor 
+            componentName="RootLayout"
+            enableCoreWebVitals={true}
+            enableDevLogging={process.env.NODE_ENV === 'development'}
+          >
+            <ThemeProvider>
+              <StoreSyncProvider>
+                <div className="min-h-screen transition-colors duration-300 performance-optimized">
+                  <main className="relative">
+                    {children}
+                  </main>
+                </div>
+              </StoreSyncProvider>
+            </ThemeProvider>
+          </PerformanceMonitor>
         </CSSLoadingGuard>
       </body>
     </html>

@@ -118,26 +118,26 @@ async function createMockOpenTimestampsProof(hash: string, timestamp: number): P
   return JSON.stringify(proof, null, 2);
 }
 
-/**
- * Check if OpenTimestamps calendar servers are available
- */
-async function checkOpenTimestampsAvailability(): Promise<boolean> {
-  const calendarUrls = [
-    'https://alice.btc.calendar.opentimestamps.org',
-    'https://bob.btc.calendar.opentimestamps.org'
-  ];
+// /**
+//  * Check if OpenTimestamps calendar servers are available
+//  */
+// async function checkOpenTimestampsAvailability(): Promise<boolean> {
+//   const calendarUrls = [
+//     'https://alice.btc.calendar.opentimestamps.org',
+//     'https://bob.btc.calendar.opentimestamps.org'
+//   ];
 
-  try {
-    const promises = calendarUrls.map(url => 
-      fetch(url, { 
-        signal: AbortSignal.timeout(5000),
-        method: 'HEAD'
-      }).then(response => response.ok).catch(() => false)
-    );
+//   try {
+//     const promises = calendarUrls.map(url => 
+//       fetch(url, { 
+//         signal: AbortSignal.timeout(5000),
+//         method: 'HEAD'
+//       }).then(response => response.ok).catch(() => false)
+//     );
 
-    const results = await Promise.all(promises);
-    return results.some(result => result === true);
-  } catch {
-    return false;
-  }
-}
+//     const results = await Promise.all(promises);
+//     return results.some(result => result === true);
+//   } catch {
+//     return false;
+//   }
+// }

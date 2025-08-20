@@ -27,8 +27,8 @@ interface NetworkConditions {
   recommendation: string;
 }
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+export async function GET(_request: NextRequest) {
+  const { searchParams } = new URL(_request.url);
   const txSize = parseInt(searchParams.get('txSize') || '250');
 
   try {
@@ -183,7 +183,7 @@ function buildFeeRecommendations(
   // Calculate savings and add warnings
   const priorityCost = feeData.fastestFee * txSize;
   
-  recommendations.forEach((rec, index) => {
+  recommendations.forEach((rec) => {
     const cost = rec.satPerVByte * txSize;
     
     if (rec.level !== 'priority') {
@@ -238,7 +238,7 @@ function getTimeEstimate(feeRate: number, congestionLevel: NetworkConditions['co
   return baseTime;
 }
 
-function getFallbackFeeRecommendations(txSize: number): FeeRecommendation[] {
+function getFallbackFeeRecommendations(_txSize: number): FeeRecommendation[] {
   // Conservative fallback estimates when API is unavailable
   return [
     {

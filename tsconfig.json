@@ -1,38 +1,80 @@
 {
   "compilerOptions": {
+    // Language and library options
+    "target": "ES2022",
     "lib": [
       "dom",
       "dom.iterable",
-      "es2022"
+      "es2022",
+      "webworker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
+    
+    // Type checking options (strict mode enhanced)
     "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // "exactOptionalPropertyTypes": true, // Disabled to allow flexible optional props
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false, // Allow dynamic access for flexibility
+    
+    // Module resolution options
     "module": "esnext",
     "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // "verbatimModuleSyntax": true, // Disabled to avoid import issues
+    
+    // Emit options
+    "noEmit": true,
     "jsx": "preserve",
     "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsconfig.tsbuildinfo",
+    
+    // Interop constraints
+    "forceConsistentCasingInFileNames": true,
+    
+    // Path mapping
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/stores/*": ["./src/stores/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/data/*": ["./src/data/*"]
+    },
+    
+    // Next.js plugin
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "src/types/global.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "scripts/generate-static-data.js",
+    "scripts/update-bitcoin-data.js",
     ".next/types/**/*.ts",
     "out/types/**/*.ts"
   ],
@@ -42,10 +84,25 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
+    "**/*.performance.test.ts",
+    "**/*.performance.test.tsx",
     "**/test-setup.ts",
     "**/test-utils.tsx",
     "**/test-utils.ts",
     "vitest.config.ts",
-    "scripts/**/*"
-  ]
+    "scripts/test-*",
+    "scripts/verify-*",
+    "scripts/fix-*",
+    ".next",
+    "out",
+    "dist",
+    "build"
+  ],
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "module": "ESNext",
+      "target": "ES2022"
+    }
+  }
 }

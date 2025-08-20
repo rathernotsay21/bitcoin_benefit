@@ -19,7 +19,7 @@ const CALENDAR_SERVERS = [
   'https://finney.calendar.eternitywall.com'
 ];
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const status = await checkOpenTimestampsStatus();
     
@@ -105,7 +105,7 @@ async function checkOpenTimestampsStatus(): Promise<TimestampStatus> {
 /**
  * Get detailed info about OpenTimestamps for educational purposes
  */
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const info = {
       service: 'OpenTimestamps',

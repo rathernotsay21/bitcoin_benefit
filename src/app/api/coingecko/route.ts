@@ -23,8 +23,8 @@ class ServerRateLimit {
   }
 }
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
+export async function GET(_request: NextRequest) {
+  const searchParams = _request.nextUrl.searchParams;
   const fromTimestamp = searchParams.get('from');
   const toTimestamp = searchParams.get('to');
   const vsCurrency = searchParams.get('vs_currency') || 'usd';

@@ -26,7 +26,7 @@ interface EnhancedNetworkHealth extends NetworkHealth {
   };
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Fetch mempool info and fee estimates in parallel
     const [mempoolResponse, feeResponse] = await Promise.all([
@@ -193,7 +193,7 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
 
 function calculateNextBlockETA(
   congestionLevel: NetworkHealth['congestionLevel'], 
-  averageFee: number
+  _averageFee: number
 ): string {
   // Bitcoin blocks are mined approximately every 10 minutes on average
   // But actual times can vary significantly

@@ -96,18 +96,18 @@ export default function APITestPage() {
                   <div className="flex items-center mb-2">
                     <span className="font-medium text-gray-900 dark:text-white mr-2">Status:</span>
                     <span className={`px-2 py-1 rounded text-sm font-medium ${
-                      results[test.name].ok 
+                      results[test.name]?.ok 
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
                         : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
                     }`}>
-                      {results[test.name].status} {results[test.name].statusText}
+                      {results[test.name]?.status} {results[test.name]?.statusText}
                     </span>
                   </div>
                   
                   <div className="bg-gray-50 dark:bg-slate-700 rounded border p-4">
                     <h4 className="font-medium text-gray-900 dark:text-white mb-2">Response:</h4>
                     <pre className="text-sm overflow-auto max-h-96 bg-gray-100 dark:bg-slate-600 p-3 rounded">
-                      {JSON.stringify(results[test.name], null, 2)}
+                      {JSON.stringify(results[test.name] || {}, null, 2)}
                     </pre>
                   </div>
                 </div>

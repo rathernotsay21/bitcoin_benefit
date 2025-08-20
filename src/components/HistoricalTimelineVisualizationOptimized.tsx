@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, memo, useCallback } from 'react';
+import { useState, useEffect, useMemo, memo, useCallback, startTransition, useDeferredValue } from 'react';
 import { HistoricalCalculationResult } from '@/types/vesting';
 import { SatoshiIcon } from '@/components/icons';
 
@@ -123,25 +123,32 @@ function HistoricalTimelineVisualizationOptimized({
 }: HistoricalTimelineVisualizationProps) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Defer expensive calculations to prevent blocking UI
+  const deferredResults = useDeferredValue(results);
+  const deferredHistoricalPrices = useDeferredValue(historicalPrices);
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      // Use startTransition for non-urgent UI updates
+      startTransition(() => {
+        setIsMobile(window.innerWidth < 768);
+      });
     };
 
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+    window.addEventListener('resize', checkIsMobile, { passive: true });
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
   const currentYear = new Date().getFullYear();
   const totalYears = currentYear - startingYear;
 
-  // Memoize expensive calculations
+  // Memoize expensive calculations with deferred values
   const yearlyGrantCosts = useMemo(() => {
     const costs = new Map<number, number>();
-    for (const grant of results.grantBreakdown) {
-      const yearPrices = historicalPrices[grant.year];
+    for (const grant of deferredResults.grantBreakdown) {
+      const yearPrices = deferredHistoricalPrices[grant.year];
       if (yearPrices) {
         let grantPrice = 0;
         switch (costBasisMethod) {
@@ -160,24 +167,24 @@ function HistoricalTimelineVisualizationOptimized({
       }
     }
     return costs;
-  }, [results.grantBreakdown, historicalPrices, costBasisMethod]);
+  }, [deferredResults.grantBreakdown, deferredHistoricalPrices, costBasisMethod]);
 
-  // Memoize yearly data processing
+  // Memoize yearly data processing with performance optimization
   const yearlyData = useMemo(() => {
     const data = [];
     for (let year = startingYear; year <= currentYear; year++) {
-      const yearPoints = results.timeline.filter(p => p.year === year);
+      const yearPoints = deferredResults.timeline.filter(p => p.year === year);
       const lastPoint = yearPoints.length > 0 ? yearPoints[yearPoints.length - 1] : null;
-      const grants = results.grantBreakdown.filter(g => g.year === year);
+      const grants = deferredResults.grantBreakdown.filter(g => g.year === year);
       const yearsFromStart = year - startingYear;
       const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
 
       const grantCost = yearlyGrantCosts.get(year) || 0;
       
       let historicalCumulativeValue = 0;
-      if (lastPoint && historicalPrices[year]) {
+      if (lastPoint && deferredHistoricalPrices[year]) {
         let yearPrice = 0;
-        const yearPrices = historicalPrices[year];
+        const yearPrices = deferredHistoricalPrices[year];
         switch (costBasisMethod) {
           case 'high':
             yearPrice = yearPrices.high;
@@ -209,7 +216,7 @@ function HistoricalTimelineVisualizationOptimized({
       });
     }
     return data;
-  }, [results, startingYear, currentYear, yearlyGrantCosts, historicalPrices, costBasisMethod]);
+  }, [deferredResults, startingYear, currentYear, yearlyGrantCosts, deferredHistoricalPrices, costBasisMethod]);
 
   // Memoize mobile data filtering
   const mobileData = useMemo(() => {
@@ -223,9 +230,11 @@ function HistoricalTimelineVisualizationOptimized({
     return selectedYear ? yearlyData.find(y => y.year === selectedYear) : null;
   }, [selectedYear, yearlyData]);
 
-  // Optimize click handlers
+  // Optimize click handlers with startTransition
   const handleYearClick = useCallback((year: number) => {
-    setSelectedYear(prev => prev === year ? null : year);
+    startTransition(() => {
+      setSelectedYear(prev => prev === year ? null : year);
+    });
   }, []);
 
   return (
@@ -240,15 +249,15 @@ function HistoricalTimelineVisualizationOptimized({
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
           <span className="flex items-center gap-1">
             <span className="font-medium">Total Granted:</span>
-            <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(results.totalBitcoinGranted)}</span>
+            <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Cost Basis:</span>
-            <span className="text-orange-600 dark:text-orange-400 font-bold capitalize">{results.summary.costBasisMethod} prices</span>
+            <span className="text-orange-600 dark:text-orange-400 font-bold capitalize">{deferredResults.summary.costBasisMethod} prices</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Annualized Return:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(results.annualizedReturn)}</span>
+            <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(deferredResults.annualizedReturn)}</span>
           </span>
         </div>
 

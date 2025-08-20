@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, startTransition, useDeferredValue } from 'react';
 import {
   Line,
   XAxis,
@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   ComposedChart
 } from 'recharts';
+import { getMobileChartConfig, optimizeChartData } from '@/components/charts/RechartsOptimized';
 import { VestingTimelinePoint } from '@/types/vesting';
 import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdownOptimized';
 
@@ -267,6 +268,10 @@ function VestingTimelineChartRecharts({
 }: VestingTimelineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [, setHoveredYear] = useState<number | null>(null);
+  
+  // Defer expensive timeline processing to prevent blocking UI
+  const deferredTimeline = useDeferredValue(timeline);
+  const deferredBitcoinPrice = useDeferredValue(currentBitcoinPrice);
 
   // Helper function to get vesting percentage for a given month
   const getVestingPercentage = useCallback((months: number) => {
@@ -297,19 +302,24 @@ function VestingTimelineChartRecharts({
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      // Use startTransition for non-urgent UI updates
+      startTransition(() => {
+        setIsMobile(window.innerWidth < 768);
+      });
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Extend timeline to 10 years (120 months) if needed
   const extendedTimeline = useMemo(() => {
-    const extended = [...timeline];
-    const maxMonth = Math.max(...timeline.map(p => p.month));
+    if (!deferredTimeline || deferredTimeline.length === 0) return [];
+    
+    const extended = [...deferredTimeline];
+    const maxMonth = Math.max(...deferredTimeline.map(p => p.month));
     const targetMonths = 120; // 10 years
 
     if (maxMonth < targetMonths) {
@@ -317,7 +327,7 @@ function VestingTimelineChartRecharts({
       const lastPoint = timeline[timeline.length - 1];
 
       for (let month = maxMonth + 1; month <= targetMonths; month++) {
-        const bitcoinPrice = currentBitcoinPrice * Math.pow(1 + monthlyGrowthRate, month);
+        const bitcoinPrice = deferredBitcoinPrice * Math.pow(1 + monthlyGrowthRate, month);
         const employerBalance = lastPoint.employerBalance || 0;
 
         extended.push({
@@ -332,7 +342,7 @@ function VestingTimelineChartRecharts({
       }
     }
     return extended;
-  }, [timeline, projectedBitcoinGrowth, currentBitcoinPrice]);
+  }, [timeline, deferredTimeline, projectedBitcoinGrowth, deferredBitcoinPrice]);
 
   // Data processing for yearly points with grant information
   const yearlyData = useMemo(() => {
@@ -352,7 +362,7 @@ function VestingTimelineChartRecharts({
         // Determine if this year has a grant and its cost
         if (year === 0 && initialGrant > 0) {
           grantSize = initialGrant;
-          grantCost = initialGrant * currentBitcoinPrice; // Cost at today's price
+          grantCost = initialGrant * deferredBitcoinPrice; // Cost at today's price
           isInitialGrant = true;
         } else if (annualGrant && annualGrant > 0 && year > 0) {
           // Check scheme-specific grant rules with explicit logic
@@ -366,26 +376,26 @@ function VestingTimelineChartRecharts({
               // Stacker scheme: Annual grants for years 1-5
               if (year <= 5) {
                 grantSize = annualGrant;
-                grantCost = annualGrant * currentBitcoinPrice;
+                grantCost = annualGrant * deferredBitcoinPrice;
               }
               break;
             case 'slow-burn':
               // Builder scheme: Annual grants for years 1-9
               if (year <= 9) {
                 grantSize = annualGrant;
-                grantCost = annualGrant * currentBitcoinPrice;
+                grantCost = annualGrant * deferredBitcoinPrice;
               }
               break;
             default:
               // Custom or unknown scheme
               grantSize = annualGrant;
-              grantCost = annualGrant * currentBitcoinPrice;
+              grantCost = annualGrant * deferredBitcoinPrice;
           }
         }
         
         // Ensure all values are valid numbers with additional safety
         const btcBalance = (isFinite(point.employerBalance) && point.employerBalance >= 0) ? point.employerBalance : 0;
-        const bitcoinPrice = (isFinite(point.bitcoinPrice) && point.bitcoinPrice > 0) ? point.bitcoinPrice : currentBitcoinPrice;
+        const bitcoinPrice = (isFinite(point.bitcoinPrice) && point.bitcoinPrice > 0) ? point.bitcoinPrice : deferredBitcoinPrice;
         const usdValue = btcBalance * bitcoinPrice;
         
         // Calculate vesting percentage for this year
@@ -405,7 +415,7 @@ function VestingTimelineChartRecharts({
       });
       
     return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage]);
+  }, [extendedTimeline, initialGrant, annualGrant, schemeId, deferredBitcoinPrice, getVestingPercentage]);
 
   // Calculate cost basis based on scheme - all at current price (what employer actually pays)
   const costBasis = useMemo(() => {
@@ -413,22 +423,22 @@ function VestingTimelineChartRecharts({
     
     // Initial grant cost at current price
     if (initialGrant > 0) {
-      totalCost += initialGrant * currentBitcoinPrice;
+      totalCost += initialGrant * deferredBitcoinPrice;
     }
     
     // Annual grant costs at current price (employer's actual cost)
     if (annualGrant && annualGrant > 0) {
       if (schemeId === 'slow-burn') {
         // 9 years of annual grants at current price
-        totalCost += annualGrant * currentBitcoinPrice * 9;
+        totalCost += annualGrant * deferredBitcoinPrice * 9;
       } else if (schemeId === 'steady-builder') {
         // 5 years of annual grants at current price  
-        totalCost += annualGrant * currentBitcoinPrice * 5;
+        totalCost += annualGrant * deferredBitcoinPrice * 5;
       }
     }
     
     return totalCost;
-  }, [initialGrant, annualGrant, currentBitcoinPrice, schemeId]);
+  }, [initialGrant, annualGrant, deferredBitcoinPrice, schemeId]);
 
   // Calculate current year for vesting display
   const currentYear = new Date().getFullYear();
@@ -497,14 +507,24 @@ function VestingTimelineChartRecharts({
     return { usdDomain: [0, maxDomain], usdTicks: ticks };
   }, [yearlyData]);
 
-  // Callbacks for mouse events
+  // Optimized mobile configuration
+  const chartConfig = useMemo(() => getMobileChartConfig(isMobile), [isMobile]);
+  
+  // Callbacks for mouse events with performance optimization
   const handleMouseMove = useCallback((e: any) => {
     if (e && e.activeLabel !== undefined) {
-      setHoveredYear(e.activeLabel);
+      // Use startTransition for non-urgent updates
+      startTransition(() => {
+        setHoveredYear(e.activeLabel);
+      });
     }
   }, []);
 
-  const handleMouseLeave = useCallback(() => setHoveredYear(null), []);
+  const handleMouseLeave = useCallback(() => {
+    startTransition(() => {
+      setHoveredYear(null);
+    });
+  }, []);
 
   // Early return if no valid data - after all hooks
   if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
@@ -581,17 +601,14 @@ function VestingTimelineChartRecharts({
       <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
         <ResponsiveContainer 
           width="100%" 
-          height={isMobile ? 420 : 540} 
-          minHeight={360}
-          debounce={100}
+          height={chartConfig.height} 
+          minHeight={300}
+          debounce={150}
         >
           <ComposedChart
             data={yearlyData}
-            throttleDelay={50}
-            margin={isMobile
-              ? { top: 20, right: 20, bottom: 25, left: 10 }
-              : { top: 30, right: 35, bottom: 40, left: 15 }
-            }
+            throttleDelay={100}
+            margin={chartConfig.margin}
             maxBarSize={isMobile ? 20 : undefined}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -697,16 +714,17 @@ function VestingTimelineChartRecharts({
             />
 
 
-            {/* USD Value line - made 30% thinner, no area fill */}
+            {/* USD Value line - optimized for performance */}
             <Line
               yAxisId="usd"
               type="natural"
               dataKey="usdValue"
               stroke="url(#usdGradient)"
-              strokeWidth={2.8} // 30% thinner than original 4
+              strokeWidth={chartConfig.strokeWidth}
               name="USD Value"
               dot={<CustomGrantDot />}
-              isAnimationActive={false} // Disable animation for better performance
+              isAnimationActive={!isMobile} // Disable animation on mobile for better performance
+              animationDuration={chartConfig.animationDuration}
               filter="url(#glow)"
               connectNulls={true}
             />

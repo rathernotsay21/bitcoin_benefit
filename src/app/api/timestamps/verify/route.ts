@@ -147,7 +147,7 @@ async function verifySimplifiedProof(proof: any, expectedHash: string): Promise<
  * Verify actual OpenTimestamps proof
  * This is a placeholder - in production you would use the OpenTimestamps library
  */
-async function verifyOpenTimestampsProof(proof: any, expectedHash: string): Promise<VerificationResult> {
+async function verifyOpenTimestampsProof(proof: any, _expectedHash: string): Promise<VerificationResult> {
   // This would require the actual OpenTimestamps verification library
   // For now, we'll return a placeholder response
   
@@ -186,20 +186,20 @@ async function verifyOpenTimestampsProof(proof: any, expectedHash: string): Prom
   }
 }
 
-/**
- * Check if a timestamp is within a reasonable range
- */
-function isTimestampReasonable(timestamp: number): boolean {
-  const now = Math.floor(Date.now() / 1000);
-  const bitcoinGenesis = 1230940800; // Jan 3, 2009
+// /**
+//  * Check if a timestamp is within a reasonable range
+//  */
+// function isTimestampReasonable(timestamp: number): boolean {
+//   const now = Math.floor(Date.now() / 1000);
+//   const bitcoinGenesis = 1230940800; // Jan 3, 2009
   
-  return timestamp >= bitcoinGenesis && timestamp <= now;
-}
+//   return timestamp >= bitcoinGenesis && timestamp <= now;
+// }
 
-/**
- * Format timestamp for human display
- */
-function formatTimestamp(timestamp: number): string {
-  const date = new Date(timestamp * 1000);
-  return date.toISOString();
-}
+// /**
+//  * Format timestamp for human display
+//  */
+// function formatTimestamp(timestamp: number): string {
+//   const date = new Date(timestamp * 1000);
+//   return date.toISOString();
+// }

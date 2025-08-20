@@ -6,7 +6,7 @@ interface RouteParams {
   };
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(_request: NextRequest, { params }: RouteParams) {
   const { txid } = params;
 
   // Validate transaction ID (should be 64 hex characters)

@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState, Suspense, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { useCalculatorStore } from '@/stores/calculatorStore';
@@ -11,7 +10,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HelpTooltip from '@/components/HelpTooltip';
 import { HELP_CONTENT } from '@/lib/help-content';
-import { ChartBarIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { CogIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import { MetricCardsSkeleton } from '@/components/loading/EnhancedSkeletons';
@@ -148,7 +147,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     // If custom vesting events are present, use the last event's timePeriod
     if (displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0) {
       const sortedEvents = [...displayScheme.customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
-      return sortedEvents[sortedEvents.length - 1].timePeriod;
+      return sortedEvents[sortedEvents.length - 1]?.timePeriod || 48;
     }
     
     // Otherwise use the original plan's schedule
@@ -428,7 +427,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                               {(() => {
                                 const events = displayScheme.customVestingEvents?.sort((a, b) => a.timePeriod - b.timePeriod) || [];
                                 const currentIndex = events.findIndex(e => e.id === event.id);
-                                const incrementalPercent = currentIndex === 0 ? event.percentageVested : event.percentageVested - events[currentIndex - 1].percentageVested;
+                                const incrementalPercent = currentIndex === 0 ? event.percentageVested : event.percentageVested - (events[currentIndex - 1]?.percentageVested || 0);
                                 return `+${incrementalPercent}% → ${event.percentageVested}% total`;
                               })()}
                             </span>

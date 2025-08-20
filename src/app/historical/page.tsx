@@ -373,15 +373,15 @@ function HistoricalCalculatorContent() {
                             }
                           }
                           
-                          const historicalUsdValue = lastPoint.cumulativeBitcoin * historicalBenefitValue;
+                          const historicalUsdValue = lastPoint ? lastPoint.cumulativeBitcoin * historicalBenefitValue : 0;
                           
                           tableData.push({
                             year,
                             grantCost,
-                            btcAmount: lastPoint.cumulativeBitcoin,
+                            btcAmount: lastPoint ? lastPoint.cumulativeBitcoin : 0,
                             historicalPrice: historicalBenefitValue,
                             historicalValue: historicalUsdValue,
-                            currentValue: lastPoint.currentValue,
+                            currentValue: lastPoint ? lastPoint.currentValue : 0,
                             vestingPercent,
                             yearsFromStart
                           });
