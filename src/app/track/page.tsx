@@ -622,11 +622,11 @@ export default function TrackerPage() {
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                          Vesting Grants Matched
+                          Unlocking Grants Matched
                         </span>
                         <span
                           className="text-lg font-bold text-green-800 dark:text-green-300"
-                          aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)} vesting grants matched`}
+                          aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)} unlocking grants matched`}
                         >
                           {Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)}
                         </span>
@@ -788,7 +788,7 @@ export default function TrackerPage() {
                   <div className="flex items-center mb-6">
                     <ChartBarIcon className="w-6 h-6 text-bitcoin mr-2" aria-hidden="true" />
                     <h3 id="timeline-heading" className="text-xl font-bold text-gray-900 dark:text-white">
-                      Vesting Timeline
+                      Unlocking Timeline
                     </h3>
                   </div>
 

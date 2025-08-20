@@ -5,7 +5,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Pioneer',
-    description: 'Give a big bonus upfront for maximum impact.',
+    description: 'Give a big award upfront for maximum impact.',
     initialGrant: 0.1, // Increased from 0.02 for historical analysis
     employeeMatchPercentage: 0,
     icon: '🚀',
@@ -18,7 +18,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
         employeeContributionPercent: 100,
         employerContributionPercent: 0,
         grantPercent: 0,
-        description: 'No bonus earned yet',
+        description: 'No award earned yet',
       },
       {
         months: 60,
@@ -39,7 +39,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'steady-builder',
     name: 'Stacker',
-    description: 'Smart starting bonus plus yearly additions for five years.',
+    description: 'Smart starting award plus yearly additions for five years.',
     initialGrant: 0.05, // Increased from 0.015 for historical analysis
     employeeMatchPercentage: 0,
     annualGrant: 0.01, // Increased from 0.001 for historical analysis
@@ -61,21 +61,21 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
         employeeContributionPercent: 100,
         employerContributionPercent: 0,
         grantPercent: 50,
-        description: '50% vested at 5 years',
+        description: '50% unlocked at 5 years',
       },
       {
         months: 120,
         employeeContributionPercent: 100,
         employerContributionPercent: 0,
         grantPercent: 100,
-        description: '100% vested at 10 years',
+        description: '100% unlocked at 10 years',
       },
     ],
   },
   {
     id: 'slow-burn',
     name: 'Builder',
-    description: 'Yearly bonuses only - keeps costs low and predictable.',
+    description: 'Yearly awards only - keeps costs low and predictable.',
     initialGrant: 0.0, // Remains 0 as specified
     employeeMatchPercentage: 0,
     annualGrant: 0.02, // Increased from 0.002 for historical analysis
@@ -97,14 +97,14 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
         employeeContributionPercent: 100,
         employerContributionPercent: 0,
         grantPercent: 50,
-        description: '50% vested at 5 years',
+        description: '50% unlocked at 5 years',
       },
       {
         months: 120,
         employeeContributionPercent: 100,
         employerContributionPercent: 0,
         grantPercent: 100,
-        description: '100% vested at 10 years',
+        description: '100% unlocked at 10 years',
       },
     ],
   },

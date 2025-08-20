@@ -129,7 +129,7 @@ export default function HomePage() {
                   Pioneer
                 </h4>
                 <p className="text-deepSlate dark:text-slate-300 mb-6 leading-relaxed">
-                  Upfront spend for highest potential returns
+                  Upfront spend for best returns
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
@@ -142,10 +142,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "When I locked up a bitcoin for two of my best guys the competition gave up on recruiting them away from me forever" - Mike, Construction Company
-                  </div>
-                  <span className="badge badge-orange">All In</span>
+                  <span className="badge badge-orange">Beast Mode</span>
                 </div>
               </div>
             </Link>
@@ -165,18 +162,15 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Smart starting bonus</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Smart starting award</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Plus yearly bonuses</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Plus yearly awards</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Our artists deserve real retirement benefits. Bitcoin bonuses are simple and powerful." - Casey, Turtle Farm Pottery
-                  </div>
-                  <span className="badge badge-success">Balanced</span>
+                  <span className="badge badge-success">Mid</span>
                 </div>
               </div>
             </Link>
@@ -191,12 +185,12 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Small yearly spend with the lowest annual cost
+                  Smallest annual cost
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Small bonuses each year for 10 years</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Small awards each year for 10 years</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -204,9 +198,6 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Steady mechanics are hard to come by these days. We can't afford to lose the best ones." - Jeff, Crook Auto-Electric
-                  </div>
                   <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Conservative</span>
                 </div>
               </div>

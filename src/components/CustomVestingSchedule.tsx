@@ -162,7 +162,7 @@ export default function CustomVestingSchedule({
           <DialogTitle className="flex items-center space-x-2">
             <CogIcon className="w-5 h-5 text-bitcoin" />
             <span>Custom Earning Schedule</span>
-            <HelpTooltip content={HELP_CONTENT.vestingSchedule} />
+            <HelpTooltip content={HELP_CONTENT.unlockingSchedule} />
           </DialogTitle>
         </DialogHeader>
 
@@ -173,7 +173,7 @@ export default function CustomVestingSchedule({
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-blue-900 dark:text-blue-200 flex items-center">
                   Total Earned
-                  <HelpTooltip content={HELP_CONTENT.vestingPercent} />
+                  <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
                 </span>
                 <span className={`text-xl font-bold ${
                   totalVested === 100 ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'
@@ -195,7 +195,7 @@ export default function CustomVestingSchedule({
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 flex items-center">
                 Earning Milestones
-                <HelpTooltip content={HELP_CONTENT.gradualVesting} />
+                <HelpTooltip content={HELP_CONTENT.gradualUnlocking} />
               </label>
               <div className="space-y-2 max-h-60 overflow-y-auto">
                 {sortedEvents.map((event, index) => (

@@ -39,7 +39,7 @@ export default function Footer() {
               Stop Losing Your Best Employees
             </h3>
             <p className="text-xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
-              Bitcoin bonuses cost less than you think and mean more than you know.
+              Bitcoin awards cost less than you think and mean more than you know.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
@@ -70,10 +70,10 @@ export default function Footer() {
               <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
             <h4 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Keep your best people with bonuses that actually grow.
+              Keep your best people with awards that actually grow.
             </h4>
             <p className="text-slate-400 mb-8">
-              Simple Bitcoin bonuses that help small businesses compete for talent
+              Simple Bitcoin awards that help small businesses compete for talent
             </p>
           </div>
 

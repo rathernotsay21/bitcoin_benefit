@@ -296,7 +296,7 @@ function HistoricalCalculatorContent() {
                 {/* Introductory Text */}
                 <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                    This tool shows what would have happened if you had started a Bitcoin bonus plan in the past. While Bitcoin's early days saw dramatic growth, the good news is that its wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
+                    This tool shows what would have happened if you had started a Bitcoin award plan in the past. While Bitcoin's early days saw dramatic growth, the good news is that its wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
                   </p>
                 </div>
                 {/* Metric Cards Carousel */}
@@ -309,7 +309,7 @@ function HistoricalCalculatorContent() {
                 {/* Historical Timeline Visualization */}
                 <div className="mb-6 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    This chart shows the actual journey your employee's Bitcoin bonus would have taken from your chosen starting year to today. Notice how the value has grown over time, even with Bitcoin's ups and downs along the way.
+                    This chart shows the actual journey your employee's Bitcoin award would have taken from your chosen starting year to today. Notice how the value has grown over time, even with Bitcoin's ups and downs along the way.
                   </p>
                 </div>
                 <div className="card mb-6">

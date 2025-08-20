@@ -38,10 +38,10 @@ export async function generateMetadata({ params }: PageProps) {
     
     if (scheme) {
       return {
-        title: `${scheme.name} - Bitcoin Vesting Calculator`,
-        description: `${scheme.description}. Calculate Bitcoin vesting schedules and projections.`,
+        title: `${scheme.name} - Bitcoin Unlocking Calculator`,
+        description: `${scheme.description}. Calculate Bitcoin unlocking schedules and projections.`,
         openGraph: {
-          title: `${scheme.name} Bitcoin Vesting Plan`,
+          title: `${scheme.name} Bitcoin Unlocking Plan`,
           description: scheme.description,
         },
       };
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
   
   return {
-    title: 'Bitcoin Vesting Calculator',
+    title: 'Bitcoin Unlocking Calculator',
     description: 'Calculate Bitcoin-based employee vesting schedules and projections.',
   };
 }

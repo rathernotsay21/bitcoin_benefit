@@ -248,7 +248,7 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
       </div>
       {/* Grant schedule subtitle */}
       <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        {schemeId === 'accelerator' && `One bonus of ${formatBTC(initialGrant)} given upfront`}
+        {schemeId === 'accelerator' && `One award of ${formatBTC(initialGrant)} given upfront`}
         {schemeId === 'steady-builder' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 5 years`}
         {schemeId === 'slow-burn' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 9 years`}
       </div>

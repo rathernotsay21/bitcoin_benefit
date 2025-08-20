@@ -151,7 +151,7 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         value: formatBTC(historicalResults.totalBitcoinGranted),
         label: 'Total Bitcoin Given',
         color: 'orange' as const,
-        sublabel: 'All bonuses combined',
+        sublabel: 'All awards combined',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {

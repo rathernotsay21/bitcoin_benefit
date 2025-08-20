@@ -313,7 +313,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Metric Cards Carousel */}
             <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
               <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                This forecast tool shows you how a Bitcoin bonus could play out for one of your employees. The numbers on the right will change based on the grant size and growth you set on the left. It helps you see how a small investment in Bitcoin today could become a great reward for your team down the road.
+                This forecast tool shows you how a Bitcoin award could play out for one of your employees. The numbers on the right will change based on the grant size and growth you set on the left. It helps you see how a small investment in Bitcoin today could become a great reward for your team down the road.
               </p>
             </div>
             <CalculatorErrorBoundary>
@@ -329,12 +329,12 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               )}
             </CalculatorErrorBoundary>
 
-            {/* Vesting Progress */}
+            {/* Unlocking Progress */}
             {displayScheme && (
               <>
                 <div className="mb-6 mt-8 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    This bar shows you how much of the Bitcoin bonus an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
+                    This bar shows you how much of the Bitcoin award an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
                   </p>
                 </div>
               <VestingProgress
@@ -345,10 +345,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               </>
             )}
 
-            {/* Vesting Timeline Chart */}
+            {/* Unlocking Timeline Chart */}
             <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
               <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                This chart gives you a look at potential future value. It shows how the total value of the Bitcoin bonus in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
+                This chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
               </p>
             </div>
             <div className="card w-full overflow-hidden">
@@ -374,7 +374,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               <div className="card mt-6">
                 <div className="mb-6 px-6 py-6 bg-yellow-50/50 dark:bg-yellow-900/20 rounded-lg">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    These are the nuts and bolts of the bonus plan. It spells out the total amount of Bitcoin being granted and the specific timeline of when your employee earns their portions.
+                    These are the nuts and bolts of the award plan. It spells out the total amount of Bitcoin being granted and the specific timeline of when your employee earns their portions.
                   </p>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
@@ -383,19 +383,19 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-                    <span className="text-gray-600 dark:text-slate-300">Starting Bonus</span>
+                    <span className="text-gray-600 dark:text-slate-300">Starting Award</span>
                     <span className="font-semibold dark:text-slate-100">{formatBTC(displayScheme.initialGrant)}</span>
                   </div>
                   {displayScheme.annualGrant && (
                     <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-                      <span className="text-gray-600 dark:text-slate-300">Yearly Bonus</span>
+                      <span className="text-gray-600 dark:text-slate-300">Yearly Award</span>
                       <span className="font-semibold dark:text-slate-100">{formatBTC(displayScheme.annualGrant)} per year</span>
                     </div>
                   )}
 
                   {displayScheme.bonuses && displayScheme.bonuses.length > 0 && (
                     <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-                      <span className="text-gray-600 dark:text-slate-300">Bonuses</span>
+                      <span className="text-gray-600 dark:text-slate-300">Awards</span>
                       <span className="font-semibold dark:text-slate-100">
                         {displayScheme.bonuses.map(b => `${b.bonusPercent}%`).join(', ')}
                       </span>
@@ -411,7 +411,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   </div>
                 </div>
 
-                {/* Vesting Schedule */}
+                {/* Unlocking Schedule */}
                 <div className="mt-6">
                   <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Earning Schedule</h4>
                   <div className="space-y-2">
@@ -435,21 +435,21 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                           </div>
                         ))
                     ) : (
-                      // Show default vesting schedule
+                      // Show default unlocking schedule
                       displayScheme.vestingSchedule.map((milestone, index) => (
                         <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
                           <span className="text-gray-600 dark:text-slate-300 font-medium">
                             {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
                           </span>
                           <span className="font-bold text-base sm:text-sm dark:text-slate-100 text-right sm:text-left">
-                          {milestone.grantPercent}% bonus earned
+                          {milestone.grantPercent}% award earned
                           </span>
                         </div>
                       ))
                     )}
                   </div>
                   
-                  {/* Vesting Schedule Explanation */}
+                  {/* Unlocking Schedule Explanation */}
                   <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
                       // Custom Schedule Active
@@ -469,7 +469,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                               .sort((a, b) => a.timePeriod - b.timePeriod)
                               .map((event, index) => (
                                 <p key={event.id} className="text-xs">
-                                  • {event.label || `Milestone ${index + 1}`}: {event.percentageVested}% vested at {event.timePeriod} month{event.timePeriod !== 1 ? 's' : ''}
+                                  • {event.label || `Milestone ${index + 1}`}: {event.percentageVested}% unlocked at {event.timePeriod} month{event.timePeriod !== 1 ? 's' : ''}
                                 </p>
                               ))}
                           </div>
@@ -482,9 +482,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                           {displayScheme.name} Earning Timeline
                         </h5>
                         <div className="text-sm text-blue-800 dark:text-blue-300">
-                          {/* Show the default vesting schedule for this plan */}
+                          {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
-                            <strong>Default {displayScheme.name} schedule:</strong> Vesting over {Math.round(maxVestingMonths / 12)} years
+                            <strong>Default {displayScheme.name} schedule:</strong> Unlocking over {Math.round(maxVestingMonths / 12)} years
                           </p>
                           
                           {/* Show plan-specific descriptions only when using default schedule */}

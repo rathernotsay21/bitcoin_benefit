@@ -40,7 +40,7 @@ const STRATEGY_CONFIG = {
       border: 'border-orange-200 dark:border-orange-800',
       accent: 'bg-orange-500'
     },
-    description: 'This plan lets your employee earn their bonus faster at the start'
+    description: 'This plan lets your employee earn their award faster at the start'
   },
   'steady-builder': {
     name: 'The Stacker Plan',
@@ -53,7 +53,7 @@ const STRATEGY_CONFIG = {
       border: 'border-blue-200 dark:border-blue-800',
       accent: 'bg-blue-500'
     },
-    description: 'A balanced approach with steady bonus accumulation over time'
+    description: 'A balanced approach with steady award accumulation over time'
   },
   'slow-burn': {
     name: 'The Builder Plan',
@@ -66,7 +66,7 @@ const STRATEGY_CONFIG = {
       border: 'border-green-200 dark:border-green-800',
       accent: 'bg-green-500'
     },
-    description: 'A gradual approach that spreads bonuses over many years'
+    description: 'A gradual approach that spreads awards over many years'
   }
 };
 
@@ -188,7 +188,7 @@ export default function VestingProgress({
           <div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
               {strategyConfig.name}
-              <HelpTooltip content={HELP_CONTENT.vestingPercent} />
+              <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
             </h3>
             <p className="text-sm text-gray-600 dark:text-slate-400">
               {strategyConfig.description}
@@ -267,7 +267,7 @@ export default function VestingProgress({
         </div>
       </div>
       
-      {/* Vesting Schedule Overview */}
+      {/* Unlocking Schedule Overview */}
       <div className={`p-4 ${strategyConfig.colors.bg} rounded-lg border ${strategyConfig.colors.border} mb-4`}>
         <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
@@ -316,7 +316,7 @@ export default function VestingProgress({
                 100% Earned! 🎉
               </p>
               <p className="text-sm text-green-700 dark:text-green-300">
-                Your employee has earned their full Bitcoin bonus.
+                Your employee has earned their full Bitcoin award.
               </p>
             </div>
           </div>
@@ -326,7 +326,7 @@ export default function VestingProgress({
       {/* ARIA announcements for accessibility */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {strategyConfig.name}: {currentProgress.toFixed(1)}% earned.
-        {nextVestingDate && ` Next earning milestone in ${daysUntilNext} days: ${nextVestingAmount.toFixed(1)}% additional bonus earned.`}
+        {nextVestingDate && ` Next earning milestone in ${daysUntilNext} days: ${nextVestingAmount.toFixed(1)}% additional award earned.`}
       </div>
     </div>
   );

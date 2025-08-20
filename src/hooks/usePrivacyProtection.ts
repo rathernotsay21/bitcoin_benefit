@@ -46,7 +46,8 @@ export function usePrivacyProtection(options: PrivacyProtectionOptions) {
 
   // Register session on mount
   useEffect(() => {
-    PrivacyManager.registerSession(sessionId.current);
+    const currentSessionId = sessionId.current;
+    PrivacyManager.registerSession(currentSessionId);
     PrivacyManager.logDataUsage(
       options.toolName, 
       'session_start', 
@@ -54,7 +55,6 @@ export function usePrivacyProtection(options: PrivacyProtectionOptions) {
     );
 
     return () => {
-      const currentSessionId = sessionId.current;
       PrivacyManager.unregisterSession(currentSessionId);
       if (options.clearOnUnmount) {
         const storeKey = TOOL_NAME_MAP[options.toolName];

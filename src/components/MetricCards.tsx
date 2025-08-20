@@ -290,7 +290,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         value: formatUSD(totalInvestmentCost),
         label: 'Total You Pay',
         color: 'blue' as const,
-        sublabel: 'All bonuses combined',
+        sublabel: 'All awards combined',
         icon: undefined
       },
     ],
@@ -307,7 +307,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         value: formatBTC(totalBTCGranted),
         label: 'Total Bitcoin',
         color: 'orange' as const,
-        sublabel: 'All bonuses given',
+        sublabel: 'All awards given',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {

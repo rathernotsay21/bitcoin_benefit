@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
@@ -73,9 +74,11 @@ export default function LearnMorePage() {
                                 <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
                                     <div className="text-center">
                                         <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center group-hover:from-green-100 group-hover:to-emerald-100 dark:group-hover:from-green-800/40 dark:group-hover:to-emerald-800/40 transition-colors duration-300">
-                                            <img 
+                                            <Image 
                                                 src="/256px-Square_Cash_app_logo.svg.png" 
                                                 alt="Cash App" 
+                                                width={48}
+                                                height={48}
                                                 className="w-12 h-12 object-contain"
                                             />
                                         </div>
@@ -137,9 +140,11 @@ export default function LearnMorePage() {
                                     
                                     <div className="text-center relative z-10">
                                         <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-bitcoin/10 to-orange-500/10 rounded-2xl flex items-center justify-center group-hover:from-bitcoin/20 group-hover:to-orange-500/20 transition-colors duration-300">
-                                            <img 
+                                            <Image 
                                                 src="/River_idKJqge62z_1.png" 
                                                 alt="River Financial" 
+                                                width={64}
+                                                height={64}
                                                 className="w-16 h-16 object-contain"
                                             />
                                         </div>
@@ -192,9 +197,11 @@ export default function LearnMorePage() {
                                 <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-purple-400 dark:group-hover:border-purple-500 h-full">
                                     <div className="text-center">
                                         <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center group-hover:from-purple-100 group-hover:to-indigo-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
-                                            <img 
+                                            <Image 
                                                 src="/kraken-logo.svg" 
                                                 alt="Kraken" 
+                                                width={48}
+                                                height={48}
                                                 className="w-12 h-12 object-contain"
                                             />
                                         </div>

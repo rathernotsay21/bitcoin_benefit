@@ -269,7 +269,7 @@ export default function HistoricalDataTable({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `bitcoin-bonus-history-${startingYear}-${new Date().getFullYear()}.csv`;
+    a.download = `bitcoin-award-history-${startingYear}-${new Date().getFullYear()}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -391,7 +391,7 @@ export default function HistoricalDataTable({
               {formatUSD(totalCostBasis)}
             </div>
             <div className="text-xs text-bitcoin dark:text-bitcoin">
-              {formatBTC(totalBitcoinGranted)} total bonuses
+              {formatBTC(totalBitcoinGranted)} total awards
             </div>
           </div>
         </div>

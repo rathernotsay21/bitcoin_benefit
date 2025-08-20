@@ -41,7 +41,7 @@ function CalculatorRedirect() {
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Finding Your Perfect </span>
-              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Vesting Plan</span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Unlocking Plan</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               Getting the right calculator ready for your team...
@@ -77,7 +77,7 @@ export default function CalculatorPage() {
             <div className="text-center">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Finding Your Perfect </span>
-                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Vesting Plan</span>
+                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Unlocking Plan</span>
               </h1>
               <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                 Getting the right calculator ready for your team...

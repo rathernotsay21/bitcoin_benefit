@@ -66,7 +66,7 @@ export default function MobileNavSheet() {
       href: '/calculator' as const,
       icon: CalculatorIcon,
       activeIcon: CalculatorIconSolid,
-      description: 'Build your employee bonus plan'
+      description: 'Build your employee award plan'
     },
     {
       name: 'Results',
