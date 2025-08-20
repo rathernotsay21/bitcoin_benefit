@@ -33,6 +33,7 @@ const PerformanceMonitoringDashboard = dynamic(
 );
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import Noise from '@/components/ui/noise';
 import {
   OnChainErrorBoundary,
   TransactionFetchErrorBoundary,
@@ -373,6 +374,11 @@ function FeatureOverview() {
           </div>
         ))}
       </div>
+      
+      {/* Privacy & Data Usage Notice */}
+      <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <PrivacyDisclaimer />
+      </div>
     </div>
   );
 }
@@ -515,6 +521,36 @@ export default function TrackerPage() {
         </div>
 
         <Navigation />
+        
+        {/* Hero Section */}
+        <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
+          {/* Noise Background */}
+          <div className="absolute inset-0">
+            <Noise 
+              patternSize={120}
+              patternScaleX={1}
+              patternScaleY={1}
+              patternRefreshInterval={250}
+              patternAlpha={0.08}
+              className="opacity-60"
+            />
+          </div>
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-800/60 via-slate-900/80 to-slate-950/90"></div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+                <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Track Your </span>
+                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
+              </h1>
+              <p className="max-w-3xl mx-auto text-lg text-slate-300 leading-relaxed">
+                Don't trust, verify. See your actual Bitcoin grants on-chain with complete transparency.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <main
           id="main-content"
@@ -522,18 +558,6 @@ export default function TrackerPage() {
           style={{ overflowX: 'hidden', overflowY: 'visible' }}
           role="main"
         >
-          {/* Header */}
-          <header className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Vesting Tracker
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Verify grant history any time with complete transparency
-            </p>
-          </header>
-
-          {/* Privacy Disclaimer */}
-          <PrivacyDisclaimer />
 
           {/* Status announcements for screen readers */}
           <div

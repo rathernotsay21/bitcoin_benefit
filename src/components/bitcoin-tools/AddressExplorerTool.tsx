@@ -7,6 +7,8 @@ import { AddressService } from '@/lib/services/addressService';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
+import { EducationalSidebar } from './educational/EducationalSidebar';
+import { addressEducation } from './educational/educationalContent';
 
 interface AddressExplorerToolProps {
   initialAddress?: string;
@@ -136,23 +138,80 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Privacy Warning */}
-      {showPrivacyWarning && (
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+      {/* Main Tool Content - 60% width */}
+      <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
+        {/* Explanatory Text for New Users */}
+        {!addressExplorer.data && (
+          <div className="card mb-6 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700">
+          <h3 className="text-2xl font-bold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+            <span className="text-blue-600 text-3xl mr-3">💼</span>
+            What is a Bitcoin Address?
+          </h3>
+          <p className="text-lg text-blue-800 dark:text-blue-200 mb-4">
+            A Bitcoin address is like a digital mailbox where people can send you Bitcoin. It's a long string 
+            of letters and numbers that starts with 1, 3, or bc1. Every address has a public record of all 
+            the money sent to and from it - like a bank statement that anyone can view.
+          </p>
+          <p className="text-lg text-blue-700 dark:text-blue-300">
+            <strong>To explore an address:</strong> Enter any Bitcoin address below to see its balance and 
+            transaction history. Remember, all Bitcoin transactions are public, so only look up addresses 
+            you own or have permission to view.
+          </p>
+          </div>
+        )}
+
+        {/* Address Input */}
+        <div className="card mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-6 flex items-center">
+            <span className="text-bitcoin text-3xl mr-3">🔎</span>
+            Address Explorer
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <label className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                Enter Bitcoin Address
+                <BitcoinTooltip term="ADDRESS">
+                  <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
+                </BitcoinTooltip>
+              </label>
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="text"
+                value={addressInput}
+                onChange={(e) => setAddressInput(e.target.value)}
+                placeholder="Enter address starting with 1, 3, or bc1"
+                className="input-field flex-1 font-mono text-lg"
+              />
+              <button
+                type="submit"
+                disabled={!addressInput.trim() || addressExplorer.loading.isLoading}
+                className="btn-primary px-8 py-4 text-lg min-w-[120px]"
+              >
+                Explore
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Privacy Warning - Moved below Address Explorer card */}
+        {showPrivacyWarning && (
+          <div className="card bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 mb-6">
           <div className="flex items-start justify-between">
-            <div className="flex items-start space-x-3">
-              <div className="text-amber-500 text-xl">🔒</div>
+            <div className="flex items-start space-x-4">
+              <div className="text-amber-500 text-3xl">🔒</div>
               <div>
-                <h4 className="font-medium text-amber-800 dark:text-amber-200 mb-1">
-                  Privacy Notice
+                <h4 className="text-xl font-bold text-amber-800 dark:text-amber-200 mb-3">
+                Privacy Reminder
                 </h4>
-                <p className="text-sm text-amber-700 dark:text-amber-300 mb-2">
-                  Bitcoin addresses are public, but exploring them can reveal transaction patterns. 
-                  Only explore addresses you own or have permission to analyze.
+                <p className="text-lg text-amber-700 dark:text-amber-300 mb-4">
+                Looking up addresses is like looking at someone's financial records - they're public but should 
+                be treated with respect. Only look up your own addresses or ones you have permission to view.
                 </p>
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  This tool fetches data from public APIs and does not store your queries.
+                <p className="text-base text-amber-600 dark:text-amber-400">
+                Your searches are not saved or tracked by this tool.
                 </p>
               </div>
             </div>
@@ -163,46 +222,32 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               ✕
             </button>
           </div>
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* Address Input */}
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            Bitcoin Address
-            <BitcoinTooltip term="ADDRESS">
-              <span className="ml-1 cursor-help text-bitcoin">ⓘ</span>
-            </BitcoinTooltip>
-          </label>
-        </div>
+        {/* Address Analysis Results */}
+        {addressExplorer.data && (
+          <div className="space-y-6">
+          {/* What This Means Section */}
+          <div className="card mb-6 bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700">
+            <h3 className="text-2xl font-bold text-green-900 dark:text-green-100 mb-4 flex items-center">
+              <span className="text-green-600 text-3xl mr-3">✅</span>
+              What We Found
+            </h3>
+            <p className="text-lg text-green-800 dark:text-green-200 leading-relaxed">
+              This address has been used {addressExplorer.data.transactionCount} time{addressExplorer.data.transactionCount !== 1 ? 's' : ''} and currently 
+              holds {formatBTC(addressExplorer.data.balance.btc)} ({formatUSD(addressExplorer.data.balance.usd)}). 
+              {addressExplorer.data.balance.btc > 0 
+                ? " The owner can spend this Bitcoin at any time."
+                : " The address is currently empty."}
+            </p>
+          </div>
 
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <input
-            type="text"
-            value={addressInput}
-            onChange={(e) => setAddressInput(e.target.value)}
-            placeholder="Enter Bitcoin address (1..., 3..., or bc1...)"
-            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm font-mono focus:ring-2 focus:ring-bitcoin focus:border-transparent"
-          />
-          <button
-            type="submit"
-            disabled={!addressInput.trim() || addressExplorer.loading.isLoading}
-            className="px-6 py-3 bg-bitcoin text-white rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-bitcoin-600 transition-colors"
-          >
-            Explore
-          </button>
-        </form>
-      </div>
-
-      {/* Address Analysis Results */}
-      {addressExplorer.data && (
-        <div className="space-y-6">
           {/* Address Header */}
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Address Analysis
+          <div className="card mb-6 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+                Address Details
               </h3>
               <div className="flex space-x-2">
                 <button
@@ -227,83 +272,89 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               </div>
             </div>
             
-            <div className="font-mono text-sm text-gray-600 dark:text-gray-400 break-all mb-3">
+            <div className="font-mono text-base text-gray-600 dark:text-gray-400 break-all mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
               {addressExplorer.data.address}
             </div>
             
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-base text-gray-600 dark:text-gray-400">
               {addressExplorer.data.humanReadable.activitySummary}
             </div>
           </div>
 
           {/* Balance Display */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+          <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6 shadow-sm">
+            <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">
               Current Balance
             </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              The total amount of Bitcoin currently stored at this address
+            </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-bitcoin mb-1">
+              <div className="text-center p-4 bg-bitcoin/5 rounded-lg">
+                <div className="text-3xl font-bold text-bitcoin mb-2">
                   {formatBTC(addressExplorer.data.balance.btc)}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Bitcoin</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Bitcoin</div>
               </div>
               
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                   {formatUSD(addressExplorer.data.balance.usd)}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">US Dollar</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In US Dollars</div>
               </div>
               
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-1">
+              <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
                   {addressExplorer.data.balance.sats.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Satoshis</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Satoshis (smallest unit)</div>
               </div>
             </div>
             
-            <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-400">
               {addressExplorer.data.humanReadable.balanceDescription}
             </div>
           </div>
 
           {/* Transaction History */}
           {addressExplorer.data.transactions.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Recent Transactions
+            <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                  Transaction History
                 </h4>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-base text-gray-600 dark:text-gray-400">
                   Showing {Math.min(25, addressExplorer.data.transactions.length)} of {addressExplorer.data.transactionCount}
                 </div>
               </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                Every time Bitcoin was sent to or from this address
+              </p>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {addressExplorer.data.transactions.map((tx, index) => (
-                  <div key={tx.txid} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg">{getStatusIcon(tx.status)}</span>
-                        <span className="text-lg">{getTypeIcon(tx.type)}</span>
+                  <div key={tx.txid} className="border-2 border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-xl">{getStatusIcon(tx.status)}</span>
+                        <span className="text-xl">{getTypeIcon(tx.type)}</span>
                         <div>
-                          <div className="font-medium text-gray-900 dark:text-gray-100 capitalize">
-                            {tx.type}
+                          <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                          {tx.type === 'received' ? 'Money Received' : 'Money Sent'}
                           </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {tx.date} • {tx.status === 'confirmed' ? 'Confirmed' : 'Pending'}
+                          <div className="text-base text-gray-600 dark:text-gray-400">
+                          {tx.date} • {tx.status === 'confirmed' ? 'Complete' : 'Processing'}
                           </div>
                         </div>
                       </div>
                       
                       <div className="text-right">
-                        <div className={`font-bold ${tx.type === 'received' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                        <div className={`text-xl font-bold ${tx.type === 'received' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                           {tx.type === 'received' ? '+' : '-'}{formatBTC(tx.amount.btc)}
                         </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div className="text-base text-gray-600 dark:text-gray-400">
                           {formatUSD(tx.amount.usd)}
                         </div>
                       </div>
@@ -337,7 +388,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
           {/* No Transactions */}
           {addressExplorer.data.transactions.length === 0 && (
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 mb-6 text-center">
               <div className="text-4xl mb-4">📄</div>
               <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 No Transactions Found
@@ -349,20 +400,28 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
           )}
 
           {/* Best Practices */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-            <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-2 flex items-center">
-              <span className="mr-2">💡</span>
-              Bitcoin Privacy Best Practices
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 rounded-lg p-5 shadow-sm">
+            <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-4 flex items-center">
+              <span className="mr-3 text-xl">💡</span>
+              Good to Know
             </h4>
-            <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-              <li>• Use a new address for each transaction to maintain privacy</li>
-              <li>• Avoid reusing addresses after they've been spent from</li>
-              <li>• Consider using privacy-focused wallets with coin mixing features</li>
-              <li>• Be aware that all Bitcoin transactions are publicly visible</li>
+            <ul className="text-base text-blue-700 dark:text-blue-300 space-y-3">
+              <li>• Every Bitcoin transaction is permanently recorded and visible to everyone</li>
+              <li>• For better privacy, use a different address for each payment you receive</li>
+              <li>• Never share your private keys - only share the address itself</li>
+              <li>• Anyone who knows this address can see its entire transaction history</li>
             </ul>
           </div>
+          </div>
+        )}
+      </div>
+
+      {/* Educational Sidebar - 40% width */}
+      <div className="lg:flex-[1] lg:max-w-md">
+        <div className="lg:sticky lg:top-6">
+          <EducationalSidebar sections={addressEducation} />
         </div>
-      )}
+      </div>
     </div>
   );
 }

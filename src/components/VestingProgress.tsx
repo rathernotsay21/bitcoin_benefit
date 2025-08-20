@@ -202,10 +202,10 @@ export default function VestingProgress({
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
           <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
-            Bonus Earning Timeline
+            Bonus Timeline
           </span>
           <span className="text-sm text-gray-500 dark:text-slate-400">
-            Try changing plans!
+            Change Plans and pick an Earning Schedule
           </span>
         </div>
         

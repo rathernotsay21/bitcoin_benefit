@@ -10,6 +10,7 @@ import YearSelector from '@/components/YearSelector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import Noise from '@/components/ui/noise';
 import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
@@ -132,6 +133,36 @@ function HistoricalCalculatorContent() {
   return (
     <div className="min-h-screen transition-colors duration-300">
       <Navigation />
+      
+      {/* Hero Section */}
+      <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
+        {/* Noise Background */}
+        <div className="absolute inset-0">
+          <Noise 
+            patternSize={80}
+            patternScaleX={1}
+            patternScaleY={1}
+            patternRefreshInterval={150}
+            patternAlpha={0.12}
+            className="opacity-50"
+          />
+        </div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/70 via-slate-900/85 to-slate-950/95"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Learn from </span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin's Track Record</span>
+            </h1>
+            <p className="max-w-3xl mx-auto text-lg text-slate-300 leading-relaxed">
+              See exactly how Bitcoin benefits would have grown for your employees if you had started years ago. Real data, real results.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full overflow-hidden">
 
@@ -277,8 +308,8 @@ function HistoricalCalculatorContent() {
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
                 {/* Introductory Text */}
-                <div className="mb-4">
-                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                     This tool shows what would have happened if you had started a Bitcoin bonus plan in the past. While Bitcoin's early days saw dramatic growth, the good news is that its wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
                   </p>
                 </div>
@@ -290,8 +321,8 @@ function HistoricalCalculatorContent() {
                 />
 
                 {/* Historical Timeline Visualization */}
-                <div className="mb-3">
-                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                <div className="mb-6 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
                     This chart shows the actual journey your employee's Bitcoin bonus would have taken from your chosen starting year to today. Notice how the value has grown over time, even with Bitcoin's ups and downs along the way.
                   </p>
                 </div>
@@ -306,8 +337,8 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 {/* Enhanced Annual Breakdown Table */}
-                <div className="mb-3">
-                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
                     Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
                   </p>
                 </div>

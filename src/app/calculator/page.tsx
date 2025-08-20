@@ -2,6 +2,9 @@
 
 import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import Noise from '@/components/ui/noise';
 
 function CalculatorRedirect() {
   const router = useRouter();
@@ -28,11 +31,48 @@ function CalculatorRedirect() {
   }, [router, searchParams]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bitcoin mx-auto mb-4"></div>
-        <p className="text-deepSlate dark:text-slate-300">Loading calculator...</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
+        {/* Noise Background */}
+        <div className="absolute inset-0">
+          <Noise 
+            patternSize={100}
+            patternScaleX={1}
+            patternScaleY={1}
+            patternRefreshInterval={200}
+            patternAlpha={0.1}
+            className="opacity-40"
+          />
+        </div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/60 via-slate-900/80 to-slate-950/90"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Finding Your Perfect </span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Vesting Plan</span>
+            </h1>
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-300 leading-relaxed">
+              Getting the right calculator ready for your team...
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      {/* Loading Section */}
+      <div className="flex items-center justify-center py-24">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bitcoin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-slate-300">Loading calculator...</p>
+        </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }
@@ -40,11 +80,48 @@ function CalculatorRedirect() {
 export default function CalculatorPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bitcoin mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-slate-300">Loading calculator...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+        <Navigation />
+        
+        {/* Hero Section */}
+        <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
+          {/* Noise Background */}
+          <div className="absolute inset-0">
+            <Noise 
+              patternSize={100}
+              patternScaleX={1}
+              patternScaleY={1}
+              patternRefreshInterval={200}
+              patternAlpha={0.1}
+              className="opacity-40"
+            />
+          </div>
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-800/60 via-slate-900/80 to-slate-950/90"></div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Finding Your Perfect </span>
+                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Vesting Plan</span>
+              </h1>
+              <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-300 leading-relaxed">
+                Getting the right calculator ready for your team...
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        {/* Loading Section */}
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bitcoin mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-slate-300">Loading calculator...</p>
+          </div>
         </div>
+        
+        <Footer />
       </div>
     }>
       <CalculatorRedirect />

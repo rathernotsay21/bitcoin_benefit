@@ -14,8 +14,10 @@ const NetworkStatus: React.FC = () => {
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch('/api/mempool/network', {
-        next: { revalidate: 30 }
+      const response = await fetch('/api/mempool/network/status/', {
+        headers: {
+          'Accept': 'application/json'
+        }
       });
       
       if (!response.ok) {
@@ -135,29 +137,48 @@ const NetworkStatus: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+    <div className="p-8 max-w-5xl mx-auto">
+      {/* Explanatory Text for New Users */}
+      <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700 shadow-sm">
+        <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
+          What is Network Status?
+        </h3>
+        <p className="text-base text-blue-800 dark:text-blue-200 mb-4">
+          The Bitcoin network is like a digital highway for money transfers. When many people are sending 
+          Bitcoin at once, the "traffic" increases, making transactions take longer and cost more. When 
+          traffic is light, transactions are faster and cheaper.
+        </p>
+        <p className="text-base text-blue-700 dark:text-blue-300">
+          <strong>What to look for:</strong> Green means it's a great time to send Bitcoin (low fees, fast processing). 
+          Red means the network is very busy (higher fees, slower processing).
+        </p>
+      </div>
+
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center space-x-4">
           {getStatusIcon(networkHealth.congestionLevel)}
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Network Status</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Real-time Bitcoin network conditions</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Current Network Health</h2>
+            <p className="text-base text-gray-600 dark:text-gray-400">Live updates every 30 seconds</p>
           </div>
         </div>
         <span className={getStatusBadgeClasses(networkHealth.humanReadable.colorScheme)}>
-          {networkHealth.congestionLevel.charAt(0).toUpperCase() + networkHealth.congestionLevel.slice(1)} Activity
+          {networkHealth.congestionLevel === 'low' ? 'Light Traffic' :
+           networkHealth.congestionLevel === 'normal' ? 'Normal Traffic' :
+           networkHealth.congestionLevel === 'high' ? 'Heavy Traffic' : 'Very Heavy Traffic'}
         </span>
       </div>
 
       {/* Network Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Transactions</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{formatNumber(networkHealth.mempoolSize)}</p>
+              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Waiting to Process</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatNumber(networkHealth.mempoolSize)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">transactions in line</p>
             </div>
-            <div className="w-8 h-8 text-gray-400">
+            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
@@ -165,13 +186,14 @@ const NetworkStatus: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Mempool Size</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{formatBytes(networkHealth.mempoolBytes)}</p>
+              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Queue Size</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatBytes(networkHealth.mempoolBytes)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">of transaction data</p>
             </div>
-            <div className="w-8 h-8 text-gray-400">
+            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
               </svg>
@@ -179,13 +201,14 @@ const NetworkStatus: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Average Fee</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{networkHealth.averageFee}<span className="text-sm font-normal"> sat/vB</span></p>
+              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Typical Cost</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{networkHealth.averageFee}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">satoshis per byte</p>
             </div>
-            <div className="w-8 h-8 text-gray-400">
+            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
               </svg>
@@ -195,38 +218,59 @@ const NetworkStatus: React.FC = () => {
       </div>
 
       {/* Human-Readable Status */}
-      <div>
-        <h3 className="text-md font-medium text-gray-900 dark:text-white mb-3">Current Conditions</h3>
-        <div className={`rounded-lg p-4 border-l-4 ${
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
+        <div className={`rounded-xl p-6 border-l-4 shadow-sm ${
           networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
           networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
           networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
           'bg-red-50 dark:bg-red-900/20 border-red-400'
         }`}>
-          <p className="text-gray-900 dark:text-white font-medium mb-2">{networkHealth.humanReadable.congestionDescription}</p>
-          <p className="text-gray-700 dark:text-gray-300">{networkHealth.humanReadable.userAdvice}</p>
+          <p className="text-gray-900 dark:text-white text-lg font-semibold mb-3">
+            {networkHealth.congestionLevel === 'low' ? '✅ Perfect timing for transactions!' :
+             networkHealth.congestionLevel === 'normal' ? '👍 Good time to send Bitcoin' :
+             networkHealth.congestionLevel === 'high' ? '⚠️ Network is getting busy' :
+             '🚨 Network is very congested'}
+          </p>
+          <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+            {networkHealth.congestionLevel === 'low' 
+              ? 'Fees are at their lowest and transactions will confirm quickly. This is the best time to send Bitcoin if you want to save on fees.'
+              : networkHealth.congestionLevel === 'normal'
+              ? 'Standard fees apply and transactions will confirm at normal speed. Most transactions will be processed within 10-30 minutes.'
+              : networkHealth.congestionLevel === 'high'
+              ? 'Fees are higher than usual due to increased demand. Consider waiting if your transaction is not urgent, or pay higher fees for faster processing.'
+              : 'Fees are very high right now. Unless your transaction is urgent, consider waiting a few hours for the network to clear up.'}
+          </p>
         </div>
       </div>
 
       {/* Recommendations */}
-      <div>
-        <h3 className="text-md font-medium text-gray-900 dark:text-white mb-3">Recommendation</h3>
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border-l-4 border-blue-400">
-          <p className="text-blue-900 dark:text-blue-300">{networkHealth.recommendation}</p>
+      <div className="mb-8">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm">
+          <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
+            {networkHealth.congestionLevel === 'low' 
+              ? '💡 Send your transactions now to take advantage of low fees. This is the ideal time for non-urgent transfers.'
+              : networkHealth.congestionLevel === 'normal'
+              ? '💡 Network conditions are normal. Feel free to send transactions with standard fee settings.'
+              : networkHealth.congestionLevel === 'high'
+              ? '💡 If possible, wait a few hours for lower fees. If you must send now, use priority fees to ensure confirmation.'
+              : '💡 We strongly recommend waiting unless absolutely necessary. Fees could be 5-10x higher than normal right now.'}
+          </p>
         </div>
       </div>
 
       {/* Next Block Estimation */}
-      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-        <div className="flex items-center space-x-2">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+        <div className="flex items-center space-x-3">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>Next block estimated: <strong>{networkHealth.nextBlockETA}</strong></span>
+          <span>Next batch of transactions processes in: <strong className="text-gray-900 dark:text-white">{networkHealth.nextBlockETA}</strong></span>
         </div>
         <button
           onClick={fetchNetworkHealth}
-          className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-medium"
+          className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors"
         >
           Refresh
         </button>

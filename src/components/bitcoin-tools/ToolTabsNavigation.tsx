@@ -213,26 +213,26 @@ export default function ToolTabsNavigation({
         }
       }} className="w-full">
         {/* Tab Navigation */}
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-5 h-auto p-1 bg-slate-100 dark:bg-slate-800">
+        <TabsList className="flex w-full justify-center gap-0.5 h-auto p-1 bg-transparent">
           {tools.map((tool) => (
             <TabsTrigger
               key={tool.id}
               value={tool.id}
-              className="relative flex flex-col items-center py-3 px-2 transition-all duration-300 data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="relative flex flex-col items-center py-3 px-1.5 w-20 sm:w-24 transition-all duration-300 rounded-lg data-[state=active]:bg-bitcoin data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-slate-200/80 dark:hover:bg-slate-700/80 border-0 bg-transparent shadow-none"
             >
-              <div className="w-6 h-6 mb-1 text-gray-600 dark:text-gray-400 data-[state=active]:text-white">
+              <div className="w-7 h-7 mb-2 text-gray-600 dark:text-gray-400 data-[state=active]:text-white transition-colors">
                 <tool.icon className="w-full h-full" />
               </div>
               <span className="text-xs font-medium hidden sm:inline text-center leading-tight">
                 {tool.label}
               </span>
-              <span className="text-xs font-medium sm:hidden text-center">
+              <span className="text-xs font-semibold sm:hidden text-center">
                 {tool.shortLabel}
               </span>
               {tool.badge && (
                 <Badge 
                   variant="secondary" 
-                  className="absolute -top-1 -right-1 text-[10px] px-1.5 py-0 h-5 bg-bitcoin text-white border-0"
+                  className="absolute -top-2 -right-2 text-[9px] px-1.5 py-0.5 h-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 rounded-full shadow-sm"
                 >
                   {tool.badge}
                 </Badge>
@@ -245,22 +245,22 @@ export default function ToolTabsNavigation({
         {tools.map((tool) => {
           const Component = tool.component;
           return (
-            <TabsContent key={tool.id} value={tool.id} className="mt-6">
-              <div className="mb-6 text-center sm:text-left">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-6 h-6 text-bitcoin">
+            <TabsContent key={tool.id} value={tool.id} className="mt-8 space-y-6">
+              <div className="text-center sm:text-left space-y-3">
+                <div className="flex items-center justify-center sm:justify-start gap-4">
+                  <div className="w-8 h-8 text-bitcoin flex-shrink-0">
                     <tool.icon className="w-full h-full" />
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
                     {tool.label}
                   </h2>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
+                <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto sm:mx-0 leading-relaxed">
                   {tool.description}
                 </p>
               </div>
               
-              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden">
                 <Component 
                   initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
                   initialAddress={tool.id === 'address' ? processedParams.address : undefined}

@@ -8,6 +8,8 @@ import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import { ProgressIndicator } from './ToolSkeleton';
+import { EducationalSidebar } from './educational/EducationalSidebar';
+import { timestampEducation } from './educational/educationalContent';
 
 type WorkflowStep = 'upload' | 'creating' | 'result' | 'verify';
 
@@ -220,12 +222,32 @@ function DocumentTimestampingTool() {
   const educationalInfo = TimestampService.getEducationalInfo();
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+      {/* Main Tool Content - 60% width */}
+      <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
+        {/* Explanatory Text for New Users */}
+        {!documentTimestamp.data && !verificationMode && (
+          <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+          <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
+            What is Document Timestamping?
+          </h3>
+          <p className="text-sm text-blue-800 dark:text-blue-200 mb-3">
+            Document timestamping creates proof that a file existed at a specific time. It's like getting a 
+            document notarized, but using the Bitcoin network instead of a notary. This creates permanent, 
+            tamper-proof evidence that can't be faked or changed.
+          </p>
+          <p className="text-sm text-blue-700 dark:text-blue-300">
+            <strong>Common uses:</strong> Proving when a contract was signed, protecting intellectual property, 
+            establishing when research was conducted, or creating evidence for legal purposes.
+          </p>
+          </div>
+        )}
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Document Timestamping
+            {verificationMode ? 'Verify Timestamp' : 'Create Timestamp'}
           </h3>
           <BitcoinTooltip term="TIMESTAMP">
             <span className="cursor-help text-bitcoin">ⓘ</span>
@@ -247,18 +269,20 @@ function DocumentTimestampingTool() {
             {verificationMode ? 'Create Timestamp' : 'Verify Timestamp'}
           </button>
         </div>
-      </div>
+        </div>
 
-      {/* Educational Content */}
-      {showEducation && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6">
+        {/* Educational Content */}
+        {showEducation && (
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-6">
           <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
             <span className="mr-2">📚</span>
-            {educationalInfo.title}
+            How It Works
           </h4>
           
           <p className="text-blue-700 dark:text-blue-300 mb-4">
-            {educationalInfo.description}
+            When you timestamp a document, we create a unique "fingerprint" (hash) of your file and record it 
+            on the Bitcoin blockchain. This proves the document existed at that exact moment. The document itself 
+            never leaves your computer - only the fingerprint is recorded.
           </p>
           
           <div className="grid md:grid-cols-2 gap-4 text-sm">
@@ -280,21 +304,21 @@ function DocumentTimestampingTool() {
               </ul>
             </div>
           </div>
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* Verification Mode */}
-      {verificationMode ? (
-        <div className="space-y-6">
+        {/* Verification Mode */}
+        {verificationMode ? (
+          <div className="space-y-6">
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Verify Existing Timestamp
             </h4>
             
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Original Document
+                  Original Document (the file you timestamped)
                 </label>
                 <input
                   ref={verifyOriginalRef}
@@ -314,7 +338,7 @@ function DocumentTimestampingTool() {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Proof File (.ots)
+                  Proof File (the .ots file you downloaded)
                 </label>
                 <input
                   ref={verifyProofRef}
@@ -345,7 +369,7 @@ function DocumentTimestampingTool() {
 
           {/* Verification Results */}
           {verificationResult && (
-            <div className={`border rounded-lg p-6 ${
+            <div className={`border rounded-lg p-6 mb-6 ${
               verificationResult.isValid 
                 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700'
                 : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'
@@ -364,7 +388,7 @@ function DocumentTimestampingTool() {
               </div>
               
               {verificationResult.isValid ? (
-                <div className="space-y-2 text-sm">
+                <div className="space-y-3 text-sm">
                   {verificationResult.timestamp && (
                     <p className="text-green-700 dark:text-green-300">
                       <strong>Timestamp:</strong> {new Date(verificationResult.timestamp * 1000).toLocaleString()}
@@ -388,14 +412,14 @@ function DocumentTimestampingTool() {
               )}
             </div>
           )}
-        </div>
-      ) : (
-        /* Creation Mode */
-        <div className="space-y-6">
+          </div>
+        ) : (
+          /* Creation Mode */
+          <div className="space-y-6">
           {/* File Upload */}
           {currentStep === 'upload' && (
             <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                 dragActive
                   ? 'border-bitcoin bg-bitcoin/5'
                   : 'border-gray-300 dark:border-gray-600 hover:border-bitcoin/50'
@@ -406,14 +430,14 @@ function DocumentTimestampingTool() {
               onDrop={handleDrop}
             >
               {!documentTimestamp.uploadedFile ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="text-6xl">📄</div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                      Upload Document to Timestamp
+                    Select Your Document
                     </h4>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Drag and drop a file here, or click to select
+                    Drag and drop any file here, or click to browse
                     </p>
                     <button
                       onClick={() => fileInputRef.current?.click()}
@@ -429,20 +453,20 @@ function DocumentTimestampingTool() {
                     />
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    Supported: PDF, Text, Images, Documents • Max size: 10MB
+                    Any file type • Maximum 10MB • Your file stays on your computer
                   </div>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="text-4xl">
                     {TimestampService.getFileTypeIcon(documentTimestamp.uploadedFile)}
                   </div>
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">
-                      {documentTimestamp.uploadedFile.name}
+                      Ready: {documentTimestamp.uploadedFile.name}
                     </h4>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      {TimestampService.formatFileSize(documentTimestamp.uploadedFile.size)} • {documentTimestamp.uploadedFile.type || 'Unknown type'}
+                      Size: {TimestampService.formatFileSize(documentTimestamp.uploadedFile.size)}
                     </p>
                     <div className="flex space-x-3 justify-center">
                       <button
@@ -468,29 +492,30 @@ function DocumentTimestampingTool() {
           {/* Results */}
           {currentStep === 'result' && documentTimestamp.data && (
             <div className="space-y-6">
-              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-6">
-                <div className="flex items-center space-x-3 mb-4">
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-6 mb-6">
+                <div className="flex items-center space-x-4 mb-6">
                   <span className="text-3xl">✅</span>
                   <div>
                     <h4 className="text-lg font-semibold text-green-800 dark:text-green-200">
-                      Timestamp Created Successfully!
+                      Success! Your Document is Timestamped
                     </h4>
                     <p className="text-green-700 dark:text-green-300">
-                      {documentTimestamp.data.humanReadable.timestampDescription}
+                      Your document now has permanent proof it existed at this exact moment. 
+                      This proof is stored forever on the Bitcoin blockchain.
                     </p>
                   </div>
                 </div>
                 
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-4">
-                  <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Timestamp Details:</h5>
-                  <div className="space-y-1 text-sm font-mono">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">File Hash:</span>
-                      <span className="break-all">{documentTimestamp.data.hash}</span>
+                  <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Your Proof Details:</h5>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Timestamped at:</span>
+                      <div className="font-medium">{new Date(documentTimestamp.data.timestamp * 1000).toLocaleString()}</div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Timestamp:</span>
-                      <span>{new Date(documentTimestamp.data.timestamp * 1000).toLocaleString()}</span>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Document fingerprint (hash):</span>
+                      <div className="font-mono text-xs break-all mt-1">{documentTimestamp.data.hash}</div>
                     </div>
                   </div>
                 </div>
@@ -512,12 +537,13 @@ function DocumentTimestampingTool() {
               </div>
 
               {/* Instructions */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-                <h5 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Next Steps:</h5>
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-6">
+                <h5 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Important - Save Your Proof:</h5>
                 <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                  {documentTimestamp.data.humanReadable.instructions.map((instruction, index) => (
-                    <li key={index}>• {instruction}</li>
-                  ))}
+                  <li>• Download the proof file (.ots) and keep it with your original document</li>
+                  <li>• You'll need both files to prove when the document was created</li>
+                  <li>• The proof file is small and can be emailed or stored anywhere</li>
+                  <li>• Anyone can verify your timestamp using the proof file and original document</li>
                 </ul>
               </div>
 
@@ -532,8 +558,16 @@ function DocumentTimestampingTool() {
               </div>
             </div>
           )}
+          </div>
+        )}
+      </div>
+
+      {/* Educational Sidebar - 40% width */}
+      <div className="lg:flex-[1] lg:max-w-md">
+        <div className="lg:sticky lg:top-6">
+          <EducationalSidebar sections={timestampEducation} />
         </div>
-      )}
+      </div>
     </div>
   );
 }

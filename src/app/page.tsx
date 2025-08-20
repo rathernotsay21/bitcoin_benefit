@@ -11,6 +11,7 @@ import { useTheme } from '@/components/ThemeProvider';
 import dynamic from 'next/dynamic';
 const ClockIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
 import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
+import Particles from '@/components/ui/particles';
 // Remove unused imports
 // import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
 
@@ -62,31 +63,40 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="hero-gradient hero-texture py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 dark:opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-bitcoin dark:bg-white rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-bitcoin-gradient dark:bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+      <section className="relative min-h-[400px] py-24 overflow-hidden bg-slate-950 dark:bg-slate-950">
+        {/* Particles Background */}
+        <div className="absolute inset-0">
+          <Particles 
+            quantity={120}
+            ease={50}
+            color="#F7931A"
+            refresh={false}
+            className="opacity-60"
+          />
         </div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-950/60 to-slate-900/80"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-bitcoin dark:bg-slate-700 rounded-2xl mb-6 animate-float">
+            <div className="inline-flex items-center justify-center p-3 bg-bitcoin/90 backdrop-blur-sm rounded-2xl mb-6 animate-float">
               <SatoshiIcon className="w-8 h-8 text-white" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-deepSlate dark:text-slate-100 leading-tight">
-              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Reward Loyalty </span>
-              <span className="text-bitcoin dark:text-bitcoin">with Sound Money</span>
-            </h2>
-            <p className="mt-8 max-w-2xl mx-auto text-xl text-deepSlate dark:text-slate-300 leading-relaxed">
-              Simple, powerful employee bonuses that grow in value over time.
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Build Your Future with </span>
+              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
+            </h1>
+            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
+              Simple, no-nonsense employee bonuses that grow stronger over time.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
+              <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 backdrop-blur-sm">
                 <BitcoinCircleOutlineIcon className="w-8 h-8" />
                 <span>Build Your Plan</span>
               </Link>
-              <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
+              <Link href="/historical" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 rounded-2xl font-bold">
                 <ClockIcon className="w-6 h-6" />
                 <span>See Past Results</span>
               </Link>

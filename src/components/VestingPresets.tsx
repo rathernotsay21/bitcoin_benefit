@@ -62,19 +62,19 @@ export default function VestingPresets({
         Earning Schedule
       </h4>
       
-      {/* Preset Selection Buttons */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      {/* Preset Selection Buttons - Fixed Responsive Layout */}
+      <div className="flex flex-row gap-2 mb-4">
         {Object.values(VESTING_PRESETS).map((preset) => (
           <button
             key={preset.id}
             onClick={() => handlePresetSelect(preset.id)}
-            className={`px-3 py-2 rounded-lg border-2 transition-all duration-300 text-center ${
+            className={`flex-1 min-w-0 px-2 sm:px-3 py-2.5 sm:py-2 rounded-lg border-2 transition-all duration-300 ${
               selectedPreset === preset.id
                 ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
                 : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
             }`}
           >
-            <div className="font-bold text-base text-gray-900 dark:text-slate-100">
+            <div className="font-bold text-sm sm:text-base text-gray-900 dark:text-slate-100 truncate">
               {preset.name}
             </div>
           </button>
@@ -83,7 +83,7 @@ export default function VestingPresets({
 
       {/* Display Selected Preset Schedule */}
       {selectedPreset && VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS] && (
-        <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <div className="mt-4 p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
           <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
             Earning Timeline:
           </h5>
@@ -91,12 +91,12 @@ export default function VestingPresets({
             {VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events.map((event, index) => (
               <div 
                 key={event.id} 
-                className="flex justify-between items-center text-sm py-2 border-b border-blue-100 dark:border-blue-800 last:border-0"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-2 border-b border-blue-100 dark:border-blue-800 last:border-0"
               >
-                <span className="text-blue-800 dark:text-blue-300">
+                <span className="text-blue-800 dark:text-blue-300 font-medium">
                   {event.label}
                 </span>
-                <span className="font-medium text-blue-900 dark:text-blue-200">
+                <span className="font-medium text-blue-900 dark:text-blue-200 text-right sm:text-left">
                   +{index === 0 ? event.percentageVested : event.percentageVested - VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events[index - 1].percentageVested}% → {event.percentageVested}% total
                 </span>
               </div>

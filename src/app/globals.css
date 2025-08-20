@@ -696,6 +696,158 @@ scroll-behavior: smooth;
 }
 
 @layer utilities {
+  /* Bitcoin Tools Spacing Scale - Consistent 8px base unit */
+  .bt-space-1 { margin: 4px; padding: 4px; }
+  .bt-space-2 { margin: 8px; padding: 8px; }
+  .bt-space-3 { margin: 12px; padding: 12px; }
+  .bt-space-4 { margin: 16px; padding: 16px; }
+  .bt-space-6 { margin: 24px; padding: 24px; }
+  .bt-space-8 { margin: 32px; padding: 32px; }
+  .bt-space-12 { margin: 48px; padding: 48px; }
+  .bt-space-16 { margin: 64px; padding: 64px; }
+
+  /* Bitcoin Tools Typography Scale */
+  .bt-text-xs { font-size: 0.75rem; line-height: 1.4; }
+  .bt-text-sm { font-size: 0.875rem; line-height: 1.5; }
+  .bt-text-base { font-size: 1rem; line-height: 1.6; }
+  .bt-text-lg { font-size: 1.125rem; line-height: 1.55; }
+  .bt-text-xl { font-size: 1.25rem; line-height: 1.5; }
+  .bt-text-2xl { font-size: 1.5rem; line-height: 1.4; }
+  .bt-text-3xl { font-size: 1.875rem; line-height: 1.3; }
+  .bt-text-4xl { font-size: 2.25rem; line-height: 1.25; }
+  .bt-text-5xl { font-size: 3rem; line-height: 1.2; }
+  .bt-text-6xl { font-size: 3.75rem; line-height: 1.1; }
+
+  /* Bitcoin Tools Component Spacing */
+  .bt-card-padding { padding: 1.5rem 2rem; }
+  .bt-card-padding-lg { padding: 2rem 2.5rem; }
+  .bt-section-spacing { margin: 2rem 0; }
+  .bt-section-spacing-lg { margin: 3rem 0; }
+  .bt-input-spacing { margin-bottom: 1.5rem; }
+  .bt-button-spacing { margin: 1rem 0 0.5rem 0; }
+
+  /* Bitcoin Tools Enhanced Visual Hierarchy */
+  .bt-heading-primary {
+    @apply text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+  }
+
+  .bt-heading-secondary {
+    @apply text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .bt-heading-tertiary {
+    @apply text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    margin-bottom: 1rem;
+  }
+
+  .bt-body-text {
+    @apply text-base text-gray-600 dark:text-gray-400;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .bt-body-text-lg {
+    @apply text-lg text-gray-600 dark:text-gray-400;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Bitcoin Tools Enhanced Cards */
+  .bt-card-elevated {
+    @apply bg-white dark:bg-slate-800 rounded-2xl shadow-xl border-2 border-gray-200 dark:border-slate-700;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .bt-card-elevated:hover {
+    @apply shadow-2xl border-bitcoin/20 dark:border-bitcoin/30;
+    transform: translateY(-4px);
+  }
+
+  .bt-card-standard {
+    @apply bg-white dark:bg-slate-800 rounded-xl shadow-lg border-2 border-gray-200 dark:border-slate-700;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .bt-card-standard:hover {
+    @apply shadow-xl border-bitcoin/15;
+    transform: translateY(-2px);
+  }
+
+  /* Bitcoin Tools Enhanced Buttons */
+  .bt-button-primary {
+    @apply px-8 py-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white rounded-xl;
+    @apply text-base font-semibold shadow-md hover:shadow-lg;
+    @apply transition-all duration-200 hover:from-bitcoin-600 hover:to-bitcoin-700;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin;
+    min-height: 60px;
+  }
+
+  .bt-button-secondary {
+    @apply px-6 py-3 bg-white dark:bg-slate-700 text-gray-900 dark:text-white;
+    @apply border-2 border-gray-300 dark:border-slate-600 rounded-xl;
+    @apply text-base font-medium shadow-sm hover:shadow-md;
+    @apply transition-all duration-200 hover:border-bitcoin/50;
+    min-height: 48px;
+  }
+
+  /* Bitcoin Tools Enhanced Inputs */
+  .bt-input-field {
+    @apply w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600;
+    @apply rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    @apply text-base transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply focus:ring-2 focus:ring-bitcoin focus:border-bitcoin;
+  }
+
+  /* Bitcoin Tools Spacing Classes for Specific Elements */
+  .bt-tool-header {
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+  }
+
+  .bt-tool-content {
+    margin-bottom: 2rem;
+    padding: 1.5rem 0;
+  }
+
+  .bt-tool-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+  }
+
+  .bt-info-card {
+    @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700;
+    @apply rounded-xl p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-success-card {
+    @apply bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700;
+    @apply rounded-xl p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-warning-card {
+    @apply bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700;
+    @apply rounded-xl p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-error-card {
+    @apply bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700;
+    @apply rounded-xl p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
   /* Text Colors */
   .text-bitcoin {
     color: #F7931A;

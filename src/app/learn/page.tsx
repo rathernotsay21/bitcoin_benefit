@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import Noise from '@/components/ui/noise';
 import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
 import { SatoshiOutlineIcon } from '@/components/icons/SatoshiOutlineIcon';
 // Lazy load ExpandableSection since it's used at the bottom of the page
@@ -17,6 +18,36 @@ export default function LearnMorePage() {
     return (
         <div className="min-h-screen">
             <Navigation />
+            
+            {/* Hero Section */}
+            <section className="relative min-h-[300px] py-16 overflow-hidden bg-slate-900 dark:bg-slate-950">
+              {/* Noise Background */}
+              <div className="absolute inset-0">
+                <Noise 
+                  patternSize={90}
+                  patternScaleX={1}
+                  patternScaleY={1}
+                  patternRefreshInterval={300}
+                  patternAlpha={0.1}
+                  className="opacity-50"
+                />
+              </div>
+              
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-800/65 via-slate-900/85 to-slate-950/95"></div>
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+                    <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Everything You Need to Know About </span>
+                    <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
+                  </h1>
+                  <p className="max-w-3xl mx-auto text-lg text-slate-300 leading-relaxed">
+                    Simple answers for regular folks. No crypto jargon, just straight talk about employee benefits that actually work.
+                  </p>
+                </div>
+              </div>
+            </section>
 
             {/* River Implementation Section */}
             <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 transition-colors duration-300">

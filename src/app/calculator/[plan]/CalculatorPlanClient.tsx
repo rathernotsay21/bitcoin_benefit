@@ -48,7 +48,7 @@ function formatUSD(amount: number): string {
 
 function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>('recruit'); // Default to Recruit
+  const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>(''); // No default preset
 
   const {
     selectedScheme,
@@ -116,28 +116,44 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
       // Handle URL plan parameter
       if (planId && initialScheme && !isLoaded) {
         setSelectedScheme(initialScheme);
-        // Apply default Recruit preset
-        applyDefaultVestingPreset(initialScheme.id);
+        // DO NOT apply any preset automatically - let the plan's default schedule show
+        // Users can choose to apply a preset manually if they want
         setIsLoaded(true);
       }
     };
 
     initializeCalculator();
-  }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData, applyDefaultVestingPreset]);
+  }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData]);
 
   const handleSchemeSelect = useCallback((schemeId: string) => {
     const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
     if (scheme) {
       setSelectedScheme(scheme);
-      // Apply default Recruit preset for new scheme
-      applyDefaultVestingPreset(scheme.id);
+      // DO NOT apply any preset automatically when switching schemes
+      // Clear any custom events to show the plan's default schedule
+      const currentEvents = schemeCustomizations[schemeId]?.customVestingEvents || [];
+      currentEvents.forEach(event => removeCustomVestingEvent(schemeId, event.id));
+      setSelectedVestingPreset('');
       // Update URL without page reload
       window.history.replaceState(null, '', `/calculator/${schemeId}`);
     }
-  }, [setSelectedScheme, applyDefaultVestingPreset]);
+  }, [setSelectedScheme, schemeCustomizations, removeCustomVestingEvent]);
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
-  const maxVestingMonths = displayScheme ? Math.max(...displayScheme.vestingSchedule.map(m => m.months)) : 0;
+  
+  // Calculate maxVestingMonths dynamically based on active schedule
+  const maxVestingMonths = (() => {
+    if (!displayScheme) return 0;
+    
+    // If custom vesting events are present, use the last event's timePeriod
+    if (displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0) {
+      const sortedEvents = [...displayScheme.customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
+      return sortedEvents[sortedEvents.length - 1].timePeriod;
+    }
+    
+    // Otherwise use the original plan's schedule
+    return Math.max(...displayScheme.vestingSchedule.map(m => m.months));
+  })();
 
   return (
     <div className="min-h-screen transition-colors duration-300">
@@ -189,6 +205,21 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 onSchemeSelect={handleSchemeSelect}
                 currentPath="calculator"
               />
+              
+              {/* Vesting Presets Component - Moved here from Customize section */}
+              {selectedScheme && (
+                <VestingPresets
+                  schemeId={selectedScheme.id}
+                  selectedPreset={selectedVestingPreset}
+                  onPresetSelect={(presetId, events) => {
+                    setSelectedVestingPreset(presetId);
+                    // Clear existing custom events and add new ones
+                    const currentEvents = schemeCustomizations[selectedScheme.id]?.customVestingEvents || [];
+                    currentEvents.forEach(event => removeCustomVestingEvent(selectedScheme.id, event.id));
+                    events.forEach(event => addCustomVestingEvent(selectedScheme.id, event));
+                  }}
+                />
+              )}
             </div>
 
             {/* Scheme Customization */}
@@ -245,19 +276,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     />
                   </div>
                 </div>
-                
-                {/* Vesting Presets Component */}
-                <VestingPresets
-                  schemeId={selectedScheme.id}
-                  selectedPreset={selectedVestingPreset}
-                  onPresetSelect={(presetId, events) => {
-                    setSelectedVestingPreset(presetId);
-                    // Clear existing custom events and add new ones
-                    const currentEvents = schemeCustomizations[selectedScheme.id]?.customVestingEvents || [];
-                    currentEvents.forEach(event => removeCustomVestingEvent(selectedScheme.id, event.id));
-                    events.forEach(event => addCustomVestingEvent(selectedScheme.id, event));
-                  }}
-                />
 
                 {/* Custom Vesting Schedule Dialog */}
                 <div className="mt-4">
@@ -277,8 +295,8 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
           {/* Right Panel - Results */}
           <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
             {/* Metric Cards Carousel */}
-            <div className="mb-4">
-              <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+            <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+              <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                 This forecast tool shows you how a Bitcoin bonus could play out for one of your employees. The numbers on the right will change based on the grant size and growth you set on the left. It helps you see how a small investment in Bitcoin today could become a great reward for your team down the road.
               </p>
             </div>
@@ -298,8 +316,8 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Vesting Progress */}
             {displayScheme && (
               <>
-                <div className="mb-3 mt-6">
-                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                <div className="mb-6 mt-8 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
                     This bar shows you how much of the Bitcoin bonus an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
                   </p>
                 </div>
@@ -312,8 +330,8 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             )}
 
             {/* Vesting Timeline Chart */}
-            <div className="mb-3">
-              <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+            <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
+              <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
                 This chart gives you a look at potential future value. It shows how the total value of the Bitcoin bonus in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
               </p>
             </div>
@@ -338,8 +356,8 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Detailed Breakdown */}
             {displayScheme && (
               <div className="card mt-6">
-                <div className="mb-4">
-                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                <div className="mb-6 px-6 py-6 bg-yellow-50/50 dark:bg-yellow-900/20 rounded-lg">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
                     These are the nuts and bolts of the bonus plan. It spells out the total amount of Bitcoin being granted and the specific timeline of when your employee earns their portions.
                   </p>
                 </div>
@@ -370,7 +388,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   <div className="flex justify-between items-center py-2">
                     <span className="text-gray-600 dark:text-slate-300">Time to Earn 100%</span>
                     <span className="font-semibold dark:text-slate-100">
-                      {Math.round(maxVestingMonths / 12)} years
+                      {maxVestingMonths >= 12 
+                        ? `${Math.round(maxVestingMonths / 12)} year${Math.round(maxVestingMonths / 12) !== 1 ? 's' : ''}`
+                        : `${maxVestingMonths} month${maxVestingMonths !== 1 ? 's' : ''}`}
                     </span>
                   </div>
                 </div>
@@ -415,42 +435,67 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   
                   {/* Vesting Schedule Explanation */}
                   <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
-                      {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 
-                        ? 'Custom Earning Timeline:'
-                        : 'Standard Earning Timeline:'}
-                    </h5>
-                    <div className="text-sm text-blue-800 dark:text-blue-300">
-                      {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
-                        <p className="mb-3">
-                          <strong>Using custom earning schedule</strong> with {displayScheme.customVestingEvents.length} milestone(s)
-                        </p>
-                      ) : (
-                        <p className="mb-3"><strong>All plans follow the same earning schedule:</strong> 50% earned at 5 years, 100% earned at 10 years</p>
-                      )}
-                      
-                      {displayScheme.id === 'accelerator' && (
-                        <div>
-                          <p className="mb-2">• <strong>Pioneer approach:</strong> 0.02 BTC immediate grant for early Bitcoin adopters</p>
-                          <p className="mb-2">• <strong>Leadership positioning:</strong> Perfect for companies ready to lead in digital asset compensation</p>
-                          <p>• <strong>Immediate impact:</strong> Jump-start your team's Bitcoin journey with upfront commitment</p>
+                    {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
+                      // Custom Schedule Active
+                      <>
+                        <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                          Custom Earning Timeline
+                        </h5>
+                        <div className="text-sm text-blue-800 dark:text-blue-300">
+                          <p className="mb-3">
+                            This plan uses a <strong>custom earning schedule</strong> with {displayScheme.customVestingEvents.length} milestone{displayScheme.customVestingEvents.length !== 1 ? 's' : ''},
+                            completing over {maxVestingMonths >= 12 
+                              ? `${Math.round(maxVestingMonths / 12)} year${Math.round(maxVestingMonths / 12) !== 1 ? 's' : ''}`
+                              : `${maxVestingMonths} month${maxVestingMonths !== 1 ? 's' : ''}`}.
+                          </p>
+                          <div className="mt-2 space-y-1">
+                            {displayScheme.customVestingEvents
+                              .sort((a, b) => a.timePeriod - b.timePeriod)
+                              .map((event, index) => (
+                                <p key={event.id} className="text-xs">
+                                  • {event.label || `Milestone ${index + 1}`}: {event.percentageVested}% vested at {event.timePeriod} month{event.timePeriod !== 1 ? 's' : ''}
+                                </p>
+                              ))}
+                          </div>
                         </div>
-                      )}
-                      {displayScheme.id === 'steady-builder' && (
-                        <div>
-                          <p className="mb-2">• <strong>Strategic distribution:</strong> Large initial grant + small yearly grants</p>
-                          <p className="mb-2">• <strong>Risk mitigation:</strong> Reduce market timing risk with conservative approach</p>
-                          <p>• <strong>Dollar-cost advantage:</strong> Ideal for companies taking measured steps into Bitcoin adoption</p>
+                      </>
+                    ) : (
+                      // Default Schedule Active
+                      <>
+                        <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                          {displayScheme.name} Earning Timeline
+                        </h5>
+                        <div className="text-sm text-blue-800 dark:text-blue-300">
+                          {/* Show the default vesting schedule for this plan */}
+                          <p className="mb-3">
+                            <strong>Default {displayScheme.name} schedule:</strong> Vesting over {Math.round(maxVestingMonths / 12)} years
+                          </p>
+                          
+                          {/* Show plan-specific descriptions only when using default schedule */}
+                          {displayScheme.id === 'accelerator' && (
+                            <div>
+                              <p className="mb-2">• <strong>Pioneer approach:</strong> 0.02 BTC immediate grant for early Bitcoin adopters</p>
+                              <p className="mb-2">• <strong>Leadership positioning:</strong> Perfect for companies ready to lead in digital asset compensation</p>
+                              <p>• <strong>Immediate impact:</strong> Jump-start your team's Bitcoin journey with upfront commitment</p>
+                            </div>
+                          )}
+                          {displayScheme.id === 'steady-builder' && (
+                            <div>
+                              <p className="mb-2">• <strong>Strategic distribution:</strong> Large initial grant + small yearly grants</p>
+                              <p className="mb-2">• <strong>Risk mitigation:</strong> Reduce market timing risk with conservative approach</p>
+                              <p>• <strong>Dollar-cost advantage:</strong> Ideal for companies taking measured steps into Bitcoin adoption</p>
+                            </div>
+                          )}
+                          {displayScheme.id === 'slow-burn' && (
+                            <div>
+                              <p className="mb-2">• <strong>Delayed expense:</strong> BTC yearly for 10 years (no initial grant)</p>
+                              <p className="mb-2">• <strong>Highest Cost:</strong> Designed for companies prioritizing short-term savings</p>
+                              <p>• <strong>Wealth building:</strong> Build the same reserve at a slower rate</p>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {displayScheme.id === 'slow-burn' && (
-                        <div>
-                          <p className="mb-2">• <strong>Delayed expense:</strong> BTC yearly for 10 years (no initial grant)</p>
-                          <p className="mb-2">• <strong>Highest Cost:</strong> Designed for companies prioritizing short-term savings</p>
-                          <p>• <strong>Wealth building:</strong> Build the same reserve at a slower rate</p>
-                        </div>
-                      )}
-                    </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
