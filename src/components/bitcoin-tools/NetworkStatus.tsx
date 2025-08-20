@@ -2,10 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import type { NetworkHealth } from '@/types/bitcoin-tools';
+import { BitcoinAPI } from '@/lib/bitcoin-api';
 import ToolErrorBoundary from './ToolErrorBoundary';
 
+interface FeeEstimates {
+  fastestFee: number;
+  halfHourFee: number;
+  hourFee: number;
+  economyFee: number;
+}
+
+interface EnhancedNetworkHealth extends NetworkHealth {
+  feeEstimates?: FeeEstimates;
+}
+
+interface BitcoinPrice {
+  price: number;
+  change24h: number;
+}
+
 const NetworkStatus: React.FC = () => {
-  const [networkHealth, setNetworkHealth] = useState<NetworkHealth | null>(null);
+  const [networkHealth, setNetworkHealth] = useState<EnhancedNetworkHealth | null>(null);
+  const [bitcoinPrice, setBitcoinPrice] = useState<BitcoinPrice | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,18 +32,45 @@ const NetworkStatus: React.FC = () => {
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch('/api/mempool/network/status/', {
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
+      // Fetch both network status and Bitcoin price in parallel
+      const [networkResponse, bitcoinPriceData] = await Promise.all([
+        fetch('/api/mempool/network/status/', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        }),
+        BitcoinAPI.getCurrentPrice()
+      ]);
       
-      if (!response.ok) {
+      if (!networkResponse.ok) {
         throw new Error('Failed to fetch network status');
       }
       
-      const data = await response.json();
-      setNetworkHealth(data);
+      const networkData = await networkResponse.json();
+      
+      // Fetch detailed fee estimates
+      try {
+        const feeResponse = await fetch('https://mempool.space/api/v1/fees/recommended', {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (feeResponse.ok) {
+          const feeData = await feeResponse.json();
+          networkData.feeEstimates = {
+            fastestFee: feeData.fastestFee,
+            halfHourFee: feeData.halfHourFee,
+            hourFee: feeData.hourFee,
+            economyFee: feeData.economyFee
+          };
+        }
+      } catch (feeError) {
+        console.warn('Failed to fetch fee estimates:', feeError);
+      }
+      
+      setNetworkHealth(networkData);
+      setBitcoinPrice(bitcoinPriceData);
     } catch (err) {
       console.error('Error fetching network health:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -107,6 +152,60 @@ const NetworkStatus: React.FC = () => {
     return new Intl.NumberFormat().format(num);
   };
 
+  const calculateTxCostUSD = (feeRate: number, txSize: number = 140): number => {
+    if (!bitcoinPrice) return 0;
+    const satoshiCost = feeRate * txSize;
+    const btcCost = satoshiCost / 100000000;
+    return btcCost * bitcoinPrice.price;
+  };
+
+  const getCongestionProgress = (): { percentage: number; color: string; label: string } => {
+    if (!networkHealth) return { percentage: 0, color: 'bg-gray-400', label: 'Unknown' };
+    
+    // Base congestion on fee rates rather than just transaction count
+    const avgFee = networkHealth.averageFee;
+    const mempoolSize = networkHealth.mempoolSize;
+    
+    // Low congestion: fees < 10 sat/vB
+    // Normal: 10-30 sat/vB
+    // High: 30-100 sat/vB  
+    // Extreme: 100+ sat/vB
+    
+    let percentage: number;
+    let color: string;
+    let label: string;
+    
+    if (avgFee < 10) {
+      percentage = Math.min(25, (mempoolSize / 10000) * 25);
+      color = 'bg-green-500';
+      label = 'Low Congestion';
+    } else if (avgFee < 30) {
+      percentage = 25 + Math.min(25, ((avgFee - 10) / 20) * 25);
+      color = 'bg-yellow-500';
+      label = 'Normal Congestion';
+    } else if (avgFee < 100) {
+      percentage = 50 + Math.min(25, ((avgFee - 30) / 70) * 25);
+      color = 'bg-orange-500';
+      label = 'High Congestion';
+    } else {
+      percentage = 75 + Math.min(25, Math.min(avgFee / 200, 1) * 25);
+      color = 'bg-red-500';
+      label = 'Extreme Congestion';
+    }
+    
+    return { percentage: Math.round(percentage), color, label };
+  };
+
+  const getFeeLabel = (feeType: string): { label: string; emoji: string; timeEstimate: string } => {
+    const feeLabels = {
+      fastestFee: { label: 'Priority', emoji: '🚀', timeEstimate: 'Next block (~10 min)' },
+      halfHourFee: { label: 'Standard', emoji: '⚡', timeEstimate: '~30 minutes' },
+      hourFee: { label: 'Normal', emoji: '🚶', timeEstimate: '~1 hour' },
+      economyFee: { label: 'Economy', emoji: '🐌', timeEstimate: '2+ hours' }
+    };
+    return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', emoji: '❓', timeEstimate: 'Unknown' };
+  };
+
   if (isLoading) {
     return (
       <div className="text-center py-8">
@@ -169,53 +268,88 @@ const NetworkStatus: React.FC = () => {
         </span>
       </div>
 
-      {/* Network Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* Network Congestion Visual */}
+      <div className="mb-8">
         <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Waiting to Process</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatNumber(networkHealth.mempoolSize)}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">transactions in line</p>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              {getCongestionProgress().label}
+            </span>
+          </div>
+          
+          <div className="relative">
+            <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4 mb-3">
+              <div
+                className={`h-4 rounded-full transition-all duration-500 ${getCongestionProgress().color}`}
+                style={{ width: `${getCongestionProgress().percentage}%` }}
+              ></div>
             </div>
-            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+              <span>Clear</span>
+              <span>Normal</span>
+              <span>Busy</span>
+              <span>Congested</span>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
-          <div className="flex items-center justify-between">
+          
+          <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Queue Size</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{formatBytes(networkHealth.mempoolBytes)}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">of transaction data</p>
+              <span className="text-gray-600 dark:text-gray-400">Queue: </span>
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {formatNumber(networkHealth.mempoolSize)} transactions
+              </span>
             </div>
-            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
-          <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-gray-700 dark:text-gray-300">Typical Cost</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{networkHealth.averageFee}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">satoshis per byte</p>
-            </div>
-            <div className="w-10 h-10 text-gray-400 flex-shrink-0">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-              </svg>
+              <span className="text-gray-600 dark:text-gray-400">Size: </span>
+              <span className="font-semibold text-gray-900 dark:text-white">
+                {formatBytes(networkHealth.mempoolBytes)}
+              </span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Fee Estimates */}
+      {networkHealth.feeEstimates && (
+        <div className="mb-8">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Current Fee Rates</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {Object.entries(networkHealth.feeEstimates).map(([feeType, feeRate]) => {
+              const feeInfo = getFeeLabel(feeType);
+              const costUSD = calculateTxCostUSD(feeRate);
+              
+              return (
+                <div key={feeType} className="bg-white dark:bg-gray-700 rounded-xl p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">{feeInfo.emoji}</div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
+                    <div className="text-lg font-bold text-bitcoin mb-1">{feeRate} sat/vB</div>
+                    {bitcoinPrice && (
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        ~${costUSD.toFixed(2)} USD
+                      </div>
+                    )}
+                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                      {feeInfo.timeEstimate}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
+              Larger transactions will cost proportionally more. 
+              {bitcoinPrice && (
+                <span>Bitcoin price: ${bitcoinPrice.price.toLocaleString()}</span>
+              )}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Human-Readable Status */}
       <div className="mb-8">
@@ -232,7 +366,7 @@ const NetworkStatus: React.FC = () => {
              networkHealth.congestionLevel === 'high' ? '⚠️ Network is getting busy' :
              '🚨 Network is very congested'}
           </p>
-          <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
             {networkHealth.congestionLevel === 'low' 
               ? 'Fees are at their lowest and transactions will confirm quickly. This is the best time to send Bitcoin if you want to save on fees.'
               : networkHealth.congestionLevel === 'normal'
@@ -241,6 +375,27 @@ const NetworkStatus: React.FC = () => {
               ? 'Fees are higher than usual due to increased demand. Consider waiting if your transaction is not urgent, or pay higher fees for faster processing.'
               : 'Fees are very high right now. Unless your transaction is urgent, consider waiting a few hours for the network to clear up.'}
           </p>
+          
+          {/* Fee-based recommendations */}
+          {networkHealth.feeEstimates && (
+            <div className="bg-white/50 dark:bg-black/20 rounded-lg p-4 mt-4">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">💰 Fee Recommendation:</h4>
+              <div className="text-sm text-gray-700 dark:text-gray-300">
+                {networkHealth.averageFee < 10 && (
+                  <span>Use <strong>Economy fees</strong> ({networkHealth.feeEstimates.economyFee} sat/vB) to save money!</span>
+                )}
+                {networkHealth.averageFee >= 10 && networkHealth.averageFee < 30 && (
+                  <span>Use <strong>Standard fees</strong> ({networkHealth.feeEstimates.halfHourFee} sat/vB) for reliable confirmation.</span>
+                )}
+                {networkHealth.averageFee >= 30 && networkHealth.averageFee < 100 && (
+                  <span>Consider <strong>Priority fees</strong> ({networkHealth.feeEstimates.fastestFee} sat/vB) or wait for lower congestion.</span>
+                )}
+                {networkHealth.averageFee >= 100 && (
+                  <span>⚠️ <strong>High fees required</strong> ({networkHealth.feeEstimates.fastestFee} sat/vB) - consider waiting unless urgent.</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
