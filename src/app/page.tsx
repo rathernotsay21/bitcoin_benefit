@@ -75,20 +75,20 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-deepSlate dark:text-slate-100 leading-tight">
-              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Reward Loyalty </span>
-              <span className="text-bitcoin dark:text-bitcoin">with Sound Money</span>
+              <span className="text-deepSlate dark:text-slate-500" style={{opacity: 0.8}}>Keep Your Best People </span>
+              <span className="text-bitcoin dark:text-bitcoin">with Bitcoin Bonuses</span>
             </h2>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-deepSlate dark:text-slate-300 leading-relaxed">
-              Keep your best people with modern benefits they actually want.
+              Simple, powerful employee bonuses that grow in value over time.
             </p>
             <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <BitcoinCircleOutlineIcon className="w-8 h-8" />
-                <span>Pick a Strategy</span>
+                <span>Build Your Plan</span>
               </Link>
               <Link href="/historical" className="btn-secondary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2">
                 <ClockIcon className="w-6 h-6" />
-                <span>Past Performance</span>
+                <span>See Past Results</span>
               </Link>
             </div>
           </div>
@@ -100,10 +100,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="text-4xl font-bold text-deepSlate dark:text-slate-100 mb-4">
-              Customize Your Plan
+              Three Ways to Reward Your Team
             </h3>
             <p className="text-xl text-deepSlate dark:text-slate-300 max-w-2xl mx-auto">
-              Three approaches to reward loyalty
+              Pick the plan that fits your budget and goals
             </p>
           </div>
 
@@ -118,16 +118,16 @@ export default function HomePage() {
                   Pioneer
                 </h4>
                 <p className="text-deepSlate dark:text-slate-300 mb-6 leading-relaxed">
-                  Maximum upside
+                  Big bonus upfront - highest potential returns
                 </p>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-deepSlate dark:text-slate-300">Full grant on day one</span>
+                    <span className="text-base text-deepSlate dark:text-slate-300">Give the full bonus on day one</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-deepSlate dark:text-slate-300">Nothing else to worry about</span>
+                    <span className="text-base text-deepSlate dark:text-slate-300">Simple one-time setup</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -149,21 +149,21 @@ export default function HomePage() {
                   Stacker
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Build a stack
+                  Good starting bonus with yearly additions
                 </p>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Strong starting grant</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Smart starting bonus</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Annual additions</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Plus yearly bonuses</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 italic">
-                    "Our artist deserve a retirement benefit and nothing beats the simplicity of vested Bitcoin" - Casey, Turtle Farm Pottery
+                    "Our artists deserve real retirement benefits. Bitcoin bonuses are simple and powerful." - Casey, Turtle Farm Pottery
                   </div>
                   <span className="badge badge-success">Balanced</span>
                 </div>
@@ -180,16 +180,16 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Minimize yearly expenses
+                  Small yearly bonuses - lowest annual cost
                 </p>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Ten Years of Annual grants</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Small bonuses each year for 10 years</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-sm text-slate-600 dark:text-slate-300">Lowest yearly costs</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Most affordable per year</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">

@@ -2,6 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 24 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 24 83% 53%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 24 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 24 83% 53%;
+  }
+}
+
 /* Font optimization with font-display: swap for better performance */
 @font-face {
   font-family: 'Inter';
@@ -287,6 +334,47 @@ scroll-behavior: smooth;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
                 0 8px 24px rgba(0, 0, 0, 0.2),
                 inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Enhanced section spacing */
+  .section-spacing {
+    @apply py-8 sm:py-12 lg:py-16;
+  }
+
+  /* Improved text hierarchy */
+  .text-hierarchy h2 {
+    @apply text-xl sm:text-2xl font-bold mb-4 text-gray-900 dark:text-slate-100;
+  }
+
+  .text-hierarchy h3 {
+    @apply text-lg sm:text-xl font-semibold mb-3 text-gray-900 dark:text-slate-100;
+  }
+
+  /* Icon container improvements */
+  .icon-badge {
+    @apply w-12 h-12 bg-bitcoin/20 dark:bg-bitcoin/30 rounded-full flex items-center justify-center transition-all duration-300;
+  }
+
+  .icon-badge-lg {
+    @apply w-16 h-16 bg-bitcoin/20 dark:bg-bitcoin/30 rounded-full flex items-center justify-center transition-all duration-300;
+  }
+
+  /* Enhanced tab system */
+  .tabs-enhanced .tabs-trigger {
+    @apply transition-all duration-300 hover:scale-105;
+  }
+
+  .tabs-enhanced .tabs-trigger[data-state=active] {
+    @apply shadow-lg transform scale-105;
+  }
+
+  /* Strategy card improvements */
+  .strategy-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:border-bitcoin/30;
+  }
+
+  .strategy-card:hover .icon-container {
+    @apply scale-110 bg-bitcoin/30;
   }
 
   .card::before {

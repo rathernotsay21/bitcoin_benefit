@@ -90,7 +90,7 @@ function FeeCalculatorTool() {
     if (feeCalculator.data === null) {
       fetchFeeRecommendations(feeCalculator.txSize);
     }
-  }, []);
+  }, [feeCalculator.data, feeCalculator.txSize, fetchFeeRecommendations]);
 
   // Auto-refresh every 60 seconds
   useEffect(() => {

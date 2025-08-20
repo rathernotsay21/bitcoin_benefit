@@ -1,6 +1,8 @@
 'use client';
 
 import { SatoshiIcon } from '@/components/icons';
+import HelpTooltip from '@/components/HelpTooltip';
+import { HELP_CONTENT } from '@/lib/help-content';
 import {
   Carousel,
   CarouselContent,
@@ -15,6 +17,7 @@ interface MetricCardProps {
   color: 'orange' | 'green' | 'blue' | 'purple';
   sublabel?: string;
   icon?: React.ReactNode;
+  helpContent?: string;
 }
 
 interface MetricCardsProps {
@@ -24,7 +27,7 @@ interface MetricCardsProps {
   inputs: any;
 }
 
-function MetricCard({ value, label, color, sublabel, icon }: MetricCardProps) {
+function MetricCard({ value, label, color, sublabel, icon, helpContent }: MetricCardProps) {
   const colorClasses = {
     orange: 'bg-orange-50 border-orange-200 dark:bg-orange-950/20 dark:border-orange-800',
     green: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800',
@@ -49,8 +52,9 @@ function MetricCard({ value, label, color, sublabel, icon }: MetricCardProps) {
       <div className={`text-2xl font-bold ${textColorClasses[color]} mb-1`}>
         {value}
       </div>
-      <div className={`text-sm font-medium ${textColorClasses[color]} opacity-80`}>
+      <div className={`text-sm font-medium ${textColorClasses[color]} opacity-80 flex items-center justify-center`}>
         {label}
+        {helpContent && <HelpTooltip content={helpContent} />}
       </div>
       {sublabel && (
         <div className={`text-xs ${textColorClasses[color]} opacity-60 mt-1`}>
@@ -101,16 +105,38 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     );
   }
 
+  // Debug log for testing (can be removed in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`MetricCards Debug - ${displayScheme.name}:`, {
+      initialGrant: displayScheme.initialGrant,
+      annualGrant: displayScheme.annualGrant,
+      schemeId: displayScheme.id
+    });
+  }
+
   // Calculate key metrics with safety checks
   const initialGrant = displayScheme.initialGrant || 0;
   const annualGrant = displayScheme.annualGrant || 0;
   const initialValueUSD = initialGrant * currentBitcoinPrice;
   
-  // Calculate total BTC granted over time
+  // Calculate total BTC granted over time with scheme-specific logic
   let totalBTCGranted = initialGrant;
   if (annualGrant > 0) {
-    // Use the scheme's maxAnnualGrants if available, otherwise default values
-    const maxAnnualYears = displayScheme.maxAnnualGrants || (displayScheme.id === 'steady-builder' ? 5 : 0);
+    // Apply scheme-specific rules for annual grants
+    let maxAnnualYears = 0;
+    switch (displayScheme.id) {
+      case 'accelerator':
+        maxAnnualYears = 0; // Pioneer scheme has no annual grants
+        break;
+      case 'steady-builder':
+        maxAnnualYears = 5; // Stacker gets annual grants for 5 years
+        break;
+      case 'slow-burn':
+        maxAnnualYears = 9; // Builder gets annual grants for 9 years
+        break;
+      default:
+        maxAnnualYears = displayScheme.maxAnnualGrants || 0;
+    }
     totalBTCGranted += annualGrant * maxAnnualYears;
   }
 
@@ -124,8 +150,17 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     ? (results.timeline[120]?.employerBalance || 0) * (results.timeline[120]?.bitcoinPrice || currentBitcoinPrice)
     : totalBTCGranted * projectedPrice10Year;
 
-  // Calculate growth multiple
-  const growthMultiple = totalInvestmentCost > 0 ? value10Year / totalInvestmentCost : 0;
+  // Calculate growth multiple using actual results data for accuracy
+  let growthMultiple = 0;
+  if (results && results.timeline && results.timeline.length > 0) {
+    // Get the final timeline point (should be at or near 120 months/10 years)
+    const finalPoint = results.timeline[results.timeline.length - 1];
+    const finalValue = finalPoint.usdValue || (finalPoint.employerBalance * finalPoint.bitcoinPrice);
+    growthMultiple = totalInvestmentCost > 0 ? finalValue / totalInvestmentCost : 0;
+  } else {
+    // Fallback calculation if results are not available
+    growthMultiple = totalInvestmentCost > 0 ? value10Year / totalInvestmentCost : 0;
+  }
 
   // Calculate effective annual return (CAGR)
   const cagr = growthMultiple > 0 ? (Math.pow(growthMultiple, 1/10) - 1) * 100 : 0;
@@ -147,22 +182,26 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
       }
     }
     
-    // Default fallback: Use the default "Recruit" preset as it's the most common
-    // Recruit: 5% at 3 months, 20% at 1 year, 40% at 2 years, 60% at 3 years, 100% at 4 years
-    let vestingPercent = 0;
-    if (months >= 48) { // 4 years - 100% vested
-      vestingPercent = 100;
-    } else if (months >= 36) { // 3 years - 60% vested
-      vestingPercent = 60;
-    } else if (months >= 24) { // 2 years - 40% vested
-      vestingPercent = 40;
-    } else if (months >= 12) { // 1 year - 20% vested
-      vestingPercent = 20;
-    } else if (months >= 3) { // 3 months - 5% vested
-      vestingPercent = 5;
+    // Use the actual vesting schedule from the selected scheme
+    if (displayScheme.vestingSchedule && displayScheme.vestingSchedule.length > 0) {
+      let vestingPercent = 0;
+      
+      // Find the applicable vesting percentage based on months elapsed
+      const sortedMilestones = [...displayScheme.vestingSchedule].sort((a, b) => a.months - b.months);
+      
+      for (const milestone of sortedMilestones) {
+        if (months >= milestone.months) {
+          vestingPercent = milestone.grantPercent;
+        } else {
+          break;
+        }
+      }
+      
+      return (vestingPercent / 100) * totalBTCGranted;
     }
     
-    return (vestingPercent / 100) * totalBTCGranted;
+    // Final fallback (should never reach here if scheme is properly configured)
+    return 0;
   };
 
   // Get vested amount at different milestones with safety checks
@@ -181,8 +220,51 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     return calculateVestedAmount(months);
   };
 
-  const vested5Year = getVestedAtMonth(60);
-  const vested10Year = getVestedAtMonth(120);
+  // Get the last two vesting milestones from the actual vesting schedule
+  const getVestingMilestones = () => {
+    let milestones: { months: number; label: string; percentage: number }[] = [];
+    
+    if (displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0) {
+      // Use custom vesting events
+      milestones = displayScheme.customVestingEvents
+        .filter((e: any) => e.percentageVested > 0)
+        .sort((a: any, b: any) => a.timePeriod - b.timePeriod)
+        .map((event: any) => ({
+          months: event.timePeriod,
+          label: event.label,
+          percentage: event.percentageVested
+        }));
+    } else if (displayScheme.vestingSchedule && displayScheme.vestingSchedule.length > 0) {
+      // Use default vesting schedule
+      milestones = displayScheme.vestingSchedule
+        .filter((m: any) => m.grantPercent > 0)
+        .sort((a: any, b: any) => a.months - b.months)
+        .map((milestone: any) => ({
+          months: milestone.months,
+          label: milestone.months === 0 ? 'Immediate' : 
+                 milestone.months < 12 ? `${milestone.months} months` :
+                 `Year ${Math.round(milestone.months / 12)}`,
+          percentage: milestone.grantPercent
+        }));
+    }
+    
+    // Get the last two milestones
+    const lastTwo = milestones.slice(-2);
+    
+    // Ensure we have at least 2 milestones, pad with defaults if needed
+    if (lastTwo.length === 0) {
+      lastTwo.push({ months: 60, label: 'Year 5', percentage: 50 });
+      lastTwo.push({ months: 120, label: 'Year 10', percentage: 100 });
+    } else if (lastTwo.length === 1) {
+      lastTwo.unshift({ months: Math.max(0, lastTwo[0].months - 12), label: 'Previous', percentage: lastTwo[0].percentage / 2 });
+    }
+    
+    return lastTwo;
+  };
+  
+  const vestingMilestones = getVestingMilestones();
+  const vested5Year = getVestedAtMonth(vestingMilestones[0].months);
+  const vested10Year = getVestedAtMonth(vestingMilestones[1].months);
 
   // Return on investment
   const roi = totalInvestmentCost > 0 ? ((value10Year - totalInvestmentCost) / totalInvestmentCost * 100) : 0;
@@ -192,23 +274,23 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     [
       {
         value: formatBTC(displayScheme.initialGrant),
-        label: 'Initial Grant',
+        label: 'Starting Bitcoin',
         color: 'orange' as const,
-        sublabel: 'Employer grants only',
+        sublabel: 'Your initial investment',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {
         value: formatUSD(initialValueUSD),
-        label: 'Initial USD Value',
+        label: 'Cost Today',
         color: 'green' as const,
-        sublabel: 'At current BTC price',
+        sublabel: "At today's Bitcoin price",
         icon: undefined
       },
       {
         value: formatUSD(totalInvestmentCost),
-        label: 'Total Invested',
+        label: 'Total You Pay',
         color: 'blue' as const,
-        sublabel: 'At current BTC price',
+        sublabel: 'All bonuses combined',
         icon: undefined
       },
     ],
@@ -223,17 +305,18 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
       },
       {
         value: formatBTC(totalBTCGranted),
-        label: 'Total BTC Grants',
+        label: 'Total Bitcoin',
         color: 'orange' as const,
-        sublabel: 'Employer grants only',
+        sublabel: 'All bonuses given',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {
         value: `${(growthMultiple || 0).toFixed(1)}x`,
         label: 'Growth Multiple',
         color: 'blue' as const,
-        sublabel: 'From total cost invested',
-        icon: undefined
+        sublabel: 'Value vs. cost',
+        icon: undefined,
+        helpContent: HELP_CONTENT.growthMultiple
       },
     ],
     // Group 3: Performance Metrics
@@ -243,20 +326,22 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Return on Investment',
         color: 'green' as const,
         sublabel: 'Total gain',
-        icon: undefined
+        icon: undefined,
+        helpContent: HELP_CONTENT.roi
       },
       {
         value: `${(cagr || 0).toFixed(1)}%`,
-        label: 'Annualized Return',
+        label: 'Yearly Return',
         color: 'purple' as const,
-        sublabel: 'CAGR over 10 years',
-        icon: undefined
+        sublabel: 'Average growth per year',
+        icon: undefined,
+        helpContent: HELP_CONTENT.cagr
       },
       {
         value: `${(inputs?.projectedBitcoinGrowth ?? 15) || 15}%`,
-        label: 'BTC Growth Rate',
+        label: 'Bitcoin Growth',
         color: 'blue' as const,
-        sublabel: 'Annual projection',
+        sublabel: 'Your projection',
         icon: undefined
       },
     ],
@@ -264,16 +349,16 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     [
       {
         value: formatBTC(vested5Year),
-        label: 'Vested at 5 Years',
+        label: `Earned by ${vestingMilestones[0].label}`,
         color: 'orange' as const,
-        sublabel: `${totalBTCGranted > 0 ? ((vested5Year / totalBTCGranted) * 100).toFixed(0) : '0'}% of total`,
+        sublabel: `${vestingMilestones[0].percentage}% of total`,
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {
         value: formatBTC(vested10Year),
-        label: 'Vested at 10 Years',
+        label: `Earned by ${vestingMilestones[1].label}`,
         color: 'orange' as const,
-        sublabel: `${totalBTCGranted > 0 ? ((vested10Year / totalBTCGranted) * 100).toFixed(0) : '0'}% of total`,
+        sublabel: `${vestingMilestones[1].percentage}% of total`,
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {

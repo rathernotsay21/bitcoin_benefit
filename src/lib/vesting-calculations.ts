@@ -11,7 +11,7 @@ export class VestingCalculator {
   static calculate(inputs: CalculationInputs): VestingCalculationResult {
     const { scheme, currentBitcoinPrice, projectedBitcoinGrowth } = inputs;
     
-    // Initialize specialized calculators
+    // Initialize specialized calculators with custom vesting events
     const vestingCalculator = new VestingScheduleCalculator({
       milestones: scheme.vestingSchedule,
       bonuses: scheme.bonuses,
@@ -80,25 +80,26 @@ export class VestingCalculator {
     
     if (!annualGrant) return total;
     
-    // Calculate number of annual grants based on scheme
-    let grantMonths = 0;
+    // Calculate number of annual grants based on scheme with explicit rules
+    let numberOfGrants = 0;
     switch (scheme.id) {
+      case 'accelerator':
+        numberOfGrants = 0; // Pioneer scheme has no annual grants
+        break;
       case 'steady-builder':
-        grantMonths = Math.min(60, maxMonths); // 5 years max
+        numberOfGrants = Math.min(5, Math.floor(Math.min(60, maxMonths) / 12)); // 5 years max
         break;
       case 'slow-burn':
-        grantMonths = Math.min(108, maxMonths); // 9 years max (grants at months 12, 24, 36, 48, 60, 72, 84, 96, 108)
+        numberOfGrants = Math.min(9, Math.floor(Math.min(108, maxMonths) / 12)); // 9 years max
         break;
       case 'custom':
-        grantMonths = Math.min(120, maxMonths); // 10 years max
+        numberOfGrants = Math.floor(Math.min(120, maxMonths) / 12); // 10 years max
         break;
       default:
-        grantMonths = maxMonths;
+        numberOfGrants = scheme.maxAnnualGrants || Math.floor(maxMonths / 12);
     }
     
-    // Count annual grants (at 12, 24, 36, etc. month intervals)
-    const numberOfGrants = Math.floor(grantMonths / 12);
-    total += annualGrant * (scheme.maxAnnualGrants || numberOfGrants);
+    total += annualGrant * numberOfGrants;
     
     return total;
   }

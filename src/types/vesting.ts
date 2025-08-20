@@ -10,6 +10,11 @@ export interface VestingScheme {
   bonuses?: VestingBonus[];
   maxAnnualGrants?: number;
   customVestingEvents?: CustomVestingEvent[]; // Custom vesting schedule if defined
+  // UI properties for enhanced display
+  icon?: string;
+  tagline?: string;
+  bestFor?: string;
+  riskLevel?: string;
 }
 
 export interface VestingMilestone {

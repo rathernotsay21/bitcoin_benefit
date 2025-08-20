@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { EducationalContent } from '@/types/bitcoin-tools';
 
 interface TooltipProps {
@@ -82,7 +82,7 @@ export default function Tooltip({
     }
   };
 
-  const handleClickOutside = (e: MouseEvent) => {
+  const handleClickOutside = useCallback((e: MouseEvent) => {
     if (trigger === 'click' && 
         tooltipRef.current && 
         triggerRef.current &&
@@ -90,14 +90,14 @@ export default function Tooltip({
         !triggerRef.current.contains(e.target as Node)) {
       setIsVisible(false);
     }
-  };
+  }, [trigger, setIsVisible]);
 
   useEffect(() => {
     if (trigger === 'click') {
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
-  }, [trigger]);
+  }, [trigger, handleClickOutside]);
 
   const getPositionClasses = (pos: typeof position) => {
     switch (pos) {
@@ -119,22 +119,22 @@ export default function Tooltip({
     
     switch (pos) {
       case 'top':
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-800 dark:border-t-gray-200 border-l-4 border-r-4 border-t-4`;
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-white border-l-4 border-r-4 border-t-4`;
       case 'bottom':
-        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-gray-800 dark:border-b-gray-200 border-l-4 border-r-4 border-b-4`;
+        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-gray-900 dark:border-b-white border-l-4 border-r-4 border-b-4`;
       case 'left':
-        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-gray-800 dark:border-l-gray-200 border-t-4 border-b-4 border-l-4`;
+        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-gray-900 dark:border-l-white border-t-4 border-b-4 border-l-4`;
       case 'right':
-        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-gray-800 dark:border-r-gray-200 border-t-4 border-b-4 border-r-4`;
+        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-gray-900 dark:border-r-white border-t-4 border-b-4 border-r-4`;
       default:
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-800 dark:border-t-gray-200 border-l-4 border-r-4 border-t-4`;
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-white border-l-4 border-r-4 border-t-4`;
     }
   };
 
   const renderTooltipContent = () => {
     if (typeof content === 'string') {
       return (
-        <div className="text-sm text-gray-100 dark:text-gray-900">
+        <div className="text-sm text-white dark:text-gray-900">
           {content}
         </div>
       );
@@ -143,14 +143,14 @@ export default function Tooltip({
     // Educational content
     return (
       <div className="space-y-2">
-        <div className="font-semibold text-gray-100 dark:text-gray-900 border-b border-gray-600 dark:border-gray-400 pb-1">
+        <div className="font-semibold text-white dark:text-gray-900 border-b border-gray-600 dark:border-gray-400 pb-1">
           {content.term}
         </div>
-        <div className="text-sm text-gray-100 dark:text-gray-900">
+        <div className="text-sm text-white dark:text-gray-900">
           {content.definition}
         </div>
         {content.example && (
-          <div className="text-xs text-gray-300 dark:text-gray-700 italic border-l-2 border-bitcoin pl-2">
+          <div className="text-xs text-gray-200 dark:text-gray-600 italic border-l-2 border-bitcoin pl-2">
             Example: {content.example}
           </div>
         )}
@@ -187,7 +187,7 @@ export default function Tooltip({
           className={`absolute z-50 ${maxWidth} ${getPositionClasses(actualPosition)} transition-opacity duration-200`}
           style={{ opacity: isVisible ? 1 : 0 }}
         >
-          <div className="bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 rounded-lg px-3 py-2 shadow-lg border border-gray-700 dark:border-gray-300 relative">
+          <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg px-3 py-2 shadow-xl border border-gray-600 dark:border-gray-400 relative backdrop-blur-sm">
             {renderTooltipContent()}
             <div className={getArrowClasses(actualPosition)}></div>
           </div>

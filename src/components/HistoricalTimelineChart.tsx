@@ -57,10 +57,10 @@ const CustomTooltip = ({ active, payload, label, startingYear = 2020 }: CustomTo
     const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
 
     return (
-      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
-        <p className="font-semibold text-gray-900 mb-2">Year {year}</p>
+      <div className="bg-slate-800 p-4 border border-slate-700 rounded-lg shadow-lg">
+        <p className="font-semibold text-white mb-2">Year {year}</p>
         {payload.map((entry: any, index: number) => (
-          <p key={index} className="text-sm" style={{ color: entry.color }}>
+          <p key={index} className="text-sm text-white" style={{ color: entry.color }}>
             {entry.name}: {entry.name.includes('BTC') ? formatBTC(entry.value) : formatUSDCompact(entry.value)}
           </p>
         ))}

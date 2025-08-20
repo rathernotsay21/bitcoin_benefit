@@ -17,10 +17,10 @@ export default function Footer() {
   // Get page name for bottom left display
   const getPageName = () => {
     if (pathname === '/') return 'Home';
-    if (pathname.includes('/calculator')) return 'Forecast';
-    if (pathname.includes('/historical')) return 'Performance';
-    if (pathname.includes('/track')) return 'Status';
-    if (pathname.includes('/learn')) return 'Guide';
+    if (pathname.includes('/calculator')) return 'Future Plans';
+    if (pathname.includes('/historical')) return 'Past Results';
+    if (pathname.includes('/track')) return 'Track Bonuses';
+    if (pathname.includes('/learn')) return 'How It Works';
     return 'Bitcoin Benefit';
   };
 
@@ -36,10 +36,10 @@ export default function Footer() {
 
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
             <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-              Ready to Keep Your Best People?
+              Stop Losing Your Best Employees
             </h3>
             <p className="text-xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
-              See how much this modern benefit could save you in turnover costs and help you compete for top talent.
+              Bitcoin bonuses cost less than you think and mean more than you know.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
@@ -47,14 +47,14 @@ export default function Footer() {
                 className="bg-offWhite dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-bitcoin-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <CalculatorIcon className="w-5 h-5" />
-                <span>Calculate Your ROI</span>
+                <span>Build Your Plan</span>
               </Link>
               <Link
                 href="/historical"
                 className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2"
               >
                 <ClockIcon className="w-5 h-5" />
-                <span>Past Performance</span>
+                <span>See Past Results</span>
               </Link>
             </div>
           </div>
@@ -70,10 +70,10 @@ export default function Footer() {
               <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
             <h4 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Build loyalty. Reduce turnover. Keep your best people.
+              Keep your best people with bonuses that actually grow.
             </h4>
             <p className="text-slate-400 mb-8">
-              The modern employee benefit that small businesses use to compete with big companies
+              Simple Bitcoin bonuses that help small businesses compete for talent
             </p>
           </div>
 
@@ -91,7 +91,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/track" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Status
+                      Track Bonuses
                     </Link>
                   </li>
                   <li>
@@ -104,11 +104,11 @@ export default function Footer() {
 
               {/* Forecast Calculator */}
               <div>
-                <h5 className="text-white font-semibold mb-4">Forecast</h5>
+                <h5 className="text-white font-semibold mb-4">Future Plans</h5>
                 <ul className="space-y-2">
                   <li>
                     <Link href="/calculator" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      ROI Calculator
+                      Plan Calculator
                     </Link>
                   </li>
                   <li>
@@ -116,7 +116,7 @@ export default function Footer() {
                       href="/calculator?scheme=accelerator"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Pioneer Strategy
+                      → Pioneer Plan
                     </Link>
                   </li>
                   <li>
@@ -124,7 +124,7 @@ export default function Footer() {
                       href="/calculator?scheme=steady-builder"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Stacker Strategy
+                      → Stacker Plan
                     </Link>
                   </li>
                   <li>
@@ -132,7 +132,7 @@ export default function Footer() {
                       href="/calculator?scheme=slow-burn"
                       className="text-slate-400 hover:text-bitcoin transition-colors text-sm"
                     >
-                      → Builder Strategy
+                      → Builder Plan
                     </Link>
                   </li>
                 </ul>

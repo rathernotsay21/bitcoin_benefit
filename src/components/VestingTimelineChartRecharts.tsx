@@ -248,9 +248,9 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
       </div>
       {/* Grant schedule subtitle */}
       <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        {schemeId === 'accelerator' && `Single grant of ${formatBTC(initialGrant)} at year 0`}
-        {schemeId === 'steady-builder' && `Initial ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} annually for 5 years`}
-        {schemeId === 'slow-burn' && `Initial ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} annually for 9 years`}
+        {schemeId === 'accelerator' && `One bonus of ${formatBTC(initialGrant)} given upfront`}
+        {schemeId === 'steady-builder' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 5 years`}
+        {schemeId === 'slow-burn' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 9 years`}
       </div>
     </div>
   );
@@ -355,13 +355,31 @@ function VestingTimelineChartRecharts({
           grantCost = initialGrant * currentBitcoinPrice; // Cost at today's price
           isInitialGrant = true;
         } else if (annualGrant && annualGrant > 0 && year > 0) {
-          // Check scheme-specific grant rules
-          if (schemeId === 'slow-burn' && year <= 9) {
-            grantSize = annualGrant;
-            grantCost = annualGrant * currentBitcoinPrice;
-          } else if (schemeId === 'steady-builder' && year <= 5) {
-            grantSize = annualGrant;
-            grantCost = annualGrant * currentBitcoinPrice;
+          // Check scheme-specific grant rules with explicit logic
+          switch (schemeId) {
+            case 'accelerator':
+              // Pioneer scheme: No annual grants, only initial
+              grantSize = 0;
+              grantCost = 0;
+              break;
+            case 'steady-builder':
+              // Stacker scheme: Annual grants for years 1-5
+              if (year <= 5) {
+                grantSize = annualGrant;
+                grantCost = annualGrant * currentBitcoinPrice;
+              }
+              break;
+            case 'slow-burn':
+              // Builder scheme: Annual grants for years 1-9
+              if (year <= 9) {
+                grantSize = annualGrant;
+                grantCost = annualGrant * currentBitcoinPrice;
+              }
+              break;
+            default:
+              // Custom or unknown scheme
+              grantSize = annualGrant;
+              grantCost = annualGrant * currentBitcoinPrice;
           }
         }
         
@@ -387,7 +405,7 @@ function VestingTimelineChartRecharts({
       });
       
     return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage]);
+  }, [extendedTimeline, initialGrant, annualGrant, schemeId, currentBitcoinPrice, getVestingPercentage, customVestingEvents]);
 
   // Calculate cost basis based on scheme - all at current price (what employer actually pays)
   const costBasis = useMemo(() => {
@@ -700,6 +718,11 @@ function VestingTimelineChartRecharts({
 
 
       {/* Virtualized Annual Breakdown Table */}
+      <div className="mt-6 mb-3">
+        <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
+          Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "vested").
+        </p>
+      </div>
       <VirtualizedAnnualBreakdown
         yearlyData={yearlyData}
         initialGrant={initialGrant}

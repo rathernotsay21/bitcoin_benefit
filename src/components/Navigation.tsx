@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '@/components/ThemeProvider';
+import MobileNavSheet from '@/components/MobileNavSheet';
 // Optimize icon imports with dynamic loading
 import dynamic from 'next/dynamic';
 
@@ -39,19 +40,19 @@ export default function Navigation() {
       activeIcon: HomeIconSolid,
     },
     {
-      name: 'Forecast',
+      name: 'Plans',
       href: '/calculator',
       icon: CalculatorIcon,
       activeIcon: CalculatorIconSolid,
     },
     {
-      name: 'Performance',
+      name: 'Results',
       href: '/historical',
       icon: ClockIcon,
       activeIcon: ClockIconSolid,
     },
     {
-      name: 'Status',
+      name: 'Bonuses',
       href: '/track',
       icon: LinkIcon,
       activeIcon: LinkIconSolid,
@@ -63,7 +64,7 @@ export default function Navigation() {
       activeIcon: WrenchScrewdriverIconSolid,
     },
     {
-      name: 'Guide',
+      name: 'Learn',
       href: '/learn',
       icon: AcademicCapIcon,
       activeIcon: AcademicCapIconSolid,
@@ -118,51 +119,29 @@ export default function Navigation() {
             })}
           </nav>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="theme-toggle-btn ml-4 lg:ml-6"
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            {theme === 'dark' ? (
-              <SunIconSolid className="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" />
-            ) : (
-              <MoonIconSolid className="w-6 h-6 text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
-            )}
-          </button>
+          {/* Theme Toggle & Mobile Menu */}
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle-btn"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            >
+              {theme === 'dark' ? (
+                <SunIconSolid className="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" />
+              ) : (
+                <MoonIconSolid className="w-6 h-6 text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
+              )}
+            </button>
+            
+            {/* Mobile Navigation Sheet */}
+            <MobileNavSheet />
+          </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-around py-2">
-            {navItems.map((item) => {
-              const isActive = item.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(item.href);
-              const Icon = isActive ? item.activeIcon : item.icon;
-
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`nav-link-mobile flex flex-col items-center py-2 px-3 rounded-lg min-w-0 ${isActive ? 'active' : ''
-                    }`}
-                >
-                  <Icon className={`w-6 h-6 mb-1 transition-all duration-300 ${isActive
-                    ? 'text-bitcoin dark:text-bitcoin'
-                    : 'text-slate-500 dark:text-slate-400'
-                    }`} />
-                  <span className={`text-xs font-medium transition-all duration-300 text-center ${isActive
-                    ? 'text-bitcoin dark:text-bitcoin'
-                    : 'text-slate-600 dark:text-slate-300'
-                    }`}>{item.name}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+      {/* Legacy Mobile Navigation - Hidden, kept for reference */}
+      <div className="hidden">
+        {/* Mobile navigation now handled by MobileNavSheet component */}
       </div>
     </header>
   );

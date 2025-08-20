@@ -1,4 +1,5 @@
 import type { NetworkHealth, MempoolInfo, MempoolFeeEstimates } from '@/types/bitcoin-tools';
+import { toFeeRate, toUnixTimestamp, toBlockHeight } from '@/types/bitcoin-tools';
 
 class NetworkService {
   private readonly API_BASE = 'https://mempool.space/api/v1';
@@ -179,10 +180,12 @@ class NetworkService {
         congestionLevel,
         mempoolSize,
         mempoolBytes,
-        averageFee,
+        averageFee: toFeeRate(averageFee),
         nextBlockETA,
         recommendation,
         humanReadable,
+        timestamp: toUnixTimestamp(Date.now() / 1000),
+        blockchainTip: toBlockHeight(800000) // This should come from API, using placeholder
       };
     } catch (error) {
       console.error('Error getting network health:', error);

@@ -1,4 +1,15 @@
-import { AddressInfo, SimplifiedTransaction, createToolError } from '@/types/bitcoin-tools';
+import { 
+  AddressInfo, 
+  SimplifiedTransaction, 
+  createToolError,
+  toBitcoinAddress,
+  toBitcoinTxId,
+  toBTCAmount,
+  toUSDAmount,
+  toSatoshiAmount,
+  toBlockHeight,
+  toUnixTimestamp
+} from '@/types/bitcoin-tools';
 import { validateBitcoinAddress } from '@/lib/on-chain/validation';
 
 interface MempoolAddressInfo {
@@ -72,6 +83,17 @@ export class AddressService {
    */
   private static setCachedData(key: string, data: any): void {
     this.cache.set(key, { data, timestamp: Date.now() });
+  }
+
+  /**
+   * Detect address type from format
+   */
+  private static detectAddressType(address: string): AddressInfo['addressType'] {
+    if (address.startsWith('1')) return 'legacy';
+    if (address.startsWith('3')) return 'segwit';
+    if (address.startsWith('bc1q')) return 'native_segwit';
+    if (address.startsWith('bc1p')) return 'taproot';
+    return 'legacy'; // fallback
   }
 
   /**
@@ -226,16 +248,19 @@ export class AddressService {
     const amountInUSD = amountInBTC * btcPrice;
 
     return {
-      txid: tx.txid,
+      txid: toBitcoinTxId(tx.txid),
       date: tx.status.block_time 
         ? new Date(tx.status.block_time * 1000).toLocaleDateString()
         : 'Pending',
       type: impact.type,
       amount: {
-        btc: amountInBTC,
-        usd: amountInUSD
+        btc: toBTCAmount(amountInBTC),
+        usd: toUSDAmount(amountInUSD),
+        sats: toSatoshiAmount(impact.amount)
       },
-      status: tx.status.confirmed ? 'confirmed' : 'pending'
+      status: tx.status.confirmed ? 'confirmed' : 'pending',
+      blockHeight: tx.status.block_height ? toBlockHeight(tx.status.block_height) : undefined,
+      confirmations: tx.status.confirmed ? (Math.max(0, 800000 - (tx.status.block_height || 0))) : 0
     };
   }
 
@@ -275,7 +300,8 @@ export class AddressService {
 
     return {
       balanceDescription,
-      activitySummary
+      activitySummary,
+      lastActivityDescription: txCount > 0 ? 'Recent activity detected' : 'No recent activity'
     };
   }
 
@@ -326,15 +352,22 @@ export class AddressService {
       );
 
       return {
-        address,
+        address: toBitcoinAddress(address),
         balance: {
-          btc: balanceInBTC,
-          usd: balanceInUSD,
-          sats: totalBalance
+          btc: toBTCAmount(balanceInBTC),
+          usd: toUSDAmount(balanceInUSD),
+          sats: toSatoshiAmount(totalBalance)
         },
         transactionCount: totalTxCount,
         transactions: formattedTransactions,
-        humanReadable
+        humanReadable,
+        firstSeen: transactions.length > 0 && transactions[transactions.length - 1].status.block_time 
+          ? toUnixTimestamp(transactions[transactions.length - 1].status.block_time!) 
+          : undefined,
+        lastSeen: transactions.length > 0 && transactions[0].status.block_time 
+          ? toUnixTimestamp(transactions[0].status.block_time!) 
+          : undefined,
+        addressType: this.detectAddressType(address)
       };
 
     } catch (error) {

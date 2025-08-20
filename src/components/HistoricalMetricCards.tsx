@@ -108,16 +108,16 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
       },
       {
         value: formatNumber(historicalResults.totalCostBasis),
-        label: 'Cost Basis',
+        label: 'What You Paid',
         color: 'blue' as const,
-        sublabel: `Historical ${historicalResults.summary?.costBasisMethod || 'average'} prices`,
+        sublabel: `Based on ${historicalResults.summary?.costBasisMethod || 'average'} yearly prices`,
         icon: undefined
       },
       {
         value: formatNumber(Math.max(0, totalGainUSD)),
-        label: 'Return',
+        label: 'Your Profit',
         color: 'green' as const,
-        sublabel: `${roi.toFixed(0)}% gain over ${yearsAnalyzed} years`,
+        sublabel: `${roi.toFixed(0)}% gain in ${yearsAnalyzed} years`,
         icon: undefined
       },
     ],
@@ -125,9 +125,9 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
     [
       {
         value: formatPercent(historicalResults.annualizedReturn),
-        label: 'Annualized',
+        label: 'Yearly Growth',
         color: 'purple' as const,
-        sublabel: 'Compound annual growth rate',
+        sublabel: 'Average per year',
         icon: undefined
       },
       {
@@ -149,23 +149,23 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
     [
       {
         value: formatBTC(historicalResults.totalBitcoinGranted),
-        label: 'Total BTC Granted',
+        label: 'Total Bitcoin Given',
         color: 'orange' as const,
-        sublabel: 'All historical grants',
+        sublabel: 'All bonuses combined',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {
         value: formatUSD(historicalResults.totalCostBasis),
-        label: 'Total Invested',
+        label: 'Total Cost',
         color: 'green' as const,
-        sublabel: 'At historical prices',
+        sublabel: 'What you actually paid',
         icon: undefined
       },
       {
         value: formatUSD(historicalResults.currentTotalValue),
-        label: 'Current Value',
+        label: "Today's Value",
         color: 'blue' as const,
-        sublabel: 'At today\'s BTC price',
+        sublabel: 'Worth right now',
         icon: undefined
       },
     ],
@@ -187,9 +187,9 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
       },
       {
         value: formatBTC(historicalResults.summary.averageAnnualGrant),
-        label: 'Avg Annual Grant',
+        label: 'Average Yearly Bonus',
         color: 'orange' as const,
-        sublabel: 'BTC per year',
+        sublabel: 'Bitcoin per year',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
     ],

@@ -10,10 +10,13 @@ import YearSelector from '@/components/YearSelector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
+import { MetricCardsSkeleton, TableSkeleton } from '@/components/loading/EnhancedSkeletons';
 import HistoricalMetricCards from '@/components/HistoricalMetricCards';
+import SchemeTabSelector from '@/components/SchemeTabSelector';
+import HistoricalDataTable from '@/components/HistoricalDataTable';
 
 // Lazy load the optimized historical visualization component
 const HistoricalTimelineVisualization = dynamic(
@@ -140,50 +143,29 @@ function HistoricalCalculatorContent() {
             <div className="card glass">
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
-                  Performance History
+                <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                  Choose a Plan
                 </h2>
               </div>
 
-              <div className="space-y-4">
-                {HISTORICAL_VESTING_SCHEMES.map((scheme) => (
-                  <div
-                    key={scheme.id}
-                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${
-                      selectedScheme?.id === scheme.id
-                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg scale-105'
-                        : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md hover:scale-102'
-                    }`}
-                    onClick={() => handleSchemeSelect(scheme.id)}
-                  >
-                    <div className="flex items-center mb-2">
-                      <input
-                        type="radio"
-                        name="scheme"
-                        className="text-orange-600"
-                        checked={selectedScheme?.id === scheme.id}
-                        onChange={() => handleSchemeSelect(scheme.id)}
-                      />
-                      <label className="ml-3 font-bold text-lg text-gray-900 dark:text-slate-100">{scheme.name}</label>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-slate-300 ml-6">
-                      {scheme.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              {/* Enhanced Scheme Tabs Selector */}
+              <SchemeTabSelector 
+                selectedScheme={selectedScheme}
+                onSchemeSelect={handleSchemeSelect}
+                currentPath="historical"
+              />
             </div>
 
             {/* Historical Configuration */}
             <div className="card glass overflow-hidden historical-config-card">
-              <div className="flex items-center mb-4">
-                <CogIcon className="w-5 h-5 text-bitcoin mr-2" />
+              <div className="flex items-center mb-6">
+                <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
                 <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Performance History
+                  Time Travel Settings
                 </h3>
               </div>
 
-              <div className="space-y-4 w-full max-w-full overflow-hidden">
+              <div className="space-y-6 w-full max-w-full overflow-hidden">
                 <div className="input-container">
                   <YearSelector
                     selectedYear={startingYear}
@@ -193,8 +175,8 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 <div className="space-y-2 input-container">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">
-                    Benefit Cost Method
+                  <label className="block text-base font-medium text-gray-700 dark:text-slate-300">
+                    Price Assumption
                   </label>
                   <select
                     value={costBasisMethod}
@@ -207,7 +189,7 @@ function HistoricalCalculatorContent() {
                     <option value="low">Yearly Low Price</option>
                   </select>
                   <p className="text-sm text-gray-500 dark:text-slate-400">
-                    Method used to calculate the initial cost for employee benefit grants
+                    Which Bitcoin price to use for calculating costs in each year
                   </p>
                 </div>
 
@@ -215,8 +197,8 @@ function HistoricalCalculatorContent() {
                 {selectedScheme && (
                   <>
                     <div className="input-container">
-                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-                        Initial Grant (BTC)
+                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
+                        Starting Bitcoin Bonus
                       </label>
                       <input
                         type="number"
@@ -233,8 +215,8 @@ function HistoricalCalculatorContent() {
 
                     {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                       <div className="input-container">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
-                          Annual Grant (BTC)
+                        <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
+                          Yearly Bitcoin Bonus
                         </label>
                         <input
                           type="number"
@@ -261,14 +243,10 @@ function HistoricalCalculatorContent() {
           <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
             {/* Loading State */}
             {isLoadingHistoricalData && (
-              <div className="card text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
-                  Loading Historical Data
-                </h3>
-                <p className="text-gray-600 dark:text-slate-300">
-                  Fetching benefit value data from {startingYear} to {currentYear}...
-                </p>
+              <div className="space-y-6">
+                <MetricCardsSkeleton />
+                <ChartSkeleton />
+                <TableSkeleton />
               </div>
             )}
 
@@ -276,7 +254,9 @@ function HistoricalCalculatorContent() {
             {(historicalDataError || calculationError) && (
               <div className="card border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
                 <div className="text-center">
-                  <div className="text-red-600 dark:text-red-400 text-4xl mb-4">⚠️</div>
+                  <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                    <ExclamationTriangleIcon className="w-8 h-8 text-red-600 dark:text-red-400" />
+                  </div>
                   <h3 className="text-lg font-semibold text-red-900 dark:text-red-200 mb-2">
                     {historicalDataError ? 'Data Loading Error' : 'Calculation Error'}
                   </h3>
@@ -296,6 +276,12 @@ function HistoricalCalculatorContent() {
             {/* Results */}
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
+                {/* Introductory Text */}
+                <div className="mb-4">
+                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                    This tool shows what would have happened if you had started a Bitcoin bonus plan in the past. While Bitcoin's early days saw dramatic growth, the good news is that its wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
+                  </p>
+                </div>
                 {/* Metric Cards Carousel */}
                 <HistoricalMetricCards
                   historicalResults={historicalResults}
@@ -304,6 +290,11 @@ function HistoricalCalculatorContent() {
                 />
 
                 {/* Historical Timeline Visualization */}
+                <div className="mb-3">
+                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                    This chart shows the actual journey your employee's Bitcoin bonus would have taken from your chosen starting year to today. Notice how the value has grown over time, even with Bitcoin's ups and downs along the way.
+                  </p>
+                </div>
                 <div className="card mb-6">
                   <HistoricalTimelineVisualization
                     results={historicalResults}
@@ -314,152 +305,80 @@ function HistoricalCalculatorContent() {
                   />
                 </div>
 
-                {/* Annual Breakdown */}
+                {/* Enhanced Annual Breakdown Table */}
+                <div className="mb-3">
+                  <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
+                  </p>
+                </div>
                 <div className="card mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Annual Breakdown
-                  </h3>
-                  
-                  <div className="overflow-x-auto w-full">
-                    <table className="min-w-full w-full bg-offWhite dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
-                      <thead className="bg-gray-50 dark:bg-slate-700">
-                        <tr>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Year</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden sm:table-cell">Grant Cost</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">BTC</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden md:table-cell">BTC Price</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase hidden lg:table-cell">Historical USD</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Current USD</th>
-                          <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-white/80 uppercase">Vesting</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
-                        {(() => {
-                          // Get yearly data points (December of each year or current month for current year)
-                          const currentYear = new Date().getFullYear();
-                          const startYear = startingYear;
-                          const yearlyPoints = [];
+                  <HistoricalDataTable
+                    data={(() => {
+                      // Prepare data for the enhanced table
+                      const currentYear = new Date().getFullYear();
+                      const startYear = startingYear;
+                      const tableData = [];
+                      
+                      for (let year = startYear; year <= currentYear; year++) {
+                        const yearPoints = historicalResults.timeline.filter(p => p.year === year);
+                        if (yearPoints.length > 0) {
+                          const lastPoint = yearPoints[yearPoints.length - 1];
+                          const yearsFromStart = year - startingYear;
+                          const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
                           
-                          for (let year = startYear; year <= currentYear; year++) {
-                            // Find the last point for this year (December or current month for current year)
-                            const yearPoints = historicalResults.timeline.filter(p => p.year === year);
-                            if (yearPoints.length > 0) {
-                              const lastPoint = yearPoints[yearPoints.length - 1];
-                              yearlyPoints.push(lastPoint);
+                          // Calculate grant cost for this year
+                          let grantCost = 0;
+                          const yearGrants = historicalResults.grantBreakdown.filter(grant => grant.year === year);
+                          if (yearGrants.length > 0) {
+                            grantCost = yearGrants.reduce((sum, grant) => {
+                              const grantYearPrices = historicalPrices[grant.year];
+                              if (grantYearPrices) {
+                                let grantPrice = 0;
+                                switch (costBasisMethod) {
+                                  case 'high': grantPrice = grantYearPrices.high; break;
+                                  case 'low': grantPrice = grantYearPrices.low; break;
+                                  case 'average': grantPrice = grantYearPrices.average; break;
+                                }
+                                return sum + (grant.amount * grantPrice);
+                              }
+                              return sum;
+                            }, 0);
+                          }
+                          
+                          // Get historical benefit value for this year
+                          const yearPrices = historicalPrices[year];
+                          let historicalBenefitValue = 0;
+                          if (yearPrices) {
+                            switch (costBasisMethod) {
+                              case 'high': historicalBenefitValue = yearPrices.high; break;
+                              case 'low': historicalBenefitValue = yearPrices.low; break;
+                              case 'average': historicalBenefitValue = yearPrices.average; break;
                             }
                           }
                           
-                          return yearlyPoints.map((point) => {
-                            const year = point.year;
-                            const yearsFromStart = year - startingYear;
-                            const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
-                            
-                            // Calculate grant cost for this year
-                            let grantCost = 0;
-                            // Look for grants that were allocated in this year from the grant breakdown
-                            const yearGrants = historicalResults.grantBreakdown.filter(grant => grant.year === year);
-                            if (yearGrants.length > 0) {
-                              grantCost = yearGrants.reduce((sum, grant) => {
-                                const grantYearPrices = historicalPrices[grant.year];
-                                if (grantYearPrices) {
-                                  let grantPrice = 0;
-                                  switch (costBasisMethod) {
-                                    case 'high':
-                                      grantPrice = grantYearPrices.high;
-                                      break;
-                                    case 'low':
-                                      grantPrice = grantYearPrices.low;
-                                      break;
-                                    case 'average':
-                                      grantPrice = grantYearPrices.average;
-                                      break;
-                                  }
-                                  return sum + (grant.amount * grantPrice);
-                                }
-                                return sum;
-                              }, 0);
-                            }
-                            
-                            // Get historical benefit value for this year
-                            const yearPrices = historicalPrices[year];
-                            let historicalBenefitValue = 0;
-                            if (yearPrices) {
-                              switch (costBasisMethod) {
-                                case 'high':
-                                  historicalBenefitValue = yearPrices.high;
-                                  break;
-                                case 'low':
-                                  historicalBenefitValue = yearPrices.low;
-                                  break;
-                                case 'average':
-                                  historicalBenefitValue = yearPrices.average;
-                                  break;
-                              }
-                            }
-                            
-                            // Calculate historical USD value using that year's value
-                            const historicalUsdValue = point.cumulativeBitcoin * historicalBenefitValue;
-
-                            return (
-                              <tr key={year} className={
-                                yearsFromStart === 10 ? 'bg-green-50 dark:bg-green-900/20' : 
-                                yearsFromStart === 5 ? 'bg-yellow-50 dark:bg-yellow-900/20' : ''
-                              }>
-                                <td className="px-2 sm:px-4 py-2 text-sm font-medium text-gray-900 dark:text-white">{year}</td>
-                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden sm:table-cell">
-                                  {grantCost > 0 ? (
-                                    <span className="font-medium text-orange-600 dark:text-orange-400">{formatUSD(grantCost)}</span>
-                                  ) : (
-                                    <span className="text-gray-400 dark:text-white/50">—</span>
-                                  )}
-                                </td>
-                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90">{formatBTC(point.cumulativeBitcoin)}</td>
-                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden md:table-cell">
-                                  {historicalBenefitValue > 0 ? formatUSD(historicalBenefitValue) : '—'}
-                                </td>
-                                <td className="px-2 sm:px-4 py-2 text-sm text-gray-700 dark:text-white/90 hidden lg:table-cell">
-                                  {historicalBenefitValue > 0 ? formatUSD(historicalUsdValue) : '—'}
-                                </td>
-                                <td className="px-2 sm:px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400">
-                                  {formatUSD(point.currentValue)}
-                                </td>
-                                <td className="px-2 sm:px-4 py-2 text-sm">
-                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    vestingPercent === 100 ? 'bg-green-100 text-green-800' :
-                                    vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-gray-100 text-gray-800'
-                                  }`}>
-                                    {vestingPercent}%
-                                  </span>
-                                </td>
-                              </tr>
-                            );
+                          const historicalUsdValue = lastPoint.cumulativeBitcoin * historicalBenefitValue;
+                          
+                          tableData.push({
+                            year,
+                            grantCost,
+                            btcAmount: lastPoint.cumulativeBitcoin,
+                            historicalPrice: historicalBenefitValue,
+                            historicalValue: historicalUsdValue,
+                            currentValue: lastPoint.currentValue,
+                            vestingPercent,
+                            yearsFromStart
                           });
-                        })()}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Total Grant Cost Summary */}
-                  <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">Total Benefit Cost</h5>
-                        <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
-                          Based on historical {costBasisMethod} benefit values for each grant year
-                        </p>
-
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold text-orange-900 dark:text-orange-200">
-                          {formatUSD(historicalResults.totalCostBasis)}
-                        </div>
-                        <div className="text-xs text-bitcoin dark:text-bitcoin">
-                          {formatBTC(historicalResults.totalBitcoinGranted)} total grants
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        }
+                      }
+                      
+                      return tableData;
+                    })()}
+                    currentBitcoinPrice={currentBitcoinPrice}
+                    startingYear={startingYear}
+                    totalCostBasis={historicalResults.totalCostBasis}
+                    totalBitcoinGranted={historicalResults.totalBitcoinGranted}
+                    costBasisMethod={costBasisMethod}
+                  />
                 </div>
 
 
@@ -469,12 +388,14 @@ function HistoricalCalculatorContent() {
             {/* Empty State */}
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && !historicalResults && (
               <div className="card text-center">
-                <div className="text-4xl mb-4">📊</div>
+                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/20 rounded-full flex items-center justify-center">
+                  <ChartBarIcon className="w-8 h-8 text-bitcoin" />
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Ready to Analyze
                 </h3>
                 <p className="text-gray-600 dark:text-white/90">
-                  Select a vesting scheme to see how it would have performed historically
+                  Choose a plan above to see how it would have performed if you started in the past
                 </p>
               </div>
             )}

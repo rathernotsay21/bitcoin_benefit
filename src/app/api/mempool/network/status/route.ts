@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { NetworkHealth } from '@/types/bitcoin-tools';
+import { toFeeRate, toUnixTimestamp, toBlockHeight } from '@/types/bitcoin-tools';
 
 interface MempoolInfo {
   count: number;
@@ -70,14 +71,16 @@ export async function GET(request: NextRequest) {
       congestionLevel: 'normal',
       mempoolSize: 0,
       mempoolBytes: 0,
-      averageFee: 20,
+      averageFee: toFeeRate(20),
       nextBlockETA: 'Unknown',
       recommendation: 'Unable to determine current network conditions',
       humanReadable: {
         congestionDescription: 'Network status unavailable',
         userAdvice: 'Consider waiting a few minutes and trying again',
         colorScheme: 'yellow'
-      }
+      },
+      timestamp: toUnixTimestamp(Date.now() / 1000),
+      blockchainTip: toBlockHeight(800000) // Placeholder value
     };
 
     return NextResponse.json(fallbackStatus, {
@@ -135,14 +138,16 @@ function analyzeNetworkHealth(mempoolData: MempoolInfo, feeData: MempoolFeeEstim
     congestionLevel,
     mempoolSize,
     mempoolBytes,
-    averageFee,
+    averageFee: toFeeRate(averageFee),
     nextBlockETA,
     recommendation,
     humanReadable: {
       congestionDescription,
       userAdvice,
       colorScheme
-    }
+    },
+    timestamp: toUnixTimestamp(Date.now() / 1000),
+    blockchainTip: toBlockHeight(800000) // Placeholder - should come from API
   };
 }
 

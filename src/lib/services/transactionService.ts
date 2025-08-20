@@ -1,4 +1,15 @@
-import { TransactionStatus, createToolError } from '@/types/bitcoin-tools';
+import { 
+  TransactionStatus, 
+  createToolError, 
+  BitcoinTxId,
+  toBitcoinTxId,
+  toBlockHeight,
+  toUnixTimestamp,
+  toSatoshiAmount,
+  toFeeRate,
+  toBTCAmount,
+  toUSDAmount
+} from '@/types/bitcoin-tools';
 
 interface MempoolTransactionResponse {
   txid: string;
@@ -145,22 +156,23 @@ export class TransactionService {
     const feeDescription = this.formatFeeDescription(feeInSats, feeRate, feeInUSD);
 
     return {
-      txid: tx.txid,
+      txid: toBitcoinTxId(tx.txid),
       status,
       confirmations,
-      blockHeight: tx.status.block_height,
-      blockTime: tx.status.block_time,
+      blockHeight: tx.status.block_height ? toBlockHeight(tx.status.block_height) : undefined,
+      blockTime: tx.status.block_time ? toUnixTimestamp(tx.status.block_time) : undefined,
       estimatedConfirmation: !isConfirmed ? this.estimateConfirmationTime(feeRate) : undefined,
       fee: {
-        total: feeInSats,
-        rate: feeRate,
-        btc: feeInBTC,
-        usd: feeInUSD
+        total: toSatoshiAmount(feeInSats),
+        rate: toFeeRate(feeRate),
+        btc: toBTCAmount(feeInBTC),
+        usd: toUSDAmount(feeInUSD)
       },
       humanReadable: {
         status: humanStatus,
         timeDescription,
-        feeDescription
+        feeDescription,
+        confirmationText: `${confirmations} confirmation${confirmations !== 1 ? 's' : ''}`
       }
     };
   }

@@ -111,7 +111,7 @@ export default function YearSelector({
       {/* Helper text */}
       {isValid && (
         <p className="text-sm text-gray-500 dark:text-white/70">
-          Historical Bitcoin data available from {minYear} to {maxYear}
+  See how your plan would have performed from {minYear} to today
         </p>
       )}
     </div>

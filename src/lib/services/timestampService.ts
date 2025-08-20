@@ -1,4 +1,12 @@
-import { TimestampResult, createToolError } from '@/types/bitcoin-tools';
+import { 
+  TimestampResult, 
+  createToolError, 
+  toDocumentHash, 
+  toUnixTimestamp, 
+  toProofUrl,
+  toBlockHeight,
+  toBitcoinTxId
+} from '@/types/bitcoin-tools';
 
 interface OpenTimestampsResponse {
   success: boolean;
@@ -122,14 +130,17 @@ export class TimestampService {
       const verificationUrl = `https://opentimestamps.org/info/?b64=${btoa(proofData)}`;
 
       return {
-        hash: data.hash,
-        timestamp: data.timestamp,
+        hash: toDocumentHash(data.hash),
+        timestamp: toUnixTimestamp(data.timestamp),
         proofFile: proofBlob,
-        verificationUrl,
+        verificationUrl: toProofUrl(verificationUrl),
         humanReadable: {
           timestampDescription: this.formatTimestampDescription(data.timestamp),
           instructions: this.generateInstructions(file.name)
-        }
+        },
+        blockHeight: undefined, // Would be populated if available from API
+        txid: undefined, // Would be populated if available from API
+        cost: undefined // Would be populated if cost tracking is implemented
       };
 
     } catch (error) {

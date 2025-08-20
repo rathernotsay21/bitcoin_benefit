@@ -38,6 +38,20 @@ function DocumentTimestampingTool() {
   const verifyOriginalRef = useRef<HTMLInputElement>(null);
   const verifyProofRef = useRef<HTMLInputElement>(null);
 
+  const handleFileSelect = useCallback(async (file: File) => {
+    try {
+      TimestampService.validateFile(file);
+      setDocumentTimestampFile(file);
+      setCurrentStep('upload');
+    } catch (error) {
+      setDocumentTimestampError(
+        error && typeof error === 'object' && 'type' in error
+          ? error as any
+          : createToolError('validation', 'INVALID_FILE_TYPE')
+      );
+    }
+  }, [setDocumentTimestampFile, setCurrentStep, setDocumentTimestampError]);
+
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -56,21 +70,7 @@ function DocumentTimestampingTool() {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileSelect(e.dataTransfer.files[0]);
     }
-  }, []);
-
-  const handleFileSelect = async (file: File) => {
-    try {
-      TimestampService.validateFile(file);
-      setDocumentTimestampFile(file);
-      setCurrentStep('upload');
-    } catch (error) {
-      setDocumentTimestampError(
-        error && typeof error === 'object' && 'type' in error
-          ? error as any
-          : createToolError('validation', 'INVALID_FILE_TYPE')
-      );
-    }
-  };
+  }, [handleFileSelect]);
 
   const handleCreateTimestamp = async () => {
     if (!documentTimestamp.uploadedFile) return;

@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
 import { TransactionService } from '@/lib/services/transactionService';
 import { createToolError } from '@/types/bitcoin-tools';
+import { usePrivacyProtection } from '@/hooks/usePrivacyProtection';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
@@ -21,6 +22,12 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
     checkRateLimit,
     recordRequest
   } = useBitcoinToolsStore();
+
+  const { clearToolDataSecurely } = usePrivacyProtection({
+    toolName: 'transaction-lookup',
+    clearOnUnmount: true,
+    clearOnNavigation: true
+  });
 
   const [txidInput, setTxidInput] = useState(initialTxid || '');
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -110,6 +117,15 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
       }
     };
   }, []);
+
+  // Clear sensitive data when component unmounts
+  useEffect(() => {
+    return () => {
+      if (txidInput) {
+        clearToolDataSecurely();
+      }
+    };
+  }, [txidInput, clearToolDataSecurely]);
 
   if (transactionLookup.loading.isLoading) {
     return <ToolSkeleton variant="transaction" showProgress progressMessage={transactionLookup.loading.loadingMessage} />;

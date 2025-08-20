@@ -14,7 +14,7 @@ const VESTING_PRESETS = {
   recruit: {
     id: 'recruit',
     name: 'Recruit',
-    description: 'Front-loaded to attract new hires',
+    description: 'Fast earning to attract new talent',
     events: [
       { id: 'recruit-1', timePeriod: 3, percentageVested: 5, label: '90 Days' },
       { id: 'recruit-2', timePeriod: 12, percentageVested: 20, label: 'Year 1' },
@@ -26,7 +26,7 @@ const VESTING_PRESETS = {
   retain: {
     id: 'retain',
     name: 'Retain',
-    description: 'Steady, predictable vesting path',
+    description: 'Steady, predictable earning path',
     events: [
       { id: 'retain-1', timePeriod: 12, percentageVested: 20, label: 'Year 1' },
       { id: 'retain-2', timePeriod: 24, percentageVested: 40, label: 'Year 2' },
@@ -38,7 +38,7 @@ const VESTING_PRESETS = {
   reward: {
     id: 'reward',
     name: 'Reward',
-    description: 'Long-term stakeholder focused',
+    description: 'Long-term loyalty rewards',
     events: [
       { id: 'reward-1', timePeriod: 60, percentageVested: 50, label: 'Year 5' },
       { id: 'reward-2', timePeriod: 120, percentageVested: 100, label: 'Year 10' },
@@ -61,7 +61,7 @@ export default function VestingPresets({
   return (
     <div className="mt-6 p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4">
-        Vesting Schedule
+        Earning Schedule
       </h4>
       
       {/* Preset Selection Buttons */}
@@ -87,7 +87,7 @@ export default function VestingPresets({
       {selectedPreset && VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS] && (
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
           <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
-            Vesting Timeline:
+            Earning Timeline:
           </h5>
           <div className="space-y-2">
             {VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events.map((event, index) => (

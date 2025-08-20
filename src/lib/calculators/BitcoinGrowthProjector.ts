@@ -15,9 +15,12 @@ export class BitcoinGrowthProjector {
   
   /**
    * Calculate the monthly growth rate from annual rate
+   * Using proper compound interest formula: (1 + r)^(1/12) - 1
    */
   getMonthlyGrowthRate(): number {
-    return this.annualGrowthRate / 12 / 100;
+    // Convert percentage to decimal and calculate compound monthly rate
+    const annualRateDecimal = this.annualGrowthRate / 100;
+    return Math.pow(1 + annualRateDecimal, 1/12) - 1;
   }
   
   /**
