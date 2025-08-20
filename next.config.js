@@ -9,9 +9,10 @@ const nextConfig = {
   // Enable compression for static assets
   compress: true,
   
-  // Performance optimizations
+  // Performance optimizations with CSS reliability fixes
   experimental: {
     optimizePackageImports: ['recharts', '@heroicons/react', '@headlessui/react', 'react-window'],
+    esmExternals: false, // Prevents CSS loading issues
   },
   
   // Optimize JavaScript bundles
@@ -30,10 +31,18 @@ const nextConfig = {
         moduleIds: 'deterministic',
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 25,
-          minSize: 20000,
-          maxAsyncRequests: 10,
+          maxInitialRequests: 20,
+          minSize: 25000,
+          maxAsyncRequests: 8,
           cacheGroups: {
+            // CSS should always be in initial chunks to prevent loading issues
+            styles: {
+              name: 'styles',
+              test: /\.(css|scss|sass)$/,
+              chunks: 'all',
+              priority: 50,
+              enforce: true,
+            },
             // Critical vendor libraries
             framework: {
               name: 'framework',
@@ -93,6 +102,14 @@ const nextConfig = {
 
       // Add module concatenation for better tree shaking
       config.optimization.concatenateModules = true;
+      
+      // Ensure CSS is extracted properly and not split
+      config.optimization.splitChunks.cacheGroups.default = {
+        ...config.optimization.splitChunks.cacheGroups.default,
+        minChunks: 1,
+        priority: -20,
+        reuseExistingChunk: true
+      };
 
       // Optimize moment.js if used
       config.plugins.push(

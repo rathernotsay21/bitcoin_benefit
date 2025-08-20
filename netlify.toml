@@ -16,21 +16,30 @@
   
 # Build settings
 [build.processing]
-  skip_processing = false
+  skip_processing = true
 
+# Disable Netlify CSS/JS processing to prevent conflicts with Next.js
+# Next.js already handles optimization, bundling, and minification
 [build.processing.css]
-  bundle = true
-  minify = true
+  bundle = false
+  minify = false
 
 [build.processing.js]
-  bundle = true
-  minify = true
+  bundle = false
+  minify = false
 
 # Performance optimized caching
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_next/static/css/*"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/api/*"

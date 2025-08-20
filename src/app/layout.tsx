@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
+import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import './globals.css'
 
 // Optimize font loading with better performance
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         {/* Critical performance optimizations */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,14 +39,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://mempool.space" />
         
-        {/* Critical CSS - minimal for above-the-fold */}
+        {/* CSS preload will be handled by Next.js automatically */}
+        
+        {/* Minimal critical CSS to prevent FOUC */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            /* Minimal critical CSS with new color palette */
-            .hero-gradient{background:#F4F6F8}
-            .dark .hero-gradient{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)}
-            body{margin:0;padding:0;min-height:100vh;background-color:#F4F6F8}
-            .dark body{background-color:#0f172a}
+            body{margin:0;padding:0;min-height:100vh}
           `
         }} />
         
@@ -62,38 +61,32 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  // Always start in light mode, only switch to dark if explicitly set
+                  // Theme initialization - prevent flash
                   var theme = localStorage.getItem('theme');
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                   } else {
                     document.documentElement.classList.remove('dark');
-                    // Ensure light mode is set as default
-                    localStorage.setItem('theme', 'light');
+                    if (!theme) {
+                      localStorage.setItem('theme', 'light');
+                    }
                   }
                 } catch (e) {
-                  // Fallback to light mode
                   document.documentElement.classList.remove('dark');
-                }
-                // Register service worker for offline support
-                if ('serviceWorker' in navigator) {
-                  window.addEventListener('load', function() {
-                    navigator.serviceWorker.register('/sw.js').catch(function(err) {
-                      console.log('ServiceWorker registration failed: ', err);
-                    });
-                  });
                 }
               })();
             `,
           }}
         />
-        <ThemeProvider>
-          <StoreSyncProvider>
-            <div className="min-h-screen transition-colors duration-300">
-              <main>{children}</main>
-            </div>
-          </StoreSyncProvider>
-        </ThemeProvider>
+        <CSSLoadingGuard>
+          <ThemeProvider>
+            <StoreSyncProvider>
+              <div className="min-h-screen transition-colors duration-300">
+                <main>{children}</main>
+              </div>
+            </StoreSyncProvider>
+          </ThemeProvider>
+        </CSSLoadingGuard>
       </body>
     </html>
   )

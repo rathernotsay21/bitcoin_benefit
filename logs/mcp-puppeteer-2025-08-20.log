@@ -132,3 +132,11 @@
 {"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:36.698","url":"http://localhost:3001/bitcoin-tools"}
 {"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-20 13:58:40.257","url":"http://localhost:3001/bitcoin-tools"}
 {"arguments":{"height":900,"name":"bitcoin-tools-fixed-spacing","width":1440},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-20 13:58:44.801","tool":"puppeteer_screenshot"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-20 15:29:15.639"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-20 15:29:15.640"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-20 15:37:33.883"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-20 15:37:33.884"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-20 16:09:35.386"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-20 16:09:35.387"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-20 16:10:43.012"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-20 16:10:43.013"}
