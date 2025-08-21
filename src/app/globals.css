@@ -1146,6 +1146,187 @@ scroll-behavior: smooth;
     contain: layout;
   }
 
+  /* Mobile Navigation Sheet - Enhanced for landscape */
+  .mobile-nav-sheet {
+    @apply h-screen max-h-screen overflow-hidden;
+    /* Handle safe areas on devices with notches */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Ensure proper height calculation and prevent overlap */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    /* Performance optimizations */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Smooth scrolling for navigation items */
+  .mobile-nav-sheet .sheet-nav {
+    /* Smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    /* Prevent scroll bounce */
+    overflow-anchor: none;
+  }
+
+  /* Improved touch targets for better accessibility */
+  .mobile-nav-sheet .nav-link {
+    min-height: 44px; /* Minimum touch target size */
+    touch-action: manipulation;
+    /* Prevent text selection on touch */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .mobile-nav-sheet .theme-toggle-section button {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Global overlap prevention for all landscape orientations */
+  @media screen and (orientation: landscape) {
+    .mobile-nav-sheet .theme-toggle-section {
+      /* Ensure minimum separation from nav items in all landscape modes */
+      margin-top: max(1rem, 4vh) !important;
+      position: relative;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      left: 0;
+      right: 0;
+      height: 0.5rem;
+      /* Create invisible spacer to prevent any overlap */
+      pointer-events: none;
+    }
+  }
+
+  /* Critical height range optimization - prevents overlap */
+  @media screen and (max-height: 500px) and (min-height: 401px) and (orientation: landscape) {
+    .mobile-nav-sheet {
+      gap: 1.5rem !important; /* Force larger gap in critical range */
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-6;
+      /* Force generous separation in this critical range */
+      margin-top: max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) !important;
+      border-top: 2px solid;
+      @apply border-slate-200 dark:border-slate-700;
+    }
+  }
+
+  /* Landscape mode optimizations for mobile nav */
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-2;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply py-2 space-y-0.5 pb-4;
+    }
+    
+    .mobile-nav-sheet .nav-link {
+      @apply py-2;
+    }
+    
+    .mobile-nav-sheet .nav-link .nav-description {
+      @apply hidden;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-4 mt-4;
+      /* Ensure minimum separation */
+      margin-top: max(1rem, env(safe-area-inset-bottom, 1rem));
+    }
+    
+    .mobile-nav-sheet .theme-toggle-description {
+      @apply hidden;
+    }
+  }
+
+  /* Very short landscape mode (phones < 400px height) */
+  @media screen and (max-height: 400px) and (orientation: landscape) {
+    .mobile-nav-sheet .sheet-header p {
+      @apply hidden;
+    }
+    
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-1;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply pb-6;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-3 mt-6;
+      /* Force stronger separation in very short screens */
+      margin-top: max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) !important;
+    }
+  }
+
+  /* Extra short landscape mode (phones < 350px height) */
+  @media screen and (max-height: 350px) and (orientation: landscape) {
+    .mobile-nav-sheet .nav-link {
+      @apply py-1;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply py-1 pb-4;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-3 mt-4;
+      /* Maintain separation even in extra short screens */
+      margin-top: max(1rem, env(safe-area-inset-bottom, 1rem)) !important;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section button {
+      @apply py-2;
+    }
+  }
+
+  /* Extreme landscape mode (phones < 320px height) - Ultra compact */
+  @media screen and (max-height: 320px) and (orientation: landscape) {
+    .mobile-nav-sheet {
+      font-size: 0.875rem; /* Smaller base font size */
+    }
+    
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-1;
+    }
+    
+    .mobile-nav-sheet .sheet-header h2 {
+      @apply text-lg;
+    }
+    
+    .mobile-nav-sheet .nav-link {
+      @apply px-3 py-1;
+      min-height: 36px; /* Smaller touch targets for extreme cases */
+    }
+    
+    .mobile-nav-sheet .nav-link .nav-description {
+      @apply text-xs;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section button {
+      @apply px-3 py-1;
+      min-height: 36px;
+    }
+  }
+
   /* Enhanced Tooltips */
   .tooltip {
     @apply relative inline-block;

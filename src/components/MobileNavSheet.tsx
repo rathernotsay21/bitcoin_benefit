@@ -115,21 +115,21 @@ export default function MobileNavSheet() {
       </SheetTrigger>
       <SheetContent 
         side="left" 
-        className="w-full sm:max-w-sm bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-r border-slate-200 dark:border-slate-700"
+        className="mobile-nav-sheet w-full sm:max-w-sm bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-r border-slate-200 dark:border-slate-700 flex flex-col gap-4 h-full max-h-screen overflow-hidden"
       >
-        <SheetHeader className="text-left pb-6 border-b border-slate-200 dark:border-slate-700">
+        <SheetHeader className="sheet-header text-left pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-700 flex-shrink-0">
           <SheetTitle className="text-xl font-bold text-deepSlate dark:text-slate-100 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-bitcoin/20 dark:bg-bitcoin/30 flex items-center justify-center">
               <span className="text-bitcoin font-bold">₿</span>
             </div>
             Bitcoin Benefits
           </SheetTitle>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-tight">
             Secure their future. Secure your team.
           </p>
         </SheetHeader>
 
-        <nav className="flex flex-col py-6 space-y-1">
+        <nav className="sheet-nav flex flex-col py-3 sm:py-6 space-y-1 flex-1 overflow-y-auto min-h-0 pb-6">
           {navItems.map((item) => {
             const isActive = item.href === '/'
               ? pathname === '/'
@@ -141,7 +141,7 @@ export default function MobileNavSheet() {
                 <Link
                   href={item.href}
                   className={`
-                    group flex items-center px-4 py-3 rounded-xl transition-all duration-300
+                    nav-link group flex items-center px-4 py-3 rounded-xl transition-all duration-300
                     ${isActive 
                       ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
                       : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -149,17 +149,17 @@ export default function MobileNavSheet() {
                   `}
                 >
                   <Icon className={`
-                    w-6 h-6 mr-4 transition-all duration-300 group-hover:scale-110
+                    w-6 h-6 mr-4 transition-all duration-300 group-hover:scale-110 flex-shrink-0
                     ${isActive ? 'text-bitcoin' : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-400 dark:group-hover:text-bitcoin'}
                   `} />
                   <div className="flex flex-col min-w-0">
                     <span className={`
-                      font-semibold transition-all duration-300
+                      font-semibold transition-all duration-300 truncate
                       ${isActive ? 'text-bitcoin' : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'}
                     `}>
                       {item.name}
                     </span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <span className="nav-description text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate leading-tight">
                       {item.description}
                     </span>
                   </div>
@@ -169,28 +169,26 @@ export default function MobileNavSheet() {
           })}
         </nav>
 
-        <div className="absolute bottom-6 left-6 right-6">
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-            <button
-              onClick={toggleTheme}
-              className="flex items-center w-full px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            >
-              {theme === 'dark' ? (
-                <SunIconSolid className="w-6 h-6 mr-4 text-yellow-400" />
-              ) : (
-                <MoonIconSolid className="w-6 h-6 mr-4 text-slate-600 dark:text-slate-300" />
-              )}
-              <div className="flex flex-col items-start">
-                <span className="font-semibold">
-                  Switch to {theme === 'dark' ? 'light' : 'dark'} mode
-                </span>
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  Change appearance
-                </span>
-              </div>
-            </button>
-          </div>
+        <div className="theme-toggle-section flex-shrink-0 border-t border-slate-200 dark:border-slate-700 pt-4 sm:pt-6">
+          <button
+            onClick={toggleTheme}
+            className="flex items-center w-full px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark' ? (
+              <SunIconSolid className="w-6 h-6 mr-4 text-yellow-400 flex-shrink-0" />
+            ) : (
+              <MoonIconSolid className="w-6 h-6 mr-4 text-slate-600 dark:text-slate-300 flex-shrink-0" />
+            )}
+            <div className="flex flex-col items-start min-w-0">
+              <span className="font-semibold truncate">
+                Switch to {theme === 'dark' ? 'light' : 'dark'} mode
+              </span>
+              <span className="theme-toggle-description text-xs text-slate-500 dark:text-slate-400 truncate">
+                Change appearance
+              </span>
+            </div>
+          </button>
         </div>
       </SheetContent>
     </Sheet>
