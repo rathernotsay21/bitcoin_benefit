@@ -66,6 +66,8 @@ type NetworkAction =
 const networkReducer = (state: NetworkState, action: NetworkAction): NetworkState => {
   switch (action.type) {
     case 'SET_LOADING':
+      // Don't update if loading state hasn't changed
+      if (state.isLoading === action.payload) return state;
       return { ...state, isLoading: action.payload };
     case 'SET_DATA':
       return { 
@@ -87,7 +89,7 @@ const networkReducer = (state: NetworkState, action: NetworkAction): NetworkStat
   }
 };
 
-const NetworkStatus: React.FC = () => {
+const NetworkStatus: React.FC = React.memo(() => {
   const [state, dispatch] = useReducer(networkReducer, {
     networkHealth: null,
     bitcoinPrice: null,
@@ -98,7 +100,10 @@ const NetworkStatus: React.FC = () => {
 
   const fetchNetworkHealth = useCallback(async () => {
     try {
-      dispatch({ type: 'SET_LOADING', payload: true });
+      // Only set loading if we don't have data yet
+      if (!state.networkHealth) {
+        dispatch({ type: 'SET_LOADING', payload: true });
+      }
       
       // Fetch both network status and Bitcoin price in parallel
       const [networkResponse, bitcoinPriceData] = await Promise.all([
@@ -155,27 +160,39 @@ const NetworkStatus: React.FC = () => {
       
       // Automatic retry with exponential backoff
       if (shouldRetry) {
+        dispatch({ type: 'INCREMENT_RETRY' });
         const retryDelay = Math.min(1000 * Math.pow(2, state.retryCount), 10000);
         setTimeout(() => {
-          dispatch({ type: 'INCREMENT_RETRY' });
           fetchNetworkHealth();
         }, retryDelay);
       }
     }
-  }, [state.retryCount]);
+  }, [state.retryCount, state.networkHealth]);
 
   useEffect(() => {
-    fetchNetworkHealth();
+    let mounted = true;
+    let interval: NodeJS.Timeout;
     
-    // Set up auto-refresh every 30 seconds
-    const interval = setInterval(() => {
-      if (!state.isLoading) {
+    // Initial fetch with small delay to prevent hydration issues
+    const timer = setTimeout(() => {
+      if (mounted) {
         fetchNetworkHealth();
+        
+        // Set up auto-refresh every 30 seconds
+        interval = setInterval(() => {
+          if (mounted) {
+            fetchNetworkHealth();
+          }
+        }, 30000);
       }
-    }, 30000);
+    }, 100);
     
-    return () => clearInterval(interval);
-  }, [fetchNetworkHealth, state.isLoading]);
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+      if (interval) clearInterval(interval);
+    };
+  }, []); // Remove dependencies to prevent re-initialization
 
   const getStatusIcon = (congestionLevel: NetworkHealth['congestionLevel']) => {
     switch (congestionLevel) {
@@ -298,16 +315,23 @@ const NetworkStatus: React.FC = () => {
     return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', emoji: '❓', timeEstimate: 'Unknown' };
   };
 
-  // Only show skeleton if we don't have any data (first load)
-  if (state.isLoading && !state.networkHealth) {
+  // Show skeleton on first load with stable layout
+  if (!state.networkHealth) {
     return (
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
         <div className="lg:flex-[1.5] w-full min-w-0">
-          <ToolSkeleton 
-            variant="network" 
-            showProgress 
-            progressMessage="Loading network status..." 
-          />
+          <div className="animate-pulse space-y-6">
+            {/* Skeleton matches exact layout of loaded content */}
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 h-[140px]"></div>
+            <div className="flex items-center justify-between mb-8">
+              <div className="h-12 w-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div className="h-8 w-32 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+            </div>
+            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 h-[180px]"></div>
+            <div className="h-[240px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+            <div className="h-[250px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+            <div className="h-[120px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+          </div>
         </div>
         <div className="lg:flex-[1] lg:max-w-md">
           <div className="lg:sticky lg:top-6">
@@ -379,13 +403,7 @@ const NetworkStatus: React.FC = () => {
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
       {/* Main Tool Content - 60% width */}
       <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
-        {/* Loading indicator overlay for refreshes */}
-        {state.isLoading && state.networkHealth && (
-          <div className="fixed top-4 right-4 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-lg border px-4 py-2 flex items-center space-x-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-bitcoin"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">Updating...</span>
-          </div>
-        )}
+        {/* Loading indicator overlay for refreshes - removed to prevent flickering */}
         
         {/* Network Status Error Banner */}
         {state.error && state.networkHealth && (
@@ -416,7 +434,7 @@ const NetworkStatus: React.FC = () => {
         )}
 
         {/* Explanatory Text for New Users */}
-        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400">
+        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 min-h-[140px]">
           <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
             What is Network Status?
           </h3>
@@ -431,7 +449,7 @@ const NetworkStatus: React.FC = () => {
           </p>
         </div>
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 min-h-[60px]">
         <div className="flex items-center space-x-4">
           {getStatusIcon(state.networkHealth.congestionLevel)}
           <div>
@@ -448,7 +466,7 @@ const NetworkStatus: React.FC = () => {
 
       {/* Network Congestion Visual */}
       <div className="mb-8">
-        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm">
+        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -459,7 +477,7 @@ const NetworkStatus: React.FC = () => {
           <div className="relative">
             <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4 mb-3">
               <div
-                className={`h-4 rounded-full transition-all duration-500 ${congestionProgress.color}`}
+                className={`h-4 rounded-full transition-all duration-1000 ease-in-out ${congestionProgress.color}`}
                 style={{ width: `${congestionProgress.percentage}%` }}
               ></div>
             </div>
@@ -489,10 +507,11 @@ const NetworkStatus: React.FC = () => {
       </div>
 
       {/* Fee Estimates */}
-      {state.networkHealth.feeEstimates && (
-        <div className="mb-8">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Current Fee Rates</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mb-8 min-h-[240px]">
+        {state.networkHealth.feeEstimates ? (
+          <>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Current Fee Rates</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {Object.entries(state.networkHealth.feeEstimates).map(([feeType, feeRate]) => {
               const feeInfo = getFeeLabel(feeType);
               const costUSD = calculateTxCostUSD(feeRate as FeeRate);
@@ -515,24 +534,34 @@ const NetworkStatus: React.FC = () => {
                 </div>
               );
             })}
+            </div>
+            
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
+                Larger transactions will cost proportionally more. 
+                {state.bitcoinPrice && (
+                  <span>Bitcoin price: ${state.bitcoinPrice.price.toLocaleString()}</span>
+                )}
+              </p>
+            </div>
+          </>
+        ) : (
+          <div className="animate-pulse">
+            <div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+              ))}
+            </div>
           </div>
-          
-          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-            <p className="text-sm text-blue-800 dark:text-blue-200">
-              <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
-              Larger transactions will cost proportionally more. 
-              {state.bitcoinPrice && (
-                <span>Bitcoin price: ${state.bitcoinPrice.price.toLocaleString()}</span>
-              )}
-            </p>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Human-Readable Status */}
-      <div className="mb-8">
+      <div className="mb-8 min-h-[250px]">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
-        <div className={`rounded-xl p-6 border-l-4 shadow-sm ${
+        <div className={`rounded-xl p-6 border-l-4 shadow-sm min-h-[200px] ${
           state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
           state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
           state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
@@ -572,9 +601,9 @@ const NetworkStatus: React.FC = () => {
       </div>
 
       {/* Recommendations */}
-      <div className="mb-8">
+      <div className="mb-8 min-h-[120px]">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm min-h-[80px]">
           <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
             {state.networkHealth.recommendation}
           </p>
@@ -607,7 +636,7 @@ const NetworkStatus: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 // Wrap NetworkStatus with error boundary
 const NetworkStatusWithErrorBoundary: React.FC = () => (

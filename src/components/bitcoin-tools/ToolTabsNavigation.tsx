@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -89,7 +89,7 @@ const FeeCalculatorTool = dynamic(() => import('./FeeCalculatorTool'), {
 
 const NetworkStatusTool = dynamic(() => import('./NetworkStatus'), {
   loading: () => <ToolSkeleton variant="stats" />,
-  ssr: true
+  ssr: false
 });
 
 const AddressExplorerTool = dynamic(() => import('./AddressExplorerTool'), {
@@ -190,7 +190,7 @@ interface ProcessedSearchParams {
   readonly address?: BitcoinAddress;
 }
 
-export default function ToolTabsNavigation({ 
+const ToolTabsNavigation = React.memo(function ToolTabsNavigation({ 
   defaultTool = 'transaction' as const,
   searchParams 
 }: ToolTabsNavigationProps) {
@@ -270,7 +270,7 @@ export default function ToolTabsNavigation({
         {tools.map((tool) => {
           const Component = tool.component;
           return (
-            <TabsContent key={tool.id} value={tool.id} className="space-y-8 animate-in fade-in-50 duration-300">
+            <TabsContent key={tool.id} value={tool.id} className="space-y-8" forceMount={tool.id === activeTab ? undefined : true} hidden={tool.id !== activeTab}>
               {/* Enhanced Tool Header */}
               <div className="bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-6 border border-gray-200 dark:border-slate-600">
                 <div className="flex items-center gap-4 mb-4">
@@ -323,8 +323,8 @@ export default function ToolTabsNavigation({
                 </div>
               </div>
               
-              {/* Tool Component Container */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden">
+              {/* Tool Component Container with fixed min-height to prevent layout shift */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden min-h-[600px] transition-all duration-300">
                 <Component 
                   initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
                   initialAddress={tool.id === 'address' ? processedParams.address : undefined}
@@ -336,4 +336,6 @@ export default function ToolTabsNavigation({
       </Tabs>
     </div>
   );
-}
+});
+
+export default ToolTabsNavigation;
