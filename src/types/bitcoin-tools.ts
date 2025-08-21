@@ -484,6 +484,36 @@ export const ERROR_MESSAGES: Record<string, Omit<BaseToolError, 'originalError' 
     ],
     retryable: true
   },
+  INVALID_TX_SIZE: {
+    message: 'Invalid transaction size',
+    userFriendlyMessage: 'The transaction size you entered is not valid',
+    suggestions: [
+      'Transaction size must be between 140 and 100,000 vBytes',
+      'Use the preset buttons for common transaction sizes',
+      'Check that you entered a valid number'
+    ],
+    retryable: false
+  },
+  SSL_ERROR: {
+    message: 'SSL connection error',
+    userFriendlyMessage: 'Secure connection to the blockchain service failed',
+    suggestions: [
+      'This is usually a temporary network issue',
+      'Try again in a few seconds',
+      'Check if other internet services are working'
+    ],
+    retryable: true
+  },
+  CONNECTION_RESET: {
+    message: 'Connection was reset',
+    userFriendlyMessage: 'The connection to the blockchain service was interrupted',
+    suggestions: [
+      'This often happens during high network traffic',
+      'Wait a moment and try again',
+      'The service may be temporarily overloaded'
+    ],
+    retryable: true
+  },
   FETCH_FAILED: {
     message: 'Failed to fetch data',
     userFriendlyMessage: "We couldn't retrieve the data from the network",

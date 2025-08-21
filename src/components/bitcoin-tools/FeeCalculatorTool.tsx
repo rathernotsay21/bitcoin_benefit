@@ -12,27 +12,27 @@ import ToolErrorBoundary from './ToolErrorBoundary';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { feeEducation } from './educational/educationalContent';
 
-// Zod schema for fee API response validation
+// Enhanced Zod schema for fee API response validation with strict types
 const FeeApiResponseSchema = z.object({
   recommendations: z.array(z.object({
     level: z.enum(['economy', 'balanced', 'priority']),
-    emoji: z.string(),
-    label: z.string(),
-    timeEstimate: z.string(),
-    satPerVByte: z.number(),
-    description: z.string(),
+    emoji: z.string().min(1),
+    label: z.string().min(1),
+    timeEstimate: z.string().min(1),
+    satPerVByte: z.number().positive(),
+    description: z.string().min(1),
     savings: z.object({
-      percent: z.number(),
-      comparedTo: z.string()
+      percent: z.number().min(0).max(100),
+      comparedTo: z.string().min(1)
     }).optional()
-  })),
+  })).min(1),
   networkConditions: z.object({
     congestionLevel: z.enum(['low', 'normal', 'high', 'extreme']),
-    mempoolSize: z.number(),
-    recommendation: z.string()
+    mempoolSize: z.number().int().nonnegative(),
+    recommendation: z.string().min(1)
   }),
-  lastUpdated: z.string(),
-  txSize: z.number(),
+  lastUpdated: z.string().datetime(),
+  txSize: z.number().int().positive().min(140).max(100000),
   warning: z.string().optional(),
   error: z.string().optional()
 });
@@ -101,6 +101,15 @@ function FeeCalculatorTool() {
   const [autoRefresh, setAutoRefresh] = useState(true);
 
   const fetchFeeRecommendations = useCallback(async (txSize: number) => {
+    // Validate transaction size before making request
+    if (!txSize || txSize < 140 || txSize > 100000) {
+      setFeeCalculatorError(createToolError('validation', 'INVALID_TX_SIZE', undefined, {
+        providedSize: txSize,
+        validRange: '140-100,000 vBytes'
+      }));
+      return;
+    }
+
     if (!checkRateLimit('fee-calculator')) {
       setFeeCalculatorError(createToolError('rate_limit', 'RATE_LIMIT_EXCEEDED'));
       return;
@@ -108,7 +117,9 @@ function FeeCalculatorTool() {
 
     setFeeCalculatorLoading({
       isLoading: true,
-      loadingMessage: 'Fetching current Bitcoin network fees...'
+      loadingMessage: 'Fetching current Bitcoin network fees...',
+      startTime: Date.now() as any,
+      estimatedCompletion: (Date.now() + 10000) as any
     });
 
     recordRequest('fee-calculator');
@@ -118,39 +129,66 @@ function FeeCalculatorTool() {
         `/api/mempool/fees/recommended?txSize=${txSize}`,
         FeeApiResponseSchema,
         {
-          timeout: 15000,
-          retries: 2
+          timeout: 20000, // Increased timeout for better SSL recovery
+          retries: 3 // Increased retries
         }
       );
       
       if (isSuccessWithData(response)) {
-        const transformedRecommendations = transformToFeeRecommendations(response.data, btcPrice);
+        // Validate the response data more thoroughly
+        const validatedData = FeeApiResponseSchema.parse(response.data);
+        
+        const transformedRecommendations = transformToFeeRecommendations(validatedData, btcPrice);
         setFeeCalculatorData(transformedRecommendations);
-        setNetworkData(response.data.networkConditions);
-        setLastUpdated(response.data.lastUpdated);
+        setNetworkData(validatedData.networkConditions);
+        setLastUpdated(validatedData.lastUpdated);
 
-        if (response.data.warning) {
-          console.warn('Fee Calculator Warning:', response.data.warning);
+        // Handle warnings from API
+        if (validatedData.warning) {
+          console.warn('Fee Calculator Warning:', validatedData.warning);
+          // Could optionally show a toast notification here
+        }
+        
+        // Handle fallback data notification
+        if (validatedData.error) {
+          console.info('Fee Calculator using fallback data:', validatedData.error);
         }
       } else {
         console.error('Fee calculator API error:', response.error);
-        setFeeCalculatorError(
-          createToolError('api', 'API_ERROR', undefined, {
-            apiError: response.error,
-            endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`
-          })
-        );
+        
+        // Create more specific error based on response
+        const toolError = createToolError('api', 'API_ERROR', undefined, {
+          apiError: response.error,
+          endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
+          timestamp: new Date().toISOString()
+        });
+        
+        setFeeCalculatorError(toolError);
       }
     } catch (error) {
       console.error('Fee calculator error:', error);
-      setFeeCalculatorError(
-        toToolError(error, 'api', {
+      
+      // Enhanced error handling with specific error types
+      let toolError;
+      if (error instanceof z.ZodError) {
+        toolError = createToolError('parse_error', 'JSON_PARSE_ERROR', 
+          new Error('Invalid API response format'), {
+            validationErrors: error.issues,
+            endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`
+          }
+        );
+      } else {
+        toolError = toToolError(error, 'fetch_error', {
           endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
-          operation: 'fetchFeeRecommendations'
-        })
-      );
+          operation: 'fetchFeeRecommendations',
+          txSize,
+          timestamp: new Date().toISOString()
+        });
+      }
+      
+      setFeeCalculatorError(toolError);
     }
-  }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError]);
+  }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError, btcPrice]);
 
   // Initialize with default transaction size
   useEffect(() => {
@@ -181,9 +219,35 @@ function FeeCalculatorTool() {
   const handleCustomSizeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const size = parseInt(customSize);
-    if (size && size > 0 && size <= 10000) {
-      handleSizeChange(size);
+    
+    // Enhanced validation with user feedback
+    if (isNaN(size)) {
+      setFeeCalculatorError(createToolError('validation', 'INVALID_TX_SIZE', undefined, {
+        providedInput: customSize,
+        issue: 'Not a valid number'
+      }));
+      return;
     }
+    
+    if (size < 140) {
+      setFeeCalculatorError(createToolError('validation', 'INVALID_TX_SIZE', undefined, {
+        providedSize: size,
+        issue: 'Transaction size too small (minimum: 140 vBytes)'
+      }));
+      return;
+    }
+    
+    if (size > 100000) {
+      setFeeCalculatorError(createToolError('validation', 'INVALID_TX_SIZE', undefined, {
+        providedSize: size,
+        issue: 'Transaction size too large (maximum: 100,000 vBytes)'
+      }));
+      return;
+    }
+    
+    // Clear any previous errors and proceed
+    setFeeCalculatorError(null);
+    handleSizeChange(size);
   };
 
   const formatBTC = (sats: number): string => {
@@ -192,17 +256,42 @@ function FeeCalculatorTool() {
 
   const [btcPrice, setBtcPrice] = useState<number>(30000); // Default fallback price
 
-  // Fetch Bitcoin price on component mount
+  // Enhanced Bitcoin price fetching with error handling
   useEffect(() => {
     const fetchBtcPrice = async () => {
       try {
-        const response = await fetch('/api/coingecko');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        const response = await fetch('/api/coingecko', {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        clearTimeout(timeoutId);
+        
         if (response.ok) {
           const data = await response.json();
-          setBtcPrice(data.bitcoin.usd);
+          if (data?.bitcoin?.usd && typeof data.bitcoin.usd === 'number' && data.bitcoin.usd > 0) {
+            setBtcPrice(data.bitcoin.usd);
+          } else {
+            console.warn('Invalid Bitcoin price data received, using fallback');
+          }
+        } else {
+          console.warn(`Bitcoin price API returned ${response.status}, using fallback`);
         }
       } catch (error) {
-        console.warn('Failed to fetch Bitcoin price, using fallback');
+        if (error instanceof Error) {
+          if (error.name === 'AbortError') {
+            console.warn('Bitcoin price fetch timed out, using fallback');
+          } else {
+            console.warn('Failed to fetch Bitcoin price:', error.message, '- using fallback');
+          }
+        } else {
+          console.warn('Unknown error fetching Bitcoin price, using fallback');
+        }
       }
     };
 
@@ -240,8 +329,64 @@ function FeeCalculatorTool() {
     return <ToolSkeleton variant="fee" showProgress progressMessage={feeCalculator.loading.loadingMessage} />;
   }
 
+  // Enhanced error display with retry capability
   if (feeCalculator.error) {
-    throw feeCalculator.error; // Will be caught by error boundary
+    return (
+      <div className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+        <div className="flex items-start space-x-3">
+          <div className="text-red-600 text-2xl">⚠️</div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+              Unable to Load Fee Data
+            </h3>
+            <p className="text-red-700 dark:text-red-300 mb-4">
+              {feeCalculator.error.userFriendlyMessage}
+            </p>
+            
+            {feeCalculator.error.suggestions.length > 0 && (
+              <ul className="list-disc list-inside text-sm text-red-600 dark:text-red-400 mb-4 space-y-1">
+                {feeCalculator.error.suggestions.map((suggestion, index) => (
+                  <li key={index}>{suggestion}</li>
+                ))}
+              </ul>
+            )}
+            
+            {feeCalculator.error.retryable && (
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => {
+                    setFeeCalculatorError(null);
+                    fetchFeeRecommendations(feeCalculator.txSize);
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium"
+                >
+                  Try Again
+                </button>
+                <button
+                  onClick={() => setFeeCalculatorError(null)}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+            
+            <details className="mt-4">
+              <summary className="text-sm text-red-600 dark:text-red-400 cursor-pointer font-medium">
+                Technical Details
+              </summary>
+              <pre className="mt-2 text-xs text-red-800 dark:text-red-200 bg-red-100 dark:bg-red-900/40 p-3 rounded border overflow-auto">
+                {JSON.stringify({
+                  type: feeCalculator.error.type,
+                  message: feeCalculator.error.message,
+                  context: feeCalculator.error.context
+                }, null, 2)}
+              </pre>
+            </details>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -1,12 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { createFetchError, createToolError } from '@/types/bitcoin-tools';
+import { safeAsync, TypeSafeRateLimiter } from '@/lib/type-safe-error-handler';
 
-interface MempoolFeeResponse {
-  fastestFee: number;
-  halfHourFee: number;
-  hourFee: number;
-  economyFee: number;
-  minimumFee: number;
-}
+// Rate limiter for external API calls
+const apiRateLimiter = new TypeSafeRateLimiter(30, 60000); // 30 requests per minute
+
+// Zod schemas for runtime validation
+const MempoolFeeResponseSchema = z.object({
+  fastestFee: z.number().positive(),
+  halfHourFee: z.number().positive(),
+  hourFee: z.number().positive(),
+  economyFee: z.number().positive(),
+  minimumFee: z.number().positive(),
+});
+
+const MempoolInfoSchema = z.object({
+  count: z.number().int().nonnegative(),
+  vsize: z.number().int().nonnegative(),
+  total_fee: z.number().nonnegative(),
+  fee_histogram: z.array(z.array(z.number())).optional(),
+});
+
+type MempoolFeeResponse = z.infer<typeof MempoolFeeResponseSchema>;
+type MempoolInfo = z.infer<typeof MempoolInfoSchema>;
 
 interface FeeRecommendation {
   level: 'economy' | 'balanced' | 'priority';
@@ -27,99 +44,256 @@ interface NetworkConditions {
   recommendation: string;
 }
 
+interface ApiResponse {
+  recommendations: FeeRecommendation[];
+  networkConditions: NetworkConditions;
+  lastUpdated: string;
+  txSize: number;
+  warning?: string;
+  error?: string;
+}
+
 export async function GET(_request: NextRequest) {
   const { searchParams } = new URL(_request.url);
   const txSize = parseInt(searchParams.get('txSize') || '250');
+  
+  // Validate transaction size
+  if (isNaN(txSize) || txSize < 140 || txSize > 100000) {
+    return NextResponse.json(
+      { error: 'Invalid transaction size. Must be between 140 and 100,000 vBytes' },
+      { status: 400 }
+    );
+  }
 
+  // Check rate limits
+  const rateLimitError = apiRateLimiter.checkAndRecord('mempool-fees');
+  if (rateLimitError) {
+    return NextResponse.json(
+      { 
+        error: 'Rate limit exceeded. Please wait before making another request.',
+        retryAfter: Math.ceil((rateLimitError.context?.resetTime as number - Date.now()) / 1000)
+      },
+      { status: 429 }
+    );
+  }
+
+  // Fetch fee data with comprehensive error handling
+  const feeResult = await safeAsync(
+    () => fetchMempoolFeeData(),
+    'network',
+    { endpoint: 'mempool-fees' }
+  );
+
+  if (!feeResult.success) {
+    console.error('Fee data fetch failed:', feeResult.error);
+    return handleFallbackResponse(txSize, feeResult.error.userFriendlyMessage);
+  }
+
+  const feeData = feeResult.data;
+
+  // Fetch network conditions (non-critical)
+  const networkResult = await safeAsync(
+    () => fetchMempoolInfo(),
+    'network',
+    { endpoint: 'mempool-info' }
+  );
+
+  let networkConditions: NetworkConditions = {
+    congestionLevel: 'normal',
+    mempoolSize: 0,
+    recommendation: 'Network conditions are normal'
+  };
+
+  if (networkResult.success) {
+    networkConditions = analyzeNetworkConditions(networkResult.data, feeData);
+  } else {
+    console.warn('Network conditions fetch failed (non-critical):', networkResult.error.userFriendlyMessage);
+  }
+
+  // Build fee recommendations
+  const recommendations = buildFeeRecommendations(feeData, txSize, networkConditions);
+
+  const response: ApiResponse = {
+    recommendations,
+    networkConditions,
+    lastUpdated: new Date().toISOString(),
+    txSize
+  };
+
+  return NextResponse.json(response, {
+    headers: {
+      'Cache-Control': 'public, max-age=60, stale-while-revalidate=120',
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+/**
+ * Type-safe fetch function for mempool fee data with SSL error handling
+ */
+async function fetchMempoolFeeData(): Promise<MempoolFeeResponse> {
+  const maxRetries = 3;
+  let lastError: Error;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000 + (attempt * 5000)); // Progressive timeout
+      
+      const response = await fetch('https://mempool.space/api/v1/fees/recommended', {
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'Bitcoin-Benefits-Tools/1.0',
+          // Add headers to potentially help with SSL issues
+          'Connection': 'keep-alive',
+          'Cache-Control': 'no-cache'
+        },
+        signal: controller.signal,
+        // Add potential SSL-related options
+        ...(process.env.NODE_ENV === 'development' && {
+          // Only in development - helps with local SSL issues
+          // @ts-ignore - Node.js fetch options
+          rejectUnauthorized: false
+        })
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw createFetchError('https://mempool.space/api/v1/fees/recommended', response);
+      }
+      
+      const rawData = await response.json();
+      const parseResult = MempoolFeeResponseSchema.safeParse(rawData);
+      
+      if (!parseResult.success) {
+        throw createToolError('parse_error', 'JSON_PARSE_ERROR', 
+          new Error('Invalid fee data format'), 
+          { validationErrors: parseResult.error.issues }
+        );
+      }
+      
+      return parseResult.data;
+      
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      
+      // Handle specific SSL/TLS errors
+      if (lastError.message.includes('SSL') || 
+          lastError.message.includes('TLS') ||
+          lastError.message.includes('certificate') ||
+          lastError.message.includes('ECONNRESET') ||
+          lastError.message.includes('ENOTFOUND')) {
+        
+        // Wait with exponential backoff for SSL issues
+        if (attempt < maxRetries - 1) {
+          const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
+          console.warn(`SSL/Network error on attempt ${attempt + 1}, retrying in ${delay}ms:`, lastError.message);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          continue;
+        }
+      }
+      
+      // For non-retryable errors or final attempt, throw immediately
+      if (attempt === maxRetries - 1 || !isRetryableError(lastError)) {
+        break;
+      }
+      
+      // Wait before retry
+      await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
+  }
+  
+  throw createFetchError('https://mempool.space/api/v1/fees/recommended', undefined, lastError!);
+}
+
+/**
+ * Fetch mempool info with error handling
+ */
+async function fetchMempoolInfo(): Promise<MempoolInfo> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  
   try {
-    // Fetch fee recommendations from mempool.space
-    const feeResponse = await fetch('https://mempool.space/api/v1/fees/recommended', {
+    const response = await fetch('https://mempool.space/api/mempool', {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
       },
-      signal: AbortSignal.timeout(30000)
+      signal: controller.signal
     });
-
-    if (!feeResponse.ok) {
-      throw new Error(`Mempool API error: ${feeResponse.status}`);
-    }
-
-    const feeData: MempoolFeeResponse = await feeResponse.json();
-
-    // Fetch mempool info for network conditions
-    let networkConditions: NetworkConditions = {
-      congestionLevel: 'normal',
-      mempoolSize: 0,
-      recommendation: 'Network conditions are normal'
-    };
-
-    try {
-      const mempoolResponse = await fetch('https://mempool.space/api/mempool', {
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
-        },
-        signal: AbortSignal.timeout(15000)
-      });
-
-      if (mempoolResponse.ok) {
-        const mempoolData = await mempoolResponse.json();
-        networkConditions = analyzeNetworkConditions(mempoolData, feeData);
-      }
-    } catch (error) {
-      // Non-critical error - continue with default network conditions
-      console.warn('Failed to fetch mempool data:', error);
-    }
-
-    // Build fee recommendations
-    const recommendations = buildFeeRecommendations(feeData, txSize, networkConditions);
-
-    return NextResponse.json({
-      recommendations,
-      networkConditions,
-      lastUpdated: new Date().toISOString(),
-      txSize
-    }, {
-      headers: {
-        'Cache-Control': 'public, max-age=60, stale-while-revalidate=120',
-        'Content-Type': 'application/json'
-      }
-    });
-
-  } catch (error) {
-    console.error('Fee recommendation API error:', error);
     
-    if (error instanceof Error && error.name === 'AbortError') {
-      return NextResponse.json(
-        { error: 'Request timeout - mempool.space is not responding' },
-        { status: 408 }
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) {
+      throw createFetchError('https://mempool.space/api/mempool', response);
+    }
+    
+    const rawData = await response.json();
+    const parseResult = MempoolInfoSchema.safeParse(rawData);
+    
+    if (!parseResult.success) {
+      throw createToolError('parse_error', 'JSON_PARSE_ERROR', 
+        new Error('Invalid mempool data format'),
+        { validationErrors: parseResult.error.issues }
       );
     }
-
-    // Return fallback fee recommendations
-    const fallbackRecommendations = getFallbackFeeRecommendations(txSize);
     
-    return NextResponse.json({
-      recommendations: fallbackRecommendations,
-      networkConditions: {
-        congestionLevel: 'unknown' as const,
-        mempoolSize: 0,
-        recommendation: 'Unable to determine current network conditions'
-      },
-      lastUpdated: new Date().toISOString(),
-      txSize,
-      warning: 'Using fallback fee estimates - network data unavailable'
-    }, {
-      headers: {
-        'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
-        'Content-Type': 'application/json'
-      }
-    });
+    return parseResult.data;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
   }
 }
 
-function analyzeNetworkConditions(mempoolData: any, feeData: MempoolFeeResponse): NetworkConditions {
+/**
+ * Check if error is retryable
+ */
+function isRetryableError(error: Error): boolean {
+  const retryableMessages = [
+    'fetch',
+    'network',
+    'timeout',
+    'ECONNRESET',
+    'ENOTFOUND',
+    'ETIMEDOUT',
+    'ECONNREFUSED'
+  ];
+  
+  return retryableMessages.some(msg => 
+    error.message.toLowerCase().includes(msg.toLowerCase())
+  );
+}
+
+/**
+ * Handle fallback response when primary API fails
+ */
+function handleFallbackResponse(txSize: number, errorMessage: string): NextResponse {
+  const fallbackRecommendations = getFallbackFeeRecommendations(txSize);
+  
+  const response: ApiResponse = {
+    recommendations: fallbackRecommendations,
+    networkConditions: {
+      congestionLevel: 'normal', // Conservative assumption
+      mempoolSize: 0,
+      recommendation: 'Unable to determine current network conditions'
+    },
+    lastUpdated: new Date().toISOString(),
+    txSize,
+    warning: 'Using fallback fee estimates - live data unavailable',
+    error: errorMessage
+  };
+  
+  return NextResponse.json(response, {
+    status: 200, // Still return success with fallback data
+    headers: {
+      'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+function analyzeNetworkConditions(mempoolData: MempoolInfo, feeData: MempoolFeeResponse): NetworkConditions {
   const mempoolSize = mempoolData.count || 0;
   const averageFee = feeData.halfHourFee;
   
