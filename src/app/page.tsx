@@ -56,8 +56,8 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[400px] py-24 overflow-hidden bg-slate-950 dark:bg-slate-950">
-        {/* Particles Background */}
-        <div className="absolute inset-0">
+        {/* Particles Background - TEMPORARILY DISABLED FOR PERFORMANCE */}
+        {/* <div className="absolute inset-0">
           <Particles 
             quantity={120}
             ease={50}
@@ -65,7 +65,7 @@ export default function HomePage() {
             refresh={false}
             className="opacity-60"
           />
-        </div>
+        </div> */}
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-950/60 to-slate-900/80"></div>

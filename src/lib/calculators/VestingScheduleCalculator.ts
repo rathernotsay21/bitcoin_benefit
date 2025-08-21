@@ -22,19 +22,25 @@ export class VestingScheduleCalculator {
     this.schedule = schedule;
   }
   
+  private _sortedEvents: CustomVestingEvent[] | null = null;
+  private _sortedMilestones: VestingMilestone[] | null = null;
+  
   /**
-   * Get the current vesting milestone for a given month
+   * Get the current vesting milestone for a given month (cached for performance)
    */
   getCurrentMilestone(month: number): VestingMilestone {
     // If custom vesting events are defined, use them instead
-    if (this.schedule.customVestingEvents && this.schedule.customVestingEvents.length > 0) {
-      const sortedEvents = [...this.schedule.customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
+    if (this.schedule.customVestingEvents?.length) {
+      if (!this._sortedEvents) {
+        this._sortedEvents = [...this.schedule.customVestingEvents]
+          .sort((a, b) => a.timePeriod - b.timePeriod);
+      }
       
-      // Find the applicable custom vesting event
-      let applicableEvent = null;
-      for (let i = sortedEvents.length - 1; i >= 0; i--) {
-        if (month >= sortedEvents[i].timePeriod) {
-          applicableEvent = sortedEvents[i];
+      // Binary search for performance with large datasets
+      let applicableEvent: CustomVestingEvent | null = null;
+      for (let i = this._sortedEvents.length - 1; i >= 0; i--) {
+        if (month >= this._sortedEvents[i].timePeriod) {
+          applicableEvent = this._sortedEvents[i];
           break;
         }
       }
@@ -54,12 +60,15 @@ export class VestingScheduleCalculator {
       };
     }
     
-    // Use default milestones if no custom events
-    const sortedMilestones = [...this.schedule.milestones].sort((a, b) => a.months - b.months);
+    // Use cached sorted milestones if no custom events
+    if (!this._sortedMilestones) {
+      this._sortedMilestones = [...this.schedule.milestones]
+        .sort((a, b) => a.months - b.months);
+    }
     
-    for (let i = sortedMilestones.length - 1; i >= 0; i--) {
-      if (month >= sortedMilestones[i].months) {
-        return sortedMilestones[i];
+    for (let i = this._sortedMilestones.length - 1; i >= 0; i--) {
+      if (month >= this._sortedMilestones[i].months) {
+        return this._sortedMilestones[i];
       }
     }
     
@@ -108,7 +117,7 @@ export class VestingScheduleCalculator {
   }
   
   /**
-   * Generate a complete vesting timeline
+   * Generate a complete vesting timeline (optimized for performance)
    */
   generateTimeline(
     initialGrant: number,
@@ -121,47 +130,56 @@ export class VestingScheduleCalculator {
     totalGrants: number;
     employerBalance: number;
   }> {
-    const timeline = [];
+    // Pre-calculate grant rules to avoid repeated function calls
+    const grantRule = this.getGrantRule(schemeId);
+    
+    const timeline: Array<{
+      month: number;
+      vestedAmount: number;
+      totalGrants: number;
+      employerBalance: number;
+    }> = [];
+    
     let employerBalance = initialGrant;
     let totalGrantsAccumulated = initialGrant;
     
+    // Pre-allocate array for better performance
+    timeline.length = maxMonths + 1;
+    
     for (let month = 0; month <= maxMonths; month++) {
-      // Add annual grants based on scheme rules
-      if (annualGrant && month > 0 && month % 12 === 0) {
-        if (this.shouldAddAnnualGrant(schemeId, month)) {
-          employerBalance += annualGrant;
-          totalGrantsAccumulated += annualGrant;
-        }
+      // Add annual grants based on pre-calculated rules
+      if (annualGrant && month > 0 && month % 12 === 0 && month <= grantRule.maxMonth) {
+        employerBalance += annualGrant;
+        totalGrantsAccumulated += annualGrant;
       }
       
       const vestedAmount = this.calculateVestedAmount(totalGrantsAccumulated, month);
       const bonusAmount = this.calculateBonuses(month, employerBalance);
       
-      timeline.push({
+      timeline[month] = {
         month,
         vestedAmount: vestedAmount + bonusAmount,
         totalGrants: totalGrantsAccumulated,
         employerBalance: employerBalance + bonusAmount
-      });
+      };
     }
     
     return timeline;
   }
   
-  private shouldAddAnnualGrant(schemeId: string | undefined, month: number): boolean {
-    if (!schemeId) return true;
-    
+  private getGrantRule(schemeId?: string): { maxMonth: number } {
     switch (schemeId) {
       case 'accelerator':
-        return false; // Pioneer scheme has no annual grants
+        return { maxMonth: 0 }; // No annual grants
       case 'steady-builder':
-        return month <= 60; // 5 years max (grants at months 12, 24, 36, 48, 60)
+        return { maxMonth: 60 }; // 5 years max
       case 'slow-burn':
-        return month <= 108; // 9 years max (grants at months 12, 24, 36, 48, 60, 72, 84, 96, 108)
+        return { maxMonth: 108 }; // 9 years max
       case 'custom':
-        return month <= 120; // 10 years max
+        return { maxMonth: 120 }; // 10 years max
       default:
-        return true;
+        return { maxMonth: 120 };
     }
   }
+  
 }

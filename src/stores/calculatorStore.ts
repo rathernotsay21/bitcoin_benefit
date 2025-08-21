@@ -58,20 +58,28 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   let debouncedCalculate: DebouncedFunction<() => void> | null = null;
   let debouncedSchemeCalculate: DebouncedFunction<() => void> | null = null;
 
-  // Initialize debounced functions after get() is available
-  const initDebouncedFunctions = () => {
-    if (!debouncedCalculate) {
-      debouncedCalculate = debounce(() => {
-        get().calculateResults();
-      }, 300);
-    }
-    if (!debouncedSchemeCalculate) {
-      debouncedSchemeCalculate = debounce(() => {
-        get().calculateResults();
-      }, 100);
-    }
-    return { debouncedCalculate, debouncedSchemeCalculate };
-  };
+  // Initialize debounced functions once to prevent recreation
+  const initDebouncedFunctions = (() => {
+    let initialized = false;
+    let functions: { debouncedCalculate: DebouncedFunction<() => void>; debouncedSchemeCalculate: DebouncedFunction<() => void> };
+    
+    return () => {
+      if (!initialized) {
+        functions = {
+          debouncedCalculate: debounce(() => {
+            const state = get();
+            state.calculateResults();
+          }, 500), // Increased debounce time
+          debouncedSchemeCalculate: debounce(() => {
+            const state = get();
+            state.calculateResults();
+          }, 200)
+        };
+        initialized = true;
+      }
+      return functions;
+    };
+  })();
 
   return {
     // Initial state
@@ -92,30 +100,30 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   
     // Actions
     setSelectedScheme: (scheme) => {
-      const { debouncedCalculate: debounced, debouncedSchemeCalculate: schemeDebounced } = initDebouncedFunctions();
+      const { debouncedSchemeCalculate } = initDebouncedFunctions();
       
       set({ selectedScheme: scheme });
       
       // Check if we have static calculation for this scheme
-      const { staticCalculations, staticDataLoaded } = get();
-      if (staticDataLoaded && staticCalculations[scheme.id]) {
+      const state = get();
+      if (state.staticDataLoaded && state.staticCalculations[scheme.id]) {
         // Use static calculation immediately for instant display
-        set({ results: staticCalculations[scheme.id] });
+        set({ results: state.staticCalculations[scheme.id] });
       }
       
       // Auto-calculate with current inputs using debounced function
-      schemeDebounced();
+      debouncedSchemeCalculate();
     },
   
     updateInputs: (newInputs) => {
-      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      const { debouncedCalculate } = initDebouncedFunctions();
       
       set((state) => ({
         inputs: { ...state.inputs, ...newInputs }
       }));
       
       // Auto-calculate with proper debounce
-      debounced();
+      debouncedCalculate();
     },
   
   calculateResults: () => {
@@ -263,7 +271,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
   
     updateSchemeCustomization: (schemeId, customization) => {
-      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      const { debouncedCalculate } = initDebouncedFunctions();
       
       set((state) => ({
         schemeCustomizations: {
@@ -276,11 +284,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
       }));
       
       // Use debounced calculation
-      debounced();
+      debouncedCalculate();
     },
     
     addCustomVestingEvent: (schemeId, event) => {
-      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      const { debouncedCalculate } = initDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -297,11 +305,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         };
       });
       
-      debounced();
+      debouncedCalculate();
     },
     
     removeCustomVestingEvent: (schemeId, eventId) => {
-      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      const { debouncedCalculate } = initDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -318,11 +326,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         };
       });
       
-      debounced();
+      debouncedCalculate();
     },
     
     updateCustomVestingEvent: (schemeId, eventId, updates) => {
-      const { debouncedCalculate: debounced } = initDebouncedFunctions();
+      const { debouncedCalculate } = initDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -341,7 +349,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         };
       });
       
-      debounced();
+      debouncedCalculate();
     },
   
     getEffectiveScheme: (scheme) => {
@@ -360,12 +368,9 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     
     cleanup: () => {
       // Cancel all pending debounced operations
-      if (debouncedCalculate) {
-        debouncedCalculate.cancel();
-      }
-      if (debouncedSchemeCalculate) {
-        debouncedSchemeCalculate.cancel();
-      }
+      const { debouncedCalculate, debouncedSchemeCalculate } = initDebouncedFunctions();
+      debouncedCalculate.cancel();
+      debouncedSchemeCalculate.cancel();
     },
   };
 });

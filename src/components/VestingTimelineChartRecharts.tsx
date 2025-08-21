@@ -49,33 +49,43 @@ function formatUSDCompact(amount: number): string {
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
-  label?: string;
-  yearlyData?: any[];
+  payload?: Array<{
+    value: number;
+    dataKey: string;
+    color: string;
+  }>;
+  label?: string | number;
+  yearlyData?: Array<{
+    year: number;
+    btcBalance: number;
+    usdValue: number;
+    vestingPercent: number;
+    grantSize: number;
+  }>;
 }
 
-const CustomTooltip = ({ active, payload, label, yearlyData }: CustomTooltipProps) => {
-  if (active && payload && payload.length && yearlyData) {
-    const year = Number(label);
-    if (!isFinite(year) || year < 0 || year > 10) return null;
-    
-    // Get vesting percent from payload data
-    const vestingPercent = yearlyData.find(d => d.year === year)?.vestingPercent || 0;
-    
-    // Find the data point for this year
-    const yearData = yearlyData.find(d => d.year === year);
-    if (!yearData) return null;
+const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: CustomTooltipProps) => {
+  if (!active || !payload?.length || !yearlyData?.length) return null;
+  
+  const year = typeof label === 'string' ? parseInt(label, 10) : (label as number);
+  if (!Number.isInteger(year) || year < 0 || year > 10) return null;
+  
+  // Use optimized lookup instead of find() calls
+  const yearData = yearlyData[year]; // Direct array access is faster than find()
+  if (!yearData) return null;
+  
+  const vestingPercent = yearData.vestingPercent || 0;
     
     // Calculate vested BTC amount
     const vestedBTC = yearData.btcBalance * (vestingPercent / 100);
     const unvestedBTC = yearData.btcBalance * ((100 - vestingPercent) / 100);
     
     // Calculate year-over-year growth if not year 0
-    let yoyGrowth = null;
-    if (year > 0 && yearlyData[year - 1]) {
-      const prevYearValue = yearlyData[year - 1].usdValue;
-      if (prevYearValue > 0) {
-        yoyGrowth = ((yearData.usdValue - prevYearValue) / prevYearValue) * 100;
+    let yoyGrowth: number | null = null;
+    if (year > 0) {
+      const prevYearData = yearlyData[year - 1];
+      if (prevYearData?.usdValue > 0) {
+        yoyGrowth = ((yearData.usdValue - prevYearData.usdValue) / prevYearData.usdValue) * 100;
       }
     }
 
@@ -154,14 +164,19 @@ const CustomTooltip = ({ active, payload, label, yearlyData }: CustomTooltipProp
         )}
       </div>
     );
-  }
-  return null;
-};
+});
+
+CustomTooltip.displayName = 'CustomTooltip';
 
 interface CustomGrantDotProps {
   cx?: number;
   cy?: number;
-  payload?: any;
+  payload?: {
+    grantSize: number;
+    year: number;
+    btcBalance: number;
+    usdValue: number;
+  };
 }
 
 const CustomGrantDot = React.memo(({ cx, cy, payload }: CustomGrantDotProps) => {
@@ -273,32 +288,35 @@ function VestingTimelineChartRecharts({
   const deferredTimeline = useDeferredValue(timeline);
   const deferredBitcoinPrice = useDeferredValue(currentBitcoinPrice);
 
-  // Helper function to get vesting percentage for a given month
-  const getVestingPercentage = useCallback((months: number) => {
-    if (!customVestingEvents || customVestingEvents.length === 0) {
+  // Memoize sorted events to prevent re-sorting on every call
+  const sortedEvents = useMemo(() => {
+    if (!customVestingEvents?.length) return null;
+    return [...customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
+  }, [customVestingEvents]);
+  
+  // Helper function to get vesting percentage for a given month (optimized)
+  const getVestingPercentage = useCallback((months: number): number => {
+    if (!sortedEvents) {
       // Fallback to default vesting schedule
-      if (months >= 120) return 100;
-      if (months >= 60) return 50;
-      return 0;
+      return months >= 120 ? 100 : months >= 60 ? 50 : 0;
     }
     
     // Find the highest vesting percentage that has been reached
-    const sortedEvents = [...customVestingEvents].sort((a, b) => a.timePeriod - b.timePeriod);
     for (let i = sortedEvents.length - 1; i >= 0; i--) {
       if (months >= sortedEvents[i].timePeriod) {
         return sortedEvents[i].percentageVested;
       }
     }
     return 0;
-  }, [customVestingEvents]);
+  }, [sortedEvents]);
 
   // Get vesting milestone years from custom events
   const vestingMilestoneYears = useMemo(() => {
-    if (!customVestingEvents || customVestingEvents.length === 0) {
+    if (!sortedEvents) {
       return [5, 10]; // Default milestones
     }
-    return customVestingEvents.map(event => Math.floor(event.timePeriod / 12));
-  }, [customVestingEvents]);
+    return sortedEvents.map(event => Math.floor(event.timePeriod / 12));
+  }, [sortedEvents]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -314,108 +332,112 @@ function VestingTimelineChartRecharts({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Memoize growth rate calculation separately
+  const monthlyGrowthRate = useMemo(() => projectedBitcoinGrowth / 1200, [projectedBitcoinGrowth]);
+  
   // Extend timeline to 10 years (120 months) if needed
   const extendedTimeline = useMemo(() => {
-    if (!deferredTimeline || deferredTimeline.length === 0) return [];
+    if (!deferredTimeline?.length) return [];
     
-    const extended = [...deferredTimeline];
-    const maxMonth = Math.max(...deferredTimeline.map(p => p.month));
+    const maxMonth = deferredTimeline[deferredTimeline.length - 1]?.month || 0;
     const targetMonths = 120; // 10 years
 
-    if (maxMonth < targetMonths) {
-      const monthlyGrowthRate = projectedBitcoinGrowth / 12 / 100;
-      const lastPoint = timeline[timeline.length - 1];
-
-      for (let month = maxMonth + 1; month <= targetMonths; month++) {
-        const bitcoinPrice = deferredBitcoinPrice * Math.pow(1 + monthlyGrowthRate, month);
-        const employerBalance = lastPoint.employerBalance || 0;
-
-        extended.push({
-          month,
-          employeeBalance: lastPoint.employeeBalance,
-          employerBalance: employerBalance,
-          vestedAmount: lastPoint.vestedAmount,
-          totalBalance: lastPoint.totalBalance,
-          bitcoinPrice,
-          usdValue: employerBalance * bitcoinPrice,
-        });
-      }
-    }
-    return extended;
-  }, [timeline, deferredTimeline, projectedBitcoinGrowth, deferredBitcoinPrice]);
-
-  // Data processing for yearly points with grant information
-  const yearlyData = useMemo(() => {
-    if (!extendedTimeline || extendedTimeline.length === 0) {
-      return []; // Return empty array if no timeline data
+    if (maxMonth >= targetMonths) {
+      return deferredTimeline.slice(0, targetMonths + 1);
     }
     
-    const data = extendedTimeline
-      .filter((_, index) => index % 12 === 0)
-      .slice(0, 11) // Only 11 points for 0-10 years
-      .map((point, index) => {
-        const year = index;
-        let grantSize = 0;
-        let grantCost = 0; // Annual cost to employer
-        let isInitialGrant = false;
-        
-        // Determine if this year has a grant and its cost
-        if (year === 0 && initialGrant > 0) {
-          grantSize = initialGrant;
-          grantCost = initialGrant * deferredBitcoinPrice; // Cost at today's price
-          isInitialGrant = true;
-        } else if (annualGrant && annualGrant > 0 && year > 0) {
-          // Check scheme-specific grant rules with explicit logic
-          switch (schemeId) {
-            case 'accelerator':
-              // Pioneer scheme: No annual grants, only initial
-              grantSize = 0;
-              grantCost = 0;
-              break;
-            case 'steady-builder':
-              // Stacker scheme: Annual grants for years 1-5
-              if (year <= 5) {
-                grantSize = annualGrant;
-                grantCost = annualGrant * deferredBitcoinPrice;
-              }
-              break;
-            case 'slow-burn':
-              // Builder scheme: Annual grants for years 1-9
-              if (year <= 9) {
-                grantSize = annualGrant;
-                grantCost = annualGrant * deferredBitcoinPrice;
-              }
-              break;
-            default:
-              // Custom or unknown scheme
-              grantSize = annualGrant;
-              grantCost = annualGrant * deferredBitcoinPrice;
-          }
-        }
-        
-        // Ensure all values are valid numbers with additional safety
-        const btcBalance = (isFinite(point.employerBalance) && point.employerBalance >= 0) ? point.employerBalance : 0;
-        const bitcoinPrice = (isFinite(point.bitcoinPrice) && point.bitcoinPrice > 0) ? point.bitcoinPrice : deferredBitcoinPrice;
-        const usdValue = btcBalance * bitcoinPrice;
-        
-        // Calculate vesting percentage for this year
-        const vestingPercent = getVestingPercentage(year * 12);
-        
-        return {
-          year,
-          btcBalance,
-          usdValue: isFinite(usdValue) ? usdValue : 0,
-          bitcoinPrice,
-          vestedAmount: isFinite(point.vestedAmount) ? point.vestedAmount : 0,
-          vestingPercent,
-          grantSize: isFinite(grantSize) ? grantSize : 0,
-          grantCost: isFinite(grantCost) ? grantCost : 0,
-          isInitialGrant
-        };
+    const extended = [...deferredTimeline];
+    const lastPoint = deferredTimeline[deferredTimeline.length - 1];
+    if (!lastPoint) return extended;
+
+    for (let month = maxMonth + 1; month <= targetMonths; month++) {
+      const bitcoinPrice = deferredBitcoinPrice * (1 + monthlyGrowthRate) ** month;
+      const employerBalance = lastPoint.employerBalance || 0;
+
+      extended.push({
+        month,
+        employeeBalance: lastPoint.employeeBalance,
+        employerBalance,
+        vestedAmount: lastPoint.vestedAmount,
+        totalBalance: lastPoint.totalBalance,
+        bitcoinPrice,
+        usdValue: employerBalance * bitcoinPrice,
       });
+    }
+    return extended;
+  }, [deferredTimeline, monthlyGrowthRate, deferredBitcoinPrice]);
+
+  // Pre-calculate grant rules to avoid repeated switch statements
+  const grantRules = useMemo(() => {
+    const rules = { hasAnnualGrants: true, maxYears: 10 };
+    
+    switch (schemeId) {
+      case 'accelerator':
+        rules.hasAnnualGrants = false;
+        rules.maxYears = 0;
+        break;
+      case 'steady-builder':
+        rules.maxYears = 5;
+        break;
+      case 'slow-burn':
+        rules.maxYears = 9;
+        break;
+    }
+    return rules;
+  }, [schemeId]);
+  
+  // Data processing for yearly points with grant information
+  const yearlyData = useMemo(() => {
+    if (!extendedTimeline?.length) return [];
+    
+    const yearlyPoints: Array<{
+      year: number;
+      btcBalance: number;
+      usdValue: number;
+      bitcoinPrice: number;
+      vestedAmount: number;
+      vestingPercent: number;
+      grantSize: number;
+      grantCost: number;
+      isInitialGrant: boolean;
+    }> = [];
+    
+    for (let year = 0; year <= 10; year++) {
+      const pointIndex = year * 12;
+      const point = extendedTimeline[pointIndex];
+      if (!point) continue;
       
-    return data;
-  }, [extendedTimeline, initialGrant, annualGrant, schemeId, deferredBitcoinPrice, getVestingPercentage]);
+      let grantSize = 0;
+      let grantCost = 0;
+      const isInitialGrant = year === 0;
+      
+      if (isInitialGrant && initialGrant > 0) {
+        grantSize = initialGrant;
+        grantCost = initialGrant * deferredBitcoinPrice;
+      } else if (annualGrant && year > 0 && year <= grantRules.maxYears && grantRules.hasAnnualGrants) {
+        grantSize = annualGrant;
+        grantCost = annualGrant * deferredBitcoinPrice;
+      }
+      
+      const btcBalance = Math.max(0, point.employerBalance || 0);
+      const bitcoinPrice = Math.max(deferredBitcoinPrice, point.bitcoinPrice || deferredBitcoinPrice);
+      const vestingPercent = getVestingPercentage(year * 12);
+      
+      yearlyPoints.push({
+        year,
+        btcBalance,
+        usdValue: btcBalance * bitcoinPrice,
+        bitcoinPrice,
+        vestedAmount: point.vestedAmount || 0,
+        vestingPercent,
+        grantSize,
+        grantCost,
+        isInitialGrant
+      });
+    }
+    
+    return yearlyPoints;
+  }, [extendedTimeline, initialGrant, annualGrant, deferredBitcoinPrice, getVestingPercentage, grantRules]);
 
   // Calculate cost basis based on scheme - all at current price (what employer actually pays)
   const costBasis = useMemo(() => {
@@ -653,7 +675,7 @@ function VestingTimelineChartRecharts({
               domain={[0, 10]}
               axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
               tickLine={false}
-              tick={(props: any) => {
+              tick={(props: { x: number; y: number; payload: { value: number } }) => {
                 const { x, y, payload } = props;
                 const isVestingMilestone = vestingMilestoneYears.includes(payload.value);
                 
@@ -693,12 +715,7 @@ function VestingTimelineChartRecharts({
             />
 
             <Tooltip 
-              content={(props) => (
-                <CustomTooltip 
-                  {...props}
-                  yearlyData={yearlyData} 
-                />
-              )} 
+              content={<CustomTooltip yearlyData={yearlyData} />}
               cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '5 5' }}
               isAnimationActive={false}
               wrapperStyle={{ 

@@ -1,0 +1,46 @@
+# Robots.txt for Bitcoin Benefit
+# Generated: 2025
+
+User-agent: *
+Allow: /
+
+# Core pages
+Allow: /calculator
+Allow: /historical
+Allow: /on-chain
+Allow: /bitcoin-tools
+Allow: /learn
+
+# Disallow admin or development paths if any
+Disallow: /api/
+Disallow: /_next/
+Disallow: /preview-icons/
+
+# Sitemap location
+Sitemap: https://bitcoinbenefit.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Popular search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

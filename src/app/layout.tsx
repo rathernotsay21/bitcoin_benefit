@@ -4,6 +4,9 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
+import { ClarityScript } from '@/components/analytics/ClarityScript'
+import { StructuredData } from '@/components/seo/StructuredData'
+import { structuredData } from '@/lib/seo/structured-data'
 import './globals.css'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
@@ -62,6 +65,12 @@ export default function RootLayout({
             .performance-optimized{contain:layout;will-change:auto}
           `
         }} />
+        
+        {/* Analytics */}
+        <ClarityScript />
+        
+        {/* Structured Data for SEO */}
+        <StructuredData data={structuredData.organization} />
         
         {/* Favicon and manifest */}
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

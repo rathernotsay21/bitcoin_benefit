@@ -103,17 +103,42 @@ function VestingTimelineChartOptimized(props: VestingTimelineChartOptimizedProps
   );
 }
 
+// Optimized shallow comparison function
+function areCustomVestingEventsEqual(
+  prev: import('@/types/vesting').CustomVestingEvent[] | undefined,
+  next: import('@/types/vesting').CustomVestingEvent[] | undefined
+): boolean {
+  if (prev === next) return true;
+  if (!prev || !next) return prev === next;
+  if (prev.length !== next.length) return false;
+  
+  // Only compare essential properties for performance
+  for (let i = 0; i < prev.length; i++) {
+    if (prev[i].id !== next[i].id || 
+        prev[i].timePeriod !== next[i].timePeriod || 
+        prev[i].percentageVested !== next[i].percentageVested) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Memoize the entire component to prevent unnecessary re-renders
 export default React.memo(VestingTimelineChartOptimized, (prevProps, nextProps) => {
-  // Custom comparison function for optimal performance
-  return (
-    prevProps.initialGrant === nextProps.initialGrant &&
-    prevProps.annualGrant === nextProps.annualGrant &&
-    prevProps.projectedBitcoinGrowth === nextProps.projectedBitcoinGrowth &&
-    prevProps.currentBitcoinPrice === nextProps.currentBitcoinPrice &&
-    prevProps.schemeId === nextProps.schemeId &&
-    prevProps.timeline?.length === nextProps.timeline?.length &&
-    prevProps.customVestingEvents?.length === nextProps.customVestingEvents?.length &&
-    JSON.stringify(prevProps.customVestingEvents) === JSON.stringify(nextProps.customVestingEvents)
-  );
+  // Fast numeric and primitive comparisons first
+  if (prevProps.initialGrant !== nextProps.initialGrant ||
+      prevProps.annualGrant !== nextProps.annualGrant ||
+      prevProps.projectedBitcoinGrowth !== nextProps.projectedBitcoinGrowth ||
+      prevProps.currentBitcoinPrice !== nextProps.currentBitcoinPrice ||
+      prevProps.schemeId !== nextProps.schemeId) {
+    return false;
+  }
+  
+  // Check timeline length only
+  if (prevProps.timeline?.length !== nextProps.timeline?.length) {
+    return false;
+  }
+  
+  // Optimized custom vesting events comparison
+  return areCustomVestingEventsEqual(prevProps.customVestingEvents, nextProps.customVestingEvents);
 });

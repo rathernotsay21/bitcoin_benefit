@@ -11,39 +11,54 @@ interface SyncableData {
   bitcoinChange24h?: number;
 }
 
+// Prevent circular synchronization updates
+let syncInProgress = false;
+
 /**
  * Sync Bitcoin price across all relevant stores
  * This ensures consistency when price updates occur from any source
  */
 export const syncBitcoinPrice = (price: number, change24h: number = 0) => {
+  // Guard against circular updates
+  if (syncInProgress) return;
+  
   // Ensure values are valid numbers
   const validPrice = typeof price === 'number' && !isNaN(price) && price > 0 ? price : 45000;
   const validChange = typeof change24h === 'number' && !isNaN(change24h) ? change24h : 0;
   
-  // Update calculator store
-  useCalculatorStore.setState({ 
-    currentBitcoinPrice: validPrice, 
-    bitcoinChange24h: validChange 
-  });
+  // Check if values actually changed to avoid unnecessary updates
+  const calculatorState = useCalculatorStore.getState();
+  const historicalState = useHistoricalCalculatorStore.getState();
   
-  // Update historical calculator store
-  useHistoricalCalculatorStore.setState({ 
-    currentBitcoinPrice: validPrice 
-  });
+  const priceChanged = calculatorState.currentBitcoinPrice !== validPrice;
+  const changeChanged = calculatorState.bitcoinChange24h !== validChange;
   
-  // Trigger recalculations in both stores with current inputs
-  const calculatorStore = useCalculatorStore.getState();
-  const historicalStore = useHistoricalCalculatorStore.getState();
-  
-  // Only trigger calculations if we have selected schemes
-  if (calculatorStore.selectedScheme) {
-    calculatorStore.calculateResults();
+  if (!priceChanged && !changeChanged) {
+    return; // No changes needed
   }
   
-  if (historicalStore.selectedScheme && 
-      Object.keys(historicalStore.historicalPrices).length > 0 &&
-      !historicalStore.isLoadingHistoricalData) {
-    historicalStore.calculateHistoricalResults();
+  syncInProgress = true;
+  
+  try {
+    // Update calculator store
+    if (priceChanged || changeChanged) {
+      useCalculatorStore.setState({ 
+        currentBitcoinPrice: validPrice, 
+        bitcoinChange24h: validChange 
+      });
+    }
+    
+    // Update historical calculator store
+    if (historicalState.currentBitcoinPrice !== validPrice) {
+      useHistoricalCalculatorStore.setState({ 
+        currentBitcoinPrice: validPrice 
+      });
+    }
+    
+    // DO NOT trigger automatic calculations here - let components handle this
+    // This prevents circular update loops
+  } finally {
+    syncInProgress = false;
   }
 };
 
