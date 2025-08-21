@@ -1,5 +1,7 @@
 import { RawTransaction } from '../../types/on-chain';
 import { validateBitcoinAddress } from './validation';
+import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
 /**
  * Error types for Mempool API operations
@@ -295,17 +297,52 @@ export class MempoolAPI {
     const url = `${this.config.baseURL}/address/${address}/txs`;
     
     try {
-      const data = await makeRequestWithRetry(url, this.config, abortSignal);
+      // Use circuit breaker and secure API wrapper
+      const result = await executeWithCircuitBreaker(
+        'mempool',
+        async () => {
+          const apiResult = await makeSecureAPICall('mempool', url, {
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Bitcoin-Benefit/1.0'
+            },
+            signal: abortSignal || AbortSignal.timeout(30000)
+          });
+
+          if (!apiResult.success) {
+            throw new MempoolAPIError(
+              apiResult.error || 'Failed to fetch transactions',
+              apiResult.retryAfter ? 429 : 502,
+              !!apiResult.retryAfter
+            );
+          }
+
+          return apiResult.data;
+        }
+      );
       
       // Validate response structure
-      if (!validateTransactionResponse(data)) {
+      if (!validateTransactionResponse(result)) {
+        // Return empty array for addresses with no transactions
+        if (Array.isArray(result) && result.length === 0) {
+          return [];
+        }
         throw new MempoolAPIError('Invalid API response format', undefined, false);
       }
       
       // Transform to our format
-      return data.map(transformTransaction);
+      return result.map(transformTransaction);
       
     } catch (error) {
+      // Handle circuit breaker open
+      if (error instanceof Error && error.message.includes('Circuit breaker is open')) {
+        throw new MempoolAPIError(
+          'Mempool.space service temporarily unavailable. Please try again later.',
+          503,
+          true
+        );
+      }
+
       if (error instanceof MempoolAPIError) {
         throw error;
       }

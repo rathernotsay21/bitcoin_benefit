@@ -1,5 +1,7 @@
 import { RawTransaction } from '@/types/on-chain';
 import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
+import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
 interface CoinGeckoHistoricalResponse {
   prices: [number, number][];
@@ -289,27 +291,40 @@ export class OnChainPriceFetcher {
 
       const url = `${this.BASE_URL}?vs_currency=usd&from=${fromTimestamp}&to=${toTimestamp}`;
 
-      const response = await fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
+      // Use circuit breaker and secure API wrapper for resilience
+      const result = await executeWithCircuitBreaker(
+        'coingecko',
+        async () => {
+          const apiResult = await makeSecureAPICall('coingecko', url, {
+            headers: {
+              'Accept': 'application/json',
+            },
+            signal: AbortSignal.timeout(30000)
+          });
 
-      if (response.status === 429 && retryCount < 3) {
-        // Rate limited - use exponential backoff with very conservative delays
-        const backoffTime = Math.min(5000 * Math.pow(2, retryCount), 60000); // Start at 5s, max 60s
-        await new Promise(resolve => setTimeout(resolve, backoffTime));
-        this.apiRequestInProgress = false;
-        return this.fetchSingleDateFromAPI(date, retryCount + 1);
-      }
+          if (!apiResult.success) {
+            // If rate limited, throw specific error for retry handling
+            if (apiResult.retryAfter) {
+              const error = new Error(`Rate limit: ${apiResult.error}`);
+              (error as any).status = 429;
+              (error as any).retryAfter = apiResult.retryAfter;
+              throw error;
+            }
+            throw new Error(apiResult.error || 'Failed to fetch price data');
+          }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+          return apiResult.data;
+        }
+      );
 
-      const data: CoinGeckoHistoricalResponse = await response.json();
+      const data = result as CoinGeckoHistoricalResponse;
       
       if (!data.prices || data.prices.length === 0) {
+        // Try fallback if no data
+        const fallbackPrice = this.getFallbackPrice(date);
+        if (fallbackPrice !== null) {
+          return fallbackPrice;
+        }
         throw new Error(`No price data available for date ${date}`);
       }
 
@@ -327,6 +342,34 @@ export class OnChainPriceFetcher {
       }
 
       return Math.round(closestPrice * 100) / 100; // Round to 2 decimal places
+      
+    } catch (error: any) {
+      // Handle rate limiting with exponential backoff
+      if (error?.status === 429 && retryCount < 3) {
+        const backoffTime = error.retryAfter || Math.min(5000 * Math.pow(2, retryCount), 60000);
+        await new Promise(resolve => setTimeout(resolve, backoffTime));
+        this.apiRequestInProgress = false;
+        return this.fetchSingleDateFromAPI(date, retryCount + 1);
+      }
+
+      // Handle circuit breaker open
+      if (error?.message?.includes('Circuit breaker is open')) {
+        // Use fallback price if circuit is open
+        const fallbackPrice = this.getFallbackPrice(date);
+        if (fallbackPrice !== null) {
+          console.warn(`Using fallback price for ${date} due to circuit breaker`);
+          return fallbackPrice;
+        }
+      }
+
+      // Try fallback as last resort
+      const fallbackPrice = this.getFallbackPrice(date);
+      if (fallbackPrice !== null) {
+        console.warn(`Using fallback price for ${date} due to error: ${error?.message}`);
+        return fallbackPrice;
+      }
+
+      throw error;
     } finally {
       this.apiRequestInProgress = false;
     }

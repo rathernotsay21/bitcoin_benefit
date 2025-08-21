@@ -17,60 +17,66 @@ import {
   isToolError,
   getStatusCodeFromError
 } from '@/types/bitcoin-tools';
+import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
 export async function GET(_request: NextRequest) {
   try {
-    // Fetch mempool info and fee estimates in parallel
-    const [mempoolResponse, feeResponse] = await Promise.all([
-      fetch('https://mempool.space/api/mempool', {
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
-        },
-        signal: AbortSignal.timeout(15000)
-      }),
-      fetch('https://mempool.space/api/v1/fees/recommended', {
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
-        },
-        signal: AbortSignal.timeout(15000)
-      })
-    ]);
+    // Use circuit breaker for resilient API calls
+    const [mempoolData, feeData] = await Promise.all([
+      executeWithCircuitBreaker('mempool', async () => {
+        const apiResult = await makeSecureAPICall('mempool',
+          'https://mempool.space/api/mempool',
+          {
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
+            },
+            signal: AbortSignal.timeout(15000)
+          }
+        );
 
-    if (!mempoolResponse.ok || !feeResponse.ok) {
-      const error = createToolError(
-        'api',
-        'API_ERROR',
-        new Error(`API error: ${mempoolResponse.status} / ${feeResponse.status}`),
-        {
-          statusCode: mempoolResponse.status || feeResponse.status,
-          endpoint: 'mempool.space'
+        if (!apiResult.success) {
+          throw new Error(apiResult.error || 'Failed to fetch mempool data');
         }
-      );
-      throw error;
-    }
 
-    // Parse raw responses
-    const [rawMempoolData, rawFeeData]: [unknown, unknown] = await Promise.all([
-      mempoolResponse.json(),
-      feeResponse.json()
+        return apiResult.data;
+      }),
+      
+      executeWithCircuitBreaker('mempool', async () => {
+        const apiResult = await makeSecureAPICall('mempool',
+          'https://mempool.space/api/v1/fees/recommended',
+          {
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Bitcoin-Benefits-Tools/1.0'
+            },
+            signal: AbortSignal.timeout(15000)
+          }
+        );
+
+        if (!apiResult.success) {
+          throw new Error(apiResult.error || 'Failed to fetch fee data');
+        }
+
+        return apiResult.data;
+      })
     ]);
 
     // Log raw data for debugging during build
     if (process.env.NODE_ENV === 'development') {
-      console.log('Raw mempool data keys:', Object.keys(rawMempoolData as any));
-      console.log('Raw fee data:', rawFeeData);
+      console.log('Raw mempool data keys:', Object.keys(mempoolData as any));
+      console.log('Raw fee data:', feeData);
     }
 
     // Validate and convert API responses
-    const mempoolData = validateAndConvertMempoolInfo(rawMempoolData);
-    const feeData = validateAndConvertMempoolFeeEstimates(rawFeeData);
+    const validatedMempoolData = validateAndConvertMempoolInfo(mempoolData);
+    const validatedFeeData = validateAndConvertMempoolFeeEstimates(feeData);
 
-    if (!mempoolData || !feeData) {
+    if (!validatedMempoolData || !validatedFeeData) {
       // Try a more lenient fallback for mempool data
-      if (!mempoolData && rawMempoolData && typeof rawMempoolData === 'object') {
-        const raw = rawMempoolData as any;
+      if (!validatedMempoolData && mempoolData && typeof mempoolData === 'object') {
+        const raw = mempoolData as any;
         // Check if it has the required fields but maybe in different format
         if ('count' in raw && 'vsize' in raw) {
           // Use a fallback conversion
@@ -84,7 +90,7 @@ export async function GET(_request: NextRequest) {
           
           // Use the fallback if it seems valid
           if (fallbackMempool.count >= 0 && fallbackMempool.vsize >= 0) {
-            const fallbackFees: MempoolFeeEstimates = feeData || {
+            const fallbackFees: MempoolFeeEstimates = validatedFeeData || {
               fastestFee: toFeeRateUnsafe(25),
               halfHourFee: toFeeRateUnsafe(20),
               hourFee: toFeeRateUnsafe(15),
@@ -113,7 +119,8 @@ export async function GET(_request: NextRequest) {
             return NextResponse.json(enhancedNetworkHealth, {
               headers: {
                 'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Data-Source': 'mempool.space'
               }
             });
           }
@@ -125,45 +132,88 @@ export async function GET(_request: NextRequest) {
         'API_ERROR',
         new Error('Invalid API response format'),
         {
-          field: !mempoolData ? 'mempoolData' : 'feeData',
-          invalidValue: !mempoolData ? rawMempoolData : rawFeeData
+          field: !validatedMempoolData ? 'mempoolData' : 'feeData',
+          invalidValue: !validatedMempoolData ? mempoolData : feeData
         }
       );
       throw error;
     }
 
     // Analyze network health
-    const networkHealth = analyzeNetworkHealth(mempoolData, feeData);
+    const networkHealth = analyzeNetworkHealth(validatedMempoolData, validatedFeeData);
     
     // Add detailed fee estimates to response
     const enhancedNetworkHealth: EnhancedNetworkHealth = {
       ...networkHealth,
       feeEstimates: {
-        fastestFee: feeData.fastestFee,
-        halfHourFee: feeData.halfHourFee,
-        hourFee: feeData.hourFee,
-        economyFee: feeData.economyFee
+        fastestFee: validatedFeeData.fastestFee,
+        halfHourFee: validatedFeeData.halfHourFee,
+        hourFee: validatedFeeData.hourFee,
+        economyFee: validatedFeeData.economyFee
       },
       analysis: {
-        congestionPercentage: calculateCongestionPercentage(mempoolData, feeData),
-        feeSpreadRatio: calculateFeeSpreadRatio(feeData),
-        mempoolEfficiency: calculateMempoolEfficiency(mempoolData),
-        trafficLevel: determineTrafficLevel(mempoolData, feeData)
+        congestionPercentage: calculateCongestionPercentage(validatedMempoolData, validatedFeeData),
+        feeSpreadRatio: calculateFeeSpreadRatio(validatedFeeData),
+        mempoolEfficiency: calculateMempoolEfficiency(validatedMempoolData),
+        trafficLevel: determineTrafficLevel(validatedMempoolData, validatedFeeData)
       }
     };
 
     return NextResponse.json(enhancedNetworkHealth, {
       headers: {
         'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Data-Source': 'mempool.space'
       }
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Network status API error:', error);
     
-    // Handle different error types appropriately
-    if (error instanceof Error && error.name === 'AbortError') {
+    // Handle circuit breaker open
+    if (error?.message?.includes('Circuit breaker is open')) {
+      // Return gracefully degraded data
+      const fallbackStatus: EnhancedNetworkHealth = {
+        congestionLevel: 'normal',
+        mempoolSize: 0,
+        mempoolBytes: 0,
+        averageFee: toFeeRateUnsafe(20),
+        nextBlockETA: 'Service temporarily unavailable',
+        recommendation: 'Mempool.space is temporarily unavailable. Using default values.',
+        humanReadable: {
+          congestionDescription: 'Service temporarily unavailable',
+          userAdvice: 'The mempool monitoring service is temporarily down. Please try again in a few minutes.',
+          colorScheme: 'yellow'
+        },
+        timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000)),
+        blockchainTip: toBlockHeight(800000),
+        feeEstimates: {
+          fastestFee: toFeeRateUnsafe(25),
+          halfHourFee: toFeeRateUnsafe(20),
+          hourFee: toFeeRateUnsafe(15),
+          economyFee: toFeeRateUnsafe(10)
+        },
+        analysis: {
+          congestionPercentage: 50,
+          feeSpreadRatio: 2.5,
+          mempoolEfficiency: 75,
+          trafficLevel: 'normal'
+        }
+      };
+
+      return NextResponse.json(fallbackStatus, {
+        status: 503,
+        headers: {
+          'Cache-Control': 'public, max-age=10, stale-while-revalidate=30',
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+          'X-Fallback': 'true'
+        }
+      });
+    }
+    
+    // Handle timeout
+    if (error?.name === 'AbortError' || error?.message?.includes('timeout')) {
       const timeoutError = createToolError(
         'timeout',
         'API_TIMEOUT',
@@ -203,7 +253,7 @@ export async function GET(_request: NextRequest) {
         colorScheme: 'yellow'
       },
       timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000)),
-      blockchainTip: toBlockHeight(800000), // Placeholder value
+      blockchainTip: toBlockHeight(800000),
       feeEstimates: {
         fastestFee: toFeeRateUnsafe(25),
         halfHourFee: toFeeRateUnsafe(20),

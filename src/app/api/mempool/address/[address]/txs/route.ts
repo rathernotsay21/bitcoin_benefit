@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateBitcoinAddress } from '@/lib/on-chain/validation';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
+import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
 
 interface RouteParams {
   params: {
@@ -13,60 +15,111 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
   // Validate Bitcoin address
   if (!validateBitcoinAddress(address)) {
     return NextResponse.json(
-      { error: 'Invalid Bitcoin address format' },
+      { 
+        error: 'Invalid Bitcoin address format',
+        code: 'INVALID_ADDRESS'
+      },
       { status: 400 }
     );
   }
 
   try {
-    // Fetch from mempool.space API
-    const mempoolUrl = `https://mempool.space/api/address/${address}/txs`;
+    // Use circuit breaker for mempool.space API calls
+    const result = await executeWithCircuitBreaker(
+      'mempool',
+      async () => {
+        // Use secure API call with automatic retries and fallback
+        const apiResult = await makeSecureAPICall('mempool',
+          `https://mempool.space/api/address/${address}/txs`,
+          {
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Bitcoin-Benefit/1.0'
+            },
+            signal: AbortSignal.timeout(30000)
+          }
+        );
+
+        if (!apiResult.success) {
+          // Handle specific error cases
+          if (apiResult.error?.includes('404')) {
+            throw { status: 404, message: 'Address not found or has no transactions' };
+          }
+          
+          throw new Error(apiResult.error || 'Failed to fetch transactions from mempool.space');
+        }
+
+        return apiResult.data;
+      }
+    );
+
+    // Check if we have valid transaction data
+    const hasTransactions = Array.isArray(result) && result.length > 0;
     
-    const response = await fetch(mempoolUrl, {
+    // Adaptive caching based on transaction presence
+    const cacheMaxAge = hasTransactions ? 60 : 10; // 1 minute if has txs, 10 seconds if empty
+
+    return NextResponse.json(result, {
       headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Bitcoin-Vesting-Tracker/1.0'
-      },
-      // Add timeout
-      signal: AbortSignal.timeout(30000)
+        'Cache-Control': `public, max-age=${cacheMaxAge}, stale-while-revalidate=${cacheMaxAge * 5}`,
+        'Content-Type': 'application/json',
+        'X-Data-Source': 'mempool.space',
+        'X-Transaction-Count': hasTransactions ? result.length.toString() : '0'
+      }
     });
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        return NextResponse.json(
-          { error: 'Address not found or has no transactions' },
-          { status: 404 }
-        );
-      }
-      
+  } catch (error: any) {
+    console.error('Mempool address API error:', error);
+    
+    // Handle 404 specifically
+    if (error?.status === 404) {
+      // Return empty array for addresses with no transactions (graceful degradation)
       return NextResponse.json(
-        { error: `Mempool API error: ${response.status} ${response.statusText}` },
-        { status: response.status }
+        [],
+        { 
+          status: 200,
+          headers: {
+            'Cache-Control': 'public, max-age=10, stale-while-revalidate=60',
+            'X-Data-Source': 'mempool.space',
+            'X-Note': 'No transactions found for address'
+          }
+        }
       );
     }
 
-    const data = await response.json();
-
-    // Add cache headers (cache for 1 minute)
-    return NextResponse.json(data, {
-      headers: {
-        'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
-        'Content-Type': 'application/json'
-      }
-    });
-
-  } catch (error) {
-    console.error('Mempool API proxy error:', error);
-    
-    if (error instanceof Error && error.name === 'AbortError') {
+    // Handle circuit breaker open
+    if (error?.message?.includes('Circuit breaker is open')) {
       return NextResponse.json(
-        { error: 'Request timeout - mempool.space is not responding' },
+        { 
+          error: 'Mempool.space service temporarily unavailable. Please try again later.',
+          code: 'SERVICE_UNAVAILABLE',
+          retryAfter: 60
+        },
+        { 
+          status: 503,
+          headers: { 'Retry-After': '60' }
+        }
+      );
+    }
+
+    // Handle timeout
+    if (error?.name === 'AbortError' || error?.message?.includes('timeout')) {
+      return NextResponse.json(
+        { 
+          error: 'Request timeout - mempool.space is not responding',
+          code: 'TIMEOUT'
+        },
         { status: 408 }
       );
     }
 
+    // Generic error response
     return NextResponse.json(
-      { error: 'Failed to fetch transaction data from mempool.space' },
+      { 
+        error: 'Failed to fetch transaction data',
+        code: 'INTERNAL_ERROR',
+        details: process.env['NODE_ENV'] === 'development' ? error?.message : undefined
+      },
       { status: 500 }
     );
   }

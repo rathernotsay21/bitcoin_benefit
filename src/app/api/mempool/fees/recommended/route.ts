@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createFetchError, createToolError } from '@/types/bitcoin-tools';
 import { safeAsync, TypeSafeRateLimiter } from '@/lib/type-safe-error-handler';
+import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
 // Rate limiter for external API calls
 const apiRateLimiter = new TypeSafeRateLimiter(30, 60000); // 30 requests per minute
@@ -132,39 +134,28 @@ export async function GET(_request: NextRequest) {
  * Type-safe fetch function for mempool fee data with SSL error handling
  */
 async function fetchMempoolFeeData(): Promise<MempoolFeeResponse> {
-  const maxRetries = 3;
-  let lastError: Error;
+  // Use circuit breaker and secure API wrapper for resilience
+  const result = await executeWithCircuitBreaker(
+    'mempool',
+    async () => {
+      const apiResult = await makeSecureAPICall('mempool',
+        'https://mempool.space/api/v1/fees/recommended',
+        {
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Bitcoin-Benefits-Tools/1.0',
+            'Connection': 'keep-alive',
+            'Cache-Control': 'no-cache'
+          },
+          signal: AbortSignal.timeout(20000)
+        }
+      );
 
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000 + (attempt * 5000)); // Progressive timeout
-      
-      const response = await fetch('https://mempool.space/api/v1/fees/recommended', {
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Bitcoin-Benefits-Tools/1.0',
-          // Add headers to potentially help with SSL issues
-          'Connection': 'keep-alive',
-          'Cache-Control': 'no-cache'
-        },
-        signal: controller.signal,
-        // Add potential SSL-related options
-        ...(process.env.NODE_ENV === 'development' && {
-          // Only in development - helps with local SSL issues
-          // @ts-ignore - Node.js fetch options
-          rejectUnauthorized: false
-        })
-      });
-      
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        throw createFetchError('https://mempool.space/api/v1/fees/recommended', response);
+      if (!apiResult.success) {
+        throw new Error(apiResult.error || 'Failed to fetch fee data from mempool.space');
       }
-      
-      const rawData = await response.json();
-      const parseResult = MempoolFeeResponseSchema.safeParse(rawData);
+
+      const parseResult = MempoolFeeResponseSchema.safeParse(apiResult.data);
       
       if (!parseResult.success) {
         throw createToolError('parse_error', 'JSON_PARSE_ERROR', 
@@ -174,37 +165,10 @@ async function fetchMempoolFeeData(): Promise<MempoolFeeResponse> {
       }
       
       return parseResult.data;
-      
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-      
-      // Handle specific SSL/TLS errors
-      if (lastError.message.includes('SSL') || 
-          lastError.message.includes('TLS') ||
-          lastError.message.includes('certificate') ||
-          lastError.message.includes('ECONNRESET') ||
-          lastError.message.includes('ENOTFOUND')) {
-        
-        // Wait with exponential backoff for SSL issues
-        if (attempt < maxRetries - 1) {
-          const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
-          console.warn(`SSL/Network error on attempt ${attempt + 1}, retrying in ${delay}ms:`, lastError.message);
-          await new Promise(resolve => setTimeout(resolve, delay));
-          continue;
-        }
-      }
-      
-      // For non-retryable errors or final attempt, throw immediately
-      if (attempt === maxRetries - 1 || !isRetryableError(lastError)) {
-        break;
-      }
-      
-      // Wait before retry
-      await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
     }
-  }
-  
-  throw createFetchError('https://mempool.space/api/v1/fees/recommended', undefined, lastError!);
+  );
+
+  return result as MempoolFeeResponse;
 }
 
 /**
