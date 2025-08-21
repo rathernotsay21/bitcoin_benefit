@@ -71,11 +71,9 @@ async function checkOpenTimestampsStatus(): Promise<TimestampStatus> {
       const responseTime = Date.now() - startTime;
       const hostname = new URL(url).hostname;
       
-      calendars[hostname] = {
-        status: response.ok ? 'online' : 'offline',
-        responseTime: responseTime,
-        error: response.ok ? undefined : `HTTP ${response.status}`
-      };
+      calendars[hostname] = response.ok 
+        ? { status: 'online' as const, responseTime }
+        : { status: 'offline' as const, responseTime, error: `HTTP ${response.status}` };
       
       return response.ok;
       
@@ -83,7 +81,7 @@ async function checkOpenTimestampsStatus(): Promise<TimestampStatus> {
       const hostname = new URL(url).hostname;
       
       calendars[hostname] = {
-        status: 'offline',
+        status: 'offline' as const,
         error: error instanceof Error ? error.message : 'Connection failed'
       };
       

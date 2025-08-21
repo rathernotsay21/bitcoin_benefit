@@ -14,16 +14,18 @@ export interface SecureFetchOptions extends RequestInit {
   retryCondition?: (error: Error, attempt: number) => boolean;
 }
 
-export interface SecureFetchResult<T> {
-  success: true;
-  data: T;
-  response: Response;
-  attempts: number;
-} | {
-  success: false;
-  error: ToolError;
-  attempts: number;
-}
+export type SecureFetchResult<T> = 
+  | {
+      success: true;
+      data: T;
+      response: Response;
+      attempts: number;
+    }
+  | {
+      success: false;
+      error: ToolError;
+      attempts: number;
+    };
 
 /**
  * Enhanced fetch wrapper with SSL error recovery and type validation
@@ -42,7 +44,7 @@ export async function secureFetch<T = unknown>(
   } = options;
 
   let attempts = 0;
-  let lastError: Error;
+  let lastError: Error = new Error('No attempts made');
 
   while (attempts <= retries) {
     attempts++;
@@ -122,20 +124,25 @@ export async function secureFetch<T = unknown>(
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
       
-      // Handle specific error types
+      // Handle specific error types - create tool error but keep as Error type for flow
+      let toolError: ToolError;
       if (lastError.name === 'AbortError') {
-        lastError = createToolError('timeout', 'API_TIMEOUT', lastError, { 
+        toolError = createToolError('timeout', 'API_TIMEOUT', lastError, { 
           url, 
           timeout: timeout + ((attempts - 1) * 5000),
           attempt: attempts 
         });
       } else if (isSSLError(lastError)) {
-        lastError = createToolError('network', 'SSL_ERROR', lastError, { url, attempt: attempts });
+        toolError = createToolError('network', 'SSL_ERROR', lastError, { url, attempt: attempts });
       } else if (isConnectionError(lastError)) {
-        lastError = createToolError('network', 'CONNECTION_RESET', lastError, { url, attempt: attempts });
+        toolError = createToolError('network', 'CONNECTION_RESET', lastError, { url, attempt: attempts });
       } else if (isFetchError(lastError)) {
-        lastError = createToolError('fetch_error', 'FETCH_FAILED', lastError, { url, attempt: attempts });
+        toolError = createToolError('fetch_error', 'FETCH_FAILED', lastError, { url, attempt: attempts });
+      } else {
+        toolError = createToolError('unknown', 'UNKNOWN_ERROR', lastError, { url, attempt: attempts });
       }
+      // Cast to Error for compatibility with retry logic
+      lastError = toolError as unknown as Error;
 
       // Check if we should retry
       if (attempts <= retries && retryCondition(lastError, attempts)) {
@@ -153,8 +160,8 @@ export async function secureFetch<T = unknown>(
   // All attempts failed
   return {
     success: false,
-    error: lastError instanceof Error && 'type' in lastError 
-      ? lastError as ToolError 
+    error: (lastError instanceof Error && 'type' in lastError) 
+      ? (lastError as unknown as ToolError) 
       : createToolError('unknown', 'UNKNOWN_ERROR', lastError, { url, totalAttempts: attempts }),
     attempts
   };

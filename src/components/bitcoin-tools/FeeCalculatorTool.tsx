@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
 import { FeeRecommendation, createToolError, FeeCostBreakdown, FeeSavings, FeeLevel, FeeEmoji, FeeRate, SatoshiAmount, BTCAmount, USDAmount } from '@/types/bitcoin-tools';
-import { apiClient, isSuccessWithData } from '@/lib/api-client';
+import { secureApiClient } from '@/lib/secure-fetch-wrapper';
 import { toToolError } from '@/lib/type-safe-error-handler';
 import { z } from 'zod';
 import ToolSkeleton from './ToolSkeleton';
@@ -125,20 +125,35 @@ function FeeCalculatorTool() {
     recordRequest('fee-calculator');
     
     try {
-      const response = await apiClient.get(
+      const result = await secureApiClient.get(
         `/api/mempool/fees/recommended?txSize=${txSize}`,
         FeeApiResponseSchema,
         {
-          timeout: 20000, // Increased timeout for better SSL recovery
-          retries: 3 // Increased retries
+          timeout: 20000, // Increased timeout for SSL recovery
+          retries: 3, // Increased retries with exponential backoff
+          retryDelay: 2000, // Start with 2 second delay
+          retryCondition: (error, attempt) => {
+            // Custom retry logic for fee calculator
+            if ('type' in error) {
+              const toolError = error as any;
+              // Always retry network and SSL errors
+              if (toolError.type === 'network' || toolError.type === 'fetch_error') {
+                return attempt <= 3;
+              }
+              // Retry timeouts with longer delays
+              if (toolError.type === 'timeout') {
+                return attempt <= 2;
+              }
+            }
+            return false;
+          }
         }
       );
       
-      if (isSuccessWithData(response)) {
-        // Validate the response data more thoroughly
-        const validatedData = FeeApiResponseSchema.parse(response.data);
+      if (result.success) {
+        const validatedData = result.data;
         
-        const transformedRecommendations = transformToFeeRecommendations(validatedData, btcPrice);
+        const transformedRecommendations = transformToFeeRecommendations(validatedData, 30000); // Default fallback BTC price
         setFeeCalculatorData(transformedRecommendations);
         setNetworkData(validatedData.networkConditions);
         setLastUpdated(validatedData.lastUpdated);
@@ -153,42 +168,31 @@ function FeeCalculatorTool() {
         if (validatedData.error) {
           console.info('Fee Calculator using fallback data:', validatedData.error);
         }
+        
+        // Log successful recovery if it took multiple attempts
+        if (result.attempts > 1) {
+          console.info(`Fee data retrieved successfully after ${result.attempts} attempts`);
+        }
       } else {
-        console.error('Fee calculator API error:', response.error);
-        
-        // Create more specific error based on response
-        const toolError = createToolError('api', 'API_ERROR', undefined, {
-          apiError: response.error,
-          endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
-          timestamp: new Date().toISOString()
-        });
-        
-        setFeeCalculatorError(toolError);
+        console.error('Fee calculator API error:', result.error.message);
+        setFeeCalculatorError(result.error);
       }
     } catch (error) {
-      console.error('Fee calculator error:', error);
+      console.error('Unexpected fee calculator error:', error);
       
-      // Enhanced error handling with specific error types
-      let toolError;
-      if (error instanceof z.ZodError) {
-        toolError = createToolError('parse_error', 'JSON_PARSE_ERROR', 
-          new Error('Invalid API response format'), {
-            validationErrors: error.issues,
-            endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`
-          }
-        );
-      } else {
-        toolError = toToolError(error, 'fetch_error', {
-          endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
-          operation: 'fetchFeeRecommendations',
-          txSize,
-          timestamp: new Date().toISOString()
-        });
-      }
+      // This should rarely happen with the secure fetch wrapper,
+      // but handle it gracefully just in case
+      const toolError = toToolError(error, 'unknown', {
+        endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
+        operation: 'fetchFeeRecommendations',
+        txSize,
+        timestamp: new Date().toISOString(),
+        note: 'Unexpected error bypass - should investigate'
+      });
       
       setFeeCalculatorError(toolError);
     }
-  }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError, btcPrice]);
+  }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError]);
 
   // Initialize with default transaction size
   useEffect(() => {

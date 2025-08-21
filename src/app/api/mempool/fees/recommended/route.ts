@@ -71,7 +71,7 @@ export async function GET(_request: NextRequest) {
     return NextResponse.json(
       { 
         error: 'Rate limit exceeded. Please wait before making another request.',
-        retryAfter: Math.ceil((rateLimitError.context?.resetTime as number - Date.now()) / 1000)
+        retryAfter: Math.ceil(((rateLimitError.context?.['resetTime'] as number) - Date.now()) / 1000)
       },
       { status: 429 }
     );

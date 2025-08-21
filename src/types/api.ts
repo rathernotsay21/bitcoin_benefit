@@ -137,7 +137,7 @@ export const ApiErrorSchema = z.object({
   code: z.string().optional(),
   details: z.record(z.unknown()).optional(),
   timestamp: z.number().int().positive().optional(),
-});
+}).strict();
 
 export type ApiError = z.infer<typeof ApiErrorSchema>;
 
