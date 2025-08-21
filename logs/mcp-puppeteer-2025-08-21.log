@@ -110,3 +110,5 @@
 {"arguments":{"height":800,"name":"network-status-final","width":1200},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 14:07:29.430","tool":"puppeteer_screenshot"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-21 17:11:21.843"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 17:11:21.844"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-21 17:36:23.044"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 17:36:23.045"}
