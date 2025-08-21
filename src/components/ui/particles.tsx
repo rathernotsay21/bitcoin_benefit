@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTheme } from '../ThemeProvider';
 
 interface Particle {
@@ -34,51 +34,73 @@ export default function Particles({
   const animationRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
   
-  // Initialize particles
-  useEffect(() => {
+  // Initialize particles after canvas is properly sized
+  const initializeParticles = useCallback(() => {
     if (!canvasRef.current) return;
     
     const canvas = canvasRef.current;
+    // Ensure canvas has proper dimensions before creating particles
+    if (canvas.width === 0 || canvas.height === 0) {
+      canvas.width = canvas.offsetWidth || window.innerWidth;
+      canvas.height = canvas.offsetHeight || window.innerHeight;
+    }
+    
     const newParticles: Particle[] = [];
     
     for (let i = 0; i < quantity; i++) {
       newParticles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        radius: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.1,
-        targetOpacity: Math.random() * 0.5 + 0.1
+        vx: (Math.random() - 0.5) * 0.3, // Reduced velocity for gentler movement
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 1.5 + 0.8, // Slightly smaller particles
+        opacity: Math.random() * 0.6 + 0.2,
+        targetOpacity: Math.random() * 0.6 + 0.2
       });
     }
     
     setParticles(newParticles);
-  }, [quantity, refresh]);
+  }, [quantity]);
+
+  useEffect(() => {
+    // Delay initialization to ensure canvas is mounted and sized
+    const timer = setTimeout(() => {
+      initializeParticles();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [initializeParticles, refresh]);
   
   // Handle canvas resize
   useEffect(() => {
     if (!canvasRef.current) return;
     
     const canvas = canvasRef.current;
-    const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+    const resizeCanvas = (): void => {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      
+      // Reinitialize particles when canvas resizes to redistribute them
+      if (particles.length > 0) {
+        setTimeout(() => initializeParticles(), 50);
+      }
     };
     
+    // Set initial size
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
-  }, []);
+  }, [initializeParticles, particles.length]);
   
   // Handle mouse movement
   useEffect(() => {
     if (!canvasRef.current) return;
     
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent): void => {
       const rect = canvasRef.current!.getBoundingClientRect();
       mouseRef.current = {
         x: e.clientX - rect.left,
@@ -102,7 +124,7 @@ export default function Particles({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    const animate = () => {
+    const animate = (): void => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       setParticles(currentParticles => {
@@ -112,14 +134,14 @@ export default function Particles({
           const dy = mouseRef.current.y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          // Mouse interaction
-          if (distance < 100) {
-            particle.targetOpacity = Math.min(1, 0.5 + (100 - distance) / 100);
-            const force = (100 - distance) / 100;
-            particle.vx -= (dx / distance) * force * 0.02;
-            particle.vy -= (dy / distance) * force * 0.02;
+          // Gentle mouse interaction
+          if (distance < 80) {
+            particle.targetOpacity = Math.min(0.8, 0.4 + (80 - distance) / 80 * 0.3);
+            const force = (80 - distance) / 80;
+            particle.vx -= (dx / distance) * force * 0.01;
+            particle.vy -= (dy / distance) * force * 0.01;
           } else {
-            particle.targetOpacity = Math.random() * 0.5 + 0.1;
+            particle.targetOpacity = Math.random() * 0.4 + 0.2;
           }
           
           // Update position
@@ -132,9 +154,13 @@ export default function Particles({
           if (particle.y < 0) particle.y = canvas.height;
           if (particle.y > canvas.height) particle.y = 0;
           
-          // Apply ease to velocity
-          particle.vx *= 0.99;
-          particle.vy *= 0.99;
+          // Apply stronger damping for gentler movement
+          particle.vx *= 0.995;
+          particle.vy *= 0.995;
+          
+          // Add slight random movement for floating effect
+          particle.vx += (Math.random() - 0.5) * 0.003;
+          particle.vy += (Math.random() - 0.5) * 0.003;
           
           // Update opacity
           particle.opacity += (particle.targetOpacity - particle.opacity) * 0.02;
@@ -143,36 +169,36 @@ export default function Particles({
         });
       });
       
-      // Draw particles
+      // Draw particles with glow effect
       particles.forEach(particle => {
         ctx.save();
         ctx.globalAlpha = particle.opacity;
-        ctx.fillStyle = theme === 'dark' ? '#64748b' : color;
+        
+        // Create glow effect
+        const glowSize = particle.radius * 3;
+        const gradient = ctx.createRadialGradient(
+          particle.x, particle.y, 0,
+          particle.x, particle.y, glowSize
+        );
+        
+        const particleColor = theme === 'dark' ? '#64748b' : color;
+        gradient.addColorStop(0, particleColor);
+        gradient.addColorStop(0.4, particleColor + '80'); // 50% opacity
+        gradient.addColorStop(1, particleColor + '00'); // Transparent
+        
+        // Draw glow
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, glowSize, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw main particle
+        ctx.fillStyle = particleColor;
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
         ctx.fill();
+        
         ctx.restore();
-      });
-      
-      // Draw connections
-      particles.forEach((particle, i) => {
-        particles.slice(i + 1).forEach(otherParticle => {
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 100) {
-            ctx.save();
-            ctx.globalAlpha = (1 - distance / 100) * 0.1;
-            ctx.strokeStyle = theme === 'dark' ? '#64748b' : color;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.stroke();
-            ctx.restore();
-          }
-        });
       });
       
       animationRef.current = requestAnimationFrame(animate);
