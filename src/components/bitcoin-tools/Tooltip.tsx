@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { EducationalContent } from '@/types/bitcoin-tools';
 
 interface TooltipProps {
@@ -22,10 +23,11 @@ export default function Tooltip({
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [actualPosition, setActualPosition] = useState(position);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  // Calculate optimal position based on viewport
+  // Calculate tooltip position relative to viewport
   useEffect(() => {
     if (!isVisible || !tooltipRef.current || !triggerRef.current) return;
 
@@ -35,6 +37,8 @@ export default function Tooltip({
     const tooltipRect = tooltip.getBoundingClientRect();
     
     let optimalPosition = position;
+    let top = 0;
+    let left = 0;
 
     // Check if tooltip would go off screen and adjust
     switch (position) {
@@ -60,7 +64,32 @@ export default function Tooltip({
         break;
     }
 
+    // Calculate absolute position based on trigger element
+    switch (optimalPosition) {
+      case 'top':
+        top = rect.top - tooltipRect.height - 8;
+        left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+        break;
+      case 'bottom':
+        top = rect.bottom + 8;
+        left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+        break;
+      case 'left':
+        top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+        left = rect.left - tooltipRect.width - 8;
+        break;
+      case 'right':
+        top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+        left = rect.right + 8;
+        break;
+    }
+
+    // Ensure tooltip stays within viewport bounds
+    left = Math.max(10, Math.min(left, window.innerWidth - tooltipRect.width - 10));
+    top = Math.max(10, Math.min(top, window.innerHeight - tooltipRect.height - 10));
+
     setActualPosition(optimalPosition);
+    setTooltipPosition({ top, left });
   }, [isVisible, position]);
 
   const handleMouseEnter = () => {
@@ -99,42 +128,28 @@ export default function Tooltip({
     }
   }, [trigger, handleClickOutside]);
 
-  const getPositionClasses = (pos: typeof position) => {
-    switch (pos) {
-      case 'top':
-        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2';
-      case 'bottom':
-        return 'top-full left-1/2 transform -translate-x-1/2 mt-2';
-      case 'left':
-        return 'right-full top-1/2 transform -translate-y-1/2 mr-2';
-      case 'right':
-        return 'left-full top-1/2 transform -translate-y-1/2 ml-2';
-      default:
-        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2';
-    }
-  };
 
   const getArrowClasses = (pos: typeof position) => {
     const baseClasses = 'absolute w-0 h-0 border-solid';
     
     switch (pos) {
       case 'top':
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-white border-l-4 border-r-4 border-t-4`;
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-white dark:border-t-slate-900 border-l-4 border-r-4 border-t-4`;
       case 'bottom':
-        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-gray-900 dark:border-b-white border-l-4 border-r-4 border-b-4`;
+        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-white dark:border-b-slate-900 border-l-4 border-r-4 border-b-4`;
       case 'left':
-        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-gray-900 dark:border-l-white border-t-4 border-b-4 border-l-4`;
+        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-white dark:border-l-slate-900 border-t-4 border-b-4 border-l-4`;
       case 'right':
-        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-gray-900 dark:border-r-white border-t-4 border-b-4 border-r-4`;
+        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-white dark:border-r-slate-900 border-t-4 border-b-4 border-r-4`;
       default:
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-white border-l-4 border-r-4 border-t-4`;
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-white dark:border-t-slate-900 border-l-4 border-r-4 border-t-4`;
     }
   };
 
   const renderTooltipContent = () => {
     if (typeof content === 'string') {
       return (
-        <div className="text-sm text-white dark:text-gray-900">
+        <div className="text-sm">
           {content}
         </div>
       );
@@ -143,14 +158,14 @@ export default function Tooltip({
     // Educational content
     return (
       <div className="space-y-2">
-        <div className="font-semibold text-white dark:text-gray-900 border-b border-gray-600 dark:border-gray-400 pb-1">
+        <div className="font-semibold border-b border-slate-400 dark:border-slate-600 pb-1">
           {content.term}
         </div>
-        <div className="text-sm text-white dark:text-gray-900">
+        <div className="text-sm">
           {content.definition}
         </div>
         {content.example && (
-          <div className="text-xs text-gray-200 dark:text-gray-600 italic border-l-2 border-bitcoin pl-2">
+          <div className="text-xs text-slate-600 dark:text-slate-300 italic border-l-2 border-bitcoin pl-2">
             Example: {content.example}
           </div>
         )}
@@ -169,31 +184,41 @@ export default function Tooltip({
     );
   };
 
-  return (
-    <div className={`relative inline-block ${className}`}>
-      <div
-        ref={triggerRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-        className={trigger === 'click' ? 'cursor-pointer' : 'cursor-help'}
-      >
-        {children}
+  // Render tooltip content with portal
+  const tooltipContent = isVisible && typeof window !== 'undefined' ? createPortal(
+    <div
+      ref={tooltipRef}
+      className={`fixed z-[99999] ${maxWidth} transition-opacity duration-200`}
+      style={{ 
+        opacity: isVisible ? 1 : 0,
+        top: `${tooltipPosition.top}px`,
+        left: `${tooltipPosition.left}px`,
+        pointerEvents: trigger === 'click' ? 'auto' : 'none'
+      }}
+    >
+      <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-lg px-3 py-2 shadow-xl border border-slate-200 dark:border-slate-700 relative backdrop-blur-sm">
+        {renderTooltipContent()}
+        <div className={getArrowClasses(actualPosition)}></div>
       </div>
-      
-      {isVisible && (
+    </div>,
+    document.body
+  ) : null;
+
+  return (
+    <>
+      <div className={`relative inline-block ${className}`}>
         <div
-          ref={tooltipRef}
-          className={`absolute z-50 ${maxWidth} ${getPositionClasses(actualPosition)} transition-opacity duration-200`}
-          style={{ opacity: isVisible ? 1 : 0 }}
+          ref={triggerRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+          className={trigger === 'click' ? 'cursor-pointer' : 'cursor-help'}
         >
-          <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg px-3 py-2 shadow-xl border border-gray-600 dark:border-gray-400 relative backdrop-blur-sm">
-            {renderTooltipContent()}
-            <div className={getArrowClasses(actualPosition)}></div>
-          </div>
+          {children}
         </div>
-      )}
-    </div>
+      </div>
+      {tooltipContent}
+    </>
   );
 }
 

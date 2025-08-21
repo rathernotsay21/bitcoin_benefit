@@ -1152,8 +1152,9 @@ scroll-behavior: smooth;
   }
 
   .tooltip .tooltip-text {
-    @apply invisible absolute z-10 px-3 py-2 text-sm text-white bg-slate-900 rounded-lg opacity-0 transition-all duration-300;
-    @apply dark:bg-slate-700;
+    @apply invisible absolute z-[9999] px-3 py-2 text-sm transition-all duration-300;
+    @apply bg-white text-slate-900 dark:bg-slate-900 dark:text-white;
+    @apply rounded-lg opacity-0;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
@@ -1167,8 +1168,8 @@ scroll-behavior: smooth;
 
   .tooltip .tooltip-text::after {
     content: "";
-    @apply absolute top-full left-1/2 -ml-1 border-4 border-transparent border-t-slate-900;
-    @apply dark:border-t-slate-700;
+    @apply absolute top-full left-1/2 -ml-1 border-4 border-transparent;
+    @apply border-t-white dark:border-t-slate-900;
   }
 
   /* Enhanced Dividers */

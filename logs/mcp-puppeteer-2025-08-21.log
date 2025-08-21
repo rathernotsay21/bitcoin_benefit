@@ -1,2 +1,56 @@
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-21 05:02:05.794"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 05:02:05.795"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-21 12:23:35.960"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 12:23:35.961"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:49.857","tool":"puppeteer_connect_active_tab"}
+{"0":"n","1":"p","2":"x","level":"info","message":"Launching browser with config:","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:49.857"}
+{"level":"info","message":"Browser launched successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:50.458"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:50.471","wsEndpoint":"ws://localhost:9222/devtools/browser/bbd04ae2-42a3-4123-8260-d3c3f4e1f420"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:50.471"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:38:50.475"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:08.813","tool":"puppeteer_connect_active_tab"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:08.815","wsEndpoint":"ws://localhost:9222/devtools/browser/bbd04ae2-42a3-4123-8260-d3c3f4e1f420"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:08.815"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:08.819"}
+{"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:08.824","title":"Bitcoin Tools | Simple Blockchain Tools for Everyone","url":"http://localhost:3001/bitcoin-tools/"}
+{"arguments":{"height":900,"name":"bitcoin-tools-initial","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:39:17.143","tool":"puppeteer_screenshot"}
+{"arguments":{"selector":"span.cursor-help.text-bitcoin"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:01.631","tool":"puppeteer_hover"}
+{"arguments":{"height":900,"name":"tooltip-hover-transactions","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:10.169","tool":"puppeteer_screenshot"}
+{"arguments":{"selector":"button[value=\"fees\"]"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:18.361","tool":"puppeteer_click"}
+{"arguments":{"script":"// Find and click the Fee Calculator tab\nconst tabs = document.querySelectorAll('[role=\"tab\"]');\nlet feeTab = null;\ntabs.forEach(tab => {\n  if (tab.textContent.includes('Fee Calculator')) {\n    feeTab = tab;\n  }\n});\nif (feeTab) {\n  feeTab.click();\n  'Clicked Fee Calculator tab';\n} else {\n  'Fee Calculator tab not found';\n}"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:27.375","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":324,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:27.376"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:40:27.377"}
+{"arguments":{"script":"window.location.reload();"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:02.906","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":25,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:02.906"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:02.907"}
+{"arguments":{"selector":"span.cursor-help.text-bitcoin"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:20.259","tool":"puppeteer_hover"}
+{"arguments":{"height":900,"name":"tooltip-after-portal-fix","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:30.069","tool":"puppeteer_screenshot"}
+{"arguments":{"script":"// Click on Fee Calculator tab\nconst tabs = document.querySelectorAll('[role=\"tab\"]');\nlet feeTab = null;\ntabs.forEach(tab => {\n  if (tab.textContent.includes('Fee Calculator')) {\n    feeTab = tab;\n  }\n});\nif (feeTab) {\n  feeTab.click();\n  'Clicked Fee Calculator tab';\n} else {\n  'Fee Calculator tab not found';\n}"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:43.254","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":314,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:43.254"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:43.255"}
+{"arguments":{"script":"// Wait a moment and find the Fee Calculator tab\nsetTimeout(() => {\n  const buttons = document.querySelectorAll('button');\n  buttons.forEach(button => {\n    if (button.textContent.includes('Fee Calculator')) {\n      button.click();\n    }\n  });\n}, 500);\n'Attempting to click Fee Calculator'"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:51.679","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":289,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:51.679"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:43:51.680"}
+{"arguments":{"height":900,"name":"fee-calculator-tab","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:09.873","tool":"puppeteer_screenshot"}
+{"arguments":{"script":"// Find and click the Fee Calculator tab more precisely\nconst tabButtons = Array.from(document.querySelectorAll('button[role=\"tab\"]'));\nconst feeTab = tabButtons.find(btn => btn.textContent.includes('Fee Calculator'));\nif (feeTab) {\n  feeTab.click();\n  return 'Clicked Fee Calculator tab';\n} else {\n  return 'Tab not found. Available tabs: ' + tabButtons.map(btn => btn.textContent).join(', ');\n}"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:22.682","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":396,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:22.682"}
+{"hasResult":true,"level":"debug","logCount":0,"message":"Script execution result","resultType":"string","service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:22.683"}
+{"arguments":{"selector":"span.cursor-help.text-bitcoin"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:42.651","tool":"puppeteer_hover"}
+{"arguments":{"height":900,"name":"fee-calculator-tooltip-fixed","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:44:52.894","tool":"puppeteer_screenshot"}
+{"arguments":{"url":"http://localhost:3001/calculator"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:18.018","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:18.018","url":"http://localhost:3001/calculator"}
+{"error":"net::ERR_ABORTED at http://localhost:3001/calculator","level":"error","message":"Navigation failed","service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:37.632","url":"http://localhost:3001/calculator"}
+{"arguments":{"script":"window.location.href = 'http://localhost:3001/calculator';"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:53.928","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":58,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:53.928"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:45:55.517"}
+{"arguments":{"height":900,"name":"calculator-page-check","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:46:20.455","tool":"puppeteer_screenshot"}
+{"arguments":{"selector":"a:contains(\"Reload Page\")"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:46:29.353","tool":"puppeteer_click"}
+{"arguments":{"script":"// Find and click the Reload Page link\nconst links = document.querySelectorAll('a');\nlet reloadLink = null;\nlinks.forEach(link => {\n  if (link.textContent.includes('Reload Page')) {\n    reloadLink = link;\n  }\n});\nif (reloadLink) {\n  reloadLink.click();\n  'Clicked Reload Page';\n} else {\n  'Reload Page link not found';\n}"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:46:38.025","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":320,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:46:38.025"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:46:38.026"}
+{"arguments":{"script":"window.location.href = 'http://localhost:3001/';"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:00.323","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":48,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:00.323"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:00.324"}
+{"arguments":{"script":"window.location.href = 'http://localhost:3001/bitcoin-tools';"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:22.422","tool":"puppeteer_evaluate"}
+{"level":"debug","message":"Executing script in browser","scriptLength":61,"service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:22.422"}
+{"hasResult":false,"level":"debug","logCount":0,"message":"Script execution result","resultType":"undefined","service":"mcp-puppeteer","timestamp":"2025-08-21 12:47:22.423"}

@@ -121,7 +121,7 @@ export function BitcoinTooltip({
         </TooltipTrigger>
         <TooltipContent 
           side={side}
-          className="max-w-sm p-4 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 border border-slate-700 dark:border-slate-300"
+          className="max-w-sm p-4 z-[9999]"
         >
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -197,7 +197,7 @@ export function QuickTooltip({
         </TooltipTrigger>
         <TooltipContent 
           side={side}
-          className="max-w-xs text-sm bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 border border-slate-700 dark:border-slate-300"
+          className="max-w-xs text-sm z-[9999]"
         >
           <p>{content}</p>
         </TooltipContent>
