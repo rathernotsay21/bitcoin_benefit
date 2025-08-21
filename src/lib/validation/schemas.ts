@@ -470,10 +470,11 @@ export function validateRequestBody<T>(schema: z.ZodSchema<T>) {
     } catch (error) {
       if (error instanceof z.ZodError) {
         const formatted = formatZodError(error);
+        const firstError = formatted[0];
         throw new ValidationError(
-          formatted[0].message,
-          formatted[0].field,
-          formatted[0].code
+          firstError?.message ?? 'Validation failed',
+          firstError?.field ?? 'unknown',
+          firstError?.code ?? 'invalid'
         );
       }
       throw error;
@@ -503,10 +504,11 @@ export function validateSearchParams<T>(schema: z.ZodSchema<T>) {
     } catch (error) {
       if (error instanceof z.ZodError) {
         const formatted = formatZodError(error);
+        const firstError = formatted[0];
         throw new ValidationError(
-          formatted[0].message,
-          formatted[0].field,
-          formatted[0].code
+          firstError?.message ?? 'Validation failed',
+          firstError?.field ?? 'unknown',
+          firstError?.code ?? 'invalid'
         );
       }
       throw error;

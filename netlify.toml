@@ -51,14 +51,30 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Security headers
+# Enhanced Security headers
 [[headers]]
   for = "/*"
   [headers.values]
+    # Clickjacking protection
     X-Frame-Options = "DENY"
+    # Prevent MIME type sniffing
     X-Content-Type-Options = "nosniff"
+    # Control referrer information
     Referrer-Policy = "strict-origin-when-cross-origin"
+    # XSS protection for older browsers
     X-XSS-Protection = "1; mode=block"
+    # Force HTTPS connections
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # Permissions Policy (replaces Feature-Policy)
+    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    # Content Security Policy
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://api.coingecko.com https://mempool.space https://api.mempool.space; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+    # DNS prefetch control
+    X-DNS-Prefetch-Control = "on"
+    # Prevent IE from executing downloads in site context
+    X-Download-Options = "noopen"
+    # Require same-origin for user activation
+    X-Permitted-Cross-Domain-Policies = "none"
 
 # Redirect configuration for better SEO
 [[redirects]]

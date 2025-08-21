@@ -125,20 +125,20 @@ export function BitcoinTooltip({
         >
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h4 className="font-semibold text-sm">{content.term}</h4>
+              <h4 className="font-semibold text-sm">{content?.term ?? 'Bitcoin Term'}</h4>
               <Badge variant="outline" className="text-xs bg-bitcoin text-white border-bitcoin">
                 Bitcoin
               </Badge>
             </div>
-            <p className="text-sm leading-relaxed">{content.definition}</p>
-            {content.example && (
+            <p className="text-sm leading-relaxed">{content?.definition ?? 'No definition available'}</p>
+            {content?.example && (
               <div className="border-l-2 border-bitcoin/50 pl-2">
                 <p className="text-xs italic opacity-90">
                   <strong>Example:</strong> {content.example}
                 </p>
               </div>
             )}
-            {content.learnMoreUrl && (
+            {content?.learnMoreUrl && (
               <a 
                 href={content.learnMoreUrl}
                 target="_blank"
@@ -169,7 +169,7 @@ export function TooltipTerm({
   return (
     <BitcoinTooltip term={term} side={side} className={className}>
       <span className="font-medium">
-        {BITCOIN_TERMS[term].term}
+        {BITCOIN_TERMS[term]?.term ?? term}
       </span>
     </BitcoinTooltip>
   );

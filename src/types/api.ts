@@ -3,8 +3,6 @@
  */
 
 import { z } from 'zod';
-import type { BitcoinTxId, BitcoinAddress, SatoshiAmount, BTCAmount, USDAmount, FeeRate, BlockHeight, UnixTimestamp } from './bitcoin-tools';
-import type { VestingScheme, CostBasisMethod, HistoricalCalculationResult } from './vesting';
 
 // =============================================================================
 // BITCOIN API TYPES

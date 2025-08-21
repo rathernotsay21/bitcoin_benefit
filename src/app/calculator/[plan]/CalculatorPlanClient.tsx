@@ -53,7 +53,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     selectedScheme,
     inputs,
     results,
-    isCalculating,
+    isCalculating: _isCalculating,
     currentBitcoinPrice,
     bitcoinChange24h,
     isLoadingPrice,
@@ -85,7 +85,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   }, [updateInputs]);
 
   // Helper to set default vesting preset
-  const applyDefaultVestingPreset = useCallback((schemeId: string) => {
+  const _applyDefaultVestingPreset = useCallback((schemeId: string) => {
     // Define default Recruit preset events
     const recruitEvents = [
       { id: `recruit-1-${Date.now()}`, timePeriod: 3, percentageVested: 10, label: '90 Days' },
@@ -414,7 +414,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       // Show custom vesting events
                       displayScheme.customVestingEvents
                         .sort((a, b) => a.timePeriod - b.timePeriod)
-                        .map((event, index) => (
+                        .map((event, _index) => (
                           <div key={event.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
                             <span className="text-gray-600 dark:text-slate-300 font-medium">
                               {event.label}

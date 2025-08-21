@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
@@ -10,7 +9,7 @@ import YearSelector from '@/components/YearSelector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { ChartBarIcon, ClockIcon, CogIcon, SparklesIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import { ChartBarIcon, CogIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import { MetricCardsSkeleton, TableSkeleton } from '@/components/loading/EnhancedSkeletons';
@@ -27,20 +26,6 @@ const HistoricalTimelineVisualization = dynamic(
   }
 );
 
-function formatBTC(amount: number): string {
-  return `₿${amount.toFixed(3)}`;
-}
-
-function formatUSD(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
-}
-
-function formatPercent(value: number): string {
-  return `${(value * 100).toFixed(1)}%`;
-}
 
 function HistoricalCalculatorContent() {
   const searchParams = useSearchParams();
@@ -55,7 +40,7 @@ function HistoricalCalculatorContent() {
     isLoadingHistoricalData,
     historicalDataError,
     historicalResults,
-    isCalculating,
+    isCalculating: _isCalculating,
     calculationError,
     
     setStartingYear,
@@ -127,7 +112,7 @@ function HistoricalCalculatorContent() {
   };
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
-  const currentYear = new Date().getFullYear();
+  const _currentYear = new Date().getFullYear();
 
   return (
     <div className="min-h-screen transition-colors duration-300">

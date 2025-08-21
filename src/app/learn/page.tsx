@@ -1,18 +1,13 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { BitcoinIcon } from '@/components/icons/BitcoinIcon';
-import { SatoshiOutlineIcon } from '@/components/icons/SatoshiOutlineIcon';
 // Lazy load ExpandableSection since it's used at the bottom of the page
 const ExpandableSection = dynamic(() => import('@/components/ProgressiveDisclosure').then(mod => ({ default: mod.ExpandableSection })), { ssr: false });
 // Optimize icon imports
 import dynamic from 'next/dynamic';
-const BanknotesIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BanknotesIcon })), { ssr: false });
 const LockClosedIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LockClosedIcon })), { ssr: false });
-const CalculatorIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
 
 export default function LearnMorePage() {
     return (

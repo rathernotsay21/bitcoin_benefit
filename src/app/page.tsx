@@ -10,25 +10,17 @@ import { useTheme } from '@/components/ThemeProvider';
 // Optimize icon imports - only load what's actually used
 import dynamic from 'next/dynamic';
 const ClockIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-import { SatoshiOutlineIcon, MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon, BitcoinPresentationIcon } from '@/components/icons';
+import { MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon } from '@/components/icons';
 import Particles from '@/components/ui/particles';
 // Remove unused imports
 // import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
 
-function formatUSD(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
 
 export default function HomePage() {
-  const { theme } = useTheme();
+  const { theme: _theme } = useTheme();
   const [currentBitcoinPrice, setCurrentBitcoinPrice] = useState(113976); // Fallback
   const [historicalPrice2020, setHistoricalPrice2020] = useState(11000); // Fallback
-  const [isLoading, setIsLoading] = useState(true);
+  const [_isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrices = async () => {
@@ -56,7 +48,7 @@ export default function HomePage() {
   const costBasis = benefitAmount * historicalPrice2020;
   const presentValue = benefitAmount * currentBitcoinPrice;
   const totalReturn = presentValue - costBasis;
-  const returnPercentage = ((totalReturn / costBasis) * 100);
+  const _returnPercentage = ((totalReturn / costBasis) * 100);
 
   return (
     <div className="min-h-screen transition-colors duration-300" style={{ backgroundColor: '#F4F6F8' }}>

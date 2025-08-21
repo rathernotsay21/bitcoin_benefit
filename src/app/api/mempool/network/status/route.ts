@@ -78,7 +78,8 @@ export async function GET(_request: NextRequest) {
             count: Number(raw.count) || 0,
             vsize: Number(raw.vsize) || 0,
             total_fee: toSatoshiAmount(Number(raw.total_fee) || Number(raw.totalFee) || 0),
-            fee_histogram: Array.isArray(raw.fee_histogram) ? raw.fee_histogram : []
+            fee_histogram: Array.isArray(raw.fee_histogram) ? raw.fee_histogram : [],
+            timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000))
           };
           
           // Use the fallback if it seems valid

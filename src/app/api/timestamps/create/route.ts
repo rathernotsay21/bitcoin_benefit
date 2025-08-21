@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withSizeLimit } from '@/lib/security/requestSizeLimiter';
 
 interface CreateTimestampRequest {
   hash: string;
@@ -10,8 +11,10 @@ interface CreateTimestampRequest {
 // Note: This is a simplified implementation
 // In a real production environment, you would integrate with actual OpenTimestamps libraries
 export async function POST(request: NextRequest) {
-  try {
-    const body: CreateTimestampRequest = await request.json();
+  // Apply request size limits (5MB for file uploads)
+  return withSizeLimit(request, async (req: NextRequest) => {
+    try {
+      const body: CreateTimestampRequest = await req.json();
     
     // Validate input
     if (!body.hash || !body.filename) {
@@ -86,7 +89,8 @@ export async function POST(request: NextRequest) {
       { success: false, error: 'Failed to create timestamp' },
       { status: 500 }
     );
-  }
+    }
+  }); // End of withSizeLimit wrapper
 }
 
 /**

@@ -1,3 +1,5 @@
+import { SecureCacheManager } from './security/secureCacheManager';
+
 interface BitcoinPriceResponse {
   bitcoin: {
     usd: number;
@@ -44,18 +46,23 @@ export class OptimizedBitcoinAPI {
       return this.memoryCache;
     }
 
-    // Try localStorage (for client-side)
+    // Try secure localStorage (for client-side) with integrity checks
     if (typeof window !== 'undefined') {
       try {
-        const cached = localStorage.getItem(this.CACHE_KEY);
-        if (cached) {
-          const data: CachedPrice = JSON.parse(cached);
-          // Update memory cache
-          this.memoryCache = data;
-          return data;
+        const data = SecureCacheManager.retrieveSecure<CachedPrice>(this.CACHE_KEY);
+        if (data) {
+          // Validate price data ranges
+          if (SecureCacheManager.validatePriceData(data.price, data.change24h)) {
+            // Update memory cache
+            this.memoryCache = data;
+            return data;
+          } else {
+            console.warn('Cached price data failed validation, clearing cache');
+            SecureCacheManager.clearSecureCache(this.CACHE_KEY);
+          }
         }
       } catch (error) {
-        console.warn('Failed to read price cache:', error);
+        console.warn('Failed to read secure price cache:', error);
       }
     }
 
@@ -92,13 +99,19 @@ export class OptimizedBitcoinAPI {
       }
 
       const data: BitcoinPriceResponse = await response.json();
+      
+      // Validate fetched data before caching
+      if (!SecureCacheManager.validatePriceData(data.bitcoin.usd, data.bitcoin.usd_24h_change)) {
+        throw new Error('Fetched price data failed validation checks');
+      }
+      
       const priceData: CachedPrice = {
         price: data.bitcoin.usd,
         change24h: data.bitcoin.usd_24h_change,
         timestamp: Date.now(),
       };
 
-      // Update both memory and localStorage cache
+      // Update both memory and localStorage cache with integrity checks
       this.updateCache(priceData);
 
       return { price: priceData.price, change24h: priceData.change24h };
@@ -126,15 +139,20 @@ export class OptimizedBitcoinAPI {
   }
 
   private static updateCache(priceData: CachedPrice): void {
+    // Validate data before caching
+    if (!SecureCacheManager.validatePriceData(priceData.price, priceData.change24h)) {
+      console.warn('Attempted to cache invalid price data, skipping cache update');
+      return;
+    }
+
     // Update memory cache
     this.memoryCache = priceData;
 
-    // Update localStorage cache (client-side only)
+    // Update secure localStorage cache with integrity checks (client-side only)
     if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem(this.CACHE_KEY, JSON.stringify(priceData));
-      } catch (error) {
-        console.warn('Failed to update price cache:', error);
+      const success = SecureCacheManager.storeSecure(this.CACHE_KEY, priceData);
+      if (!success) {
+        console.warn('Failed to update secure price cache');
       }
     }
   }

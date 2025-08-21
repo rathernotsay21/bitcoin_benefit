@@ -55,14 +55,16 @@ export function processYearlyData(timeline: VestingTimelinePoint[]): YearlyData[
   const yearlyData: YearlyData[] = [];
   yearlyMap.forEach((monthlyData, year) => {
     const lastMonth = monthlyData[monthlyData.length - 1];
-    yearlyData.push({
-      year,
-      totalBalance: lastMonth.totalBalance,
-      vestedAmount: lastMonth.vestedAmount,
-      usdValue: lastMonth.usdValue,
-      bitcoinPrice: lastMonth.bitcoinPrice,
-      monthlyData
-    });
+    if (lastMonth) {
+      yearlyData.push({
+        year,
+        totalBalance: lastMonth.totalBalance,
+        vestedAmount: lastMonth.vestedAmount,
+        usdValue: lastMonth.usdValue,
+        bitcoinPrice: lastMonth.bitcoinPrice,
+        monthlyData
+      });
+    }
   });
   
   return yearlyData.sort((a, b) => a.year - b.year);
@@ -88,16 +90,16 @@ export function calculateMetrics(timeline: VestingTimelinePoint[]): ChartMetrics
   const totalPrice = prices.reduce((sum, price) => sum + price, 0);
   
   return {
-    totalBitcoin: lastPoint.totalBalance,
-    totalVested: lastPoint.vestedAmount,
-    totalUSDValue: lastPoint.usdValue,
+    totalBitcoin: lastPoint?.totalBalance ?? 0,
+    totalVested: lastPoint?.vestedAmount ?? 0,
+    totalUSDValue: lastPoint?.usdValue ?? 0,
     averagePrice: totalPrice / prices.length,
     priceRange: {
       min: Math.min(...prices),
       max: Math.max(...prices)
     },
-    vestingProgress: lastPoint.totalBalance > 0 
-      ? (lastPoint.vestedAmount / lastPoint.totalBalance) * 100 
+    vestingProgress: (lastPoint?.totalBalance ?? 0) > 0 
+      ? ((lastPoint?.vestedAmount ?? 0) / (lastPoint?.totalBalance ?? 1)) * 100 
       : 0
   };
 }
@@ -116,6 +118,8 @@ export function generateMilestones(timeline: VestingTimelinePoint[]): ChartMiles
   
   for (let i = 0; i < timeline.length && currentTargetIndex < vestingTargets.length; i++) {
     const point = timeline[i];
+    if (!point) continue;
+    
     const vestingRatio = point.totalBalance > 0 
       ? point.vestedAmount / point.totalBalance 
       : 0;
@@ -180,7 +184,7 @@ export function calculateCumulativeStats(timeline: VestingTimelinePoint[]) {
   
   let previousValue = 0;
   
-  timeline.forEach((point, index) => {
+  timeline.forEach((point, _index) => {
     const growthRate = previousValue > 0 
       ? ((point.usdValue - previousValue) / previousValue) * 100 
       : 0;
@@ -217,10 +221,11 @@ export function generateComparisonData(
     const dataPoint: any = { month: i };
     
     Object.entries(timelines).forEach(([scheme, timeline]) => {
-      if (timeline[i]) {
-        dataPoint[`${scheme}_balance`] = timeline[i].totalBalance;
-        dataPoint[`${scheme}_vested`] = timeline[i].vestedAmount;
-        dataPoint[`${scheme}_value`] = timeline[i].usdValue;
+      const timelinePoint = timeline[i];
+      if (timelinePoint) {
+        dataPoint[`${scheme}_balance`] = timelinePoint.totalBalance;
+        dataPoint[`${scheme}_vested`] = timelinePoint.vestedAmount;
+        dataPoint[`${scheme}_value`] = timelinePoint.usdValue;
       }
     });
     

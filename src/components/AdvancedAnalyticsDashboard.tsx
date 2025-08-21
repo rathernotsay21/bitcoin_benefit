@@ -16,7 +16,7 @@ interface AdvancedAnalyticsDashboardProps {
 
 export default function AdvancedAnalyticsDashboard({
   vestingResults,
-  currentBitcoinPrice,
+  currentBitcoinPrice: _currentBitcoinPrice,
   projectedGrowth,
   employeeCount = 100,
   annualSalary = 120000
@@ -59,7 +59,7 @@ export default function AdvancedAnalyticsDashboard({
       <div className="mt-4">
         {activeTab === 'tax' && (
           <TaxImplicationsCard
-            vestedValue={finalMonth.usdValue}
+            vestedValue={finalMonth?.usdValue ?? 0}
             costBasis={vestingResults.totalCost}
             holdingPeriodMonths={vestingResults.timeline.length}
             annualIncome={annualSalary}
@@ -68,7 +68,7 @@ export default function AdvancedAnalyticsDashboard({
         
         {activeTab === 'risk' && (
           <RiskAnalysisCard
-            portfolioValue={finalMonth.usdValue}
+            portfolioValue={finalMonth?.usdValue ?? 0}
             expectedAnnualReturn={projectedGrowth / 100}
             timePeriodYears={vestingYears}
           />
@@ -90,8 +90,8 @@ export default function AdvancedAnalyticsDashboard({
         <ul className="text-xs text-blue-800 space-y-1">
           <li>• Total investment needed: ${vestingResults.totalCost.toLocaleString()}</li>
           <li>• Average vesting period: {vestingResults.summary.averageVestingPeriod.toFixed(0)} months</li>
-          <li>• Projected {vestingYears}-year value: ${finalMonth.usdValue.toLocaleString()}</li>
-          <li>• Value multiple: {(finalMonth.usdValue / vestingResults.totalCost).toFixed(1)}x</li>
+          <li>• Projected {vestingYears}-year value: ${(finalMonth?.usdValue ?? 0).toLocaleString()}</li>
+          <li>• Value multiple: {((finalMonth?.usdValue ?? 0) / vestingResults.totalCost).toFixed(1)}x</li>
         </ul>
       </div>
     </div>

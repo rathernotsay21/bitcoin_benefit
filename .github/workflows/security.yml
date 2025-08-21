@@ -1,0 +1,224 @@
+# Security scanning and dependency monitoring workflow
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run security scan daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  dependency-security:
+    name: Dependency Security Scan
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for better analysis
+          fetch-depth: 0
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Verify package-lock.json integrity
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "✓ package-lock.json exists"
+          else
+            echo "✗ package-lock.json missing"
+            exit 1
+          fi
+      
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+        env:
+          NODE_ENV: development
+      
+      - name: Run npm audit
+        run: |
+          echo "Running npm audit..."
+          npm audit --audit-level moderate || {
+            echo "Security vulnerabilities found!"
+            npm audit --audit-level moderate --json > audit-results.json
+            cat audit-results.json
+            exit 1
+          }
+      
+      - name: Check for outdated dependencies
+        run: |
+          echo "Checking for outdated dependencies..."
+          npm outdated || true
+      
+      - name: Lockfile lint
+        run: |
+          echo "Validating lockfile integrity..."
+          npx lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm --allowed-schemes https: || {
+            echo "Lockfile validation failed!"
+            exit 1
+          }
+      
+      - name: License compliance check
+        run: |
+          echo "Checking license compliance..."
+          npx license-checker --summary --excludePrivatePackages
+      
+      - name: Generate SBOM (Software Bill of Materials)
+        run: |
+          echo "Generating Software Bill of Materials..."
+          mkdir -p security
+          npx @cyclonedx/cyclonedx-npm --output-file ./security/sbom.json
+      
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sbom-${{ github.sha }}
+          path: security/sbom.json
+          retention-days: 30
+      
+      - name: Type checking security
+        run: |
+          echo "Running TypeScript type checking..."
+          npm run type-check
+      
+      - name: ESLint security rules
+        run: |
+          echo "Running ESLint with security focus..."
+          npm run lint
+      
+      - name: Test security-critical paths
+        run: |
+          echo "Running tests with focus on security..."
+          npm test -- --run --coverage=false
+
+  code-security:
+    name: Code Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript, typescript
+          queries: security-and-quality
+      
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  secrets-scan:
+    name: Secrets Detection
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Run TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  supply-chain:
+    name: Supply Chain Security
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=medium
+      
+      - name: Upload Snyk results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: snyk.sarif
+
+  build-security:
+    name: Build Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Security build test
+        run: |
+          echo "Testing secure build process..."
+          npm run prebuild
+          npm run build
+      
+      - name: Check build artifacts for security
+        run: |
+          echo "Scanning build artifacts..."
+          find .next -name "*.js" -exec grep -l "eval\|Function\|setTimeout\|setInterval" {} \; | head -10 || true
+          echo "Build security check completed"
+
+  notification:
+    name: Security Notification
+    runs-on: ubuntu-latest
+    needs: [dependency-security, code-security, secrets-scan, supply-chain, build-security]
+    if: failure()
+    
+    steps:
+      - name: Notify on security issues
+        run: |
+          echo "🚨 Security scan detected issues!"
+          echo "Please review the security scan results and address any vulnerabilities."
+          echo "Check the Actions tab for detailed results."

@@ -14,8 +14,6 @@ import type {
 import type { 
   ToolId, 
   ToolError, 
-  ToolState,
-  LoadingState,
   BitcoinTxId,
   BitcoinAddress 
 } from './bitcoin-tools';

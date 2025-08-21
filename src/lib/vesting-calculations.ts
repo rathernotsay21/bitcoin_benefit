@@ -128,7 +128,7 @@ export class VestingCalculator {
     // Calculate tax implications
     const finalValue = basicResult.timeline[basicResult.timeline.length - 1];
     const taxImplications = taxCalculator.calculateVestingTax(
-      finalValue.usdValue,
+      finalValue?.usdValue ?? 0,
       basicResult.totalCost,
       basicResult.timeline.length,
       additionalParams.employeeAnnualIncome || 100000
@@ -146,7 +146,7 @@ export class VestingCalculator {
     
     // Calculate risk metrics
     const riskMetrics = riskEngine.calculateRiskMetrics(
-      finalValue.usdValue,
+      finalValue?.usdValue ?? 0,
       projectedBitcoinGrowth / 100,
       basicResult.timeline.length / 12
     );

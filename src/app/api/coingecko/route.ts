@@ -1,139 +1,158 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { withSizeLimit } from '@/lib/security/requestSizeLimiter';
+import { withAPISecurityMiddleware } from '@/lib/security/apiMiddleware';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
-// Simple in-memory rate limiting for server-side requests
-class ServerRateLimit {
-  private static requests: number[] = [];
-  private static readonly MAX_REQUESTS_PER_MINUTE = 10; // Match client-side limit (conservative)
-  private static readonly WINDOW_MS = 60000; // 1 minute
+// Internal handler function
+async function handleCoinGeckoRequest(request: NextRequest): Promise<Response> {
+  return withSizeLimit(request, async (_request: NextRequest) => {
+    const searchParams = _request.nextUrl.searchParams;
+    const fromTimestamp = searchParams.get('from');
+    const toTimestamp = searchParams.get('to');
+    const vsCurrency = searchParams.get('vs_currency') || 'usd';
 
-  static async checkRateLimit(): Promise<boolean> {
-    const now = Date.now();
-    
-    // Clean up old requests
-    this.requests = this.requests.filter(time => now - time < this.WINDOW_MS);
-    
-    // Check if we're at the limit
-    if (this.requests.length >= this.MAX_REQUESTS_PER_MINUTE) {
-      return false; // Rate limited
+    // Validate required parameters
+    if (!fromTimestamp || !toTimestamp) {
+      return NextResponse.json(
+        { 
+          error: 'Missing required parameters: from and to timestamps',
+          code: 'MISSING_PARAMETERS'
+        },
+        { status: 400 }
+      );
     }
+
+    // Validate timestamp format (should be Unix timestamps)
+    const fromNum = parseInt(fromTimestamp, 10);
+    const toNum = parseInt(toTimestamp, 10);
     
-    // Add current request
-    this.requests.push(now);
-    return true; // Allow request
-  }
-}
+    if (isNaN(fromNum) || isNaN(toNum) || fromNum <= 0 || toNum <= 0) {
+      return NextResponse.json(
+        { 
+          error: 'Invalid timestamp format. Use Unix timestamps.',
+          code: 'INVALID_TIMESTAMP'
+        },
+        { status: 400 }
+      );
+    }
 
-export async function GET(_request: NextRequest) {
-  const searchParams = _request.nextUrl.searchParams;
-  const fromTimestamp = searchParams.get('from');
-  const toTimestamp = searchParams.get('to');
-  const vsCurrency = searchParams.get('vs_currency') || 'usd';
+    if (fromNum >= toNum) {
+      return NextResponse.json(
+        { 
+          error: 'From timestamp must be before to timestamp',
+          code: 'INVALID_RANGE'
+        },
+        { status: 400 }
+      );
+    }
 
-  // Validate required parameters
-  if (!fromTimestamp || !toTimestamp) {
-    return NextResponse.json(
-      { error: 'Missing required parameters: from and to timestamps' },
-      { status: 400 }
-    );
-  }
+    // Check if date range is reasonable (not more than 1 year)
+    const maxRange = 365 * 24 * 60 * 60; // 1 year in seconds
+    if (toNum - fromNum > maxRange) {
+      return NextResponse.json(
+        { 
+          error: 'Date range too large. Maximum 1 year allowed.',
+          code: 'RANGE_TOO_LARGE',
+          maxRangeSeconds: maxRange
+        },
+        { status: 400 }
+      );
+    }
 
-  // Validate timestamp format (should be Unix timestamps)
-  const fromNum = parseInt(fromTimestamp, 10);
-  const toNum = parseInt(toTimestamp, 10);
-  
-  if (isNaN(fromNum) || isNaN(toNum) || fromNum <= 0 || toNum <= 0) {
-    return NextResponse.json(
-      { error: 'Invalid timestamp format. Use Unix timestamps.' },
-      { status: 400 }
-    );
-  }
+    try {
+      // Build CoinGecko API URL
+      const coinGeckoUrl = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=${vsCurrency}&from=${fromTimestamp}&to=${toTimestamp}`;
+      
+      // Use secure API call with automatic retries and fallback
+      const apiResult = await makeSecureAPICall('coingecko', coinGeckoUrl, {
+        method: 'GET'
+      });
 
-  if (fromNum >= toNum) {
-    return NextResponse.json(
-      { error: 'From timestamp must be before to timestamp' },
-      { status: 400 }
-    );
-  }
-
-  // Check if date range is reasonable (not more than 1 year)
-  const maxRange = 365 * 24 * 60 * 60; // 1 year in seconds
-  if (toNum - fromNum > maxRange) {
-    return NextResponse.json(
-      { error: 'Date range too large. Maximum 1 year allowed.' },
-      { status: 400 }
-    );
-  }
-
-  // Check server-side rate limit
-  const rateLimitOk = await ServerRateLimit.checkRateLimit();
-  if (!rateLimitOk) {
-    return NextResponse.json(
-      { error: 'Server rate limit exceeded. Please wait before making another request.' },
-      { status: 429 }
-    );
-  }
-
-  try {
-    // Build CoinGecko API URL
-    const coinGeckoUrl = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=${vsCurrency}&from=${fromTimestamp}&to=${toTimestamp}`;
-    
-    // Add a small delay to be extra conservative with CoinGecko's rate limits
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const response = await fetch(coinGeckoUrl, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Bitcoin-Vesting-Tracker/1.0'
-      },
-      // Add timeout
-      signal: AbortSignal.timeout(30000)
-    });
-
-    if (!response.ok) {
-      if (response.status === 429) {
+      if (!apiResult.success) {
         return NextResponse.json(
-          { error: 'Rate limit exceeded. Please try again later.' },
-          { status: 429 }
+          { 
+            error: apiResult.error || 'Failed to fetch data from CoinGecko',
+            code: 'EXTERNAL_API_ERROR',
+            source: apiResult.source
+          },
+          { 
+            status: apiResult.retryAfter ? 429 : 502,
+            headers: apiResult.retryAfter ? 
+              { 'Retry-After': Math.ceil(apiResult.retryAfter / 1000).toString() } : 
+              {}
+          }
         );
       }
+
+      const data = apiResult.data;
+
+      // Validate response structure
+      if (!data || !data.prices || !Array.isArray(data.prices)) {
+        return NextResponse.json(
+          { 
+            error: 'Invalid response format from CoinGecko API',
+            code: 'INVALID_RESPONSE_FORMAT'
+          },
+          { status: 502 }
+        );
+      }
+
+      // Calculate cache duration based on data age
+      const latestTimestamp = Math.max(...data.prices.map((p: [number, number]) => p[0]));
+      const dataAge = Date.now() - latestTimestamp;
+      const cacheMaxAge = dataAge > 86400000 ? 3600 : 300; // 1 hour for old data, 5 minutes for recent
+
+      // Add comprehensive response headers
+      const responseHeaders: Record<string, string> = {
+        'Cache-Control': `public, max-age=${cacheMaxAge}, stale-while-revalidate=${cacheMaxAge * 2}`,
+        'Content-Type': 'application/json',
+        'X-Data-Source': apiResult.source,
+        'X-Cache-Duration': cacheMaxAge.toString(),
+        'X-API-Provider': 'CoinGecko'
+      };
+
+      // Add rate limit info if available
+      if (apiResult.rateLimitRemaining !== undefined) {
+        responseHeaders['X-External-Rate-Limit-Remaining'] = apiResult.rateLimitRemaining.toString();
+      }
+
+      return NextResponse.json(data, {
+        headers: responseHeaders
+      });
+
+    } catch (error) {
+      console.error('CoinGecko API proxy error:', error);
+      
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const isTimeout = error instanceof Error && error.name === 'AbortError';
       
       return NextResponse.json(
-        { error: `CoinGecko API error: ${response.status} ${response.statusText}` },
-        { status: response.status }
+        { 
+          error: isTimeout ? 
+            'Request timeout - CoinGecko API is not responding' : 
+            'Failed to fetch price data from CoinGecko API',
+          code: isTimeout ? 'TIMEOUT' : 'INTERNAL_ERROR',
+          details: process.env['NODE_ENV'] === 'development' ? errorMessage : undefined
+        },
+        { status: isTimeout ? 408 : 500 }
       );
     }
-
-    const data = await response.json();
-
-    // Validate response structure
-    if (!data.prices || !Array.isArray(data.prices)) {
-      return NextResponse.json(
-        { error: 'Invalid response format from CoinGecko API' },
-        { status: 502 }
-      );
-    }
-
-    // Add cache headers (cache for 5 minutes for historical data)
-    return NextResponse.json(data, {
-      headers: {
-        'Cache-Control': 'public, max-age=300, stale-while-revalidate=600',
-        'Content-Type': 'application/json'
-      }
-    });
-
-  } catch (error) {
-    console.error('CoinGecko API proxy error:', error);
-    
-    if (error instanceof Error && error.name === 'AbortError') {
-      return NextResponse.json(
-        { error: 'Request timeout - CoinGecko API is not responding' },
-        { status: 408 }
-      );
-    }
-
-    return NextResponse.json(
-      { error: 'Failed to fetch price data from CoinGecko API' },
-      { status: 500 }
-    );
-  }
+  });
 }
+
+// Export the secured endpoint
+export const GET = withAPISecurityMiddleware(handleCoinGeckoRequest, {
+  rateLimit: {
+    windowMs: 60 * 1000, // 1 minute
+    max: parseInt(process.env['COINGECKO_RATE_LIMIT'] || '10', 10),
+    message: 'CoinGecko API rate limit exceeded. Please wait before making another request.'
+  },
+  allowedOrigins: [
+    'http://localhost:3000',
+    'https://localhost:3000', 
+    'https://bitcoin-benefit.netlify.app',
+    process.env['NEXT_PUBLIC_SITE_URL']
+  ].filter(Boolean) as string[],
+  enableRequestLogging: true,
+  enableMetrics: true
+});

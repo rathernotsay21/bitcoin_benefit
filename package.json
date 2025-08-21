@@ -57,9 +57,26 @@
     "test:hooks:install": "node scripts/test-validation/pre-commit-setup.ts install",
     "test:hooks:remove": "node scripts/test-validation/pre-commit-setup.ts remove",
     "test:hooks:status": "node scripts/test-validation/pre-commit-setup.ts status",
+    "security:check": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "redis:install": "npm install redis --save-optional",
+    "api:health": "curl -f http://localhost:3000/api/health || exit 1",
     "optimize": "sh optimize-performance.sh",
     "optimize:analyze": "sh optimize-performance.sh --analyze",
-    "build:optimized": "cp next.config.optimized.js next.config.js && npm run build"
+    "build:optimized": "cp next.config.optimized.js next.config.js && npm run build",
+    "monitoring:dashboard": "node scripts/monitoring-dashboard.js",
+    "api:monitor": "node scripts/api-monitoring.js",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "security:fix-force": "npm audit fix --force",
+    "security:check": "npm outdated && npm audit",
+    "security:full-scan": "npm audit && npm run security:licenses && npm run security:sbom",
+    "security:licenses": "npx license-checker --summary",
+    "security:sbom": "npx @cyclonedx/cyclonedx-npm --output-file ./security/sbom.json",
+    "security:update-deps": "npx npm-check-updates -u --target minor",
+    "security:lockfile-lint": "npx lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --allowed-schemes https:",
+    "security:analyze": "node scripts/security-analyzer.js",
+    "security:report": "npm run security:analyze && cat security/security-analysis-report.json"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",
@@ -104,7 +121,12 @@
     "zod": "^3.25.76",
     "zustand": "^4.5.4"
   },
+  "optionalDependencies": {
+    "redis": "^4.6.0",
+    "ioredis": "^5.3.0"
+  },
   "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "4.0.0",
     "@netlify/plugin-nextjs": "^5.12.0",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
@@ -117,7 +139,11 @@
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^3.2.4",
     "glob": "^11.0.3",
+    "husky": "9.1.7",
     "jsdom": "^26.1.0",
+    "license-checker": "25.0.1",
+    "lockfile-lint": "4.14.1",
+    "npm-check-updates": "18.0.2",
     "ts-node": "^10.9.2",
     "vitest": "^3.2.4"
   }

@@ -1,62 +1,95 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { withAPISecurityMiddleware } from '@/lib/security/apiMiddleware';
+import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
-export async function GET() {
+async function handleMempoolNetworkRequest(_request: NextRequest): Promise<Response> {
   try {
-    // Fetch Bitcoin network health data from mempool.space API
-    const response = await fetch('https://mempool.space/api/v1/network-health', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Bitcoin-Benefit-Calculator/1.0',
-      },
-      // Add cache control for performance
-      next: { revalidate: 30 }, // Cache for 30 seconds
+    // Use secure API call with automatic retries and fallback
+    const apiResult = await makeSecureAPICall('mempool', 'https://mempool.space/api/v1/network-health', {
+      method: 'GET'
     });
 
-    // Check if the external API request was successful
-    if (!response.ok) {
-      console.error(`Mempool API error: ${response.status} ${response.statusText}`);
+    if (!apiResult.success) {
       return NextResponse.json(
         { 
-          error: 'Failed to fetch network health data',
-          status: response.status 
+          error: apiResult.error || 'Failed to fetch network health data',
+          code: 'EXTERNAL_API_ERROR',
+          source: apiResult.source
         },
-        { status: 502 } // Bad Gateway - external service error
+        { 
+          status: apiResult.retryAfter ? 429 : 502,
+          headers: apiResult.retryAfter ? 
+            { 'Retry-After': Math.ceil(apiResult.retryAfter / 1000).toString() } : 
+            {}
+        }
       );
     }
 
-    // Parse the JSON response
-    const networkHealthData = await response.json();
+    const networkHealthData = apiResult.data;
+
+    // Validate response structure
+    if (!networkHealthData || typeof networkHealthData !== 'object') {
+      return NextResponse.json(
+        { 
+          error: 'Invalid response format from Mempool API',
+          code: 'INVALID_RESPONSE_FORMAT'
+        },
+        { status: 502 }
+      );
+    }
 
     // Return the data with appropriate headers
+    const responseHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+      'X-Data-Source': apiResult.source,
+      'X-API-Provider': 'Mempool.space'
+    };
+
+    // Add rate limit info if available
+    if (apiResult.rateLimitRemaining !== undefined) {
+      responseHeaders['X-External-Rate-Limit-Remaining'] = apiResult.rateLimitRemaining.toString();
+    }
+
     return NextResponse.json(networkHealthData, {
       status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        // CORS headers for client-side access
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        // Cache headers
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
-      },
+      headers: responseHeaders
     });
 
   } catch (error) {
     console.error('Network health API error:', error);
     
-    // Return appropriate error response
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
     return NextResponse.json(
       { 
         error: 'Internal server error while fetching network health',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        code: 'INTERNAL_ERROR',
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
       },
       { status: 500 }
     );
   }
 }
 
-// Export named export for other HTTP methods if needed in the future
+// Export the secured endpoint
+export const GET = withAPISecurityMiddleware(handleMempoolNetworkRequest, {
+  rateLimit: {
+    windowMs: 60 * 1000, // 1 minute
+    max: parseInt(process.env['MEMPOOL_RATE_LIMIT'] || '30', 10),
+    message: 'Mempool API rate limit exceeded. Please wait before making another request.'
+  },
+  allowedOrigins: [
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'https://bitcoin-benefit.netlify.app',
+    process.env['NEXT_PUBLIC_SITE_URL']
+  ].filter(Boolean) as string[],
+  enableRequestLogging: true,
+  enableMetrics: true
+});
+
+// OPTIONS handler for CORS preflight
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,

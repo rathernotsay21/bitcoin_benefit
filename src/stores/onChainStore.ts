@@ -7,10 +7,9 @@ import {
   FormErrors 
 } from '@/types/on-chain';
 import { validateTrackerForm, validateField } from '@/lib/on-chain/validation';
-import { MempoolAPI, mempoolAPI } from '@/lib/on-chain/mempool-api';
+import { mempoolAPI } from '@/lib/on-chain/mempool-api';
 import { OnChainPriceFetcher } from '@/lib/on-chain/price-fetcher';
 import { 
-  annotateTransactions, 
   applyManualAnnotations,
   generateExpectedGrants 
 } from '@/lib/on-chain/annotateTransactions';
@@ -29,9 +28,7 @@ import {
 import { 
   errorHandler, 
   OnChainTrackingError,
-  NetworkError,
   ValidationError,
-  DataProcessingError,
   PartialDataError,
   ErrorUtils
 } from '@/lib/on-chain/error-handler';
@@ -388,7 +385,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
         const transactionsWithPrices = annotationResult.annotatedTransactions.map(tx => ({
           ...tx,
           valueAtTimeOfTx: historicalPrices[tx.date] ? 
-            Math.round(tx.amountBTC * historicalPrices[tx.date] * 100) / 100 : 
+            Math.round(tx.amountBTC * (historicalPrices[tx.date] ?? 0) * 100) / 100 : 
             null
         }));
         
@@ -440,7 +437,7 @@ export const useOnChainStore = create<OnChainState>((set, get) => ({
     const transactionsWithPrices = updatedTransactions.map(tx => ({
       ...tx,
       valueAtTimeOfTx: historicalPrices[tx.date] ? 
-        Math.round(tx.amountBTC * historicalPrices[tx.date] * 100) / 100 : 
+        Math.round(tx.amountBTC * (historicalPrices[tx.date] ?? 0) * 100) / 100 : 
         tx.valueAtTimeOfTx
     }));
     

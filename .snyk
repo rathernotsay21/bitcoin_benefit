@@ -1,0 +1,64 @@
+# Snyk (https://snyk.io) policy file
+version: v1.25.0
+
+# Language settings
+language-settings:
+  javascript:
+    # Ignore devDependencies in production builds
+    ignoreDevDeps: true
+
+# Ignore specific vulnerabilities (with justification and expiry)
+ignore:
+  # Example: ignore specific vulnerability
+  # 'SNYK-JS-LODASH-567746':
+  #   - '*':
+  #       reason: 'This vulnerability does not affect our usage pattern'
+  #       expires: '2024-12-31T23:59:59.999Z'
+
+# Patch settings
+patch: {}
+
+# License policies
+license:
+  # Allow common open source licenses
+  allow:
+    - MIT
+    - Apache-2.0
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - ISC
+    - 0BSD
+    - CC0-1.0
+    - CC-BY-3.0
+    - CC-BY-4.0
+    - Unlicense
+  
+  # Disallow restrictive licenses
+  disallow:
+    - GPL-2.0
+    - GPL-3.0
+    - AGPL-1.0
+    - AGPL-3.0
+    - LGPL-2.0
+    - LGPL-2.1
+    - LGPL-3.0
+    - CDDL-1.0
+    - CDDL-1.1
+    - EPL-1.0
+    - EPL-2.0
+    - MPL-1.1
+    - MPL-2.0
+    - MS-PL
+    - MS-RL
+
+# Severity thresholds
+severity-threshold: medium
+
+# Test settings
+test:
+  # Monitor production dependencies
+  monitor: true
+  # Include devDependencies in testing
+  dev: true
+  # Fail on high and critical vulnerabilities
+  fail-on: upgradable

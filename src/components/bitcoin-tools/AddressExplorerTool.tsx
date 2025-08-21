@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
-import { AddressInfo, createToolError } from '@/types/bitcoin-tools';
+import { createToolError } from '@/types/bitcoin-tools';
 import { AddressService } from '@/lib/services/addressService';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
@@ -23,7 +23,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
     setAddressExplorerPage,
     checkRateLimit,
     recordRequest,
-    preferences
+    preferences: _preferences
   } = useBitcoinToolsStore();
 
   const [addressInput, setAddressInput] = useState(initialAddress || addressExplorer.lastAddress || '');
@@ -83,7 +83,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
     }
   };
 
-  const handlePageChange = (newPage: number) => {
+  const _handlePageChange = (newPage: number) => {
     setAddressExplorerPage(newPage);
     if (lastSearchedAddress) {
       analyzeAddress(lastSearchedAddress, newPage);

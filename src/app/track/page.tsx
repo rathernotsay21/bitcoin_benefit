@@ -24,13 +24,6 @@ const OnChainTimelineVisualizer = dynamic(
     loading: () => <div className="animate-pulse h-48 bg-gray-100 dark:bg-slate-800 rounded-lg" />
   }
 );
-const PerformanceMonitoringDashboard = dynamic(
-  () => import('@/components/on-chain/PerformanceMonitoringDashboard'),
-  { 
-    ssr: false,
-    loading: () => <div className="animate-pulse h-32 bg-gray-100 dark:bg-slate-800 rounded-lg" />
-  }
-);
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import {
@@ -226,7 +219,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
         {steps.map((step, index) => {
           const isActive = index === currentIndex;
           const isCompleted = index < currentIndex;
-          const isPending = index > currentIndex;
+          const _isPending = index > currentIndex;
 
           return (
             <div
@@ -385,9 +378,9 @@ function FeatureOverview() {
 // Main Page Component
 export default function TrackerPage() {
   const {
-    address,
+    address: _address,
     vestingStartDate,
-    annualGrantBtc,
+    annualGrantBtc: _annualGrantBtc,
     totalGrants,
     annotatedTransactions,
     expectedGrants,
@@ -395,9 +388,9 @@ export default function TrackerPage() {
     isLoading,
     error,
     currentStep,
-    formErrors,
+    formErrors: _formErrors,
     partialDataAvailable,
-    lastError,
+    lastError: _lastError,
     retryCount,
     pricingProgress,
     setFormData,

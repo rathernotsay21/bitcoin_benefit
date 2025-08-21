@@ -299,12 +299,15 @@ export {
   isSuccessWithData,
   handleApiResponse,
   
-  // Response factories
+} from '../lib/api-client';
+
+// Response factories from api types
+export {
   createApiSuccess,
   createApiError,
   safeParseApi,
   typedFetch,
-} from '../lib/api-client';
+} from './api';
 
 // =============================================================================
 // TYPE GUARDS AND UTILITIES

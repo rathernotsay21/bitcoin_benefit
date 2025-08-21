@@ -1,6 +1,5 @@
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 
 const CalculatorPlanClient = dynamic(
   () => import('./CalculatorPlanClient'),
