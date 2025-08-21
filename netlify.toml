@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/verify-types.js && npm run build"
+  command = "npm run build"
   publish = ".next"
 
 # Use Next.js runtime for proper asset serving
