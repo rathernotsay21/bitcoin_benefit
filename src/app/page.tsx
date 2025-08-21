@@ -154,11 +154,11 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Large award</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Lower Volatility</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Plus yearly awards</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Less upfront cost</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">

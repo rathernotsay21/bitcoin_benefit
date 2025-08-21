@@ -6,7 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToolId, ToolBadge, ToolConfig, BitcoinTxId, BitcoinAddress } from '@/types/bitcoin-tools';
-import { MagnifyingGlassIcon, CurrencyDollarIcon, ChartBarIcon, HomeIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, WalletIcon, ServerStackIcon, DocumentIcon } from '@heroicons/react/24/outline';
+import { SatoshiIcon } from '@/components/icons';
 
 // Enhanced skeleton variant types
 type SkeletonVariant = 'default' | 'form' | 'calculator' | 'stats' | 'explorer' | 'upload';
@@ -131,7 +132,7 @@ const tools: readonly EnhancedToolConfig[] = [
     id: 'fees' as const,
     label: 'Fee Calculator',
     shortLabel: 'Fees',
-    icon: CurrencyDollarIcon,
+    icon: SatoshiIcon,
     component: FeeCalculatorTool,
     badge: 'Popular' as const,
     description: 'Calculate optimal transaction fees for different confirmation times',
@@ -142,7 +143,7 @@ const tools: readonly EnhancedToolConfig[] = [
     id: 'network' as const,
     label: 'Network Status',
     shortLabel: 'Network',
-    icon: ChartBarIcon,
+    icon: ServerStackIcon,
     component: NetworkStatusTool,
     badge: 'Live' as const,
     description: 'Real-time Bitcoin blockchain network statistics and health',
@@ -153,7 +154,7 @@ const tools: readonly EnhancedToolConfig[] = [
     id: 'address' as const,
     label: 'Address Explorer',
     shortLabel: 'Address',
-    icon: HomeIcon,
+    icon: WalletIcon,
     component: AddressExplorerTool,
     badge: null,
     description: 'Explore Bitcoin address balance, transactions, and history',
@@ -164,7 +165,7 @@ const tools: readonly EnhancedToolConfig[] = [
     id: 'timestamp' as const,
     label: 'Document Timestamp',
     shortLabel: 'Timestamp',
-    icon: ClockIcon,
+    icon: DocumentIcon,
     component: DocumentTimestampingTool,
     badge: 'New' as const,
     description: 'Timestamp documents on the Bitcoin blockchain for proof of existence',
