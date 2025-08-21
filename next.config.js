@@ -36,9 +36,9 @@ const nextConfig = {
         moduleIds: 'deterministic',
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 20,
-          minSize: 25000,
-          maxAsyncRequests: 8,
+          maxInitialRequests: 5, // Reduce initial bundle count
+          minSize: 20000, // Smaller chunks for better caching
+          maxAsyncRequests: 10, // Allow more async chunks
           cacheGroups: {
             // CSS should always be in initial chunks to prevent loading issues
             styles: {
@@ -72,12 +72,14 @@ const nextConfig = {
               priority: 25,
               chunks: 'all',
             },
-            // Icons (load on demand)
+            // Icons (load on demand) - tree shake unused icons
             icons: {
-              name: 'icons',
-              test: /[\\/]node_modules[\\/]@heroicons[\\/]/,
+              name: 'icons', 
+              test: /[\\/]node_modules[\\/](@heroicons|lucide-react)[\\/]/,
               priority: 20,
               chunks: 'async',
+              enforce: true,
+              reuseExistingChunk: true,
             },
             // UI components
             ui: {
@@ -108,6 +110,13 @@ const nextConfig = {
 
       // Add module concatenation for better tree shaking
       config.optimization.concatenateModules = true;
+      
+      // Enable aggressive tree shaking
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
+      
+      // Minimize unused code
+      config.optimization.minimize = true;
       
       // Ensure CSS is extracted properly and not split
       config.optimization.splitChunks.cacheGroups.default = {
@@ -174,7 +183,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // unsafe-eval needed for Next.js in dev
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms", // unsafe-eval needed for Next.js, clarity.ms for analytics
               "style-src 'self' 'unsafe-inline'", // unsafe-inline needed for Tailwind
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",

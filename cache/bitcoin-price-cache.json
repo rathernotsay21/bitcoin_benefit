@@ -1,10 +1,10 @@
 {
   "data": {
-    "price": 112490,
-    "change24h": -1.5997015495194957,
-    "timestamp": 1755813962702,
+    "price": 112600,
+    "change24h": -1.5194467911740768,
+    "timestamp": 1755815056849,
     "source": "live"
   },
-  "timestamp": 1755813962715,
-  "generatedAt": "2025-08-21T22:06:02.715Z"
+  "timestamp": 1755815056862,
+  "generatedAt": "2025-08-21T22:24:16.862Z"
 }
