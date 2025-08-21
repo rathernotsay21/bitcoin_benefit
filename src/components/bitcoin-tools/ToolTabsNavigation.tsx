@@ -292,8 +292,8 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                 {/* Enhanced Tool Header with better visual hierarchy */}
                 <div className="bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200/60 dark:border-slate-600/60 shadow-lg">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                    <div className="w-14 h-14 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-2xl flex items-center justify-center shadow-inner">
-                      <tool.icon className="w-8 h-8 text-bitcoin" />
+                    <div className="w-20 h-20 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-2xl flex items-center justify-center shadow-inner">
+                      <tool.icon className="w-12 h-12 text-bitcoin" />
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">

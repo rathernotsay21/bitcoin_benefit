@@ -108,3 +108,5 @@
 {"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-21 14:07:06.132","url":"http://localhost:3000/bitcoin-tools"}
 {"arguments":{"selector":".grid button:nth-child(3)"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 14:07:17.538","tool":"puppeteer_click"}
 {"arguments":{"height":800,"name":"network-status-final","width":1200},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-21 14:07:29.430","tool":"puppeteer_screenshot"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-21 17:11:21.843"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-21 17:11:21.844"}

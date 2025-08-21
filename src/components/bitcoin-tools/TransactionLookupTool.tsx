@@ -311,7 +311,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
             </div>
 
             {/* Transaction Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className={`grid grid-cols-1 ${transactionLookup.data.blockHeight ? 'md:grid-cols-2' : ''} gap-6 mb-6`}>
               
               {/* Confirmations */}
               <div className="card hover:shadow-xl transition-all duration-300">
