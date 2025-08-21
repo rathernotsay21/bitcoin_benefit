@@ -9,6 +9,7 @@ import { apiKeyManager } from './apiKeyManager';
 import { recordAPIMetric } from './apiMonitoring';
 import { executeWithCircuitBreaker } from './circuitBreaker';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 export interface SecurityConfig {
   rateLimit?: RateLimitConfig;
@@ -325,21 +326,59 @@ class APISecurityMiddleware {
   }
 
   private validateJWT(token: string): boolean {
-    // Simplified JWT validation - implement proper JWT verification
+    // SECURITY FIX: Proper JWT verification with signature validation
     try {
-      const parts = token.split('.');
-      if (parts.length !== 3) return false;
-      
-      // Basic structure check
-      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
-      
-      // Check expiration
-      if (payload.exp && payload.exp < Date.now() / 1000) {
+      // Get JWT secret from environment variables
+      const jwtSecret = process.env.JWT_SECRET || process.env.NEXT_PUBLIC_JWT_SECRET;
+      if (!jwtSecret) {
+        console.error('JWT_SECRET not configured in environment variables');
         return false;
       }
 
-      return true;
-    } catch {
+      // Verify JWT with proper signature validation
+      const decoded = jwt.verify(token, jwtSecret, {
+        algorithms: ['HS256'], // Specify allowed algorithms to prevent algorithm confusion
+        issuer: process.env.JWT_ISSUER || 'bitcoin-benefit-app',
+        audience: process.env.JWT_AUDIENCE || 'bitcoin-benefit-api',
+        maxAge: '24h', // Maximum token age
+        clockTolerance: 30 // Allow 30 seconds clock skew
+      });
+
+      // Additional custom validation
+      if (typeof decoded === 'object' && decoded !== null) {
+        const payload = decoded as jwt.JwtPayload;
+        
+        // Check if token is not expired (additional check)
+        if (payload.exp && payload.exp < Date.now() / 1000) {
+          return false;
+        }
+
+        // Check if token has required claims
+        if (!payload.sub || !payload.iat) {
+          console.warn('JWT missing required claims (sub, iat)');
+          return false;
+        }
+
+        // Check if token is not used before its time
+        if (payload.nbf && payload.nbf > Date.now() / 1000) {
+          console.warn('JWT not yet valid (nbf claim)');
+          return false;
+        }
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      if (error instanceof jwt.JsonWebTokenError) {
+        console.error('JWT validation error:', error.message);
+      } else if (error instanceof jwt.TokenExpiredError) {
+        console.error('JWT expired:', error.message);
+      } else if (error instanceof jwt.NotBeforeError) {
+        console.error('JWT not active yet:', error.message);
+      } else {
+        console.error('JWT validation error:', error);
+      }
       return false;
     }
   }

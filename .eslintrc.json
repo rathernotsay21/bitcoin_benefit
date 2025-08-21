@@ -1,5 +1,6 @@
 {
   "extends": ["next/core-web-vitals"],
+  "plugins": ["security"],
   "rules": {
     "react/no-unescaped-entities": "off",
     "react/display-name": "off",
@@ -7,6 +8,16 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "@typescript-eslint/no-unused-vars": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-eval": "error",
+    "no-new-func": "error",
+    "no-implied-eval": "error",
+    "security/detect-eval-with-expression": "error",
+    "security/detect-unsafe-regex": "warn",
+    "security/detect-non-literal-regexp": "warn",
+    "security/detect-non-literal-fs-filename": "warn",
+    "security/detect-object-injection": "warn",
+    "security/detect-possible-timing-attacks": "warn",
+    "security/detect-pseudoRandomBytes": "warn"
   }
 }

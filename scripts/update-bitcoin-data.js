@@ -148,15 +148,26 @@ async function updateHistoricalData(options = {}) {
       throw new Error('Could not find STATIC_HISTORICAL_DATA in script');
     }
     
-    // Parse existing data (safely)
+    // Parse existing data (safely without eval)
     let existingData = {};
     try {
-      // Extract the object content and evaluate it safely
+      // Extract the object content and convert to JSON
       const objectContent = match[1];
-      const fullObject = `{${objectContent}}`;
-      existingData = eval(`(${fullObject})`);
+      
+      // Convert JavaScript object literal to valid JSON
+      // Replace unquoted keys with quoted keys and handle trailing commas
+      const jsonString = `{${objectContent}}`
+        .replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":') // Quote keys
+        .replace(/,\s*([}\]])/g, '$1') // Remove trailing commas
+        .replace(/'/g, '"') // Replace single quotes with double quotes
+        .replace(/\s+/g, ' ') // Normalize whitespace
+        .trim();
+      
+      // Safely parse the JSON string
+      existingData = JSON.parse(jsonString);
     } catch (error) {
       console.warn('⚠️  Could not parse existing data, starting fresh');
+      console.warn('Parse error:', error.message);
     }
     
     // Merge fresh data with existing data

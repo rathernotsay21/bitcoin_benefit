@@ -6,6 +6,10 @@ import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
 import './globals.css'
 
+// Note: The dangerouslySetInnerHTML usage below is safe as it only contains
+// static, developer-controlled content (CSS and theme initialization script).
+// No user input or external data is being rendered.
+
 // Optimize font loading with better performance
 const inter = Inter({ 
   subsets: ['latin'],

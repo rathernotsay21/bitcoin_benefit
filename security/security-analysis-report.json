@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-08-21T01:10:32.331Z",
+  "timestamp": "2025-08-21T09:29:42.125Z",
   "summary": {
-    "issues": 9,
-    "warnings": 418,
+    "issues": 8,
+    "warnings": 420,
     "info": 1
   },
   "issues": [
@@ -11,63 +11,56 @@
       "message": "Potential hardcoded secret or credential detected",
       "file": "src/components/bitcoin-tools/BitcoinTooltips.tsx",
       "line": 56,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "error",
       "message": "Potential hardcoded secret or credential detected",
       "file": "src/components/bitcoin-tools/Tooltip.tsx",
       "line": 243,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.250Z"
     },
     {
       "level": "error",
       "message": "Potential Bitcoin private key detected",
       "file": "src/lib/on-chain/__tests__/mempool-api.integration.test.ts",
       "line": 24,
-      "timestamp": "2025-08-21T01:10:31.101Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "error",
       "message": "Potential Bitcoin private key detected",
       "file": "src/lib/on-chain/__tests__/validation.test.ts",
       "line": 79,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.264Z"
     },
     {
       "level": "error",
       "message": "Potential hardcoded secret or credential detected",
       "file": "src/lib/security/apiMiddleware.ts",
-      "line": 318,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "line": 319,
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "error",
       "message": "Dangerous eval or Function constructor usage",
       "file": "src/lib/security/rateLimiter.ts",
       "line": 169,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "error",
       "message": "Dangerous eval or Function constructor usage",
       "file": "src/stores/onChainStore.ts",
       "line": 433,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "error",
       "message": "Dangerous eval or Function constructor usage",
       "file": "scripts/security-analyzer.js",
       "line": 91,
-      "timestamp": "2025-08-21T01:10:31.114Z"
-    },
-    {
-      "level": "error",
-      "message": "Dangerous eval or Function constructor usage",
-      "file": "scripts/update-bitcoin-data.js",
-      "line": 157,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     }
   ],
   "warnings": [
@@ -76,2926 +69,2940 @@
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 26,
-      "timestamp": "2025-08-21T01:10:31.066Z"
+      "timestamp": "2025-08-21T09:29:41.234Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 38,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 49,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 60,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 71,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 82,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 95,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 104,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 112,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 120,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 132,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 142,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 152,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 172,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 199,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 211,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 224,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 236,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/__mocks__/recharts.tsx",
       "line": 245,
-      "timestamp": "2025-08-21T01:10:31.067Z"
+      "timestamp": "2025-08-21T09:29:41.235Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/__tests__/page.test.tsx",
       "line": 22,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/__tests__/page.test.tsx",
       "line": 23,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/coingecko/route.ts",
       "line": 15,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/coingecko/route.ts",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/health/route.ts",
       "line": 23,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/health/route.ts",
       "line": 24,
-      "timestamp": "2025-08-21T01:10:31.069Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/health/route.ts",
       "line": 25,
-      "timestamp": "2025-08-21T01:10:31.070Z"
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/health/route.ts",
-      "line": 82,
-      "timestamp": "2025-08-21T01:10:31.070Z"
+      "line": 93,
+      "timestamp": "2025-08-21T09:29:41.236Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/mempool/fees/recommended/route.ts",
       "line": 122,
-      "timestamp": "2025-08-21T01:10:31.070Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/mempool/network/route.ts",
       "line": 31,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/mempool/network/status/route.ts",
       "line": 41,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/mempool/network/status/route.ts",
       "line": 62,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/mempool/network/status/route.ts",
       "line": 70,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/mempool/network/status/route.ts",
       "line": 73,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/mempool/tx/[txid]/route.ts",
       "line": 13,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.237Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/timestamps/create/route.ts",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "API route with mutation operations missing input validation",
       "file": "src/app/api/timestamps/create/route.ts",
       "line": null,
-      "timestamp": "2025-08-21T01:10:31.071Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "API route with mutation operations missing input validation",
       "file": "src/app/api/timestamps/status/route.ts",
       "line": null,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/api/timestamps/verify/route.ts",
       "line": 26,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/timestamps/verify/route.ts",
       "line": 78,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/timestamps/verify/route.ts",
       "line": 106,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/timestamps/verify/route.ts",
       "line": 150,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api/timestamps/verify/route.ts",
       "line": 156,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/api-test/page.tsx",
       "line": 9,
-      "timestamp": "2025-08-21T01:10:31.072Z"
+      "timestamp": "2025-08-21T09:29:41.238Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/calculator/[plan]/CalculatorPlanClient.tsx",
       "line": 198,
-      "timestamp": "2025-08-21T01:10:31.073Z"
+      "timestamp": "2025-08-21T09:29:41.239Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/historical/page.tsx",
       "line": 74,
-      "timestamp": "2025-08-21T01:10:31.073Z"
+      "timestamp": "2025-08-21T09:29:41.239Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/historical/page.tsx",
       "line": 279,
-      "timestamp": "2025-08-21T01:10:31.073Z"
+      "timestamp": "2025-08-21T09:29:41.239Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/historical/page.tsx",
       "line": 391,
-      "timestamp": "2025-08-21T01:10:31.073Z"
+      "timestamp": "2025-08-21T09:29:41.239Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "src/app/layout.tsx",
-      "line": 51,
-      "timestamp": "2025-08-21T01:10:31.074Z"
+      "line": 9,
+      "timestamp": "2025-08-21T09:29:41.240Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "src/app/layout.tsx",
-      "line": 71,
-      "timestamp": "2025-08-21T01:10:31.074Z"
+      "line": 55,
+      "timestamp": "2025-08-21T09:29:41.240Z"
+    },
+    {
+      "level": "warning",
+      "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
+      "file": "src/app/layout.tsx",
+      "line": 75,
+      "timestamp": "2025-08-21T09:29:41.240Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/integration.test.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.240Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/integration.test.tsx",
       "line": 58,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.240Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/integration.test.tsx",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 19,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 56,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 88,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 98,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 99,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 100,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/app/track/__tests__/page.test.tsx",
       "line": 101,
-      "timestamp": "2025-08-21T01:10:31.075Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/app/track/page.tsx",
       "line": 698,
-      "timestamp": "2025-08-21T01:10:31.076Z"
+      "timestamp": "2025-08-21T09:29:41.241Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/AdvancedAnalyticsDashboard.tsx",
       "line": 45,
-      "timestamp": "2025-08-21T01:10:31.076Z"
+      "timestamp": "2025-08-21T09:29:41.242Z"
     },
     {
       "level": "warning",
       "message": "Direct DOM innerHTML manipulation - potential XSS risk",
       "file": "src/components/CSSLoadingGuard.tsx",
       "line": 53,
-      "timestamp": "2025-08-21T01:10:31.077Z"
+      "timestamp": "2025-08-21T09:29:41.242Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "src/components/CSSLoadingGuard.tsx",
       "line": 157,
-      "timestamp": "2025-08-21T01:10:31.077Z"
+      "timestamp": "2025-08-21T09:29:41.242Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/Footer.tsx",
       "line": 15,
-      "timestamp": "2025-08-21T01:10:31.077Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalMetricCards.tsx",
       "line": 21,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineChart.tsx",
       "line": 48,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineChart.tsx",
       "line": 62,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineChart.tsx",
       "line": 85,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineVisualization.tsx",
       "line": 55,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/HistoricalTimelineVisualization.tsx",
       "line": 64,
-      "timestamp": "2025-08-21T01:10:31.078Z"
+      "timestamp": "2025-08-21T09:29:41.243Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineVisualizationOptimized.tsx",
       "line": 58,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineVisualizationOptimized.tsx",
       "line": 344,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineVisualizationOptimized.tsx",
       "line": 385,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/HistoricalTimelineVisualizationOptimized.tsx",
       "line": 388,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 24,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 26,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 27,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/MetricCards.tsx",
       "line": 95,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 174,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 180,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 230,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 231,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 232,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 240,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 241,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/MetricCards.tsx",
       "line": 242,
-      "timestamp": "2025-08-21T01:10:31.079Z"
+      "timestamp": "2025-08-21T09:29:41.244Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/OptimizedChartComponents.tsx",
       "line": 145,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/RetentionAnalysisCard.tsx",
       "line": 32,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/RetentionAnalysisCard.tsx",
       "line": 127,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/RiskAnalysisCard.tsx",
       "line": 31,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/RiskAnalysisCard.tsx",
       "line": 33,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/RiskAnalysisCard.tsx",
       "line": 137,
-      "timestamp": "2025-08-21T01:10:31.080Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/TaxImplicationsCard.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.245Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/VestingTimelineChartOptimized.tsx",
       "line": 85,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 52,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 54,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 164,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 169,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 449,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 514,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 530,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/VestingTimelineChartRecharts.tsx",
       "line": 656,
-      "timestamp": "2025-08-21T01:10:31.081Z"
+      "timestamp": "2025-08-21T09:29:41.246Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/__tests__/VirtualizedAnnualBreakdown.performance.test.tsx",
       "line": 154,
-      "timestamp": "2025-08-21T01:10:31.082Z"
+      "timestamp": "2025-08-21T09:29:41.247Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/__tests__/useCallback.test.tsx",
       "line": 74,
-      "timestamp": "2025-08-21T01:10:31.083Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/__tests__/useCallback.test.tsx",
       "line": 75,
-      "timestamp": "2025-08-21T01:10:31.083Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/__tests__/useCallback.test.tsx",
       "line": 76,
-      "timestamp": "2025-08-21T01:10:31.083Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/__tests__/useCallback.test.tsx",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.083Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/AddressExplorerTool.tsx",
       "line": 60,
-      "timestamp": "2025-08-21T01:10:31.083Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 37,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 51,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 142,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 152,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 159,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 229,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/DocumentTimestampingTool.tsx",
       "line": 363,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.248Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/FeeCalculatorTool.tsx",
       "line": 418,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.249Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/NetworkStatus.tsx",
       "line": 16,
-      "timestamp": "2025-08-21T01:10:31.084Z"
+      "timestamp": "2025-08-21T09:29:41.249Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/NetworkStatus.tsx",
       "line": 212,
-      "timestamp": "2025-08-21T01:10:31.085Z"
+      "timestamp": "2025-08-21T09:29:41.249Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/PrivacyWarning.tsx",
       "line": 9,
-      "timestamp": "2025-08-21T01:10:31.085Z"
+      "timestamp": "2025-08-21T09:29:41.249Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/PrivacyWarning.tsx",
       "line": 96,
-      "timestamp": "2025-08-21T01:10:31.085Z"
+      "timestamp": "2025-08-21T09:29:41.249Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/ToolTabsNavigation.tsx",
       "line": 111,
-      "timestamp": "2025-08-21T01:10:31.085Z"
+      "timestamp": "2025-08-21T09:29:41.250Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/Tooltip.tsx",
       "line": 30,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.250Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/bitcoin-tools/TransactionLookupTool.tsx",
       "line": 64,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.250Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/bitcoin-tools/TransactionLookupTool.tsx",
       "line": 269,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.250Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 44,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 50,
-      "timestamp": "2025-08-21T01:10:31.086Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 56,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 62,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 68,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 74,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 80,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/charts/RechartsOptimized.tsx",
       "line": 86,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/dev/APITester.tsx",
       "line": 12,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/examples/OptimizedInputs.tsx",
       "line": 53,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BTCIcon.tsx",
       "line": 18,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinCircleIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.251Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinCircleOutlineIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinOutlineIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinPresentationIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/BitcoinStyledIcon.tsx",
       "line": 17,
-      "timestamp": "2025-08-21T01:10:31.087Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/MinerOutlineIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.088Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/MiningIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.088Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/MiningOutlineIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.088Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/SatoshiIcon.tsx",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.088Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/icons/SatoshiManIcon.tsx",
       "line": 19,
-      "timestamp": "2025-08-21T01:10:31.088Z"
+      "timestamp": "2025-08-21T09:29:41.252Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/ManualAnnotationOverride.tsx",
       "line": 53,
-      "timestamp": "2025-08-21T01:10:31.089Z"
+      "timestamp": "2025-08-21T09:29:41.253Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/ManualAnnotationOverride.tsx",
       "line": 92,
-      "timestamp": "2025-08-21T01:10:31.089Z"
+      "timestamp": "2025-08-21T09:29:41.253Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/ManualAnnotationOverride.tsx",
       "line": 97,
-      "timestamp": "2025-08-21T01:10:31.089Z"
+      "timestamp": "2025-08-21T09:29:41.253Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/ManualAnnotationOverride.tsx",
       "line": 457,
-      "timestamp": "2025-08-21T01:10:31.089Z"
+      "timestamp": "2025-08-21T09:29:41.253Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 66,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 141,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 242,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 322,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 404,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 496,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 582,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 683,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 684,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 685,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 686,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/on-chain/VestingTrackerForm.tsx",
       "line": 647,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerFormOptimized.tsx",
       "line": 257,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerFormOptimized.tsx",
       "line": 305,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerFormOptimized.tsx",
       "line": 355,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/VestingTrackerFormOptimized.tsx",
       "line": 411,
-      "timestamp": "2025-08-21T01:10:31.090Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "HTTP URL detected - should use HTTPS in production",
       "file": "src/components/on-chain/VestingTrackerFormOptimized.tsx",
       "line": 461,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.254Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerResults.tsx",
       "line": 62,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerResults.tsx",
       "line": 63,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerResultsOptimized.tsx",
       "line": 255,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/VestingTrackerResultsOptimized.tsx",
       "line": 256,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 95,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 96,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 97,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 111,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 131,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 132,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 133,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 156,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 157,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 158,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 159,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 173,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 191,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 192,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 193,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 194,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 211,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 222,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 223,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 224,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 244,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 245,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 246,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 265,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 266,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 267,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 297,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 298,
-      "timestamp": "2025-08-21T01:10:31.091Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/on-chain/__tests__/ManualAnnotationOverride.integration.test.tsx",
       "line": 299,
-      "timestamp": "2025-08-21T01:10:31.092Z"
+      "timestamp": "2025-08-21T09:29:41.255Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/__tests__/VestingTrackerForm.basic.test.tsx",
       "line": 15,
-      "timestamp": "2025-08-21T01:10:31.092Z"
+      "timestamp": "2025-08-21T09:29:41.256Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/on-chain/__tests__/VestingTrackerForm.test.tsx",
       "line": 15,
-      "timestamp": "2025-08-21T01:10:31.092Z"
+      "timestamp": "2025-08-21T09:29:41.256Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/performance/PerformanceMonitor.tsx",
       "line": 135,
-      "timestamp": "2025-08-21T01:10:31.093Z"
+      "timestamp": "2025-08-21T09:29:41.257Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/components/performance/PerformanceMonitor.tsx",
       "line": 136,
-      "timestamp": "2025-08-21T01:10:31.093Z"
+      "timestamp": "2025-08-21T09:29:41.257Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/components/ui/carousel.tsx",
       "line": 86,
-      "timestamp": "2025-08-21T01:10:31.094Z"
+      "timestamp": "2025-08-21T09:29:41.257Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/useDebounce.ts",
       "line": 16,
-      "timestamp": "2025-08-21T01:10:31.095Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/useParallelDataLoader.ts",
       "line": 8,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/useParallelDataLoader.ts",
       "line": 25,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/useParallelDataLoader.ts",
       "line": 93,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 10,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 11,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 12,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 13,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 14,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 221,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 232,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 276,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/hooks/usePrivacyProtection.ts",
       "line": 277,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 263,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 278,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 306,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 393,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 407,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/cost-basis-calculator.test.ts",
       "line": 440,
-      "timestamp": "2025-08-21T01:10:31.096Z"
+      "timestamp": "2025-08-21T09:29:41.259Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/historical-calculations.test.ts",
       "line": 353,
-      "timestamp": "2025-08-21T01:10:31.097Z"
+      "timestamp": "2025-08-21T09:29:41.260Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/historical-calculations.test.ts",
       "line": 360,
-      "timestamp": "2025-08-21T01:10:31.097Z"
+      "timestamp": "2025-08-21T09:29:41.260Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/__tests__/historical-calculations.test.ts",
       "line": 389,
-      "timestamp": "2025-08-21T01:10:31.097Z"
+      "timestamp": "2025-08-21T09:29:41.260Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/bitcoin-api-optimized.ts",
       "line": 241,
-      "timestamp": "2025-08-21T01:10:31.097Z"
+      "timestamp": "2025-08-21T09:29:41.260Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/bitcoin-api-optimized.ts",
       "line": 242,
-      "timestamp": "2025-08-21T01:10:31.097Z"
+      "timestamp": "2025-08-21T09:29:41.260Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/calculators/__tests__/TaxImplicationCalculator.test.ts",
       "line": 139,
-      "timestamp": "2025-08-21T01:10:31.098Z"
+      "timestamp": "2025-08-21T09:29:41.261Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/cost-basis-calculator.ts",
       "line": 160,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.261Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/cost-basis-calculator.ts",
       "line": 204,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.261Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/cost-basis-calculator.ts",
       "line": 227,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.261Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/historical-calculations.ts",
       "line": 257,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.262Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/historical-calculations.ts",
       "line": 264,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.262Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/historical-calculations.ts",
       "line": 285,
-      "timestamp": "2025-08-21T01:10:31.099Z"
+      "timestamp": "2025-08-21T09:29:41.262Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/api-integration.test.ts",
       "line": 471,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.262Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 30,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 35,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 40,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 45,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 50,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 55,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 60,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 65,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 70,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 75,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 80,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 85,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 95,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 104,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 130,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 174,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 180,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 183,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/error-handling-integration.test.tsx",
       "line": 186,
-      "timestamp": "2025-08-21T01:10:31.100Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/mempool-api.test.ts",
       "line": 42,
-      "timestamp": "2025-08-21T01:10:31.101Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/mempool-api.test.ts",
       "line": 43,
-      "timestamp": "2025-08-21T01:10:31.101Z"
+      "timestamp": "2025-08-21T09:29:41.263Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/performance/performanceValidation.test.ts",
       "line": 58,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.264Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/validation.test.ts",
       "line": 220,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.264Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/__tests__/validation.test.ts",
       "line": 310,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.264Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactions.ts",
       "line": 176,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactions.ts",
       "line": 242,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactions.ts",
       "line": 313,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactions.ts",
       "line": 335,
-      "timestamp": "2025-08-21T01:10:31.102Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 380,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 473,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 540,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 560,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 566,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 586,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/annotateTransactionsOptimized.ts",
       "line": 596,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 70,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 95,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 122,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 123,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 331,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 399,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 482,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 489,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 500,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 562,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 563,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/concurrentProcessing.ts",
       "line": 572,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/error-handler.ts",
       "line": 316,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/error-handler.ts",
       "line": 319,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.265Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/mempool-api.ts",
       "line": 89,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/mempool-api.ts",
       "line": 186,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/on-chain/mempool-api.ts",
       "line": 247,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/mempool-api.ts",
       "line": 329,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/mempool-api.ts",
       "line": 339,
-      "timestamp": "2025-08-21T01:10:31.103Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/on-chain/validation.ts",
       "line": 9,
-      "timestamp": "2025-08-21T01:10:31.104Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/performance/monitor.tsx",
       "line": 197,
-      "timestamp": "2025-08-21T01:10:31.104Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiKeyManager.ts",
       "line": 85,
-      "timestamp": "2025-08-21T01:10:31.104Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiKeyManager.ts",
       "line": 101,
-      "timestamp": "2025-08-21T01:10:31.104Z"
+      "timestamp": "2025-08-21T09:29:41.266Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiKeyManager.ts",
       "line": 342,
-      "timestamp": "2025-08-21T01:10:31.104Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiMiddleware.ts",
-      "line": 304,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "line": 305,
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiMiddleware.ts",
-      "line": 351,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "line": 357,
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/apiMiddleware.ts",
-      "line": 366,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "line": 390,
+      "timestamp": "2025-08-21T09:29:41.267Z"
+    },
+    {
+      "level": "warning",
+      "message": "Multiple non-null assertions on same line",
+      "file": "src/lib/security/apiMiddleware.ts",
+      "line": 405,
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/inputSanitizer.ts",
       "line": 304,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/inputSanitizer.ts",
       "line": 333,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/rateLimiter.ts",
       "line": 102,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/rateLimiter.ts",
       "line": 104,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.267Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/rateLimiter.ts",
       "line": 341,
-      "timestamp": "2025-08-21T01:10:31.105Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 9,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 23,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 61,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 83,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 94,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 104,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 119,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 128,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 137,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 150,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/security/secureCacheManager.ts",
       "line": 163,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/addressService.ts",
       "line": 67,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/addressService.ts",
       "line": 84,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/enhancedRateLimiter.ts",
       "line": 126,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/enhancedRateLimiter.ts",
       "line": 333,
-      "timestamp": "2025-08-21T01:10:31.106Z"
+      "timestamp": "2025-08-21T09:29:41.268Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/networkService.ts",
       "line": 6,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/networkService.ts",
       "line": 17,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/services/networkService.ts",
       "line": 166,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/privacyManager.ts",
       "line": 135,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/privacyManager.ts",
       "line": 336,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/privacyManager.ts",
       "line": 339,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/privacyManager.ts",
       "line": 372,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/services/privacyManager.ts",
       "line": 379,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/services/privacyManager.ts",
       "line": 258,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "src/lib/services/privacyManager.ts",
       "line": 263,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/services/timestampService.ts",
       "line": 56,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/services/transactionService.ts",
       "line": 96,
-      "timestamp": "2025-08-21T01:10:31.107Z"
+      "timestamp": "2025-08-21T09:29:41.269Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/chart-data.ts",
       "line": 221,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 6,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 22,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 38,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 39,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 127,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils/debounce.ts",
       "line": 166,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils.ts",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils.ts",
       "line": 118,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/lib/utils.ts",
       "line": 121,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/utils.ts",
       "line": 145,
-      "timestamp": "2025-08-21T01:10:31.108Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/lib/validation/secureInputValidator.ts",
       "line": 250,
-      "timestamp": "2025-08-21T01:10:31.109Z"
+      "timestamp": "2025-08-21T09:29:41.270Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/bitcoinToolsStore.ts",
       "line": 457,
-      "timestamp": "2025-08-21T01:10:31.110Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/stores/historicalCalculatorStore.ts",
       "line": 216,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/stores/onChainStore.ts",
       "line": 179,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 4,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 9,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 14,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 20,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 25,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 31,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 37,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 43,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 49,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 55,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/stores/selectors.ts",
       "line": 63,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.272Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-setup.ts",
       "line": 85,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-setup.ts",
       "line": 179,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/test-setup.ts",
       "line": 193,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/test-setup.ts",
       "line": 208,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-setup.ts",
       "line": 216,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-setup.ts",
       "line": 263,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 226,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 236,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 237,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 238,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 239,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 240,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 241,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 242,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 243,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 248,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/test-utils.tsx",
       "line": 254,
-      "timestamp": "2025-08-21T01:10:31.111Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/types/bitcoin-tools.ts",
       "line": 509,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/types/bitcoin-tools.ts",
       "line": 524,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/types/bitcoin-tools.ts",
       "line": 706,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/types/bitcoin-tools.ts",
       "line": 793,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "src/types/bitcoin-tools.ts",
       "line": 799,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/types/bitcoin-tools.ts",
       "line": 842,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "src/types/bitcoin-tools.ts",
       "line": 844,
-      "timestamp": "2025-08-21T01:10:31.112Z"
+      "timestamp": "2025-08-21T09:29:41.273Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/security-analyzer.js",
       "line": 78,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/security-analyzer.js",
       "line": 83,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/security-analyzer.js",
       "line": 154,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/security-analyzer.js",
       "line": 188,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "scripts/security-analyzer.js",
       "line": 106,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "scripts/security-analyzer.js",
       "line": 107,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "dangerouslySetInnerHTML usage detected - ensure content is sanitized",
       "file": "scripts/security-analyzer.js",
       "line": 108,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Direct DOM innerHTML manipulation - potential XSS risk",
       "file": "scripts/security-analyzer.js",
       "line": 112,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Direct DOM innerHTML manipulation - potential XSS risk",
       "file": "scripts/security-analyzer.js",
       "line": 113,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "URL construction with concatenation - potential injection risk",
       "file": "scripts/security-analyzer.js",
       "line": 117,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Sensitive data stored in localStorage - consider more secure storage",
       "file": "scripts/security-analyzer.js",
       "line": 164,
-      "timestamp": "2025-08-21T01:10:31.114Z"
+      "timestamp": "2025-08-21T09:29:41.275Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/dashboard.ts",
       "line": 110,
-      "timestamp": "2025-08-21T01:10:31.115Z"
+      "timestamp": "2025-08-21T09:29:41.276Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/dashboard.ts",
       "line": 111,
-      "timestamp": "2025-08-21T01:10:31.115Z"
+      "timestamp": "2025-08-21T09:29:41.276Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/self-test.ts",
       "line": 135,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/self-test.ts",
       "line": 225,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-file-validator.ts",
       "line": 125,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-file-validator.ts",
       "line": 340,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-file-validator.ts",
       "line": 359,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-file-validator.ts",
       "line": 405,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-file-validator.ts",
       "line": 425,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 141,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 160,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 172,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 173,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 206,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 435,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 436,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 437,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 449,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 450,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Explicit any type usage detected",
       "file": "scripts/test-validation/test-health-monitor.ts",
       "line": 451,
-      "timestamp": "2025-08-21T01:10:31.116Z"
+      "timestamp": "2025-08-21T09:29:41.277Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/validate-all-test-files.js",
       "line": 24,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.278Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/validate-all-test-files.js",
       "line": 26,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.278Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/validate-all-test-files.js",
       "line": 38,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.278Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/validate-all-test-files.js",
       "line": 90,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.278Z"
     },
     {
       "level": "warning",
       "message": "Multiple non-null assertions on same line",
       "file": "scripts/validate-fixes.js",
       "line": 26,
-      "timestamp": "2025-08-21T01:10:31.117Z"
+      "timestamp": "2025-08-21T09:29:41.278Z"
     }
   ],
   "info": [
@@ -3004,7 +3011,7 @@
       "message": "No npm audit vulnerabilities found",
       "file": null,
       "line": null,
-      "timestamp": "2025-08-21T01:10:31.598Z"
+      "timestamp": "2025-08-21T09:29:41.687Z"
     }
   ]
 }
