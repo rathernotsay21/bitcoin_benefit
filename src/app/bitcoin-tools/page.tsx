@@ -91,9 +91,9 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
           }>
             <ToolTabsNavigation 
               searchParams={{
-                tool: validateToolId(searchParams?.tool) || undefined,
-                txid: searchParams?.txid,
-                address: searchParams?.address
+                ...(validateToolId(searchParams?.tool) && { tool: validateToolId(searchParams?.tool)! }),
+                ...(searchParams?.txid && { txid: searchParams.txid }),
+                ...(searchParams?.address && { address: searchParams.address })
               }}
             />
           </Suspense>

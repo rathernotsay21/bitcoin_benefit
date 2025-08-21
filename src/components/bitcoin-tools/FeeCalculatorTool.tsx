@@ -2,25 +2,79 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
-import { FeeRecommendation, createToolError } from '@/types/bitcoin-tools';
+import { FeeRecommendation, createToolError, FeeCostBreakdown, FeeSavings, FeeLevel, FeeEmoji, FeeRate, SatoshiAmount, BTCAmount, USDAmount } from '@/types/bitcoin-tools';
+import { apiClient, isSuccessWithData } from '@/lib/api-client';
+import { toToolError } from '@/lib/type-safe-error-handler';
+import { z } from 'zod';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { feeEducation } from './educational/educationalContent';
 
-interface FeeApiResponse {
-  recommendations: FeeRecommendation[];
-  networkConditions: {
-    congestionLevel: 'low' | 'normal' | 'high' | 'extreme';
-    mempoolSize: number;
-    recommendation: string;
-  };
-  lastUpdated: string;
-  txSize: number;
-  warning?: string;
-  error?: string;
-}
+// Zod schema for fee API response validation
+const FeeApiResponseSchema = z.object({
+  recommendations: z.array(z.object({
+    level: z.enum(['economy', 'balanced', 'priority']),
+    emoji: z.string(),
+    label: z.string(),
+    timeEstimate: z.string(),
+    satPerVByte: z.number(),
+    description: z.string(),
+    savings: z.object({
+      percent: z.number(),
+      comparedTo: z.string()
+    }).optional()
+  })),
+  networkConditions: z.object({
+    congestionLevel: z.enum(['low', 'normal', 'high', 'extreme']),
+    mempoolSize: z.number(),
+    recommendation: z.string()
+  }),
+  lastUpdated: z.string(),
+  txSize: z.number(),
+  warning: z.string().optional(),
+  error: z.string().optional()
+});
+
+type FeeApiResponse = z.infer<typeof FeeApiResponseSchema>;
+
+// Transform API response to our internal FeeRecommendation format
+const transformToFeeRecommendations = (apiData: FeeApiResponse, btcPrice: number): FeeRecommendation[] => {
+  return apiData.recommendations.map((rec) => {
+    const totalSats = rec.satPerVByte * apiData.txSize;
+    const totalBtc = totalSats / 100000000;
+    const totalUsd = totalBtc * btcPrice;
+    
+    const totalCost: FeeCostBreakdown = {
+      sats: totalSats as SatoshiAmount,
+      btc: totalBtc as BTCAmount,
+      usd: totalUsd as USDAmount
+    };
+    
+    const savings: FeeSavings = rec.savings ? {
+      percent: rec.savings.percent,
+      usd: 0 as USDAmount, // Calculate based on comparison
+      comparedTo: rec.savings.comparedTo as FeeLevel
+    } : {
+      percent: 0,
+      usd: 0 as USDAmount
+    };
+    
+    return {
+      level: rec.level,
+      emoji: rec.emoji as FeeEmoji,
+      label: rec.label,
+      timeEstimate: rec.timeEstimate,
+      satPerVByte: rec.satPerVByte as FeeRate,
+      totalCost,
+      savings,
+      description: rec.description,
+      priority: rec.level === 'priority' ? 3 : rec.level === 'balanced' ? 2 : 1,
+      reliability: rec.level === 'priority' ? 95 : rec.level === 'balanced' ? 85 : 70
+    } as FeeRecommendation;
+  });
+};
 
 const TRANSACTION_PRESETS = [
   { label: 'Simple Send', size: 150, description: '1 input, 2 outputs (typical wallet transfer)' },
@@ -57,32 +111,43 @@ function FeeCalculatorTool() {
       loadingMessage: 'Fetching current Bitcoin network fees...'
     });
 
+    recordRequest('fee-calculator');
+    
     try {
-      recordRequest('fee-calculator');
+      const response = await apiClient.get(
+        `/api/mempool/fees/recommended?txSize=${txSize}`,
+        FeeApiResponseSchema,
+        {
+          timeout: 15000,
+          retries: 2
+        }
+      );
       
-      const response = await fetch(`/api/mempool/fees/recommended?txSize=${txSize}`);
-      const data: FeeApiResponse = await response.json();
+      if (isSuccessWithData(response)) {
+        const transformedRecommendations = transformToFeeRecommendations(response.data, btcPrice);
+        setFeeCalculatorData(transformedRecommendations);
+        setNetworkData(response.data.networkConditions);
+        setLastUpdated(response.data.lastUpdated);
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch fee recommendations');
+        if (response.data.warning) {
+          console.warn('Fee Calculator Warning:', response.data.warning);
+        }
+      } else {
+        console.error('Fee calculator API error:', response.error);
+        setFeeCalculatorError(
+          createToolError('api', 'API_ERROR', undefined, {
+            apiError: response.error,
+            endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`
+          })
+        );
       }
-
-      setFeeCalculatorData(data.recommendations);
-      setNetworkData(data.networkConditions);
-      setLastUpdated(data.lastUpdated);
-
-      if (data.warning) {
-        console.warn('Fee Calculator Warning:', data.warning);
-      }
-
     } catch (error) {
       console.error('Fee calculator error:', error);
       setFeeCalculatorError(
-        createToolError(
-          'api',
-          'API_ERROR',
-          error instanceof Error ? error : undefined
-        )
+        toToolError(error, 'api', {
+          endpoint: `/api/mempool/fees/recommended?txSize=${txSize}`,
+          operation: 'fetchFeeRecommendations'
+        })
       );
     }
   }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError]);

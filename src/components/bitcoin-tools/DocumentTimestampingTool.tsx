@@ -27,7 +27,7 @@ function DocumentTimestampingTool() {
   const [currentStep, setCurrentStep] = useState<WorkflowStep>('upload');
   const [dragActive, setDragActive] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [, setUploadProgress] = useState(0);
   const [showEducation, setShowEducation] = useState(false);
   const [verificationMode, setVerificationMode] = useState(false);
   const [verificationFiles, setVerificationFiles] = useState<{
@@ -98,8 +98,8 @@ function DocumentTimestampingTool() {
       // Step 1: Calculate hash
       setDocumentTimestampLoading({
         isLoading: true,
-        loadingMessage: steps[0],
-        progress: { current: 1, total: 4, description: steps[0] }
+        loadingMessage: steps[0]!,
+        progress: { current: 1, total: 4, description: steps[0]! }
       });
       setUploadProgress(25);
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -107,8 +107,8 @@ function DocumentTimestampingTool() {
       // Step 2: Submit to OpenTimestamps
       setDocumentTimestampLoading({
         isLoading: true,
-        loadingMessage: steps[1],
-        progress: { current: 2, total: 4, description: steps[1] }
+        loadingMessage: steps[1]!,
+        progress: { current: 2, total: 4, description: steps[1]! }
       });
       setUploadProgress(50);
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -116,8 +116,8 @@ function DocumentTimestampingTool() {
       // Step 3: Create proof
       setDocumentTimestampLoading({
         isLoading: true,
-        loadingMessage: steps[2],
-        progress: { current: 3, total: 4, description: steps[2] }
+        loadingMessage: steps[2]!,
+        progress: { current: 3, total: 4, description: steps[2]! }
       });
       setUploadProgress(75);
 
@@ -126,8 +126,8 @@ function DocumentTimestampingTool() {
       // Step 4: Finalize
       setDocumentTimestampLoading({
         isLoading: true,
-        loadingMessage: steps[3],
-        progress: { current: 4, total: 4, description: steps[3] }
+        loadingMessage: steps[3]!,
+        progress: { current: 4, total: 4, description: steps[3]! }
       });
       setUploadProgress(100);
       await new Promise(resolve => setTimeout(resolve, 500));

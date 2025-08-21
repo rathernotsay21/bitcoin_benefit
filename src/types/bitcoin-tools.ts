@@ -20,6 +20,8 @@ export type ToolErrorType =
   | 'timeout' 
   | 'rate_limit' 
   | 'not_found' 
+  | 'fetch_error'
+  | 'parse_error'
   | 'unknown';
 
 export interface BaseToolError {
@@ -39,6 +41,8 @@ export type ToolError =
   | (BaseToolError & { type: 'timeout'; timeoutMs: number; operation: string })
   | (BaseToolError & { type: 'rate_limit'; resetTime: UnixTimestamp; requestsRemaining: number })
   | (BaseToolError & { type: 'not_found'; resourceType: 'transaction' | 'address' | 'block'; resourceId: string })
+  | (BaseToolError & { type: 'fetch_error'; url: string; response?: Response })
+  | (BaseToolError & { type: 'parse_error'; rawData?: string })
   | (BaseToolError & { type: 'unknown' });
 
 // Loading states for tools (backward compatibility)
@@ -369,7 +373,7 @@ export interface TimestampResult {
 export interface DocumentTimestampingProps extends ToolComponentProps<'timestamp'> {}
 
 // User-friendly error messages mapping
-export const ERROR_MESSAGES: Record<string, Omit<ToolError, 'type' | 'originalError' | 'context'>> = {
+export const ERROR_MESSAGES: Record<string, Omit<BaseToolError, 'originalError' | 'context'>> = {
   INVALID_TXID: {
     message: 'Invalid transaction ID format',
     userFriendlyMessage: "That doesn't look like a valid transaction ID",
@@ -479,6 +483,26 @@ export const ERROR_MESSAGES: Record<string, Omit<ToolError, 'type' | 'originalEr
       'The issue might resolve itself in a few minutes'
     ],
     retryable: true
+  },
+  FETCH_FAILED: {
+    message: 'Failed to fetch data',
+    userFriendlyMessage: "We couldn't retrieve the data from the network",
+    suggestions: [
+      'Check your internet connection',
+      'Try again in a few seconds',
+      'The service might be temporarily unavailable'
+    ],
+    retryable: true
+  },
+  JSON_PARSE_ERROR: {
+    message: 'Failed to parse response',
+    userFriendlyMessage: 'The server returned data in an unexpected format',
+    suggestions: [
+      'This is likely a temporary server issue',
+      'Try again in a few moments',
+      'If the problem persists, the service may be experiencing issues'
+    ],
+    retryable: true
   }
 };
 
@@ -510,13 +534,13 @@ export const isValidRawMempoolInfo = (data: unknown): data is RawMempoolInfo => 
   const obj = data as Record<string, unknown>;
   
   return (
-    typeof obj.count === 'number' &&
-    typeof obj.vsize === 'number' &&
-    typeof obj.total_fee === 'number' &&
-    Array.isArray(obj.fee_histogram) &&
-    obj.count >= 0 &&
-    obj.vsize >= 0 &&
-    obj.total_fee >= 0
+    typeof obj['count'] === 'number' &&
+    typeof obj['vsize'] === 'number' &&
+    typeof obj['total_fee'] === 'number' &&
+    Array.isArray(obj['fee_histogram']) &&
+    obj['count'] >= 0 &&
+    obj['vsize'] >= 0 &&
+    obj['total_fee'] >= 0
   );
 };
 
@@ -525,16 +549,16 @@ export const isValidRawMempoolFeeEstimates = (data: unknown): data is RawMempool
   const obj = data as Record<string, unknown>;
   
   return (
-    typeof obj.fastestFee === 'number' &&
-    typeof obj.halfHourFee === 'number' &&
-    typeof obj.hourFee === 'number' &&
-    typeof obj.economyFee === 'number' &&
-    typeof obj.minimumFee === 'number' &&
-    obj.fastestFee > 0 &&
-    obj.halfHourFee > 0 &&
-    obj.hourFee > 0 &&
-    obj.economyFee > 0 &&
-    obj.minimumFee > 0
+    typeof obj['fastestFee'] === 'number' &&
+    typeof obj['halfHourFee'] === 'number' &&
+    typeof obj['hourFee'] === 'number' &&
+    typeof obj['economyFee'] === 'number' &&
+    typeof obj['minimumFee'] === 'number' &&
+    obj['fastestFee'] > 0 &&
+    obj['halfHourFee'] > 0 &&
+    obj['hourFee'] > 0 &&
+    obj['economyFee'] > 0 &&
+    obj['minimumFee'] > 0
   );
 };
 
@@ -712,7 +736,7 @@ export function createToolError(
   originalError?: Error,
   options?: ErrorOptions
 ): ToolError {
-  const errorTemplate = ERROR_MESSAGES[errorKey] || ERROR_MESSAGES.UNKNOWN_ERROR;
+  const errorTemplate = ERROR_MESSAGES[errorKey] || ERROR_MESSAGES['UNKNOWN_ERROR'];
   
   const baseError = {
     ...errorTemplate,
@@ -758,6 +782,37 @@ export function getErrorTypeFromStatus(status: number): ToolErrorType {
   return statusMap[status] || (status >= 500 ? 'api' : 'unknown');
 }
 
+// Fetch error helper for creating appropriate error types
+export function createFetchError(url: string, response?: Response, originalError?: Error): ToolError {
+  if (originalError?.name === 'AbortError') {
+    return createToolError('timeout', 'API_TIMEOUT', originalError, {
+      timeoutMs: 15000,
+      operation: 'fetch',
+      url
+    });
+  }
+  
+  if (originalError?.name === 'TypeError' && originalError.message.includes('fetch')) {
+    return createToolError('network', 'NETWORK_ERROR', originalError, {
+      endpoint: url
+    });
+  }
+  
+  if (response && !response.ok) {
+    const errorType = getErrorTypeFromStatus(response.status);
+    return createToolError(errorType, 'API_ERROR', originalError, {
+      statusCode: response.status,
+      endpoint: url,
+      statusText: response.statusText
+    });
+  }
+  
+  return createToolError('fetch_error', 'FETCH_FAILED', originalError, {
+    url,
+    response
+  });
+}
+
 // Type predicate functions for error discrimination
 export const isValidationError = (error: ToolError): error is ToolError & { type: 'validation' } => {
   return error.type === 'validation';
@@ -773,6 +828,14 @@ export const isRateLimitError = (error: ToolError): error is ToolError & { type:
 
 export const isApiError = (error: ToolError): error is ToolError & { type: 'api' } => {
   return error.type === 'api';
+};
+
+export const isFetchError = (error: ToolError): error is ToolError & { type: 'fetch_error' } => {
+  return error.type === 'fetch_error';
+};
+
+export const isParseError = (error: ToolError): error is ToolError & { type: 'parse_error' } => {
+  return error.type === 'parse_error';
 };
 
 // Utility types for tool results with error handling
@@ -800,17 +863,17 @@ export const isValidEnhancedNetworkHealth = (data: unknown): data is EnhancedNet
   const obj = data as Record<string, unknown>;
   
   return (
-    typeof obj.congestionLevel === 'string' &&
-    isValidNetworkCongestionLevel(obj.congestionLevel) &&
-    typeof obj.mempoolSize === 'number' &&
-    typeof obj.mempoolBytes === 'number' &&
-    typeof obj.averageFee === 'number' &&
-    typeof obj.nextBlockETA === 'string' &&
-    typeof obj.recommendation === 'string' &&
-    typeof obj.humanReadable === 'object' &&
-    obj.humanReadable !== null &&
-    typeof obj.timestamp === 'number' &&
-    typeof obj.blockchainTip === 'number'
+    typeof obj['congestionLevel'] === 'string' &&
+    isValidNetworkCongestionLevel(obj['congestionLevel']) &&
+    typeof obj['mempoolSize'] === 'number' &&
+    typeof obj['mempoolBytes'] === 'number' &&
+    typeof obj['averageFee'] === 'number' &&
+    typeof obj['nextBlockETA'] === 'string' &&
+    typeof obj['recommendation'] === 'string' &&
+    typeof obj['humanReadable'] === 'object' &&
+    obj['humanReadable'] !== null &&
+    typeof obj['timestamp'] === 'number' &&
+    typeof obj['blockchainTip'] === 'number'
   );
 };
 

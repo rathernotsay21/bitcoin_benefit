@@ -164,6 +164,73 @@ export const addressEducation: EducationalSection[] = [
   }
 ];
 
+export const networkStatusEducation: EducationalSection[] = [
+  {
+    title: 'Network Health Explained',
+    icon: '🌡️',
+    content: [
+      'Bitcoin network health shows how busy the network is right now. Think of it like traffic on a highway - green means clear roads, red means heavy congestion.',
+      'When the network is congested, transactions take longer to confirm and cost more in fees. When it\'s clear, transactions are fast and cheap.'
+    ],
+    tips: [
+      'Green status = perfect time to send Bitcoin with low fees',
+      'Yellow/Orange = moderate congestion, normal fees',
+      'Red status = high congestion, consider waiting unless urgent'
+    ],
+    links: [
+      {
+        title: 'Understanding Bitcoin Congestion',
+        url: 'https://river.com/learn/what-is-the-bitcoin-mempool/',
+        description: 'How network congestion affects your transactions'
+      },
+      {
+        title: 'Mempool Visualization',
+        url: 'https://mempool.space/',
+        description: 'Live view of Bitcoin network activity'
+      }
+    ]
+  },
+  {
+    title: 'Reading Fee Estimates',
+    icon: '💡',
+    content: [
+      'Fee rates are shown in "satoshis per virtual byte" (sat/vB). Higher rates get priority in the queue, like paying for express shipping.',
+      'The tool shows different speed tiers: Priority (fastest), Standard (balanced), Normal (slower), and Economy (cheapest but slowest).'
+    ],
+    tips: [
+      'Priority fees: ~10 minutes, highest cost',
+      'Standard fees: ~30 minutes, moderate cost',
+      'Economy fees: 2+ hours, lowest cost'
+    ]
+  },
+  {
+    title: 'When to Send Transactions',
+    icon: '⏰',
+    content: [
+      'Timing can save you money. Weekend mornings and late nights (US time) often have lower network activity and cheaper fees.',
+      'Avoid sending during high-activity periods unless urgent, especially when major exchanges or institutions are active.'
+    ],
+    tips: [
+      'Check network status before sending large amounts',
+      'Non-urgent payments can wait for better conditions',
+      'Set up alerts for low-fee periods if your wallet supports it'
+    ]
+  },
+  {
+    title: 'Understanding the Mempool',
+    icon: '📋',
+    content: [
+      'The mempool (memory pool) is where transactions wait before being confirmed. It\'s like a waiting room where higher-fee transactions get called first.',
+      'Mempool size shows how many transactions are waiting. More transactions = higher competition = higher fees needed.'
+    ],
+    tips: [
+      'Larger mempool = expect higher fees and longer waits',
+      'Empty mempool = great time for cheap transactions',
+      'Mempool clears naturally as blocks are mined'
+    ]
+  }
+];
+
 export const timestampEducation: EducationalSection[] = [
   {
     title: 'Proof of Existence',

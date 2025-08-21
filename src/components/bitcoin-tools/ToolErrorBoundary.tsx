@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ToolError, createToolError } from '@/types/bitcoin-tools';
+import { ToolError, createToolError, isToolError } from '@/types/bitcoin-tools';
 
 interface ToolErrorBoundaryState {
   hasError: boolean;
@@ -26,19 +26,30 @@ export class ToolErrorBoundary extends React.Component<ToolErrorBoundaryProps, T
     };
   }
 
-  static getDerivedStateFromError(error: Error): Partial<ToolErrorBoundaryState> {
-    const toolError = createToolError('unknown', 'UNKNOWN_ERROR', error);
+  static getDerivedStateFromError(error: Error | ToolError): Partial<ToolErrorBoundaryState> {
+    // If it's already a ToolError, use it directly
+    const toolError = isToolError(error) 
+      ? error
+      : createToolError('unknown', 'UNKNOWN_ERROR', error instanceof Error ? error : new Error(String(error)));
+    
     return {
       hasError: true,
       error: toolError
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    const toolError = createToolError('unknown', 'UNKNOWN_ERROR', error, {
-      componentStack: errorInfo.componentStack,
-      errorBoundary: this.props.toolName
-    });
+  componentDidCatch(error: Error | ToolError, errorInfo: React.ErrorInfo) {
+    const toolError = isToolError(error)
+      ? error
+      : createToolError('unknown', 'UNKNOWN_ERROR', error instanceof Error ? error : new Error(String(error)), {
+          componentStack: errorInfo.componentStack,
+          errorBoundary: this.props.toolName
+        });
+
+    // Update state if not already a ToolError to include additional context
+    if (!isToolError(error)) {
+      this.setState({ error: toolError });
+    }
 
     this.props.onError?.(toolError);
     

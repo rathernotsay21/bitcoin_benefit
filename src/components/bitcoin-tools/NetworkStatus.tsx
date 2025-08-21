@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useReducer } from 'react';
+import React, { useEffect, useCallback, useMemo, useReducer } from 'react';
 import type { 
   NetworkHealth, 
   EnhancedNetworkHealth,
@@ -10,6 +10,9 @@ import type {
 import { isToolError } from '@/types/bitcoin-tools';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
 import ToolErrorBoundary from './ToolErrorBoundary';
+import ToolSkeleton from './ToolSkeleton';
+import { EducationalSidebar } from './educational/EducationalSidebar';
+import { networkStatusEducation } from './educational/educationalContent';
 
 // Validation function for network health response
 function isValidNetworkHealthResponse(data: unknown): data is EnhancedNetworkHealth {
@@ -17,10 +20,10 @@ function isValidNetworkHealthResponse(data: unknown): data is EnhancedNetworkHea
   const obj = data as Record<string, unknown>;
   
   return (
-    typeof obj.congestionLevel === 'string' &&
-    ['low', 'normal', 'high', 'extreme'].includes(obj.congestionLevel) &&
-    typeof obj.mempoolSize === 'number' &&
-    typeof obj.mempoolBytes === 'number' &&
+    typeof obj['congestionLevel'] === 'string' &&
+    ['low', 'normal', 'high', 'extreme'].includes(obj['congestionLevel']) &&
+    typeof obj['mempoolSize'] === 'number' &&
+    typeof obj['mempoolBytes'] === 'number' &&
     (typeof obj.averageFee === 'number' || typeof obj.averageFee === 'object') &&
     typeof obj.nextBlockETA === 'string' &&
     typeof obj.recommendation === 'string' &&
@@ -103,7 +106,7 @@ const NetworkStatus: React.FC = () => {
           headers: {
             'Accept': 'application/json'
           },
-          signal: AbortSignal.timeout(15000)
+          signal: AbortSignal.timeout(30000) // Increased timeout to 30 seconds
         }),
         BitcoinAPI.getCurrentPrice()
       ]);
@@ -295,80 +298,138 @@ const NetworkStatus: React.FC = () => {
     return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', emoji: '❓', timeEstimate: 'Unknown' };
   };
 
-  if (state.isLoading) {
+  // Only show skeleton if we don't have any data (first load)
+  if (state.isLoading && !state.networkHealth) {
     return (
-      <div className="text-center py-8">
-        <div className="animate-spin w-8 h-8 border-4 border-bitcoin border-t-transparent rounded-full mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400">Loading network status...</p>
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
+        <div className="lg:flex-[1.5] w-full min-w-0">
+          <ToolSkeleton 
+            variant="network" 
+            showProgress 
+            progressMessage="Loading network status..." 
+          />
+        </div>
+        <div className="lg:flex-[1] lg:max-w-md">
+          <div className="lg:sticky lg:top-6">
+            <EducationalSidebar sections={networkStatusEducation} />
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (state.error || !state.networkHealth) {
+  if (state.error && !state.networkHealth) {
     return (
-      <div className="text-center py-8">
-        <div className="w-12 h-12 mx-auto mb-4 text-gray-400">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-          {state.error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          {state.error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
-        </p>
-        
-        {state.error?.retryAfter && (
-          <p className="text-sm text-orange-600 dark:text-orange-400 mb-4">
-            Rate limit exceeded. Please wait {Math.ceil((state.error.retryAfter - Date.now()) / 1000)} seconds.
-          </p>
-        )}
-        
-        {(!state.error?.retryAfter || state.error.retryAfter <= Date.now()) && (
-          <div className="space-x-3">
-            <button
-              onClick={fetchNetworkHealth}
-              disabled={state.isLoading || state.retryCount >= 3}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bitcoin hover:bg-bitcoin-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {state.isLoading ? 'Retrying...' : state.retryCount >= 3 ? 'Max Retries Reached' : 'Try Again'}
-            </button>
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
+        <div className="lg:flex-[1.5] w-full min-w-0">
+          <div className="text-center py-8">
+            <div className="w-12 h-12 mx-auto mb-4 text-gray-400">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              {state.error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              {state.error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
+            </p>
             
-            {state.retryCount >= 3 && (
-              <button
-                onClick={() => {
-                  dispatch({ type: 'RESET_RETRY' });
-                  fetchNetworkHealth();
-                }}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin"
-              >
-                Reset and Retry
-              </button>
+            {state.error?.retryAfter && (
+              <p className="text-sm text-orange-600 dark:text-orange-400 mb-4">
+                Rate limit exceeded. Please wait {Math.ceil((state.error.retryAfter - Date.now()) / 1000)} seconds.
+              </p>
+            )}
+            
+            {(!state.error?.retryAfter || state.error.retryAfter <= Date.now()) && (
+              <div className="space-x-3">
+                <button
+                  onClick={fetchNetworkHealth}
+                  disabled={state.isLoading || state.retryCount >= 3}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bitcoin hover:bg-bitcoin-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {state.isLoading ? 'Retrying...' : state.retryCount >= 3 ? 'Max Retries Reached' : 'Try Again'}
+                </button>
+                
+                {state.retryCount >= 3 && (
+                  <button
+                    onClick={() => {
+                      dispatch({ type: 'RESET_RETRY' });
+                      fetchNetworkHealth();
+                    }}
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin"
+                  >
+                    Reset and Retry
+                  </button>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
+        <div className="lg:flex-[1] lg:max-w-md">
+          <div className="lg:sticky lg:top-6">
+            <EducationalSidebar sections={networkStatusEducation} />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto bt-network-status-container">
-      {/* Explanatory Text for New Users */}
-      <div className="mb-8 bt-explanatory-box">
-        <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
-          What is Network Status?
-        </h3>
-        <p className="text-base text-blue-800 dark:text-blue-200 mb-4">
-          The Bitcoin network is like a digital highway for money transfers. When many people are sending 
-          Bitcoin at once, the "traffic" increases, making transactions take longer and cost more. When 
-          traffic is light, transactions are faster and cheaper.
-        </p>
-        <p className="text-base text-blue-700 dark:text-blue-300">
-          <strong>What to look for:</strong> Green means it's a great time to send Bitcoin (low fees, fast processing). 
-          Red means the network is very busy (higher fees, slower processing).
-        </p>
-      </div>
+    <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
+      {/* Main Tool Content - 60% width */}
+      <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
+        {/* Loading indicator overlay for refreshes */}
+        {state.isLoading && state.networkHealth && (
+          <div className="fixed top-4 right-4 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-lg border px-4 py-2 flex items-center space-x-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-bitcoin"></div>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Updating...</span>
+          </div>
+        )}
+        
+        {/* Network Status Error Banner */}
+        {state.error && state.networkHealth && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm font-medium text-red-800 dark:text-red-200">
+                  Connection Issue: {state.error.message}
+                </span>
+              </div>
+              <button
+                onClick={() => {
+                  dispatch({ type: 'RESET_RETRY' });
+                  fetchNetworkHealth();
+                }}
+                className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 font-medium text-sm"
+              >
+                Retry
+              </button>
+            </div>
+            <p className="text-xs text-red-700 dark:text-red-300 mt-2">
+              Showing last known data. Network information may be outdated.
+            </p>
+          </div>
+        )}
+
+        {/* Explanatory Text for New Users */}
+        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400">
+          <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
+            What is Network Status?
+          </h3>
+          <p className="text-base text-blue-800 dark:text-blue-200 mb-4">
+            The Bitcoin network is like a digital highway for money transfers. When many people are sending 
+            Bitcoin at once, the "traffic" increases, making transactions take longer and cost more. When 
+            traffic is light, transactions are faster and cheaper.
+          </p>
+          <p className="text-base text-blue-700 dark:text-blue-300">
+            <strong>What to look for:</strong> Green means it's a great time to send Bitcoin (low fees, fast processing). 
+            Red means the network is very busy (higher fees, slower processing).
+          </p>
+        </div>
 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">
@@ -520,21 +581,29 @@ const NetworkStatus: React.FC = () => {
         </div>
       </div>
 
-      {/* Next Block Estimation */}
-      <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-        <div className="flex items-center space-x-3">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>Next batch of transactions processes in: <strong className="text-gray-900 dark:text-white">{state.networkHealth.nextBlockETA}</strong></span>
+        {/* Next Block Estimation */}
+        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+          <div className="flex items-center space-x-3">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Next batch of transactions processes in: <strong className="text-gray-900 dark:text-white">{state.networkHealth.nextBlockETA}</strong></span>
+          </div>
+          <button
+            onClick={fetchNetworkHealth}
+            disabled={state.isLoading}
+            className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {state.isLoading ? 'Refreshing...' : 'Refresh'}
+          </button>
         </div>
-        <button
-          onClick={fetchNetworkHealth}
-          disabled={state.isLoading}
-          className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {state.isLoading ? 'Refreshing...' : 'Refresh'}
-        </button>
+      </div>
+
+      {/* Educational Sidebar - 40% width */}
+      <div className="lg:flex-[1] lg:max-w-md">
+        <div className="lg:sticky lg:top-6">
+          <EducationalSidebar sections={networkStatusEducation} />
+        </div>
       </div>
     </div>
   );
