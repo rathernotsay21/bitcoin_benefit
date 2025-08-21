@@ -230,110 +230,130 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
 
   return (
     <div className="w-full">
-
-      <Tabs value={activeTab} onValueChange={(value: string) => {
-        if (value && value in tools.reduce((acc, tool) => ({ ...acc, [tool.id]: true }), {})) {
-          setActiveTab(value as ToolId);
-        }
-      }} className="w-full">
-        {/* Enhanced Tab Navigation */}
-        <div className="relative mb-8">
-          <TabsList className="w-full h-auto p-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-lg">
-            <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 w-full">
-              {tools.map((tool) => (
-                <TabsTrigger
-                  key={tool.id}
-                  value={tool.id}
-                  className="relative flex flex-col items-center py-4 px-3 transition-all duration-300 rounded-lg data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[100px] data-[state=active]:transform data-[state=active]:scale-[1.02]"
-                >
-                  <div className="w-8 h-8 mb-3 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110">
-                    <tool.icon className="w-full h-full" />
-                  </div>
-                  <span className="text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-300">
-                    {tool.label}
-                  </span>
-                  {tool.badge && (
-                    <Badge 
-                      variant="secondary" 
-                      className="absolute -top-1 -right-1 text-[9px] px-1.5 py-0.5 h-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 rounded-full shadow-sm z-10"
-                    >
-                      {tool.badge}
-                    </Badge>
-                  )}
-                </TabsTrigger>
-              ))}
-            </div>
-          </TabsList>
-        </div>
-
-        {/* Enhanced Tab Content */}
-        {tools.map((tool) => {
-          const Component = tool.component;
-          return (
-            <TabsContent key={tool.id} value={tool.id} className="space-y-8" forceMount={tool.id === activeTab ? undefined : true} hidden={tool.id !== activeTab}>
-              {/* Enhanced Tool Header */}
-              <div className="bg-gradient-to-r from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-6 border border-gray-200 dark:border-slate-600">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-bitcoin/10 dark:bg-bitcoin/20 rounded-xl flex items-center justify-center">
-                    <tool.icon className="w-8 h-8 text-bitcoin" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                        {tool.label}
-                      </h2>
-                      {tool.badge && (
-                        <Badge 
-                          variant="secondary" 
-                          className="bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 px-2 py-1"
-                        >
-                          {tool.badge}
-                        </Badge>
-                      )}
+      {/* Add proper spacing from hero section */}
+      <div className="pt-8 sm:pt-12">
+        <Tabs value={activeTab} onValueChange={(value: string) => {
+          if (value && value in tools.reduce((acc, tool) => ({ ...acc, [tool.id]: true }), {})) {
+            setActiveTab(value as ToolId);
+          }
+        }} className="w-full">
+          {/* Enhanced Tab Navigation with improved spacing and design */}
+          <div className="relative mb-12">
+            {/* Add subtle background pattern */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-50/50 via-white/30 to-slate-50/50 dark:from-slate-800/50 dark:via-slate-700/30 dark:to-slate-800/50 rounded-2xl blur-3xl" aria-hidden="true"></div>
+            
+            <TabsList className="relative w-full h-auto p-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl">
+              {/* Responsive grid with optimized sizing */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
+                {tools.map((tool) => (
+                  <TabsTrigger
+                    key={tool.id}
+                    value={tool.id}
+                    className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-300 rounded-xl data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-slate-50/80 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[80px] sm:min-h-[90px] data-[state=active]:transform data-[state=active]:scale-[1.02] hover:scale-[1.01] data-[state=active]:ring-2 data-[state=active]:ring-bitcoin/20 data-[state=active]:ring-offset-2"
+                  >
+                    {/* Icon with improved sizing */}
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 mb-2 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110 group-hover:scale-105">
+                      <tool.icon className="w-full h-full" />
                     </div>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                      {tool.description}
-                    </p>
+                    
+                    {/* Responsive text sizing */}
+                    <span className="text-xs sm:text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-300 px-1">
+                      <span className="hidden sm:inline">{tool.label}</span>
+                      <span className="sm:hidden">{tool.shortLabel}</span>
+                    </span>
+                    
+                    {/* Enhanced badge positioning and styling */}
+                    {tool.badge && (
+                      <Badge 
+                        variant="secondary" 
+                        className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 h-3 sm:h-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 rounded-full shadow-md z-10 animate-pulse"
+                      >
+                        {tool.badge}
+                      </Badge>
+                    )}
+                    
+                    {/* Subtle glow effect for active state */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-bitcoin/10 to-bitcoin-600/10 opacity-0 group-data-[state=active]:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></div>
+                  </TabsTrigger>
+                ))}
+              </div>
+            </TabsList>
+            
+            {/* Add visual depth with shadow layers */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-bitcoin/5 to-transparent rounded-2xl pointer-events-none" aria-hidden="true"></div>
+          </div>
+
+          {/* Enhanced Tab Content with improved spacing */}
+          {tools.map((tool) => {
+            const Component = tool.component;
+            return (
+              <TabsContent key={tool.id} value={tool.id} className="space-y-6" forceMount={tool.id === activeTab ? undefined : true} hidden={tool.id !== activeTab}>
+                {/* Enhanced Tool Header with better visual hierarchy */}
+                <div className="bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200/60 dark:border-slate-600/60 shadow-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                    <div className="w-14 h-14 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-2xl flex items-center justify-center shadow-inner">
+                      <tool.icon className="w-8 h-8 text-bitcoin" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                          {tool.label}
+                        </h2>
+                        {tool.badge && (
+                          <Badge 
+                            variant="secondary" 
+                            className="w-fit bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white border-0 px-3 py-1 shadow-md"
+                          >
+                            {tool.badge}
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+                        {tool.description}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Enhanced Tool Stats with better responsive design */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-4 text-sm">
+                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
+                      </div>
+                    </div>
+                    <div className="">
+                      <button
+                        onClick={openCommandPalette}
+                        className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-2 text-xs text-slate-600 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:border-bitcoin/20 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-bitcoin/20 focus:ring-offset-2 shadow-sm hover:shadow-md"
+                        aria-label="Open search (⌘K)"
+                      >
+                        Press{" "}
+                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1 mr-1">
+                          <span className="text-xs">⌘</span>K
+                        </kbd>{" "}
+                        to search
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
-                {/* Tool Stats with Search */}
-                <div className="flex flex-wrap items-center gap-4 text-sm">
-                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
-                  </div>
-                  <div className="ml-auto">
-                    <button
-                      onClick={openCommandPalette}
-                      className="bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2"
-                      aria-label="Open search (⌘K)"
-                    >
-                      Press{" "}
-                      <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1 mr-1">
-                        <span className="text-xs">⌘</span>K
-                      </kbd>{" "}
-                      to search
-                    </button>
-                  </div>
+                {/* Tool Component Container with enhanced styling */}
+                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/60 dark:border-slate-700/60 overflow-hidden min-h-[600px] transition-all duration-300 hover:shadow-2xl">
+                  <Component 
+                    initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
+                    initialAddress={tool.id === 'address' ? processedParams.address : undefined}
+                  />
                 </div>
-              </div>
-              
-              {/* Tool Component Container with fixed min-height to prevent layout shift */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 overflow-hidden min-h-[600px] transition-all duration-300">
-                <Component 
-                  initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
-                  initialAddress={tool.id === 'address' ? processedParams.address : undefined}
-                />
-              </div>
-            </TabsContent>
-          );
-        })}
-      </Tabs>
+              </TabsContent>
+            );
+          })}
+        </Tabs>
+      </div>
     </div>
   );
 });

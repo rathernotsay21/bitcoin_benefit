@@ -60,28 +60,33 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         Skip to main content
       </a>
 
-      {/* Hero Section */}
-      <section className="relative min-h-[150px] py-8 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* Enhanced Hero Section */}
+      <section className="relative min-h-[200px] py-12 sm:py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        {/* Enhanced background effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent dark:via-slate-800/20" aria-hidden="true"></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin </span>
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Tools</span>
             </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
               Simple blockchain tools for everyone
             </p>
-              
           </div>
         </div>
+        
+        {/* Subtle bottom fade for smooth transition to content */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-white dark:to-slate-900" aria-hidden="true"></div>
       </section>
 
       {/* Command Palette - Functionality available via keyboard shortcut */}
       <ToolCommandPalette />
 
       {/* Enhanced Tools Interface */}
-      <main id="main-tools" className="pb-24" role="main">
+      <main id="main-tools" className="pb-24 -mt-4" role="main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Suspense fallback={
             <div className="animate-pulse">
@@ -101,8 +106,8 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
 
         {/* Educational Footer */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <aside className="mt-16" aria-labelledby="educational-heading">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-2 border-gray-200 dark:border-gray-700 p-8 sm:p-12">
+          <aside className="mt-20" aria-labelledby="educational-heading">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/60 dark:border-gray-700/60 p-8 sm:p-12">
             <h3 id="educational-heading" className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               New to Bitcoin?
             </h3>
@@ -110,38 +115,38 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
               These tools help you interact with the Bitcoin blockchain safely and easily. 
               All data is processed securely, and we never store your personal information.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/20 rounded-full flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <div className="text-center group" role="article">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-200">
                   <LockClosedIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Privacy First</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400">No accounts, no tracking, data processed locally when possible</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
               </div>
-              <div className="text-center" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/20 rounded-full flex items-center justify-center">
+              <div className="text-center group" role="article">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-200">
                   <BookOpenIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Learn as You Go</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400">Helpful explanations and tooltips for Bitcoin terms</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
               </div>
-              <div className="text-center" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/20 rounded-full flex items-center justify-center">
+              <div className="text-center group" role="article">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-200">
                   <DevicePhoneMobileIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Mobile Friendly</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400">Works perfectly on all devices and screen sizes</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Works perfectly on all devices and screen sizes</p>
               </div>
             </div>
           </div>
           </aside>
 
           {/* Data Usage Transparency */}
-          <DataUsageTransparency className="mt-8 sm:mt-12" />
+          <DataUsageTransparency className="mt-12 sm:mt-16" />
 
           {/* Privacy Notice */}
           <footer className="mt-8 sm:mt-12 text-center" role="contentinfo" aria-labelledby="privacy-notice">
-          <p id="privacy-notice" className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-5xl mx-auto px-4 leading-relaxed">
+          <p id="privacy-notice" className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-4xl mx-auto px-4 leading-relaxed text-center">
             <strong>Privacy Notice:</strong> These tools may send data to public APIs (like mempool.space) to fetch blockchain information. 
             We do not store or track this data. Data is automatically cleared when you leave this page. For maximum privacy, consider running your own Bitcoin node.
           </p>
