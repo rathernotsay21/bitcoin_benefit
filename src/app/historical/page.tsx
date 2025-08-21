@@ -296,7 +296,7 @@ function HistoricalCalculatorContent() {
                 {/* Introductory Text */}
                 <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                    This tool shows what would have happened if you had started a Bitcoin award plan in the past. While Bitcoin's early days saw dramatic growth, the good news is that its wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
+                    This page shows what happened for those that already have Bitcoin award. The early days saw dramatic growth, but they were rough to live through. The good news is that the wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
                   </p>
                 </div>
                 {/* Metric Cards Carousel */}
