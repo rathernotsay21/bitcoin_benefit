@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useReducer } from 'react';
 import type { 
   NetworkHealth, 
   EnhancedNetworkHealth,
@@ -44,17 +44,58 @@ interface NetworkStatusError {
   retryAfter?: number;
 }
 
+// State management with reducer to prevent flickering
+interface NetworkState {
+  networkHealth: EnhancedNetworkHealth | null;
+  bitcoinPrice: BitcoinPrice | null;
+  isLoading: boolean;
+  error: NetworkStatusError | null;
+  retryCount: number;
+}
+
+type NetworkAction = 
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_DATA'; payload: { networkHealth: EnhancedNetworkHealth; bitcoinPrice: BitcoinPrice } }
+  | { type: 'SET_ERROR'; payload: NetworkStatusError }
+  | { type: 'INCREMENT_RETRY' }
+  | { type: 'RESET_RETRY' };
+
+const networkReducer = (state: NetworkState, action: NetworkAction): NetworkState => {
+  switch (action.type) {
+    case 'SET_LOADING':
+      return { ...state, isLoading: action.payload };
+    case 'SET_DATA':
+      return { 
+        ...state, 
+        networkHealth: action.payload.networkHealth, 
+        bitcoinPrice: action.payload.bitcoinPrice, 
+        error: null, 
+        retryCount: 0,
+        isLoading: false 
+      };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, isLoading: false };
+    case 'INCREMENT_RETRY':
+      return { ...state, retryCount: state.retryCount + 1 };
+    case 'RESET_RETRY':
+      return { ...state, retryCount: 0, error: null };
+    default:
+      return state;
+  }
+};
+
 const NetworkStatus: React.FC = () => {
-  const [networkHealth, setNetworkHealth] = useState<EnhancedNetworkHealth | null>(null);
-  const [bitcoinPrice, setBitcoinPrice] = useState<BitcoinPrice | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<NetworkStatusError | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
+  const [state, dispatch] = useReducer(networkReducer, {
+    networkHealth: null,
+    bitcoinPrice: null,
+    isLoading: true,
+    error: null,
+    retryCount: 0
+  });
 
   const fetchNetworkHealth = useCallback(async () => {
     try {
-      setIsLoading(true);
-      setError(null);
+      dispatch({ type: 'SET_LOADING', payload: true });
       
       // Fetch both network status and Bitcoin price in parallel
       const [networkResponse, bitcoinPriceData] = await Promise.all([
@@ -72,13 +113,13 @@ const NetworkStatus: React.FC = () => {
         
         if (errorData?.error && isToolError(errorData.error)) {
           const toolError = errorData.error as ToolError;
-          setError({
+          dispatch({ type: 'SET_ERROR', payload: {
             message: toolError.userFriendlyMessage,
             isRetryable: toolError.retryable,
             retryAfter: toolError.type === 'rate_limit' && 'resetTime' in toolError 
               ? (toolError.resetTime as number) * 1000 
               : undefined
-          });
+          }});
           return;
         }
         
@@ -92,50 +133,46 @@ const NetworkStatus: React.FC = () => {
         throw new Error('Invalid network status response format');
       }
       
-      setNetworkHealth(networkData);
-      setBitcoinPrice(bitcoinPriceData);
-      setRetryCount(0); // Reset retry count on success
+      dispatch({ type: 'SET_DATA', payload: { networkHealth: networkData, bitcoinPrice: bitcoinPriceData } });
       
     } catch (err) {
       console.error('Error fetching network health:', err);
       
       const isTimeout = err instanceof Error && err.name === 'AbortError';
-      const shouldRetry = retryCount < 3 && (isTimeout || err instanceof TypeError);
+      const shouldRetry = state.retryCount < 3 && (isTimeout || err instanceof TypeError);
       
-      setError({
+      dispatch({ type: 'SET_ERROR', payload: {
         message: isTimeout 
           ? 'Request timed out. The Bitcoin network might be experiencing delays.' 
           : err instanceof Error 
           ? err.message 
           : 'An unexpected error occurred',
         isRetryable: shouldRetry
-      });
+      }});
       
       // Automatic retry with exponential backoff
       if (shouldRetry) {
-        const retryDelay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+        const retryDelay = Math.min(1000 * Math.pow(2, state.retryCount), 10000);
         setTimeout(() => {
-          setRetryCount(prev => prev + 1);
+          dispatch({ type: 'INCREMENT_RETRY' });
           fetchNetworkHealth();
         }, retryDelay);
       }
-    } finally {
-      setIsLoading(false);
     }
-  }, [retryCount]);
+  }, [state.retryCount]);
 
   useEffect(() => {
     fetchNetworkHealth();
     
     // Set up auto-refresh every 30 seconds
     const interval = setInterval(() => {
-      if (!isLoading) {
+      if (!state.isLoading) {
         fetchNetworkHealth();
       }
     }, 30000);
     
     return () => clearInterval(interval);
-  }, [fetchNetworkHealth, isLoading]);
+  }, [fetchNetworkHealth, state.isLoading]);
 
   const getStatusIcon = (congestionLevel: NetworkHealth['congestionLevel']) => {
     switch (congestionLevel) {
@@ -202,19 +239,19 @@ const NetworkStatus: React.FC = () => {
   };
 
   const calculateTxCostUSD = useCallback((feeRate: FeeRate, txSize: number = 140): number => {
-    if (!bitcoinPrice) return 0;
+    if (!state.bitcoinPrice) return 0;
     const satoshiCost = Number(feeRate) * txSize;
     const btcCost = satoshiCost / 100000000;
-    return btcCost * bitcoinPrice.price;
-  }, [bitcoinPrice]);
+    return btcCost * state.bitcoinPrice.price;
+  }, [state.bitcoinPrice]);
 
   const congestionProgress = useMemo((): { percentage: number; color: string; label: string } => {
-    if (!networkHealth || !networkHealth.analysis) {
+    if (!state.networkHealth || !state.networkHealth.analysis) {
       return { percentage: 0, color: 'bg-gray-400', label: 'Unknown' };
     }
     
     // Use the enhanced analysis from the API
-    const { congestionPercentage, trafficLevel } = networkHealth.analysis;
+    const { congestionPercentage, trafficLevel } = state.networkHealth.analysis;
     
     let color: string;
     let label: string;
@@ -246,7 +283,7 @@ const NetworkStatus: React.FC = () => {
       color, 
       label 
     };
-  }, [networkHealth]);
+  }, [state.networkHealth]);
 
   const getFeeLabel = (feeType: string): { label: string; emoji: string; timeEstimate: string } => {
     const feeLabels = {
@@ -258,7 +295,7 @@ const NetworkStatus: React.FC = () => {
     return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', emoji: '❓', timeEstimate: 'Unknown' };
   };
 
-  if (isLoading) {
+  if (state.isLoading) {
     return (
       <div className="text-center py-8">
         <div className="animate-spin w-8 h-8 border-4 border-bitcoin border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -267,7 +304,7 @@ const NetworkStatus: React.FC = () => {
     );
   }
 
-  if (error || !networkHealth) {
+  if (state.error || !state.networkHealth) {
     return (
       <div className="text-center py-8">
         <div className="w-12 h-12 mx-auto mb-4 text-gray-400">
@@ -276,33 +313,32 @@ const NetworkStatus: React.FC = () => {
           </svg>
         </div>
         <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-          {error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
+          {state.error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          {error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
+          {state.error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
         </p>
         
-        {error?.retryAfter && (
+        {state.error?.retryAfter && (
           <p className="text-sm text-orange-600 dark:text-orange-400 mb-4">
-            Rate limit exceeded. Please wait {Math.ceil((error.retryAfter - Date.now()) / 1000)} seconds.
+            Rate limit exceeded. Please wait {Math.ceil((state.error.retryAfter - Date.now()) / 1000)} seconds.
           </p>
         )}
         
-        {(!error?.retryAfter || error.retryAfter <= Date.now()) && (
+        {(!state.error?.retryAfter || state.error.retryAfter <= Date.now()) && (
           <div className="space-x-3">
             <button
               onClick={fetchNetworkHealth}
-              disabled={isLoading || retryCount >= 3}
+              disabled={state.isLoading || state.retryCount >= 3}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-bitcoin hover:bg-bitcoin-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Retrying...' : retryCount >= 3 ? 'Max Retries Reached' : 'Try Again'}
+              {state.isLoading ? 'Retrying...' : state.retryCount >= 3 ? 'Max Retries Reached' : 'Try Again'}
             </button>
             
-            {retryCount >= 3 && (
+            {state.retryCount >= 3 && (
               <button
                 onClick={() => {
-                  setRetryCount(0);
-                  setError(null);
+                  dispatch({ type: 'RESET_RETRY' });
                   fetchNetworkHealth();
                 }}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin"
@@ -317,9 +353,9 @@ const NetworkStatus: React.FC = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto bt-network-status-container">
       {/* Explanatory Text for New Users */}
-      <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-2 border-blue-200 dark:border-blue-700 shadow-sm">
+      <div className="mb-8 bt-explanatory-box">
         <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
           What is Network Status?
         </h3>
@@ -336,16 +372,16 @@ const NetworkStatus: React.FC = () => {
 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">
-          {getStatusIcon(networkHealth.congestionLevel)}
+          {getStatusIcon(state.networkHealth.congestionLevel)}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Current Network Health</h2>
             <p className="text-base text-gray-600 dark:text-gray-400">Live updates every 30 seconds</p>
           </div>
         </div>
-        <span className={getStatusBadgeClasses(networkHealth.humanReadable.colorScheme)}>
-          {networkHealth.congestionLevel === 'low' ? 'Light Traffic' :
-           networkHealth.congestionLevel === 'normal' ? 'Normal Traffic' :
-           networkHealth.congestionLevel === 'high' ? 'Heavy Traffic' : 'Very Heavy Traffic'}
+        <span className={getStatusBadgeClasses(state.networkHealth.humanReadable.colorScheme)}>
+          {state.networkHealth.congestionLevel === 'low' ? 'Light Traffic' :
+           state.networkHealth.congestionLevel === 'normal' ? 'Normal Traffic' :
+           state.networkHealth.congestionLevel === 'high' ? 'Heavy Traffic' : 'Very Heavy Traffic'}
         </span>
       </div>
 
@@ -378,13 +414,13 @@ const NetworkStatus: React.FC = () => {
             <div>
               <span className="text-gray-600 dark:text-gray-400">Queue: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
-                {formatNumber(networkHealth.mempoolSize)} transactions
+                {formatNumber(state.networkHealth.mempoolSize)} transactions
               </span>
             </div>
             <div>
               <span className="text-gray-600 dark:text-gray-400">Size: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
-                {formatBytes(networkHealth.mempoolBytes)}
+                {formatBytes(state.networkHealth.mempoolBytes)}
               </span>
             </div>
           </div>
@@ -392,11 +428,11 @@ const NetworkStatus: React.FC = () => {
       </div>
 
       {/* Fee Estimates */}
-      {networkHealth.feeEstimates && (
+      {state.networkHealth.feeEstimates && (
         <div className="mb-8">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Current Fee Rates</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.entries(networkHealth.feeEstimates).map(([feeType, feeRate]) => {
+            {Object.entries(state.networkHealth.feeEstimates).map(([feeType, feeRate]) => {
               const feeInfo = getFeeLabel(feeType);
               const costUSD = calculateTxCostUSD(feeRate as FeeRate);
               
@@ -406,7 +442,7 @@ const NetworkStatus: React.FC = () => {
                     <div className="text-2xl mb-2">{feeInfo.emoji}</div>
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
                     <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
-                    {bitcoinPrice && (
+                    {state.bitcoinPrice && (
                       <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                         ~${costUSD.toFixed(2)} USD
                       </div>
@@ -424,8 +460,8 @@ const NetworkStatus: React.FC = () => {
             <p className="text-sm text-blue-800 dark:text-blue-200">
               <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
               Larger transactions will cost proportionally more. 
-              {bitcoinPrice && (
-                <span>Bitcoin price: ${bitcoinPrice.price.toLocaleString()}</span>
+              {state.bitcoinPrice && (
+                <span>Bitcoin price: ${state.bitcoinPrice.price.toLocaleString()}</span>
               )}
             </p>
           </div>
@@ -436,37 +472,37 @@ const NetworkStatus: React.FC = () => {
       <div className="mb-8">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
         <div className={`rounded-xl p-6 border-l-4 shadow-sm ${
-          networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
-          networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
-          networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
+          state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
+          state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
+          state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
           'bg-red-50 dark:bg-red-900/20 border-red-400'
         }`}>
           <p className="text-gray-900 dark:text-white text-lg font-semibold mb-3">
-            {networkHealth.congestionLevel === 'low' ? '✅ Perfect timing for transactions!' :
-             networkHealth.congestionLevel === 'normal' ? '👍 Good time to send Bitcoin' :
-             networkHealth.congestionLevel === 'high' ? '⚠️ Network is getting busy' :
+            {state.networkHealth.congestionLevel === 'low' ? '✅ Perfect timing for transactions!' :
+             state.networkHealth.congestionLevel === 'normal' ? '👍 Good time to send Bitcoin' :
+             state.networkHealth.congestionLevel === 'high' ? '⚠️ Network is getting busy' :
              '🚨 Network is very congested'}
           </p>
           <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
-            {networkHealth.humanReadable.userAdvice}
+            {state.networkHealth.humanReadable.userAdvice}
           </p>
           
           {/* Fee-based recommendations */}
-          {networkHealth.feeEstimates && (
+          {state.networkHealth.feeEstimates && (
             <div className="bg-white/50 dark:bg-black/20 rounded-lg p-4 mt-4">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2">💰 Fee Recommendation:</h4>
               <div className="text-sm text-gray-700 dark:text-gray-300">
-                {Number(networkHealth.averageFee) < 10 && (
-                  <span>Use <strong>Economy fees</strong> ({Number(networkHealth.feeEstimates.economyFee)} sat/vB) to save money!</span>
+                {Number(state.networkHealth.averageFee) < 10 && (
+                  <span>Use <strong>Economy fees</strong> ({Number(state.networkHealth.feeEstimates.economyFee)} sat/vB) to save money!</span>
                 )}
-                {Number(networkHealth.averageFee) >= 10 && Number(networkHealth.averageFee) < 30 && (
-                  <span>Use <strong>Standard fees</strong> ({Number(networkHealth.feeEstimates.halfHourFee)} sat/vB) for reliable confirmation.</span>
+                {Number(state.networkHealth.averageFee) >= 10 && Number(state.networkHealth.averageFee) < 30 && (
+                  <span>Use <strong>Standard fees</strong> ({Number(state.networkHealth.feeEstimates.halfHourFee)} sat/vB) for reliable confirmation.</span>
                 )}
-                {Number(networkHealth.averageFee) >= 30 && Number(networkHealth.averageFee) < 100 && (
-                  <span>Consider <strong>Priority fees</strong> ({Number(networkHealth.feeEstimates.fastestFee)} sat/vB) or wait for lower congestion.</span>
+                {Number(state.networkHealth.averageFee) >= 30 && Number(state.networkHealth.averageFee) < 100 && (
+                  <span>Consider <strong>Priority fees</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) or wait for lower congestion.</span>
                 )}
-                {Number(networkHealth.averageFee) >= 100 && (
-                  <span>⚠️ <strong>High fees required</strong> ({Number(networkHealth.feeEstimates.fastestFee)} sat/vB) - consider waiting unless urgent.</span>
+                {Number(state.networkHealth.averageFee) >= 100 && (
+                  <span>⚠️ <strong>High fees required</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) - consider waiting unless urgent.</span>
                 )}
               </div>
             </div>
@@ -479,7 +515,7 @@ const NetworkStatus: React.FC = () => {
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm">
           <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
-            {networkHealth.recommendation}
+            {state.networkHealth.recommendation}
           </p>
         </div>
       </div>
@@ -490,14 +526,14 @@ const NetworkStatus: React.FC = () => {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>Next batch of transactions processes in: <strong className="text-gray-900 dark:text-white">{networkHealth.nextBlockETA}</strong></span>
+          <span>Next batch of transactions processes in: <strong className="text-gray-900 dark:text-white">{state.networkHealth.nextBlockETA}</strong></span>
         </div>
         <button
           onClick={fetchNetworkHealth}
-          disabled={isLoading}
+          disabled={state.isLoading}
           className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Refreshing...' : 'Refresh'}
+          {state.isLoading ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
     </div>

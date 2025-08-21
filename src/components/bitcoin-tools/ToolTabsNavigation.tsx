@@ -89,7 +89,7 @@ const FeeCalculatorTool = dynamic(() => import('./FeeCalculatorTool'), {
 
 const NetworkStatusTool = dynamic(() => import('./NetworkStatus'), {
   loading: () => <ToolSkeleton variant="stats" />,
-  ssr: false
+  ssr: true
 });
 
 const AddressExplorerTool = dynamic(() => import('./AddressExplorerTool'), {
@@ -251,9 +251,6 @@ export default function ToolTabsNavigation({
                   </div>
                   <span className="text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-300">
                     {tool.label}
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 group-data-[state=active]:text-white/80 text-center mt-1 transition-colors duration-300">
-                    {tool.description.length > 30 ? tool.description.substring(0, 30) + '...' : tool.description}
                   </span>
                   {tool.badge && (
                     <Badge 

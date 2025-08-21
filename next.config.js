@@ -18,6 +18,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['recharts', '@heroicons/react', '@headlessui/react', 'react-window'],
     esmExternals: false, // Prevents CSS loading issues
+    cssChunking: 'strict', // Prevent CSS flickering
   },
   
   // Optimize JavaScript bundles
@@ -44,9 +45,10 @@ const nextConfig = {
             styles: {
               name: 'styles',
               test: /\.(css|scss|sass)$/,
-              chunks: 'all',
+              chunks: 'initial',
               priority: 50,
               enforce: true,
+              reuseExistingChunk: true,
             },
             // Critical vendor libraries
             framework: {
