@@ -144,7 +144,7 @@ function HistoricalCalculatorContent() {
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">from Bitcoin</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-              See how bitcoin benefits would have grown over the years.
+              See how Bitcoin benefits could have grown for you.
             </p>
           </div>
         </div>
