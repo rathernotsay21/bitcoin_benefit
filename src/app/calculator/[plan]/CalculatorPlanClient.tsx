@@ -312,7 +312,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Metric Cards Carousel */}
             <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
               <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                This forecast tool shows you how a Bitcoin award could play out for one of your employees. The numbers on the right will change based on the grant size and growth you set on the left. It helps you see how a small investment in Bitcoin today could become a great reward for your team down the road.
+                This tool shows you how a Bitcoin award could play out for one of your employees. The numbers on the right will change based on the plan, schedule, and growth you set on the left. It helps you see how a small investment in Bitcoin today could become a great reward for your team down the road.
               </p>
             </div>
             <CalculatorErrorBoundary>
@@ -333,7 +333,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               <>
                 <div className="mb-6 mt-8 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    This bar shows you how much of the Bitcoin award an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
+                    The bar below shows you how much of the Bitcoin award an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
                   </p>
                 </div>
               <VestingProgress
@@ -347,7 +347,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Unlocking Timeline Chart */}
             <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
               <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                This chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
+                The 10-year projection chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
               </p>
             </div>
             <div className="card w-full overflow-hidden">
@@ -371,11 +371,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Detailed Breakdown */}
             {displayScheme && (
               <div className="card mt-6">
-                <div className="mb-6 px-6 py-6 bg-yellow-50/50 dark:bg-yellow-900/20 rounded-lg">
-                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    These are the nuts and bolts of the award plan. It spells out the total amount of Bitcoin being granted and the specific timeline of when your employee earns their portions.
-                  </p>
-                </div>
+                
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
                   {displayScheme.name} Plan Details
                 </h3>

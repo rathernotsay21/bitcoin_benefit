@@ -134,7 +134,7 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-deepSlate dark:text-slate-300">Give the full grant on day one</span>
+                    <span className="text-base text-deepSlate dark:text-slate-300">All in on day one</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -162,7 +162,7 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Smart starting award</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Large award</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -185,16 +185,16 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Smallest annual cost
+                  Least annual cost
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Small awards each year for 10 years</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Least volatility</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Most affordable per year</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Most affordable</span>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
