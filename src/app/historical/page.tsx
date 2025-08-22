@@ -16,6 +16,7 @@ import { MetricCardsSkeleton, TableSkeleton } from '@/components/loading/Enhance
 import HistoricalMetricCards from '@/components/HistoricalMetricCards';
 import SchemeTabSelector from '@/components/SchemeTabSelector';
 import HistoricalDataTable from '@/components/HistoricalDataTable';
+import FinancialDisclaimer from '@/components/FinancialDisclaimer';
 
 // Lazy load the optimized historical visualization component
 const HistoricalTimelineVisualization = dynamic(
@@ -159,6 +160,9 @@ function HistoricalCalculatorContent() {
               />
             </div>
 
+            {/* Financial Disclaimer */}
+            <FinancialDisclaimer />
+
             {/* Historical Configuration */}
             <div className="card glass overflow-hidden historical-config-card">
               <div className="flex items-center mb-6">
@@ -284,7 +288,7 @@ function HistoricalCalculatorContent() {
                 {/* Introductory Text */}
                 <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                    This page shows what happened for those that already have Bitcoin award. The early days saw dramatic growth, but they were rough to live through. The good news is that the wild volatility is settling down. Today's Bitcoin is more mature and stable, making it a practical choice for employee benefits. The future looks bright—you're not too late to get started!
+                    This page shows what bitcoin awards did in the past. The early days saw dramatic growth, but they were rough. The good news is that the wild volatility is settling down. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
                   </p>
                 </div>
                 {/* Metric Cards Carousel */}
@@ -297,7 +301,7 @@ function HistoricalCalculatorContent() {
                 {/* Historical Timeline Visualization */}
                 <div className="mb-6 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
-                    This chart shows the actual journey your employee's Bitcoin award would have taken from your chosen starting year to today. Notice how the value has grown over time, even with Bitcoin's ups and downs along the way.
+                    The timeline shows the journey your employee's Bitcoin award would have taken from a chosen starting year to today.
                   </p>
                 </div>
                 <div className="card mb-6">

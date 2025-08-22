@@ -228,6 +228,28 @@ export default function Footer() {
                   </li>
                 </ul>
               </div>
+
+              {/* Legal */}
+              <div>
+                <h5 className="text-white font-semibold mb-4">Legal</h5>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/terms" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/risk-disclosure" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      Risk Disclosure
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Page Name & Credits */}

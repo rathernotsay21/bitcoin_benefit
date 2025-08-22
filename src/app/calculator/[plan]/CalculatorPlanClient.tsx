@@ -19,6 +19,7 @@ import CustomVestingSchedule from '@/components/CustomVestingSchedule';
 import VestingProgress from '@/components/VestingProgress';
 import MetricCards from '@/components/MetricCards';
 import SchemeTabSelector from '@/components/SchemeTabSelector';
+import FinancialDisclaimer from '@/components/FinancialDisclaimer';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -237,6 +238,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 />
               )}
             </div>
+
+            {/* Financial Disclaimer */}
+            <FinancialDisclaimer />
 
             {/* Scheme Customization */}
             {selectedScheme && (
@@ -480,7 +484,11 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                         <div className="text-sm text-blue-800 dark:text-blue-300">
                           {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
-                            <strong>Default {displayScheme.name} schedule:</strong> Go big up front and keep adding more.
+                            <strong>Default {displayScheme.name} schedule:</strong> {
+                              displayScheme.id === 'accelerator' ? 'Go big up front and keep adding more.' :
+                              displayScheme.id === 'steady-builder' ? 'Balanced initial grant with steady annual additions.' :
+                              'Conservative approach with yearly grants only.'
+                            }
                           </p>
                           
                           {/* Show plan-specific descriptions only when using default schedule */}
