@@ -25,31 +25,75 @@ const nextConfig = {
   // Additional performance settings
   poweredByHeader: false,
   
-  // Simplified webpack config to avoid development issues
+  // Enhanced webpack config for better code splitting and LCP optimization
   webpack: (config, { isServer, dev }) => {
-    // Only apply optimizations in production
+    // Apply optimizations in production
     if (!isServer && !dev) {
       config.optimization = {
         ...config.optimization,
         runtimeChunk: 'single',
         moduleIds: 'deterministic',
+        usedExports: true,
+        sideEffects: false,
         splitChunks: {
           chunks: 'all',
+          maxInitialRequests: 25,
+          minSize: 20000,
           cacheGroups: {
-            // Simplified cache groups
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true
+            // Critical: Split Recharts into async chunk for better LCP
+            recharts: {
+              test: /[\\/]node_modules[\\/](recharts|d3-[^/]+|victory[^/]*|chart\.js)[\\/]/,
+              name: 'charts-vendor',
+              priority: 40,
+              chunks: 'async',
+              enforce: true
             },
+            // Split heavy animation libraries
+            animations: {
+              test: /[\\/]node_modules[\\/](framer-motion|react-spring|@react-spring)[\\/]/,
+              name: 'animations',
+              priority: 35,
+              chunks: 'async'
+            },
+            // Icon libraries - load async
+            icons: {
+              test: /[\\/]node_modules[\\/](@heroicons|@radix-ui[\\/]react-icons|react-icons)[\\/]/,
+              name: 'icons',
+              priority: 30,
+              chunks: 'async'
+            },
+            // UI components library
+            ui: {
+              test: /[\\/]node_modules[\\/](@headlessui|@radix-ui)[\\/]/,
+              name: 'ui-components',
+              priority: 25
+            },
+            // React and core deps
+            framework: {
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              name: 'framework',
+              priority: 50,
+              chunks: 'initial'
+            },
+            // Default vendor chunk for remaining modules
             vendor: {
               test: /[\\/]node_modules[\\/]/,
-              priority: -10,
+              name: 'vendor',
+              priority: 10,
+              reuseExistingChunk: true
+            },
+            // App code splitting
+            common: {
+              minChunks: 2,
+              priority: 5,
               reuseExistingChunk: true
             }
           }
         }
       };
+      
+      // Tree-shaking optimizations
+      // Note: Don't alias lodash as recharts needs specific modules
     }
 
     return config;
@@ -64,6 +108,16 @@ const nextConfig = {
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
+          },
+          // Add Link header for critical resource preloading
+          {
+            key: 'Link',
+            value: [
+              '</data/bitcoin-price.json>; rel=preload; as=fetch; crossorigin',
+              '</data/schemes-meta.json>; rel=preload; as=fetch; crossorigin',
+              '<https://api.coingecko.com>; rel=preconnect',
+              '<https://mempool.space>; rel=dns-prefetch'
+            ].join(', ')
           },
           {
             key: 'X-Frame-Options',
@@ -123,6 +177,55 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Optimize font loading
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Optimize image caching
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Static data files caching
+      {
+        source: '/data/:path*.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=7200',
+          },
+        ],
+      },
+      // API response caching
+      {
+        source: '/api/bitcoin',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=600',
+          },
+        ],
+      },
+      {
+        source: '/api/historical',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=3600, stale-while-revalidate=7200',
           },
         ],
       },

@@ -4,7 +4,8 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
-import { ClarityScript } from '@/components/analytics/ClarityScript'
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
+import { ClarityTester } from '@/components/dev/ClarityTester'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
 import './globals.css'
@@ -66,12 +67,11 @@ export default function RootLayout({
             .hero-section{min-height:400px;background:#0f172a;contain:layout style}
             .feature-card{background:white;border-radius:12px;padding:2rem;transition:transform 0.2s;contain:layout style}
             .feature-card:hover{transform:translateY(-4px)}
-            .icon-container{width:4rem;height:4rem;background:linear-gradient(135deg,#f7931a,#de8417);border-radius:50%;display:flex;align-items:center;justify-content:center}
+            .icon-container{width:4rem;height:4rem;background:rgba(247,147,26,0.1);border-radius:1.25rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(247,147,26,0.1)}
           `
         }} />
         
-        {/* Analytics */}
-        <ClarityScript />
+        {/* Analytics will be handled by AnalyticsProvider */}
         
         {/* Structured Data for SEO */}
         <StructuredData data={structuredData.organization} />
@@ -107,21 +107,25 @@ export default function RootLayout({
           }}
         />
         <CSSLoadingGuard>
-          <PerformanceMonitor 
-            componentName="RootLayout"
-            enableCoreWebVitals={true}
-            enableDevLogging={process.env.NODE_ENV === 'development'}
-          >
-            <ThemeProvider>
-              <StoreSyncProvider>
-                <div className="min-h-screen transition-colors duration-300 performance-optimized">
-                  <main className="relative">
-                    {children}
-                  </main>
-                </div>
-              </StoreSyncProvider>
-            </ThemeProvider>
-          </PerformanceMonitor>
+          <AnalyticsProvider>
+            <PerformanceMonitor 
+              componentName="RootLayout"
+              enableCoreWebVitals={true}
+              enableDevLogging={process.env.NODE_ENV === 'development'}
+            >
+              <ThemeProvider>
+                <StoreSyncProvider>
+                  <div className="min-h-screen transition-colors duration-300 performance-optimized">
+                    <main className="relative">
+                      {children}
+                    </main>
+                    {/* Development tools */}
+                    <ClarityTester />
+                  </div>
+                </StoreSyncProvider>
+              </ThemeProvider>
+            </PerformanceMonitor>
+          </AnalyticsProvider>
         </CSSLoadingGuard>
       </body>
     </html>

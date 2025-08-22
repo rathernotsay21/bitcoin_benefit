@@ -240,7 +240,83 @@ scroll-behavior: smooth;
     box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
   }
 
-  /* Dark Mode Toggle Button */
+  /* Dark Mode Toggle Button - Enhanced Glassmorphism */
+  .theme-toggle-btn {
+    @apply p-3 rounded-xl transition-all duration-300 relative overflow-hidden;
+    
+    /* Light Mode - Glass effect */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    
+    color: #1E2A3A;
+    will-change: transform, backdrop-filter;
+    transform: translateZ(0);
+  }
+  
+  .theme-toggle-btn:hover {
+    transform: translateY(-1px) scale(1.05);
+    background: linear-gradient(
+      135deg,
+      rgba(247, 147, 26, 0.15) 0%,
+      rgba(255, 255, 255, 0.8) 100%
+    );
+    box-shadow: 
+      0 4px 12px rgba(247, 147, 26, 0.2),
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Dark Mode Theme Toggle */
+  .dark .theme-toggle-btn {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.8) 0%,
+      rgba(51, 65, 85, 0.6) 100%
+    );
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    color: #F8FAFC;
+  }
+  
+  .dark .theme-toggle-btn:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(247, 147, 26, 0.2) 0%,
+      rgba(30, 41, 59, 0.9) 100%
+    );
+    box-shadow: 
+      0 4px 12px rgba(247, 147, 26, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(12px)) {
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    
+    .dark .theme-toggle-btn {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+    }
+  }
+  
+  /* Legacy theme-toggle class for backward compatibility */
   .theme-toggle {
     @apply p-2 rounded-lg transition-all duration-300;
     /* Light Mode - Off-white background */
@@ -251,48 +327,158 @@ scroll-behavior: smooth;
     @apply dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700;
   }
 
-  /* Navigation Bar */
+  /* Navigation Bar - Enhanced Glassmorphism Effect */
   .navbar {
-    /* Light Mode - Off-White background */
-    background-color: rgba(250, 250, 250, 0.95);
-    @apply backdrop-blur-md border-b border-slate-200;
-    /* Dark Mode */
-    @apply dark:bg-slate-900 dark:border-slate-800;
+    /* Multi-layered glassmorphism with hero section gradient colors */
+    background: 
+      /* Top overlay: Bitcoin to Blue gradient (subtle) */
+      linear-gradient(
+        to right,
+        rgba(247, 147, 26, 0.1) 0%,
+        rgba(59, 130, 246, 0.1) 100%
+      ),
+      /* Base gradient: Hero section colors with enhanced transparency for glass effect */
+      linear-gradient(
+        135deg,
+        rgba(248, 250, 252, 0.85) 0%, /* slate-50 with transparency */
+        rgba(239, 246, 255, 0.8) 30%,  /* blue-50 with transparency */
+        rgba(224, 231, 255, 0.82) 70%, /* indigo-100 with transparency */
+        rgba(248, 250, 252, 0.88) 100% /* slate-50 with transparency */
+      );
+    
+    /* Advanced backdrop filtering for frosted glass effect */
+    backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    
+    /* Enhanced glass edge border with subtle color tint */
+    border-bottom: 1px solid rgba(224, 231, 255, 0.4);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      0 4px 15px rgba(59, 130, 246, 0.06),
+      0 8px 25px rgba(247, 147, 26, 0.03),
+      inset 0 1px 2px rgba(255, 255, 255, 0.8),
+      inset 0 -1px 1px rgba(224, 231, 255, 0.3);
+    
+    /* Performance optimizations */
+    will-change: backdrop-filter;
+    transform: translateZ(0);
+    
+    /* Transition for smooth theme changes */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Dark Mode Glassmorphism */
+  .dark .navbar {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.85) 0%,
+      rgba(30, 41, 59, 0.8) 50%,
+      rgba(15, 23, 42, 0.9) 100%
+    );
+    
+    /* Enhanced dark mode backdrop filtering */
+    backdrop-filter: blur(24px) saturate(200%) brightness(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(120%);
+    
+    /* Subtle dark glass edge border */
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(24px)) {
+    .navbar {
+      /* Fallback with hero gradient colors but higher opacity */
+      background: 
+        linear-gradient(
+          to right,
+          rgba(247, 147, 26, 0.08) 0%,
+          rgba(59, 130, 246, 0.08) 100%
+        ),
+        linear-gradient(
+          135deg,
+          rgba(248, 250, 252, 0.95) 0%,
+          rgba(239, 246, 255, 0.93) 30%,
+          rgba(224, 231, 255, 0.94) 70%,
+          rgba(248, 250, 252, 0.96) 100%
+        );
+      border-bottom: 1px solid rgba(224, 231, 255, 0.6);
+    }
+    
+    .dark .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+    }
   }
 
-  /* Navigation Link - Enhanced */
+  /* Navigation Link - Enhanced with Full-Width Underlines */
   .nav-link {
-    @apply relative font-medium transition-all duration-500 px-2 py-2;
-    /* Light Mode - Deep Slate text */
-    color: #1E2A3A;
-    /* Dark Mode */
-    @apply dark:text-slate-300;
+    @apply relative font-medium transition-all duration-500 px-3 py-2 rounded-lg;
+    /* Light Mode - Enhanced contrast for readability */
+    color: rgba(30, 42, 58, 0.9);
+    /* Dark Mode - Improved contrast */
+    @apply dark:text-slate-200;
+    
+    /* No background - transparent only */
+    background: transparent;
+    backdrop-filter: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .nav-link::before {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-500;
+    @apply absolute bottom-1 left-0 w-0 h-0.5 transition-all duration-500;
     background: linear-gradient(90deg, #F7931A 0%, #FFB347 100%);
+    border-radius: 2px;
+    /* Animation starts from left edge */
+    transform-origin: left;
   }
 
   .nav-link:hover {
     @apply text-bitcoin dark:text-bitcoin;
     transform: translateY(-1px);
+    
+    /* No background on hover - keep transparent */
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .dark .nav-link:hover {
+    /* No background in dark mode hover - keep transparent */
+    background: transparent;
+    box-shadow: none;
   }
 
   .nav-link:hover::before {
+    /* Expand to full width of the link content */
     @apply w-full;
   }
 
   .nav-link.active {
     @apply text-bitcoin dark:text-bitcoin;
+    /* Active state with no background */
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .dark .nav-link.active {
+    /* No background in dark mode active state */
+    background: transparent;
+    box-shadow: none;
   }
 
   .nav-link.active::after {
     content: '';
-    @apply absolute bottom-0 left-0 right-0 h-0.5;
+    @apply absolute bottom-1 left-0 w-full h-0.5;
     background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
     background-size: 200% 100%;
+    border-radius: 2px;
     animation: navShimmer 3s ease-in-out infinite;
   }
 
@@ -352,11 +538,27 @@ scroll-behavior: smooth;
 
   /* Icon container improvements */
   .icon-badge {
-    @apply w-12 h-12 bg-bitcoin/20 dark:bg-bitcoin/30 rounded-full flex items-center justify-center transition-all duration-300;
+    @apply w-12 h-12 bg-bitcoin/10 dark:bg-slate-700/40 rounded-full flex items-center justify-center transition-all duration-300;
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1);
   }
 
   .icon-badge-lg {
-    @apply w-16 h-16 bg-bitcoin/20 dark:bg-bitcoin/30 rounded-full flex items-center justify-center transition-all duration-300;
+    @apply w-16 h-16 bg-bitcoin/10 dark:bg-slate-700/40 rounded-full flex items-center justify-center transition-all duration-300;
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Utility classes for icon containers that won't obscure icons */
+  .icon-bg-light {
+    background: rgba(247, 147, 26, 0.08);
+  }
+
+  .icon-bg-medium {
+    background: rgba(247, 147, 26, 0.15);
+  }
+
+  .icon-bg-transparent {
+    background: transparent;
+    border: 1px solid rgba(247, 147, 26, 0.2);
   }
 
   /* Enhanced tab system */
@@ -374,7 +576,8 @@ scroll-behavior: smooth;
   }
 
   .strategy-card:hover .icon-container {
-    @apply scale-110 bg-bitcoin/30;
+    @apply scale-110;
+    background: rgba(247, 147, 26, 0.15);
   }
 
   .card::before {
@@ -449,7 +652,7 @@ scroll-behavior: smooth;
     opacity: 1;
   }
 
-  /* Icon Container - Enhanced */
+  /* Icon Container - Enhanced with better icon visibility */
   .icon-container {
     @apply w-14 h-14 flex items-center justify-center transition-all duration-500;
     /* Softer, more organic border radius */
@@ -457,25 +660,38 @@ scroll-behavior: smooth;
     /* GPU acceleration */
     will-change: transform, background-color;
     transform: translateZ(0) rotate(0deg);
-    /* Subtle gradient background */
-    background: linear-gradient(135deg, rgba(247, 147, 26, 0.1) 0%, rgba(247, 147, 26, 0.15) 100%);
-    /* Soft inner shadow for depth */
-    box-shadow: inset 0 2px 4px rgba(247, 147, 26, 0.1),
-                0 2px 8px rgba(247, 147, 26, 0.05);
+    /* Subtle transparent background that doesn't obscure icons */
+    background: rgba(247, 147, 26, 0.08);
+    /* Soft outer shadow instead of inner shadow */
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1),
+                0 4px 16px rgba(247, 147, 26, 0.05);
     /* Dark Mode */
-    @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-600;
+    @apply dark:bg-slate-700/40;
   }
 
   .feature-card:hover .icon-container {
     /* Smooth rotation and scale with spring effect */
     transform: rotate(5deg) scale(1.15) translateZ(0);
     animation: iconBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    /* Enhanced gradient on hover */
-    background: linear-gradient(135deg, #F7931A 0%, #FFB347 100%);
-    box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3),
-                0 8px 24px rgba(247, 147, 26, 0.15);
+    /* Enhanced shadow */
+    box-shadow: 0 4px 12px rgba(247, 147, 26, 0.2),
+                0 8px 24px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Apply transparent background on hover only for default icon containers (not solid background ones) */
+  .feature-card:hover .icon-container:not(.solid-bg-icon) {
+    background: rgba(247, 147, 26, 0.15);
     /* Dark Mode */
-    @apply dark:bg-gradient-to-br dark:from-bitcoin dark:to-bitcoin-600;
+    @apply dark:bg-slate-600/60;
+  }
+
+  /* Preserve solid background icons on hover - they keep their inline styles */
+  .feature-card:hover .icon-container.solid-bg-icon {
+    /* Keep the solid background from inline styles */
+    /* Enhanced glow effect for solid background icons */
+    box-shadow: 0 4px 16px rgba(247, 147, 26, 0.4),
+                0 8px 32px rgba(247, 147, 26, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   @keyframes iconBounce {
@@ -485,9 +701,12 @@ scroll-behavior: smooth;
     100% { transform: rotate(5deg) scale(1.15) translateZ(0); }
   }
 
-  .feature-card:hover .icon-container svg {
-    @apply text-white;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  /* Only apply orange color to SVG icons that are NOT in solid background containers */
+  .feature-card:hover .icon-container:not(.solid-bg-icon) svg {
+    @apply text-bitcoin;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    /* Ensure icons remain visible in dark mode */
+    @apply dark:text-bitcoin;
   }
   
   /* Input Field - Enhanced */

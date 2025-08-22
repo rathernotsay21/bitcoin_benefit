@@ -19,6 +19,9 @@ import CustomVestingSchedule from '@/components/CustomVestingSchedule';
 import VestingProgress from '@/components/VestingProgress';
 import MetricCards from '@/components/MetricCards';
 import SchemeTabSelector from '@/components/SchemeTabSelector';
+import { useScrollTracking } from '@/hooks/useScrollTracking';
+import { useEngagementTracking } from '@/hooks/useEngagementTracking';
+import { trackCalculatorEvent } from '@/lib/analytics/clarity-events';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -48,6 +51,13 @@ function formatUSD(amount: number): string {
 function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>(''); // No default preset
+  
+  // Analytics tracking
+  useScrollTracking(true);
+  useEngagementTracking({
+    enabled: true,
+    pageIdentifier: `/calculator/${planId}`,
+  });
 
   const {
     selectedScheme,
@@ -115,6 +125,11 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
       // Handle URL plan parameter
       if (planId && initialScheme && !isLoaded) {
         setSelectedScheme(initialScheme);
+        // Track calculator start
+        trackCalculatorEvent('start', {
+          scheme: initialScheme.id,
+          action: 'started',
+        });
         // DO NOT apply any preset automatically - let the plan's default schedule show
         // Users can choose to apply a preset manually if they want
         setIsLoaded(true);

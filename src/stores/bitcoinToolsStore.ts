@@ -9,6 +9,7 @@ import {
   AddressInfo,
   TimestampResult 
 } from '@/types/bitcoin-tools';
+import { trackToolUsage, trackClarityEvent, ClarityEvents } from '@/lib/analytics/clarity-events';
 
 // Rate limiting state
 interface RateLimit {
@@ -179,17 +180,32 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
         }
       })),
 
-      setTransactionData: (data) => set(state => ({
-        tools: {
-          ...state.tools,
-          transactionLookup: {
-            ...state.tools.transactionLookup,
-            data,
-            loading: createDefaultLoadingState(),
-            lastTxid: data ? String(data.txid) : state.tools.transactionLookup.lastTxid
-          }
+      setTransactionData: (data) => {
+        // Track transaction lookup
+        if (data) {
+          trackClarityEvent(ClarityEvents.TRANSACTION_FOUND, {
+            txid: data.txid,
+            confirmations: data.confirmations,
+            status: data.status,
+          });
+          trackToolUsage('transaction-lookup', 'success', true);
+        } else {
+          trackClarityEvent(ClarityEvents.TRANSACTION_NOT_FOUND);
+          trackToolUsage('transaction-lookup', 'not-found', false);
         }
-      })),
+        
+        return set(state => ({
+          tools: {
+            ...state.tools,
+            transactionLookup: {
+              ...state.tools.transactionLookup,
+              data,
+              loading: createDefaultLoadingState(),
+              lastTxid: data ? String(data.txid) : state.tools.transactionLookup.lastTxid
+            }
+          }
+        }));
+      },
 
       setTransactionError: (error) => set(state => ({
         tools: {
@@ -214,16 +230,27 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
         }
       })),
 
-      setFeeCalculatorData: (data) => set(state => ({
-        tools: {
-          ...state.tools,
-          feeCalculator: {
-            ...state.tools.feeCalculator,
-            data,
-            loading: createDefaultLoadingState()
-          }
+      setFeeCalculatorData: (data) => {
+        // Track fee calculation
+        if (data) {
+          trackClarityEvent(ClarityEvents.FEE_CALCULATED, {
+            tiers: data.length,
+            recommendations: data.length,
+          });
+          trackToolUsage('fee-calculator', 'calculated', true);
         }
-      })),
+        
+        return set(state => ({
+          tools: {
+            ...state.tools,
+            feeCalculator: {
+              ...state.tools.feeCalculator,
+              data,
+              loading: createDefaultLoadingState()
+            }
+          }
+        }));
+      },
 
       setFeeCalculatorError: (error) => set(state => ({
         tools: {
@@ -268,17 +295,29 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
         }
       })),
 
-      setNetworkStatusData: (data) => set(state => ({
-        tools: {
-          ...state.tools,
-          networkStatus: {
-            ...state.tools.networkStatus,
-            data,
-            loading: createDefaultLoadingState(),
-            lastUpdate: Date.now()
-          }
+      setNetworkStatusData: (data) => {
+        // Track network status check
+        if (data) {
+          trackClarityEvent(ClarityEvents.NETWORK_STATUS_CHECKED, {
+            blockHeight: data.blockHeight,
+            networkHashrate: data.networkHashrate,
+            mempoolSize: data.mempoolSize,
+          });
+          trackToolUsage('network-status', 'checked', true);
         }
-      })),
+        
+        return set(state => ({
+          tools: {
+            ...state.tools,
+            networkStatus: {
+              ...state.tools.networkStatus,
+              data,
+              loading: createDefaultLoadingState(),
+              lastUpdate: Date.now()
+            }
+          }
+        }));
+      },
 
       setNetworkStatusError: (error) => set(state => ({
         tools: {
@@ -316,17 +355,29 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
         }
       })),
 
-      setAddressExplorerData: (data) => set(state => ({
-        tools: {
-          ...state.tools,
-          addressExplorer: {
-            ...state.tools.addressExplorer,
-            data,
-            loading: createDefaultLoadingState(),
-            lastAddress: data?.address || state.tools.addressExplorer.lastAddress
-          }
+      setAddressExplorerData: (data) => {
+        // Track address exploration
+        if (data) {
+          trackClarityEvent(ClarityEvents.ADDRESS_SEARCHED, {
+            address: data.address,
+            balance: data.balance,
+            txCount: data.txCount,
+          });
+          trackToolUsage('address-explorer', 'searched', true);
         }
-      })),
+        
+        return set(state => ({
+          tools: {
+            ...state.tools,
+            addressExplorer: {
+              ...state.tools.addressExplorer,
+              data,
+              loading: createDefaultLoadingState(),
+              lastAddress: data?.address || state.tools.addressExplorer.lastAddress
+            }
+          }
+        }));
+      },
 
       setAddressExplorerError: (error) => set(state => ({
         tools: {
@@ -361,16 +412,34 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
         }
       })),
 
-      setDocumentTimestampData: (data) => set(state => ({
-        tools: {
-          ...state.tools,
-          documentTimestamp: {
-            ...state.tools.documentTimestamp,
-            data,
-            loading: createDefaultLoadingState()
+      setDocumentTimestampData: (data) => {
+        // Track timestamp creation/verification
+        if (data) {
+          if (data.action === 'create') {
+            trackClarityEvent(ClarityEvents.TIMESTAMP_CREATED, {
+              hash: data.hash,
+              timestamp: data.timestamp,
+            });
+          } else if (data.action === 'verify') {
+            trackClarityEvent(ClarityEvents.TIMESTAMP_VERIFIED, {
+              hash: data.hash,
+              isValid: data.isValid,
+            });
           }
+          trackToolUsage('document-timestamp', data.action || 'used', true);
         }
-      })),
+        
+        return set(state => ({
+          tools: {
+            ...state.tools,
+            documentTimestamp: {
+              ...state.tools.documentTimestamp,
+              data,
+              loading: createDefaultLoadingState()
+            }
+          }
+        }));
+      },
 
       setDocumentTimestampError: (error) => set(state => ({
         tools: {

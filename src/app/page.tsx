@@ -71,8 +71,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="text-center">
             <div className="flex justify-center mb-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-bitcoin rounded-full animate-float shadow-xl border border-bitcoin/30">
-                <SatoshiIcon className="w-10 h-10" size={40} color="white" />
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full animate-float shadow-xl" style={{backgroundColor: '#F7931A'}}>
+                <SatoshiIcon className="w-10 h-10" size={40} color="#FFFFFF" />
               </div>
             </div>
 
@@ -114,8 +114,8 @@ export default function HomePage() {
             {/* Pioneer */}
             <Link href="/calculator/accelerator" className="feature-card group">
               <div className="text-center">
-                <div className="icon-container mx-auto mb-6">
-                  <BitcoinIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
+                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                  <BitcoinIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
                   Pioneer
@@ -142,8 +142,8 @@ export default function HomePage() {
             {/* Stacker */}
             <Link href="/calculator/steady-builder" className="feature-card group">
               <div className="text-center">
-                <div className="icon-container mx-auto mb-6">
-                  <SatoshiIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" size={32} />
+                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                  <SatoshiIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" size={32} />
                 </div>
                 <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
                   Stacker
@@ -170,8 +170,8 @@ export default function HomePage() {
             {/* Builder */}
             <Link href="/calculator/slow-burn" className="feature-card group">
               <div className="text-center">
-                <div className="icon-container mx-auto mb-6">
-                  <MiningOutlineIcon className="w-8 h-8 text-bitcoin dark:text-bitcoin transition-all duration-300" />
+                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                  <MiningOutlineIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
                 </div>
                 <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
                   Builder

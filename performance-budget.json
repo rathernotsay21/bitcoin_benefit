@@ -1,0 +1,264 @@
+{
+  "name": "Bitcoin Benefit Performance Budget",
+  "description": "Performance budget for Core Web Vitals and SEO optimization",
+  "version": "1.0.0",
+  "updated": "2025-08-22",
+  
+  "metrics": {
+    "core-web-vitals": {
+      "lcp": {
+        "target": 2500,
+        "warning": 3000,
+        "critical": 4000,
+        "unit": "ms",
+        "description": "Largest Contentful Paint - Critical for SEO"
+      },
+      "fid": {
+        "target": 100,
+        "warning": 200,
+        "critical": 300,
+        "unit": "ms",
+        "description": "First Input Delay"
+      },
+      "cls": {
+        "target": 0.1,
+        "warning": 0.15,
+        "critical": 0.25,
+        "unit": "score",
+        "description": "Cumulative Layout Shift"
+      },
+      "fcp": {
+        "target": 1800,
+        "warning": 2500,
+        "critical": 3000,
+        "unit": "ms",
+        "description": "First Contentful Paint"
+      },
+      "tbt": {
+        "target": 50,
+        "warning": 100,
+        "critical": 200,
+        "unit": "ms",
+        "description": "Total Blocking Time"
+      },
+      "ttfb": {
+        "target": 200,
+        "warning": 400,
+        "critical": 600,
+        "unit": "ms",
+        "description": "Time to First Byte"
+      }
+    },
+    
+    "bundle-sizes": {
+      "main-bundle": {
+        "target": 200000,
+        "warning": 250000,
+        "critical": 300000,
+        "unit": "bytes",
+        "description": "Main JavaScript bundle"
+      },
+      "charts-vendor": {
+        "target": 150000,
+        "warning": 180000,
+        "critical": 200000,
+        "unit": "bytes",
+        "description": "Chart libraries bundle"
+      },
+      "css-total": {
+        "target": 50000,
+        "warning": 75000,
+        "critical": 100000,
+        "unit": "bytes",
+        "description": "Total CSS size"
+      },
+      "images-total": {
+        "target": 500000,
+        "warning": 750000,
+        "critical": 1000000,
+        "unit": "bytes",
+        "description": "Total images on initial load"
+      },
+      "fonts-total": {
+        "target": 100000,
+        "warning": 150000,
+        "critical": 200000,
+        "unit": "bytes",
+        "description": "Total font files"
+      }
+    },
+    
+    "api-performance": {
+      "bitcoin-price": {
+        "target": 200,
+        "warning": 300,
+        "critical": 500,
+        "unit": "ms",
+        "description": "Bitcoin price API response time"
+      },
+      "historical-data": {
+        "target": 300,
+        "warning": 500,
+        "critical": 1000,
+        "unit": "ms",
+        "description": "Historical data API response time"
+      },
+      "health-check": {
+        "target": 50,
+        "warning": 100,
+        "critical": 200,
+        "unit": "ms",
+        "description": "Health check endpoint"
+      },
+      "mempool-api": {
+        "target": 400,
+        "warning": 600,
+        "critical": 1000,
+        "unit": "ms",
+        "description": "Mempool API response time"
+      }
+    },
+    
+    "lighthouse-scores": {
+      "performance": {
+        "target": 90,
+        "warning": 80,
+        "critical": 70,
+        "unit": "score",
+        "description": "Overall performance score"
+      },
+      "accessibility": {
+        "target": 95,
+        "warning": 90,
+        "critical": 85,
+        "unit": "score",
+        "description": "Accessibility score"
+      },
+      "best-practices": {
+        "target": 95,
+        "warning": 90,
+        "critical": 85,
+        "unit": "score",
+        "description": "Best practices score"
+      },
+      "seo": {
+        "target": 100,
+        "warning": 95,
+        "critical": 90,
+        "unit": "score",
+        "description": "SEO score"
+      }
+    },
+    
+    "resource-counts": {
+      "requests-total": {
+        "target": 50,
+        "warning": 75,
+        "critical": 100,
+        "unit": "count",
+        "description": "Total number of requests"
+      },
+      "dom-nodes": {
+        "target": 800,
+        "warning": 1000,
+        "critical": 1500,
+        "unit": "count",
+        "description": "Total DOM nodes"
+      },
+      "js-event-listeners": {
+        "target": 100,
+        "warning": 200,
+        "critical": 300,
+        "unit": "count",
+        "description": "JavaScript event listeners"
+      }
+    },
+    
+    "runtime-performance": {
+      "long-tasks": {
+        "target": 0,
+        "warning": 2,
+        "critical": 5,
+        "unit": "count",
+        "description": "Tasks longer than 50ms"
+      },
+      "main-thread-work": {
+        "target": 2000,
+        "warning": 3000,
+        "critical": 4000,
+        "unit": "ms",
+        "description": "Total main thread work"
+      },
+      "js-execution": {
+        "target": 1500,
+        "warning": 2000,
+        "critical": 3000,
+        "unit": "ms",
+        "description": "JavaScript execution time"
+      }
+    }
+  },
+  
+  "monitoring": {
+    "tools": [
+      {
+        "name": "Lighthouse CI",
+        "url": "https://github.com/GoogleChrome/lighthouse-ci",
+        "frequency": "On every PR",
+        "config": "lighthouserc.json"
+      },
+      {
+        "name": "Web Vitals Analytics",
+        "integrated": true,
+        "tracking": ["LCP", "FID", "CLS", "FCP", "TTFB"]
+      },
+      {
+        "name": "Bundle Analyzer",
+        "command": "npm run build:analyze",
+        "frequency": "Weekly"
+      },
+      {
+        "name": "Real User Monitoring",
+        "provider": "Custom Web Vitals Reporter",
+        "endpoint": "/api/metrics"
+      }
+    ],
+    
+    "alerts": {
+      "critical": {
+        "enabled": true,
+        "channels": ["console", "monitoring-dashboard"],
+        "threshold": "Any metric in critical range"
+      },
+      "warning": {
+        "enabled": true,
+        "channels": ["console"],
+        "threshold": "3+ metrics in warning range"
+      }
+    }
+  },
+  
+  "optimization-checklist": {
+    "completed": [
+      "Code splitting configuration",
+      "React.memo and useMemo implementation",
+      "API response caching",
+      "Static data generation",
+      "ChartSuspense lazy loading",
+      "Store optimization with selectors"
+    ],
+    "in-progress": [
+      "Recharts async loading",
+      "Critical CSS extraction",
+      "Image optimization",
+      "Service worker implementation"
+    ],
+    "planned": [
+      "Edge caching strategy",
+      "WebP image conversion",
+      "Font subsetting",
+      "Advanced prefetching",
+      "HTTP/3 support"
+    ]
+  }
+}
