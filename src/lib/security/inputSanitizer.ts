@@ -7,7 +7,7 @@ import { z } from 'zod';
 export class InputSanitizer {
   // Dangerous patterns that could indicate XSS or injection attempts
   private static readonly DANGEROUS_PATTERNS = [
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    /<script\b[^>]*>[\s\S]*?<\/script>/gi,
     /javascript:/gi,
     /on\w+\s*=/gi,
     /data:text\/html/gi,

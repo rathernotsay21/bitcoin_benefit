@@ -335,7 +335,7 @@ class SecureFileHandlerService {
    */
   private containsMaliciousScript(content: string): boolean {
     const maliciousPatterns = [
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+      /<script\b[^>]*>[\s\S]*?<\/script>/gi,
       /javascript:/gi,
       /vbscript:/gi,
       /data:.*base64.*script/gi,

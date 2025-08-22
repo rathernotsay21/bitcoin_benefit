@@ -192,7 +192,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       clearTimeout(timer);
       if (interval) clearInterval(interval);
     };
-  }, []); // Remove dependencies to prevent re-initialization
+  }, [fetchNetworkHealth]); // Include fetchNetworkHealth in dependencies
 
   const getStatusIcon = (congestionLevel: NetworkHealth['congestionLevel']) => {
     switch (congestionLevel) {

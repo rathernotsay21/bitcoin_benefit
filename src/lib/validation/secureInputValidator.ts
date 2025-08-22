@@ -38,7 +38,7 @@ class SecureInputValidator {
   // Common malicious patterns to detect
   private readonly MALICIOUS_PATTERNS = [
     // XSS patterns
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    /<script\b[^>]*>[\s\S]*?<\/script>/gi,
     /javascript:/gi,
     /vbscript:/gi,
     /onload\s*=/gi,
@@ -378,7 +378,7 @@ class SecureInputValidator {
       case 'text':
         // Basic HTML/script tag removal
         sanitized = sanitized
-          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+          .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
           .replace(/javascript:/gi, '')
           .replace(/vbscript:/gi, '')
           .replace(/on\w+\s*=/gi, '');
