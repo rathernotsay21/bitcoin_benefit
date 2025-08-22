@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   // Configure for Netlify deployment
-  trailingSlash: true,
+  // Removed trailingSlash: true as it breaks API routes
   images: {
     unoptimized: true
   },
