@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  # Remove publish directory to let @netlify/plugin-nextjs handle it
+  # publish = ".next"
 
 # Use Next.js runtime for proper asset serving
 [[plugins]]
