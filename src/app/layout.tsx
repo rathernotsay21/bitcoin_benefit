@@ -57,12 +57,16 @@ export default function RootLayout({
         {/* Enhanced critical CSS to prevent FOUC and improve LCP */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            body{margin:0;padding:0;min-height:100vh;font-display:swap}
+            body{margin:0;padding:0;min-height:100vh;font-display:swap;background-color:#F4F6F8}
             .btn-primary{background:linear-gradient(135deg,#f7931a 0%,#f7931a 100%);padding:14px 28px;border-radius:12px;color:white;font-weight:600;border:none;cursor:pointer;transition:all 0.2s ease;transform:translateZ(0);will-change:transform}
             .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
             @keyframes loading{0%{background-position:200% 0}to{background-position:-200% 0}}
-            .chart-container{contain:layout style paint;will-change:contents}
+            .chart-container{contain:layout style paint;will-change:contents;height:540px}
             .performance-optimized{contain:layout;will-change:auto}
+            .hero-section{min-height:400px;background:#0f172a;contain:layout style}
+            .feature-card{background:white;border-radius:12px;padding:2rem;transition:transform 0.2s;contain:layout style}
+            .feature-card:hover{transform:translateY(-4px)}
+            .icon-container{width:4rem;height:4rem;background:linear-gradient(135deg,#f7931a,#de8417);border-radius:50%;display:flex;align-items:center;justify-content:center}
           `
         }} />
         

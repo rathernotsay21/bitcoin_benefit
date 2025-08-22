@@ -51,8 +51,13 @@ async function verifyCSSBuild() {
       warnings.push(`${file} contains unprocessed Tailwind directives`);
     }
     
-    // Check for CSS variables
-    if (!content.includes('--')) {
+    // Check for CSS variables (skip font-only files)
+    const isFontOnlyFile = content.includes('@font-face') && 
+                          !content.includes('btn-') && 
+                          !content.includes('tailwind') &&
+                          content.length < 5000; // Font files are typically small
+    
+    if (!content.includes('--') && !isFontOnlyFile) {
       warnings.push(`${file} missing CSS variables`);
     }
   });

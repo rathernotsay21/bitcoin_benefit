@@ -55,24 +55,15 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-[400px] py-24 overflow-hidden bg-slate-950 dark:bg-slate-950">
-        {/* Particles Background - TEMPORARILY DISABLED FOR PERFORMANCE */}
-        {/* <div className="absolute inset-0">
-          <Particles 
-            quantity={120}
-            ease={50}
-            color="#F7931A"
-            refresh={false}
-            className="opacity-60"
-          />
-        </div> */}
+      <section className="hero-section relative min-h-[400px] py-24 overflow-hidden bg-slate-950 dark:bg-slate-950">
+        {/* Particles disabled for performance - replace with static gradient */}
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-950/60 to-slate-900/80"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-bitcoin/90 backdrop-blur-sm rounded-2xl mb-6 animate-float">
+            <div className="icon-container inline-flex items-center justify-center p-3 mb-6">
               <SatoshiIcon className="w-8 h-8 text-white" />
             </div>
 

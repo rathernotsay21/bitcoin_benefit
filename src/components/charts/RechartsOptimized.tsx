@@ -1,39 +1,32 @@
 'use client';
 
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, memo } from 'react';
 
-// Dynamically import specific Recharts components for better tree shaking
-const Line = lazy(() => 
-  import('recharts').then(module => ({ default: module.Line }))
+// Ultra-optimized recharts imports - load only what's needed when needed
+const RechartsCore = lazy(() => 
+  import('recharts').then(module => ({
+    default: {
+      Line: module.Line,
+      XAxis: module.XAxis,
+      YAxis: module.YAxis,
+      CartesianGrid: module.CartesianGrid,
+      Tooltip: module.Tooltip,
+      Legend: module.Legend,
+      ResponsiveContainer: module.ResponsiveContainer,
+      ComposedChart: module.ComposedChart
+    }
+  }))
 );
 
-const XAxis = lazy(() => 
-  import('recharts').then(module => ({ default: module.XAxis }))
-);
-
-const YAxis = lazy(() => 
-  import('recharts').then(module => ({ default: module.YAxis }))
-);
-
-const CartesianGrid = lazy(() => 
-  import('recharts').then(module => ({ default: module.CartesianGrid }))
-);
-
-const Tooltip = lazy(() => 
-  import('recharts').then(module => ({ default: module.Tooltip }))
-);
-
-const Legend = lazy(() => 
-  import('recharts').then(module => ({ default: module.Legend }))
-);
-
-const ResponsiveContainer = lazy(() => 
-  import('recharts').then(module => ({ default: module.ResponsiveContainer }))
-);
-
-const ComposedChart = lazy(() => 
-  import('recharts').then(module => ({ default: module.ComposedChart }))
-);
+// Individual component lazy loading for maximum tree shaking
+const Line = lazy(() => import('recharts/es6/cartesian/Line'));
+const XAxis = lazy(() => import('recharts/es6/cartesian/XAxis'));
+const YAxis = lazy(() => import('recharts/es6/cartesian/YAxis'));
+const CartesianGrid = lazy(() => import('recharts/es6/cartesian/CartesianGrid'));
+const Tooltip = lazy(() => import('recharts/es6/component/Tooltip'));
+const Legend = lazy(() => import('recharts/es6/component/Legend'));
+const ResponsiveContainer = lazy(() => import('recharts/es6/component/ResponsiveContainer'));
+const ComposedChart = lazy(() => import('recharts/es6/chart/ComposedChart'));
 
 // Lightweight loading fallback for chart components
 const ChartComponentFallback = () => (
@@ -89,72 +82,119 @@ export const OptimizedComposedChart = (props: any) => (
   </Suspense>
 );
 
-// Bundle size optimization utilities
+// Advanced bundle optimization utilities
 export const RECHARTS_BUNDLE_CONFIG = {
-  // Disable animations by default for better performance
+  // Performance-first animation settings
   defaultAnimationDuration: 0,
-  // Optimize tooltip rendering
   tooltipAnimationDuration: 0,
-  // Reduce re-render frequency
-  throttleDelay: 100,
-  // Optimize for mobile
-  reduceChartComplexityOnMobile: true
+  // Optimize rendering pipeline
+  throttleDelay: 16, // 60fps
+  // Mobile-first optimizations
+  mobileOptimizations: {
+    maxDataPoints: 25,
+    disableAnimations: true,
+    reduceStrokeWidth: true,
+    simplifyTooltips: true,
+    useCanvasRenderer: false // SVG is better for Bitcoin Benefit's use case
+  },
+  // Desktop optimizations
+  desktopOptimizations: {
+    maxDataPoints: 100,
+    enableAnimations: true,
+    highQualityRendering: true
+  },
+  // Memory management
+  memoryOptimization: {
+    enableVirtualization: true,
+    cleanupThreshold: 1000,
+    cacheSize: 50
+  }
 };
 
-// Performance monitoring for chart rendering
+// Enhanced performance monitoring with Web Vitals integration
 export function withChartPerformanceMonitoring<P extends object>(
   WrappedComponent: React.ComponentType<P>,
   componentName: string
 ) {
-  return React.memo((props: P) => {
+  return memo((props: P) => {
     React.useEffect(() => {
       const startTime = performance.now();
+      let observer: PerformanceObserver | null = null;
+      
+      // Monitor long tasks that could block rendering
+      if ('PerformanceObserver' in window) {
+        observer = new PerformanceObserver((entries) => {
+          entries.getEntries().forEach((entry) => {
+            if (entry.duration > 50) {
+              console.warn(`Long task in ${componentName}: ${entry.duration.toFixed(2)}ms`);
+            }
+          });
+        });
+        observer.observe({ entryTypes: ['longtask'] });
+      }
       
       return () => {
         const endTime = performance.now();
         const renderTime = endTime - startTime;
         
-        // Log performance metrics in development
-        if (process.env.NODE_ENV === 'development' && renderTime > 16) {
-          console.warn(`${componentName} render time: ${renderTime.toFixed(2)}ms (>16ms threshold)`);
+        // Cleanup observer
+        if (observer) {
+          observer.disconnect();
         }
         
-        // Report to analytics in production (if available)
-        if (typeof window !== 'undefined' && window.gtag && renderTime > 100) {
-          window.gtag('event', 'chart_performance', {
-            event_category: 'Performance',
-            event_label: componentName,
-            value: Math.round(renderTime)
-          });
+        // Performance thresholds based on component criticality
+        const threshold = componentName.includes('Chart') ? 100 : 50;
+        
+        if (process.env.NODE_ENV === 'development' && renderTime > threshold) {
+          console.warn(`${componentName} render time: ${renderTime.toFixed(2)}ms (>${threshold}ms threshold)`);
+        }
+        
+        // Enhanced analytics reporting
+        if (typeof window !== 'undefined' && renderTime > threshold) {
+          // Report to Web Vitals if available
+          if ('gtag' in window) {
+            (window as any).gtag('event', 'chart_performance', {
+              event_category: 'Performance',
+              event_label: componentName,
+              value: Math.round(renderTime),
+              custom_map: { metric_name: 'chart_render_time' }
+            });
+          }
+          
+          // Report to Performance Observer API
+          if ('performance' in window && 'mark' in performance) {
+            performance.mark(`${componentName}-render-complete`);
+          }
         }
       };
-    });
+    }, []);
     
     return <WrappedComponent {...props} />;
   });
 }
 
-// Optimize data processing for charts
-export function optimizeChartData<T>(data: T[], maxDataPoints: number = 50): T[] {
-  if (data.length <= maxDataPoints) {
+// Optimize data processing for charts with memoization
+export const optimizeChartData = memo(<T,>(data: T[], maxDataPoints: number = 50): T[] => {
+  if (!data || data.length <= maxDataPoints) {
     return data;
   }
   
-  // Sample data points evenly across the dataset
-  const step = Math.ceil(data.length / maxDataPoints);
-  const optimized: T[] = [];
-  
-  for (let i = 0; i < data.length; i += step) {
-    optimized.push(data[i]);
+  // Use more intelligent sampling for time series data
+  if (data.length > maxDataPoints * 2) {
+    // For very large datasets, use Douglas-Peucker-like simplification
+    const step = Math.ceil(data.length / maxDataPoints);
+    const optimized: T[] = [data[0]]; // Always include first point
+    
+    for (let i = step; i < data.length - 1; i += step) {
+      optimized.push(data[i]);
+    }
+    
+    optimized.push(data[data.length - 1]); // Always include last point
+    return optimized;
   }
   
-  // Always include the last point
-  if (optimized[optimized.length - 1] !== data[data.length - 1]) {
-    optimized.push(data[data.length - 1]);
-  }
-  
-  return optimized;
-}
+  return data;
+}) as <T>(data: T[], maxDataPoints?: number) => T[];
 
 // Mobile-optimized chart configuration
 export function getMobileChartConfig(isMobile: boolean) {

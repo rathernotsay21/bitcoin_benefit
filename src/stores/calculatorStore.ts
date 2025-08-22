@@ -118,16 +118,25 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     updateInputs: (newInputs) => {
       const { debouncedCalculate } = initDebouncedFunctions();
       
-      set((state) => ({
-        inputs: { ...state.inputs, ...newInputs }
-      }));
+      set((state) => {
+        // Only update if values actually changed to prevent unnecessary re-renders
+        const hasChanged = Object.keys(newInputs).some(
+          key => state.inputs[key as keyof typeof state.inputs] !== newInputs[key as keyof typeof newInputs]
+        );
+        
+        if (!hasChanged) return state;
+        
+        return {
+          inputs: { ...state.inputs, ...newInputs }
+        };
+      });
       
       // Auto-calculate with proper debounce
       debouncedCalculate();
     },
   
   calculateResults: () => {
-    const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme } = get();
+    const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme, results } = get();
     
     if (!selectedScheme) {
       set({ results: null });
@@ -136,27 +145,60 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     
     const schemeToUse = getEffectiveScheme(selectedScheme);
     
+    // Check if we need to recalculate - avoid unnecessary computations
+    const fullInputs: CalculationInputs = {
+      scheme: schemeToUse,
+      currentBitcoinPrice,
+      projectedBitcoinGrowth: inputs.projectedBitcoinGrowth || 15,
+    };
+    
+    // Simple hash for input comparison
+    const inputHash = JSON.stringify({
+      schemeId: schemeToUse.id,
+      price: currentBitcoinPrice,
+      growth: fullInputs.projectedBitcoinGrowth
+    });
+    
+    // Skip calculation if inputs haven't changed
+    if (results && (results as any).inputHash === inputHash) {
+      return;
+    }
+    
     set({ isCalculating: true });
     
-    try {
-      const fullInputs: CalculationInputs = {
-        scheme: schemeToUse,
-        currentBitcoinPrice,
-        projectedBitcoinGrowth: inputs.projectedBitcoinGrowth || 15,
-      };
-      
-      const results = VestingCalculator.calculate(fullInputs);
-      set({ results, isCalculating: false });
-    } catch (error) {
-      console.error('Calculation error:', error);
-      set({ results: null, isCalculating: false });
+    // Use requestIdleCallback for non-blocking calculation
+    const calculate = () => {
+      try {
+        const newResults = VestingCalculator.calculate(fullInputs);
+        // Store input hash for future comparison
+        (newResults as any).inputHash = inputHash;
+        set({ results: newResults, isCalculating: false });
+      } catch (error) {
+        console.error('Calculation error:', error);
+        set({ results: null, isCalculating: false });
+      }
+    };
+    
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(calculate, { timeout: 100 });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(calculate, 0);
     }
   },
   
   setBitcoinPrice: (price, change24h) => {
+    const state = get();
+    
     // Ensure values are valid numbers
     const validPrice = typeof price === 'number' && !isNaN(price) ? price : 45000;
     const validChange = typeof change24h === 'number' && !isNaN(change24h) ? change24h : 0;
+    
+    // Only update if price actually changed (prevent unnecessary re-renders)
+    if (state.currentBitcoinPrice === validPrice && state.bitcoinChange24h === validChange) {
+      return;
+    }
+    
     // Use sync utility to update all stores
     syncBitcoinPrice(validPrice, validChange);
   },
