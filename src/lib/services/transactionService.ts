@@ -125,7 +125,7 @@ export class TransactionService {
 
     if (isConfirmed) {
       status = 'confirmed';
-      humanStatus = `✅ Confirmed`;
+      humanStatus = `Confirmed`;
       
       if (confirmations === 1) {
         timeDescription = 'Recently confirmed (1 confirmation)';

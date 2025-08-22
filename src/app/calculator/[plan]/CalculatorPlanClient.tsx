@@ -337,7 +337,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {displayScheme && (
               <>
                 <div className="mb-6 mt-8 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
-                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                     The bar below shows you how much of the Bitcoin award an employee has actually earned at any point in time. They earn it piece by piece the longer they stay with you, according to the schedule you set.
                   </p>
                 </div>
@@ -351,7 +351,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
             {/* Unlocking Timeline Chart */}
             <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
-              <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
+              <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                 The 10-year projection chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
               </p>
             </div>

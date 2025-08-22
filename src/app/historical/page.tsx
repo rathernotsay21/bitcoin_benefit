@@ -300,7 +300,7 @@ function HistoricalCalculatorContent() {
 
                 {/* Historical Timeline Visualization */}
                 <div className="mb-6 px-6 py-6 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
-                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                     The timeline shows the journey your employee's Bitcoin award would have taken from a chosen starting year to today.
                   </p>
                 </div>
@@ -316,7 +316,7 @@ function HistoricalCalculatorContent() {
 
                 {/* Enhanced Annual Breakdown Table */}
                 <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
-                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-2xl mx-auto text-left px-8 md:px-12">
+                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
                     Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
                   </p>
                 </div>

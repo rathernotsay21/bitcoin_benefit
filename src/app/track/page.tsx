@@ -560,7 +560,7 @@ export default function TrackerPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Sidebar - Form and Status */}
             <aside className="lg:col-span-1 w-full min-w-0" role="complementary" aria-label="Tracker configuration and status">
-              <div className="sticky top-8 space-y-6">
+              <div className="space-y-6">
                 {/* Input Form */}
                 <section
                   id="form-section"
