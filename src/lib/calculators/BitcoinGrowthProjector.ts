@@ -5,41 +5,53 @@ export interface GrowthProjection {
 }
 
 export class BitcoinGrowthProjector {
-  private basePrice: number;
-  private annualGrowthRate: number;
+  private readonly basePrice: number;
+  private readonly annualGrowthRate: number;
+  private readonly monthlyGrowthRate: number; // Cache the calculated rate
+  private readonly annualRateDecimal: number; // Pre-calculate decimal conversion
   
   constructor(basePrice: number, annualGrowthRate: number) {
     this.basePrice = basePrice;
     this.annualGrowthRate = annualGrowthRate;
+    // Pre-calculate and cache expensive operations
+    this.annualRateDecimal = annualGrowthRate / 100;
+    this.monthlyGrowthRate = Math.pow(1 + this.annualRateDecimal, 1/12) - 1;
   }
   
   /**
-   * Calculate the monthly growth rate from annual rate
-   * Using proper compound interest formula: (1 + r)^(1/12) - 1
+   * Get the pre-calculated monthly growth rate (optimized)
    */
   getMonthlyGrowthRate(): number {
-    // Convert percentage to decimal and calculate compound monthly rate
-    const annualRateDecimal = this.annualGrowthRate / 100;
-    return Math.pow(1 + annualRateDecimal, 1/12) - 1;
+    return this.monthlyGrowthRate;
   }
   
   /**
-   * Project Bitcoin price for a specific month
+   * Project Bitcoin price for a specific month (optimized)
    */
   projectPrice(month: number): number {
-    const monthlyRate = this.getMonthlyGrowthRate();
-    return this.basePrice * Math.pow(1 + monthlyRate, month);
+    // Use cached monthlyGrowthRate to avoid recalculation
+    return this.basePrice * Math.pow(1 + this.monthlyGrowthRate, month);
   }
   
   /**
-   * Generate price projections for a range of months
+   * Generate price projections for a range of months (vectorized for performance)
    */
   generateProjections(months: number[]): GrowthProjection[] {
-    return months.map(month => ({
-      month,
-      price: this.projectPrice(month),
-      growthFromStart: ((this.projectPrice(month) / this.basePrice) - 1) * 100
-    }));
+    const projections = new Array(months.length);
+    const basePrice = this.basePrice; // Local variable for better performance
+    const monthlyRate = this.monthlyGrowthRate;
+    
+    for (let i = 0; i < months.length; i++) {
+      const month = months[i];
+      const price = basePrice * Math.pow(1 + monthlyRate, month);
+      projections[i] = {
+        month,
+        price,
+        growthFromStart: ((price / basePrice) - 1) * 100
+      };
+    }
+    
+    return projections;
   }
   
   /**

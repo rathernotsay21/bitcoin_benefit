@@ -55,17 +55,17 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   let debouncedCalculate: DebouncedFunction<() => void> | null = null;
   let debouncedFetch: DebouncedFunction<() => Promise<void>> | null = null;
 
-  // Initialize debounced functions after get() is available
-  const initDebouncedFunctions = () => {
+  // Optimized debounced functions with singleton pattern
+  const getDebouncedFunctions = () => {
     if (!debouncedCalculate) {
       debouncedCalculate = debounce(() => {
         get().calculateHistoricalResults();
-      }, 100);
+      }, 150); // Slightly longer debounce for historical calculations
     }
     if (!debouncedFetch) {
       debouncedFetch = debounce(async () => {
         await get().fetchHistoricalData();
-      }, 100);
+      }, 300); // Longer debounce for expensive data fetching
     }
     return { debouncedCalculate, debouncedFetch };
   };
@@ -95,8 +95,12 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   
     // Actions
     setStartingYear: (year) => {
-      const { debouncedFetch } = initDebouncedFunctions();
+      const currentYear = get().startingYear;
       
+      // Early return if same year to prevent unnecessary operations
+      if (currentYear === year) return;
+      
+      const { debouncedFetch } = getDebouncedFunctions();
       set({ startingYear: year });
       
       // Auto-fetch historical data and recalculate with debounce

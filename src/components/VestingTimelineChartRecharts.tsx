@@ -64,14 +64,17 @@ interface CustomTooltipProps {
   }>;
 }
 
+// Memoized tooltip with performance optimizations
 const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: CustomTooltipProps) => {
+  // Early returns for performance
   if (!active || !payload?.length || !yearlyData?.length) return null;
   
   const year = typeof label === 'string' ? parseInt(label, 10) : (label as number);
-  if (!Number.isInteger(year) || year < 0 || year > 10) return null;
+  // Optimized bounds check
+  if (!Number.isInteger(year) || year < 0 || year >= yearlyData.length) return null;
   
-  // Use optimized lookup instead of find() calls
-  const yearData = yearlyData[year]; // Direct array access is faster than find()
+  // Direct array access - O(1) instead of O(n) find()
+  const yearData = yearlyData[year];
   if (!yearData) return null;
   
   const vestingPercent = yearData.vestingPercent || 0;

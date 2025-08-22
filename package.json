@@ -146,6 +146,7 @@
     "@types/react": "^18",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^3.2.4",
+    "critters": "0.0.23",
     "glob": "^11.0.3",
     "husky": "9.1.7",
     "jsdom": "^26.1.0",

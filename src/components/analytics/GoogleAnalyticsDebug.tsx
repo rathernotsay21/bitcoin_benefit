@@ -1,12 +1,25 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
 
+// Use the correct GA ID from your screenshot
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-CDYDCMFRQN';
 
 export function GoogleAnalytics() {
-  // Temporarily always load GA for debugging
-  // Remove this after confirming it works
+  useEffect(() => {
+    // Debug logging (remove in production)
+    if (typeof window !== 'undefined') {
+      console.log('GA Debug Info:', {
+        measurementId: GA_MEASUREMENT_ID,
+        envVar: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+        nodeEnv: process.env.NODE_ENV,
+        shouldLoad: process.env.NODE_ENV === 'production' && GA_MEASUREMENT_ID
+      });
+    }
+  }, []);
+
+  // Always load if GA ID is configured (remove production check temporarily)
   if (!GA_MEASUREMENT_ID) {
     return null;
   }
@@ -30,6 +43,7 @@ export function GoogleAnalytics() {
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure'
             });
+            console.log('GA initialized with ID:', '${GA_MEASUREMENT_ID}');
           `,
         }}
       />

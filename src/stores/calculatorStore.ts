@@ -59,28 +59,29 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   let debouncedCalculate: DebouncedFunction<() => void> | null = null;
   let debouncedSchemeCalculate: DebouncedFunction<() => void> | null = null;
 
-  // Initialize debounced functions once to prevent recreation
-  const initDebouncedFunctions = (() => {
-    let initialized = false;
-    let functions: { debouncedCalculate: DebouncedFunction<() => void>; debouncedSchemeCalculate: DebouncedFunction<() => void> };
-    
-    return () => {
-      if (!initialized) {
-        functions = {
-          debouncedCalculate: debounce(() => {
-            const state = get();
-            state.calculateResults();
-          }, 500), // Increased debounce time
-          debouncedSchemeCalculate: debounce(() => {
-            const state = get();
-            state.calculateResults();
-          }, 200)
-        };
-        initialized = true;
-      }
-      return functions;
+  // Optimized debounced functions with lazy initialization
+  const createDebouncedFunctions = () => {
+    const functions = {
+      debouncedCalculate: debounce(() => {
+        const state = get();
+        state.calculateResults();
+      }, 500), // Increased debounce time for better performance
+      debouncedSchemeCalculate: debounce(() => {
+        const state = get();
+        state.calculateResults();
+      }, 200)
     };
-  })();
+    return functions;
+  };
+  
+  // Use lazy singleton pattern for better memory efficiency
+  let debouncedFunctions: ReturnType<typeof createDebouncedFunctions> | null = null;
+  const getDebouncedFunctions = () => {
+    if (!debouncedFunctions) {
+      debouncedFunctions = createDebouncedFunctions();
+    }
+    return debouncedFunctions;
+  };
 
   return {
     // Initial state
@@ -101,30 +102,36 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
   
     // Actions
     setSelectedScheme: (scheme) => {
-      const { debouncedSchemeCalculate } = initDebouncedFunctions();
-      const previousScheme = get().selectedScheme;
+      const { debouncedSchemeCalculate } = getDebouncedFunctions();
+      const state = get();
+      const previousScheme = state.selectedScheme;
+      
+      // Early return if same scheme to prevent unnecessary updates
+      if (previousScheme?.id === scheme.id) return;
       
       set({ selectedScheme: scheme });
       
-      // Track scheme selection
-      if (previousScheme && previousScheme.id !== scheme.id) {
-        trackClarityEvent(ClarityEvents.VESTING_SCHEME_CHANGED, {
-          from: previousScheme.id,
-          to: scheme.id,
-          schemeName: scheme.name,
-        });
-      } else {
-        trackClarityEvent(ClarityEvents.VESTING_SCHEME_SELECTED, {
-          scheme: scheme.id,
-          schemeName: scheme.name,
-        });
-      }
+      // Batched analytics tracking - defer to avoid blocking main thread
+      queueMicrotask(() => {
+        if (previousScheme && previousScheme.id !== scheme.id) {
+          trackClarityEvent(ClarityEvents.VESTING_SCHEME_CHANGED, {
+            from: previousScheme.id,
+            to: scheme.id,
+            schemeName: scheme.name,
+          });
+        } else {
+          trackClarityEvent(ClarityEvents.VESTING_SCHEME_SELECTED, {
+            scheme: scheme.id,
+            schemeName: scheme.name,
+          });
+        }
+      });
       
-      // Check if we have static calculation for this scheme
-      const state = get();
-      if (state.staticDataLoaded && state.staticCalculations[scheme.id]) {
+      // Optimized static data check
+      const currentState = get();
+      if (currentState.staticDataLoaded && currentState.staticCalculations[scheme.id]) {
         // Use static calculation immediately for instant display
-        set({ results: state.staticCalculations[scheme.id] });
+        set({ results: currentState.staticCalculations[scheme.id] });
       }
       
       // Auto-calculate with current inputs using debounced function
@@ -132,27 +139,36 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
   
     updateInputs: (newInputs) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
-      set((state) => {
-        // Only update if values actually changed to prevent unnecessary re-renders
-        const hasChanged = Object.keys(newInputs).some(
+      // Optimized shallow comparison for common input types
+      const state = get();
+      let hasChanged = false;
+      
+      // Fast path for single property updates
+      if (Object.keys(newInputs).length === 1) {
+        const [key, value] = Object.entries(newInputs)[0];
+        hasChanged = state.inputs[key as keyof typeof state.inputs] !== value;
+      } else {
+        // Multi-property update check
+        hasChanged = Object.keys(newInputs).some(
           key => state.inputs[key as keyof typeof state.inputs] !== newInputs[key as keyof typeof newInputs]
         );
-        
-        if (!hasChanged) return state;
-        
-        return {
-          inputs: { ...state.inputs, ...newInputs }
-        };
-      });
+      }
+      
+      if (!hasChanged) return;
+      
+      set(state => ({
+        inputs: { ...state.inputs, ...newInputs }
+      }));
       
       // Auto-calculate with proper debounce
       debouncedCalculate();
     },
   
   calculateResults: () => {
-    const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme, results } = get();
+    const state = get();
+    const { selectedScheme, inputs, currentBitcoinPrice, getEffectiveScheme, results } = state;
     
     if (!selectedScheme) {
       set({ results: null });
@@ -161,19 +177,11 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     
     const schemeToUse = getEffectiveScheme(selectedScheme);
     
-    // Check if we need to recalculate - avoid unnecessary computations
-    const fullInputs: CalculationInputs = {
-      scheme: schemeToUse,
-      currentBitcoinPrice,
-      projectedBitcoinGrowth: inputs.projectedBitcoinGrowth || 15,
-    };
+    // Optimized input validation with early returns
+    const projectedGrowth = inputs.projectedBitcoinGrowth || 15;
     
-    // Simple hash for input comparison
-    const inputHash = JSON.stringify({
-      schemeId: schemeToUse.id,
-      price: currentBitcoinPrice,
-      growth: fullInputs.projectedBitcoinGrowth
-    });
+    // Efficient hash calculation using concatenation instead of JSON.stringify
+    const inputHash = `${schemeToUse.id}:${currentBitcoinPrice}:${projectedGrowth}`;
     
     // Skip calculation if inputs haven't changed
     if (results && (results as any).inputHash === inputHash) {
@@ -182,36 +190,49 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     
     set({ isCalculating: true });
     
-    // Use requestIdleCallback for non-blocking calculation
+    // Optimized calculation with better error boundary
     const calculate = () => {
       try {
+        const fullInputs: CalculationInputs = {
+          scheme: schemeToUse,
+          currentBitcoinPrice,
+          projectedBitcoinGrowth: projectedGrowth,
+        };
+        
         const newResults = VestingCalculator.calculate(fullInputs);
         // Store input hash for future comparison
         (newResults as any).inputHash = inputHash;
         set({ results: newResults, isCalculating: false });
         
-        // Track successful calculation
-        trackCalculatorEvent('complete', {
-          scheme: schemeToUse.id,
-          growthRate: fullInputs.projectedBitcoinGrowth,
-          amount: schemeToUse.grantAmount,
+        // Deferred analytics tracking
+        queueMicrotask(() => {
+          trackCalculatorEvent('complete', {
+            scheme: schemeToUse.id,
+            growthRate: fullInputs.projectedBitcoinGrowth,
+            amount: schemeToUse.initialGrant,
+          });
         });
       } catch (error) {
         console.error('Calculation error:', error);
         set({ results: null, isCalculating: false });
         
-        // Track calculation error
-        trackClarityEvent(ClarityEvents.CALCULATOR_ERROR, {
-          error: error instanceof Error ? error.message : 'Unknown error',
-          scheme: schemeToUse.id,
+        // Deferred error tracking
+        queueMicrotask(() => {
+          trackClarityEvent(ClarityEvents.CALCULATOR_ERROR, {
+            error: error instanceof Error ? error.message : 'Unknown error',
+            scheme: schemeToUse.id,
+          });
         });
       }
     };
     
-    if ('requestIdleCallback' in window) {
+    // Use scheduler.postTask if available (newer browsers), fallback to requestIdleCallback
+    if ('scheduler' in window && 'postTask' in (window as any).scheduler) {
+      (window as any).scheduler.postTask(calculate, { priority: 'user-blocking' });
+    } else if ('requestIdleCallback' in window) {
       requestIdleCallback(calculate, { timeout: 100 });
     } else {
-      // Fallback for browsers without requestIdleCallback
+      // Fallback for browsers without modern scheduling APIs
       setTimeout(calculate, 0);
     }
   },

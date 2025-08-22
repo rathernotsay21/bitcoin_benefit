@@ -30,6 +30,10 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
   useEffect(() => {
     if (!enabled) return;
     
+    // Capture ref values at effect initialization to avoid stale closures
+    const effectStartTime = startTime.current;
+    const effectVisibilityTimer = visibilityTimer.current;
+    
     // Track page view on mount
     if (trackPageViews && !isTracked.current) {
       trackPageView(pageIdentifier || window.location.pathname);
@@ -38,6 +42,9 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
     
     // Track time on page milestones
     if (trackTimeOnPage) {
+      let currentEngagementTimer: NodeJS.Timeout | undefined;
+      let currentVisibilityTimer: NodeJS.Timeout | undefined;
+      
       const checkEngagement = () => {
         const currentTime = Date.now();
         const timeOnPage = Math.floor((currentTime - startTime.current) / 1000); // in seconds
@@ -53,7 +60,8 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
       };
       
       // Check engagement every 30 seconds
-      engagementTimer.current = setInterval(checkEngagement, 30000);
+      currentEngagementTimer = setInterval(checkEngagement, 30000);
+      engagementTimer.current = currentEngagementTimer;
       
       // Track visibility changes
       const handleVisibilityChange = () => {
@@ -65,7 +73,8 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
           
           // Resume engagement tracking
           if (!engagementTimer.current) {
-            engagementTimer.current = setInterval(checkEngagement, 30000);
+            currentEngagementTimer = setInterval(checkEngagement, 30000);
+            engagementTimer.current = currentEngagementTimer;
           }
         } else {
           // Page became hidden
@@ -75,6 +84,7 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
           if (engagementTimer.current) {
             clearInterval(engagementTimer.current);
             engagementTimer.current = undefined;
+            currentEngagementTimer = undefined;
           }
         }
       };
@@ -118,9 +128,9 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
       
       // Cleanup
       return () => {
-        // Track page exit with time spent
+        // Track page exit with time spent using captured start time
         const exitTime = Date.now();
-        const totalTime = Math.floor((exitTime - startTime.current) / 1000);
+        const totalTime = Math.floor((exitTime - effectStartTime) / 1000);
         
         if (document.visibilityState === 'visible') {
           totalActiveTime.current += (exitTime - lastActiveTime.current) / 1000;
@@ -133,12 +143,12 @@ export function useEngagementTracking(options: UseEngagementTrackingOptions = {}
           timestamp: new Date().toISOString(),
         });
         
-        // Clear timers
-        if (engagementTimer.current) {
-          clearInterval(engagementTimer.current);
+        // Clear timers using local variables to avoid stale closures
+        if (currentEngagementTimer) {
+          clearInterval(currentEngagementTimer);
         }
-        if (visibilityTimer.current) {
-          clearTimeout(visibilityTimer.current);
+        if (currentVisibilityTimer) {
+          clearTimeout(currentVisibilityTimer);
         }
         clearInterval(inactivityTimer);
         

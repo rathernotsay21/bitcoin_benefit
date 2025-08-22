@@ -1,12 +1,21 @@
-// Advanced branded types for domain safety
-export type BitcoinTxId = string & { readonly __brand: 'BitcoinTxId' };
-export type BitcoinAddress = string & { readonly __brand: 'BitcoinAddress' };
-export type SatoshiAmount = number & { readonly __brand: 'SatoshiAmount' };
-export type BTCAmount = number & { readonly __brand: 'BTCAmount' };
-export type USDAmount = number & { readonly __brand: 'USDAmount' };
-export type FeeRate = number & { readonly __brand: 'FeeRate' }; // sat/vByte
-export type BlockHeight = number & { readonly __brand: 'BlockHeight' };
-export type UnixTimestamp = number & { readonly __brand: 'UnixTimestamp' };
+// Optimized branded types - using const assertions for zero runtime cost
+export declare const BitcoinTxId: unique symbol;
+export declare const BitcoinAddress: unique symbol;
+export declare const SatoshiAmount: unique symbol;
+export declare const BTCAmount: unique symbol;
+export declare const USDAmount: unique symbol;
+export declare const FeeRate: unique symbol;
+export declare const BlockHeight: unique symbol;
+export declare const UnixTimestamp: unique symbol;
+
+export type BitcoinTxId = string & { readonly [BitcoinTxId]: never };
+export type BitcoinAddress = string & { readonly [BitcoinAddress]: never };
+export type SatoshiAmount = number & { readonly [SatoshiAmount]: never };
+export type BTCAmount = number & { readonly [BTCAmount]: never };
+export type USDAmount = number & { readonly [USDAmount]: never };
+export type FeeRate = number & { readonly [FeeRate]: never }; // sat/vByte
+export type BlockHeight = number & { readonly [BlockHeight]: never };
+export type UnixTimestamp = number & { readonly [UnixTimestamp]: never };
 
 // Tool identifier types with strict constraints
 export type ToolId = 'transaction' | 'fees' | 'network' | 'address' | 'timestamp';

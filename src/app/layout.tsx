@@ -6,6 +6,7 @@ import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
 import { ClarityTester } from '@/components/dev/ClarityTester'
+import { HardcodedAnalytics } from '@/components/analytics/HardcodedAnalytics'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
 import './globals.css'
@@ -71,7 +72,8 @@ export default function RootLayout({
           `
         }} />
         
-        {/* Analytics will be handled by AnalyticsProvider */}
+        {/* Analytics - Hardcoded temporarily for immediate deployment */}
+        <HardcodedAnalytics />
         
         {/* Structured Data for SEO */}
         <StructuredData data={structuredData.organization} />

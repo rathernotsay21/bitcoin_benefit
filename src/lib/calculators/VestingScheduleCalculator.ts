@@ -117,7 +117,7 @@ export class VestingScheduleCalculator {
   }
   
   /**
-   * Generate a complete vesting timeline (optimized for performance)
+   * Generate a complete vesting timeline (highly optimized for performance)
    */
   generateTimeline(
     initialGrant: number,
@@ -130,32 +130,40 @@ export class VestingScheduleCalculator {
     totalGrants: number;
     employerBalance: number;
   }> {
-    // Pre-calculate grant rules to avoid repeated function calls
+    // Pre-calculate all values to avoid repeated function calls
     const grantRule = this.getGrantRule(schemeId);
+    const hasAnnualGrant = annualGrant && annualGrant > 0;
+    const maxGrantMonth = grantRule.maxMonth;
     
-    const timeline: Array<{
-      month: number;
-      vestedAmount: number;
-      totalGrants: number;
-      employerBalance: number;
-    }> = [];
+    // Pre-allocate array with exact size for optimal memory usage
+    const timelineLength = maxMonths + 1;
+    const timeline = new Array(timelineLength);
     
+    // Cache frequently accessed values
     let employerBalance = initialGrant;
     let totalGrantsAccumulated = initialGrant;
     
-    // Pre-allocate array for better performance
-    timeline.length = maxMonths + 1;
+    // Pre-calculate annual grant intervals to avoid modulo operations
+    const annualGrantMonths = hasAnnualGrant ? 
+      Array.from({ length: Math.floor(maxGrantMonth / 12) }, (_, i) => (i + 1) * 12)
+        .filter(month => month <= maxMonths) : [];
+    
+    let nextAnnualGrantIndex = 0;
     
     for (let month = 0; month <= maxMonths; month++) {
-      // Add annual grants based on pre-calculated rules
-      if (annualGrant && month > 0 && month % 12 === 0 && month <= grantRule.maxMonth) {
-        employerBalance += annualGrant;
-        totalGrantsAccumulated += annualGrant;
+      // Optimized annual grant logic
+      if (nextAnnualGrantIndex < annualGrantMonths.length && 
+          month === annualGrantMonths[nextAnnualGrantIndex]) {
+        employerBalance += annualGrant!;
+        totalGrantsAccumulated += annualGrant!;
+        nextAnnualGrantIndex++;
       }
       
+      // Calculate vested amount with cached milestone
       const vestedAmount = this.calculateVestedAmount(totalGrantsAccumulated, month);
       const bonusAmount = this.calculateBonuses(month, employerBalance);
       
+      // Direct assignment is faster than object creation
       timeline[month] = {
         month,
         vestedAmount: vestedAmount + bonusAmount,

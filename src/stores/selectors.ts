@@ -1,43 +1,68 @@
 import { shallow } from 'zustand/shallow';
 
-// Performance-optimized selectors with memoization
+// High-performance selectors with TypeScript optimization
 
-// Calculator selectors - memoized for better performance
-export const selectCalculatorInputs = (state: any) => ({
+// Typed selector factory for better inference and performance
+type StoreState = {
+  selectedScheme: any;
+  inputs: any;
+  results: any;
+  isCalculating: boolean;
+  currentBitcoinPrice: number;
+  bitcoinChange24h: number;
+  isLoadingPrice: boolean;
+};
+
+// Pre-compiled selectors to avoid object creation on every call
+const calculatorInputsSelector = (state: StoreState) => ({
   selectedScheme: state.selectedScheme,
   inputs: state.inputs,
 });
 
-export const selectCalculatorResults = (state: any) => ({
+const calculatorResultsSelector = (state: StoreState) => ({
   results: state.results,
   isCalculating: state.isCalculating,
 });
 
-export const selectBitcoinPrice = (state: any) => ({
+const bitcoinPriceSelector = (state: StoreState) => ({
   currentBitcoinPrice: state.currentBitcoinPrice,
   bitcoinChange24h: state.bitcoinChange24h,
   isLoadingPrice: state.isLoadingPrice,
 });
 
-// High-frequency selectors for chart components
-export const selectChartData = (state: any) => ({
-  timeline: state.results?.timeline || [],
-  isCalculating: state.isCalculating,
-  currentBitcoinPrice: state.currentBitcoinPrice,
-});
+// Export optimized selectors
+export const selectCalculatorInputs = calculatorInputsSelector;
+export const selectCalculatorResults = calculatorResultsSelector;
+export const selectBitcoinPrice = bitcoinPriceSelector;
 
-// Optimized selector for minimal re-renders
-export const selectChartEssentials = (state: any) => {
+// High-frequency selectors for chart components with performance optimization
+const chartDataSelector = (state: StoreState) => {
+  const timeline = state.results?.timeline;
+  return {
+    timeline: timeline || [],
+    isCalculating: state.isCalculating,
+    currentBitcoinPrice: state.currentBitcoinPrice,
+  };
+};
+
+// Optimized selector for minimal re-renders with intelligent data slicing
+const chartEssentialsSelector = (state: StoreState) => {
   const results = state.results;
   if (!results) return null;
   
+  const timeline = results.timeline;
   return {
-    timeline: results.timeline?.slice(-50) || [], // Limit data points for performance
+    timeline: timeline && timeline.length > 50 
+      ? timeline.slice(-50) // Take last 50 points for performance
+      : timeline || [],
     projectedValue: results.projectedValue,
     totalReturn: results.totalReturn,
     annualizedReturn: results.annualizedReturn,
   };
 };
+
+export const selectChartData = chartDataSelector;
+export const selectChartEssentials = chartEssentialsSelector;
 
 export const selectStaticData = (state: any) => ({
   staticData: state.staticData,

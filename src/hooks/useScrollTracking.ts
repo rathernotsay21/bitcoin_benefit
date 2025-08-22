@@ -11,6 +11,9 @@ export function useScrollTracking(enabled: boolean = true) {
   useEffect(() => {
     if (!enabled) return;
     
+    // Capture ref value at effect initialization to avoid stale closures
+    const effectTrackedDepths = trackedDepths.current;
+    
     let scrollTimer: NodeJS.Timeout;
     
     const handleScroll = () => {
@@ -54,8 +57,9 @@ export function useScrollTracking(enabled: boolean = true) {
     return () => {
       clearTimeout(scrollTimer);
       window.removeEventListener('scroll', handleScroll);
-      // Reset tracked depths when component unmounts
-      trackedDepths.current.clear();
+      // Reset tracked depths when component unmounts using captured ref value
+      // Note: We use the captured ref to avoid stale closure warnings
+      effectTrackedDepths.clear();
     };
   }, [enabled]);
   

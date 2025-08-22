@@ -13,10 +13,21 @@ const nextConfig = {
   // Enable compression for static assets
   compress: true,
   
-  // Performance optimizations - simplified to fix development issues
+  // Enhanced performance optimizations for bundle size reduction
   experimental: {
-    optimizePackageImports: ['recharts', '@heroicons/react', '@headlessui/react', 'react-window'],
-    // Remove esmExternals: false as it can cause webpack issues
+    optimizePackageImports: [
+      'recharts',
+      '@heroicons/react',
+      '@headlessui/react', 
+      'react-window',
+      'zustand',
+      'zod',
+      'date-fns'
+    ],
+    // serverComponentsExternalPackages: ['recharts'], // Removed due to conflict with optimizePackageImports
+    optimizeServerReact: true,
+    // Optimize CSS imports
+    optimizeCss: true
   },
   
   // Optimize JavaScript bundles
@@ -47,6 +58,14 @@ const nextConfig = {
               priority: 40,
               chunks: 'async',
               enforce: true
+            },
+            // Split calculation engines separately for better caching
+            calculators: {
+              test: /[\\/]src[\\/]lib[\\/]calculators[\\/]/,
+              name: 'calculators',
+              priority: 38,
+              chunks: 'async',
+              maxSize: 100000 // Limit to 100KB
             },
             // Split heavy animation libraries
             animations: {

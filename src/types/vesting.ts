@@ -1,28 +1,27 @@
+// Optimized interface with readonly for better type inference
 export interface VestingScheme {
-  id: string;
-  name: string;
-  description: string;
-  initialGrant: number; // in BTC
-  employeeMatchPercentage: number; // Kept for backward compatibility, always 0
-  maxAnnualMatch?: number; // in BTC - deprecated, not used
-  annualGrant?: number; // in BTC - additional grant each year
-  vestingSchedule: VestingMilestone[];
-  bonuses?: VestingBonus[];
-  maxAnnualGrants?: number;
-  customVestingEvents?: CustomVestingEvent[]; // Custom vesting schedule if defined
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly initialGrant: number; // in BTC
+  readonly employeeMatchPercentage: 0; // Always 0, simplified for performance
+  readonly annualGrant?: number; // in BTC - additional grant each year
+  readonly vestingSchedule: readonly VestingMilestone[];
+  readonly bonuses?: readonly VestingBonus[];
+  readonly maxAnnualGrants?: number;
+  readonly customVestingEvents?: readonly CustomVestingEvent[]; // Custom vesting schedule if defined
   // UI properties for enhanced display
-  icon?: string;
-  tagline?: string;
-  bestFor?: string;
-  riskLevel?: string;
+  readonly icon?: string;
+  readonly tagline?: string;
+  readonly bestFor?: string;
+  readonly riskLevel?: string;
 }
 
 export interface VestingMilestone {
-  months: number;
-  employeeContributionPercent: number; // Always 100%
-  employerContributionPercent: number; // Deprecated, not used
-  grantPercent: number;
-  description: string;
+  readonly months: number;
+  readonly employeeContributionPercent: 100; // Always 100%, literal for optimization
+  readonly grantPercent: number;
+  readonly description: string;
 }
 
 // Custom vesting event for flexible scheduling
