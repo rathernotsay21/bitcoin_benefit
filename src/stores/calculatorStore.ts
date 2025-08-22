@@ -7,7 +7,7 @@ import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
 import { syncBitcoinPrice } from '@/lib/utils/store-sync';
 import { trackClarityEvent, ClarityEvents, trackCalculatorEvent } from '@/lib/analytics/clarity-events';
 
-interface CalculatorState {
+export interface CalculatorState {
   // Input state
   selectedScheme: VestingScheme | null;
   inputs: Partial<CalculationInputs>;

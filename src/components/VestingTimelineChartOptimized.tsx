@@ -3,8 +3,17 @@
 import React, { useState, useEffect, useMemo, useCallback, startTransition, useDeferredValue } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ChartSkeleton } from '@/components/loading/ChartSkeleton';
-import VestingTimelineChartRecharts from './VestingTimelineChartRecharts';
+import dynamic from 'next/dynamic';
 import { VestingTimelinePoint } from '@/types/vesting';
+
+// Dynamically import the optimized chart container for code splitting
+const VestingChartContainer = dynamic(
+  () => import('./charts/vesting/VestingChartContainer'),
+  {
+    ssr: false,
+    loading: () => <ChartSkeleton height={400} showLegend={true} />
+  }
+);
 
 interface VestingTimelineChartOptimizedProps {
   timeline: VestingTimelinePoint[];
@@ -97,7 +106,7 @@ function VestingTimelineChartOptimized(props: VestingTimelineChartOptimizedProps
   return (
     <ErrorBoundary fallback={<ErrorFallback />}>
       <div className="w-full max-w-full overflow-hidden">
-        <VestingTimelineChartRecharts {...optimizedProps} />
+        <VestingChartContainer {...optimizedProps} />
       </div>
     </ErrorBoundary>
   );

@@ -13,7 +13,7 @@ import { HISTORICAL_VESTING_SCHEMES } from '@/lib/historical-vesting-schemes';
 import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
 import { syncBitcoinPrice } from '@/lib/utils/store-sync';
 
-interface HistoricalCalculatorState {
+export interface HistoricalCalculatorState {
   // Input state
   selectedScheme: VestingScheme | null;
   startingYear: number;

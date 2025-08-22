@@ -1,42 +1,34 @@
 import { shallow } from 'zustand/shallow';
+import type { CalculatorState } from './calculatorStore';
+import type { HistoricalCalculatorState } from './historicalCalculatorStore';
 
 // High-performance selectors with TypeScript optimization
 
-// Typed selector factory for better inference and performance
-type StoreState = {
-  selectedScheme: any;
-  inputs: any;
-  results: any;
-  isCalculating: boolean;
-  currentBitcoinPrice: number;
-  bitcoinChange24h: number;
-  isLoadingPrice: boolean;
-};
-
-// Pre-compiled selectors to avoid object creation on every call
-const calculatorInputsSelector = (state: StoreState) => ({
+// Calculator Store Selectors - Optimized for minimal re-renders
+export const selectCalculatorInputs = (state: CalculatorState) => ({
   selectedScheme: state.selectedScheme,
   inputs: state.inputs,
 });
 
-const calculatorResultsSelector = (state: StoreState) => ({
+export const selectCalculatorResults = (state: CalculatorState) => ({
   results: state.results,
   isCalculating: state.isCalculating,
 });
 
-const bitcoinPriceSelector = (state: StoreState) => ({
+export const selectBitcoinPrice = (state: CalculatorState) => ({
   currentBitcoinPrice: state.currentBitcoinPrice,
   bitcoinChange24h: state.bitcoinChange24h,
   isLoadingPrice: state.isLoadingPrice,
 });
 
-// Export optimized selectors
-export const selectCalculatorInputs = calculatorInputsSelector;
-export const selectCalculatorResults = calculatorResultsSelector;
-export const selectBitcoinPrice = bitcoinPriceSelector;
+// Granular selectors for specific values
+export const selectCurrentBitcoinPrice = (state: CalculatorState) => state.currentBitcoinPrice;
+export const selectIsCalculating = (state: CalculatorState) => state.isCalculating;
+export const selectSelectedScheme = (state: CalculatorState) => state.selectedScheme;
+export const selectVestingResults = (state: CalculatorState) => state.results;
 
 // High-frequency selectors for chart components with performance optimization
-const chartDataSelector = (state: StoreState) => {
+export const selectChartData = (state: CalculatorState) => {
   const timeline = state.results?.timeline;
   return {
     timeline: timeline || [],
@@ -46,7 +38,7 @@ const chartDataSelector = (state: StoreState) => {
 };
 
 // Optimized selector for minimal re-renders with intelligent data slicing
-const chartEssentialsSelector = (state: StoreState) => {
+export const selectChartEssentials = (state: CalculatorState) => {
   const results = state.results;
   if (!results) return null;
   
@@ -55,51 +47,45 @@ const chartEssentialsSelector = (state: StoreState) => {
     timeline: timeline && timeline.length > 50 
       ? timeline.slice(-50) // Take last 50 points for performance
       : timeline || [],
-    projectedValue: results.projectedValue,
-    totalReturn: results.totalReturn,
-    annualizedReturn: results.annualizedReturn,
+    totalCost: results.totalCost,
+    totalBitcoinNeeded: results.totalBitcoinNeeded,
+    summary: results.summary,
   };
 };
 
-export const selectChartData = chartDataSelector;
-export const selectChartEssentials = chartEssentialsSelector;
-
-export const selectStaticData = (state: any) => ({
-  staticData: state.staticData,
-  isLoadingStaticData: state.isLoadingStaticData,
+export const selectStaticData = (state: CalculatorState) => ({
+  staticDataLoaded: state.staticDataLoaded,
+  staticCalculations: state.staticCalculations,
 });
 
-export const selectCustomVestingSchedule = (state: any) => ({
-  customVestingSchedule: state.customVestingSchedule,
-  setCustomVestingSchedule: state.setCustomVestingSchedule,
-});
+export const selectSchemeCustomizations = (state: CalculatorState) => state.schemeCustomizations;
 
 // Historical selectors
-export const selectHistoricalInputs = (state: any) => ({
+export const selectHistoricalInputs = (state: HistoricalCalculatorState) => ({
   selectedScheme: state.selectedScheme,
   startingYear: state.startingYear,
   costBasisMethod: state.costBasisMethod,
 });
 
-export const selectHistoricalResults = (state: any) => ({
+export const selectHistoricalResults = (state: HistoricalCalculatorState) => ({
   historicalResults: state.historicalResults,
   isCalculating: state.isCalculating,
   calculationError: state.calculationError,
 });
 
-export const selectHistoricalPrices = (state: any) => ({
+export const selectHistoricalPrices = (state: HistoricalCalculatorState) => ({
   historicalPrices: state.historicalPrices,
-  isLoadingPrices: state.isLoadingPrices,
-  priceError: state.priceError,
+  isLoadingHistoricalData: state.isLoadingHistoricalData,
+  historicalDataError: state.historicalDataError,
 });
 
-export const selectHistoricalStaticData = (state: any) => ({
-  staticData: state.staticData,
-  isLoadingStaticData: state.isLoadingStaticData,
+export const selectHistoricalStaticData = (state: HistoricalCalculatorState) => ({
+  staticDataLoaded: state.staticDataLoaded,
+  currentBitcoinPrice: state.currentBitcoinPrice,
 });
 
 // Combined selectors with performance optimization
-export const selectCalculatorEssentials = (state: any) => ({
+export const selectCalculatorEssentials = (state: CalculatorState) => ({
   selectedScheme: state.selectedScheme,
   inputs: state.inputs,
   results: state.results,
@@ -107,7 +93,7 @@ export const selectCalculatorEssentials = (state: any) => ({
   currentBitcoinPrice: state.currentBitcoinPrice,
 });
 
-export const selectHistoricalEssentials = (state: any) => ({
+export const selectHistoricalEssentials = (state: HistoricalCalculatorState) => ({
   selectedScheme: state.selectedScheme,
   startingYear: state.startingYear,
   historicalResults: state.historicalResults,
