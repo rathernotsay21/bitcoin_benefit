@@ -37,15 +37,18 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
 
   const handleLookup = useCallback(async (txid: string) => {
     const cleanTxid = txid.trim();
+    console.log('handleLookup called with:', cleanTxid);
 
     // Validate format before making API call
     if (!TransactionService.validateTxid(cleanTxid)) {
+      console.error('TXID validation failed:', cleanTxid);
       setTransactionError(createToolError('validation', 'INVALID_TXID'));
       return;
     }
 
     // Check rate limit
     if (!checkRateLimit('transaction-lookup')) {
+      console.warn('Rate limit exceeded');
       setTransactionError(createToolError('rate_limit', 'RATE_LIMIT_EXCEEDED'));
       return;
     }
@@ -56,9 +59,12 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
     });
 
     try {
+      console.log('Calling TransactionService.getTransactionDetails...');
       recordRequest('transaction-lookup');
       const transactionData = await TransactionService.getTransactionDetails(cleanTxid);
+      console.log('Transaction data received:', transactionData);
       setTransactionData(transactionData);
+      console.log('Transaction data set in store');
     } catch (error) {
       console.error('Transaction lookup error:', error);
       setTransactionError(error as any);
@@ -291,7 +297,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 </div>
                 <div className="text-right">
                   <button
-                    onClick={() => handleCopy(transactionLookup.data!.txid, 'txid')}
+                    onClick={() => handleCopy(String(transactionLookup.data!.txid), 'txid')}
                     className="px-4 py-2 bg-bitcoin text-white rounded-lg text-base font-medium hover:bg-bitcoin-600 transition-all duration-200 shadow-md hover:shadow-lg"
                   >
                     {copiedItem === 'txid' ? 'Copied!' : 'Copy TXID'}
@@ -304,7 +310,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 <div className="flex items-center justify-between">
                   <span className="text-base font-semibold text-gray-500 dark:text-slate-400">Transaction ID</span>
                   <span className="text-base font-mono text-gray-600 dark:text-slate-300">
-                    {TransactionService.formatTxidForDisplay(transactionLookup.data.txid)}
+                    {TransactionService.formatTxidForDisplay(String(transactionLookup.data.txid))}
                   </span>
                 </div>
               </div>
@@ -427,7 +433,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 View on Block Explorers
               </h4>
               <div className="grid grid-cols-2 gap-4">
-                {Object.entries(TransactionService.getExplorerUrls(transactionLookup.data.txid)).map(([name, url]) => (
+                {Object.entries(TransactionService.getExplorerUrls(String(transactionLookup.data.txid))).map(([name, url]) => (
                   <a
                     key={name}
                     href={url}

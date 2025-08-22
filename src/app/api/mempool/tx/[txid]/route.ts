@@ -74,8 +74,20 @@ async function fetchFromBlockstream(txid: string) {
       txid: data.txid,
       version: data.version,
       locktime: data.locktime,
-      vin: data.vin,
-      vout: data.vout,
+      vin: (data.vin || []).map((input: any) => ({
+        txid: input.txid,
+        vout: input.vout,
+        sequence: input.sequence,
+        prevout: {
+          scriptpubkey_address: input.prevout?.scriptpubkey_address,
+          value: input.prevout?.value || 0
+        }
+      })),
+      vout: (data.vout || []).map((output: any) => ({
+        scriptpubkey_address: output.scriptpubkey_address,
+        value: output.value || 0,
+        n: output.n
+      })),
       size: data.size,
       weight: data.weight,
       fee: data.fee || 0,
@@ -123,20 +135,20 @@ async function fetchFromBlockchainInfo(txid: string) {
       txid: data.hash,
       version: data.ver,
       locktime: data.lock_time,
-      vin: data.inputs?.map((input: any) => ({
+      vin: (data.inputs || []).map((input: any) => ({
         txid: input.prev_out?.hash,
         vout: input.prev_out?.n,
         sequence: input.sequence,
-        scriptSig: input.script
-      })) || [],
-      vout: data.out?.map((output: any) => ({
-        value: output.value,
-        n: output.n,
-        scriptPubKey: {
-          hex: output.script,
-          address: output.addr
+        prevout: {
+          scriptpubkey_address: input.prev_out?.addr,
+          value: input.prev_out?.value || 0
         }
-      })) || [],
+      })),
+      vout: (data.out || []).map((output: any) => ({
+        scriptpubkey_address: output.addr,
+        value: output.value || 0,
+        n: output.n
+      })),
       size: data.size,
       weight: data.weight || data.size * 4,
       fee: data.fee || 0,

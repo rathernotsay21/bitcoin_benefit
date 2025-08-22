@@ -186,7 +186,7 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
             ...state.tools.transactionLookup,
             data,
             loading: createDefaultLoadingState(),
-            lastTxid: data?.txid || state.tools.transactionLookup.lastTxid
+            lastTxid: data ? String(data.txid) : state.tools.transactionLookup.lastTxid
           }
         }
       })),

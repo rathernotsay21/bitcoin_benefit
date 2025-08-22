@@ -11,36 +11,33 @@ import {
   toUSDAmount
 } from '@/types/bitcoin-tools';
 
+// Updated interface to match actual API response from route.ts
 interface MempoolTransactionResponse {
   txid: string;
-  version: number;
-  locktime: number;
+  version?: number;
+  locktime?: number;
   vin: Array<{
-    txid: string;
-    vout: number;
-    prevout: {
-      scriptpubkey: string;
-      scriptpubkey_asm: string;
-      scriptpubkey_type: string;
+    txid?: string;
+    vout?: number;
+    sequence?: number;
+    scriptSig?: string;
+    prevout?: {
       scriptpubkey_address?: string;
       value: number;
     };
-    scriptsig: string;
-    scriptsig_asm: string;
-    witness?: string[];
-    is_coinbase: boolean;
-    sequence: number;
   }>;
   vout: Array<{
-    scriptpubkey: string;
-    scriptpubkey_asm: string;
-    scriptpubkey_type: string;
+    scriptpubkey?: {
+      hex?: string;
+      address?: string;
+    };
     scriptpubkey_address?: string;
     value: number;
+    n?: number;
   }>;
-  size: number;
-  weight: number;
-  fee: number;
+  size?: number;
+  weight?: number;
+  fee?: number; // Made optional as it might not always be present
   status: {
     confirmed: boolean;
     block_height?: number;
@@ -71,7 +68,7 @@ export class TransactionService {
     }
 
     try {
-      const response = await fetch('/api/coingecko', {
+      const response = await fetch('/api/bitcoin-price', {
         signal: AbortSignal.timeout(10000)
       });
       
@@ -80,6 +77,8 @@ export class TransactionService {
         this.btcPrice = data.bitcoin.usd;
         this.priceLastUpdated = now;
         return this.btcPrice;
+      } else {
+        console.warn('Bitcoin price API returned non-OK status:', response.status);
       }
     } catch (error) {
       console.warn('Failed to fetch Bitcoin price:', error);
@@ -124,11 +123,12 @@ export class TransactionService {
       }
     }
 
-    // Calculate fee information
-    const feeInSats = tx.fee;
+    // Calculate fee information with null safety
+    const feeInSats = tx.fee || 0;
     const feeInBTC = feeInSats / 100000000;
     const feeInUSD = feeInBTC * btcPrice;
-    const feeRate = Math.round(feeInSats / (tx.weight / 4)); // sat/vByte
+    const weight = tx.weight || (tx.size ? tx.size * 4 : 1000); // Fallback weight
+    const feeRate = Math.round(feeInSats / Math.max(weight / 4, 1)); // sat/vByte with minimum 1
 
     // Determine status
     let status: TransactionStatus['status'];
@@ -219,13 +219,17 @@ export class TransactionService {
    * Fetch and format transaction details
    */
   static async getTransactionDetails(txid: string): Promise<TransactionStatus> {
+    console.log('getTransactionDetails called with:', txid);
+    
     // Validate TXID format
     if (!this.validateTxid(txid)) {
+      console.error('Invalid TXID format:', txid);
       throw createToolError('validation', 'INVALID_TXID');
     }
 
     try {
       // Fetch transaction data and Bitcoin price in parallel
+      console.log('Fetching transaction and Bitcoin price...');
       const [txResponse, btcPrice] = await Promise.all([
         fetch(`/api/mempool/tx/${txid}`, {
           signal: AbortSignal.timeout(30000)
@@ -233,7 +237,12 @@ export class TransactionService {
         this.getBitcoinPrice()
       ]);
 
+      console.log('API Response status:', txResponse.status);
+
       if (!txResponse.ok) {
+        const errorText = await txResponse.text();
+        console.error('API Error response:', errorText);
+        
         if (txResponse.status === 404) {
           throw createToolError('not_found', 'TRANSACTION_NOT_FOUND');
         } else if (txResponse.status === 408) {
@@ -243,10 +252,30 @@ export class TransactionService {
         }
       }
 
-      const txData: MempoolTransactionResponse = await txResponse.json();
-      return await this.formatTransactionStatus(txData, btcPrice);
+      const rawTxData = await txResponse.json();
+      console.log('Raw transaction data received:', {
+        txid: rawTxData.txid,
+        hasFee: 'fee' in rawTxData,
+        hasStatus: 'status' in rawTxData,
+        hasVin: 'vin' in rawTxData,
+        hasVout: 'vout' in rawTxData
+      });
+      
+      // Validate the response structure before processing
+      if (!this.validateTransactionResponse(rawTxData)) {
+        console.error('Transaction response validation failed');
+        throw createToolError('parse_error', 'JSON_PARSE_ERROR');
+      }
+      
+      const txData: MempoolTransactionResponse = rawTxData;
+      console.log('Formatting transaction status...');
+      const result = await this.formatTransactionStatus(txData, btcPrice);
+      console.log('Transaction status formatted successfully');
+      return result;
 
     } catch (error) {
+      console.error('Error in getTransactionDetails:', error);
+      
       // Handle network and timeout errors
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
@@ -285,6 +314,51 @@ export class TransactionService {
   static formatTxidForDisplay(txid: string, chars = 8): string {
     if (txid.length <= chars * 2) return txid;
     return `${txid.slice(0, chars)}...${txid.slice(-chars)}`;
+  }
+
+  /**
+   * Validate transaction response structure
+   */
+  private static validateTransactionResponse(data: any): data is MempoolTransactionResponse {
+    if (!data || typeof data !== 'object') {
+      console.error('Invalid response: not an object', data);
+      return false;
+    }
+    
+    // Log the actual structure for debugging
+    console.log('Validating transaction response:', {
+      hasTxid: 'txid' in data,
+      txidType: typeof data.txid,
+      hasFee: 'fee' in data,
+      feeType: typeof data.fee,
+      hasStatus: 'status' in data,
+      statusType: typeof data.status,
+      hasVin: 'vin' in data,
+      hasVout: 'vout' in data
+    });
+    
+    // More lenient validation - fee might be 0 or undefined for some transactions
+    const isValid = (
+      typeof data.txid === 'string' &&
+      (typeof data.fee === 'number' || data.fee === undefined || data.fee === null) &&
+      data.status &&
+      typeof data.status === 'object' &&
+      typeof data.status.confirmed === 'boolean' &&
+      Array.isArray(data.vin) &&
+      Array.isArray(data.vout)
+    );
+    
+    if (!isValid) {
+      console.error('Transaction validation failed:', {
+        txid: data.txid,
+        fee: data.fee,
+        status: data.status,
+        vinLength: data.vin?.length,
+        voutLength: data.vout?.length
+      });
+    }
+    
+    return isValid;
   }
 
   /**

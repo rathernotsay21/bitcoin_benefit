@@ -112,15 +112,23 @@ export type FeeEstimates = z.infer<typeof FeeEstimatesSchema>;
 // INTERNAL API TYPES
 // =============================================================================
 
-// Generic API Response Wrapper
+// Generic API Response Wrapper with discriminated union
 export const ApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
-  z.object({
-    success: z.boolean(),
-    data: dataSchema.optional(),
-    error: z.string().optional(),
-    timestamp: z.number().int().positive().optional(),
-    source: z.string().optional(),
-  });
+  z.discriminatedUnion('success', [
+    z.object({
+      success: z.literal(true),
+      data: dataSchema,
+      timestamp: z.number().int().positive().optional(),
+      source: z.string().optional(),
+    }),
+    z.object({
+      success: z.literal(false),
+      error: z.string(),
+      timestamp: z.number().int().positive().optional(),
+      code: z.string().optional(),
+      details: z.record(z.unknown()).optional(),
+    })
+  ]);
 
 export type ApiResponse<T> = {
   success: boolean;
@@ -281,11 +289,11 @@ export function safeParseApi<T>(
 
 // Type guard for API responses
 export function isApiError(response: ApiResponse<unknown>): response is ApiError {
-  return !response.success;
+  return response.success === false;
 }
 
 export function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccess<T> {
-  return response.success;
+  return response.success === true;
 }
 
 // Bitcoin address validation
