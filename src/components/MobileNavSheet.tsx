@@ -14,34 +14,38 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-// Import icons dynamically for performance
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import dynamic from 'next/dynamic';
-
-// Load essential navigation icons dynamically  
-const HomeIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
-const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
-const SunIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.SunIcon })), { ssr: false });
-const MoonIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
-const ClockIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const BookOpenIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
-const LinkIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const MagnifyingGlassIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
-
-// Load solid versions dynamically
-const HomeIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
-const CalculatorIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
-const SunIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.SunIcon })), { ssr: false });
-const MoonIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
-const ClockIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const BookOpenIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
-const LinkIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const MagnifyingGlassIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
+// Import icons directly
+import { 
+  Bars3Icon, 
+  XMarkIcon, 
+  ChevronDownIcon, 
+  ChevronUpIcon,
+  HomeIcon,
+  CalculatorIcon,
+  ClockIcon,
+  BookOpenIcon,
+  LinkIcon,
+  MagnifyingGlassIcon,
+  SunIcon,
+  MoonIcon,
+} from '@heroicons/react/24/outline';
+import {
+  HomeIcon as HomeIconSolid,
+  CalculatorIcon as CalculatorIconSolid,
+  ClockIcon as ClockIconSolid,
+  BookOpenIcon as BookOpenIconSolid,
+  LinkIcon as LinkIconSolid,
+  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
+  SunIcon as SunIconSolid,
+  MoonIcon as MoonIconSolid,
+} from '@heroicons/react/24/solid';
+import { cn } from '@/lib/utils';
 
 export default function MobileNavSheet() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isToolsExpanded, setIsToolsExpanded] = useState(false);
 
   // Enhanced navigation items with strict route typing
   interface MobileNavItem {
@@ -51,6 +55,11 @@ export default function MobileNavSheet() {
     readonly activeIcon: React.ComponentType<{ className?: string }>;
     readonly description: string;
     readonly badge?: string;
+    readonly subItems?: readonly {
+      readonly name: string;
+      readonly href: string;
+      readonly description: string;
+    }[];
   }
 
   const navItems: readonly MobileNavItem[] = [
@@ -87,7 +96,14 @@ export default function MobileNavSheet() {
       href: '/bitcoin-tools' as const,
       icon: LinkIcon,
       activeIcon: LinkIconSolid,
-      description: 'Blockchain tools and calculators'
+      description: 'Blockchain tools and calculators',
+      subItems: [
+        { name: 'Transactions', href: '/bitcoin-tools?tool=transaction', description: 'Look up transactions' },
+        { name: 'Fee Calculator', href: '/bitcoin-tools?tool=fees', description: 'Calculate optimal fees' },
+        { name: 'Network Status', href: '/bitcoin-tools?tool=network', description: 'Monitor network health' },
+        { name: 'Address Explorer', href: '/bitcoin-tools?tool=address', description: 'Explore addresses' },
+        { name: 'Document Timestamp', href: '/bitcoin-tools?tool=timestamp', description: 'Timestamp documents' },
+      ]
     },
     {
       name: 'Guide',
@@ -101,13 +117,14 @@ export default function MobileNavSheet() {
   // Close sheet when route changes
   useEffect(() => {
     setIsOpen(false);
+    setIsToolsExpanded(false);
   }, [pathname]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
-          className="md:hidden p-2 rounded-lg text-deepSlate dark:text-slate-100 hover:text-bitcoin dark:hover:text-bitcoin transition-all duration-300"
+          className="sm:hidden p-2 rounded-lg text-deepSlate dark:text-slate-100 hover:text-bitcoin dark:hover:text-bitcoin transition-all duration-300"
           aria-label="Open navigation menu"
         >
           <Bars3Icon className="w-6 h-6" />
@@ -136,27 +153,84 @@ export default function MobileNavSheet() {
               : pathname.startsWith(item.href);
             const Icon = isActive ? item.activeIcon : item.icon;
 
+            // Special handling for Tools with sub-items
+            if (item.subItems) {
+              return (
+                <div key={item.name}>
+                  <button
+                    onClick={() => setIsToolsExpanded(!isToolsExpanded)}
+                    className={cn(
+                      "nav-link group flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 w-full",
+                      isActive 
+                        ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
+                        : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center">
+                      <Icon className={cn(
+                        "w-6 h-6 mr-4 transition-all duration-300 group-hover:scale-110 flex-shrink-0",
+                        isActive ? 'text-bitcoin' : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-400 dark:group-hover:text-bitcoin'
+                      )} />
+                      <div className="flex flex-col min-w-0 text-left">
+                        <span className={cn(
+                          "font-semibold transition-all duration-300 truncate text-left",
+                          isActive ? 'text-bitcoin' : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                        )}>
+                          {item.name}
+                        </span>
+                        <span className="nav-description text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate leading-tight text-left">
+                          {item.description}
+                        </span>
+                      </div>
+                    </div>
+                    {isToolsExpanded ? (
+                      <ChevronUpIcon className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+                    ) : (
+                      <ChevronDownIcon className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+                    )}
+                  </button>
+                  {isToolsExpanded && (
+                    <div className="ml-10 mt-1 space-y-1">
+                      {item.subItems.map((subItem) => (
+                        <SheetClose key={subItem.name} asChild>
+                          <Link
+                            href={subItem.href}
+                            className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300"
+                          >
+                            <div className="font-medium">{subItem.name}</div>
+                            <div className="text-xs text-slate-500 dark:text-slate-500 mt-0.5">
+                              {subItem.description}
+                            </div>
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            // Regular navigation items
             return (
               <SheetClose key={item.name} asChild>
                 <Link
                   href={item.href}
-                  className={`
-                    nav-link group flex items-center px-4 py-3 rounded-xl transition-all duration-300
-                    ${isActive 
+                  className={cn(
+                    "nav-link group flex items-center px-4 py-3 rounded-xl transition-all duration-300",
+                    isActive 
                       ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
                       : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
-                    }
-                  `}
+                  )}
                 >
-                  <Icon className={`
-                    w-6 h-6 mr-4 transition-all duration-300 group-hover:scale-110 flex-shrink-0
-                    ${isActive ? 'text-bitcoin' : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-400 dark:group-hover:text-bitcoin'}
-                  `} />
+                  <Icon className={cn(
+                    "w-6 h-6 mr-4 transition-all duration-300 group-hover:scale-110 flex-shrink-0",
+                    isActive ? 'text-bitcoin' : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-400 dark:group-hover:text-bitcoin'
+                  )} />
                   <div className="flex flex-col min-w-0">
-                    <span className={`
-                      font-semibold transition-all duration-300 truncate
-                      ${isActive ? 'text-bitcoin' : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'}
-                    `}>
+                    <span className={cn(
+                      "font-semibold transition-all duration-300 truncate",
+                      isActive ? 'text-bitcoin' : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                    )}>
                       {item.name}
                     </span>
                     <span className="nav-description text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate leading-tight">

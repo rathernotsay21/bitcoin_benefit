@@ -4,28 +4,38 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from '@/components/ThemeProvider';
 import MobileNavSheet from '@/components/MobileNavSheet';
-// Optimize icon imports with dynamic loading
-import dynamic from 'next/dynamic';
-
-// Load essential navigation icons dynamically  
-const HomeIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
-const CalculatorIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
-const SunIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.SunIcon })), { ssr: false });
-const MoonIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
-const ClockIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const BookOpenIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
-const LinkIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const MagnifyingGlassIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
-
-// Load solid versions dynamically
-const HomeIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.HomeIcon })), { ssr: false });
-const CalculatorIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.CalculatorIcon })), { ssr: false });
-const SunIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.SunIcon })), { ssr: false });
-const MoonIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MoonIcon })), { ssr: false });
-const ClockIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
-const BookOpenIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.BookOpenIcon })), { ssr: false });
-const LinkIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.LinkIcon })), { ssr: false });
-const MagnifyingGlassIconSolid = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.MagnifyingGlassIcon })), { ssr: false });
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
+import { ToolsDropdown } from '@/components/navigation/ToolsDropdown';
+import { cn } from '@/lib/utils';
+// Import icons directly for navigation
+import {
+  HomeIcon,
+  CalculatorIcon,
+  ClockIcon,
+  BookOpenIcon,
+  LinkIcon,
+  MagnifyingGlassIcon,
+  SunIcon,
+  MoonIcon,
+} from '@heroicons/react/24/outline';
+import {
+  HomeIcon as HomeIconSolid,
+  CalculatorIcon as CalculatorIconSolid,
+  ClockIcon as ClockIconSolid,
+  BookOpenIcon as BookOpenIconSolid,
+  LinkIcon as LinkIconSolid,
+  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
+  SunIcon as SunIconSolid,
+  MoonIcon as MoonIconSolid,
+} from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
@@ -91,8 +101,65 @@ export default function Navigation() {
             </div>
           </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
+          {/* Desktop Navigation with Shadcn NavigationMenu */}
+          <NavigationMenu className="hidden lg:block">
+            <NavigationMenuList>
+              {navItems.map((item) => {
+                const isActive = item.href === '/'
+                  ? pathname === '/'
+                  : pathname.startsWith(item.href);
+                const Icon = isActive ? item.activeIcon : item.icon;
+
+                // Special handling for Tools dropdown
+                if (item.name === 'Tools') {
+                  return (
+                    <NavigationMenuItem key={item.name}>
+                      <NavigationMenuTrigger 
+                        className={cn(
+                          "flex items-center space-x-2",
+                          isActive && "text-bitcoin dark:text-bitcoin"
+                        )}
+                      >
+                        <Icon className={`w-5 h-5 transition-all duration-300 ${isActive
+                          ? 'text-bitcoin dark:text-bitcoin'
+                          : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                          }`} />
+                        <span>{item.name}</span>
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ToolsDropdown />
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  );
+                }
+
+                // Regular navigation items
+                return (
+                  <NavigationMenuItem key={item.name}>
+                    <Link href={item.href} legacyBehavior passHref>
+                      <NavigationMenuLink 
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          isActive && "text-bitcoin dark:text-bitcoin bg-bitcoin/10 dark:bg-bitcoin/20"
+                        )}
+                      >
+                        <span className="flex items-center space-x-2">
+                          <Icon className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ${isActive
+                            ? 'text-bitcoin dark:text-bitcoin'
+                            : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                            }`} />
+                          <span>{item.name}</span>
+                        </span>
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {/* Mobile Icon Navigation (Small Desktop/Tablet) */}
+          <nav className="hidden sm:flex lg:hidden items-center space-x-2">
             {navItems.map((item) => {
               const isActive = item.href === '/'
                 ? pathname === '/'
@@ -103,17 +170,16 @@ export default function Navigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`nav-link flex items-center space-x-2 group ${isActive ? 'active' : ''
+                  className={`p-2 rounded-lg transition-all duration-300 ${isActive
+                    ? 'bg-bitcoin/10 dark:bg-bitcoin/20'
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
+                  title={item.name}
                 >
                   <Icon className={`w-5 h-5 transition-all duration-300 ${isActive
                     ? 'text-bitcoin dark:text-bitcoin'
-                    : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
+                    : 'text-slate-500 hover:text-bitcoin dark:text-slate-300 dark:hover:text-bitcoin'
                     }`} />
-                  <span className={`transition-all duration-300 ${isActive
-                    ? 'text-bitcoin dark:text-bitcoin'
-                    : 'text-deepSlate group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
-                    }`}>{item.name}</span>
                 </Link>
               );
             })}
