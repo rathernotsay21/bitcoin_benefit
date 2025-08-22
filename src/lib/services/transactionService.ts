@@ -181,7 +181,9 @@ export class TransactionService {
    * Estimate confirmation time based on fee rate
    */
   private static estimateConfirmationTime(feeRate: number): string {
-    if (feeRate >= 50) {
+    if (feeRate === 0) {
+      return 'May not confirm (no fee)';
+    } else if (feeRate >= 50) {
       return 'Next block (~10 minutes)';
     } else if (feeRate >= 20) {
       return 'Within 30 minutes';
@@ -200,7 +202,9 @@ export class TransactionService {
   private static formatFeeDescription(feeInSats: number, feeRate: number, feeInUSD: number): string {
     let description = `${feeInSats.toLocaleString()} sats ($${feeInUSD.toFixed(2)})`;
     
-    if (feeRate >= 100) {
+    if (feeRate === 0) {
+      description += ' • No Fee';
+    } else if (feeRate >= 100) {
       description += ' • Very High Fee ⚠️';
     } else if (feeRate >= 50) {
       description += ' • High Fee';

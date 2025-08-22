@@ -547,7 +547,7 @@ export const isBitcoinAddress = (value: string): value is BitcoinAddress => {
 };
 
 export const isValidFeeRate = (value: number): value is FeeRate => {
-  return value > 0 && value <= 1000000 && Number.isFinite(value);
+  return value >= 0 && value <= 1000000 && Number.isFinite(value);
 };
 
 export const isValidBlockHeight = (value: number): value is BlockHeight => {
