@@ -82,7 +82,7 @@ export default function Navigation() {
             </div>
             <div className="flex flex-col min-w-0">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
-                <span className="hidden sm:inline">BitcoinBenefits.me</span>
+                <span className="hidden sm:inline">BitcoinBenefits</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
               <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">

@@ -753,10 +753,12 @@ function VestingTimelineChartRecharts({
 
 
       {/* Virtualized Annual Breakdown Table */}
-      <div className="mt-6 mb-3">
-        <p className="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
-          Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "vested").
-        </p>
+      <div className="mt-6 mb-4">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
+          <p className="text-base text-gray-700 dark:text-slate-300 leading-relaxed">
+            Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "vested").
+          </p>
+        </div>
       </div>
       <VirtualizedAnnualBreakdown
         yearlyData={yearlyData}

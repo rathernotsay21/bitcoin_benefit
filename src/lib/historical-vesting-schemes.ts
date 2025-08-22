@@ -5,7 +5,7 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Pioneer',
-    description: 'Give a big award upfront for maximum impact.',
+    description: 'Give a big upfront for maximum impact.',
     initialGrant: 0.1, // Increased from 0.02 for historical analysis
     employeeMatchPercentage: 0,
     icon: '🚀',

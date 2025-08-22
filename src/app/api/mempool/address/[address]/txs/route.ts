@@ -23,6 +23,22 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
     );
   }
 
+  // Check if API calls should be skipped (development mode)
+  if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
+    return NextResponse.json(
+      [],
+      { 
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, max-age=60',
+          'Content-Type': 'application/json',
+          'X-Data-Source': 'mock',
+          'X-Note': 'API calls disabled in development mode'
+        }
+      }
+    );
+  }
+
   try {
     // Use circuit breaker for mempool.space API calls
     const result = await executeWithCircuitBreaker(

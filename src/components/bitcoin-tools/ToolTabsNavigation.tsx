@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -205,29 +205,6 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
   // Use search params tool if provided and valid, otherwise use defaultTool
   const initialTool = processedParams.tool || defaultTool;
   const [activeTab, setActiveTab] = useState<ToolId>(initialTool);
-  
-  // Handle opening command palette
-  const openCommandPalette = () => {
-    const event = new KeyboardEvent('keydown', {
-      key: 'k',
-      metaKey: true,
-      bubbles: true
-    });
-    document.dispatchEvent(event);
-  };
-  
-  // Add keyboard shortcut listener
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        // Command palette will be opened by the ToolCommandPalette component
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   return (
     <div className="w-full">
@@ -316,29 +293,14 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                   </div>
                   
                   {/* Enhanced Tool Stats with better responsive design */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="flex flex-wrap items-center gap-4 text-sm">
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
-                      </div>
+                  <div className="flex flex-wrap items-center gap-4 text-sm">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
                     </div>
-                    <div className="">
-                      <button
-                        onClick={openCommandPalette}
-                        className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-2 text-xs text-slate-600 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60 hover:bg-white dark:hover:bg-slate-800 hover:border-bitcoin/20 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-bitcoin/20 focus:ring-offset-2 shadow-sm hover:shadow-md"
-                        aria-label="Open search (⌘K)"
-                      >
-                        Press{" "}
-                        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1 mr-1">
-                          <span className="text-xs">⌘</span>K
-                        </kbd>{" "}
-                        to search
-                      </button>
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
                     </div>
                   </div>
                 </div>

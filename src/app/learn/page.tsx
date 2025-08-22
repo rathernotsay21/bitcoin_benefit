@@ -21,8 +21,8 @@ export default function LearnMorePage() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center">
                   <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-                    <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Ready to </span>
-                    <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Get Started?</span>
+                    <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Join the </span>
+                    <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Quiet Revolution</span>
                   </h1>
                   <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                     Business is Hard, Bitcoin is Easy
@@ -81,7 +81,7 @@ export default function LearnMorePage() {
                                             Cash App
                                         </h4>
                                         <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
-                                            Simple, mobile-first bitcoin buying with instant access and easy peer-to-peer transfers.
+                                            The people's app. No suit required, just a phone and common sense.
                                         </p>
                                         
                                         {/* Security badges */}

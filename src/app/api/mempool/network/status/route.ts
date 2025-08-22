@@ -151,6 +151,18 @@ async function fetchFeeData() {
 }
 
 export async function GET(_request: NextRequest) {
+  // Check if API calls should be skipped (development mode)
+  if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
+    return NextResponse.json(DEFAULT_NETWORK_STATUS, {
+      headers: {
+        'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
+        'Content-Type': 'application/json',
+        'X-Data-Source': 'mock',
+        'X-Skip-API': 'true'
+      }
+    });
+  }
+
   // Check cache first
   const now = Date.now();
   if (networkStatusCache.data) {

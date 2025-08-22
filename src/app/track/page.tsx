@@ -340,8 +340,8 @@ function FeatureOverview() {
           Don't Trust. Verify.
         </h2>
         <p className="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Track and verify your vesting grants against actual transaction data.
-          Ensure your compensation is properly accounted for with automated matching and manual override capabilities.
+          See exactly what your boss gave you and what it's worth today.
+          No bank portals, no HR systems - just pure, verifiable Bitcoin wealth on the blockchain.
         </p>
       </div>
 
@@ -568,7 +568,7 @@ export default function TrackerPage() {
                   aria-labelledby="form-heading"
                 >
                   <h2 id="form-heading" className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Tracking Configuration
+                    Track your Wallet
                   </h2>
 
                   <VestingTrackerFormOptimized

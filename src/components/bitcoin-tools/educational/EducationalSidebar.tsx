@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { CollapsibleBox } from '@/components/ui/CollapsibleBox';
 
 export interface EducationalLink {
   title: string;
@@ -25,12 +26,14 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
   return (
     <div className={`space-y-6 ${className}`}>
       {sections.map((section, index) => (
-        <div key={index} className="bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-700 p-5 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-            {section.icon && <span className="mr-3 text-xl">{section.icon}</span>}
-            {section.title}
-          </h3>
-          
+        <CollapsibleBox
+          key={index}
+          title={section.title}
+          icon={section.icon}
+          defaultExpanded={false}
+          previewHeight={140}
+          className=""
+        >
           <div className="space-y-3">
             {section.content.map((paragraph, pIndex) => (
               <p key={pIndex} className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -80,10 +83,10 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
               </div>
             )}
           </div>
-        </div>
+        </CollapsibleBox>
       ))}
       
-      {/* General Bitcoin Resources */}
+      {/* General Bitcoin Resources - Keep this one expanded as reference */}
       <div className="bg-gradient-to-br from-bitcoin/10 to-orange-100/50 dark:from-bitcoin/20 dark:to-orange-900/20 rounded-lg border-2 border-bitcoin/30 p-5 shadow-sm">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
           <span className="mr-3 text-xl">📚</span>

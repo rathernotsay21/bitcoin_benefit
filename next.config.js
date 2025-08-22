@@ -6,7 +6,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   // Configure for Netlify deployment
-  // Removed trailingSlash: true as it breaks API routes
   images: {
     unoptimized: true
   },
@@ -14,10 +13,10 @@ const nextConfig = {
   // Enable compression for static assets
   compress: true,
   
-  // Performance optimizations with CSS reliability fixes
+  // Performance optimizations - simplified to fix development issues
   experimental: {
     optimizePackageImports: ['recharts', '@heroicons/react', '@headlessui/react', 'react-window'],
-    esmExternals: false, // Prevents CSS loading issues
+    // Remove esmExternals: false as it can cause webpack issues
   },
   
   // Optimize JavaScript bundles
@@ -26,121 +25,32 @@ const nextConfig = {
   // Additional performance settings
   poweredByHeader: false,
   
-  // Webpack optimizations for better code splitting
+  // Simplified webpack config to avoid development issues
   webpack: (config, { isServer, dev }) => {
+    // Only apply optimizations in production
     if (!isServer && !dev) {
-      // Enhanced optimization for production client bundles
       config.optimization = {
         ...config.optimization,
         runtimeChunk: 'single',
         moduleIds: 'deterministic',
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 5, // Reduce initial bundle count
-          minSize: 20000, // Smaller chunks for better caching
-          maxAsyncRequests: 10, // Allow more async chunks
           cacheGroups: {
-            // CSS should always be in initial chunks to prevent loading issues
-            styles: {
-              name: 'styles',
-              test: /\.(css|scss|sass)$/,
-              chunks: 'all',
-              priority: 50,
-              enforce: true,
-              reuseExistingChunk: true,
-            },
-            // Critical vendor libraries
-            framework: {
-              name: 'framework',
-              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
-              priority: 40,
-              chunks: 'all',
-              enforce: true,
-            },
-            // Recharts and D3 dependencies (largest bundle)
-            recharts: {
-              name: 'recharts',
-              test: /[\\/]node_modules[\\/](recharts|d3-|victory-)[\\/]/,
-              priority: 30,
-              chunks: 'async', // Load only when needed
-              reuseExistingChunk: true,
-            },
-            // State management
-            zustand: {
-              name: 'zustand',
-              test: /[\\/]node_modules[\\/]zustand[\\/]/,
-              priority: 25,
-              chunks: 'all',
-            },
-            // Icons (load on demand) - tree shake unused icons
-            icons: {
-              name: 'icons', 
-              test: /[\\/]node_modules[\\/](@heroicons|lucide-react)[\\/]/,
-              priority: 20,
-              chunks: 'async',
-              enforce: true,
-              reuseExistingChunk: true,
-            },
-            // UI components
-            ui: {
-              name: 'ui',
-              test: /[\\/]node_modules[\\/](@headlessui|react-window)[\\/]/,
-              priority: 15,
-              chunks: 'async',
-            },
-            // Common shared modules
-            commons: {
-              name: 'commons',
+            // Simplified cache groups
+            default: {
               minChunks: 2,
-              priority: 10,
-              chunks: 'async',
-              reuseExistingChunk: true,
+              priority: -20,
+              reuseExistingChunk: true
             },
-            // Default vendor chunk
             vendor: {
-              name: 'vendor',
               test: /[\\/]node_modules[\\/]/,
-              priority: 5,
-              chunks: 'async',
-              reuseExistingChunk: true,
-            },
-          },
-        },
+              priority: -10,
+              reuseExistingChunk: true
+            }
+          }
+        }
       };
-
-      // Add module concatenation for better tree shaking
-      config.optimization.concatenateModules = true;
-      
-      // Enable aggressive tree shaking
-      config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
-      
-      // Minimize unused code
-      config.optimization.minimize = true;
-      
-      // Ensure CSS is extracted properly and not split
-      config.optimization.splitChunks.cacheGroups.default = {
-        ...config.optimization.splitChunks.cacheGroups.default,
-        minChunks: 1,
-        priority: -20,
-        reuseExistingChunk: true
-      };
-
-      // Optimize moment.js if used
-      config.plugins.push(
-        new (require('webpack')).IgnorePlugin({
-          resourceRegExp: /^\.\/locale$/,
-          contextRegExp: /moment$/,
-        })
-      );
     }
-
-    // Add aliases for optimized imports
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@/components/HistoricalTimelineVisualization': '@/components/HistoricalTimelineVisualizationOptimized',
-      '@/components/VirtualizedAnnualBreakdown': '@/components/VirtualizedAnnualBreakdownOptimized',
-    };
 
     return config;
   },
@@ -183,8 +93,8 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms", // unsafe-eval needed for Next.js, clarity.ms for analytics
-              "style-src 'self' 'unsafe-inline'", // unsafe-inline needed for Tailwind
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms",
+              "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
               "connect-src 'self' https://api.coingecko.com https://mempool.space https://api.mempool.space",

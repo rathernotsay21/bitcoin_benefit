@@ -91,7 +91,7 @@ export default function HomePage() {
               </Link>
               <Link href="/historical" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 rounded-2xl font-bold">
                 <ClockIcon className="w-6 h-6" />
-                <span>See Past Results</span>
+                <span>See the Proof</span>
               </Link>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-deepSlate dark:text-slate-300">All in on day one</span>
+                    <span className="text-base text-deepSlate dark:text-slate-300">Lock in today's prices</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -134,7 +134,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-orange">Beast Mode</span>
+                  <span className="badge badge-orange">Move First, Win Big</span>
                 </div>
               </div>
             </Link>
@@ -162,7 +162,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge badge-success">Mid</span>
+                  <span className="badge badge-success">Consistent Growth</span>
                 </div>
               </div>
             </Link>
@@ -182,7 +182,7 @@ export default function HomePage() {
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Least volatility</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Budget-friendly start</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
@@ -190,7 +190,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Conservative</span>
+                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Start Small, Think Big</span>
                 </div>
               </div>
             </Link>

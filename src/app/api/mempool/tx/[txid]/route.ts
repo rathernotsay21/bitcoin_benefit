@@ -181,6 +181,37 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
     );
   }
 
+  // Check if API calls should be skipped (development mode)
+  if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
+    return NextResponse.json(
+      {
+        txid: txid,
+        version: 2,
+        locktime: 0,
+        vin: [],
+        vout: [],
+        size: 250,
+        weight: 1000,
+        fee: 5000,
+        status: {
+          confirmed: true,
+          block_height: 870000,
+          block_hash: '000000000000000000000000000000000000000000000000000000000000',
+          block_time: Math.floor(Date.now() / 1000) - 3600
+        },
+        _mock: true,
+        _message: 'API calls disabled in development mode'
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, max-age=60',
+          'Content-Type': 'application/json',
+          'X-Data-Source': 'mock'
+        }
+      }
+    );
+  }
+
   // Check cache first
   const cached = transactionCache.get(txid);
   if (cached) {

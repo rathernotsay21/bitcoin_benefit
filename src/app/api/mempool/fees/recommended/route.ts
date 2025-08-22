@@ -67,6 +67,11 @@ export async function GET(_request: NextRequest) {
     );
   }
 
+  // Check if API calls should be skipped (development mode)
+  if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
+    return handleFallbackResponse(txSize, 'API calls disabled in development mode');
+  }
+
   // Check rate limits
   const rateLimitError = apiRateLimiter.checkAndRecord('mempool-fees');
   if (rateLimitError) {

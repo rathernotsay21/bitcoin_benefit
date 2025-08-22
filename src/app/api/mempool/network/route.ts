@@ -4,6 +4,24 @@ import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
 async function handleMempoolNetworkRequest(_request: NextRequest): Promise<Response> {
   try {
+    // Check if API calls should be skipped (development mode)
+    if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
+      return NextResponse.json(
+        {
+          healthy: true,
+          message: 'API calls disabled in development mode - returning mock data',
+          timestamp: new Date().toISOString()
+        },
+        { 
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60'
+          }
+        }
+      );
+    }
+
     // Use secure API call with automatic retries and fallback
     const apiResult = await makeSecureAPICall('mempool', 'https://mempool.space/api/v1/network-health', {
       method: 'GET'

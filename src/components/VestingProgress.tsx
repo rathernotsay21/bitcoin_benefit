@@ -40,7 +40,7 @@ const STRATEGY_CONFIG = {
       border: 'border-orange-200 dark:border-orange-800',
       accent: 'bg-orange-500'
     },
-    description: 'This plan lets your employee earn their award faster at the start'
+    description: 'Do less work to let your employee earn more'
   },
   'steady-builder': {
     name: 'The Stacker Plan',

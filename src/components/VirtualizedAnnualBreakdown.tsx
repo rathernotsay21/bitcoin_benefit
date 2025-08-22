@@ -80,13 +80,13 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
         {formatBTC(point.btcBalance)}
       </div>
       
-      {/* USD Value column */}
-      <div className="flex-1 min-w-0 text-sm font-bold text-gray-900 dark:text-white">
+      {/* USD Value column - Fixed width to prevent overflow */}
+      <div className="flex-none w-24 sm:w-32 lg:w-36 text-sm font-bold text-gray-900 dark:text-white truncate">
         {formatUSD(point.usdValue)}
       </div>
       
-      {/* Status column - simplified on mobile */}
-      <div className="flex-none w-20 sm:w-32 text-sm">
+      {/* Status column - Adjusted width for better spacing */}
+      <div className="flex-none w-16 sm:w-24 lg:w-28 text-sm">
         <span className={`inline-flex px-1 sm:px-3 py-1 rounded-full text-xs font-bold ${
           vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-md' :
           vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :
@@ -97,8 +97,8 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
         </span>
       </div>
       
-      {/* Desktop-only columns */}
-      <div className="flex-none w-28 sm:w-32 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
+      {/* Desktop-only columns - Adjusted spacing */}
+      <div className="flex-none w-24 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
         {grantCost > 0 ? (
           <span className="font-semibold text-orange-600 dark:text-orange-400">
             {formatUSD(grantCost)}
@@ -108,7 +108,7 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
         )}
       </div>
       
-      <div className="flex-none w-24 sm:w-28 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
+      <div className="flex-none w-20 text-sm text-gray-700 dark:text-gray-300 hidden lg:block truncate">
         {formatUSD(point.bitcoinPrice)}
       </div>
     </div>
@@ -184,18 +184,18 @@ function VirtualizedAnnualBreakdown({
           <div className="flex-none w-20 sm:w-24 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             BTC
           </div>
-          <div className="flex-1 min-w-0 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <div className="flex-none w-24 sm:w-32 lg:w-36 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             USD Value
           </div>
-          <div className="flex-none w-20 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+          <div className="flex-none w-16 sm:w-24 lg:w-28 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             Status
           </div>
           
           {/* Desktop-only columns */}
-          <div className="flex-none w-28 sm:w-32 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
+          <div className="flex-none w-24 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
             Grant Cost
           </div>
-          <div className="flex-none w-24 sm:w-28 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
+          <div className="flex-none w-20 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
             BTC Price
           </div>
         </div>
