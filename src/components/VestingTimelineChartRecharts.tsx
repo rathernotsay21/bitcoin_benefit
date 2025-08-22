@@ -396,20 +396,34 @@ function VestingTimelineChartRecharts({
   const grantRules = useMemo(() => {
     const rules = { hasAnnualGrants: true, maxYears: 10 };
     
-    switch (schemeId) {
-      case 'accelerator':
+    // CRITICAL FIX: Respect custom vesting events for grant limits
+    if (customVestingEvents && customVestingEvents.length > 0) {
+      const lastEventMonth = Math.max(...customVestingEvents.map(e => e.timePeriod));
+      const lastEventYear = Math.floor(lastEventMonth / 12);
+      rules.maxYears = lastEventYear;
+      
+      // For accelerator scheme, still no annual grants even with custom events
+      if (schemeId === 'accelerator') {
         rules.hasAnnualGrants = false;
         rules.maxYears = 0;
-        break;
-      case 'steady-builder':
-        rules.maxYears = 5;
-        break;
-      case 'slow-burn':
-        rules.maxYears = 9;
-        break;
+      }
+    } else {
+      // Fallback to scheme defaults if no custom vesting events
+      switch (schemeId) {
+        case 'accelerator':
+          rules.hasAnnualGrants = false;
+          rules.maxYears = 0;
+          break;
+        case 'steady-builder':
+          rules.maxYears = 5;
+          break;
+        case 'slow-burn':
+          rules.maxYears = 9;
+          break;
+      }
     }
     return rules;
-  }, [schemeId]);
+  }, [schemeId, customVestingEvents]);
   
   // Data processing for yearly points with grant information
   const yearlyData = useMemo(() => {
@@ -475,17 +489,13 @@ function VestingTimelineChartRecharts({
     
     // Annual grant costs at current price (employer's actual cost)
     if (annualGrant && annualGrant > 0) {
-      if (schemeId === 'slow-burn') {
-        // 9 years of annual grants at current price
-        totalCost += annualGrant * deferredBitcoinPrice * 9;
-      } else if (schemeId === 'steady-builder') {
-        // 5 years of annual grants at current price  
-        totalCost += annualGrant * deferredBitcoinPrice * 5;
-      }
+      // CRITICAL FIX: Use grant rules that respect custom vesting events
+      const numberOfGrants = grantRules.hasAnnualGrants ? grantRules.maxYears : 0;
+      totalCost += annualGrant * deferredBitcoinPrice * numberOfGrants;
     }
     
     return totalCost;
-  }, [initialGrant, annualGrant, deferredBitcoinPrice, schemeId]);
+  }, [initialGrant, annualGrant, deferredBitcoinPrice, grantRules]);
 
   // Calculate current year for vesting display
   const currentYear = new Date().getFullYear();

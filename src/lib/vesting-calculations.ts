@@ -80,6 +80,15 @@ export class VestingCalculator {
     
     if (!annualGrant) return total;
     
+    // CRITICAL FIX: Check for custom vesting events first (Earning Schedules)
+    let maxGrantMonths = maxMonths;
+    if (scheme.customVestingEvents && scheme.customVestingEvents.length > 0) {
+      // Use the last custom vesting event's time period as the grant limit
+      maxGrantMonths = Math.max(
+        ...scheme.customVestingEvents.map(event => event.timePeriod)
+      );
+    }
+    
     // Calculate number of annual grants based on scheme with explicit rules
     let numberOfGrants = 0;
     switch (scheme.id) {
@@ -87,16 +96,24 @@ export class VestingCalculator {
         numberOfGrants = 0; // Pioneer scheme has no annual grants
         break;
       case 'steady-builder':
-        numberOfGrants = Math.min(5, Math.floor(Math.min(60, maxMonths) / 12)); // 5 years max
+        // Respect custom vesting events or default to 5 years max
+        const steadyMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : 60;
+        numberOfGrants = Math.min(5, Math.floor(Math.min(steadyMax, maxMonths) / 12));
         break;
       case 'slow-burn':
-        numberOfGrants = Math.min(9, Math.floor(Math.min(108, maxMonths) / 12)); // 9 years max
+        // Respect custom vesting events or default to 9 years max
+        const slowMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : 108;
+        numberOfGrants = Math.min(9, Math.floor(Math.min(slowMax, maxMonths) / 12));
         break;
       case 'custom':
-        numberOfGrants = Math.floor(Math.min(120, maxMonths) / 12); // 10 years max
+        // Respect custom vesting events or default to 10 years max
+        const customMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : 120;
+        numberOfGrants = Math.floor(Math.min(customMax, maxMonths) / 12);
         break;
       default:
-        numberOfGrants = scheme.maxAnnualGrants || Math.floor(maxMonths / 12);
+        // Use custom vesting events limit or fallback to scheme defaults
+        const defaultMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : maxMonths;
+        numberOfGrants = scheme.maxAnnualGrants || Math.floor(defaultMax / 12);
     }
     
     total += annualGrant * numberOfGrants;
