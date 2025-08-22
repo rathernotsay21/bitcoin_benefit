@@ -1,56 +1,42 @@
 import { shallow } from 'zustand/shallow';
-import { useMemo } from 'react';
 
 // Performance-optimized selectors with memoization
 
 // Calculator selectors - memoized for better performance
-export const selectCalculatorInputs = (state: any) => {
-  const inputs = useMemo(() => ({
-    selectedScheme: state.selectedScheme,
-    inputs: state.inputs,
-  }), [state.selectedScheme, state.inputs]);
-  return inputs;
-};
+export const selectCalculatorInputs = (state: any) => ({
+  selectedScheme: state.selectedScheme,
+  inputs: state.inputs,
+});
 
-export const selectCalculatorResults = (state: any) => {
-  const results = useMemo(() => ({
-    results: state.results,
-    isCalculating: state.isCalculating,
-  }), [state.results, state.isCalculating]);
-  return results;
-};
+export const selectCalculatorResults = (state: any) => ({
+  results: state.results,
+  isCalculating: state.isCalculating,
+});
 
-export const selectBitcoinPrice = (state: any) => {
-  const priceData = useMemo(() => ({
-    currentBitcoinPrice: state.currentBitcoinPrice,
-    bitcoinChange24h: state.bitcoinChange24h,
-    isLoadingPrice: state.isLoadingPrice,
-  }), [state.currentBitcoinPrice, state.bitcoinChange24h, state.isLoadingPrice]);
-  return priceData;
-};
+export const selectBitcoinPrice = (state: any) => ({
+  currentBitcoinPrice: state.currentBitcoinPrice,
+  bitcoinChange24h: state.bitcoinChange24h,
+  isLoadingPrice: state.isLoadingPrice,
+});
 
 // High-frequency selectors for chart components
-export const selectChartData = (state: any) => {
-  return useMemo(() => ({
-    timeline: state.results?.timeline || [],
-    isCalculating: state.isCalculating,
-    currentBitcoinPrice: state.currentBitcoinPrice,
-  }), [state.results?.timeline, state.isCalculating, state.currentBitcoinPrice]);
-};
+export const selectChartData = (state: any) => ({
+  timeline: state.results?.timeline || [],
+  isCalculating: state.isCalculating,
+  currentBitcoinPrice: state.currentBitcoinPrice,
+});
 
 // Optimized selector for minimal re-renders
 export const selectChartEssentials = (state: any) => {
-  return useMemo(() => {
-    const results = state.results;
-    if (!results) return null;
-    
-    return {
-      timeline: results.timeline?.slice(-50) || [], // Limit data points for performance
-      projectedValue: results.projectedValue,
-      totalReturn: results.totalReturn,
-      annualizedReturn: results.annualizedReturn,
-    };
-  }, [state.results]);
+  const results = state.results;
+  if (!results) return null;
+  
+  return {
+    timeline: results.timeline?.slice(-50) || [], // Limit data points for performance
+    projectedValue: results.projectedValue,
+    totalReturn: results.totalReturn,
+    annualizedReturn: results.annualizedReturn,
+  };
 };
 
 export const selectStaticData = (state: any) => ({
@@ -88,35 +74,20 @@ export const selectHistoricalStaticData = (state: any) => ({
 });
 
 // Combined selectors with performance optimization
-export const selectCalculatorEssentials = (state: any) => {
-  return useMemo(() => ({
-    selectedScheme: state.selectedScheme,
-    inputs: state.inputs,
-    results: state.results,
-    isCalculating: state.isCalculating,
-    currentBitcoinPrice: state.currentBitcoinPrice,
-  }), [
-    state.selectedScheme,
-    state.inputs,
-    state.results,
-    state.isCalculating,
-    state.currentBitcoinPrice
-  ]);
-};
+export const selectCalculatorEssentials = (state: any) => ({
+  selectedScheme: state.selectedScheme,
+  inputs: state.inputs,
+  results: state.results,
+  isCalculating: state.isCalculating,
+  currentBitcoinPrice: state.currentBitcoinPrice,
+});
 
-export const selectHistoricalEssentials = (state: any) => {
-  return useMemo(() => ({
-    selectedScheme: state.selectedScheme,
-    startingYear: state.startingYear,
-    historicalResults: state.historicalResults,
-    isCalculating: state.isCalculating,
-  }), [
-    state.selectedScheme,
-    state.startingYear,
-    state.historicalResults,
-    state.isCalculating
-  ]);
-};
+export const selectHistoricalEssentials = (state: any) => ({
+  selectedScheme: state.selectedScheme,
+  startingYear: state.startingYear,
+  historicalResults: state.historicalResults,
+  isCalculating: state.isCalculating,
+});
 
 // Performance utilities
 export const createSelector = <T, R>(selector: (state: T) => R) => {
