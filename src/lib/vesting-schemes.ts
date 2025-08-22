@@ -4,7 +4,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Pioneer',
-    description: 'Give a big upfront for maximum impact.',
+    description: 'Big award for max impact',
     initialGrant: 0.02,
     employeeMatchPercentage: 0,
     icon: 'rocket',
@@ -38,7 +38,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'steady-builder',
     name: 'Stacker',
-    description: 'Smart starting award plus yearly additions.',
+    description: 'The Goldy Locks zone',
     initialGrant: 0.015,
     employeeMatchPercentage: 0,
     annualGrant: 0.001,
@@ -73,7 +73,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'slow-burn',
     name: 'Builder',
-    description: 'Small yearly awards keep costs low and predictable.',
+    description: 'Low cost yearly awards',
     initialGrant: 0.002,
     employeeMatchPercentage: 0,
     annualGrant: 0.002,

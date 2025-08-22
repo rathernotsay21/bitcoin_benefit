@@ -480,7 +480,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                         <div className="text-sm text-blue-800 dark:text-blue-300">
                           {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
-                            <strong>Default {displayScheme.name} schedule:</strong> All in. Day one
+                            <strong>Default {displayScheme.name} schedule:</strong> Go big up front and keep adding more.
                           </p>
                           
                           {/* Show plan-specific descriptions only when using default schedule */}

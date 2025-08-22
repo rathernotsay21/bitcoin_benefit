@@ -3,10 +3,10 @@
 ## Executive Summary
 
 **CRITICAL PRODUCTION ISSUE**: The platform is experiencing a catastrophic performance failure with:
-- **177-second Time to Interactive** (should be <5 seconds)
-- **167 seconds spent in rendering** (should be <1 second)
-- **157-second Total Blocking Time** (should be <100ms)
-- **Lighthouse Performance Score: 42/100** (should be >90)
+177-second Time to Interactive (should be <5 seconds)
+167 seconds spent in rendering (should be <1 second)
+157-second Total Blocking Time (should be <100ms)
+Lighthouse Performance Score: 42/100 (should be >90)
 
 This comprehensive action plan consolidates findings from 5 specialized performance analyses and provides a prioritized roadmap for resolution with recommended sub-agents for each phase.
 
@@ -36,14 +36,14 @@ This comprehensive action plan consolidates findings from 5 specialized performa
 
 ## Prioritized Action Plan
 
-## 🚨 **PHASE 1: EMERGENCY FIXES (Deploy Today)**
+## 🚨 DONE**PHASE 1: EMERGENCY FIXES (Deploy Today)**
 **Goal**: Reduce TTI from 177s to <30s
 **Timeline**: 2-4 hours
 **Risk**: Low
 **Recommended Sub-Agents**: 
-- **@sub-agents/error-detective** - Lead the error diagnosis and fix validation
-- **@sub-agents/debugger** - Trace the infinite loop and verify fixes
-- **@sub-agents/qa-expert** - Validate fixes don't break existing functionality
+@sub-agents/error-detective - Lead the error diagnosis and fix validation
+@sub-agents/debugger - Trace the infinite loop and verify fixes
+@sub-agents/qa-expert - Validate fixes don't break existing functionality
 
 ### 1.1 Fix Function Reference Errors (HIGHEST PRIORITY)
 ```typescript
@@ -82,15 +82,15 @@ export default React.memo(VestingTimelineChartRecharts, (prevProps, nextProps) =
 
 ---
 
-## 🟠 **PHASE 2: HIGH-PRIORITY OPTIMIZATIONS (This Week)**
+## 🟠 DONE**PHASE 2: HIGH-PRIORITY OPTIMIZATIONS (This Week)**
 **Goal**: Reduce TTI from 30s to <10s
 **Timeline**: 2-3 days
 **Risk**: Low-Medium
 **Recommended Sub-Agents**:
-- **@sub-agents/react-specialist** - Lead React optimization and memoization strategy
-- **@sub-agents/frontend-developer** - Implement UI performance improvements
-- **@sub-agents/performance-engineer** - Monitor and validate performance gains
-- **@sub-agents/refactoring-specialist** - Decompose monolithic components safely
+@sub-agents/react-specialist - Lead React optimization and memoization strategy
+@sub-agents/frontend-developer - Implement UI performance improvements
+@sub-agents/performance-engineer - Monitor and validate performance gains
+@sub-agents/refactoring-specialist - Decompose monolithic components safely
 
 ### 2.1 Implement Proper Memoization
 
@@ -201,11 +201,11 @@ src/components/charts/vesting/
 **Timeline**: 3-5 days
 **Risk**: Medium
 **Recommended Sub-Agents**:
-- **@sub-agents/nextjs-developer** - Lead Next.js 14 architecture migration
-- **@sub-agents/backend-developer** - Implement Server Actions and API optimizations
-- **@sub-agents/frontend-developer** - Manage client/server component boundaries
-- **@sub-agents/typescript-pro** - Ensure type safety during migration
-- **@sub-agents/code-reviewer** - Review architectural changes for best practices
+@sub-agents/nextjs-developer - Lead Next.js 14 architecture migration
+@sub-agents/backend-developer - Implement Server Actions and API optimizations
+@sub-agents/frontend-developer - Manage client/server component boundaries
+@sub-agents/typescript-pro - Ensure type safety during migration
+@sub-agents/code-reviewer - Review architectural changes for best practices
 
 ### 3.1 Convert to Server Components
 
@@ -333,11 +333,11 @@ const nextConfig = {
 **Timeline**: 1 week
 **Risk**: Medium-High
 **Recommended Sub-Agents**:
-- **@sub-agents/performance-engineer** - Lead advanced optimization strategies
-- **@sub-agents/react-specialist** - Implement React 18 concurrent features
-- **@sub-agents/sre-engineer** - Set up performance monitoring and alerts
-- **@sub-agents/fintech-engineer** - Optimize financial calculations
-- **@sub-agents/security-auditor** - Ensure optimizations don't compromise security
+@sub-agents/performance-engineer - Lead advanced optimization strategies
+@sub-agents/react-specialist - Implement React 18 concurrent features
+@sub-agents/sre-engineer - Set up performance monitoring and alerts
+@sub-agents/fintech-engineer - Optimize financial calculations
+@sub-agents/security-auditor - Ensure optimizations don't compromise security
 
 ### 4.1 Implement React 18 Concurrent Features
 
@@ -434,24 +434,24 @@ self.addEventListener('fetch', (event) => {
 ### Phase-Based Agent Teams
 
 #### **Emergency Response Team (Phase 1)**
-- **Lead**: @sub-agents/error-detective
-- **Support**: @sub-agents/debugger, @sub-agents/qa-expert
-- **Focus**: Critical error fixes, infinite loop resolution
+Lead**: @sub-agents/error-detective
+Support**: @sub-agents/debugger, @sub-agents/qa-expert
+Focus**: Critical error fixes, infinite loop resolution
 
 #### **React Optimization Team (Phase 2)**
-- **Lead**: @sub-agents/react-specialist  
-- **Support**: @sub-agents/frontend-developer, @sub-agents/refactoring-specialist
-- **Focus**: Component optimization, memoization, store improvements
+Lead**: @sub-agents/react-specialist  
+Support**: @sub-agents/frontend-developer, @sub-agents/refactoring-specialist
+Focus**: Component optimization, memoization, store improvements
 
 #### **Architecture Migration Team (Phase 3)**
-- **Lead**: @sub-agents/nextjs-developer
-- **Support**: @sub-agents/backend-developer, @sub-agents/typescript-pro
-- **Focus**: Server Components, code splitting, Next.js 14 features
+Lead**: @sub-agents/nextjs-developer
+Support**: @sub-agents/backend-developer, @sub-agents/typescript-pro
+Focus**: Server Components, code splitting, Next.js 14 features
 
 #### **Advanced Performance Team (Phase 4)**
-- **Lead**: @sub-agents/performance-engineer
-- **Support**: @sub-agents/sre-engineer, @sub-agents/fintech-engineer
-- **Focus**: Advanced optimizations, monitoring, long-term performance
+Lead**: @sub-agents/performance-engineer
+Support**: @sub-agents/sre-engineer, @sub-agents/fintech-engineer
+Focus**: Advanced optimizations, monitoring, long-term performance
 
 ### Communication Protocol
 1. **Daily Standup**: Led by @sub-agents/workflow-orchestrator
@@ -587,24 +587,24 @@ export const performanceMonitor = {
 4. **@sub-agents/knowledge-synthesizer**: Document performance best practices and patterns
 
 ### Additional Support Roles
-- **@sub-agents/technical-writer**: Document all optimizations and create performance guidelines
-- **@sub-agents/ux-researcher**: Analyze user impact and perceived performance improvements
-- **@sub-agents/legal-advisor**: Review any third-party library changes for licensing compliance
-- **@sub-agents/content-marketer**: Communicate performance improvements to stakeholders
+@sub-agents/technical-writer**: Document all optimizations and create performance guidelines
+@sub-agents/ux-researcher**: Analyze user impact and perceived performance improvements
+@sub-agents/legal-advisor**: Review any third-party library changes for licensing compliance
+@sub-agents/content-marketer**: Communicate performance improvements to stakeholders
 
 ---
 
 ## Conclusion
 
-The Bitcoin Benefit platform is experiencing a **critical performance crisis** that requires immediate attention. The primary cause is a combination of:
+The Bitcoin Benefit platform is experiencing a **critical performance crisis that requires immediate attention. The primary cause is a combination of:
 1. JavaScript errors causing infinite loops
 2. Excessive client-side rendering
 3. Unoptimized React components
 4. Poor Next.js architecture choices
 
-Following this action plan will reduce Time to Interactive from **177 seconds to under 3 seconds** - a **98% improvement**. The fixes are well-understood, low-risk, and can be implemented incrementally.
+Following this action plan will reduce Time to Interactive from **177 seconds to under 3 seconds - a **98% improvement**. The fixes are well-understood, low-risk, and can be implemented incrementally.
 
-**The most critical action is fixing the `initDebouncedFunctions` error today.** This single fix alone should reduce TTI by 80-90%.
+**The most critical action is fixing the `initDebouncedFunctions` error today. This single fix alone should reduce TTI by 80-90%.
 
 ---
 
@@ -617,15 +617,15 @@ Following this action plan will reduce Time to Interactive from **177 seconds to
 
 | Phase | Task | Lead Agent | Support Agents | Priority |
 |-------|------|------------|----------------|----------|
-| **Phase 1** | Fix initDebouncedFunctions | @sub-agents/error-detective | @sub-agents/debugger | CRITICAL |
-| **Phase 1** | Add React.memo | @sub-agents/react-specialist | @sub-agents/frontend-developer | HIGH |
-| **Phase 1** | Emergency Guards | @sub-agents/performance-engineer | @sub-agents/qa-expert | HIGH |
-| **Phase 2** | Memoization | @sub-agents/react-specialist | @sub-agents/frontend-developer | HIGH |
-| **Phase 2** | Store Optimization | @sub-agents/frontend-developer | @sub-agents/react-specialist | HIGH |
-| **Phase 2** | Component Split | @sub-agents/refactoring-specialist | @sub-agents/code-reviewer | MEDIUM |
-| **Phase 3** | Server Components | @sub-agents/nextjs-developer | @sub-agents/backend-developer | MEDIUM |
-| **Phase 3** | Code Splitting | @sub-agents/nextjs-developer | @sub-agents/frontend-developer | MEDIUM |
-| **Phase 3** | Server Actions | @sub-agents/backend-developer | @sub-agents/typescript-pro | MEDIUM |
-| **Phase 4** | React 18 Features | @sub-agents/react-specialist | @sub-agents/performance-engineer | LOW |
-| **Phase 4** | Monitoring | @sub-agents/sre-engineer | @sub-agents/performance-engineer | LOW |
-| **Phase 4** | Documentation | @sub-agents/technical-writer | @sub-agents/knowledge-synthesizer | LOW |
+| **Phase 1 | Fix initDebouncedFunctions | @sub-agents/error-detective | @sub-agents/debugger | CRITICAL |
+| **Phase 1 | Add React.memo | @sub-agents/react-specialist | @sub-agents/frontend-developer | HIGH |
+| **Phase 1 | Emergency Guards | @sub-agents/performance-engineer | @sub-agents/qa-expert | HIGH |
+| **Phase 2 | Memoization | @sub-agents/react-specialist | @sub-agents/frontend-developer | HIGH |
+| **Phase 2 | Store Optimization | @sub-agents/frontend-developer | @sub-agents/react-specialist | HIGH |
+| **Phase 2 | Component Split | @sub-agents/refactoring-specialist | @sub-agents/code-reviewer | MEDIUM |
+| **Phase 3 | Server Components | @sub-agents/nextjs-developer | @sub-agents/backend-developer | MEDIUM |
+| **Phase 3 | Code Splitting | @sub-agents/nextjs-developer | @sub-agents/frontend-developer | MEDIUM |
+| **Phase 3 | Server Actions | @sub-agents/backend-developer | @sub-agents/typescript-pro | MEDIUM |
+| **Phase 4 | React 18 Features | @sub-agents/react-specialist | @sub-agents/performance-engineer | LOW |
+| **Phase 4 | Monitoring | @sub-agents/sre-engineer | @sub-agents/performance-engineer | LOW |
+| **Phase 4 | Documentation | @sub-agents/technical-writer | @sub-agents/knowledge-synthesizer | LOW |

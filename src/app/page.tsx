@@ -177,12 +177,12 @@ export default function HomePage() {
                   Builder
                 </h4>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-                  Least annual cost
+                  Climb Mt. Fuji
                 </p>
                 <div className="space-y-3 text-base">
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>
-                    <span className="text-base text-slate-600 dark:text-slate-300">Budget-friendly start</span>
+                    <span className="text-base text-slate-600 dark:text-slate-300">Think Big, Start Small</span>
                   </div>
                   <div className="flex items-center justify-center space-x-2">
                     <div className="w-2 h-2 bg-bitcoin dark:bg-bitcoin rounded-full"></div>

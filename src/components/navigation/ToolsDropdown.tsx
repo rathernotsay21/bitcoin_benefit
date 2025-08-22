@@ -3,13 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { 
-  CurrencyDollarIcon,
   MagnifyingGlassIcon,
   ServerIcon,
-  MapPinIcon,
+  WalletIcon,
   DocumentTextIcon
 } from '@heroicons/react/24/outline';
 import { NavigationMenuLink } from '@/components/ui/navigation-menu';
+import { SatoshiIcon } from '@/components/icons';
 
 interface ToolItem {
   title: string;
@@ -29,7 +29,7 @@ const toolsItems: ToolItem[] = [
     title: 'Fee Calculator',
     href: '/bitcoin-tools?tool=fees',
     description: 'Calculate optimal transaction fees based on network conditions',
-    icon: CurrencyDollarIcon,
+    icon: SatoshiIcon,
   },
   {
     title: 'Network Status',
@@ -41,7 +41,7 @@ const toolsItems: ToolItem[] = [
     title: 'Address Explorer',
     href: '/bitcoin-tools?tool=address',
     description: 'Explore Bitcoin addresses and their transaction history',
-    icon: MapPinIcon,
+    icon: WalletIcon,
   },
   {
     title: 'Document Timestamp',
