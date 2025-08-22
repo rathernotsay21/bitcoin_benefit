@@ -108,7 +108,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     },
     
     setCostBasisMethod: (method) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set({ costBasisMethod: method });
       
@@ -117,7 +117,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     },
     
     setSelectedScheme: (scheme) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set({ selectedScheme: scheme });
       
@@ -126,7 +126,7 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     },
     
     updateSchemeCustomization: (schemeId, customization) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set((state) => ({
         schemeCustomizations: {

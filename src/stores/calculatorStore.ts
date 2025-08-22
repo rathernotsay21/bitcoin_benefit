@@ -363,7 +363,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
   
     updateSchemeCustomization: (schemeId, customization) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set((state) => ({
         schemeCustomizations: {
@@ -380,7 +380,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
     
     addCustomVestingEvent: (schemeId, event) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -401,7 +401,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
     
     removeCustomVestingEvent: (schemeId, eventId) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -422,7 +422,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
     
     updateCustomVestingEvent: (schemeId, eventId, updates) => {
-      const { debouncedCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate } = getDebouncedFunctions();
       
       set((state) => {
         const currentCustomization = state.schemeCustomizations[schemeId] || {};
@@ -460,7 +460,7 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     
     cleanup: () => {
       // Cancel all pending debounced operations
-      const { debouncedCalculate, debouncedSchemeCalculate } = initDebouncedFunctions();
+      const { debouncedCalculate, debouncedSchemeCalculate } = getDebouncedFunctions();
       debouncedCalculate.cancel();
       debouncedSchemeCalculate.cancel();
     },

@@ -84,11 +84,11 @@ export default function Navigation() {
   return (
     <header className="navbar sticky top-0 z-50 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-1 sm:py-1.5">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink">
             <div className="group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
-              <SatoshiOutlineIcon className="w-12 h-12 sm:w-16 sm:h-16" size={64} />
+              <SatoshiOutlineIcon className="w-16 h-16 sm:w-20 sm:h-20" size={80} />
             </div>
             <div className="flex flex-col min-w-0">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">

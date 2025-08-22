@@ -275,6 +275,28 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
   );
 };
 
+// Simplified chart component for performance fallback
+const SimplifiedChart: React.FC<{ data: any[] }> = ({ data }) => {
+  return (
+    <div className="w-full max-w-full overflow-hidden">
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
+          10-Year Projection (Simplified View)
+        </h3>
+      </div>
+      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+        <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+          <div className="text-center text-gray-500 dark:text-slate-400">
+            <div className="text-4xl mb-2">⚡</div>
+            <div>Showing simplified view for performance</div>
+            <div className="text-xs mt-2">Dataset contains {data.length} points</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function VestingTimelineChartRecharts({
   timeline,
   initialGrant,
@@ -551,6 +573,12 @@ function VestingTimelineChartRecharts({
     });
   }, []);
 
+  // Emergency performance guard - prevent rendering with huge datasets (after all hooks)
+  if (timeline.length > 1000) {
+    console.warn('Dataset too large, using simplified rendering');
+    return <SimplifiedChart data={timeline.slice(0, 100)} />;
+  }
+
   // Early return if no valid data - after all hooks
   if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
     return (
@@ -777,4 +805,14 @@ function VestingTimelineChartRecharts({
 }
 
 // Export without memoization to ensure updates when props change
-export default VestingTimelineChartRecharts;
+// Wrap with React.memo to prevent unnecessary re-renders
+export default React.memo(VestingTimelineChartRecharts, (prevProps, nextProps) => {
+  // Custom comparison to prevent unnecessary re-renders
+  return JSON.stringify(prevProps.timeline) === JSON.stringify(nextProps.timeline) &&
+         prevProps.initialGrant === nextProps.initialGrant &&
+         prevProps.annualGrant === nextProps.annualGrant &&
+         prevProps.projectedBitcoinGrowth === nextProps.projectedBitcoinGrowth &&
+         prevProps.currentBitcoinPrice === nextProps.currentBitcoinPrice &&
+         prevProps.schemeId === nextProps.schemeId &&
+         JSON.stringify(prevProps.customVestingEvents) === JSON.stringify(nextProps.customVestingEvents);
+});
