@@ -53,17 +53,6 @@ export function usePerformanceMonitor(componentName: string) {
         }
       }
       
-      // Report to analytics in production
-      if (typeof window !== 'undefined' && window.gtag && renderTime > 50) {
-        window.gtag('event', 'component_performance', {
-          event_category: 'Performance',
-          event_label: componentName,
-          value: Math.round(renderTime),
-          custom_map: {
-            metric_1: renderTime > 100 ? 'slow' : 'normal'
-          }
-        });
-      }
     };
   }, [componentName]);
   
@@ -200,14 +189,6 @@ export function PerformanceMonitor({
           ...webVitals
         };
         
-        // Send to analytics service
-        if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'performance_metrics', {
-            event_category: 'Performance',
-            event_label: componentName,
-            custom_map: combinedMetrics
-          });
-        }
         
         // Log in development
         if (enableDevLogging && process.env.NODE_ENV === 'development') {

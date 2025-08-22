@@ -11,20 +11,6 @@ declare module 'react-dom' {
   export * from 'react-dom/index';
 }
 
-// Google Analytics gtag types
-interface GtagEventParams {
-  event_category?: string;
-  event_label?: string;
-  value?: number;
-  [key: string]: unknown;
-}
-
-interface GtagConfigParams {
-  page_title?: string;
-  page_location?: string;
-  [key: string]: unknown;
-}
-
 // Performance API extension interface
 interface PerformanceEntryWithProcessing extends PerformanceEntry {
   readonly processingStart: DOMHighResTimeStamp;
@@ -34,11 +20,6 @@ interface PerformanceEntryWithProcessing extends PerformanceEntry {
 // Extend global interfaces
 declare global {
   interface Window {
-    gtag?: (
-      command: 'config' | 'event' | 'js',
-      targetId: string | Date,
-      config?: GtagConfigParams | GtagEventParams
-    ) => void;
   }
   
   interface PerformanceEntry {
@@ -72,4 +53,4 @@ declare namespace NodeJS {
 }
 
 // Export the interfaces to ensure they're available
-export type { GtagEventParams, GtagConfigParams, PerformanceEntryWithProcessing };
+export type { PerformanceEntryWithProcessing };

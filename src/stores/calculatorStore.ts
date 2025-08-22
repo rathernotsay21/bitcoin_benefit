@@ -5,7 +5,6 @@ import { OptimizedBitcoinAPI } from '@/lib/bitcoin-api-optimized';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { debounce, DebouncedFunction } from '@/lib/utils/debounce';
 import { syncBitcoinPrice } from '@/lib/utils/store-sync';
-import { trackClarityEvent, ClarityEvents, trackCalculatorEvent } from '@/lib/analytics/clarity-events';
 
 export interface CalculatorState {
   // Input state
@@ -111,21 +110,6 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
       
       set({ selectedScheme: scheme });
       
-      // Batched analytics tracking - defer to avoid blocking main thread
-      queueMicrotask(() => {
-        if (previousScheme && previousScheme.id !== scheme.id) {
-          trackClarityEvent(ClarityEvents.VESTING_SCHEME_CHANGED, {
-            from: previousScheme.id,
-            to: scheme.id,
-            schemeName: scheme.name,
-          });
-        } else {
-          trackClarityEvent(ClarityEvents.VESTING_SCHEME_SELECTED, {
-            scheme: scheme.id,
-            schemeName: scheme.name,
-          });
-        }
-      });
       
       // Optimized static data check
       const currentState = get();
@@ -204,25 +188,10 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         (newResults as any).inputHash = inputHash;
         set({ results: newResults, isCalculating: false });
         
-        // Deferred analytics tracking
-        queueMicrotask(() => {
-          trackCalculatorEvent('complete', {
-            scheme: schemeToUse.id,
-            growthRate: fullInputs.projectedBitcoinGrowth,
-            amount: schemeToUse.initialGrant,
-          });
-        });
       } catch (error) {
         console.error('Calculation error:', error);
         set({ results: null, isCalculating: false });
         
-        // Deferred error tracking
-        queueMicrotask(() => {
-          trackClarityEvent(ClarityEvents.CALCULATOR_ERROR, {
-            error: error instanceof Error ? error.message : 'Unknown error',
-            scheme: schemeToUse.id,
-          });
-        });
       }
     };
     

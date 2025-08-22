@@ -16,9 +16,6 @@ import { MetricCardsSkeleton, TableSkeleton } from '@/components/loading/Enhance
 import HistoricalMetricCards from '@/components/HistoricalMetricCards';
 import SchemeTabSelector from '@/components/SchemeTabSelector';
 import HistoricalDataTable from '@/components/HistoricalDataTable';
-import { useScrollTracking } from '@/hooks/useScrollTracking';
-import { useEngagementTracking } from '@/hooks/useEngagementTracking';
-import { trackClarityEvent, ClarityEvents } from '@/lib/analytics/clarity-events';
 
 // Lazy load the optimized historical visualization component
 const HistoricalTimelineVisualization = dynamic(
@@ -33,12 +30,6 @@ const HistoricalTimelineVisualization = dynamic(
 function HistoricalCalculatorContent() {
   const searchParams = useSearchParams();
   
-  // Analytics tracking
-  useScrollTracking(true);
-  useEngagementTracking({
-    enabled: true,
-    pageIdentifier: '/historical',
-  });
   
   const {
     selectedScheme,
@@ -118,11 +109,6 @@ function HistoricalCalculatorContent() {
     const scheme = HISTORICAL_VESTING_SCHEMES.find(s => s.id === schemeId);
     if (scheme) {
       setSelectedScheme(scheme);
-      // Track scheme selection
-      trackClarityEvent(ClarityEvents.HISTORICAL_SCHEME_SELECTED, {
-        scheme: schemeId,
-        schemeName: scheme.name,
-      });
     }
   };
 
@@ -188,9 +174,6 @@ function HistoricalCalculatorContent() {
                     selectedYear={startingYear}
                     onYearChange={(year) => {
                       setStartingYear(year);
-                      trackClarityEvent(ClarityEvents.HISTORICAL_YEAR_SELECTED, {
-                        year,
-                      });
                     }}
                     disabled={isLoadingHistoricalData}
                   />

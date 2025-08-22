@@ -194,35 +194,6 @@ class PerformanceMonitor {
     
     const metrics = this.getAllMetrics();
     
-    // Report to Google Analytics if available
-    if (typeof window !== 'undefined' && 'gtag' in window) {
-      Object.entries(metrics).forEach(([name, metric]) => {
-        if (metric.renderTime > PERFORMANCE_THRESHOLDS.renderTime) {
-          (window as any).gtag('event', 'performance_issue', {
-            event_category: 'Performance',
-            event_label: name,
-            value: Math.round(metric.renderTime),
-            custom_map: { 
-              metric_name: 'render_time',
-              timestamp: metric.timestamp 
-            }
-          });
-        }
-      });
-    }
-    
-    // Report to Microsoft Clarity if available
-    if (typeof window !== 'undefined' && 'clarity' in window) {
-      Object.entries(metrics).forEach(([name, metric]) => {
-        if (metric.renderTime > PERFORMANCE_THRESHOLDS.renderTime) {
-          (window as any).clarity('event', 'performance_slow_render', {
-            operation: name,
-            duration: metric.renderTime,
-            memory: metric.memoryUsage
-          });
-        }
-      });
-    }
   }
 }
 

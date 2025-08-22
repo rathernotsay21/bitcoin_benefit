@@ -4,9 +4,6 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
-import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
-import { ClarityTester } from '@/components/dev/ClarityTester'
-import { HardcodedAnalytics } from '@/components/analytics/HardcodedAnalytics'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
 import './globals.css'
@@ -72,8 +69,6 @@ export default function RootLayout({
           `
         }} />
         
-        {/* Analytics - Hardcoded temporarily for immediate deployment */}
-        <HardcodedAnalytics />
         
         {/* Structured Data for SEO */}
         <StructuredData data={structuredData.organization} />
@@ -109,7 +104,6 @@ export default function RootLayout({
           }}
         />
         <CSSLoadingGuard>
-          <AnalyticsProvider>
             <PerformanceMonitor 
               componentName="RootLayout"
               enableCoreWebVitals={true}
@@ -121,13 +115,10 @@ export default function RootLayout({
                     <main className="relative">
                       {children}
                     </main>
-                    {/* Development tools */}
-                    <ClarityTester />
                   </div>
                 </StoreSyncProvider>
               </ThemeProvider>
             </PerformanceMonitor>
-          </AnalyticsProvider>
         </CSSLoadingGuard>
       </body>
     </html>

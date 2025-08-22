@@ -9,7 +9,6 @@ import {
   AddressInfo,
   TimestampResult 
 } from '@/types/bitcoin-tools';
-import { trackToolUsage, trackClarityEvent, ClarityEvents } from '@/lib/analytics/clarity-events';
 
 // Rate limiting state
 interface RateLimit {
@@ -181,19 +180,6 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
       })),
 
       setTransactionData: (data) => {
-        // Track transaction lookup
-        if (data) {
-          trackClarityEvent(ClarityEvents.TRANSACTION_FOUND, {
-            txid: data.txid,
-            confirmations: data.confirmations,
-            status: data.status,
-          });
-          trackToolUsage('transaction-lookup', 'success', true);
-        } else {
-          trackClarityEvent(ClarityEvents.TRANSACTION_NOT_FOUND);
-          trackToolUsage('transaction-lookup', 'not-found', false);
-        }
-        
         return set(state => ({
           tools: {
             ...state.tools,
@@ -231,15 +217,6 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
       })),
 
       setFeeCalculatorData: (data) => {
-        // Track fee calculation
-        if (data) {
-          trackClarityEvent(ClarityEvents.FEE_CALCULATED, {
-            tiers: data.length,
-            recommendations: data.length,
-          });
-          trackToolUsage('fee-calculator', 'calculated', true);
-        }
-        
         return set(state => ({
           tools: {
             ...state.tools,
@@ -296,16 +273,6 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
       })),
 
       setNetworkStatusData: (data) => {
-        // Track network status check
-        if (data) {
-          trackClarityEvent(ClarityEvents.NETWORK_STATUS_CHECKED, {
-            blockHeight: data.blockHeight,
-            networkHashrate: data.networkHashrate,
-            mempoolSize: data.mempoolSize,
-          });
-          trackToolUsage('network-status', 'checked', true);
-        }
-        
         return set(state => ({
           tools: {
             ...state.tools,
@@ -356,16 +323,6 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
       })),
 
       setAddressExplorerData: (data) => {
-        // Track address exploration
-        if (data) {
-          trackClarityEvent(ClarityEvents.ADDRESS_SEARCHED, {
-            address: data.address,
-            balance: data.balance,
-            txCount: data.txCount,
-          });
-          trackToolUsage('address-explorer', 'searched', true);
-        }
-        
         return set(state => ({
           tools: {
             ...state.tools,
@@ -413,22 +370,6 @@ export const useBitcoinToolsStore = create<BitcoinToolsStore>()(
       })),
 
       setDocumentTimestampData: (data) => {
-        // Track timestamp creation/verification
-        if (data) {
-          if (data.action === 'create') {
-            trackClarityEvent(ClarityEvents.TIMESTAMP_CREATED, {
-              hash: data.hash,
-              timestamp: data.timestamp,
-            });
-          } else if (data.action === 'verify') {
-            trackClarityEvent(ClarityEvents.TIMESTAMP_VERIFIED, {
-              hash: data.hash,
-              isValid: data.isValid,
-            });
-          }
-          trackToolUsage('document-timestamp', data.action || 'used', true);
-        }
-        
         return set(state => ({
           tools: {
             ...state.tools,
