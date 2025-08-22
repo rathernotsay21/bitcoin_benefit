@@ -253,65 +253,204 @@ export default function LearnMorePage() {
             </section>
 
             {/* Hardware Wallets Section */}
-            <section id="hardware-wallets" className="py-16 sm:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center justify-center p-3 bg-orange-500 rounded-2xl mb-6">
-                            <LockClosedIcon className="w-8 h-8 text-white" />
-                        </div>
-                        <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                            Ready to Move On-Chain?
+            <section id="hardware-wallets" className="py-16 sm:py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300 relative overflow-hidden">
+                {/* Background decorative elements */}
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-bitcoin/5" aria-hidden="true"></div>
+                <div className="absolute top-20 right-1/4 w-72 h-72 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
+                <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-bitcoin/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-16">
+                        <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                            <span className="bg-gradient-to-r from-orange-500 via-bitcoin to-orange-500 bg-clip-text text-transparent">
+                                Ready to Move On-Chain?
+                            </span>
                         </h3>
-                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-2xl mx-auto mb-8">
-                            Secure your bitcoin with a hardware wallet from these trusted manufacturers.
+                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
+                            Secure your bitcoin with a hardware wallet from these trusted manufacturers. Take full control of your bitcoin with best-in-class security.
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="card glass p-6 text-center flex flex-col h-full">
-                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Foundation Passport</h4>
-                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
-                                For those who seek a balance of robust security and a user-friendly, intuitive experience.
-                            </p>
-                            <a 
-                                href="https://foundationdevices.com/passport/" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="btn-primary inline-block w-full mt-auto"
-                            >
-                                Buy from Foundation
-                            </a>
+                    {/* Trusted Hardware Manufacturers */}
+                    <div className="mb-12">
+                        <div className="text-center mb-8">
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Hardware Manufacturers</p>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-bitcoin mx-auto rounded-full"></div>
                         </div>
+                        
+                        {/* Asymmetrical Hardware Wallet Grid */}
+                        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
+                            {/* Foundation Passport - Featured (3 columns on large screens) */}
+                            <div className="lg:col-span-3">
+                                <a 
+                                    href="https://foundationdevices.com/passport/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 h-full relative"
+                                >
+                                    {/* Recommended Badge */}
+                                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                                        <div className="bg-gradient-to-r from-orange-500 to-bitcoin text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                                            Recommended
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="bg-gradient-to-br from-white to-orange-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-orange-400/30 dark:border-orange-500/40 rounded-2xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:border-orange-500 group-hover:shadow-orange-500/20 h-full relative overflow-hidden">
+                                        {/* Glow effect */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                        
+                                        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 relative z-10">
+                                            {/* Image Container */}
+                                            <div className="flex-shrink-0">
+                                                <div className="w-32 h-32 lg:w-40 lg:h-40 bg-[#1f2125] rounded-2xl flex items-center justify-center group-hover:bg-[#2a2d32] transition-colors duration-300 shadow-lg">
+                                                    <Image 
+                                                        src="/foundation.webp" 
+                                                        alt="Foundation Passport" 
+                                                        width={120}
+                                                        height={120}
+                                                        className="w-24 h-24 lg:w-32 lg:h-32 object-contain"
+                                                    />
+                                                </div>
+                                            </div>
+                                            
+                                            {/* Content */}
+                                            <div className="flex-grow text-center lg:text-left">
+                                                <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                                                    Foundation Passport
+                                                </h4>
+                                                <p className="text-gray-600 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
+                                                    The perfect balance of robust security and user-friendly design. Air-gapped, QR-based communication with a familiar smartphone-like interface makes self-custody accessible to everyone.
+                                                </p>
+                                                
+                                                {/* Feature highlights */}
+                                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                                    <div className="flex items-center text-sm text-green-600 dark:text-green-400">
+                                                        <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                        Air-gapped Security
+                                                    </div>
+                                                    <div className="flex items-center text-sm text-blue-600 dark:text-blue-400">
+                                                        <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                        User-friendly Interface
+                                                    </div>
+                                                    <div className="flex items-center text-sm text-purple-600 dark:text-purple-400">
+                                                        <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                        Open Source
+                                                    </div>
+                                                    <div className="flex items-center text-sm text-orange-600 dark:text-orange-400">
+                                                        <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                        USA Assembled
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="inline-flex items-center bg-gradient-to-r from-orange-500 to-bitcoin text-white px-6 py-3 rounded-full text-sm font-semibold group-hover:from-bitcoin group-hover:to-orange-500 transition-all duration-300">
+                                                    Get Foundation Passport
+                                                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
-                        <div className="card glass p-6 text-center flex flex-col h-full">
-                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Blockstream Jade</h4>
-                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
-                                Offers an innovative security model from a highly reputable company, appealing to those interested in cutting-edge cryptographic solutions.
-                            </p>
-                            <a 
-                                href="https://blockstream.com/jade/" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="btn-primary inline-block w-full mt-auto"
-                            >
-                                Buy from Blockstream
-                            </a>
-                        </div>
+                            {/* Secondary Wallets (2 columns on large screens) */}
+                            <div className="lg:col-span-2 grid gap-6">
+                                {/* Blockstream Jade */}
+                                <a 
+                                    href="https://blockstream.com/jade/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                                >
+                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
+                                        <div className="flex items-start gap-4">
+                                            <div className="flex-shrink-0">
+                                                <div className="w-20 h-20 bg-green-900 dark:bg-green-950 rounded-xl flex items-center justify-center group-hover:bg-green-800 dark:group-hover:bg-green-900 transition-colors duration-300">
+                                                    <Image 
+                                                        src="/blockstream.webp" 
+                                                        alt="Blockstream Jade" 
+                                                        width={56}
+                                                        height={56}
+                                                        className="w-14 h-14 object-contain"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex-grow">
+                                                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                                                    Blockstream Jade
+                                                </h4>
+                                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                                                    Innovative security model with cutting-edge cryptographic solutions from a highly reputable company.
+                                                </p>
+                                                <div className="inline-flex items-center text-green-600 dark:text-green-400 text-sm font-medium group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
+                                                    Learn More
+                                                    <svg className="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
 
-                        <div className="card glass p-6 text-center flex flex-col h-full">
-                            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">BitBox02</h4>
-                            <p className="text-gray-600 dark:text-white/90 mb-6 text-sm flex-grow">
-                                The Bitcoin-only edition provides a sleek, secure, and straightforward experience backed by Swiss engineering.
-                            </p>
-                            <a 
-                                href="https://shiftcrypto.ch/bitbox02/" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="btn-primary inline-block w-full mt-auto"
-                            >
-                                Buy from Shift Crypto
-                            </a>
+                                {/* BitBox02 */}
+                                <a 
+                                    href="https://shiftcrypto.ch/bitbox02/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                                >
+                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:border-blue-400 dark:group-hover:border-blue-500 h-full">
+                                        <div className="flex items-start gap-4">
+                                            <div className="flex-shrink-0">
+                                                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl flex items-center justify-center group-hover:from-blue-100 group-hover:to-indigo-100 dark:group-hover:from-blue-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
+                                                    <Image 
+                                                        src="/bitbox.webp" 
+                                                        alt="BitBox02" 
+                                                        width={56}
+                                                        height={56}
+                                                        className="w-14 h-14 object-contain"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex-grow">
+                                                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                                                    BitBox02
+                                                </h4>
+                                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                                                    Bitcoin-only edition with sleek design and Swiss engineering for straightforward security.
+                                                </p>
+                                                <div className="inline-flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
+                                                    Learn More
+                                                    <svg className="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
+                    </div>
+
+                    {/* Why Hardware Wallets */}
+                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
+                        <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Why Use a Hardware Wallet?
+                        </h5>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
+                            Hardware wallets provide the highest level of security for your bitcoin by keeping your private keys offline and protected from online threats. Foundation Passport stands out with its intuitive interface and air-gapped design, while Blockstream Jade and BitBox02 offer excellent alternatives with their own unique security approaches.
+                        </p>
                     </div>
                 </div>
             </section>
