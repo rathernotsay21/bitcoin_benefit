@@ -77,7 +77,7 @@ export default function Navigation() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink">
-            <div className="icon-container group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
+            <div className="group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
               <SatoshiOutlineIcon className="w-12 h-12 sm:w-16 sm:h-16" size={64} />
             </div>
             <div className="flex flex-col min-w-0">

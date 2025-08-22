@@ -54,8 +54,8 @@ export default function Particles({
         vx: (Math.random() - 0.5) * 0.3, // Reduced velocity for gentler movement
         vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() * 1.5 + 0.8, // Slightly smaller particles
-        opacity: Math.random() * 0.6 + 0.2,
-        targetOpacity: Math.random() * 0.6 + 0.2
+        opacity: Math.random() * 0.8 + 0.3,
+        targetOpacity: Math.random() * 0.8 + 0.3
       });
     }
     
@@ -136,12 +136,12 @@ export default function Particles({
           
           // Gentle mouse interaction
           if (distance < 80) {
-            particle.targetOpacity = Math.min(0.8, 0.4 + (80 - distance) / 80 * 0.3);
+            particle.targetOpacity = Math.min(1.0, 0.5 + (80 - distance) / 80 * 0.4);
             const force = (80 - distance) / 80;
             particle.vx -= (dx / distance) * force * 0.01;
             particle.vy -= (dy / distance) * force * 0.01;
           } else {
-            particle.targetOpacity = Math.random() * 0.4 + 0.2;
+            particle.targetOpacity = Math.random() * 0.6 + 0.3;
           }
           
           // Update position
@@ -181,7 +181,7 @@ export default function Particles({
           particle.x, particle.y, glowSize
         );
         
-        const particleColor = theme === 'dark' ? '#64748b' : color;
+        const particleColor = theme === 'dark' ? '#94a3b8' : color;
         gradient.addColorStop(0, particleColor);
         gradient.addColorStop(0.4, particleColor + '80'); // 50% opacity
         gradient.addColorStop(1, particleColor + '00'); // Transparent
