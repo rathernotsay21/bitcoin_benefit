@@ -85,14 +85,14 @@ export default function SchemeTabSelector({
           // Define color classes based on scheme
           const getColorClasses = () => {
             if (scheme.id === 'accelerator') {
-              // Pioneer - Keep orange/bitcoin color (no change for inactive state)
-              return "data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-bitcoin/10 dark:hover:bg-bitcoin/20";
+              // Pioneer - Orange when active, grey when inactive
+              return "text-gray-600 dark:text-gray-400 data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700";
             } else if (scheme.id === 'steady-builder') {
-              // Stacker - Green theme (light green by default, darker green when active)
-              return "bg-green-100 text-green-700 data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:data-[state=active]:bg-green-700 dark:hover:bg-green-800/50";
+              // Stacker - Green when active, grey when inactive
+              return "text-gray-600 dark:text-gray-400 data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-green-700";
             } else if (scheme.id === 'slow-burn') {
-              // Builder - Blue theme (light blue by default, darker blue when active)
-              return "bg-blue-100 text-blue-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:data-[state=active]:bg-blue-700 dark:hover:bg-blue-800/50";
+              // Builder - Blue when active, grey when inactive
+              return "text-gray-600 dark:text-gray-400 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-blue-700";
             }
             return "";
           };

@@ -46,12 +46,12 @@ const STRATEGY_CONFIG = {
     name: 'The Stacker Plan',
     icon: ChartBarIcon,
     colors: {
-      primary: 'from-blue-500 to-teal-500',
-      secondary: 'from-blue-100 to-teal-100',
-      text: 'text-blue-700',
-      bg: 'bg-blue-50 dark:bg-blue-900/10',
-      border: 'border-blue-200 dark:border-blue-800',
-      accent: 'bg-blue-500'
+      primary: 'from-green-500 to-emerald-500',
+      secondary: 'from-green-100 to-emerald-100',
+      text: 'text-green-700',
+      bg: 'bg-green-50 dark:bg-green-900/10',
+      border: 'border-green-200 dark:border-green-800',
+      accent: 'bg-green-500'
     },
     description: 'A balanced approach with steady award accumulation over time'
   },
@@ -59,12 +59,12 @@ const STRATEGY_CONFIG = {
     name: 'The Builder Plan',
     icon: BuildingOfficeIcon,
     colors: {
-      primary: 'from-green-500 to-emerald-500',
-      secondary: 'from-green-100 to-emerald-100',
-      text: 'text-green-700',
-      bg: 'bg-green-50 dark:bg-green-900/10',
-      border: 'border-green-200 dark:border-green-800',
-      accent: 'bg-green-500'
+      primary: 'from-blue-500 to-teal-500',
+      secondary: 'from-blue-100 to-teal-100',
+      text: 'text-blue-700',
+      bg: 'bg-blue-50 dark:bg-blue-900/10',
+      border: 'border-blue-200 dark:border-blue-800',
+      accent: 'bg-blue-500'
     },
     description: 'A gradual approach that spreads awards over many years'
   }
