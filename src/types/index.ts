@@ -442,10 +442,11 @@ export type AsyncState<T, E = Error> =
 
 // Re-export global types to ensure they're available
 export type {
-  GtagEventParams,
-  GtagConfigParams,
   PerformanceEntryWithProcessing,
 } from './global';
+
+// Google Analytics types (if needed in the future)
+// export type { GtagEventParams, GtagConfigParams } from './global';
 
 // =============================================================================
 // CONDITIONAL TYPE EXPORTS

@@ -1,3 +1,44 @@
+// Tax calculation types
+export interface TaxCalculationParams {
+  btcAmount: number;
+  btcPrice: number;
+  costBasis: number;
+  holdingPeriod: number;
+  state?: string;
+  filingStatus?: FilingStatus;
+}
+
+export interface TaxImplicationResult {
+  proceeds: number;
+  costBasis: number;
+  gain: number;
+  federalTax: number;
+  stateTax: number;
+  totalTax: number;
+  netProceeds: number;
+  effectiveRate: number;
+  taxType: 'long-term' | 'short-term';
+}
+
+export enum FilingStatus {
+  SINGLE = 'SINGLE',
+  MARRIED_JOINTLY = 'MARRIED_JOINTLY',
+  MARRIED_SEPARATELY = 'MARRIED_SEPARATELY',
+  HEAD_OF_HOUSEHOLD = 'HEAD_OF_HOUSEHOLD'
+}
+
+export interface QuarterlyPayment {
+  quarter: string;
+  amount: number;
+  dueDate: string;
+}
+
+export interface NIITParams {
+  income: number;
+  investmentIncome: number;
+  filingStatus: FilingStatus;
+}
+
 export interface TaxCalculationResult {
   grossValue: number;
   taxableIncome: number;
@@ -15,176 +56,142 @@ export interface TaxBracket {
 }
 
 export class TaxImplicationCalculator {
-  private incomeTaxBrackets: TaxBracket[] = [
+  private readonly TAX_BRACKETS_2024: TaxBracket[] = [
     { min: 0, max: 11000, rate: 0.10 },
     { min: 11000, max: 44725, rate: 0.12 },
     { min: 44725, max: 95375, rate: 0.22 },
     { min: 95375, max: 182050, rate: 0.24 },
     { min: 182050, max: 231250, rate: 0.32 },
     { min: 231250, max: 578125, rate: 0.35 },
-    { min: 578125, max: Infinity, rate: 0.37 }
+    { min: 578125, max: Number.MAX_SAFE_INTEGER, rate: 0.37 }
   ];
-  
-  private capitalGainsRates = {
-    shortTerm: 0.37, // Taxed as ordinary income at highest bracket
-    longTerm: {
-      low: 0,
-      medium: 0.15,
-      high: 0.20
-    }
+
+  private readonly STATE_TAX_RATES: Record<string, number> = {
+    'CA': 0.133,
+    'NY': 0.109,
+    'TX': 0,
+    'FL': 0,
+    'WA': 0,
+    'DEFAULT': 0.05
   };
-  
-  /**
-   * Calculate income tax based on progressive tax brackets
-   */
-  calculateIncomeTax(taxableIncome: number): number {
-    let tax = 0;
-    let previousMax = 0;
+
+  calculateTax(params: TaxCalculationParams): TaxImplicationResult {
+    const {
+      btcAmount,
+      btcPrice,
+      costBasis,
+      holdingPeriod,
+      state = 'DEFAULT',
+      filingStatus = FilingStatus.SINGLE
+    } = params;
+
+    const proceeds = btcAmount * btcPrice;
+    const gain = proceeds - costBasis;
     
-    for (const bracket of this.incomeTaxBrackets) {
-      if (taxableIncome > bracket.min) {
-        const taxableInBracket = Math.min(taxableIncome - bracket.min, bracket.max - bracket.min);
-        tax += taxableInBracket * bracket.rate;
-      }
+    // Determine if long-term or short-term capital gains
+    const isLongTerm = holdingPeriod >= 365;
+    
+    // Calculate federal tax
+    const federalTax = isLongTerm 
+      ? this.calculateLongTermCapitalGainsTax(gain, filingStatus)
+      : this.calculateShortTermCapitalGainsTax(gain, filingStatus);
+    
+    // Calculate state tax
+    const stateRate = this.STATE_TAX_RATES[state] || this.STATE_TAX_RATES['DEFAULT'];
+    const stateTax = gain * stateRate;
+    
+    // Calculate net proceeds
+    const totalTax = federalTax + stateTax;
+    const netProceeds = proceeds - totalTax;
+    const effectiveRate = totalTax / proceeds;
+    
+    return {
+      proceeds,
+      costBasis,
+      gain,
+      federalTax,
+      stateTax,
+      totalTax,
+      netProceeds,
+      effectiveRate,
+      taxType: isLongTerm ? 'long-term' : 'short-term'
+    };
+  }
+
+  private calculateLongTermCapitalGainsTax(gain: number, filingStatus: FilingStatus): number {
+    // Long-term capital gains rates (simplified for single filers)
+    const rates = [
+      { threshold: 44625, rate: 0 },
+      { threshold: 492300, rate: 0.15 },
+      { threshold: Number.MAX_SAFE_INTEGER, rate: 0.20 }
+    ];
+    
+    return this.calculateProgressiveTax(gain, rates);
+  }
+
+  private calculateShortTermCapitalGainsTax(gain: number, filingStatus: FilingStatus): number {
+    // Short-term gains taxed as ordinary income
+    return this.calculateOrdinaryIncomeTax(gain, filingStatus);
+  }
+
+  private calculateOrdinaryIncomeTax(income: number, filingStatus: FilingStatus): number {
+    let tax = 0;
+    let remainingIncome = income;
+    
+    for (const bracket of this.TAX_BRACKETS_2024) {
+      if (remainingIncome <= 0) break;
+      
+      const taxableInBracket = bracket.max === Number.MAX_SAFE_INTEGER
+        ? remainingIncome
+        : Math.min(remainingIncome, bracket.max - bracket.min);
+      
+      tax += taxableInBracket * bracket.rate;
+      remainingIncome -= taxableInBracket;
     }
     
     return tax;
   }
-  
-  /**
-   * Calculate capital gains tax based on holding period
-   */
-  calculateCapitalGainsTax(
-    gains: number,
-    isLongTerm: boolean,
-    annualIncome: number
-  ): number {
-    if (!isLongTerm) {
-      // Short-term gains taxed as ordinary income
-      return gains * this.capitalGainsRates.shortTerm;
+
+  private calculateProgressiveTax(amount: number, rates: Array<{threshold: number, rate: number}>): number {
+    for (let i = rates.length - 1; i >= 0; i--) {
+      if (amount > rates[i].threshold) {
+        return amount * rates[i].rate;
+      }
     }
-    
-    // Long-term capital gains rates based on income
-    let rate: number;
-    if (annualIncome < 44625) {
-      rate = this.capitalGainsRates.longTerm.low;
-    } else if (annualIncome < 492300) {
-      rate = this.capitalGainsRates.longTerm.medium;
-    } else {
-      rate = this.capitalGainsRates.longTerm.high;
-    }
-    
-    return gains * rate;
+    return 0;
   }
-  
-  /**
-   * Calculate tax implications for vested Bitcoin
-   */
-  calculateVestingTax(
-    vestedBitcoinValue: number,
-    costBasis: number,
-    holdingPeriodMonths: number,
-    annualIncome: number
-  ): TaxCalculationResult {
-    // Income tax on vested value
-    const taxableIncome = vestedBitcoinValue;
-    const incomeTax = this.calculateIncomeTax(taxableIncome + annualIncome) - this.calculateIncomeTax(annualIncome);
+
+  estimateQuarterlyPayments(annualTaxLiability: number): QuarterlyPayment[] {
+    const quarterlyAmount = annualTaxLiability / 4;
+    const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+    const dueDates = ['April 15', 'June 15', 'September 15', 'January 15'];
     
-    // Capital gains tax on appreciation
-    const gains = Math.max(0, vestedBitcoinValue - costBasis);
-    const isLongTerm = holdingPeriodMonths >= 12;
-    const capitalGainsTax = this.calculateCapitalGainsTax(gains, isLongTerm, annualIncome);
+    return quarters.map((quarter, index) => ({
+      quarter,
+      amount: quarterlyAmount,
+      dueDate: dueDates[index]
+    }));
+  }
+
+  calculateNIIT(params: NIITParams): number {
+    const { income, investmentIncome, filingStatus } = params;
     
-    const totalTax = incomeTax + capitalGainsTax;
-    const netValue = vestedBitcoinValue - totalTax;
-    const effectiveTaxRate = vestedBitcoinValue > 0 ? (totalTax / vestedBitcoinValue) * 100 : 0;
-    
-    return {
-      grossValue: vestedBitcoinValue,
-      taxableIncome,
-      incomeTax,
-      capitalGainsTax,
-      totalTax,
-      netValue,
-      effectiveTaxRate
+    const thresholds: Record<FilingStatus, number> = {
+      [FilingStatus.SINGLE]: 200000,
+      [FilingStatus.MARRIED_JOINTLY]: 250000,
+      [FilingStatus.MARRIED_SEPARATELY]: 125000,
+      [FilingStatus.HEAD_OF_HOUSEHOLD]: 200000
     };
-  }
-  
-  /**
-   * Calculate tax-efficient withdrawal strategy
-   */
-  calculateWithdrawalStrategy(
-    totalBitcoinValue: number,
-    yearsToWithdraw: number,
-    annualIncome: number
-  ): Array<{
-    year: number;
-    withdrawalAmount: number;
-    tax: number;
-    netAmount: number;
-  }> {
-    const annualWithdrawal = totalBitcoinValue / yearsToWithdraw;
-    const strategy = [];
     
-    for (let year = 1; year <= yearsToWithdraw; year++) {
-      const tax = this.calculateCapitalGainsTax(
-        annualWithdrawal,
-        true, // Assume long-term holding
-        annualIncome
-      );
-      
-      strategy.push({
-        year,
-        withdrawalAmount: annualWithdrawal,
-        tax,
-        netAmount: annualWithdrawal - tax
-      });
-    }
+    const threshold = thresholds[filingStatus];
     
-    return strategy;
-  }
-  
-  /**
-   * Compare tax implications of different vesting schedules
-   */
-  compareVestingSchedules(
-    schedules: Array<{
-      name: string;
-      vestedAmounts: Array<{ month: number; value: number }>;
-    }>,
-    annualIncome: number
-  ): Array<{
-    scheduleName: string;
-    totalTax: number;
-    effectiveRate: number;
-    taxSavings: number;
-  }> {
-    const results = schedules.map(schedule => {
-      const totalValue = schedule.vestedAmounts.reduce((sum, v) => sum + v.value, 0);
-      const totalTax = schedule.vestedAmounts.reduce((sum, vesting) => {
-        const tax = this.calculateVestingTax(
-          vesting.value,
-          0, // Assuming zero cost basis for simplicity
-          vesting.month,
-          annualIncome
-        );
-        return sum + tax.totalTax;
-      }, 0);
-      
-      return {
-        scheduleName: schedule.name,
-        totalTax,
-        effectiveRate: (totalTax / totalValue) * 100,
-        taxSavings: 0 // Will be calculated relative to highest tax schedule
-      };
-    });
+    if (income <= threshold) return 0;
     
-    // Calculate tax savings relative to highest tax schedule
-    const maxTax = Math.max(...results.map(r => r.totalTax));
-    results.forEach(result => {
-      result.taxSavings = maxTax - result.totalTax;
-    });
+    const taxableAmount = Math.min(
+      investmentIncome,
+      income - threshold
+    );
     
-    return results;
+    return taxableAmount * 0.038; // 3.8% NIIT rate
   }
 }

@@ -130,13 +130,7 @@ export const ApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
     })
   ]);
 
-export type ApiResponse<T> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-  timestamp?: number;
-  source?: string;
-};
+export type ApiResponse<T> = ApiSuccess<T> | ApiError;
 
 // Error Response
 export const ApiErrorSchema = z.object({
@@ -289,7 +283,7 @@ export function safeParseApi<T>(
 
 // Type guard for API responses
 export function isApiError(response: ApiResponse<unknown>): response is ApiError {
-  return response.success === false;
+  return !response.success;
 }
 
 export function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccess<T> {
@@ -378,7 +372,7 @@ export async function typedFetch<T>(
       const data = await response.json();
       const parseResult = safeParseApi(responseSchema, data, `API response from ${url}`);
       
-      if (parseResult.success) {
+      if (parseResult.success === true) {
         return parseResult.data;
       } else {
         throw new Error(`Invalid response format: ${parseResult.error}`);

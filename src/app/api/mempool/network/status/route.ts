@@ -51,7 +51,8 @@ const DEFAULT_NETWORK_STATUS: EnhancedNetworkHealth = {
     fastestFee: toFeeRateUnsafe(20),
     halfHourFee: toFeeRateUnsafe(15),
     hourFee: toFeeRateUnsafe(12),
-    economyFee: toFeeRateUnsafe(8)
+    economyFee: toFeeRateUnsafe(8),
+    minimumFee: toFeeRateUnsafe(1)
   },
   analysis: {
     congestionPercentage: 45,
@@ -201,8 +202,8 @@ export async function GET(_request: NextRequest) {
   try {
     // Fetch data with fallbacks
     const [mempoolData, feeData] = await Promise.all([
-      fetchMempoolData().catch(() => null),
-      fetchFeeData().catch(() => null)
+      fetchMempoolData().catch((): null => null),
+      fetchFeeData().catch((): null => null)
     ]);
 
     // If both failed, return cached data or defaults
@@ -273,7 +274,8 @@ export async function GET(_request: NextRequest) {
         fastestFee: fallbackFees.fastestFee,
         halfHourFee: fallbackFees.halfHourFee,
         hourFee: fallbackFees.hourFee,
-        economyFee: fallbackFees.economyFee
+        economyFee: fallbackFees.economyFee,
+        minimumFee: fallbackFees.minimumFee
       },
       analysis: {
         congestionPercentage: calculateCongestionPercentage(fallbackMempool, fallbackFees),
@@ -323,8 +325,8 @@ export async function GET(_request: NextRequest) {
 async function refreshNetworkStatus(): Promise<void> {
   try {
     const [mempoolData, feeData] = await Promise.all([
-      fetchMempoolData().catch(() => null),
-      fetchFeeData().catch(() => null)
+      fetchMempoolData().catch((): null => null),
+      fetchFeeData().catch((): null => null)
     ]);
 
     if (mempoolData || feeData) {
@@ -349,19 +351,24 @@ async function refreshNetworkStatus(): Promise<void> {
         timestamp: toUnixTimestamp(Math.floor(Date.now() / 1000))
       };
 
-      const fallbackFees: MempoolFeeEstimates = feeData ? {
-        fastestFee: toFeeRateUnsafe(feeData.fastestFee || 25),
-        halfHourFee: toFeeRateUnsafe(feeData.halfHourFee || 20),
-        hourFee: toFeeRateUnsafe(feeData.hourFee || 15),
-        economyFee: toFeeRateUnsafe(feeData.economyFee || 10),
-        minimumFee: toFeeRateUnsafe(feeData.minimumFee || 1)
-      } : networkStatusCache.data?.feeEstimates || {
-        fastestFee: toFeeRateUnsafe(25),
-        halfHourFee: toFeeRateUnsafe(20),
-        hourFee: toFeeRateUnsafe(15),
-        economyFee: toFeeRateUnsafe(10),
-        minimumFee: toFeeRateUnsafe(1)
-      };
+      const fallbackFees: MempoolFeeEstimates = (() => {
+        if (feeData) {
+          return {
+            fastestFee: toFeeRateUnsafe(feeData.fastestFee || 25),
+            halfHourFee: toFeeRateUnsafe(feeData.halfHourFee || 20),
+            hourFee: toFeeRateUnsafe(feeData.hourFee || 15),
+            economyFee: toFeeRateUnsafe(feeData.economyFee || 10),
+            minimumFee: toFeeRateUnsafe(feeData.minimumFee || 1)
+          };
+        }
+        return networkStatusCache.data?.feeEstimates || {
+          fastestFee: toFeeRateUnsafe(25),
+          halfHourFee: toFeeRateUnsafe(20),
+          hourFee: toFeeRateUnsafe(15),
+          economyFee: toFeeRateUnsafe(10),
+          minimumFee: toFeeRateUnsafe(1)
+        };
+      })();
 
       const networkHealth = analyzeNetworkHealth(fallbackMempool, fallbackFees);
       const enhancedNetworkHealth: EnhancedNetworkHealth = {
@@ -370,7 +377,8 @@ async function refreshNetworkStatus(): Promise<void> {
           fastestFee: fallbackFees.fastestFee,
           halfHourFee: fallbackFees.halfHourFee,
           hourFee: fallbackFees.hourFee,
-          economyFee: fallbackFees.economyFee
+          economyFee: fallbackFees.economyFee,
+          minimumFee: fallbackFees.minimumFee
         },
         analysis: {
           congestionPercentage: calculateCongestionPercentage(fallbackMempool, fallbackFees),

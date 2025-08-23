@@ -344,7 +344,7 @@ export const mempoolClient = createMempoolClient();
  * Extract data from API response or throw error
  */
 export function unwrapApiResponse<T>(response: ApiResponse<T>): T {
-  if (response.success) {
+  if (response.success === true) {
     return response.data;
   } else {
     throw new Error(response.error);
@@ -370,7 +370,7 @@ export async function handleApiResponse<T, R = void>(
     onError: (error: string) => R | Promise<R>;
   }
 ): Promise<R> {
-  if (response.success) {
+  if (response.success === true) {
     return handlers.onSuccess(response.data);
   } else {
     return handlers.onError(response.error);

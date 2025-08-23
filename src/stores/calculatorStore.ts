@@ -418,12 +418,16 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
       const customization = schemeCustomizations[scheme.id];
       
       if (!customization) {
-        return scheme;
+        return {
+          ...scheme,
+          customVestingEvents: scheme.customVestingEvents || []
+        };
       }
       
       return {
         ...scheme,
-        ...customization
+        ...customization,
+        customVestingEvents: customization.customVestingEvents || scheme.customVestingEvents || []
       };
     },
     

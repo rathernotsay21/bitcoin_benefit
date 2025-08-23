@@ -27,7 +27,7 @@ export interface FastLookup<T = unknown> {
   readonly [key: string]: T;
 }
 
-export interface ReadonlyRecord<K extends string | number | symbol, V> {
+export type ReadonlyRecord<K extends string | number | symbol, V> = {
   readonly [P in K]: V;
 }
 

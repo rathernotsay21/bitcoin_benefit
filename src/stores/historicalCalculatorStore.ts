@@ -23,6 +23,8 @@ export interface HistoricalCalculatorState {
   // Historical data
   historicalPrices: Record<number, BitcoinYearlyPrices>;
   currentBitcoinPrice: number;
+  bitcoinChange24h: number;
+  isLoadingPrice: boolean;
   isLoadingHistoricalData: boolean;
   historicalDataError: string | null;
   staticDataLoaded: boolean;
@@ -80,6 +82,8 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     // Historical data state
     historicalPrices: {},
     currentBitcoinPrice: 45000, // Default fallback price
+    bitcoinChange24h: 0,
+    isLoadingPrice: false,
     isLoadingHistoricalData: false,
     historicalDataError: null,
     staticDataLoaded: false,
@@ -176,13 +180,20 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
   },
   
   fetchCurrentBitcoinPrice: async () => {
+    set({ isLoadingPrice: true });
     try {
       const { price, change24h } = await OptimizedBitcoinAPI.getCurrentPrice();
+      set({ 
+        currentBitcoinPrice: price,
+        bitcoinChange24h: change24h || 0,
+        isLoadingPrice: false
+      });
       // Use sync utility to update all stores
       syncBitcoinPrice(price, change24h);
       
     } catch (error) {
       console.error('Failed to fetch current Bitcoin price:', error);
+      set({ isLoadingPrice: false });
       // Keep existing price as fallback
     }
   },

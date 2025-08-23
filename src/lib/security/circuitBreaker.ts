@@ -242,7 +242,7 @@ export class CircuitBreaker {
 class CircuitBreakerRegistry {
   private breakers = new Map<string, CircuitBreaker>();
   private globalConfig: Partial<CircuitBreakerConfig> = {};
-  private healthCheckInterval?: NodeJS.Timer;
+  private healthCheckInterval?: ReturnType<typeof setInterval>;
 
   constructor(globalConfig: Partial<CircuitBreakerConfig> = {}) {
     this.globalConfig = globalConfig;
@@ -365,6 +365,7 @@ class CircuitBreakerRegistry {
   destroy(): void {
     if (this.healthCheckInterval) {
       clearInterval(this.healthCheckInterval);
+      this.healthCheckInterval = undefined;
     }
     
     for (const breaker of this.breakers.values()) {

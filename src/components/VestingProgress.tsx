@@ -202,7 +202,7 @@ export default function VestingProgress({
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
           <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
-            Bonus Timeline
+            Unlock Timeline
           </span>
           <span className="text-sm text-gray-500 dark:text-slate-400">
             Change Plans and pick an Earning Schedule
@@ -268,7 +268,7 @@ export default function VestingProgress({
       </div>
       
       {/* Unlocking Schedule Overview */}
-      <div className={`p-4 ${strategyConfig.colors.bg} rounded-lg border ${strategyConfig.colors.border} mb-4`}>
+      <div className={`p-4 ${strategyConfig.colors.bg} rounded-lg mb-4`} style={{border: '1px solid #777f89'}}>
         <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
           Earning Schedule Overview
@@ -288,13 +288,13 @@ export default function VestingProgress({
                   {event.achieved && (
                     <CheckCircleIcon className="w-4 h-4 text-green-500 mr-1" />
                   )}
-                  <span className={`text-sm font-bold ${
+                  <span className={`text-sm ${
                     event.achieved 
                       ? 'text-green-600 dark:text-green-400'
                       : event.isNext
                       ? strategyConfig.colors.text
                       : 'text-gray-600 dark:text-slate-400'
-                  }`}>
+                  }`} style={{color: '#777f89'}}>
                     {event.percentage}%
                   </span>
                 </div>

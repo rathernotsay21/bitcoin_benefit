@@ -39,6 +39,8 @@ function HistoricalCalculatorContent() {
     schemeCustomizations,
     historicalPrices,
     currentBitcoinPrice,
+    bitcoinChange24h,
+    isLoadingPrice,
     isLoadingHistoricalData,
     historicalDataError,
     historicalResults,
@@ -115,6 +117,13 @@ function HistoricalCalculatorContent() {
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
   const _currentYear = new Date().getFullYear();
+
+  function formatUSD(amount: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  }
 
   return (
     <div className="min-h-screen transition-colors duration-300">
@@ -245,6 +254,31 @@ function HistoricalCalculatorContent() {
               </div>
             </div>
 
+            {/* Bitcoin Price Card */}
+            <div className="card bg-gradient-to-r from-bitcoin/10 to-yellow-500/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <SatoshiIcon className="w-8 h-8 text-bitcoin mr-3" />
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
+                      {formatUSD(currentBitcoinPrice)}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-slate-300">
+                      Current Bitcoin Price
+                      {isLoadingPrice && <span className="ml-2 animate-pulse">Updating...</span>}
+                    </div>
+                  </div>
+                </div>
+                {bitcoinChange24h !== 0 && bitcoinChange24h != null && (
+                  <div className={`text-right ${bitcoinChange24h > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <div className="text-lg font-semibold">
+                      {bitcoinChange24h > 0 ? '+' : ''}{bitcoinChange24h.toFixed(2)}%
+                    </div>
+                    <div className="text-sm">24h Change</div>
+                  </div>
+                )}
+              </div>
+            </div>
 
           </div>
 

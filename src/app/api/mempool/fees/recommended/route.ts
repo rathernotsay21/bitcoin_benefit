@@ -55,17 +55,31 @@ interface ApiResponse {
   error?: string;
 }
 
+// Transaction size validation schema
+const TxSizeSchema = z.number()
+  .int('Transaction size must be an integer')
+  .min(140, 'Transaction size must be at least 140 vBytes')
+  .max(100000, 'Transaction size cannot exceed 100,000 vBytes')
+  .finite('Transaction size must be a finite number');
+
 export async function GET(_request: NextRequest) {
   const { searchParams } = new URL(_request.url);
-  const txSize = parseInt(searchParams.get('txSize') || '250');
+  const txSizeParam = searchParams.get('txSize') || '250';
   
-  // Validate transaction size
-  if (isNaN(txSize) || txSize < 140 || txSize > 100000) {
+  // Validate transaction size with Zod
+  const txSizeResult = TxSizeSchema.safeParse(Number(txSizeParam));
+  
+  if (!txSizeResult.success) {
     return NextResponse.json(
-      { error: 'Invalid transaction size. Must be between 140 and 100,000 vBytes' },
+      { 
+        error: 'Invalid transaction size',
+        details: txSizeResult.error.errors.map(e => e.message).join(', ')
+      },
       { status: 400 }
     );
   }
+  
+  const txSize = txSizeResult.data;
 
   // Check if API calls should be skipped (development mode)
   if (process.env.NEXT_PUBLIC_SKIP_API_CALLS === 'true') {
@@ -91,7 +105,7 @@ export async function GET(_request: NextRequest) {
     { endpoint: 'mempool-fees' }
   );
 
-  if (!feeResult.success) {
+  if (feeResult.success === false) {
     console.error('Fee data fetch failed:', feeResult.error);
     return handleFallbackResponse(txSize, feeResult.error.userFriendlyMessage);
   }
@@ -113,7 +127,7 @@ export async function GET(_request: NextRequest) {
 
   if (networkResult.success) {
     networkConditions = analyzeNetworkConditions(networkResult.data, feeData);
-  } else {
+  } else if (networkResult.success === false) {
     console.warn('Network conditions fetch failed (non-critical):', networkResult.error.userFriendlyMessage);
   }
 

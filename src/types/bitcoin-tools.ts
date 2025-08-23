@@ -228,12 +228,7 @@ export interface MempoolFeeEstimates {
 
 // Enhanced network health with detailed fee estimates
 export interface EnhancedNetworkHealth extends NetworkHealth {
-  readonly feeEstimates: {
-    readonly fastestFee: FeeRate;
-    readonly halfHourFee: FeeRate;
-    readonly hourFee: FeeRate;
-    readonly economyFee: FeeRate;
-  };
+  readonly feeEstimates: MempoolFeeEstimates;
   readonly analysis: {
     readonly congestionPercentage: number;
     readonly feeSpreadRatio: number;

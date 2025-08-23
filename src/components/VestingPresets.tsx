@@ -57,7 +57,7 @@ export default function VestingPresets({
   }, [onPresetSelect]);
 
   return (
-    <div className="mt-6 p-4 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg">
+    <div className="mt-6 p-4 border border-solid border-purple-400 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-600 rounded-lg">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4">
         Earning Schedule
       </h4>
@@ -74,7 +74,7 @@ export default function VestingPresets({
                 : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
             }`}
           >
-            <div className="font-bold text-sm sm:text-base text-gray-900 dark:text-slate-100 truncate">
+            <div className="font-normal text-sm sm:text-base text-[#777f89] truncate">
               {preset.name}
             </div>
           </button>

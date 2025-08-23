@@ -1,3 +1,5 @@
+import { calculateUsdValue, validateSafeNumber } from '../bitcoin-precision';
+
 export interface GrowthProjection {
   month: number;
   price: number;
@@ -11,6 +13,9 @@ export class BitcoinGrowthProjector {
   private readonly annualRateDecimal: number; // Pre-calculate decimal conversion
   
   constructor(basePrice: number, annualGrowthRate: number) {
+    validateSafeNumber(basePrice, 'base Bitcoin price');
+    validateSafeNumber(annualGrowthRate, 'annual growth rate');
+    
     this.basePrice = basePrice;
     this.annualGrowthRate = annualGrowthRate;
     // Pre-calculate and cache expensive operations
@@ -58,6 +63,23 @@ export class BitcoinGrowthProjector {
    * Calculate compound annual growth rate (CAGR) for a period
    */
   calculateCAGR(endValue: number, startValue: number, years: number): number {
+    // Input validation to prevent division by zero and invalid calculations
+    if (!Number.isFinite(endValue) || !Number.isFinite(startValue) || !Number.isFinite(years)) {
+      throw new Error('All inputs must be finite numbers');
+    }
+    
+    if (startValue <= 0) {
+      throw new Error('Starting value must be greater than zero');
+    }
+    
+    if (endValue <= 0) {
+      throw new Error('Ending value must be greater than zero');
+    }
+    
+    if (years <= 0) {
+      throw new Error('Years must be greater than zero');
+    }
+    
     return (Math.pow(endValue / startValue, 1 / years) - 1) * 100;
   }
   
@@ -65,8 +87,9 @@ export class BitcoinGrowthProjector {
    * Project future value for a Bitcoin amount
    */
   projectFutureValue(bitcoinAmount: number, months: number): number {
+    validateSafeNumber(bitcoinAmount, 'Bitcoin amount for projection');
     const futurePrice = this.projectPrice(months);
-    return bitcoinAmount * futurePrice;
+    return calculateUsdValue(bitcoinAmount, futurePrice);
   }
   
   /**
@@ -98,7 +121,7 @@ export class BitcoinGrowthProjector {
         scenario: scenario.name,
         growthRate: scenario.growthRate,
         finalPrice,
-        finalValue: bitcoinAmount * finalPrice,
+        finalValue: calculateUsdValue(bitcoinAmount, finalPrice),
         growthMultiple: finalPrice / this.basePrice
       };
     });

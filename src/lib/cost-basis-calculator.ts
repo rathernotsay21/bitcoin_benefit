@@ -1,4 +1,5 @@
 import { BitcoinYearlyPrices, CostBasisMethod, GrantEvent } from '../types/vesting';
+import { calculateUsdValue, validateSafeNumber } from './bitcoin-precision';
 
 /**
  * Utility class for calculating cost basis using different methods
@@ -20,6 +21,7 @@ export class CostBasisCalculator {
   ): number {
     // Validate inputs
     this.validateAmount(amount);
+    validateSafeNumber(amount, 'Bitcoin amount for cost basis');
     this.validateYear(year);
     this.validatePrices(prices);
     this.validateMethod(method);
@@ -50,7 +52,8 @@ export class CostBasisCalculator {
       throw new Error(`Invalid ${method} price for year ${year}: ${pricePerBitcoin}`);
     }
 
-    return amount * pricePerBitcoin;
+    validateSafeNumber(pricePerBitcoin, `${method} price for cost basis`);
+    return calculateUsdValue(amount, pricePerBitcoin);
   }
 
   /**

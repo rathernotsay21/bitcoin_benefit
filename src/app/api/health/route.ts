@@ -59,8 +59,8 @@ export async function GET(_request: NextRequest): Promise<NextResponse> {
       externalAPIs[key] = apiHealth;
     }
 
-    // Process API usage stats  
-    const usageStats = apiUsageStats.status === 'fulfilled' ? 
+    // Process API usage stats
+    const usageStats: [ReturnType<typeof getAPIUsageStats>, ReturnType<typeof getAPIUsageStats>] = apiUsageStats.status === 'fulfilled' ? 
       apiUsageStats.value : 
       [null, null];
 
@@ -112,9 +112,9 @@ export async function GET(_request: NextRequest): Promise<NextResponse> {
       },
       metrics,
       rateLimit: {
-        general: usageStats[0],
-        coingecko: usageStats[1],
-        mempool: usageStats[2]
+        general: null, // No general rate limiting tracked separately
+        coingecko: usageStats[0],
+        mempool: usageStats[1]
       }
     };
 

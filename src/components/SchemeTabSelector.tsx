@@ -73,11 +73,27 @@ export default function SchemeTabSelector({
       <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-slate-100 dark:bg-slate-800">
         {VESTING_SCHEMES.map((scheme) => {
           const IconComponent = getSchemeIcon(scheme.icon || 'rocket');
+          
+          // Define color classes based on scheme
+          const getColorClasses = () => {
+            if (scheme.id === 'accelerator') {
+              // Pioneer - Keep orange/bitcoin color (no change for inactive state)
+              return "data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-bitcoin/10 dark:hover:bg-bitcoin/20";
+            } else if (scheme.id === 'steady-builder') {
+              // Stacker - Green theme (light green by default, darker green when active)
+              return "bg-green-100 text-green-700 data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:data-[state=active]:bg-green-700 dark:hover:bg-green-800/50";
+            } else if (scheme.id === 'slow-burn') {
+              // Builder - Blue theme (light blue by default, darker blue when active)
+              return "bg-blue-100 text-blue-700 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:data-[state=active]:bg-blue-700 dark:hover:bg-blue-800/50";
+            }
+            return "";
+          };
+          
           return (
             <TabsTrigger
               key={scheme.id}
               value={scheme.id}
-              className="flex flex-col items-center py-4 px-3 data-[state=active]:bg-bitcoin data-[state=active]:text-white text-sm font-medium transition-all duration-300 hover:bg-bitcoin/10 dark:hover:bg-bitcoin/20 group"
+              className={`flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group ${getColorClasses()}`}
             >
               <IconComponent className="w-6 h-6 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110" />
               <span className="text-xs font-semibold leading-tight text-center mb-1">
@@ -93,13 +109,59 @@ export default function SchemeTabSelector({
 
       {VESTING_SCHEMES.map((scheme) => {
         const IconComponent = getSchemeIcon(scheme.icon || 'rocket');
+        
+        // Define theme colors for description cards
+        const getCardTheme = () => {
+          if (scheme.id === 'accelerator') {
+            // Pioneer - Orange/Bitcoin theme
+            return {
+              border: "border-bitcoin/20 hover:border-bitcoin/30",
+              background: "bg-gradient-to-r from-bitcoin/5 to-orange-100/50 dark:from-bitcoin/10 dark:to-slate-800",
+              iconBg: "bg-bitcoin/20 dark:bg-bitcoin/30 hover:bg-bitcoin/30 dark:hover:bg-bitcoin/40",
+              iconColor: "text-bitcoin",
+              tagBg: "bg-bitcoin/20 dark:bg-bitcoin/30",
+              tagText: "text-bitcoin-800 dark:text-bitcoin-100"
+            };
+          } else if (scheme.id === 'steady-builder') {
+            // Stacker - Green theme
+            return {
+              border: "border-green-500/20 hover:border-green-500/30",
+              background: "bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-slate-800",
+              iconBg: "bg-green-500/20 dark:bg-green-600/30 hover:bg-green-500/30 dark:hover:bg-green-600/40",
+              iconColor: "text-green-600 dark:text-green-400",
+              tagBg: "bg-green-500/20 dark:bg-green-600/30",
+              tagText: "text-green-800 dark:text-green-100"
+            };
+          } else if (scheme.id === 'slow-burn') {
+            // Builder - Blue theme
+            return {
+              border: "border-blue-500/20 hover:border-blue-500/30",
+              background: "bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-slate-800",
+              iconBg: "bg-blue-500/20 dark:bg-blue-600/30 hover:bg-blue-500/30 dark:hover:bg-blue-600/40",
+              iconColor: "text-blue-600 dark:text-blue-400",
+              tagBg: "bg-blue-500/20 dark:bg-blue-600/30",
+              tagText: "text-blue-800 dark:text-blue-100"
+            };
+          }
+          return {
+            border: "border-gray-300 hover:border-gray-400",
+            background: "bg-gray-50 dark:bg-slate-800",
+            iconBg: "bg-gray-200 dark:bg-gray-700",
+            iconColor: "text-gray-600",
+            tagBg: "bg-gray-200 dark:bg-gray-700",
+            tagText: "text-gray-800 dark:text-gray-100"
+          };
+        };
+        
+        const theme = getCardTheme();
+        
         return (
           <TabsContent key={scheme.id} value={scheme.id} className="mt-6">
-            <div className="rounded-xl border-2 border-bitcoin/20 bg-gradient-to-r from-bitcoin/5 to-orange-100/50 dark:from-bitcoin/10 dark:to-slate-800 p-6 transition-all duration-300 hover:border-bitcoin/30">
+            <div className={`rounded-xl border-2 ${theme.border} ${theme.background} p-6 transition-all duration-300`}>
               <div className="flex items-start space-x-4">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-bitcoin/20 dark:bg-bitcoin/30 rounded-xl flex items-center justify-center transition-all duration-300 hover:bg-bitcoin/30 dark:hover:bg-bitcoin/40">
-                    <IconComponent className="w-6 h-6 text-bitcoin" />
+                  <div className={`w-12 h-12 ${theme.iconBg} rounded-xl flex items-center justify-center transition-all duration-300`}>
+                    <IconComponent className={`w-6 h-6 ${theme.iconColor}`} />
                   </div>
                 </div>
                 
@@ -108,7 +170,7 @@ export default function SchemeTabSelector({
                     <h3 className="text-xl font-bold text-deepSlate dark:text-slate-100">
                       {scheme.name}
                     </h3>
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-bitcoin/20 text-bitcoin-800 dark:bg-bitcoin/30 dark:text-bitcoin-100">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${theme.tagBg} ${theme.tagText}`}>
                       {scheme.tagline || 'Custom Plan'}
                     </span>
                   </div>

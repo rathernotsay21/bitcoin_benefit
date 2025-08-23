@@ -72,12 +72,7 @@ export async function secureFetch<T = unknown>(
         ...(typeof window === 'undefined' && {
           // Server-side specific options
           // @ts-ignore - Node.js fetch options
-          keepAlive: true,
-          // In development, allow self-signed certificates
-          ...(process.env.NODE_ENV === 'development' && {
-            // @ts-ignore
-            rejectUnauthorized: false
-          })
+          keepAlive: true
         })
       });
 
@@ -173,7 +168,7 @@ export async function secureFetch<T = unknown>(
 function defaultRetryCondition(error: Error, attempt: number): boolean {
   // Don't retry validation errors or client errors
   if ('type' in error) {
-    const toolError = error as ToolError;
+    const toolError = error as unknown as ToolError;
     if (toolError.type === 'validation' || toolError.type === 'parse_error') {
       return false;
     }

@@ -6,16 +6,18 @@ import {
   EmployeeRetentionModeler,
   RiskAnalysisEngine
 } from './calculators';
+import { calculateUsdValue, validateSafeNumber } from './bitcoin-precision';
 
 export class VestingCalculator {
   static calculate(inputs: CalculationInputs): VestingCalculationResult {
     const { scheme, currentBitcoinPrice, projectedBitcoinGrowth } = inputs;
     
     // Initialize specialized calculators with custom vesting events
+    // Fix: Handle undefined bonuses field
     const vestingCalculator = new VestingScheduleCalculator({
-      milestones: scheme.vestingSchedule,
-      bonuses: scheme.bonuses,
-      customVestingEvents: scheme.customVestingEvents
+      milestones: [...scheme.vestingSchedule],
+      bonuses: scheme.bonuses ? [...scheme.bonuses] : [],
+      customVestingEvents: scheme.customVestingEvents ? [...scheme.customVestingEvents] : []
     });
     
     const growthProjector = new BitcoinGrowthProjector(
@@ -35,7 +37,8 @@ export class VestingCalculator {
     // Build complete timeline with Bitcoin price projections
     const timeline: VestingTimelinePoint[] = vestingTimeline.map(point => {
       const bitcoinPrice = growthProjector.projectPrice(point.month);
-      const usdValue = point.employerBalance * bitcoinPrice;
+      validateSafeNumber(bitcoinPrice, 'projected Bitcoin price');
+      const usdValue = calculateUsdValue(point.employerBalance, bitcoinPrice);
       
       return {
         month: point.month,
@@ -58,10 +61,10 @@ export class VestingCalculator {
     
     return {
       timeline,
-      totalCost: totalEmployerContributions * currentBitcoinPrice,
+      totalCost: calculateUsdValue(totalEmployerContributions, currentBitcoinPrice),
       totalBitcoinNeeded: totalEmployerContributions,
       summary: {
-        maxEmployerCommitment: totalEmployerContributions * currentBitcoinPrice,
+        maxEmployerCommitment: calculateUsdValue(totalEmployerContributions, currentBitcoinPrice),
         averageVestingPeriod: vestingCalculator.calculateAverageVestingPeriod(),
       },
     };

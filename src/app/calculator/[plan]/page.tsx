@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import dynamic from 'next/dynamic';
 
@@ -23,41 +25,61 @@ interface PageProps {
   params: { plan: string };
 }
 
-// Server component handles static generation
+// Static generation for known vesting schemes
 export async function generateStaticParams() {
   return VESTING_SCHEMES.map((scheme) => ({
     plan: scheme.id,
   }));
 }
 
-// Generate metadata for each plan
-export async function generateMetadata({ params }: PageProps) {
-  try {
-    const scheme = VESTING_SCHEMES.find(s => s.id === params.plan);
-    
-    if (scheme) {
-      return {
-        title: `${scheme.name} - Bitcoin Unlocking Calculator`,
-        description: `${scheme.description}. Calculate Bitcoin unlocking schedules and projections.`,
-        openGraph: {
-          title: `${scheme.name} Bitcoin Unlocking Plan`,
-          description: scheme.description,
-        },
-      };
-    }
-  } catch (error) {
-    console.warn('Failed to generate metadata:', error);
-  }
+// Generate metadata for each plan with better SEO
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const scheme = VESTING_SCHEMES.find(s => s.id === params.plan);
   
+  if (!scheme) {
+    return {
+      title: 'Plan Not Found - Bitcoin Benefit Calculator',
+      description: 'The requested vesting plan could not be found.'
+    };
+  }
+
   return {
-    title: 'Bitcoin Unlocking Calculator',
-    description: 'Calculate Bitcoin-based employee vesting schedules and projections.',
+    title: `${scheme.name} (${scheme.tagline}) - Bitcoin Vesting Calculator`,
+    description: `${scheme.description}. ${scheme.bestFor}. Calculate Bitcoin vesting schedules with ${scheme.riskLevel.toLowerCase()} risk over 20 years.`,
+    keywords: `bitcoin vesting, ${scheme.name.toLowerCase()}, ${scheme.tagline.toLowerCase()}, bitcoin compensation, crypto benefits`,
+    openGraph: {
+      title: `${scheme.name} Bitcoin Vesting Plan - ${scheme.tagline}`,
+      description: `${scheme.description}. Perfect for ${scheme.bestFor.toLowerCase()}.`,
+      type: 'website',
+      url: `/calculator/${params.plan}`,
+      images: [
+        {
+          url: `/og-${params.plan}.png`,
+          width: 1200,
+          height: 630,
+          alt: `${scheme.name} Bitcoin Vesting Calculator`
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${scheme.name} Bitcoin Vesting - ${scheme.tagline}`,
+      description: scheme.description,
+    },
+    alternates: {
+      canonical: `/calculator/${params.plan}`
+    }
   };
 }
 
-// Server component that renders client component
+// Server component with validation
 export default function CalculatorPlanPage({ params }: PageProps) {
   const scheme = VESTING_SCHEMES.find(s => s.id === params.plan);
+  
+  // Return 404 for invalid plans
+  if (!scheme) {
+    notFound();
+  }
   
   return <CalculatorPlanClient initialScheme={scheme} planId={params.plan} />;
 }

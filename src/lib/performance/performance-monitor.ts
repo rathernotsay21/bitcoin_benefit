@@ -1,199 +1,246 @@
 // Performance monitoring utility for Bitcoin Benefit platform
 // Optimized for minimal runtime overhead
 
-import { PerformanceMetrics, PerformanceThreshold, PERFORMANCE_THRESHOLDS } from '@/types/performance-optimized';
+import React from 'react';
+// Performance monitoring types
+interface PerformanceMetrics {
+  value: number;
+  type: 'timing' | 'count' | 'size' | 'cumulative';
+  timestamp: number;
+  count: number;
+}
 
-class PerformanceMonitor {
+interface MemoryUsage {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+}
+
+export class PerformanceMonitor {
   private static instance: PerformanceMonitor | null = null;
   private metrics: Map<string, PerformanceMetrics> = new Map();
   private observers: Set<PerformanceObserver> = new Set();
   private isEnabled: boolean = process.env.NODE_ENV === 'development';
-  
+  // Timer tracking for proper cleanup
+  private reportingIntervalId: NodeJS.Timeout | null = null;
+  private intervals: Set<NodeJS.Timeout> = new Set();
+  private timeouts: Set<NodeJS.Timeout> = new Set();
+
   private constructor() {
-    if (typeof window !== 'undefined' && this.isEnabled) {
+    if (this.isEnabled) {
       this.initializeObservers();
     }
   }
-  
+
   static getInstance(): PerformanceMonitor {
     if (!PerformanceMonitor.instance) {
       PerformanceMonitor.instance = new PerformanceMonitor();
     }
     return PerformanceMonitor.instance;
   }
-  
+
   private initializeObservers(): void {
-    // Monitor long tasks that block the main thread
-    if ('PerformanceObserver' in window) {
-      try {
-        const longTaskObserver = new PerformanceObserver((entries) => {
-          entries.getEntries().forEach((entry) => {
-            if (entry.duration > PERFORMANCE_THRESHOLDS.renderTime) {
-              this.recordMetric('long-task', {
-                renderTime: entry.duration,
-                bundleSize: 0,
-                memoryUsage: 0,
-                timestamp: Date.now()
-              });
-              
-              if (this.isEnabled) {
-                console.warn(`Long task detected: ${entry.duration.toFixed(2)}ms`);
-              }
+    // Monitor for layout shifts (CLS)
+    try {
+      const layoutShiftObserver = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.entryType === 'layout-shift') {
+            const layoutShift = entry as any;
+            if (!layoutShift.hadRecentInput) {
+              this.recordMetric('CLS', layoutShift.value, 'cumulative');
             }
-          });
-        });
-        
-        longTaskObserver.observe({ entryTypes: ['longtask'] });
-        this.observers.add(longTaskObserver);
-      } catch (e) {
-        // Long task observation not supported
-      }
-      
-      // Monitor layout shifts
-      try {
-        const clsObserver = new PerformanceObserver((entries) => {
-          entries.getEntries().forEach((entry: any) => {
-            if (entry.value > 0.1) { // CLS threshold
-              this.recordMetric('layout-shift', {
-                renderTime: entry.value * 1000, // Convert to ms equivalent
-                bundleSize: 0,
-                memoryUsage: 0,
-                timestamp: Date.now()
-              });
-            }
-          });
-        });
-        
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
-        this.observers.add(clsObserver);
-      } catch (e) {
-        // Layout shift observation not supported
-      }
+          }
+        }
+      });
+      layoutShiftObserver.observe({ type: 'layout-shift', buffered: true });
+      this.observers.add(layoutShiftObserver);
+    } catch (e) {
+      // PerformanceObserver may not be available in all environments
+    }
+
+    // Monitor for Largest Contentful Paint (LCP)
+    try {
+      const lcpObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        const lastEntry = entries[entries.length - 1] as any;
+        this.recordMetric('LCP', lastEntry.renderTime || lastEntry.loadTime, 'timing');
+      });
+      lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+      this.observers.add(lcpObserver);
+    } catch (e) {
+      // PerformanceObserver may not be available in all environments
+    }
+
+    // Monitor for First Input Delay (FID)
+    try {
+      const fidObserver = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.entryType === 'first-input') {
+            const firstInput = entry as any;
+            this.recordMetric('FID', firstInput.processingStart - firstInput.startTime, 'timing');
+          }
+        }
+      });
+      fidObserver.observe({ type: 'first-input', buffered: true });
+      this.observers.add(fidObserver);
+    } catch (e) {
+      // PerformanceObserver may not be available in all environments
     }
   }
-  
-  /**
-   * Record a performance metric with minimal overhead
-   */
-  recordMetric(name: string, metrics: PerformanceMetrics): void {
-    if (!this.isEnabled) return;
-    
-    this.metrics.set(name, metrics);
-    
-    // Check thresholds and warn if exceeded
-    if (metrics.renderTime > PERFORMANCE_THRESHOLDS.renderTime) {
-      console.warn(`Performance threshold exceeded for ${name}: ${metrics.renderTime.toFixed(2)}ms render time`);
-    }
-    
-    if (metrics.bundleSize > PERFORMANCE_THRESHOLDS.bundleSize) {
-      console.warn(`Bundle size threshold exceeded for ${name}: ${(metrics.bundleSize / 1024).toFixed(2)}KB`);
-    }
-  }
-  
-  /**
-   * Measure function execution time with minimal overhead
-   */
-  measureFunction<T extends (...args: any[]) => any>(
+
+  // Record a performance metric
+  recordMetric(
     name: string,
-    fn: T
+    value: number,
+    type: 'timing' | 'count' | 'size' | 'cumulative'
+  ): void {
+    if (!this.isEnabled) return;
+
+    this.metrics.set(name, {
+      value,
+      type,
+      timestamp: Date.now(),
+      count: type === 'cumulative' ? (this.metrics.get(name)?.count || 0) + 1 : 1
+    });
+  }
+
+  // Measure function execution time
+  measureFunction<T extends (...args: any[]) => any>(
+    fn: T,
+    name: string
   ): T {
     if (!this.isEnabled) return fn;
-    
+
     return ((...args: Parameters<T>) => {
       const start = performance.now();
-      const result = fn(...args);
-      const end = performance.now();
-      
-      this.recordMetric(name, {
-        renderTime: end - start,
-        bundleSize: 0,
-        memoryUsage: this.getCurrentMemoryUsage(),
-        timestamp: Date.now()
-      });
-      
-      return result;
+      try {
+        const result = fn(...args);
+        const duration = performance.now() - start;
+        this.recordMetric(`${name}_duration`, duration, 'timing');
+        return result;
+      } catch (error) {
+        const duration = performance.now() - start;
+        this.recordMetric(`${name}_error_duration`, duration, 'timing');
+        throw error;
+      }
     }) as T;
   }
-  
-  /**
-   * Measure async function execution time
-   */
+
+  // Measure async function execution time
   measureAsyncFunction<T extends (...args: any[]) => Promise<any>>(
-    name: string,
-    fn: T
+    fn: T,
+    name: string
   ): T {
     if (!this.isEnabled) return fn;
-    
+
     return (async (...args: Parameters<T>) => {
       const start = performance.now();
-      const result = await fn(...args);
-      const end = performance.now();
-      
-      this.recordMetric(name, {
-        renderTime: end - start,
-        bundleSize: 0,
-        memoryUsage: this.getCurrentMemoryUsage(),
-        timestamp: Date.now()
-      });
-      
-      return result;
+      try {
+        const result = await fn(...args);
+        const duration = performance.now() - start;
+        this.recordMetric(`${name}_duration`, duration, 'timing');
+        return result;
+      } catch (error) {
+        const duration = performance.now() - start;
+        this.recordMetric(`${name}_error_duration`, duration, 'timing');
+        throw error;
+      }
     }) as T;
   }
-  
-  /**
-   * Get current memory usage (if available)
-   */
-  private getCurrentMemoryUsage(): number {
-    if (typeof window !== 'undefined' && 'performance' in window && 'memory' in performance) {
-      return (performance as any).memory.usedJSHeapSize / 1024 / 1024; // MB
+
+  // Get current memory usage
+  static getCurrentMemoryUsage(): MemoryUsage | null {
+    if (typeof window !== 'undefined' && 'memory' in performance) {
+      return (performance as any).memory;
     }
-    return 0;
+    return null;
   }
-  
-  /**
-   * Get performance metrics for a specific operation
-   */
-  getMetrics(name: string): PerformanceMetrics | null {
-    return this.metrics.get(name) || null;
+
+  // Get specific metric
+  getMetrics(name: string): PerformanceMetrics | undefined {
+    return this.metrics.get(name);
   }
-  
-  /**
-   * Get all recorded metrics
-   */
-  getAllMetrics(): Record<string, PerformanceMetrics> {
-    const result: Record<string, PerformanceMetrics> = {};
-    this.metrics.forEach((value, key) => {
-      result[key] = value;
-    });
-    return result;
+
+  // Get all metrics
+  getAllMetrics(): Map<string, PerformanceMetrics> {
+    return new Map(this.metrics);
   }
-  
-  /**
-   * Clear all recorded metrics
-   */
+
+  // Clear all metrics
   clearMetrics(): void {
     this.metrics.clear();
   }
-  
+
   /**
-   * Cleanup observers
+   * Start periodic reporting of metrics
    */
+  startReporting(intervalMs: number = 30000): void {
+    if (!this.isEnabled || this.reportingIntervalId) return;
+    
+    this.reportingIntervalId = setInterval(() => {
+      this.reportToAnalytics();
+      this.cleanupOldMetrics();
+    }, intervalMs);
+    
+    this.intervals.add(this.reportingIntervalId);
+  }
+
+  /**
+   * Stop periodic reporting
+   */
+  stopReporting(): void {
+    if (this.reportingIntervalId) {
+      clearInterval(this.reportingIntervalId);
+      this.intervals.delete(this.reportingIntervalId);
+      this.reportingIntervalId = null;
+    }
+  }
+
+  /**
+   * Clean up old metrics to prevent memory bloat
+   */
+  private cleanupOldMetrics(): void {
+    const now = Date.now();
+    const maxAge = 5 * 60 * 1000; // 5 minutes
+    
+    for (const [name, metrics] of this.metrics.entries()) {
+      if (now - metrics.timestamp > maxAge) {
+        this.metrics.delete(name);
+      }
+    }
+  }
+
+  // Clean up observers and resources
   cleanup(): void {
+    // Stop periodic reporting
+    this.stopReporting();
+    
+    // Clear all intervals
+    this.intervals.forEach(intervalId => {
+      clearInterval(intervalId);
+    });
+    this.intervals.clear();
+    
+    // Clear all timeouts
+    this.timeouts.forEach(timeoutId => {
+      clearTimeout(timeoutId);
+    });
+    this.timeouts.clear();
+    
+    // Clean up observers
     this.observers.forEach(observer => {
       observer.disconnect();
     });
     this.observers.clear();
     this.metrics.clear();
   }
-  
-  /**
-   * Report performance metrics to analytics (if configured)
-   */
+
+  // Report metrics to analytics service
   reportToAnalytics(): void {
     if (!this.isEnabled || this.metrics.size === 0) return;
-    
-    const metrics = this.getAllMetrics();
-    
+
+    // In production, this would send metrics to an analytics service
+    console.log('[Performance Monitor] Current metrics:', Object.fromEntries(this.metrics));
   }
 }
 
@@ -222,7 +269,7 @@ export function withPerformanceMonitoring<P extends object>(
       };
     });
     
-    return React.createElement(MemoizedComponent, props);
+    return React.createElement(MemoizedComponent, props as any);
   });
 }
 

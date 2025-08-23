@@ -329,10 +329,10 @@ class APISecurityMiddleware {
     // SECURITY FIX: Proper JWT verification with signature validation
     try {
       // Get JWT secret from environment variables
-      const jwtSecret = process.env.JWT_SECRET || process.env.NEXT_PUBLIC_JWT_SECRET;
+      const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
         console.error('JWT_SECRET not configured in environment variables');
-        return false;
+        throw new Error('JWT_SECRET environment variable is required');
       }
 
       // Verify JWT with proper signature validation
@@ -431,7 +431,10 @@ class APISecurityMiddleware {
   }
 
   private generateSignature(method: string, url: string, body: string, timestamp: string): string {
-    const secret = process.env.REQUEST_SIGNATURE_SECRET || 'default-secret';
+    const secret = process.env.REQUEST_SIGNATURE_SECRET;
+    if (!secret) {
+      throw new Error('REQUEST_SIGNATURE_SECRET environment variable is required');
+    }
     const message = `${method}|${url}|${body}|${timestamp}`;
     
     return crypto
