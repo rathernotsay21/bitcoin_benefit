@@ -260,6 +260,7 @@ async function getHistoricalBitcoinData() {
 
   completedYears.forEach(year => {
     historicalData[year] = {
+      year: year,  // Add the year field
       ...STATIC_HISTORICAL_DATA[year],
       source: 'static'
     };

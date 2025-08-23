@@ -36,8 +36,16 @@ export default function SchemeTabSelector({
     
     // Update URL to maintain scheme selection
     if (typeof window !== 'undefined') {
-      const url = `/${currentPath}/${value}`;
-      window.history.replaceState(null, '', url);
+      if (currentPath === 'calculator') {
+        // Calculator uses path params
+        const url = `/${currentPath}/${value}`;
+        window.history.replaceState(null, '', url);
+      } else {
+        // Historical and other pages use query params
+        const url = new URL(window.location.href);
+        url.searchParams.set('scheme', value);
+        window.history.replaceState(null, '', url.toString());
+      }
     }
   }, [onSchemeSelect, currentPath]);
 

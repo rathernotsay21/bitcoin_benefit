@@ -147,8 +147,15 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
     },
   
   fetchHistoricalData: async () => {
-    const { startingYear } = get();
+    const { startingYear, staticDataLoaded, historicalPrices: existingPrices } = get();
     const currentYear = new Date().getFullYear();
+    
+    // If we already have valid historical prices from static data, skip fetching
+    if (staticDataLoaded && Object.keys(existingPrices).length > 0) {
+      // Just trigger calculation with existing data
+      get().calculateHistoricalResults();
+      return;
+    }
     
     set({ 
       isLoadingHistoricalData: true, 
@@ -328,6 +335,9 @@ export const useHistoricalCalculatorStore = create<HistoricalCalculatorState>((s
           historicalPrices: historicalData,
           staticDataLoaded: true,
         });
+        
+        // Auto-calculate after loading static data
+        get().calculateHistoricalResults();
       }
       
       // Process Bitcoin price (already fetched in parallel)

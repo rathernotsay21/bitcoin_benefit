@@ -1,5 +1,6 @@
 {
   "2015": {
+    "year": 2015,
     "high": 504,
     "low": 152,
     "average": 264,
@@ -8,6 +9,7 @@
     "source": "static"
   },
   "2016": {
+    "year": 2016,
     "high": 975,
     "low": 365,
     "average": 574,
@@ -16,6 +18,7 @@
     "source": "static"
   },
   "2017": {
+    "year": 2017,
     "high": 19783,
     "low": 775,
     "average": 4951,
@@ -24,6 +27,7 @@
     "source": "static"
   },
   "2018": {
+    "year": 2018,
     "high": 17527,
     "low": 3191,
     "average": 7532,
@@ -32,6 +36,7 @@
     "source": "static"
   },
   "2019": {
+    "year": 2019,
     "high": 13016,
     "low": 3391,
     "average": 7179,
@@ -40,6 +45,7 @@
     "source": "static"
   },
   "2020": {
+    "year": 2020,
     "high": 28994,
     "low": 4106,
     "average": 11111,
@@ -48,6 +54,7 @@
     "source": "static"
   },
   "2021": {
+    "year": 2021,
     "high": 68789,
     "low": 28994,
     "average": 47686,
@@ -56,6 +63,7 @@
     "source": "static"
   },
   "2022": {
+    "year": 2022,
     "high": 48086,
     "low": 15460,
     "average": 31717,
@@ -64,6 +72,7 @@
     "source": "static"
   },
   "2023": {
+    "year": 2023,
     "high": 44700,
     "low": 15460,
     "average": 29234,
@@ -72,6 +81,7 @@
     "source": "static"
   },
   "2024": {
+    "year": 2024,
     "high": 108000,
     "low": 38000,
     "average": 65000,
@@ -88,6 +98,6 @@
     "close": 116834.25,
     "dataPoints": 234,
     "source": "live",
-    "lastUpdated": "2025-08-23T18:36:25.118Z"
+    "lastUpdated": "2025-08-23T23:01:03.892Z"
   }
 }
