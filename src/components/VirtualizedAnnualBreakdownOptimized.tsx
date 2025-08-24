@@ -211,10 +211,13 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
   const shouldVirtualize = displayYears > 5;
 
   return (
-    <div className="mt-8">
+    <div>
       <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
         Annual Breakdown
       </h4>
+      <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
+        Here's a breakdown year by year. You can see the potential cash value of the award each year and what percentage of it the employee officially owns (has "unlocked").
+      </p>
 
       {/* Table Container */}
       <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
@@ -226,7 +229,7 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
           <div className="flex-none w-16 sm:w-24 lg:w-28">Status</div>
           
           {/* Desktop-only headers */}
-          <div className="hidden lg:block flex-none w-24">Grant</div>
+          <div className="hidden lg:block flex-none w-24">Award</div>
           <div className="hidden lg:block flex-none w-20">BTC Price</div>
           <div className="hidden lg:block flex-none w-16">Growth</div>
         </div>

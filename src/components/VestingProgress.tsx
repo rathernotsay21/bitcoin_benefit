@@ -232,7 +232,7 @@ export default function VestingProgress({
             Unlock Timeline
           </span>
           <span className="text-sm text-gray-500 dark:text-slate-400">
-            Change Plans and pick an Unlocking Schedule
+            Try changing the plan and unlock schedule
           </span>
         </div>
         

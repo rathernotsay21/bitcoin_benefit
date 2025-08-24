@@ -20,6 +20,7 @@ import VestingProgress from '@/components/VestingProgress';
 import MetricCards from '@/components/MetricCards';
 import SchemeTabSelector from '@/components/SchemeTabSelector';
 import FinancialDisclaimer from '@/components/FinancialDisclaimer';
+import VirtualizedAnnualBreakdown from '@/components/VirtualizedAnnualBreakdownOptimized';
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
@@ -465,13 +466,33 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               )}
             </CalculatorErrorBoundary>
 
+            {/* Annual Breakdown Table */}
+            {results && displayScheme && (
+              <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6">
+                <VirtualizedAnnualBreakdown
+                  yearlyData={results.timeline.filter((_, i) => i % 12 === 0).map((point, year) => ({
+                    year,
+                    btcBalance: point.employerBalance || 0,
+                    usdValue: (point.employerBalance || 0) * (point.bitcoinPrice || currentBitcoinPrice),
+                    bitcoinPrice: point.bitcoinPrice || currentBitcoinPrice,
+                    vestedAmount: point.vestedAmount || 0,
+                    vestingPercent: year >= 10 ? 100 : year >= 5 ? 50 : 0,
+                    grantSize: year === 0 ? displayScheme.initialGrant : (displayScheme.annualGrant || 0),
+                    grantCost: 0,
+                    isInitialGrant: year === 0
+                  }))}
+                  initialGrant={displayScheme.initialGrant}
+                  annualGrant={displayScheme.annualGrant}
+                  currentBitcoinPrice={currentBitcoinPrice}
+                  schemeId={displayScheme.id}
+                  maxDisplayYears={11}
+                  customVestingEvents={displayScheme.customVestingEvents}
+                />
+              </div>
+            )}
+
             {/* Unlocking Timeline Chart */}
-            <div className="mb-6 px-6 py-6 bg-green-50/50 dark:bg-green-900/20 rounded-lg">
-              <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                The 10-year projection chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
-              </p>
-            </div>
-            <div className="card w-full overflow-hidden">
+            <div className="card w-full overflow-hidden mt-8 md:mt-10">
               <ChartErrorBoundary>
                 {results && displayScheme ? (
                   <VestingTimelineChart

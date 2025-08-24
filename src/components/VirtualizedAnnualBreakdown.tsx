@@ -174,6 +174,9 @@ function VirtualizedAnnualBreakdown({
   return (
     <div className="mt-6 w-full overflow-hidden">
       <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Annual Breakdown</h4>
+      <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
+        Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "unlocked").
+      </p>
       
       {/* Header */}
       <div className="overflow-x-auto rounded-t-xl shadow-lg w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 border-x border-t border-gray-200 dark:border-slate-700">

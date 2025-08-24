@@ -13,7 +13,6 @@ import {
 } from 'recharts';
 import { getMobileChartConfig, optimizeChartData } from '@/components/charts/RechartsOptimized';
 import { VestingTimelinePoint } from '@/types/vesting';
-import VirtualizedAnnualBreakdown from './VirtualizedAnnualBreakdownOptimized';
 
 interface VestingTimelineChartProps {
   timeline: VestingTimelinePoint[];
@@ -282,7 +281,7 @@ const SimplifiedChart: React.FC<{ data: any[] }> = ({ data }) => {
           Bitcoin Price Projection (Simplified View)
         </h3>
       </div>
-      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+      <div className="w-full overflow-hidden">
         <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
           <div className="text-center text-gray-500 dark:text-slate-400">
             <div className="text-4xl mb-2">⚡</div>
@@ -596,7 +595,7 @@ function VestingTimelineChartRecharts({
             Bitcoin Price Projection
           </h3>
         </div>
-        <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+        <div className="w-full overflow-hidden">
           <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
             <div className="text-center text-gray-500 dark:text-slate-400">
               <div className="text-4xl mb-2">📊</div>
@@ -614,6 +613,9 @@ function VestingTimelineChartRecharts({
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
           Bitcoin Price Projection
         </h3>
+        <p className="text-base text-gray-600 dark:text-gray-400 mb-3">
+          The 10-year projection chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
+        </p>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
           <span className="flex items-center gap-1">
             <span className="font-medium">Initial:</span>
@@ -659,7 +661,7 @@ function VestingTimelineChartRecharts({
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
+      <div className="w-full overflow-hidden">
         <ResponsiveContainer 
           width="100%" 
           height={chartConfig.height} 
@@ -789,25 +791,6 @@ function VestingTimelineChartRecharts({
       </div>
 
       {/* Enhanced Key Insights Cards */}
-
-
-      {/* Virtualized Annual Breakdown Table */}
-      <div className="mt-6 mb-4">
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-          <p className="text-base text-gray-700 dark:text-slate-300 leading-relaxed">
-            Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "vested").
-          </p>
-        </div>
-      </div>
-      <VirtualizedAnnualBreakdown
-        yearlyData={yearlyData}
-        initialGrant={initialGrant}
-        annualGrant={annualGrant}
-        currentBitcoinPrice={currentBitcoinPrice}
-        schemeId={schemeId}
-        maxDisplayYears={11}
-        customVestingEvents={customVestingEvents}
-      />
     </div>
   );
 }

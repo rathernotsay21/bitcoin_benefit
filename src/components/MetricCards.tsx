@@ -94,7 +94,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
   // Defensive checks
   if (!displayScheme || typeof currentBitcoinPrice !== 'number' || currentBitcoinPrice <= 0 || !inputs) {
     return (
-      <div className="w-full mb-6">
+      <div className="w-full my-8 md:my-12">
         <div className="card">
           <div className="text-center text-gray-500 dark:text-slate-400 py-8">
             <div className="text-4xl mb-2">📊</div>
@@ -388,7 +388,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
   ];
 
   return (
-    <div className="w-full mb-6">
+    <div className="w-full my-8 md:my-12">
       <div className="relative px-12">
         <Carousel
           opts={{
