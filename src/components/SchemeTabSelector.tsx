@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { VestingScheme } from '@/types/vesting';
-import { RocketLaunchIcon, ChartBarIcon, BuildingOfficeIcon } from '@heroicons/react/24/solid';
+import { BitcoinIcon, SatoshiIcon, MiningOutlineIcon } from '@/components/icons';
 
 interface SchemeTabSelectorProps {
   selectedScheme: VestingScheme | null;
@@ -21,13 +21,13 @@ export default function SchemeTabSelector({
   const getSchemeIcon = useCallback((iconName: string) => {
     switch (iconName) {
       case 'rocket':
-        return RocketLaunchIcon;
+        return BitcoinIcon;
       case 'chart-trending-up':
-        return ChartBarIcon;
+        return SatoshiIcon;
       case 'building-office':
-        return BuildingOfficeIcon;
+        return MiningOutlineIcon;
       default:
-        return RocketLaunchIcon;
+        return BitcoinIcon;
     }
   }, []);
   

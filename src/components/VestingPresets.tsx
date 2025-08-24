@@ -2,6 +2,7 @@
 
 import React, { useCallback } from 'react';
 import { CustomVestingEvent } from '@/types/vesting';
+import { GiftIcon, ShieldCheckIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 
 interface VestingPresetsProps {
   schemeId: string;
@@ -15,6 +16,7 @@ const VESTING_PRESETS = {
     id: 'reward',
     name: 'Reward',
     description: 'Long-term loyalty rewards',
+    icon: GiftIcon,
     events: [
       { id: 'reward-1', timePeriod: 60, percentageVested: 50, label: 'Year 5' },
       { id: 'reward-2', timePeriod: 120, percentageVested: 100, label: 'Year 10' },
@@ -24,6 +26,7 @@ const VESTING_PRESETS = {
     id: 'retain',
     name: 'Retain',
     description: 'Steady, predictable unlocking path',
+    icon: ShieldCheckIcon,
     events: [
       { id: 'retain-1', timePeriod: 12, percentageVested: 20, label: 'Year 1' },
       { id: 'retain-2', timePeriod: 24, percentageVested: 40, label: 'Year 2' },
@@ -36,6 +39,7 @@ const VESTING_PRESETS = {
     id: 'recruit',
     name: 'Recruit',
     description: 'Fast unlocking to attract new talent',
+    icon: UserPlusIcon,
     events: [
       { id: 'recruit-1', timePeriod: 3, percentageVested: 10, label: '90 Days' },
       { id: 'recruit-2', timePeriod: 12, percentageVested: 40, label: 'Year 1' },
@@ -63,20 +67,22 @@ export default function VestingPresets({
   return (
     <div className="mt-6 p-4">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
-        Unlocking Schedule
+        Choose an Unlocking Schedule
       </h4>
       
       {/* Preset Selection Buttons - Fixed Responsive Layout */}
       <div className="flex flex-row gap-2 mb-4">
-        {Object.values(VESTING_PRESETS).map((preset) => (
-          <button
-            key={preset.id}
-            onClick={() => handlePresetSelect(preset.id)}
-            className={`flex-1 min-w-0 px-2 sm:px-3 py-2.5 sm:py-2 rounded-lg border-2 transition-all duration-300 relative ${
-              selectedPreset === preset.id
-                ? 'border-bitcoin shadow-lg bg-white dark:bg-slate-800'
-                : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
-            }`}
+        {Object.values(VESTING_PRESETS).map((preset) => {
+          const IconComponent = preset.icon;
+          return (
+            <button
+              key={preset.id}
+              onClick={() => handlePresetSelect(preset.id)}
+              className={`flex-1 min-w-0 flex flex-col items-center px-2 sm:px-3 py-2 rounded-lg border-2 transition-all duration-300 relative group ${
+                selectedPreset === preset.id
+                  ? 'border-bitcoin shadow-lg bg-white dark:bg-slate-800'
+                  : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
+              }`}
             style={selectedPreset === preset.id ? {
               backgroundImage: `
                 linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
@@ -90,16 +96,22 @@ export default function VestingPresets({
               backgroundPosition: '0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px',
               backgroundColor: isDarkMode ? '#1e293b' : '#ffffff'
             } : {}}
-          >
-            <div className={`text-sm sm:text-base truncate relative z-10 ${
-              selectedPreset === preset.id 
-                ? 'font-bold text-black' 
-                : 'font-normal text-black dark:text-white'
-            }`}>
-              {preset.name}
-            </div>
-          </button>
-        ))}
+            >
+              <IconComponent className={`w-5 h-5 mb-1 transition-transform duration-300 group-hover:scale-110 ${
+                selectedPreset === preset.id 
+                  ? 'text-bitcoin scale-110' 
+                  : 'text-gray-600 dark:text-gray-400'
+              }`} />
+              <span className={`text-xs font-semibold leading-tight text-center ${
+                selectedPreset === preset.id 
+                  ? 'text-black dark:text-white' 
+                  : 'text-gray-700 dark:text-gray-300'
+              }`}>
+                {preset.name}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Display Selected Preset Schedule */}

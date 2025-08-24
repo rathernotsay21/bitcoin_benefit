@@ -2,7 +2,8 @@
 
 import React, { useMemo } from 'react';
 import { VestingScheme, CustomVestingEvent } from '@/types/vesting';
-import { ClockIcon, CalendarIcon, RocketLaunchIcon, BuildingOfficeIcon, ChartBarIcon } from '@heroicons/react/24/solid';
+import { ClockIcon, CalendarIcon } from '@heroicons/react/24/solid';
+import { BitcoinIcon, SatoshiIcon, MiningOutlineIcon } from '@/components/icons';
 import HelpTooltip from '@/components/HelpTooltip';
 import { HELP_CONTENT } from '@/lib/help-content';
 
@@ -31,7 +32,7 @@ interface VestingProgressData {
 const STRATEGY_CONFIG = {
   accelerator: {
     name: 'The Pioneer Plan',
-    icon: RocketLaunchIcon,
+    icon: BitcoinIcon,
     colors: {
       primary: 'from-orange-500 to-red-500',
       secondary: 'from-orange-100 to-red-100',
@@ -46,7 +47,7 @@ const STRATEGY_CONFIG = {
   },
   'steady-builder': {
     name: 'The Stacker Plan',
-    icon: ChartBarIcon,
+    icon: SatoshiIcon,
     colors: {
       primary: 'from-green-500 to-emerald-500',
       secondary: 'from-green-100 to-emerald-100',
@@ -61,7 +62,7 @@ const STRATEGY_CONFIG = {
   },
   'slow-burn': {
     name: 'The Builder Plan',
-    icon: BuildingOfficeIcon,
+    icon: MiningOutlineIcon,
     colors: {
       primary: 'from-blue-500 to-teal-500',
       secondary: 'from-blue-100 to-teal-100',
