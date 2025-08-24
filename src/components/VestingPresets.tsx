@@ -11,7 +11,7 @@ interface VestingPresetsProps {
 }
 
 // Define the three preset vesting schedules
-const VESTING_PRESETS = {
+export const VESTING_PRESETS = {
   reward: {
     id: 'reward',
     name: 'Reward',

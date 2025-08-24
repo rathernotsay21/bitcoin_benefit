@@ -14,7 +14,7 @@ import { CogIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import { MetricCardsSkeleton } from '@/components/loading/EnhancedSkeletons';
-import VestingPresets from '@/components/VestingPresets';
+import VestingPresets, { VESTING_PRESETS } from '@/components/VestingPresets';
 import CustomVestingSchedule from '@/components/CustomVestingSchedule';
 import VestingProgress from '@/components/VestingProgress';
 import MetricCards from '@/components/MetricCards';
@@ -131,15 +131,30 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
     const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
     if (scheme) {
       setSelectedScheme(scheme);
-      // DO NOT apply any preset automatically when switching schemes
-      // Clear any custom events to show the plan's default schedule
+      
+      // Clear any existing custom events for the new scheme
       const currentEvents = schemeCustomizations[schemeId]?.customVestingEvents || [];
       currentEvents.forEach(event => removeCustomVestingEvent(schemeId, event.id));
-      setSelectedVestingPreset('');
+      
+      // If a preset is currently selected, apply it to the new scheme
+      if (selectedVestingPreset && VESTING_PRESETS[selectedVestingPreset as keyof typeof VESTING_PRESETS]) {
+        const preset = VESTING_PRESETS[selectedVestingPreset as keyof typeof VESTING_PRESETS];
+        // Create new events with unique IDs using timestamp and index
+        const timestamp = Date.now();
+        const presetEvents = preset.events.map((event, index) => ({
+          ...event,
+          id: `${selectedVestingPreset}-${timestamp}-${index}` // More robust ID generation
+        }));
+        
+        // Apply the preset events to the new scheme
+        presetEvents.forEach(event => addCustomVestingEvent(schemeId, event));
+      }
+      // Preserve the preset selection - don't clear it
+      
       // Update URL without page reload
       window.history.replaceState(null, '', `/calculator/${schemeId}`);
     }
-  }, [setSelectedScheme, schemeCustomizations, removeCustomVestingEvent]);
+  }, [setSelectedScheme, schemeCustomizations, removeCustomVestingEvent, selectedVestingPreset, addCustomVestingEvent]);
 
   const displayScheme = selectedScheme ? getEffectiveScheme(selectedScheme) : null;
   
@@ -487,7 +502,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   currentBitcoinPrice={currentBitcoinPrice}
                   schemeId={displayScheme.id}
                   maxDisplayYears={11}
-                  customVestingEvents={displayScheme.customVestingEvents}
                 />
               </div>
             )}

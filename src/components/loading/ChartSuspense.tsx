@@ -6,21 +6,15 @@ import { ChartSkeleton, CompactChartSkeleton, HistoricalChartSkeleton } from './
 
 // Lazy load heavy chart components with better performance
 export const LazyVestingTimelineChart = lazy(() => 
-  import('@/components/VestingTimelineChartRecharts').then(module => ({
-    default: module.default
-  }))
+  import('@/components/VestingTimelineChartRecharts')
 );
 
 export const LazyHistoricalTimelineVisualization = lazy(() => 
-  import('@/components/HistoricalTimelineVisualizationOptimized').then(module => ({
-    default: module.default
-  }))
+  import('@/components/HistoricalTimelineVisualizationOptimized')
 );
 
 export const LazyVirtualizedAnnualBreakdown = lazy(() => 
-  import('@/components/VirtualizedAnnualBreakdownOptimized').then(module => ({
-    default: module.default
-  }))
+  import('@/components/VirtualizedAnnualBreakdownOptimized')
 );
 
 // Suspense wrapper with error boundaries

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useOnChainStore } from '@/stores/onChainStore';
 // Lazy load heavy components for better performance with loading states
 const VestingTrackerFormOptimized = dynamic(
@@ -52,8 +53,6 @@ import {
   LockClosedIcon,
   BoltIcon
 } from '@heroicons/react/24/outline';
-
-import dynamic from 'next/dynamic';
 
 // Privacy Disclaimer Component
 function PrivacyDisclaimer() {

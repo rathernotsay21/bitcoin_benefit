@@ -1,11 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-// Optimize icon imports
-import dynamic from 'next/dynamic';
-const InformationCircleIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.InformationCircleIcon })), { ssr: false });
-const ChevronDownIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ChevronDownIcon })), { ssr: false });
-const ChevronUpIcon = dynamic(() => import('@heroicons/react/24/outline').then(mod => ({ default: mod.ChevronUpIcon })), { ssr: false });
+import { InformationCircleIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 interface TooltipProps {
   content: string;

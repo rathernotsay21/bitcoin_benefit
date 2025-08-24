@@ -10,3 +10,40 @@
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-24 12:25:48.940"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-24 13:18:33.000"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-24 13:18:33.001"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-24 14:08:12.211"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-24 14:08:12.212"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:20.556","tool":"puppeteer_connect_active_tab"}
+{"0":"n","1":"p","2":"x","level":"info","message":"Launching browser with config:","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:20.556"}
+{"level":"info","message":"Browser launched successfully","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:21.212"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:21.224","wsEndpoint":"ws://localhost:9222/devtools/browser/5beb712e-be88-447f-9bc7-3043f2e78b9d"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:21.225"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:21.231"}
+{"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:21.236","title":"Plan Not Found - Bitcoin Benefit Calculator | Bitcoin Benefit Calculator","url":"http://localhost:3000/calculator/pioneer"}
+{"arguments":{"name":"calculator-error"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:27.469","tool":"puppeteer_screenshot"}
+{"arguments":{"url":"http://localhost:3000"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:33.599","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:33.599","url":"http://localhost:3000"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-24 14:20:35.418","url":"http://localhost:3000"}
+{"arguments":{"name":"homepage-status"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:43.762","tool":"puppeteer_screenshot"}
+{"arguments":{"selector":"a[href=\"/calculator\"]"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:20:56.982","tool":"puppeteer_click"}
+{"arguments":{"selector":"button"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:21:01.627","tool":"puppeteer_click"}
+{"arguments":{"url":"http://localhost:3000/calculator"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:21:05.301","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-24 14:21:05.301","url":"http://localhost:3000/calculator"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-24 14:21:06.385","url":"http://localhost:3000/calculator"}
+{"arguments":{"name":"calculator-page"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:21:11.602","tool":"puppeteer_screenshot"}
+{"arguments":{"url":"http://localhost:3000"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:26:36.668","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-24 14:26:36.668","url":"http://localhost:3000"}
+{"error":"HTTP error: 500 Internal Server Error","level":"error","message":"Navigation failed","service":"mcp-puppeteer","timestamp":"2025-08-24 14:26:40.694","url":"http://localhost:3000"}
+{"arguments":{"url":"http://localhost:3000"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:06.672","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:06.672","url":"http://localhost:3000"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-24 14:27:07.575","url":"http://localhost:3000"}
+{"arguments":{"name":"homepage-working"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:13.124","tool":"puppeteer_screenshot"}
+{"arguments":{"url":"http://localhost:3000/calculator/pioneer"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:17.619","tool":"puppeteer_navigate"}
+{"level":"info","message":"Navigating to URL","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:17.619","url":"http://localhost:3000/calculator/pioneer"}
+{"level":"info","message":"Navigation successful","service":"mcp-puppeteer","status":200,"timestamp":"2025-08-24 14:27:18.670","url":"http://localhost:3000/calculator/pioneer"}
+{"arguments":{"name":"calculator-working"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:22.840","tool":"puppeteer_screenshot"}
+{"arguments":{"selector":"button:has-text(\"Pioneer\")"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:29.632","tool":"puppeteer_click"}
+{"arguments":{"selector":"button"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:33.923","tool":"puppeteer_click"}
+{"arguments":{"selector":"a"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:38.189","tool":"puppeteer_click"}
+{"arguments":{"name":"calculator-final"},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-24 14:27:43.027","tool":"puppeteer_screenshot"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-24 14:34:09.314"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-24 14:34:09.315"}

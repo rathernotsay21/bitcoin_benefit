@@ -23,7 +23,7 @@ ChartLoadingSkeleton.displayName = 'ChartLoadingSkeleton';
 
 // Ultra-lazy chart imports - only load when actually needed
 export const LazyVestingChart = dynamic(
-  () => import('@/components/VestingTimelineChartRecharts').then(mod => ({ default: mod.default })),
+  () => import('@/components/VestingTimelineChartRecharts'),
   {
     loading: () => <ChartLoadingSkeleton />,
     ssr: false,
@@ -31,7 +31,7 @@ export const LazyVestingChart = dynamic(
 );
 
 export const LazyHistoricalChart = dynamic(
-  () => import('@/components/HistoricalTimelineVisualizationOptimized').then(mod => ({ default: mod.default })),
+  () => import('@/components/HistoricalTimelineVisualizationOptimized'),
   {
     loading: () => <ChartLoadingSkeleton />,
     ssr: false,
@@ -40,7 +40,7 @@ export const LazyHistoricalChart = dynamic(
 
 // Virtualized table with intersection observer
 export const LazyVirtualizedTable = dynamic(
-  () => import('@/components/VirtualizedAnnualBreakdownOptimized').then(mod => ({ default: mod.default })),
+  () => import('@/components/VirtualizedAnnualBreakdownOptimized'),
   {
     loading: () => (
       <div className="h-64 bg-gray-50 dark:bg-slate-800 rounded-sm flex items-center justify-center">

@@ -7,9 +7,7 @@ import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useTheme } from '@/components/ThemeProvider';
-// Optimize icon imports - only load what's actually used
-import dynamic from 'next/dynamic';
-const ClockIcon = dynamic(() => import('@heroicons/react/24/solid').then(mod => ({ default: mod.ClockIcon })), { ssr: false });
+import { ClockIcon } from '@heroicons/react/24/solid';
 import { MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon } from '@/components/icons';
 import Particles from '@/components/ui/particles';
 // Remove unused imports

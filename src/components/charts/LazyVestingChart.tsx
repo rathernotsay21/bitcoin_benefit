@@ -3,7 +3,7 @@ import { ChartSkeleton } from '@/components/loading/ChartSkeleton';
 
 // Lazy load the main vesting chart with proper loading state
 export const LazyVestingTimelineChart = dynamic(
-  () => import('@/components/VestingTimelineChartRecharts').then(mod => mod.default),
+  () => import('@/components/VestingTimelineChartRecharts'),
   {
     ssr: false,
     loading: () => <ChartSkeleton />
@@ -12,7 +12,7 @@ export const LazyVestingTimelineChart = dynamic(
 
 // Lazy load the optimized chart version
 export const LazyVestingTimelineChartOptimized = dynamic(
-  () => import('@/components/VestingTimelineChartOptimized').then(mod => mod.default),
+  () => import('@/components/VestingTimelineChartOptimized'),
   {
     ssr: false,
     loading: () => <ChartSkeleton />
@@ -21,7 +21,7 @@ export const LazyVestingTimelineChartOptimized = dynamic(
 
 // Lazy load historical chart
 export const LazyHistoricalTimelineChart = dynamic(
-  () => import('@/components/HistoricalTimelineVisualizationOptimized').then(mod => mod.default),
+  () => import('@/components/HistoricalTimelineVisualizationOptimized'),
   {
     ssr: false,
     loading: () => <ChartSkeleton />

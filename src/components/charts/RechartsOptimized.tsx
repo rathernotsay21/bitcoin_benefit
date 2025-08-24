@@ -2,31 +2,17 @@
 
 import React, { lazy, Suspense, memo } from 'react';
 
-// Ultra-optimized recharts imports - load only what's needed when needed
-const RechartsCore = lazy(() => 
-  import('recharts').then(module => ({
-    default: {
-      Line: module.Line,
-      XAxis: module.XAxis,
-      YAxis: module.YAxis,
-      CartesianGrid: module.CartesianGrid,
-      Tooltip: module.Tooltip,
-      Legend: module.Legend,
-      ResponsiveContainer: module.ResponsiveContainer,
-      ComposedChart: module.ComposedChart
-    }
-  }))
-);
-
-// Individual component lazy loading for maximum tree shaking
-const Line = lazy(() => import('recharts/es6/cartesian/Line'));
-const XAxis = lazy(() => import('recharts/es6/cartesian/XAxis'));
-const YAxis = lazy(() => import('recharts/es6/cartesian/YAxis'));
-const CartesianGrid = lazy(() => import('recharts/es6/cartesian/CartesianGrid'));
-const Tooltip = lazy(() => import('recharts/es6/component/Tooltip'));
-const Legend = lazy(() => import('recharts/es6/component/Legend'));
-const ResponsiveContainer = lazy(() => import('recharts/es6/component/ResponsiveContainer'));
-const ComposedChart = lazy(() => import('recharts/es6/chart/ComposedChart'));
+// Import recharts components directly to avoid type issues
+import {
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ComposedChart
+} from 'recharts';
 
 // Lightweight loading fallback for chart components
 const ChartComponentFallback = () => (
