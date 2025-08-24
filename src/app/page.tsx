@@ -7,9 +7,9 @@ import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useTheme } from '@/components/ThemeProvider';
-import { ClockIcon } from '@heroicons/react/24/solid';
-import { MiningOutlineIcon, BitcoinIcon, BitcoinCircleOutlineIcon, SatoshiIcon } from '@/components/icons';
+import { MiningOutlineIcon, BitcoinIcon, SatoshiIcon } from '@/components/icons';
 import Particles from '@/components/ui/particles';
+import { HeroButtons } from '@/components/HeroButtons';
 // Remove unused imports
 // import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
 
@@ -82,16 +82,7 @@ export default function HomePage() {
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
               No-nonsense benefits that grow stronger over time.
             </p>
-            <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/calculator" className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 backdrop-blur-sm">
-                <BitcoinCircleOutlineIcon className="w-8 h-8" />
-                <span>Build Your Plan</span>
-              </Link>
-              <Link href="/historical" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 rounded-sm font-bold">
-                <ClockIcon className="w-6 h-6" />
-                <span>See the Proof</span>
-              </Link>
-            </div>
+            <HeroButtons />
           </div>
         </div>
       </section>

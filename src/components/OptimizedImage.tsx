@@ -96,6 +96,7 @@ export function OptimizedImage({
       <Image
         src={hasError ? src : optimizedSrc}
         fill
+        alt={alt}
         {...imageProps}
       />
     );
@@ -108,6 +109,7 @@ export function OptimizedImage({
         <Image
           src={hasError ? src : optimizedSrc}
           fill
+          alt={alt}
           {...imageProps}
         />
       </div>
@@ -119,6 +121,7 @@ export function OptimizedImage({
       src={hasError ? src : optimizedSrc}
       width={width}
       height={height}
+      alt={alt}
       {...imageProps}
     />
   );

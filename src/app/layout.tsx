@@ -73,6 +73,8 @@ export default function RootLayout({
           __html: `
             body{margin:0;padding:0;min-height:100vh;font-display:swap;background-color:#F4F6F8}
             .btn-primary{background:linear-gradient(135deg,#f7931a 0%,#f7931a 100%);padding:14px 28px;color:white;font-weight:600;border:none;cursor:pointer;transition:all 0.2s ease;transform:translateZ(0);will-change:transform}
+            .btn-hero-primary{background:linear-gradient(135deg,#f7931a 0%,#ffa500 50%,#f7931a 100%);padding:16px 40px;border-radius:12px;color:white;font-weight:600;cursor:pointer}
+            .btn-hero-secondary{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:16px 40px;border-radius:12px;color:white;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.2)}
             .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
             @keyframes loading{0%{background-position:200% 0}to{background-position:-200% 0}}
             .chart-container{contain:layout style paint;will-change:contents;height:540px}
