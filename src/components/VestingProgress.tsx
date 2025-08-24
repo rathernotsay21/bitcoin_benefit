@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { VestingScheme, CustomVestingEvent } from '@/types/vesting';
-import { ClockIcon, CheckCircleIcon, RocketLaunchIcon, BuildingOfficeIcon, ChartBarIcon } from '@heroicons/react/24/solid';
+import { ClockIcon, CalendarIcon, RocketLaunchIcon, BuildingOfficeIcon, ChartBarIcon } from '@heroicons/react/24/solid';
 import HelpTooltip from '@/components/HelpTooltip';
 import { HELP_CONTENT } from '@/lib/help-content';
 
@@ -191,7 +191,7 @@ export default function VestingProgress({
   
   return (
     <div 
-      className={`p-6 bg-white dark:bg-slate-800 rounded-xl border shadow-lg transition-all duration-300 hover:shadow-xl ${strategyConfig.colors.border} ${className}`}
+      className={`p-6 bg-white dark:bg-slate-800 rounded-xl border-2 shadow-lg transition-all duration-300 hover:shadow-xl border-bitcoin ${className}`}
       style={{
         backgroundImage: `
           linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
@@ -330,25 +330,17 @@ export default function VestingProgress({
         <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border-2 border-green-200 dark:border-green-700">
           <div className="flex items-center">
             <div className="p-2 bg-green-500 rounded-full mr-3">
-              <CheckCircleIcon className="w-6 h-6 text-white" />
+              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
             </div>
-            <div>
-              <p className="text-lg font-semibold text-green-900 dark:text-green-200">
-                100% Unlocked! 🎉
-              </p>
-              <p className="text-sm text-green-700 dark:text-green-300">
-                Your employee has unlocked their full Bitcoin award.
-              </p>
+            <div className="flex-1">
+              <p className="text-green-800 dark:text-green-200 font-semibold">Fully Unlocked!</p>
+              <p className="text-sm text-green-600 dark:text-green-300">All awards have been unlocked.</p>
             </div>
           </div>
         </div>
       )}
-      
-      {/* ARIA announcements for accessibility */}
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {strategyConfig.name}: {currentProgress.toFixed(1)}% unlocked.
-        {nextVestingDate && ` Next unlocking milestone in ${daysUntilNext} days: ${nextVestingAmount.toFixed(1)}% additional award unlocked.`}
-      </div>
     </div>
   );
 }

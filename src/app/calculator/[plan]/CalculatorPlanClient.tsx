@@ -219,27 +219,99 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               )}
             </div>
 
+            {/* Financial Disclaimer */}
+            <FinancialDisclaimer />
+
+            {/* Scheme Customization */}
+            {selectedScheme && (
+              <div className="card mt-6 glass">
+                <div className="flex items-center mb-6">
+                  <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
+                  Customize Your Plan
+                  </h3>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                      Bitcoin Bonus Amount
+                      <HelpTooltip content={HELP_CONTENT.initialGrant} />
+                    </label>
+                    <input
+                      type="number"
+                      step="0.001"
+                      value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
+                      onChange={handleInitialGrantChange(selectedScheme.id)}
+                      className="input-field"
+                    />
+                  </div>
+
+                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
+                    <div>
+                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                        Yearly Bitcoin Bonus
+                        <HelpTooltip content={HELP_CONTENT.annualGrant} />
+                      </label>
+                      <input
+                        type="number"
+                        step="0.001"
+                        value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
+                        onChange={handleAnnualGrantChange(selectedScheme.id)}
+                        className="input-field"
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                      Projected Annual Growth (%)
+                      <HelpTooltip content={HELP_CONTENT.projectedGrowth} />
+                    </label>
+                    <input
+                      type="number"
+                      value={inputs.projectedBitcoinGrowth || 15}
+                      onChange={handleBitcoinGrowthChange}
+                      className="input-field"
+                    />
+                  </div>
+                </div>
+
+                {/* Custom Vesting Schedule Dialog */}
+                <div className="mt-4">
+                  <CustomVestingSchedule
+                    schemeId={selectedScheme.id}
+                    customVestingEvents={[...(schemeCustomizations[selectedScheme.id]?.customVestingEvents || [])]}
+                    onAddEvent={(event) => addCustomVestingEvent(selectedScheme.id, event)}
+                    onRemoveEvent={(eventId) => removeCustomVestingEvent(selectedScheme.id, eventId)}
+                    onUpdateEvent={(eventId, updates) => updateCustomVestingEvent(selectedScheme.id, eventId, updates)}
+                    triggerClassName="w-full"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Unlocking Schedule Overview - Moved to left panel */}
             {displayScheme && (
               <div className="card mt-6" style={{border: '1px solid #777f89'}}>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
                   {displayScheme.name} Plan Details
                 </h3>
 
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center py-0.5 border-b border-gray-100 dark:border-slate-700">
                     <span className="text-gray-600 dark:text-slate-300">Starting Award</span>
                     <span className="font-semibold dark:text-slate-100">{formatBTC(displayScheme.initialGrant)}</span>
                   </div>
                   {displayScheme.annualGrant && (
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                    <div className="flex justify-between items-center py-0.5 border-b border-gray-100 dark:border-slate-700">
                       <span className="text-gray-600 dark:text-slate-300">Yearly Award</span>
                       <span className="font-semibold dark:text-slate-100">{formatBTC(displayScheme.annualGrant)} per year</span>
                     </div>
                   )}
 
                   {displayScheme.bonuses && displayScheme.bonuses.length > 0 && (
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                    <div className="flex justify-between items-center py-0.5 border-b border-gray-100 dark:border-slate-700">
                       <span className="text-gray-600 dark:text-slate-300">Awards</span>
                       <span className="font-semibold dark:text-slate-100">
                         {displayScheme.bonuses.map(b => `${b.bonusPercent}%`).join(', ')}
@@ -257,15 +329,15 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 </div>
 
                 {/* Unlocking Schedule */}
-                <div className="mt-6">
-                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Unlocking Schedule</h4>
-                  <div className="space-y-2">
+                <div className="mt-3">
+                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-2">Unlocking Schedule</h4>
+                  <div className="space-y-1">
                     {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
                       // Show custom vesting events
                       [...(displayScheme.customVestingEvents || [])]
                         .sort((a: CustomVestingEvent, b: CustomVestingEvent) => a.timePeriod - b.timePeriod)
                         .map((event: CustomVestingEvent, _index: number) => (
-                          <div key={event.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
+                          <div key={event.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-1 border-b border-gray-50 dark:border-slate-700">
                             <span className="text-gray-600 dark:text-slate-300 font-medium">
                               {event.label}
                             </span>
@@ -282,7 +354,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     ) : (
                       // Show default unlocking schedule
                       displayScheme.vestingSchedule.map((milestone, index) => (
-                        <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-3 border-b border-gray-50 dark:border-slate-700">
+                        <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-1 border-b border-gray-50 dark:border-slate-700">
                           <span className="text-gray-600 dark:text-slate-300 font-medium">
                             {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
                           </span>
@@ -362,78 +434,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       </>
                     )}
                   </div>
-                </div>
-              </div>
-            )}
-
-            {/* Financial Disclaimer */}
-            <FinancialDisclaimer />
-
-            {/* Scheme Customization */}
-            {selectedScheme && (
-              <div className="card mt-6 glass">
-                <div className="flex items-center mb-6">
-                  <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Customize Your Plan
-                  </h3>
-                </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
-                      Bitcoin Bonus Amount
-                      <HelpTooltip content={HELP_CONTENT.initialGrant} />
-                    </label>
-                    <input
-                      type="number"
-                      step="0.001"
-                      value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                      onChange={handleInitialGrantChange(selectedScheme.id)}
-                      className="input-field"
-                    />
-                  </div>
-
-                  {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
-                    <div>
-                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
-                        Yearly Bitcoin Bonus
-                        <HelpTooltip content={HELP_CONTENT.annualGrant} />
-                      </label>
-                      <input
-                        type="number"
-                        step="0.001"
-                        value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
-                        onChange={handleAnnualGrantChange(selectedScheme.id)}
-                        className="input-field"
-                      />
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
-                      Projected Annual Growth (%)
-                      <HelpTooltip content={HELP_CONTENT.projectedGrowth} />
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs.projectedBitcoinGrowth || 15}
-                      onChange={handleBitcoinGrowthChange}
-                      className="input-field"
-                    />
-                  </div>
-                </div>
-
-                {/* Custom Vesting Schedule Dialog */}
-                <div className="mt-4">
-                  <CustomVestingSchedule
-                    schemeId={selectedScheme.id}
-                    customVestingEvents={[...(schemeCustomizations[selectedScheme.id]?.customVestingEvents || [])]}
-                    onAddEvent={(event) => addCustomVestingEvent(selectedScheme.id, event)}
-                    onRemoveEvent={(eventId) => removeCustomVestingEvent(selectedScheme.id, eventId)}
-                    onUpdateEvent={(eventId, updates) => updateCustomVestingEvent(selectedScheme.id, eventId, updates)}
-                    triggerClassName="w-full"
-                  />
                 </div>
               </div>
             )}

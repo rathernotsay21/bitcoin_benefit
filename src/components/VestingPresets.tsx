@@ -91,10 +91,10 @@ export default function VestingPresets({
               backgroundColor: isDarkMode ? '#1e293b' : '#ffffff'
             } : {}}
           >
-            <div className={`font-normal text-sm sm:text-base truncate relative z-10 ${
+            <div className={`text-sm sm:text-base truncate relative z-10 ${
               selectedPreset === preset.id 
-                ? 'text-black' 
-                : 'text-black dark:text-white'
+                ? 'font-bold text-black' 
+                : 'font-normal text-black dark:text-white'
             }`}>
               {preset.name}
             </div>

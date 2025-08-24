@@ -244,9 +244,7 @@ const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps
           <svg width="24" height="12" className="overflow-visible">
             <circle cx="12" cy="6" r="6" fill="#F7931A" stroke="white" strokeWidth="2" opacity="0.9" />
           </svg>
-          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
-            Grant Events
-          </span>
+          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">Awards</span>
         </div>
         <div className="flex items-center gap-3">
           <svg width="24" height="3" className="overflow-visible">
@@ -281,7 +279,7 @@ const SimplifiedChart: React.FC<{ data: any[] }> = ({ data }) => {
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          10-Year Projection (Simplified View)
+          Bitcoin Price Projection (Simplified View)
         </h3>
       </div>
       <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
@@ -595,7 +593,7 @@ function VestingTimelineChartRecharts({
       <div className="w-full max-w-full overflow-hidden">
         <div className="mb-6">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-            10-Year Projection
+            Bitcoin Price Projection
           </h3>
         </div>
         <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-3 sm:p-6 shadow-xl w-full overflow-hidden">
@@ -614,7 +612,7 @@ function VestingTimelineChartRecharts({
     <div className="w-full max-w-full overflow-hidden">
       <div className="mb-6">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          10-Year Projection
+          Bitcoin Price Projection
         </h3>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
           <span className="flex items-center gap-1">
