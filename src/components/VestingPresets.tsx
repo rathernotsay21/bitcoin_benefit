@@ -57,7 +57,7 @@ export default function VestingPresets({
   }, [onPresetSelect]);
 
   return (
-    <div className="mt-2 p-4">
+    <div className="mt-6 p-4">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
         Unlocking Schedule
       </h4>
