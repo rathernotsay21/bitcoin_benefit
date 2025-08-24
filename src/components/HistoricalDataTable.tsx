@@ -278,7 +278,9 @@ export default function HistoricalDataTable({
 
   // Summary stats
   const summaryStats = useMemo(() => {
-    const totalBTC = data.reduce((sum, row) => sum + row.btcAmount, 0);
+    // Get the final cumulative Bitcoin amount from the last row
+    // Each row's btcAmount is already cumulative, so we just need the last one
+    const totalBTC = data[data.length - 1]?.btcAmount || 0;
     const currentTotalValue = data[data.length - 1]?.currentValue || 0;
     const roi = totalCostBasis > 0 ? ((currentTotalValue / totalCostBasis - 1) * 100) : 0;
     
@@ -293,7 +295,7 @@ export default function HistoricalDataTable({
   return (
     <div className="space-y-6">
       {/* Header with CSV Export */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Year-by-Year Results
         </h3>
@@ -307,6 +309,11 @@ export default function HistoricalDataTable({
           Export CSV
         </Button>
       </div>
+
+      {/* Explanatory text */}
+      <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+        Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
+      </p>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">

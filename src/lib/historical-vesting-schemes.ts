@@ -1,12 +1,13 @@
 import { VestingScheme } from '@/types/vesting';
 
 // Historical calculator uses larger default amounts for more meaningful analysis
+// All three schemes are designed to total exactly 0.1 BTC over their full vesting period
 export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
   {
     id: 'accelerator',
     name: 'Pioneer',
     description: 'Give a big upfront for maximum impact.',
-    initialGrant: 0.1, // Increased from 0.02 for historical analysis
+    initialGrant: 0.1, // Total: 0.1 BTC (all upfront)
     employeeMatchPercentage: 0,
     icon: '🚀',
     tagline: 'Impact',
@@ -37,10 +38,10 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
     id: 'steady-builder',
     name: 'Stacker',
     description: 'Smart starting award plus yearly additions for five years.',
-    initialGrant: 0.05, // Increased from 0.015 for historical analysis
+    initialGrant: 0.05, // Initial grant
     employeeMatchPercentage: 0,
-    annualGrant: 0.01, // Increased from 0.001 for historical analysis
-    maxAnnualGrants: 5, // Annual grants for the first 5 years
+    annualGrant: 0.01, // 0.01 BTC per year
+    maxAnnualGrants: 5, // Total: 0.05 + (0.01 × 5) = 0.1 BTC
     icon: '📈',
     tagline: 'Balance',
     bestFor: 'Growing businesses',
@@ -70,10 +71,10 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
     id: 'slow-burn',
     name: 'Builder',
     description: 'Yearly awards only - keeps costs low and predictable.',
-    initialGrant: 0.0, // Remains 0 as specified
+    initialGrant: 0.0, // No initial grant
     employeeMatchPercentage: 0,
-    annualGrant: 0.02, // Increased from 0.002 for historical analysis
-    maxAnnualGrants: 10,
+    annualGrant: 0.01, // 0.01 BTC per year
+    maxAnnualGrants: 10, // Total: 0.0 + (0.01 × 10) = 0.1 BTC
     icon: '🏗️',
     tagline: 'Low Cost',
     bestFor: 'Budget-conscious companies',

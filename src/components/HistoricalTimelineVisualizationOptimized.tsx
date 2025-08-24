@@ -241,9 +241,12 @@ function HistoricalTimelineVisualizationOptimized({
     <div className="w-full max-w-full overflow-hidden">
       {/* Interactive Timeline */}
       <div className="mt-4">
-        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           Interactive Timeline Explorer
         </h4>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          The timeline shows the journey your employee's Bitcoin award would have taken from a chosen starting year to today.
+        </p>
         
         {/* Summary Information */}
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -261,7 +264,7 @@ function HistoricalTimelineVisualizationOptimized({
           </span>
         </div>
 
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-slate-700/60 rounded-2xl p-8 shadow-lg">
+        <div>
           {isMobile ? (
             /* Mobile: Vertical Cards */
             <div className="space-y-4">

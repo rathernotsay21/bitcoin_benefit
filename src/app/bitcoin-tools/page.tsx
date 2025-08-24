@@ -61,25 +61,22 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
       </a>
 
       {/* Enhanced Hero Section */}
-      <section className="relative min-h-[200px] py-12 sm:py-16 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <section className="relative min-h-[150px] py-8 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         {/* Enhanced background effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/10 to-blue-500/10" aria-hidden="true"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-transparent dark:via-slate-800/20" aria-hidden="true"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin </span>
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Tools</span>
             </h1>
-            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               Simple blockchain tools for everyone
             </p>
           </div>
         </div>
-        
-        {/* Subtle bottom fade for smooth transition to content */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-white dark:to-slate-900" aria-hidden="true"></div>
       </section>
 
       {/* Command Palette - Functionality available via keyboard shortcut */}
