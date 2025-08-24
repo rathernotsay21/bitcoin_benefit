@@ -13,7 +13,7 @@ export default function RiskDisclosure() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Risk Disclosure</h1>
         
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700 rounded-lg p-6 mb-8">
+          <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700 rounded-sm p-6 mb-8">
             <p className="text-red-900 dark:text-red-200 font-semibold text-lg">
               ⚠️ IMPORTANT: Bitcoin and cryptocurrency investments carry substantial risk of loss. 
               You may lose some or all of your investment.
@@ -158,7 +158,7 @@ export default function RiskDisclosure() {
             </ul>
           </section>
 
-          <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-lg p-6 mt-12">
+          <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-sm p-6 mt-12">
             <p className="text-amber-900 dark:text-amber-200 font-semibold">
               By using this tool, you acknowledge that you understand and accept all risks associated with Bitcoin 
               investments. You agree that you are solely responsible for any investment decisions and their consequences.

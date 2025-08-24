@@ -78,9 +78,9 @@ export default function VestingPresets({
             <button
               key={preset.id}
               onClick={() => handlePresetSelect(preset.id)}
-              className={`flex-1 min-w-0 flex flex-col items-center px-2 sm:px-3 py-2 rounded-lg border-2 transition-all duration-300 relative group ${
+              className={`flex-1 min-w-0 flex flex-col items-center px-2 sm:px-3 py-2 rounded-sm border-2 transition-all duration-300 relative group ${
                 selectedPreset === preset.id
-                  ? 'border-bitcoin shadow-lg bg-white dark:bg-slate-800'
+                  ? 'border-bitcoin shadow-sm bg-white dark:bg-slate-800'
                   : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
               }`}
             style={selectedPreset === preset.id ? {

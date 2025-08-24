@@ -174,7 +174,7 @@ const PerformanceOptimizedChart = memo(({
     return (
       <div 
         ref={containerRef}
-        className="w-full bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center"
+        className="w-full bg-gray-50 dark:bg-slate-800 rounded-sm flex items-center justify-center"
         style={{ height }}
       >
         {isLoading ? (
@@ -205,7 +205,7 @@ const PerformanceOptimizedChart = memo(({
       {/* Chart will be rendered via canvas */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Overlay information */}
-        <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg px-3 py-2">
+        <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-sm px-3 py-2">
           <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
             Current: ${currentBitcoinPrice.toLocaleString()}
           </div>

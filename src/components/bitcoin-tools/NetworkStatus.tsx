@@ -322,15 +322,15 @@ const NetworkStatus: React.FC = React.memo(() => {
         <div className="lg:flex-[1.5] w-full min-w-0">
           <div className="animate-pulse space-y-6">
             {/* Skeleton matches exact layout of loaded content */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 h-[140px]"></div>
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 h-[140px]"></div>
             <div className="flex items-center justify-between mb-8">
               <div className="h-12 w-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
               <div className="h-8 w-32 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
             </div>
-            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 h-[180px]"></div>
-            <div className="h-[240px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
-            <div className="h-[250px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
-            <div className="h-[120px] bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+            <div className="bg-white dark:bg-gray-700 rounded-sm p-6 border-2 border-gray-200 dark:border-gray-600 h-[180px]"></div>
+            <div className="h-[240px] bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+            <div className="h-[250px] bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+            <div className="h-[120px] bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
           </div>
         </div>
         <div className="lg:flex-[1] lg:max-w-md">
@@ -407,7 +407,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         
         {/* Network Status Error Banner */}
         {state.error && state.networkHealth && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm p-4 mb-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
@@ -434,7 +434,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         )}
 
         {/* Explanatory Text for New Users */}
-        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 min-h-[140px]">
+        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 min-h-[140px]">
           <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
             What is Network Status?
           </h3>
@@ -466,7 +466,7 @@ const NetworkStatus: React.FC = React.memo(() => {
 
       {/* Network Congestion Visual */}
       <div className="mb-8">
-        <div className="bg-white dark:bg-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
+        <div className="bg-white dark:bg-gray-700 rounded-sm p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -517,7 +517,7 @@ const NetworkStatus: React.FC = React.memo(() => {
               const costUSD = calculateTxCostUSD(feeRate as FeeRate);
               
               return (
-                <div key={feeType} className="bg-white dark:bg-gray-700 rounded-xl p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
+                <div key={feeType} className="bg-white dark:bg-gray-700 rounded-sm p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
                   <div className="text-center">
                     <div className="text-2xl mb-2">{feeInfo.emoji}</div>
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
@@ -536,7 +536,7 @@ const NetworkStatus: React.FC = React.memo(() => {
             })}
             </div>
             
-            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-700">
               <p className="text-sm text-blue-800 dark:text-blue-200">
                 <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
                 Larger transactions will cost proportionally more. 
@@ -551,7 +551,7 @@ const NetworkStatus: React.FC = React.memo(() => {
             <div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+                <div key={i} className="h-32 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
               ))}
             </div>
           </div>
@@ -561,7 +561,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       {/* Human-Readable Status */}
       <div className="mb-8 min-h-[250px]">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
-        <div className={`rounded-xl p-6 border-l-4 shadow-sm min-h-[200px] ${
+        <div className={`rounded-sm p-6 border-l-4 shadow-sm min-h-[200px] ${
           state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
           state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
           state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
@@ -579,7 +579,7 @@ const NetworkStatus: React.FC = React.memo(() => {
           
           {/* Fee-based recommendations */}
           {state.networkHealth.feeEstimates && (
-            <div className="bg-white/50 dark:bg-black/20 rounded-lg p-4 mt-4">
+            <div className="bg-white/50 dark:bg-black/20 rounded-sm p-4 mt-4">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2">💰 Fee Recommendation:</h4>
               <div className="text-sm text-gray-700 dark:text-gray-300">
                 {Number(state.networkHealth.averageFee) < 10 && (
@@ -603,7 +603,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       {/* Recommendations */}
       <div className="mb-8 min-h-[120px]">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-400 shadow-sm min-h-[80px]">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 shadow-sm min-h-[80px]">
           <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
             {state.networkHealth.recommendation}
           </p>
@@ -611,7 +611,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       </div>
 
         {/* Next Block Estimation */}
-        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
           <div className="flex items-center space-x-3">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -621,7 +621,7 @@ const NetworkStatus: React.FC = React.memo(() => {
           <button
             onClick={fetchNetworkHealth}
             disabled={state.isLoading}
-            className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-lg hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-bitcoin hover:text-bitcoin-dark dark:text-bitcoin dark:hover:text-bitcoin-light font-semibold px-4 py-2 rounded-sm hover:bg-bitcoin/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {state.isLoading ? 'Refreshing...' : 'Refresh'}
           </button>

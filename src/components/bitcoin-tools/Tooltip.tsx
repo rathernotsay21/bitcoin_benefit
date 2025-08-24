@@ -196,7 +196,7 @@ export default function Tooltip({
         pointerEvents: trigger === 'click' ? 'auto' : 'none'
       }}
     >
-      <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-lg px-3 py-2 shadow-xl border border-slate-200 dark:border-slate-700 relative backdrop-blur-sm">
+      <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-sm px-3 py-2 shadow-sm border border-slate-200 dark:border-slate-700 relative backdrop-blur-sm">
         {renderTooltipContent()}
         <div className={getArrowClasses(actualPosition)}></div>
       </div>

@@ -434,7 +434,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
         relative -mb-3 mx-auto px-4 py-2 rounded-full
         bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800
         border border-gray-200 dark:border-gray-600
-        shadow-lg hover:shadow-xl
+        shadow-sm hover:shadow-sm
         transition-all duration-300 ease-out
         hover:scale-105 hover:-translate-y-0.5
         focus:outline-none focus:ring-2 focus:ring-bitcoin/20 focus:ring-offset-2
@@ -507,7 +507,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
   return (
     <div 
       {...htmlProps}
-      className={`relative bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-700 shadow-sm ${className}`}
+      className={`relative bg-white dark:bg-gray-800 rounded-sm border-2 border-gray-200 dark:border-gray-700 shadow-sm ${className}`}
     >
       {/* Header with title and toggle button */}
       {(title || (shouldShowExpander && showToggle && ['top-left', 'top-right'].includes(togglePosition))) && (

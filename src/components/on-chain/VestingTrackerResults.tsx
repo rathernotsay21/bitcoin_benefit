@@ -375,7 +375,7 @@ export default function VestingTrackerResults({
 
   // Table view for desktop
   const TableView = () => (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
+    <div className="overflow-x-auto rounded-sm border border-gray-200 dark:border-slate-700">
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {announceSort}
       </div>
@@ -600,7 +600,7 @@ export default function VestingTrackerResults({
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500 dark:text-slate-400">View:</span>
                 <div 
-                  className="flex rounded-lg border border-gray-300 dark:border-slate-600 overflow-hidden"
+                  className="flex rounded-sm border border-gray-300 dark:border-slate-600 overflow-hidden"
                   role="tablist"
                   aria-label="View mode selection"
                 >
@@ -651,7 +651,7 @@ export default function VestingTrackerResults({
           </h4>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-sm">
               <div className="text-2xl font-bold text-green-900 dark:text-green-300 mb-1">
                 {transactions.filter(t => t.type === 'Annual Award').length}
               </div>
@@ -660,7 +660,7 @@ export default function VestingTrackerResults({
               </div>
             </div>
             
-            <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm">
               <div className="text-2xl font-bold text-blue-900 dark:text-blue-300 mb-1">
                 {formatBTC(transactions.reduce((sum, t) => sum + t.amountBTC, 0))}
               </div>
@@ -669,7 +669,7 @@ export default function VestingTrackerResults({
               </div>
             </div>
             
-            <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+            <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-sm">
               <div className="text-2xl font-bold text-orange-900 dark:text-orange-300 mb-1">
                 {(() => {
                   const totalValue = transactions.reduce((sum, t) => 

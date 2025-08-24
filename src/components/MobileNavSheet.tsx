@@ -124,7 +124,7 @@ export default function MobileNavSheet() {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
-          className="sm:hidden p-2 rounded-lg text-deepSlate dark:text-slate-100 hover:text-bitcoin dark:hover:text-bitcoin transition-all duration-300"
+          className="sm:hidden p-2 rounded-sm text-deepSlate dark:text-slate-100 hover:text-bitcoin dark:hover:text-bitcoin transition-all duration-300"
           aria-label="Open navigation menu"
         >
           <Bars3Icon className="w-6 h-6" />
@@ -136,7 +136,7 @@ export default function MobileNavSheet() {
       >
         <SheetHeader className="sheet-header text-left pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-700 flex-shrink-0">
           <SheetTitle className="text-xl font-bold text-deepSlate dark:text-slate-100 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-bitcoin/20 dark:bg-bitcoin/30 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-sm bg-bitcoin/20 dark:bg-bitcoin/30 flex items-center justify-center">
               <span className="text-bitcoin font-bold">₿</span>
             </div>
             Bitcoin Benefits
@@ -160,7 +160,7 @@ export default function MobileNavSheet() {
                   <button
                     onClick={() => setIsToolsExpanded(!isToolsExpanded)}
                     className={cn(
-                      "nav-link group flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 w-full",
+                      "nav-link group flex items-center justify-between px-4 py-3 rounded-sm transition-all duration-300 w-full",
                       isActive 
                         ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
                         : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -195,7 +195,7 @@ export default function MobileNavSheet() {
                         <SheetClose key={subItem.name} asChild>
                           <Link
                             href={subItem.href}
-                            className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300"
+                            className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-800 rounded-sm transition-all duration-300"
                           >
                             <div className="font-medium">{subItem.name}</div>
                             <div className="text-xs text-slate-500 dark:text-slate-500 mt-0.5">
@@ -216,7 +216,7 @@ export default function MobileNavSheet() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "nav-link group flex items-center px-4 py-3 rounded-xl transition-all duration-300",
+                    "nav-link group flex items-center px-4 py-3 rounded-sm transition-all duration-300",
                     isActive 
                       ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
                       : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -246,7 +246,7 @@ export default function MobileNavSheet() {
         <div className="theme-toggle-section flex-shrink-0 border-t border-slate-200 dark:border-slate-700 pt-4 sm:pt-6">
           <button
             onClick={toggleTheme}
-            className="flex items-center w-full px-4 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
+            className="flex items-center w-full px-4 py-3 rounded-sm text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
             {theme === 'dark' ? (

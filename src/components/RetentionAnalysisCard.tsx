@@ -79,7 +79,7 @@ export default function RetentionAnalysisCard({
   );
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Retention Analysis</h3>
         <button
@@ -92,14 +92,14 @@ export default function RetentionAnalysisCard({
 
       {/* Key Metrics */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="p-4 bg-green-50 rounded-lg">
+        <div className="p-4 bg-green-50 rounded-sm">
           <p className="text-sm text-green-700 mb-1">With Vesting</p>
           <p className="text-2xl font-bold text-green-900">
             {retentionData.withVesting.retentionRate.toFixed(0)}%
           </p>
           <p className="text-xs text-green-600">Retention Rate</p>
         </div>
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <div className="p-4 bg-gray-50 rounded-sm">
           <p className="text-sm text-gray-700 mb-1">Without Vesting</p>
           <p className="text-2xl font-bold text-gray-900">
             {retentionData.withoutVesting.retentionRate.toFixed(0)}%
@@ -152,7 +152,7 @@ export default function RetentionAnalysisCard({
       </div>
 
       {/* ROI Summary */}
-      <div className="p-4 bg-blue-50 rounded-lg mb-4">
+      <div className="p-4 bg-blue-50 rounded-sm mb-4">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-blue-900">Additional Employees Retained</span>
           <span className="text-lg font-bold text-blue-900">+{additionalRetained}</span>
@@ -214,7 +214,7 @@ export default function RetentionAnalysisCard({
             </div>
           </div>
 
-          <div className="p-3 bg-green-50 rounded-lg">
+          <div className="p-3 bg-green-50 rounded-sm">
             <p className="text-xs text-green-800">
               <strong>Retention Insight:</strong> Vesting programs typically increase retention by 15-20%. 
               With replacement costs at 150% of annual salary, the ROI on vesting programs is often 

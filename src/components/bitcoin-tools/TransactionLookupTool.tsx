@@ -243,7 +243,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 {transactionLookup.error.retryable && (
                   <button
                     onClick={() => handleLookup(txidInput)}
-                    className="mt-4 px-6 py-3 bg-red-600 text-white text-base font-semibold rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 shadow-md hover:shadow-lg"
+                    className="mt-4 px-6 py-3 bg-red-600 text-white text-base font-semibold rounded-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 shadow-md hover:shadow-sm"
                     aria-describedby="retry-help"
                   >
                     Try Again
@@ -298,7 +298,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 <div className="text-right">
                   <button
                     onClick={() => handleCopy(String(transactionLookup.data!.txid), 'txid')}
-                    className="px-4 py-2 bg-bitcoin text-white rounded-lg text-base font-medium hover:bg-bitcoin-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                    className="px-4 py-2 bg-bitcoin text-white rounded-sm text-base font-medium hover:bg-bitcoin-600 transition-all duration-200 shadow-md hover:shadow-sm"
                   >
                     {copiedItem === 'txid' ? 'Copied!' : 'Copy TXID'}
                   </button>
@@ -306,7 +306,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               </div>
 
               {/* Transaction ID Display */}
-              <div className="bg-white dark:bg-slate-700 rounded-xl p-5 border-2 border-gray-200 dark:border-slate-600 shadow-sm">
+              <div className="bg-white dark:bg-slate-700 rounded-sm p-5 border-2 border-gray-200 dark:border-slate-600 shadow-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-base font-semibold text-gray-500 dark:text-slate-400">Transaction ID</span>
                   <span className="text-base font-mono text-gray-600 dark:text-slate-300">
@@ -320,7 +320,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
             <div className={`grid grid-cols-1 ${transactionLookup.data.blockHeight ? 'md:grid-cols-2' : ''} gap-6 mb-6`}>
               
               {/* Confirmations */}
-              <div className="card hover:shadow-xl transition-all duration-300">
+              <div className="card hover:shadow-sm transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -347,7 +347,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
 
               {/* Block Info */}
               {transactionLookup.data.blockHeight && (
-                <div className="card hover:shadow-xl transition-all duration-300">
+                <div className="card hover:shadow-sm transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -372,7 +372,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
             </div>
 
             {/* Fee Information */}
-            <div className="card mb-6 hover:shadow-xl transition-all duration-300">
+            <div className="card mb-6 hover:shadow-sm transition-all duration-300">
               <h4 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-4">
                 Processing Cost
                 <BitcoinTooltip term="FEE_RATE">
@@ -384,7 +384,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               </p>
               
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
                   <span className="text-lg font-semibold text-gray-700 dark:text-slate-300">Total Fee</span>
                   <div className="text-right">
                     <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -396,7 +396,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
                   <span className="text-lg font-semibold text-gray-700 dark:text-slate-300">Fee Rate</span>
                   <div className="text-right">
                     <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -439,7 +439,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 bg-white dark:bg-slate-700 rounded-lg border-2 border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                    className="flex items-center justify-between p-4 bg-white dark:bg-slate-700 rounded-sm border-2 border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-sm transition-all duration-300 hover:scale-[1.02]"
                   >
                     <span className="text-base font-semibold text-gray-900 dark:text-slate-100 capitalize">
                       {name === 'btc' ? 'BTC.com' : name}

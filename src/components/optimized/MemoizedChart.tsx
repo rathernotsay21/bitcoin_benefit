@@ -16,7 +16,7 @@ const VestingTimelineChart = dynamic(
 // Chart skeleton for loading state
 function ChartSkeleton() {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-pulse">
+    <div className="bg-white dark:bg-gray-800 rounded-sm shadow-sm p-6 animate-pulse">
       <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-6"></div>
       <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded"></div>
     </div>

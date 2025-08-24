@@ -170,7 +170,7 @@ export default function Navigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`p-2 rounded-lg transition-all duration-300 ${isActive
+                  className={`p-2 rounded-sm transition-all duration-300 ${isActive
                     ? 'bg-bitcoin/10 dark:bg-bitcoin/20'
                     : 'hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}

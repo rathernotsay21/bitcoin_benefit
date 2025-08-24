@@ -106,9 +106,9 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "0.125rem",  // 2px - keeping all consistent with sm
+        md: "0.125rem",  // 2px - keeping all consistent with sm  
+        sm: "0.125rem",  // 2px - standard Tailwind sm value
       },
       backgroundColor: {
         'dark-primary': '#0F172A', // Dark slate for dark mode background

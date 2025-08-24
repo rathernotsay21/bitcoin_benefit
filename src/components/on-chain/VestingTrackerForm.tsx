@@ -293,7 +293,7 @@ export default function VestingTrackerForm({
 
             {/* Tooltip */}
             {showTooltips.address && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-3 text-sm text-blue-800 dark:text-blue-200">
                 <p className="font-medium mb-1">Supported Address Formats:</p>
                 <ul className="space-y-1 text-xs">
                   <li>• Legacy (P2PKH): starts with "1"</li>
@@ -377,7 +377,7 @@ export default function VestingTrackerForm({
 
             {/* Tooltip */}
             {showTooltips.date && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-3 text-sm text-blue-800 dark:text-blue-200">
                 <p className="font-medium mb-1">Vesting Start Date:</p>
                 <ul className="space-y-1 text-xs">
                   <li>• The date your vesting schedule began</li>
@@ -457,7 +457,7 @@ export default function VestingTrackerForm({
 
             {/* Tooltip */}
             {showTooltips.amount && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-3 text-sm text-blue-800 dark:text-blue-200">
                 <p className="font-medium mb-1">Annual Award Amount:</p>
                 <ul className="space-y-1 text-xs">
                   <li>• Amount of Bitcoin you receive each year</li>
@@ -549,7 +549,7 @@ export default function VestingTrackerForm({
 
             {/* Tooltip */}
             {showTooltips.totalGrants && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-3 text-sm text-blue-800 dark:text-blue-200">
                 <p className="font-medium mb-1">Total Number of Grants:</p>
                 <ul className="space-y-1 text-xs">
                   <li>• Total awards over the vesting period</li>
@@ -614,7 +614,7 @@ export default function VestingTrackerForm({
         {/* General Error Message */}
         {(error || displayErrors.general) && (
           <div 
-            className="p-4 rounded-xl bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800"
+            className="p-4 rounded-sm bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800"
             role="alert"
             aria-live="assertive"
           >

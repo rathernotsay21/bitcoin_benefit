@@ -17,19 +17,19 @@ export default function NotFound() {
           <div className="flex gap-4 justify-center flex-wrap">
             <Link
               href="/calculator/accelerator"
-              className="bg-gradient-to-r from-bitcoin to-orange-500 hover:from-orange-500 hover:to-bitcoin text-white px-6 py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-bitcoin to-orange-500 hover:from-orange-500 hover:to-bitcoin text-white px-6 py-3 rounded-sm transition-all transform hover:scale-105 shadow-sm"
             >
               Pioneer (Accelerator)
             </Link>
             <Link
               href="/calculator/steady-builder"
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 text-white px-6 py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 text-white px-6 py-3 rounded-sm transition-all transform hover:scale-105 shadow-sm"
             >
               Stacker (Steady Builder)
             </Link>
             <Link
               href="/calculator/slow-burn"
-              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-emerald-600 hover:to-green-500 text-white px-6 py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-emerald-600 hover:to-green-500 text-white px-6 py-3 rounded-sm transition-all transform hover:scale-105 shadow-sm"
             >
               Builder (Slow Burn)
             </Link>

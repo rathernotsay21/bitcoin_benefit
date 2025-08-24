@@ -85,8 +85,8 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
       <main id="main-tools" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" role="main">
         <Suspense fallback={
           <div className="animate-pulse space-y-6">
-            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-            <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+            <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
           </div>
         }>
           <ToolTabsNavigation 

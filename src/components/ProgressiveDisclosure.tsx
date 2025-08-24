@@ -31,7 +31,7 @@ export function Tooltip({ content, children, className = '' }: TooltipProps) {
       </button>
       
       {isVisible && (
-        <div className="absolute z-10 w-64 p-3 mt-2 text-sm bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg shadow-lg -left-32 transform">
+        <div className="absolute z-10 w-64 p-3 mt-2 text-sm bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-sm shadow-sm -left-32 transform">
           <div className="text-gray-700 dark:text-gray-300">
             {content}
           </div>
@@ -61,7 +61,7 @@ export function ExpandableSection({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className={`border border-gray-200 dark:border-slate-600 rounded-lg ${className}`}>
+    <div className={`border border-gray-200 dark:border-slate-600 rounded-sm ${className}`}>
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}

@@ -294,7 +294,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
             {/* Unlocking Schedule Overview - Moved to left panel */}
             {displayScheme && (
-              <div className="card mt-6" style={{border: '1px solid #777f89'}}>
+              <div className="card mt-6 bg-gray-100 dark:bg-gray-800" style={{border: '1px solid #777f89'}}>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-2">
                   {displayScheme.name} Plan Details
                 </h3>
@@ -368,14 +368,14 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   </div>
                   
                   {/* Unlocking Schedule Explanation */}
-                  <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                  <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-700/20 rounded-sm">
                     {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
                       // Custom Schedule Active
                       <>
-                        <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                        <h5 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                           Custom Unlocking Timeline
                         </h5>
-                        <div className="text-sm text-blue-800 dark:text-blue-300">
+                        <div className="text-sm text-gray-700 dark:text-gray-300">
                           <p className="mb-3">
                             This plan uses a <strong>custom unlocking schedule</strong> with {displayScheme.customVestingEvents.length} milestone{displayScheme.customVestingEvents.length !== 1 ? 's' : ''},
                             completing over {maxVestingMonths >= 12 
@@ -396,10 +396,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     ) : (
                       // Default Schedule Active
                       <>
-                        <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                        <h5 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                           {displayScheme.name} Unlocking Timeline
                         </h5>
-                        <div className="text-sm text-blue-800 dark:text-blue-300">
+                        <div className="text-sm text-gray-700 dark:text-gray-300">
                           {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
                             <strong>Default {displayScheme.name} schedule:</strong> {

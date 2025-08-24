@@ -68,14 +68,14 @@ export default function APITester() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-100 dark:bg-slate-800 rounded-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-gray-100 dark:bg-slate-800 rounded-sm">
       <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
         API Endpoint Tester (Development Only)
       </h2>
       
       <div className="space-y-4">
         {tests.map((test) => (
-          <div key={test.name} className="border border-gray-300 dark:border-slate-600 rounded-lg p-4">
+          <div key={test.name} className="border border-gray-300 dark:border-slate-600 rounded-sm p-4">
             <div className="flex items-center justify-between mb-2">
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">{test.name}</h3>

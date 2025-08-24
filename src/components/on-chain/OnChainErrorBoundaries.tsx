@@ -18,7 +18,7 @@ export function OnChainErrorBoundary({
   return (
     <ErrorBoundary
       fallback={
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-sm p-6">
           <div className="flex items-start">
             <svg
               className="w-6 h-6 text-red-600 dark:text-red-400 mr-3 flex-shrink-0 mt-0.5"
@@ -103,7 +103,7 @@ export function TransactionFetchErrorBoundary({
   return (
     <ErrorBoundary
       fallback={
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-sm p-6">
           <div className="flex items-start">
             <svg
               className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mr-3 flex-shrink-0 mt-0.5"
@@ -205,7 +205,7 @@ export function PriceFetchErrorBoundary({
   return (
     <ErrorBoundary
       fallback={
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-sm p-6">
           <div className="flex items-start">
             <svg
               className="w-6 h-6 text-blue-600 dark:text-blue-400 mr-3 flex-shrink-0 mt-0.5"
@@ -299,7 +299,7 @@ export function TimelineErrorBoundary({
   return (
     <ErrorBoundary
       fallback={
-        <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-8 text-center">
+        <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm p-8 text-center">
           <svg
             className="w-12 h-12 text-gray-400 dark:text-slate-500 mx-auto mb-3"
             fill="none"

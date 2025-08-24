@@ -79,7 +79,7 @@ export function OptimizedVestingTimelineChart({
   
   return (
     <ErrorBoundary>
-      <Suspense fallback={<div className="h-[540px] w-full loading-skeleton rounded-2xl" />}>
+      <Suspense fallback={<div className="h-[540px] w-full loading-skeleton rounded-sm" />}>
         <div className="chart-container">
           <ChartComponent {...props} />
         </div>
@@ -128,7 +128,7 @@ export function OptimizedHistoricalTimelineChart({
   
   return (
     <ErrorBoundary>
-      <Suspense fallback={<div className="h-[400px] w-full loading-skeleton rounded-2xl" />}>
+      <Suspense fallback={<div className="h-[400px] w-full loading-skeleton rounded-sm" />}>
         <div className="chart-container">
           <ChartComponent {...props} />
         </div>
@@ -180,7 +180,7 @@ export function OptimizedAnnualBreakdown({
   
   return (
     <ErrorBoundary>
-      <Suspense fallback={<div className="h-[400px] w-full loading-skeleton rounded-lg" />}>
+      <Suspense fallback={<div className="h-[400px] w-full loading-skeleton rounded-sm" />}>
         <TableComponent {...props} />
       </Suspense>
     </ErrorBoundary>

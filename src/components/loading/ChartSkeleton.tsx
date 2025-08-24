@@ -32,7 +32,7 @@ export function ChartSkeleton({
       </div>
 
       {/* Chart Container */}
-      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-6 shadow-xl overflow-hidden">
+      <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm p-6 shadow-sm overflow-hidden">
         {/* Chart Area */}
         <div className="relative" style={{ height: `${height}px` }}>
           {/* Y-Axis */}
@@ -92,7 +92,7 @@ export function ChartSkeleton({
       {showDetails && (
         <div className="mt-6">
           <div className="h-5 bg-gray-200 dark:bg-slate-700 rounded w-40 mb-4"></div>
-          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm overflow-hidden">
             {/* Table Header */}
             <div className="flex items-center bg-gray-50 dark:bg-slate-700 px-4 py-3 border-b border-gray-200 dark:border-slate-600">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -121,7 +121,7 @@ export function ChartSkeleton({
 export function CompactChartSkeleton({ height = 300, className = "" }: { height?: number; className?: string }) {
   return (
     <div className={`w-full animate-pulse ${className}`}>
-      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-4 shadow-sm">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm p-4 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div className="h-5 bg-gray-200 dark:bg-slate-700 rounded w-32"></div>
           <div className="h-8 bg-gray-200 dark:bg-slate-700 rounded w-20"></div>
@@ -161,7 +161,7 @@ export function HistoricalChartSkeleton({ className = "" }: { className?: string
       </div>
       
       {/* Timeline */}
-      <div className="bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 rounded-2xl p-8">
+      <div className="bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 rounded-sm p-8">
         {/* Desktop Timeline */}
         <div className="hidden md:block">
           <div className="relative py-8">
@@ -185,7 +185,7 @@ export function HistoricalChartSkeleton({ className = "" }: { className?: string
         {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="border border-gray-200 dark:border-slate-600 rounded-xl p-5">
+            <div key={i} className="border border-gray-200 dark:border-slate-600 rounded-sm p-5">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-gray-300 dark:bg-slate-600 rounded-full flex-shrink-0"></div>
                 <div className="flex-1 space-y-3">
@@ -195,7 +195,7 @@ export function HistoricalChartSkeleton({ className = "" }: { className?: string
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {Array.from({ length: 4 }).map((_, j) => (
-                      <div key={j} className="bg-gray-50 dark:bg-slate-700 rounded-lg p-3">
+                      <div key={j} className="bg-gray-50 dark:bg-slate-700 rounded-sm p-3">
                         <div className="h-3 bg-gray-200 dark:bg-slate-600 rounded w-16 mb-2"></div>
                         <div className="h-4 bg-gray-300 dark:bg-slate-600 rounded w-20"></div>
                       </div>

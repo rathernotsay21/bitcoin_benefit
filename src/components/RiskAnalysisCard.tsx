@@ -151,7 +151,7 @@ export default function RiskAnalysisCard({
 
       {/* Monte Carlo Results */}
       {monteCarloResults && (
-        <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
+        <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-sm">
           <h4 className="text-sm font-medium text-gray-700 dark:text-white mb-3">
             Monte Carlo Simulation Results ({timePeriodYears} years)
           </h4>
@@ -212,7 +212,7 @@ export default function RiskAnalysisCard({
             </div>
           </div>
 
-          <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+          <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-sm">
             <p className="text-xs text-amber-800 dark:text-amber-200">
               <strong>Risk Warning:</strong> Bitcoin is a highly volatile asset. 
               Historical volatility of ~70% means your investment could fluctuate 

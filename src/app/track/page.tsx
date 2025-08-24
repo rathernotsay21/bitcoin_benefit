@@ -7,21 +7,21 @@ const VestingTrackerFormOptimized = dynamic(
   () => import('@/components/on-chain/VestingTrackerFormOptimized'),
   { 
     ssr: false,
-    loading: () => <div className="animate-pulse h-96 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+    loading: () => <div className="animate-pulse h-96 bg-gray-100 dark:bg-slate-800 rounded-sm" />
   }
 );
 const VestingTrackerResultsOptimized = dynamic(
   () => import('@/components/on-chain/VestingTrackerResultsOptimized'),
   { 
     ssr: false,
-    loading: () => <div className="animate-pulse h-64 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+    loading: () => <div className="animate-pulse h-64 bg-gray-100 dark:bg-slate-800 rounded-sm" />
   }
 );
 const OnChainTimelineVisualizer = dynamic(
   () => import('@/components/on-chain/OnChainTimelineVisualizer'),
   { 
     ssr: false,
-    loading: () => <div className="animate-pulse h-48 bg-gray-100 dark:bg-slate-800 rounded-lg" />
+    loading: () => <div className="animate-pulse h-48 bg-gray-100 dark:bg-slate-800 rounded-sm" />
   }
 );
 import Navigation from '@/components/Navigation';
@@ -88,7 +88,7 @@ function PrivacyDisclaimer() {
 
   return (
     <div
-      className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-8"
+      className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-6 mb-8"
       role="region"
       aria-labelledby="privacy-heading"
     >
@@ -136,7 +136,7 @@ function PrivacyDisclaimer() {
               <div
                 id="privacy-details"
                 ref={contentRef}
-                className="mt-4 p-4 bg-blue-100 dark:bg-blue-800/30 rounded-lg space-y-3"
+                className="mt-4 p-4 bg-blue-100 dark:bg-blue-800/30 rounded-sm space-y-3"
                 tabIndex={-1}
                 role="region"
                 aria-label="Detailed privacy information"
@@ -199,7 +199,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
 
   return (
     <div
-      className="bg-gray-50 dark:bg-slate-800 rounded-lg p-6"
+      className="bg-gray-50 dark:bg-slate-800 rounded-sm p-6"
       role="status"
       aria-live="polite"
       aria-label="Processing status"
@@ -224,7 +224,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
           return (
             <div
               key={step.id}
-              className={`flex items-center p-3 rounded-lg transition-all duration-300 ${isActive
+              className={`flex items-center p-3 rounded-sm transition-all duration-300 ${isActive
                 ? 'bg-bitcoin/10 border-2 border-bitcoin'
                 : isCompleted
                   ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700'
@@ -353,7 +353,7 @@ function FeatureOverview() {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="text-center p-4 focus-within:ring-2 focus-within:ring-bitcoin focus-within:ring-offset-2 rounded-lg"
+            className="text-center p-4 focus-within:ring-2 focus-within:ring-bitcoin focus-within:ring-offset-2 rounded-sm"
             role="listitem"
           >
             <feature.icon className="w-8 h-8 text-bitcoin dark:text-bitcoin mx-auto mb-3" aria-hidden="true" />
@@ -596,7 +596,7 @@ export default function TrackerPage() {
 
                     <div className="space-y-4" role="list" aria-label="Analysis statistics">
                       <div
-                        className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-800 rounded-lg"
+                        className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-800 rounded-sm"
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
@@ -611,7 +611,7 @@ export default function TrackerPage() {
                       </div>
 
                       <div
-                        className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"
+                        className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-sm"
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-green-700 dark:text-green-300">
@@ -627,7 +627,7 @@ export default function TrackerPage() {
 
                       {manualAnnotations.size > 0 && (
                         <div
-                          className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
+                          className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-sm"
                           role="listitem"
                         >
                           <span className="text-sm font-medium text-blue-700 dark:text-blue-300">

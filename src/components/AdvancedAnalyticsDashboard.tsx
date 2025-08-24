@@ -34,11 +34,11 @@ export default function AdvancedAnalyticsDashboard({
   ];
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-sm border border-gray-200 p-6">
       <h2 className="text-xl font-bold text-gray-900 mb-6">Advanced Analytics</h2>
       
       {/* Tab Navigation */}
-      <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+      <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-sm">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -85,7 +85,7 @@ export default function AdvancedAnalyticsDashboard({
       </div>
 
       {/* Summary Insights */}
-      <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+      <div className="mt-6 p-4 bg-blue-50 rounded-sm">
         <h3 className="text-sm font-semibold text-blue-900 mb-2">Key Insights</h3>
         <ul className="text-xs text-blue-800 space-y-1">
           <li>• Total investment needed: ${vestingResults.totalCost.toLocaleString()}</li>

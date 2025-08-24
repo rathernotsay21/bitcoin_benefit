@@ -43,7 +43,7 @@ export const LazyVirtualizedTable = dynamic(
   () => import('@/components/VirtualizedAnnualBreakdownOptimized').then(mod => ({ default: mod.default })),
   {
     loading: () => (
-      <div className="h-64 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+      <div className="h-64 bg-gray-50 dark:bg-slate-800 rounded-sm flex items-center justify-center">
         <div className="animate-pulse">Loading table...</div>
       </div>
     ),

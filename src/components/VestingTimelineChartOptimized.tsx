@@ -80,7 +80,7 @@ function VestingTimelineChartOptimized(props: VestingTimelineChartOptimizedProps
           10-Year Projection
         </h3>
       </div>
-      <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 border border-red-200 dark:border-red-700 rounded-2xl p-6 shadow-xl">
+      <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 border border-red-200 dark:border-red-700 rounded-sm p-6 shadow-sm">
         <div className="text-center text-red-600 dark:text-red-400">
           <div className="text-4xl mb-4">⚠️</div>
           <div className="text-lg font-semibold mb-2">Chart Loading Error</div>

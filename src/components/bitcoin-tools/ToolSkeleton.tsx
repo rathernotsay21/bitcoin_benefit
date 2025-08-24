@@ -25,11 +25,11 @@ export default function ToolSkeleton({
             {/* Transaction ID Input Skeleton */}
             <div className="space-y-2">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
-              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
+              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
             </div>
             
             {/* Transaction Status Skeleton */}
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 space-y-3">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-4 space-y-3">
               <div className="flex items-center space-x-3">
                 <div className="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
                 <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-24"></div>
@@ -54,11 +54,11 @@ export default function ToolSkeleton({
             {/* Address Input Skeleton */}
             <div className="space-y-2">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-28"></div>
-              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
+              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
             </div>
             
             {/* Balance Skeleton */}
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 space-y-2">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-4 space-y-2">
               <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24"></div>
             </div>
@@ -66,7 +66,7 @@ export default function ToolSkeleton({
             {/* Transaction List Skeleton */}
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 flex justify-between items-center">
+                <div key={i} className="bg-gray-100 dark:bg-gray-700 rounded-sm p-3 flex justify-between items-center">
                   <div className="space-y-1">
                     <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
                     <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-16"></div>
@@ -89,18 +89,18 @@ export default function ToolSkeleton({
             
             {/* Network Metrics Skeleton */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 space-y-2">
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-3 space-y-2">
                 <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
                 <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-16"></div>
               </div>
-              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 space-y-2">
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-3 space-y-2">
                 <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-24"></div>
                 <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
               </div>
             </div>
             
             {/* Recommendation Skeleton */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 space-y-2">
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-3 space-y-2">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-48"></div>
               <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-36"></div>
             </div>
@@ -113,13 +113,13 @@ export default function ToolSkeleton({
             {/* Transaction Size Input Skeleton */}
             <div className="space-y-2">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
-              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
+              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
             </div>
             
             {/* Fee Options Skeleton */}
             <div className="grid grid-cols-3 gap-3">
               {['Economy', 'Balanced', 'Priority'].map((label, i) => (
-                <div key={label} className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 space-y-2">
+                <div key={label} className="bg-gray-100 dark:bg-gray-700 rounded-sm p-3 space-y-2">
                   <div className="flex items-center space-x-2">
                     <div className="text-lg">
                       {i === 0 ? '🐢' : i === 1 ? '⚖️' : '🚀'}
@@ -138,16 +138,16 @@ export default function ToolSkeleton({
         return (
           <div className="space-y-4">
             {/* File Upload Skeleton */}
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8">
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-sm p-8">
               <div className="text-center space-y-3">
-                <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-lg mx-auto"></div>
+                <div className="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-sm mx-auto"></div>
                 <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-48 mx-auto"></div>
                 <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-32 mx-auto"></div>
               </div>
             </div>
             
             {/* Status Skeleton */}
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 space-y-3">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-4 space-y-3">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
               <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-48"></div>
             </div>
@@ -160,11 +160,11 @@ export default function ToolSkeleton({
             {/* Default Input Skeleton */}
             <div className="space-y-2">
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24"></div>
-              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
+              <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
             </div>
             
             {/* Content Area Skeleton */}
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 space-y-3">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-sm p-4 space-y-3">
               <div className="h-5 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
               <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>

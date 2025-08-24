@@ -73,7 +73,7 @@ export default function APITestPage() {
         
         <div className="space-y-6">
           {tests.map((test) => (
-            <div key={test.name} className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-6">
+            <div key={test.name} className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{test.name}</h3>
@@ -85,7 +85,7 @@ export default function APITestPage() {
                 <button
                   onClick={() => testEndpoint(test.name, test.url)}
                   disabled={loading[test.name]}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                  className="px-6 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                   {loading[test.name] ? 'Testing...' : 'Test Endpoint'}
                 </button>
@@ -116,7 +116,7 @@ export default function APITestPage() {
           ))}
         </div>
         
-        <div className="mt-8 p-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+        <div className="mt-8 p-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-sm">
           <h3 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">What this tests:</h3>
           <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
             <li>• <strong>Health Check:</strong> Verifies that the API routes are working</li>

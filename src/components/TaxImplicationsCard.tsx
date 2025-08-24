@@ -36,7 +36,7 @@ export default function TaxImplicationsCard({
   const isLongTerm = holdingPeriodMonths >= 12;
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Tax Implications</h3>
         <button
@@ -92,7 +92,7 @@ export default function TaxImplicationsCard({
             </span>
           </div>
 
-          <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+          <div className="mt-3 p-3 bg-blue-50 rounded-sm">
             <p className="text-xs text-blue-800">
               <strong>Tax Strategy Tip:</strong> {isLongTerm 
                 ? 'Your holdings qualify for favorable long-term capital gains rates.'
@@ -102,7 +102,7 @@ export default function TaxImplicationsCard({
           </div>
 
           {/* Tax Bracket Info */}
-          <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+          <div className="mt-3 p-3 bg-gray-50 rounded-sm">
             <p className="text-xs text-gray-700 mb-2">
               <strong>Your Tax Brackets:</strong>
             </p>

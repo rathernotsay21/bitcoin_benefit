@@ -42,7 +42,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
             ))}
             
             {section.tips && section.tips.length > 0 && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mt-3">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-4 mt-3">
                 <h4 className="text-sm font-bold text-blue-800 dark:text-blue-200 mb-3 uppercase tracking-wide">
                   Quick Tips
                 </h4>
@@ -69,7 +69,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block group p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                      className="block group p-2 rounded-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                     >
                       <div className="text-base font-semibold text-bitcoin hover:text-bitcoin-600 group-hover:underline">
                         {link.title} →
@@ -87,7 +87,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
       ))}
       
       {/* General Bitcoin Resources - Keep this one expanded as reference */}
-      <div className="bg-gradient-to-br from-bitcoin/10 to-orange-100/50 dark:from-bitcoin/20 dark:to-orange-900/20 rounded-lg border-2 border-bitcoin/30 p-5 shadow-sm">
+      <div className="bg-gradient-to-br from-bitcoin/10 to-orange-100/50 dark:from-bitcoin/20 dark:to-orange-900/20 rounded-sm border-2 border-bitcoin/30 p-5 shadow-sm">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
           <span className="mr-3 text-xl">📚</span>
           New to Bitcoin?
@@ -100,7 +100,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
             href="https://bitcoin.org/en/how-it-works"
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-2 rounded-lg text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
+            className="block p-2 rounded-sm text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
           >
             How Bitcoin Works (Bitcoin.org) →
           </a>
@@ -108,7 +108,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
             href="https://river.com/learn/bitcoin-basics/"
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-2 rounded-lg text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
+            className="block p-2 rounded-sm text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
           >
             Bitcoin Basics Guide (River) →
           </a>
@@ -116,7 +116,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
             href="https://www.gemini.com/cryptopedia/bitcoin-for-dummies-how-does-bitcoin-work-blockchain-btc"
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-2 rounded-lg text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
+            className="block p-2 rounded-sm text-base font-semibold text-bitcoin hover:text-bitcoin-600 hover:underline hover:bg-white/50 dark:hover:bg-gray-800/50 transition-all"
           >
             Bitcoin for Beginners (Gemini) →
           </a>

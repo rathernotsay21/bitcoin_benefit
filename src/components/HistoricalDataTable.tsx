@@ -316,7 +316,7 @@ export default function HistoricalDataTable({
       </p>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-sm">
         <div className="text-center">
           <div className="text-2xl font-bold text-bitcoin">
             {formatBTC(summaryStats.totalBTC)}
@@ -344,7 +344,7 @@ export default function HistoricalDataTable({
       </div>
 
       {/* Enhanced Data Table */}
-      <div className="rounded-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+      <div className="rounded-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
         <Table>
           <TableHeader className="bg-gray-50 dark:bg-slate-700">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -383,7 +383,7 @@ export default function HistoricalDataTable({
       </div>
 
       {/* Total Award Cost Summary */}
-      <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
+      <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-sm">
         <div className="flex justify-between items-center">
           <div>
             <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">

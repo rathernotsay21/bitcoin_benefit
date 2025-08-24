@@ -11,7 +11,7 @@ export function ChartSkeleton() {
           ))}
         </div>
       </div>
-      <div className="h-96 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center animate-pulse">
+      <div className="h-96 bg-gray-100 dark:bg-slate-800 rounded-sm flex items-center justify-center animate-pulse">
         <div className="text-center text-gray-400 dark:text-slate-500">
           <div className="text-4xl mb-2">📊</div>
           <div className="text-sm">Loading chart...</div>
@@ -33,7 +33,7 @@ export function CalculatorSkeleton() {
               <div className="h-6 bg-gray-200 dark:bg-slate-700 rounded mb-6 w-2/3"></div>
               <div className="space-y-4">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="border-2 rounded-xl p-5 border-gray-200 dark:border-slate-600">
+                  <div key={i} className="border-2 rounded-sm p-5 border-gray-200 dark:border-slate-600">
                     <div className="h-4 bg-gray-200 dark:bg-slate-700 rounded mb-2 w-1/2"></div>
                     <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded w-3/4"></div>
                   </div>
@@ -87,7 +87,7 @@ export function CalculatorSkeleton() {
             {/* Chart Skeleton */}
             <div className="card animate-pulse">
               <div className="h-6 bg-gray-200 dark:bg-slate-700 rounded mb-4 w-1/3"></div>
-              <div className="h-96 bg-gray-200 dark:bg-slate-700 rounded-lg flex items-center justify-center">
+              <div className="h-96 bg-gray-200 dark:bg-slate-700 rounded-sm flex items-center justify-center">
                 <div className="text-center text-gray-400 dark:text-slate-500">
                   <div className="text-4xl mb-2">📊</div>
                   <div className="text-sm">Loading chart...</div>
@@ -126,7 +126,7 @@ export function HistoricalSkeleton() {
               <div className="h-6 bg-gray-200 dark:bg-slate-700 rounded mb-6 w-2/3"></div>
               <div className="space-y-4">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="border-2 rounded-xl p-5 border-gray-200 dark:border-slate-600">
+                  <div key={i} className="border-2 rounded-sm p-5 border-gray-200 dark:border-slate-600">
                     <div className="h-4 bg-gray-200 dark:bg-slate-700 rounded mb-2 w-1/2"></div>
                     <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded w-3/4"></div>
                   </div>
@@ -162,7 +162,7 @@ export function HistoricalSkeleton() {
             
             {/* Chart Skeleton */}
             <div className="card mb-6 animate-pulse">
-              <div className="h-96 bg-gray-200 dark:bg-slate-700 rounded-lg flex items-center justify-center">
+              <div className="h-96 bg-gray-200 dark:bg-slate-700 rounded-sm flex items-center justify-center">
                 <div className="text-center text-gray-400 dark:text-slate-500">
                   <div className="text-4xl mb-2">📈</div>
                   <div className="text-sm">Loading historical data...</div>

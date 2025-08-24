@@ -46,7 +46,7 @@ export function OptimizedCalculatorInput() {
             step="0.1"
             value={growthRate}
             onChange={(e) => setGrowthRate(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bitcoin focus:border-transparent dark:bg-slate-800 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm focus:ring-2 focus:ring-bitcoin focus:border-transparent dark:bg-slate-800 dark:text-white"
           />
           {isPending() && (
             <div className="absolute right-2 top-1/2 -translate-y-1/2">
@@ -98,7 +98,7 @@ export function OptimizedSchemeSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search vesting schemes..."
-          className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bitcoin focus:border-transparent dark:bg-slate-800 dark:text-white"
+          className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-sm focus:ring-2 focus:ring-bitcoin focus:border-transparent dark:bg-slate-800 dark:text-white"
         />
         <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -127,7 +127,7 @@ export function OptimizedSchemeSearch() {
             <button
               key={scheme.id}
               onClick={() => setSelectedScheme(scheme)}
-              className="p-3 text-left border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+              className="p-3 text-left border border-gray-200 dark:border-gray-700 rounded-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">{scheme.name}</div>
               <div className="text-sm text-gray-500 dark:text-gray-400">{scheme.description}</div>

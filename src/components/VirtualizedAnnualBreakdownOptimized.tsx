@@ -220,7 +220,7 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
       </p>
 
       {/* Table Container */}
-      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm overflow-hidden shadow-sm">
         {/* Table Header */}
         <div className="flex items-center bg-gray-50 dark:bg-slate-700 px-2 sm:px-4 py-3 text-xs font-medium text-gray-500 dark:text-white/80 uppercase tracking-wider border-b border-gray-200 dark:border-slate-600">
           <div className="flex-none w-12 sm:w-16">Year</div>

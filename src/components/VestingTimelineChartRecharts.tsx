@@ -92,7 +92,7 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
     }
 
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-xl shadow-2xl min-w-[240px]">
+      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-sm shadow-md min-w-[240px]">
         <div className="flex items-center justify-between mb-3">
           <p className="font-bold text-gray-900 dark:text-white text-base">Year {year}</p>
           <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
@@ -282,7 +282,7 @@ const SimplifiedChart: React.FC<{ data: any[] }> = ({ data }) => {
         </h3>
       </div>
       <div className="w-full overflow-hidden">
-        <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+        <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-sm flex items-center justify-center">
           <div className="text-center text-gray-500 dark:text-slate-400">
             <div className="text-4xl mb-2">⚡</div>
             <div>Showing simplified view for performance</div>
@@ -596,7 +596,7 @@ function VestingTimelineChartRecharts({
           </h3>
         </div>
         <div className="w-full overflow-hidden">
-          <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
+          <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-sm flex items-center justify-center">
             <div className="text-center text-gray-500 dark:text-slate-400">
               <div className="text-4xl mb-2">📊</div>
               <div>Loading chart data...</div>

@@ -329,7 +329,7 @@ export default function ManualAnnotationOverride({
           onClick={() => isOpen ? closeDropdown() : openDropdown()}
           onKeyDown={handleTriggerKeyDown}
           className={`
-            inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
+            inline-flex items-center gap-2 px-3 py-2 rounded-sm text-sm font-medium
             transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2
             min-w-[120px] justify-between
             ${isManuallyModified
@@ -410,7 +410,7 @@ export default function ManualAnnotationOverride({
       {/* Success feedback animation */}
       {showUndoFeedback && !canUndo && (
         <div
-          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-3 py-1 rounded-md text-xs font-medium shadow-lg z-50"
+          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-3 py-1 rounded-md text-xs font-medium shadow-sm z-50"
           role="status"
           aria-live="polite"
         >
@@ -422,7 +422,7 @@ export default function ManualAnnotationOverride({
       {isOpen && typeof window !== 'undefined' && createPortal(
         <div
           data-dropdown-id={transaction.txid}
-          className="fixed z-[99999] w-56 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-200 dark:border-slate-600 py-1 max-h-60 overflow-y-auto"
+          className="fixed z-[99999] w-56 bg-white dark:bg-slate-800 rounded-sm shadow-sm border border-gray-200 dark:border-slate-600 py-1 max-h-60 overflow-y-auto"
           style={{
             boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
             top: `${dropdownCoords.top}px`,

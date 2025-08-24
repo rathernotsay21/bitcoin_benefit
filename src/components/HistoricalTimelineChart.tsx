@@ -57,7 +57,7 @@ const CustomTooltip = ({ active, payload, label, startingYear = 2020 }: CustomTo
     const vestingPercent = yearsFromStart >= 10 ? 100 : yearsFromStart >= 5 ? 50 : 0;
 
     return (
-      <div className="bg-slate-800 p-4 border border-slate-700 rounded-lg shadow-lg">
+      <div className="bg-slate-800 p-4 border border-slate-700 rounded-sm shadow-sm">
         <p className="font-semibold text-white mb-2">Year {year}</p>
         {payload.map((entry: any, index: number) => (
           <p key={index} className="text-sm text-white" style={{ color: entry.color }}>
@@ -167,7 +167,7 @@ function HistoricalTimelineChart({
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-4 overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-sm p-4 overflow-hidden">
         <ResponsiveContainer width="100%" height={480} debounce={100}>
           <ComposedChart
             data={chartData}
@@ -273,7 +273,7 @@ function HistoricalTimelineChart({
 
       {/* Key Insights */}
       <div className="mt-6 grid md:grid-cols-3 gap-4">
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <div className="bg-orange-50 border border-orange-200 rounded-sm p-4">
           <div className="text-sm font-medium text-orange-800 mb-1">Current Value</div>
           <div className="text-2xl font-bold text-orange-900">
             {formatUSDCompact(results.currentTotalValue)}
@@ -283,7 +283,7 @@ function HistoricalTimelineChart({
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-sm p-4">
           <div className="text-sm font-medium text-blue-800 mb-1">Total Cost Basis</div>
           <div className="text-2xl font-bold text-blue-900">
             {formatUSDCompact(results.totalCostBasis)}
@@ -293,7 +293,7 @@ function HistoricalTimelineChart({
           </div>
         </div>
 
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="bg-green-50 border border-green-200 rounded-sm p-4">
           <div className="text-sm font-medium text-green-800 mb-1">Total Return</div>
           <div className="text-2xl font-bold text-green-900">
             {formatUSDCompact(results.totalReturn)}

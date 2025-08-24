@@ -13,8 +13,8 @@ const ToolTabsNavigation = dynamic(() => import('@/components/bitcoin-tools/Tool
   loading: () => (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       <div className="animate-pulse">
-        <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 mb-8 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-        <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+        <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 mb-8 h-20 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+        <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
       </div>
     </div>
   ),
@@ -87,8 +87,8 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Suspense fallback={
             <div className="animate-pulse">
-              <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 mb-8 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-              <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+              <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 mb-8 h-20 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+              <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
             </div>
           }>
             <ToolTabsNavigation 
@@ -104,7 +104,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         {/* Educational Footer */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <aside className="mt-20" aria-labelledby="educational-heading">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/60 dark:border-gray-700/60 p-8 sm:p-12">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-sm shadow-sm border border-gray-200/60 dark:border-gray-700/60 p-8 sm:p-12">
             <h3 id="educational-heading" className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               New to Bitcoin?
             </h3>
@@ -114,21 +114,21 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
                   <LockClosedIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Privacy First</h4>
                 <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
               </div>
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
                   <BookOpenIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Learn as You Go</h4>
                 <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
               </div>
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
                   <DevicePhoneMobileIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Mobile Friendly</h4>

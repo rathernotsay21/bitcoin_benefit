@@ -77,7 +77,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3 justify-center">
               <button
                 onClick={this.resetError}
-                className="inline-flex items-center px-4 py-2 bg-bitcoin dark:bg-slate-700 text-white font-medium rounded-lg hover:bg-bitcoin-600 dark:hover:bg-slate-600 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-bitcoin dark:bg-slate-700 text-white font-medium rounded-sm hover:bg-bitcoin-600 dark:hover:bg-slate-600 transition-colors"
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -96,7 +96,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </button>
               <button
                 onClick={() => window.location.reload()}
-                className="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-slate-600 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-slate-500 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-slate-600 text-white font-medium rounded-sm hover:bg-gray-700 dark:hover:bg-slate-500 transition-colors"
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -146,7 +146,7 @@ export function CalculatorErrorBoundary({ children }: { children: ReactNode }) {
     <ErrorBoundary
       key={errorBoundaryKey}
       fallback={
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-sm p-6">
           <div className="flex items-start">
             <svg
               className="w-6 h-6 text-yellow-600 dark:text-yellow-400 mr-3 flex-shrink-0 mt-0.5"
@@ -201,7 +201,7 @@ export function ChartErrorBoundary({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary
       fallback={
-        <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-8 text-center">
+        <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm p-8 text-center">
           <svg
             className="w-12 h-12 text-gray-400 dark:text-slate-500 mx-auto mb-3"
             fill="none"

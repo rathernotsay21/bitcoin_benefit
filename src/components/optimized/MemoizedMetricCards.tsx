@@ -25,7 +25,7 @@ const MetricCard = memo(function MetricCard({
   className = ''
 }: MetricCardProps) {
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-all hover:shadow-xl ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-sm shadow-sm p-6 transition-all hover:shadow-sm ${className}`}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -140,7 +140,7 @@ const MemoizedMetricCards = memo(function MemoizedMetricCards() {
         <MetricCard
           key={metric.title}
           {...metric}
-          className={`transform transition-all duration-300 hover:scale-105 animation-delay-${index * 100}`}
+          className={`transition-all duration-300 animation-delay-${index * 100}`}
         />
       ))}
     </div>

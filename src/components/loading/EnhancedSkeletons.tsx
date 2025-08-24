@@ -6,7 +6,7 @@ export function MetricCardsSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="h-32 rounded-xl border-2 border-gray-200 dark:border-slate-700 p-4 bg-white dark:bg-slate-800">
+        <div key={i} className="h-32 rounded-sm border-2 border-gray-200 dark:border-slate-700 p-4 bg-white dark:bg-slate-800">
           <Skeleton className="h-6 w-20 mb-3" />
           <Skeleton className="h-8 w-24 mb-2" />
           <Skeleton className="h-4 w-16" />
@@ -23,7 +23,7 @@ export function ChartSkeleton() {
         <Skeleton className="h-6 w-48" />
         <Skeleton className="h-4 w-20" />
       </div>
-      <div className="relative h-[400px] bg-gray-50 dark:bg-slate-700/50 rounded-lg overflow-hidden">
+      <div className="relative h-[400px] bg-gray-50 dark:bg-slate-700/50 rounded-sm overflow-hidden">
         <Skeleton className="absolute inset-0" />
         {/* Fake chart elements */}
         <div className="absolute inset-0 p-4">
@@ -71,7 +71,7 @@ export function TableSkeleton() {
       </div>
       
       {/* Summary stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-lg mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-sm mb-6">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="text-center">
             <Skeleton className="h-6 w-16 mx-auto mb-1" />
@@ -80,7 +80,7 @@ export function TableSkeleton() {
         ))}
       </div>
       
-      <div className="space-y-3 border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden">
+      <div className="space-y-3 border border-gray-200 dark:border-slate-700 rounded-sm overflow-hidden">
         {/* Header */}
         <div className="grid grid-cols-6 gap-4 p-4 bg-gray-50 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-600">
           {[...Array(6)].map((_, i) => (
@@ -132,10 +132,10 @@ export function CalculatorSkeleton() {
         <Skeleton className="h-6 w-32 mb-4" />
         <div className="grid grid-cols-3 gap-2 mb-6">
           {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} className="h-16 w-full rounded-lg" />
+            <Skeleton key={i} className="h-16 w-full rounded-sm" />
           ))}
         </div>
-        <div className="p-4 border border-bitcoin/20 rounded-xl">
+        <div className="p-4 border border-bitcoin/20 rounded-sm">
           <Skeleton className="h-5 w-40 mb-2" />
           <Skeleton className="h-4 w-full mb-2" />
           <Skeleton className="h-4 w-3/4" />
@@ -175,7 +175,7 @@ export function FullPageSkeleton() {
             </div>
             <div className="flex items-center space-x-4">
               <Skeleton className="h-10 w-10 rounded-full" />
-              <Skeleton className="h-10 w-10 rounded-lg md:hidden" />
+              <Skeleton className="h-10 w-10 rounded-sm md:hidden" />
             </div>
           </div>
         </div>

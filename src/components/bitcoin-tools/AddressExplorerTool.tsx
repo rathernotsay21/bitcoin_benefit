@@ -244,7 +244,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
           </div>
 
           {/* Address Header */}
-          <div className="card mb-6 hover:shadow-xl transition-all duration-300">
+          <div className="card mb-6 hover:shadow-sm transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                 Address Details
@@ -272,7 +272,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               </div>
             </div>
             
-            <div className="font-mono text-base text-gray-600 dark:text-gray-400 break-all mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+            <div className="font-mono text-base text-gray-600 dark:text-gray-400 break-all mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-sm">
               {addressExplorer.data.address}
             </div>
             
@@ -282,7 +282,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
           </div>
 
           {/* Balance Display */}
-          <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6 shadow-sm">
+          <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-sm p-6 mb-6 shadow-sm">
             <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">
               Current Balance
             </h4>
@@ -291,21 +291,21 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-bitcoin/5 rounded-lg">
+              <div className="text-center p-4 bg-bitcoin/5 rounded-sm">
                 <div className="text-3xl font-bold text-bitcoin mb-2">
                   {formatBTC(addressExplorer.data.balance.btc)}
                 </div>
                 <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Bitcoin</div>
               </div>
               
-              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-sm">
                 <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                   {formatUSD(addressExplorer.data.balance.usd)}
                 </div>
                 <div className="text-base font-medium text-gray-600 dark:text-gray-400">In US Dollars</div>
               </div>
               
-              <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-sm">
                 <div className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
                   {addressExplorer.data.balance.sats.toLocaleString()}
                 </div>
@@ -320,7 +320,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
           {/* Transaction History */}
           {addressExplorer.data.transactions.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-sm p-6 mb-6 shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
                   Transaction History
@@ -335,7 +335,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               
               <div className="space-y-4">
                 {addressExplorer.data.transactions.map((tx, index) => (
-                  <div key={tx.txid} className="border-2 border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                  <div key={tx.txid} className="border-2 border-gray-200 dark:border-gray-600 rounded-sm p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-3">
                         <span className="text-xl">{getStatusIcon(tx.status)}</span>
@@ -388,7 +388,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
           {/* No Transactions */}
           {addressExplorer.data.transactions.length === 0 && (
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 mb-6 text-center">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-sm p-8 mb-6 text-center">
               <div className="text-4xl mb-4">📄</div>
               <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 No Transactions Found
@@ -400,7 +400,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
           )}
 
           {/* Best Practices */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 rounded-lg p-5 shadow-sm">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 rounded-sm p-5 shadow-sm">
             <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-4 flex items-center">
               <span className="mr-3 text-xl">💡</span>
               Good to Know

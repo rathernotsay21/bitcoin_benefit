@@ -37,12 +37,12 @@ Title: "Why Forward-Thinking Companies Choose Bitcoin"
 
 Every year, your traditional benefits package costs more and delivers less. Health insurance premiums rise. 401(k) matches barely beat inflation. Stock options are complex and often worthless.
 
-Bitcoin is different. It's:
+Bitcoin is different.
 
 **Scarce by Design**
 Only 21 million bitcoin will ever exist. Unlike dollars that can be printed endlessly, bitcoin's fixed supply means it tends to gain value over time, not lose it.
 
-**Proven Over 15 Years**
+**Proven Over 16 Years**
 Since 2009, bitcoin has survived every crisis, crash, and criticism to become a trillion-dollar asset class. Major companies like Tesla, MicroStrategy, and Square hold billions in bitcoin.
 
 **Simple to Implement**
@@ -595,7 +595,7 @@ Which side of history will your benefits be on?"
 - Time on page (target: +50%)
 - Bounce rate (target: -20%)
 - Calculator completion rate (target: +30%)
-- Learn ’ Calculator conversion (target: 40%)
+- Learn ï¿½ Calculator conversion (target: 40%)
 - Content shares/engagement
 
 ### User Feedback Metrics

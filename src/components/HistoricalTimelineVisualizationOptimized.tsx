@@ -85,7 +85,7 @@ const TimelineMarker = memo(({
           isSelected ? 'opacity-60' : 'opacity-0 group-hover:opacity-30'
         } ${markerClass.replace('gradient-to-br from-', '').split(' ')[0]}`}></div>
 
-        <div className={`relative w-10 h-10 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${markerClass} shadow-md hover:shadow-lg ${
+        <div className={`relative w-10 h-10 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${markerClass} shadow-md hover:shadow-sm ${
           isSelected ? 'ring-3 ring-bitcoin/40 ring-offset-2' : ''
         }`}>
           {yearData.hasGrants && <SatoshiIcon className="w-5 h-5 text-white" />}
@@ -245,6 +245,9 @@ function HistoricalTimelineVisualizationOptimized({
           Interactive Timeline Explorer
         </h4>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
+          This page shows what bitcoin awards did in the past. The early days saw dramatic growth, but they were rough. The good news is that the wild volatility is settling down. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
+        </p>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
           The timeline shows the journey your employee's Bitcoin award would have taken from a chosen starting year to today.
         </p>
         
@@ -273,9 +276,9 @@ function HistoricalTimelineVisualizationOptimized({
                 return (
                   <div
                     key={yearData.year}
-                    className={`relative flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border-2 cursor-pointer transition-all min-h-[120px] ${
+                    className={`relative flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-sm border-2 cursor-pointer transition-all min-h-[120px] ${
                       isSelected
-                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
+                        ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-sm'
                         : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md'
                     }`}
                     onClick={() => handleYearClick(yearData.year)}
@@ -314,13 +317,13 @@ function HistoricalTimelineVisualizationOptimized({
                       </div>
 
                       <div className="space-y-3 text-sm">
-                        <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
+                        <div className="flex items-center justify-between bg-blue-50 dark:bg-blue-900/20 rounded-sm p-3">
                           <div>
                             <div className="text-gray-600 dark:text-white/80 text-xs font-medium">BTC Balance</div>
                             <div className="font-bold text-bitcoin dark:text-bitcoin text-base">{formatBTC(yearData.btcBalance)}</div>
                           </div>
                         </div>
-                        <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
+                        <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/20 rounded-sm p-3">
                           <div>
                             <div className="text-gray-600 dark:text-white/80 text-xs font-medium">
                               {yearData.historicalValue > 0 ? 'Historical Value' : 'Current Value'}
@@ -331,7 +334,7 @@ function HistoricalTimelineVisualizationOptimized({
                           </div>
                         </div>
                         {yearData.grantCost > 0 && (
-                          <div className="flex items-center justify-between bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3">
+                          <div className="flex items-center justify-between bg-orange-50 dark:bg-orange-900/20 rounded-sm p-3">
                             <div>
                               <div className="text-gray-600 dark:text-white/80 text-xs font-medium">Award Cost</div>
                               <div className="font-bold text-orange-600 dark:text-orange-400 text-base">{formatUSDCompact(yearData.grantCost)}</div>
@@ -372,14 +375,14 @@ function HistoricalTimelineVisualizationOptimized({
 
           {/* Selected Year Details */}
           {selectedYearData && (
-            <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-gray-200 dark:border-slate-600">
+            <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 rounded-sm border border-gray-200 dark:border-slate-600">
               <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                 {selectedYear} Detailed Analysis
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {selectedYearData.hasGrants && (
-                  <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-xl border border-orange-200 dark:border-orange-800 shadow-md">
+                  <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-sm border border-orange-200 dark:border-orange-800 shadow-md">
                     <div className="text-sm font-semibold text-orange-800 dark:text-orange-200 mb-1 flex items-center">
                       <SatoshiIcon className="w-4 h-4 mr-1" />
                       This Year
@@ -394,7 +397,7 @@ function HistoricalTimelineVisualizationOptimized({
                 )}
 
                 {selectedYearData.grantCost > 0 && (
-                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 shadow-md">
+                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 p-4 rounded-sm border border-purple-200 dark:border-purple-800 shadow-md">
                     <div className="text-sm font-semibold text-purple-800 dark:text-purple-200 mb-1">
                       Award Cost
                     </div>
@@ -407,7 +410,7 @@ function HistoricalTimelineVisualizationOptimized({
                   </div>
                 )}
 
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-800 shadow-md">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-4 rounded-sm border border-blue-200 dark:border-blue-800 shadow-md">
                   <div className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-1">
                     Total BTC
                   </div>
@@ -419,7 +422,7 @@ function HistoricalTimelineVisualizationOptimized({
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-4 rounded-xl border border-green-200 dark:border-green-800 shadow-md">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-4 rounded-sm border border-green-200 dark:border-green-800 shadow-md">
                   <div className="text-sm font-semibold text-green-800 dark:text-green-200 mb-1">
                     Current Value
                   </div>
@@ -433,7 +436,7 @@ function HistoricalTimelineVisualizationOptimized({
               </div>
 
               {selectedYearData.isVestingMilestone && (
-                <div className={`mt-6 p-4 rounded-xl ${
+                <div className={`mt-6 p-4 rounded-sm ${
                   selectedYearData.vestingPercent === 100
                     ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-300 dark:border-green-700'
                     : 'bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 border border-yellow-300 dark:border-yellow-700'
@@ -461,7 +464,7 @@ function HistoricalTimelineVisualizationOptimized({
           )}
         </div>
 
-        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-xl shadow-md">
+        <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-sm shadow-md">
           <div className="text-sm text-blue-800 dark:text-blue-200 font-medium">
             💡 <strong>Interactive Timeline:</strong> Click on any year marker to explore detailed grant information, vesting status, and portfolio performance for that specific year.
           </div>

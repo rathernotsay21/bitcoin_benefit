@@ -192,7 +192,7 @@ export default function VestingProgress({
   
   return (
     <div 
-      className={`p-6 bg-white dark:bg-slate-800 rounded-xl border-2 shadow-lg transition-all duration-300 hover:shadow-xl border-bitcoin ${className}`}
+      className={`p-6 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin ${className}`}
       style={{
         backgroundImage: `
           linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
@@ -210,7 +210,7 @@ export default function VestingProgress({
       {/* Enhanced Header with Strategy Information */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <div className={`p-2 rounded-lg ${strategyConfig.colors.iconBg} mr-3`}>
+          <div className={`p-2 rounded-sm ${strategyConfig.colors.iconBg} mr-3`}>
             <StrategyIcon className={`w-6 h-6 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
@@ -293,7 +293,7 @@ export default function VestingProgress({
       </div>
       
       {/* Unlocking Schedule Overview */}
-      <div className={`p-4 ${strategyConfig.colors.bg} rounded-lg mb-4`} style={{border: '1px solid #777f89'}}>
+      <div className={`p-4 ${strategyConfig.colors.bg} rounded-sm mb-4`} style={{border: '1px solid #777f89'}}>
         <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
           Unlocking Schedule Overview
@@ -328,7 +328,7 @@ export default function VestingProgress({
       
       {/* Completion Message - Enhanced */}
       {currentProgress >= 100 && (
-        <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border-2 border-green-200 dark:border-green-700">
+        <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-sm border-2 border-green-200 dark:border-green-700">
           <div className="flex items-center">
             <div className="p-2 bg-green-500 rounded-full mr-3">
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">

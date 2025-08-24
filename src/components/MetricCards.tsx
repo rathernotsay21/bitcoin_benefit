@@ -43,7 +43,7 @@ function MetricCard({ value, label, color, sublabel, icon, helpContent }: Metric
   };
 
   return (
-    <div className={`relative h-32 rounded-xl border-2 ${colorClasses[color]} p-4 flex flex-col justify-center items-center text-center transition-all duration-200 hover:shadow-md`}>
+    <div className={`relative h-32 rounded-sm border-2 ${colorClasses[color]} p-4 flex flex-col justify-center items-center text-center transition-all duration-200 hover:shadow-md`}>
       {icon && (
         <div className="absolute top-3 right-3 opacity-30">
           {icon}

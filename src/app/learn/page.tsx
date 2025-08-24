@@ -66,9 +66,9 @@ export default function LearnMorePage() {
                                 rel="noopener noreferrer"
                                 className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
                             >
-                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
+                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-sm p-8 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
                                     <div className="text-center">
-                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center group-hover:from-green-100 group-hover:to-emerald-100 dark:group-hover:from-green-800/40 dark:group-hover:to-emerald-800/40 transition-colors duration-300">
+                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-sm flex items-center justify-center group-hover:from-green-100 group-hover:to-emerald-100 dark:group-hover:from-green-800/40 dark:group-hover:to-emerald-800/40 transition-colors duration-300">
                                             <Image 
                                                 src="/cash_app_logo.webp" 
                                                 alt="Cash App" 
@@ -124,17 +124,17 @@ export default function LearnMorePage() {
                             >
                                 {/* Featured Badge */}
                                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                                    <div className="bg-gradient-to-r from-bitcoin to-orange-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                                    <div className="bg-gradient-to-r from-bitcoin to-orange-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
                                         Recommended
                                     </div>
                                 </div>
                                 
-                                <div className="bg-gradient-to-br from-white to-blue-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-bitcoin/30 dark:border-bitcoin/40 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:border-bitcoin group-hover:shadow-bitcoin/20 h-full relative overflow-hidden">
+                                <div className="bg-gradient-to-br from-white to-blue-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-bitcoin/30 dark:border-bitcoin/40 rounded-sm p-8 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-bitcoin group-hover:shadow-bitcoin/20 h-full relative overflow-hidden">
                                     {/* Glow effect */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-bitcoin/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     
                                     <div className="text-center relative z-10">
-                                        <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-bitcoin/10 to-orange-500/10 rounded-2xl flex items-center justify-center group-hover:from-bitcoin/20 group-hover:to-orange-500/20 transition-colors duration-300">
+                                        <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-bitcoin/10 to-orange-500/10 rounded-sm flex items-center justify-center group-hover:from-bitcoin/20 group-hover:to-orange-500/20 transition-colors duration-300">
                                             <Image 
                                                 src="/river_logo.webp" 
                                                 alt="River Financial" 
@@ -189,9 +189,9 @@ export default function LearnMorePage() {
                                 rel="noopener noreferrer"
                                 className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
                             >
-                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:border-purple-400 dark:group-hover:border-purple-500 h-full">
+                                <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-sm p-8 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-purple-400 dark:group-hover:border-purple-500 h-full">
                                     <div className="text-center">
-                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center group-hover:from-purple-100 group-hover:to-indigo-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
+                                        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-sm flex items-center justify-center group-hover:from-purple-100 group-hover:to-indigo-100 dark:group-hover:from-purple-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
                                             <Image 
                                                 src="/kraken_logo.svg" 
                                                 alt="Kraken" 
@@ -241,7 +241,7 @@ export default function LearnMorePage() {
                     </div>
 
                     {/* Why These Platforms */}
-                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
+                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-sm p-8 border border-gray-200/50 dark:border-gray-700/50">
                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             Why These Platforms?
                         </h5>
@@ -290,19 +290,19 @@ export default function LearnMorePage() {
                                 >
                                     {/* Recommended Badge */}
                                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                                        <div className="bg-gradient-to-r from-orange-500 to-bitcoin text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                                        <div className="bg-gradient-to-r from-orange-500 to-bitcoin text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
                                             Recommended
                                         </div>
                                     </div>
                                     
-                                    <div className="bg-gradient-to-br from-white to-orange-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-orange-400/30 dark:border-orange-500/40 rounded-2xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:border-orange-500 group-hover:shadow-orange-500/20 h-full relative overflow-hidden">
+                                    <div className="bg-gradient-to-br from-white to-orange-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-orange-400/30 dark:border-orange-500/40 rounded-sm p-8 lg:p-10 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-orange-500 group-hover:shadow-orange-500/20 h-full relative overflow-hidden">
                                         {/* Glow effect */}
                                         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                         
                                         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 relative z-10">
                                             {/* Image Container */}
                                             <div className="flex-shrink-0">
-                                                <div className="w-32 h-32 lg:w-40 lg:h-40 bg-[#1f2125] rounded-2xl flex items-center justify-center group-hover:bg-[#2a2d32] transition-colors duration-300 shadow-lg">
+                                                <div className="w-32 h-32 lg:w-40 lg:h-40 bg-[#1f2125] rounded-sm flex items-center justify-center group-hover:bg-[#2a2d32] transition-colors duration-300 shadow-sm">
                                                     <Image 
                                                         src="/foundation.webp" 
                                                         alt="Foundation Passport" 
@@ -371,10 +371,10 @@ export default function LearnMorePage() {
                                     rel="noopener noreferrer"
                                     className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                                 >
-                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
+                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-sm p-6 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-green-400 dark:group-hover:border-green-500 h-full">
                                         <div className="flex items-start gap-4">
                                             <div className="flex-shrink-0">
-                                                <div className="w-20 h-20 bg-green-900 dark:bg-green-950 rounded-xl flex items-center justify-center group-hover:bg-green-800 dark:group-hover:bg-green-900 transition-colors duration-300">
+                                                <div className="w-20 h-20 bg-green-900 dark:bg-green-950 rounded-sm flex items-center justify-center group-hover:bg-green-800 dark:group-hover:bg-green-900 transition-colors duration-300">
                                                     <Image 
                                                         src="/blockstream.webp" 
                                                         alt="Blockstream Jade" 
@@ -409,10 +409,10 @@ export default function LearnMorePage() {
                                     rel="noopener noreferrer"
                                     className="group block transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                                 >
-                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:border-blue-400 dark:group-hover:border-blue-500 h-full">
+                                    <div className="bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-sm p-6 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-blue-400 dark:group-hover:border-blue-500 h-full">
                                         <div className="flex items-start gap-4">
                                             <div className="flex-shrink-0">
-                                                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl flex items-center justify-center group-hover:from-blue-100 group-hover:to-indigo-100 dark:group-hover:from-blue-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
+                                                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-sm flex items-center justify-center group-hover:from-blue-100 group-hover:to-indigo-100 dark:group-hover:from-blue-800/40 dark:group-hover:to-indigo-800/40 transition-colors duration-300">
                                                     <Image 
                                                         src="/bitbox.webp" 
                                                         alt="BitBox02" 
@@ -444,7 +444,7 @@ export default function LearnMorePage() {
                     </div>
 
                     {/* Why Hardware Wallets */}
-                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
+                    <div className="text-center bg-white/50 dark:bg-slate-800/30 backdrop-blur-sm rounded-sm p-8 border border-gray-200/50 dark:border-gray-700/50">
                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             Why Use a Hardware Wallet?
                         </h5>

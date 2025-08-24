@@ -218,16 +218,16 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
           {/* Enhanced Tab Navigation with improved spacing and design */}
           <div className="relative mb-12">
             {/* Add subtle background pattern */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-50/50 via-white/30 to-slate-50/50 dark:from-slate-800/50 dark:via-slate-700/30 dark:to-slate-800/50 rounded-2xl blur-3xl" aria-hidden="true"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-50/50 via-white/30 to-slate-50/50 dark:from-slate-800/50 dark:via-slate-700/30 dark:to-slate-800/50 rounded-sm blur-3xl" aria-hidden="true"></div>
             
-            <TabsList className="relative w-full h-auto p-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl">
+            <TabsList className="relative w-full h-auto p-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-slate-700/60 rounded-sm shadow-sm">
               {/* Responsive grid with optimized sizing */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
                 {tools.map((tool) => (
                   <TabsTrigger
                     key={tool.id}
                     value={tool.id}
-                    className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-300 rounded-xl data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-slate-50/80 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[80px] sm:min-h-[90px] data-[state=active]:transform data-[state=active]:scale-[1.02] hover:scale-[1.01] data-[state=active]:ring-2 data-[state=active]:ring-bitcoin/20 data-[state=active]:ring-offset-2"
+                    className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-300 rounded-sm data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-slate-50/80 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[80px] sm:min-h-[90px] data-[state=active]:transform data-[state=active]:scale-[1.02] hover:scale-[1.01] data-[state=active]:ring-2 data-[state=active]:ring-bitcoin/20 data-[state=active]:ring-offset-2"
                   >
                     {/* Icon with improved sizing */}
                     <div className="w-6 h-6 sm:w-7 sm:h-7 mb-2 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110 group-hover:scale-105">
@@ -251,14 +251,14 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                     )}
                     
                     {/* Subtle glow effect for active state */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-bitcoin/10 to-bitcoin-600/10 opacity-0 group-data-[state=active]:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></div>
+                    <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-bitcoin/10 to-bitcoin-600/10 opacity-0 group-data-[state=active]:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></div>
                   </TabsTrigger>
                 ))}
               </div>
             </TabsList>
             
             {/* Add visual depth with shadow layers */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-bitcoin/5 to-transparent rounded-2xl pointer-events-none" aria-hidden="true"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-bitcoin/5 to-transparent rounded-sm pointer-events-none" aria-hidden="true"></div>
           </div>
 
           {/* Enhanced Tab Content with improved spacing */}
@@ -267,9 +267,9 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
             return (
               <TabsContent key={tool.id} value={tool.id} className="space-y-6" forceMount={tool.id === activeTab ? undefined : true} hidden={tool.id !== activeTab}>
                 {/* Enhanced Tool Header with better visual hierarchy */}
-                <div className="bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-gray-200/60 dark:border-slate-600/60 shadow-lg">
+                <div className="bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm rounded-sm p-6 sm:p-8 border border-gray-200/60 dark:border-slate-600/60 shadow-sm">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                    <div className="w-20 h-20 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-2xl flex items-center justify-center shadow-inner">
+                    <div className="w-20 h-20 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-sm flex items-center justify-center shadow-inner">
                       <tool.icon className="w-12 h-12 text-bitcoin" />
                     </div>
                     <div className="flex-1">
@@ -306,7 +306,7 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                 </div>
                 
                 {/* Tool Component Container with enhanced styling */}
-                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/60 dark:border-slate-700/60 overflow-hidden min-h-[600px] transition-all duration-300 hover:shadow-2xl">
+                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-sm shadow-sm border border-gray-200/60 dark:border-slate-700/60 overflow-hidden min-h-[600px] transition-all duration-300 hover:shadow-sm">
                   <Component 
                     initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
                     initialAddress={tool.id === 'address' ? processedParams.address : undefined}

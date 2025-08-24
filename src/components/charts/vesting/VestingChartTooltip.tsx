@@ -31,7 +31,7 @@ export const VestingChartTooltip = memo<CustomTooltipProps>(({
   const isInitialGrant = data.isInitialGrant || false;
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 min-w-[250px]">
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-sm shadow-sm border border-gray-200 dark:border-gray-700 min-w-[250px]">
       <div className="flex items-center justify-between mb-3">
         <p className="font-semibold text-gray-900 dark:text-gray-100">
           Year {year}

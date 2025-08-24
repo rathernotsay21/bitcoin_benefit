@@ -57,7 +57,7 @@ const MetricCard = memo(function MetricCard({
   };
 
   return (
-    <div className={`p-4 rounded-lg border ${statusColors[metric.status]}`}>
+    <div className={`p-4 rounded-sm border ${statusColors[metric.status]}`}>
       <div className="flex items-center justify-between mb-2">
         <h4 className="font-medium text-sm">{metric.name}</h4>
         {statusIcons[metric.status]}
@@ -99,7 +99,7 @@ const PerformanceChart = memo(function PerformanceChart({
   const range = maxValue - minValue;
 
   return (
-    <div className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+    <div className="p-4 bg-white dark:bg-slate-800 rounded-sm border border-gray-200 dark:border-slate-700">
       <h4 className="font-medium text-sm mb-4 text-gray-900 dark:text-white">{title}</h4>
       <div className="h-24 relative">
         <svg className="w-full h-full" viewBox="0 0 300 100">
@@ -272,7 +272,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
 
   if (!summaryStats) {
     return (
-      <div className={`p-4 bg-gray-50 dark:bg-slate-900 rounded-lg ${className}`}>
+      <div className={`p-4 bg-gray-50 dark:bg-slate-900 rounded-sm ${className}`}>
         <div className="animate-pulse">
           <div className="h-4 bg-gray-200 dark:bg-slate-700 rounded w-1/3 mb-2"></div>
           <div className="h-8 bg-gray-200 dark:bg-slate-700 rounded w-1/2"></div>
@@ -282,7 +282,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
   }
 
   return (
-    <div className={`bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg ${className}`}>
+    <div className={`bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-sm ${className}`}>
       {/* Header */}
       <div className="p-4 border-b border-gray-200 dark:border-slate-700">
         <div className="flex items-center justify-between">
@@ -374,7 +374,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
             <div className="space-y-4">
               <h4 className="font-medium text-gray-900 dark:text-white">Detailed Metrics</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-gray-50 dark:bg-slate-900 rounded-lg">
+                <div className="p-4 bg-gray-50 dark:bg-slate-900 rounded-sm">
                   <h5 className="font-medium text-sm mb-3">Concurrent Processing</h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -392,7 +392,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 dark:bg-slate-900 rounded-lg">
+                <div className="p-4 bg-gray-50 dark:bg-slate-900 rounded-sm">
                   <h5 className="font-medium text-sm mb-3">Cache Performance</h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -410,7 +410,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
           )}
 
           {/* Performance Tips */}
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-800">
             <h4 className="font-medium text-blue-800 dark:text-blue-400 mb-2">Performance Tips</h4>
             <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
               <li>• Enable optimizations for better performance on large datasets</li>

@@ -71,7 +71,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="text-center">
             <div className="flex justify-center mb-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full animate-float shadow-xl" style={{backgroundColor: '#F7931A'}}>
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full animate-float shadow-sm" style={{backgroundColor: '#F7931A'}}>
                 <SatoshiIcon className="w-10 h-10" size={40} color="#FFFFFF" />
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
                 <BitcoinCircleOutlineIcon className="w-8 h-8" />
                 <span>Build Your Plan</span>
               </Link>
-              <Link href="/historical" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 rounded-2xl font-bold">
+              <Link href="/historical" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-10 py-4 inline-flex items-center justify-center space-x-2 rounded-sm font-bold">
                 <ClockIcon className="w-6 h-6" />
                 <span>See the Proof</span>
               </Link>

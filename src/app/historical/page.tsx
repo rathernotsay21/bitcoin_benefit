@@ -155,7 +155,15 @@ function HistoricalCalculatorContent() {
           {/* Left Panel - Configuration */}
           <div className="lg:col-span-1 w-full min-w-0 space-y-6 overflow-hidden max-w-full">
             {/* Scheme Selection */}
-            <div className="card glass">
+            <div className={`card ${
+              selectedScheme?.id === 'accelerator'
+                ? 'border-2 border-bitcoin/20 hover:border-bitcoin/30 bg-gradient-to-r from-bitcoin/5 to-orange-100/50 dark:from-bitcoin/10 dark:to-slate-800'
+                : selectedScheme?.id === 'steady-builder'
+                ? 'border-2 border-green-500/20 hover:border-green-500/30 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-slate-800'
+                : selectedScheme?.id === 'slow-burn'
+                ? 'border-2 border-blue-500/20 hover:border-blue-500/30 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-slate-800'
+                : ''
+            }`}>
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -321,12 +329,6 @@ function HistoricalCalculatorContent() {
             {/* Results */}
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
-                {/* Introductory Text */}
-                <div className="mb-8 px-6 py-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                  <p className="text-lg text-gray-600 dark:text-slate-400 leading-[1.75] max-w-3xl mx-auto text-left px-8 md:px-12">
-                    This page shows what bitcoin awards did in the past. The early days saw dramatic growth, but they were rough. The good news is that the wild volatility is settling down. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
-                  </p>
-                </div>
                 {/* Metric Cards Carousel */}
                 <HistoricalMetricCards
                   historicalResults={historicalResults}

@@ -227,7 +227,7 @@ function DocumentTimestampingTool() {
       <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
         {/* Explanatory Text for New Users */}
         {!documentTimestamp.data && !verificationMode && (
-          <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+          <div className="mb-6 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-700">
           <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
             What is Document Timestamping?
           </h3>
@@ -257,14 +257,14 @@ function DocumentTimestampingTool() {
         <div className="flex space-x-2">
           <button
             onClick={() => setShowEducation(!showEducation)}
-            className="text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+            className="text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-sm hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
           >
             {showEducation ? 'Hide Info' : 'Learn More'}
           </button>
           
           <button
             onClick={() => setVerificationMode(!verificationMode)}
-            className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
             {verificationMode ? 'Create Timestamp' : 'Verify Timestamp'}
           </button>
@@ -273,7 +273,7 @@ function DocumentTimestampingTool() {
 
         {/* Educational Content */}
         {showEducation && (
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-6">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-6 mb-6">
           <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
             <span className="mr-2">📚</span>
             How It Works
@@ -310,7 +310,7 @@ function DocumentTimestampingTool() {
         {/* Verification Mode */}
         {verificationMode ? (
           <div className="space-y-6">
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-sm p-6">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Verify Existing Timestamp
             </h4>
@@ -327,7 +327,7 @@ function DocumentTimestampingTool() {
                     ...prev,
                     original: e.target.files![0]
                   }))}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
                 />
                 {verificationFiles.original && (
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -348,7 +348,7 @@ function DocumentTimestampingTool() {
                     ...prev,
                     proof: e.target.files![0]
                   }))}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
                 />
                 {verificationFiles.proof && (
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -361,7 +361,7 @@ function DocumentTimestampingTool() {
             <button
               onClick={handleVerifyTimestamp}
               disabled={!verificationFiles.original || !verificationFiles.proof}
-              className="w-full py-3 bg-bitcoin text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-bitcoin-600 transition-colors"
+              className="w-full py-3 bg-bitcoin text-white rounded-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-bitcoin-600 transition-colors"
             >
               Verify Timestamp
             </button>
@@ -369,7 +369,7 @@ function DocumentTimestampingTool() {
 
           {/* Verification Results */}
           {verificationResult && (
-            <div className={`border rounded-lg p-6 mb-6 ${
+            <div className={`border rounded-sm p-6 mb-6 ${
               verificationResult.isValid 
                 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700'
                 : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'
@@ -419,7 +419,7 @@ function DocumentTimestampingTool() {
           {/* File Upload */}
           {currentStep === 'upload' && (
             <div
-              className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+              className={`border-2 border-dashed rounded-sm p-6 text-center transition-colors ${
                 dragActive
                   ? 'border-bitcoin bg-bitcoin/5'
                   : 'border-gray-300 dark:border-gray-600 hover:border-bitcoin/50'
@@ -441,7 +441,7 @@ function DocumentTimestampingTool() {
                     </p>
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="px-6 py-2 bg-bitcoin text-white rounded-lg font-medium hover:bg-bitcoin-600 transition-colors"
+                      className="px-6 py-2 bg-bitcoin text-white rounded-sm font-medium hover:bg-bitcoin-600 transition-colors"
                     >
                       Choose File
                     </button>
@@ -472,13 +472,13 @@ function DocumentTimestampingTool() {
                       <button
                         onClick={handleCreateTimestamp}
                         disabled={isCreating}
-                        className="px-6 py-2 bg-bitcoin text-white rounded-lg font-medium disabled:opacity-50 hover:bg-bitcoin-600 transition-colors"
+                        className="px-6 py-2 bg-bitcoin text-white rounded-sm font-medium disabled:opacity-50 hover:bg-bitcoin-600 transition-colors"
                       >
                         Create Timestamp
                       </button>
                       <button
                         onClick={() => setDocumentTimestampFile(null)}
-                        className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                        className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                       >
                         Change File
                       </button>
@@ -492,7 +492,7 @@ function DocumentTimestampingTool() {
           {/* Results */}
           {currentStep === 'result' && documentTimestamp.data && (
             <div className="space-y-6">
-              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-6 mb-6">
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-sm p-6 mb-6">
                 <div className="flex items-center space-x-4 mb-6">
                   <span className="text-3xl">✅</span>
                   <div>
@@ -506,7 +506,7 @@ function DocumentTimestampingTool() {
                   </div>
                 </div>
                 
-                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-sm p-4 mb-4">
                   <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Your Proof Details:</h5>
                   <div className="space-y-2 text-sm">
                     <div>
@@ -523,13 +523,13 @@ function DocumentTimestampingTool() {
                 <div className="flex space-x-3">
                   <button
                     onClick={handleDownloadProof}
-                    className="flex-1 py-2 bg-bitcoin text-white rounded-lg font-medium hover:bg-bitcoin-600 transition-colors"
+                    className="flex-1 py-2 bg-bitcoin text-white rounded-sm font-medium hover:bg-bitcoin-600 transition-colors"
                   >
                     Download Proof File
                   </button>
                   <button
                     onClick={() => window.open(documentTimestamp.data!.verificationUrl, '_blank')}
-                    className="flex-1 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                    className="flex-1 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                   >
                     Verify Online
                   </button>
@@ -537,7 +537,7 @@ function DocumentTimestampingTool() {
               </div>
 
               {/* Instructions */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6 mb-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-6 mb-6">
                 <h5 className="font-medium text-blue-800 dark:text-blue-200 mb-2">Important - Save Your Proof:</h5>
                 <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
                   <li>• Download the proof file (.ots) and keep it with your original document</li>
@@ -551,7 +551,7 @@ function DocumentTimestampingTool() {
               <div className="text-center">
                 <button
                   onClick={resetWorkflow}
-                  className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                 >
                   Timestamp Another Document
                 </button>

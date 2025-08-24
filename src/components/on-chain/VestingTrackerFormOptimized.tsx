@@ -436,7 +436,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
 
         {/* General Error Message */}
         {(error || displayErrors.general) && (
-          <div className="p-4 rounded-xl bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800">
+          <div className="p-4 rounded-sm bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400" role="alert">
               {error || displayErrors.general}
             </p>

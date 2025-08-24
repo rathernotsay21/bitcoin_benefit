@@ -20,7 +20,7 @@ export function CollapsibleBoxDemo() {
           <p>This is a longer piece of content that should be collapsible to save space.</p>
           <p>It has multiple paragraphs and contains a lot of information that might be overwhelming when all shown at once.</p>
           <p>The CollapsibleBox component automatically detects when content is longer than the preview height and shows expansion controls.</p>
-          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-4">
             <h4 className="font-bold text-blue-800 dark:text-blue-200 mb-2">Quick Tips</h4>
             <ul className="space-y-1">
               <li className="text-sm text-blue-700 dark:text-blue-300">• Tip number one about this topic</li>

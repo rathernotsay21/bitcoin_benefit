@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 24 83% 53%;
-    --radius: 0.5rem;
+    --radius: 0.125rem;
   }
 
   .dark {
@@ -152,9 +152,7 @@ scroll-behavior: smooth;
 @layer components {
   /* Primary Button - Enhanced */
   .btn-primary {
-    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden;
-    /* Uniform border radius for clean appearance */
-    border-radius: 20px;
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
     /* GPU acceleration for better performance */
     will-change: transform, box-shadow;
     transform: translateZ(0) perspective(1000px) rotateX(0deg);
@@ -197,9 +195,7 @@ scroll-behavior: smooth;
   
   /* Secondary Button - Enhanced */
   .btn-secondary {
-    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden;
-    /* Softer asymmetric border radius */
-    border-radius: 20px 16px 18px 22px;
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
     /* GPU acceleration */
     will-change: transform, border-color, background-color;
     transform: translateZ(0);
@@ -242,7 +238,7 @@ scroll-behavior: smooth;
 
   /* Dark Mode Toggle Button - Enhanced Glassmorphism */
   .theme-toggle-btn {
-    @apply p-3 rounded-xl transition-all duration-300 relative overflow-hidden;
+    @apply p-3 rounded-sm transition-all duration-300 relative overflow-hidden;
     
     /* Light Mode - Glass effect */
     background: linear-gradient(
@@ -263,7 +259,8 @@ scroll-behavior: smooth;
   }
   
   .theme-toggle-btn:hover {
-    transform: translateY(-1px) scale(1.05);
+    /* Theme toggle is actionable, small rise is ok */
+    transform: translateY(-1px);
     background: linear-gradient(
       135deg,
       rgba(247, 147, 26, 0.15) 0%,
@@ -318,7 +315,7 @@ scroll-behavior: smooth;
   
   /* Legacy theme-toggle class for backward compatibility */
   .theme-toggle {
-    @apply p-2 rounded-lg transition-all duration-300;
+    @apply p-2 rounded-sm transition-all duration-300;
     /* Light Mode - Off-white background */
     background-color: #FAFAFA;
     color: #1E2A3A;
@@ -417,7 +414,7 @@ scroll-behavior: smooth;
 
   /* Navigation Link - Enhanced with Full-Width Underlines */
   .nav-link {
-    @apply relative font-medium transition-all duration-500 px-3 py-2 rounded-lg;
+    @apply relative font-medium transition-all duration-500 px-3 py-2 rounded-sm;
     /* Light Mode - Enhanced contrast for readability */
     color: rgba(30, 42, 58, 0.9);
     /* Dark Mode - Improved contrast */
@@ -490,19 +487,14 @@ scroll-behavior: smooth;
   /* Cards - Enhanced */
   .card {
     @apply relative p-5 sm:p-6 transition-all duration-500 overflow-visible;
-    /* Softer border radius for friendlier feel */
-    border-radius: 20px;
-    /* GPU acceleration */
-    will-change: transform, box-shadow;
-    transform: translateZ(0) perspective(1000px) rotateX(0deg);
+    /* Consistent rounded-sm for all cards */
+    @apply rounded-sm;
     /* Off-White background */
     background: #FAFAFA;
     /* Enhanced border with subtle color */
     border: 1px solid rgba(226, 232, 240, 0.8);
-    /* Multi-layered shadow for depth */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
-                0 4px 12px rgba(0, 0, 0, 0.04),
-                0 8px 24px rgba(0, 0, 0, 0.03);
+    /* Small shadow for cards */
+    @apply shadow-sm;
     /* Text color */
     color: #1E2A3A;
     /* Dark Mode */
@@ -580,38 +572,24 @@ scroll-behavior: smooth;
     background: rgba(247, 147, 26, 0.15);
   }
 
-  .card::before {
-    content: '';
-    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500 pointer-events-none;
-    background: radial-gradient(circle at 50% 0%, rgba(247, 147, 26, 0.03) 0%, transparent 70%);
-    border-radius: inherit;
-  }
-
+  /* No hover effects for informational cards - only shadow change if needed */
   .card:hover {
-    transform: translateY(-4px) translateZ(0) perspective(1000px) rotateX(1deg) scale(1.01);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02),
-                0 8px 20px rgba(0, 0, 0, 0.06),
-                0 16px 40px rgba(0, 0, 0, 0.04),
-                0 0 60px rgba(247, 147, 26, 0.02),
-                inset 0 1px 3px rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(247, 147, 26, 0.15);
+    /* Keep the card flat - no transform or rise */
+    @apply shadow-sm;
   }
 
-  .card:hover::before {
-    opacity: 1;
-  }
-
-  /* Feature Card - Enhanced */
+  /* Feature Card - Enhanced (for actionable cards only) */
   .feature-card {
     @apply relative p-5 sm:p-6 overflow-hidden cursor-pointer;
     background: #FAFAFA;
-    border-radius: 20px;
+    @apply rounded-sm;
     border: 1px solid rgba(226, 232, 240, 0.8);
     color: #1E2A3A;
+    @apply shadow-sm;
     /* GPU acceleration */
     will-change: transform, background-color;
-    transform: translateZ(0) perspective(1000px) rotateX(0deg);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    transition: all 0.3s ease;
     @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
     @apply dark:border-slate-700/50 dark:text-slate-100;
   }
@@ -643,7 +621,9 @@ scroll-behavior: smooth;
   }
 
   .feature-card:hover {
-    transform: translateY(-6px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
+    /* Feature cards can have hover rise since they're actionable */
+    transform: translateY(-2px);
+    @apply shadow-md;
     background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, #FAFAFA 100%);
     @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-800;
   }
@@ -655,8 +635,8 @@ scroll-behavior: smooth;
   /* Icon Container - Enhanced with better icon visibility */
   .icon-container {
     @apply w-14 h-14 flex items-center justify-center transition-all duration-500;
-    /* Softer, more organic border radius */
-    border-radius: 18px 22px 20px 16px;
+    /* Consistent border radius */
+    @apply rounded-sm;
     /* GPU acceleration */
     will-change: transform, background-color;
     transform: translateZ(0) rotate(0deg);
@@ -719,8 +699,7 @@ scroll-behavior: smooth;
     @apply dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-400;
     /* Ensure proper box sizing */
     box-sizing: border-box !important;
-    /* Softer border radius */
-    border-radius: 14px;
+    @apply rounded-sm;
     /* Enhanced shadow */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
                 inset 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -804,7 +783,7 @@ scroll-behavior: smooth;
 
   /* Badge */
   .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold;
+    @apply inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold;
   }
 
   .badge-orange {
@@ -871,9 +850,8 @@ scroll-behavior: smooth;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(250, 250, 250, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
-                inset 0 1px 3px rgba(255, 255, 255, 0.7),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.02);
+    /* Use consistent small shadow */
+    @apply shadow-sm;
     /* Dark Mode */
     @apply dark:bg-gradient-to-br dark:from-slate-800/80 dark:to-slate-800/60;
     @apply dark:border-slate-700/60;
@@ -884,9 +862,8 @@ scroll-behavior: smooth;
     background: linear-gradient(135deg, 
                 rgba(30, 41, 59, 0.85) 0%, 
                 rgba(30, 41, 59, 0.7) 100%) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 2px rgba(255, 255, 255, 0.1),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+    /* Use consistent small shadow in dark mode too */
+    @apply shadow-sm !important;
     @apply border-slate-700/60 !important;
   }
 
@@ -981,7 +958,7 @@ scroll-behavior: smooth;
 
   /* Bitcoin Tools Enhanced Cards */
   .bt-card-elevated {
-    @apply bg-white dark:bg-slate-800 rounded-2xl shadow-xl border-2 border-gray-200 dark:border-slate-700;
+    @apply bg-white dark:bg-slate-800 rounded-sm shadow-xl border-2 border-gray-200 dark:border-slate-700;
     padding: 2rem;
     transition: all 0.3s ease;
   }
@@ -992,7 +969,7 @@ scroll-behavior: smooth;
   }
 
   .bt-card-standard {
-    @apply bg-white dark:bg-slate-800 rounded-xl shadow-lg border-2 border-gray-200 dark:border-slate-700;
+    @apply bg-white dark:bg-slate-800 rounded-sm shadow-lg border-2 border-gray-200 dark:border-slate-700;
     padding: 1.5rem;
     transition: all 0.2s ease;
   }
@@ -1004,7 +981,7 @@ scroll-behavior: smooth;
 
   /* Bitcoin Tools Enhanced Buttons */
   .bt-button-primary {
-    @apply px-8 py-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white rounded-xl;
+    @apply px-8 py-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white rounded-sm;
     @apply text-base font-semibold shadow-md hover:shadow-lg;
     @apply transition-all duration-200 hover:from-bitcoin-600 hover:to-bitcoin-700;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin;
@@ -1013,7 +990,7 @@ scroll-behavior: smooth;
 
   .bt-button-secondary {
     @apply px-6 py-3 bg-white dark:bg-slate-700 text-gray-900 dark:text-white;
-    @apply border-2 border-gray-300 dark:border-slate-600 rounded-xl;
+    @apply border-2 border-gray-300 dark:border-slate-600 rounded-sm;
     @apply text-base font-medium shadow-sm hover:shadow-md;
     @apply transition-all duration-200 hover:border-bitcoin/50;
     min-height: 48px;
@@ -1022,7 +999,7 @@ scroll-behavior: smooth;
   /* Bitcoin Tools Enhanced Inputs */
   .bt-input-field {
     @apply w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600;
-    @apply rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    @apply rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
     @apply text-base transition-all duration-200 shadow-sm hover:shadow-md;
     @apply focus:ring-2 focus:ring-bitcoin focus:border-bitcoin;
   }
@@ -1045,25 +1022,25 @@ scroll-behavior: smooth;
 
   .bt-info-card {
     @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700;
-    @apply rounded-xl p-6 shadow-sm;
+    @apply rounded-sm p-6 shadow-sm;
     margin-bottom: 2rem;
   }
 
   .bt-success-card {
     @apply bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700;
-    @apply rounded-xl p-6 shadow-sm;
+    @apply rounded-sm p-6 shadow-sm;
     margin-bottom: 2rem;
   }
 
   .bt-warning-card {
     @apply bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700;
-    @apply rounded-xl p-6 shadow-sm;
+    @apply rounded-sm p-6 shadow-sm;
     margin-bottom: 2rem;
   }
 
   .bt-error-card {
     @apply bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700;
-    @apply rounded-xl p-6 shadow-sm;
+    @apply rounded-sm p-6 shadow-sm;
     margin-bottom: 2rem;
   }
 
@@ -1196,8 +1173,7 @@ scroll-behavior: smooth;
 
   /* Enhanced Select Dropdowns */
   select {
-    @apply appearance-none w-full px-4 py-3 pr-10 transition-all duration-300 font-medium cursor-pointer;
-    border-radius: 14px;
+    @apply appearance-none w-full px-4 py-3 pr-10 transition-all duration-300 font-medium cursor-pointer rounded-sm;
     border: 2px solid transparent;
     background-image: linear-gradient(#FAFAFA, #FAFAFA),
                       linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%),
@@ -1554,7 +1530,7 @@ scroll-behavior: smooth;
   .tooltip .tooltip-text {
     @apply invisible absolute z-[9999] px-3 py-2 text-sm transition-all duration-300;
     @apply bg-white text-slate-900 dark:bg-slate-900 dark:text-white;
-    @apply rounded-lg opacity-0;
+    @apply rounded-sm opacity-0;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);

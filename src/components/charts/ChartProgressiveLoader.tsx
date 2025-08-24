@@ -15,7 +15,7 @@ const VestingTimelineChartRecharts = dynamic(
 // Skeleton component for initial render
 export const ChartSkeleton = () => (
   <div className="w-full h-[400px] animate-pulse">
-    <div className="h-full bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+    <div className="h-full bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
       <div className="text-gray-400 dark:text-gray-600">
         <svg className="w-12 h-12 animate-spin" viewBox="0 0 24 24" fill="none">
           <circle 
@@ -40,7 +40,7 @@ export const ChartSkeleton = () => (
 
 // Basic chart for quick render
 const BasicChart = ({ data, schemeId }: { data: any[]; schemeId: string }) => (
-  <div className="w-full h-[400px] bg-white dark:bg-gray-900 rounded-lg p-4">
+  <div className="w-full h-[400px] bg-white dark:bg-gray-900 rounded-sm p-4">
     <div className="h-full flex items-end justify-between space-x-1">
       {data.map((point, index) => {
         const maxValue = Math.max(...data.map(d => d.totalValueUSD || 0));

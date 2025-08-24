@@ -471,9 +471,9 @@ export function FeeCalculatorTool() {
               <button
                 key={preset.label}
                 onClick={() => handleSizeChange(preset.size)}
-                className={`p-4 text-left rounded-xl border-2 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] ${
+                className={`p-4 text-left rounded-sm border-2 transition-all duration-300 shadow-md hover:shadow-sm hover:scale-[1.02] ${
                   feeCalculator.txSize === preset.size
-                    ? 'border-bitcoin bg-bitcoin/10 shadow-xl transform scale-105'
+                    ? 'border-bitcoin bg-bitcoin/10 shadow-sm transform scale-105'
                     : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin/50'
                 }`}
               >
@@ -504,12 +504,12 @@ export function FeeCalculatorTool() {
                 placeholder={`Custom size (current: ${feeCalculator.txSize} vBytes)`}
                 min="1"
                 max="10000"
-                className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-base"
+                className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-base"
               />
               <button
                 type="submit"
                 disabled={!customSize || parseInt(customSize) <= 0}
-                className="px-6 py-3 bg-bitcoin text-white rounded-lg text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-bitcoin-600 transition-colors"
+                className="px-6 py-3 bg-bitcoin text-white rounded-sm text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-bitcoin-600 transition-colors"
               >
                 Set
               </button>
@@ -540,7 +540,7 @@ export function FeeCalculatorTool() {
                   <div
                     key={recommendation.level}
                     onClick={() => setFeeCalculatorSelectedTier(isSelected ? null : recommendation.level)}
-                    className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl ${getTierColor(recommendation.level, isSelected)} ${isSelected ? 'transform scale-[1.02]' : 'hover:scale-[1.01]'}`}
+                    className={`p-6 rounded-sm border-2 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-sm ${getTierColor(recommendation.level, isSelected)} ${isSelected ? 'transform scale-[1.02]' : 'hover:scale-[1.01]'}`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-4">
@@ -580,7 +580,7 @@ export function FeeCalculatorTool() {
                     </div>
 
                     {isSelected && (
-                      <div className="mt-6 p-5 bg-white dark:bg-slate-700 rounded-xl border-2 shadow-sm">
+                      <div className="mt-6 p-5 bg-white dark:bg-slate-700 rounded-sm border-2 shadow-sm">
                         <h5 className="text-lg font-bold text-gray-900 dark:text-slate-100 mb-3">
                           What You're Paying For
                         </h5>

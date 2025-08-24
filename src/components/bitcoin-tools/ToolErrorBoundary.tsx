@@ -152,7 +152,7 @@ function ToolErrorDisplay({
   };
 
   return (
-    <div className={`rounded-lg border-2 p-6 ${getErrorColor(error.type)}`}>
+    <div className={`rounded-sm border-2 p-6 ${getErrorColor(error.type)}`}>
       {/* Error Header */}
       <div className="flex items-center mb-4">
         <span className="text-2xl mr-3">{getErrorIcon(error.type)}</span>
@@ -194,7 +194,7 @@ function ToolErrorDisplay({
         {onRetry && (
           <button
             onClick={onRetry}
-            className="inline-flex items-center px-4 py-2 bg-bitcoin hover:bg-bitcoin-600 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 bg-bitcoin hover:bg-bitcoin-600 text-white font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2"
           >
             🔄 Try Again
           </button>
@@ -202,14 +202,14 @@ function ToolErrorDisplay({
         
         <button
           onClick={onReset}
-          className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
         >
           🔄 Reset Tool
         </button>
 
         <button
           onClick={() => window.location.reload()}
-          className="inline-flex items-center px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
         >
           🔄 Refresh Page
         </button>

@@ -44,14 +44,14 @@ export default function Footer() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/calculator"
-                className="bg-offWhite dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-bitcoin-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-xl inline-flex items-center justify-center space-x-2"
+                className="bg-offWhite dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-bitcoin-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-sm text-lg transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md inline-flex items-center justify-center space-x-2"
               >
                 <CalculatorIcon className="w-5 h-5" />
                 <span>Build Your Plan</span>
               </Link>
               <Link
                 href="/historical"
-                className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-xl inline-flex items-center justify-center space-x-2"
+                className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-sm text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-sm hover:shadow-md inline-flex items-center justify-center space-x-2"
               >
                 <ClockIcon className="w-5 h-5" />
                 <span>See the Proof</span>
@@ -66,7 +66,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Footer Top - Logo and Tagline */}
           <div className="text-center pt-12 pb-8">
-            <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-2xl mb-6">
+            <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-sm mb-6">
               <BitcoinIcon className="w-8 h-8 text-bitcoin" />
             </div>
             <h4 className="text-2xl sm:text-3xl font-bold text-white mb-4">

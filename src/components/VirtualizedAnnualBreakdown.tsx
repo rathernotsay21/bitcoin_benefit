@@ -179,7 +179,7 @@ function VirtualizedAnnualBreakdown({
       </p>
       
       {/* Header */}
-      <div className="overflow-x-auto rounded-t-xl shadow-lg w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 border-x border-t border-gray-200 dark:border-slate-700">
+      <div className="overflow-x-auto rounded-t-xl shadow-sm w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 border-x border-t border-gray-200 dark:border-slate-700">
         <div className="flex items-center px-2 sm:px-4 py-3 min-w-[300px] sm:min-w-[500px]">
           <div className="flex-none w-12 sm:w-16 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
             Year
@@ -205,7 +205,7 @@ function VirtualizedAnnualBreakdown({
       </div>
 
       {/* Virtualized Table Body */}
-      <div className="overflow-x-auto rounded-b-xl shadow-lg w-full bg-white dark:bg-slate-900 border-x border-b border-gray-200 dark:border-slate-700">
+      <div className="overflow-x-auto rounded-b-xl shadow-sm w-full bg-white dark:bg-slate-900 border-x border-b border-gray-200 dark:border-slate-700">
         <div className="min-w-[300px] lg:min-w-[500px]">
           {displayData.length > 10 ? (
             // Use virtualization for large datasets
@@ -233,7 +233,7 @@ function VirtualizedAnnualBreakdown({
       </div>
 
       {/* Total Award Cost Summary */}
-      <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl shadow-lg">
+      <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-sm shadow-sm">
         <div className="flex justify-between items-center">
           <div>
             <h5 className="text-base font-bold text-orange-900 dark:text-orange-200 mb-1">

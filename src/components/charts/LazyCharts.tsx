@@ -37,7 +37,7 @@ export const LazyHistoricalChart = dynamic(
 export const LazyVirtualizedAnnualBreakdown = dynamic(
   () => import('@/components/VirtualizedAnnualBreakdownOptimized'),
   {
-    loading: () => <div className="h-64 animate-pulse bg-gray-100 dark:bg-gray-800 rounded-lg" />,
+    loading: () => <div className="h-64 animate-pulse bg-gray-100 dark:bg-gray-800 rounded-sm" />,
     ssr: false,
   }
 );

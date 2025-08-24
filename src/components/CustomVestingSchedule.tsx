@@ -169,7 +169,7 @@ export default function CustomVestingSchedule({
         <div className="space-y-6 py-4">
           {/* Total vested indicator */}
           {totalVested > 0 && (
-            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-700">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-blue-900 dark:text-blue-200 flex items-center">
                   Total Unlocked
@@ -199,7 +199,7 @@ export default function CustomVestingSchedule({
               </label>
               <div className="space-y-2 max-h-60 overflow-y-auto">
                 {sortedEvents.map((event, index) => (
-                  <div key={event.id} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+                  <div key={event.id} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-sm border border-gray-200 dark:border-slate-700">
                     <span className="text-xs text-gray-500 dark:text-slate-400 w-8 h-8 flex items-center justify-center bg-gray-200 dark:bg-slate-700 rounded-full font-medium">
                       {index + 1}
                     </span>
@@ -296,7 +296,7 @@ export default function CustomVestingSchedule({
 
           {/* Example presets */}
           {customVestingEvents.length === 0 && (
-            <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+            <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-sm border border-gray-200 dark:border-slate-700">
               <p className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-3 flex items-center">
                 Quick Start Examples
                 <HelpTooltip content="Common unlocking schedules you can use as starting points" />
