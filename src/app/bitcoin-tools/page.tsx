@@ -1,12 +1,21 @@
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { DataUsageTransparency } from '@/components/bitcoin-tools/PrivacyWarning';
-import { ToolCommandPalette } from '@/components/bitcoin-tools/ToolCommandPalette';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { validateToolId } from '@/types/bitcoin-tools';
 import { LockClosedIcon, BookOpenIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/solid';
+
+// Lazy load privacy and command components
+const DataUsageTransparency = dynamic(
+  () => import('@/components/bitcoin-tools/PrivacyWarning').then(mod => ({ default: mod.DataUsageTransparency })),
+  { ssr: false }
+);
+
+const ToolCommandPalette = dynamic(
+  () => import('@/components/bitcoin-tools/ToolCommandPalette').then(mod => ({ default: mod.ToolCommandPalette })),
+  { ssr: false }
+);
 
 // Lazy load the tabbed navigation component
 const ToolTabsNavigation = dynamic(() => import('@/components/bitcoin-tools/ToolTabsNavigation'), {
@@ -79,8 +88,10 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
         </div>
       </section>
 
-      {/* Command Palette - Functionality available via keyboard shortcut */}
-      <ToolCommandPalette />
+      {/* Command Palette - Lazy loaded */}
+      <Suspense fallback={null}>
+        <ToolCommandPalette />
+      </Suspense>
 
       {/* Enhanced Tools Interface */}
       <main id="main-tools" className="pb-24 -mt-4" role="main">
@@ -138,8 +149,10 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
           </div>
           </aside>
 
-          {/* Data Usage Transparency */}
-          <DataUsageTransparency className="mt-12 sm:mt-16" />
+          {/* Data Usage Transparency - Lazy loaded */}
+          <Suspense fallback={null}>
+            <DataUsageTransparency className="mt-12 sm:mt-16" />
+          </Suspense>
 
           {/* Privacy Notice */}
           <footer className="mt-8 sm:mt-12 text-center" role="contentinfo" aria-labelledby="privacy-notice">

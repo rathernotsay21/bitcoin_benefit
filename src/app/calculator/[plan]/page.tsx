@@ -1,25 +1,9 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
-import dynamic from 'next/dynamic';
-
-const CalculatorPlanClient = dynamic(
-  () => import('./CalculatorPlanClient'),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded w-1/3 mb-4"></div>
-            <div className="h-64 bg-gray-200 dark:bg-gray-800 rounded mb-4"></div>
-            <div className="h-96 bg-gray-200 dark:bg-gray-800 rounded"></div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-);
+import { Suspense } from 'react';
+import CalculatorPlanClient from './CalculatorPlanClient';
+import { CalculatorSkeleton } from '@/components/loading/CalculatorSkeleton';
 
 interface PageProps {
   params: { plan: string };
@@ -72,8 +56,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Server component with validation
-export default function CalculatorPlanPage({ params }: PageProps) {
+// Prefetch Bitcoin price at build time for static optimization
+async function getBitcoinPrice() {
+  try {
+    // Try to get cached static data first
+    const staticData = await import('@/data/bitcoin-price.json');
+    if (staticData?.default?.price || staticData?.price) {
+      return staticData?.default?.price || staticData?.price;
+    }
+  } catch {
+    // Fallback to default if static data not available
+  }
+  return 100000; // Fallback price
+}
+
+// Server component with validation and data prefetching
+export default async function CalculatorPlanPage({ params }: PageProps) {
   const scheme = VESTING_SCHEMES.find(s => s.id === params.plan);
   
   // Return 404 for invalid plans
@@ -81,5 +79,16 @@ export default function CalculatorPlanPage({ params }: PageProps) {
     notFound();
   }
   
-  return <CalculatorPlanClient initialScheme={scheme} planId={params.plan} />;
+  // Prefetch data at build time
+  const bitcoinPrice = await getBitcoinPrice();
+  
+  return (
+    <Suspense fallback={<CalculatorSkeleton />}>
+      <CalculatorPlanClient 
+        initialScheme={scheme} 
+        planId={params.plan}
+        initialBitcoinPrice={bitcoinPrice}
+      />
+    </Suspense>
+  );
 }

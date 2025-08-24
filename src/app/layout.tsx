@@ -6,6 +6,8 @@ import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
 import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
+import { PrefetchLinks } from '@/components/PrefetchLinks'
 import './globals.css'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
@@ -41,16 +43,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Critical performance optimizations */}
+        {/* Critical performance optimizations - Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://mempool.space" />
+        <link rel="preconnect" href="https://mempool.space" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.mempool.space" />
         
-        {/* Resource hints for better performance */}
-        <link rel="prefetch" href="/data/bitcoin-price.json" />
-        <link rel="prefetch" href="/data/historical-bitcoin.json" />
-        <link rel="prefetch" href="/data/schemes-meta.json" />
+        {/* Resource hints for critical data */}
+        <link rel="prefetch" href="/data/bitcoin-price.json" as="fetch" crossOrigin="anonymous" />
+        <link rel="prefetch" href="/data/historical-bitcoin.json" as="fetch" crossOrigin="anonymous" />
+        <link rel="prefetch" href="/data/schemes-meta.json" as="fetch" crossOrigin="anonymous" />
+        <link rel="prefetch" href="/data/static-calculations.json" as="fetch" crossOrigin="anonymous" />
+        
+        {/* Preload critical fonts */}
+        <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        
+        {/* Module preload for critical JavaScript */}
+        <link rel="modulepreload" href="/_next/static/chunks/webpack.js" />
+        
+        {/* Prefetch likely user journeys */}
+        <link rel="prefetch" href="/calculator/pioneer" />
+        <link rel="prefetch" href="/bitcoin-tools" />
         
         {/* CSS preload will be handled by Next.js automatically */}
         
@@ -112,6 +126,8 @@ export default function RootLayout({
             >
               <ThemeProvider>
                 <StoreSyncProvider>
+                  <ServiceWorkerRegistration />
+                  <PrefetchLinks />
                   <div className="min-h-screen transition-colors duration-300 performance-optimized">
                     <main className="relative">
                       {children}

@@ -5,9 +5,19 @@ const nextConfig = {
     // TODO: Fix all TypeScript errors and remove this flag
     ignoreBuildErrors: true,
   },
-  // Configure for Netlify deployment
+  // Configure image optimization
   images: {
-    unoptimized: true
+    // Enable image optimization in production
+    unoptimized: process.env.NODE_ENV !== 'production',
+    // Support WebP and AVIF formats
+    formats: ['image/avif', 'image/webp'],
+    // Define responsive image sizes
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Minimize image size
+    minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
+    // Domains for external images
+    domains: ['api.coingecko.com', 'mempool.space'],
   },
   
   // Enable compression for static assets

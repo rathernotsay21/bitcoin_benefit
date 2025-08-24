@@ -34,6 +34,7 @@ const VestingTimelineChart = dynamic(
 interface CalculatorPlanClientProps {
   initialScheme: VestingScheme | undefined;
   planId: string;
+  initialBitcoinPrice?: number;
 }
 
 function formatBTC(amount: number): string {
