@@ -83,7 +83,7 @@ export class VestingCalculator {
     
     if (!annualGrant) return total;
     
-    // CRITICAL FIX: Check for custom vesting events first (Earning Schedules)
+    // CRITICAL FIX: Check for custom vesting events first (Unlocking Schedules)
     let maxGrantMonths = maxMonths;
     if (scheme.customVestingEvents && scheme.customVestingEvents.length > 0) {
       // Use the last custom vesting event's time period as the grant limit

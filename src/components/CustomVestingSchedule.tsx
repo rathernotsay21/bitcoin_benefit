@@ -148,7 +148,7 @@ export default function CustomVestingSchedule({
           className={`flex items-center space-x-2 ${triggerClassName}`}
         >
           <CogIcon className="w-4 h-4" />
-          <span>Custom Earning Schedule</span>
+          <span>Custom Unlocking Schedule</span>
           {customVestingEvents.length > 0 && (
             <span className="ml-2 px-2 py-0.5 bg-bitcoin text-white text-xs rounded-full">
               {customVestingEvents.length}
@@ -161,7 +161,7 @@ export default function CustomVestingSchedule({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <CogIcon className="w-5 h-5 text-bitcoin" />
-            <span>Custom Earning Schedule</span>
+            <span>Custom Unlocking Schedule</span>
             <HelpTooltip content={HELP_CONTENT.unlockingSchedule} />
           </DialogTitle>
         </DialogHeader>
@@ -172,7 +172,7 @@ export default function CustomVestingSchedule({
             <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-blue-900 dark:text-blue-200 flex items-center">
-                  Total Earned
+                  Total Unlocked
                   <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
                 </span>
                 <span className={`text-xl font-bold ${
@@ -184,7 +184,7 @@ export default function CustomVestingSchedule({
               {totalVested !== 100 && (
                 <p className="text-xs text-blue-700 dark:text-blue-300 mt-2 flex items-center">
                   <ExclamationTriangleIcon className="w-3 h-3 mr-1" />
-                  Add more milestones to reach 100% earned
+                  Add more milestones to reach 100% unlocked
                 </p>
               )}
             </div>
@@ -194,7 +194,7 @@ export default function CustomVestingSchedule({
           {sortedEvents.length > 0 && (
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 flex items-center">
-                Earning Milestones
+                Unlocking Milestones
                 <HelpTooltip content={HELP_CONTENT.gradualUnlocking} />
               </label>
               <div className="space-y-2 max-h-60 overflow-y-auto">
@@ -233,7 +233,7 @@ export default function CustomVestingSchedule({
                       size="sm"
                       onClick={() => handleRemoveEvent(event.id)}
                       className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-2"
-                      title="Remove earning milestone"
+                      title="Remove unlocking milestone"
                     >
                       <TrashIcon className="w-4 h-4" />
                     </Button>
@@ -247,7 +247,7 @@ export default function CustomVestingSchedule({
           {totalVested < 100 && (
             <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-3">
-                Add Earning Milestone
+                Add Unlocking Milestone
               </label>
               <div className="flex items-center space-x-3">
                 <select
@@ -279,7 +279,7 @@ export default function CustomVestingSchedule({
                   onClick={handleAddEvent}
                   disabled={!canAddPercentage(newEventPercentage)}
                   className="bg-bitcoin hover:bg-orange-600 text-white px-3 py-2"
-                  title="Add earning milestone"
+                  title="Add unlocking milestone"
                 >
                   <PlusIcon className="w-4 h-4 mr-1" />
                   Add
@@ -299,7 +299,7 @@ export default function CustomVestingSchedule({
             <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
               <p className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-3 flex items-center">
                 Quick Start Examples
-                <HelpTooltip content="Common earning schedules you can use as starting points" />
+                <HelpTooltip content="Common unlocking schedules you can use as starting points" />
               </p>
               <div className="space-y-2">
                 <Button

@@ -106,7 +106,7 @@ const mockTransactions: AnnotatedTransaction[] = [
   {
     txid: 'tx1',
     grantYear: 1,
-    type: 'Annual Grant',
+    type: 'Annual Award',
     isIncoming: true,
     amountBTC: 0.5,
     amountSats: 50000000,

@@ -378,13 +378,13 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
           )}
         </div>
 
-        {/* Annual Grant Amount Input */}
+        {/* Annual Award Amount Input */}
         <div className="space-y-2">
           <label 
             htmlFor="annual-grant-btc"
             className="block text-sm font-medium text-gray-700 dark:text-white"
           >
-            Annual Grant Amount (BTC)
+            Annual Award Amount (BTC)
           </label>
           
           <input
@@ -407,7 +407,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
             className={`input-field ${
               displayErrors.annualGrantBtc ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
             } ${isLoading ? 'bg-gray-100 cursor-not-allowed dark:bg-slate-700' : ''}`}
-            aria-label="Annual Bitcoin grant amount"
+            aria-label="Annual Bitcoin award amount"
             aria-invalid={!!displayErrors.annualGrantBtc}
             aria-describedby={displayErrors.annualGrantBtc ? 'amount-error' : 'amount-help'}
           />

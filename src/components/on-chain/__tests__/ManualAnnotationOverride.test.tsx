@@ -7,7 +7,7 @@ import { AnnotatedTransaction, ExpectedGrant } from '@/types/on-chain';
 const mockTransaction: AnnotatedTransaction = {
   txid: 'abc123def456ghi789',
   grantYear: 1,
-  type: 'Annual Grant',
+  type: 'Annual Award',
   isIncoming: true,
   amountBTC: 0.5,
   amountSats: 50000000,

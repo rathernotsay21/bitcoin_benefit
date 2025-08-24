@@ -153,7 +153,7 @@ const mockAnnotatedTransactions: AnnotatedTransaction[] = [
   {
     txid: 'tx1_annual_grant',
     grantYear: 1,
-    type: 'Annual Grant',
+    type: 'Annual Award',
     isIncoming: true,
     amountBTC: 0.5,
     amountSats: 50000000,
@@ -180,7 +180,7 @@ const mockAnnotatedTransactions: AnnotatedTransaction[] = [
   {
     txid: 'tx3_second_annual_grant',
     grantYear: 2,
-    type: 'Annual Grant',
+    type: 'Annual Award',
     isIncoming: true,
     amountBTC: 0.5,
     amountSats: 50000000,
@@ -346,7 +346,7 @@ describe('TrackerPage Integration Tests', () => {
       // Verify individual transactions
       expect(screen.getByTestId('transaction-tx1_annual_grant')).toBeInTheDocument();
       expect(screen.getByTestId('tx-year-tx1_annual_grant')).toHaveTextContent('1');
-      expect(screen.getByTestId('tx-type-tx1_annual_grant')).toHaveTextContent('Annual Grant');
+      expect(screen.getByTestId('tx-type-tx1_annual_grant')).toHaveTextContent('Annual Award');
       
       expect(screen.getByTestId('transaction-tx2_other_transaction')).toBeInTheDocument();
       expect(screen.getByTestId('tx-year-tx2_other_transaction')).toHaveTextContent('Unmatched');
@@ -591,7 +591,7 @@ describe('TrackerPage Integration Tests', () => {
       // Step 2: Update store to reflect manual annotation
       const updatedTransactions = mockAnnotatedTransactions.map(tx => 
         tx.txid === 'tx2_other_transaction' 
-          ? { ...tx, grantYear: 2, type: 'Annual Grant' as const, isManuallyAnnotated: true }
+          ? { ...tx, grantYear: 2, type: 'Annual Award' as const, isManuallyAnnotated: true }
           : tx
       );
 
@@ -642,7 +642,7 @@ describe('TrackerPage Integration Tests', () => {
         ...mockStore,
         annotatedTransactions: mockAnnotatedTransactions.map(tx => 
           tx.txid === 'tx2_other_transaction' 
-            ? { ...tx, grantYear: 2, type: 'Annual Grant' as const, isManuallyAnnotated: true }
+            ? { ...tx, grantYear: 2, type: 'Annual Award' as const, isManuallyAnnotated: true }
             : tx
         ),
         expectedGrants: mockExpectedGrants,
@@ -669,7 +669,7 @@ describe('TrackerPage Integration Tests', () => {
         ...mockStore,
         annotatedTransactions: mockAnnotatedTransactions.map(tx => 
           tx.txid === 'tx2_other_transaction' 
-            ? { ...tx, grantYear: 2, type: 'Annual Grant' as const, isManuallyAnnotated: true }
+            ? { ...tx, grantYear: 2, type: 'Annual Award' as const, isManuallyAnnotated: true }
             : tx
         ),
         expectedGrants: mockExpectedGrants,

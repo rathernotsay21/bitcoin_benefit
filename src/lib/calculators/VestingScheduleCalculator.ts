@@ -176,7 +176,7 @@ export class VestingScheduleCalculator {
   }
   
   private getGrantRule(schemeId?: string): { maxMonth: number } {
-    // CRITICAL FIX: If custom vesting events exist (Earning Schedules),
+    // CRITICAL FIX: If custom vesting events exist (Unlocking Schedules),
     // use the last event's timePeriod as the max grant month
     if (this.schedule.customVestingEvents && this.schedule.customVestingEvents.length > 0) {
       // Find the maximum time period from custom vesting events

@@ -132,7 +132,7 @@ export default function VestingTrackerResults({
   };
 
   const getStatusColor = (type: string) => {
-    return type === 'Annual Grant' 
+    return type === 'Annual Award' 
       ? 'bg-bitcoin-100 text-bitcoin-700 dark:bg-bitcoin/20 dark:text-bitcoin'
       : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300';
   };
@@ -389,7 +389,7 @@ export default function VestingTrackerResults({
         <caption id="table-summary" className="sr-only">
           Table showing {transactions.length} transactions with their grant year assignments, 
           dates, types, amounts, and manual override options. 
-          {transactions.filter(t => t.type === 'Annual Grant').length} transactions matched to vesting grants.
+          {transactions.filter(t => t.type === 'Annual Award').length} transactions matched to vesting awards.
         </caption>
         
         <thead className="bg-gray-50 dark:bg-slate-800">
@@ -591,7 +591,7 @@ export default function VestingTrackerResults({
                 aria-live="polite"
               >
                 Found {transactions.length} transaction{transactions.length !== 1 ? 's' : ''} • 
-                {' '}{transactions.filter(t => t.type === 'Annual Grant').length} matched to vesting grants
+                {' '}{transactions.filter(t => t.type === 'Annual Award').length} matched to vesting awards
               </p>
             </div>
 
@@ -653,7 +653,7 @@ export default function VestingTrackerResults({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <div className="text-2xl font-bold text-green-900 dark:text-green-300 mb-1">
-                {transactions.filter(t => t.type === 'Annual Grant').length}
+                {transactions.filter(t => t.type === 'Annual Award').length}
               </div>
               <div className="text-sm text-green-700 dark:text-green-400 font-medium">
                 Vesting Grants Matched

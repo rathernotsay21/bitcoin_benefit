@@ -103,7 +103,7 @@ const MemoizedMetricCards = memo(function MemoizedMetricCards() {
       } : undefined,
     },
     {
-      title: 'Vested Amount',
+      title: 'Unlocked Amount',
       value: formattedMetrics.vestedValue,
       subtitle: 'Available now',
       icon: (

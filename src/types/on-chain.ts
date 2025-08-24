@@ -23,7 +23,7 @@ export interface RawTransaction {
 export interface AnnotatedTransaction {
   txid: string;
   grantYear: number | null;
-  type: 'Annual Grant' | 'Other Transaction';
+  type: 'Annual Award' | 'Other Transaction';
   isIncoming: boolean;
   amountBTC: number;
   amountSats: number;

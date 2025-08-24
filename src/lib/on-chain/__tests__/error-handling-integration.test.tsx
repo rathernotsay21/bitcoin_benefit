@@ -338,7 +338,7 @@ describe('OnChain Error Handling Integration', () => {
         annotatedTransactions: [{
           txid: 'test-tx',
           grantYear: 1,
-          type: 'Annual Grant',
+          type: 'Annual Award',
           amountBTC: 1.0,
           date: '2020-01-01',
           isManuallyAnnotated: false,
@@ -449,7 +449,7 @@ describe('OnChain Error Handling Integration', () => {
           {
             txid: 'test-tx-1',
             grantYear: 1,
-            type: 'Annual Grant',
+            type: 'Annual Award',
             amountBTC: 1.0,
             date: '2020-01-01',
             isManuallyAnnotated: false,
@@ -560,7 +560,7 @@ describe('OnChain Error Handling Integration', () => {
           {
             txid: 'test-tx-1',
             grantYear: 1,
-            type: 'Annual Grant',
+            type: 'Annual Award',
             amountBTC: 1.0,
             date: '2020-01-01',
             isManuallyAnnotated: false,
@@ -643,7 +643,7 @@ describe('OnChain Error Handling Integration', () => {
         annotatedTransactions: [{
           txid: 'test-tx',
           grantYear: 1,
-          type: 'Annual Grant',
+          type: 'Annual Award',
           amountBTC: 1.0,
           date: '2020-01-01',
           isManuallyAnnotated: false,

@@ -70,7 +70,7 @@ const CustomTooltip = ({ active, payload, label, startingYear = 2020 }: CustomTo
             vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800' :
             'bg-gray-100 text-gray-800'
           }`}>
-            {vestingPercent}% Vested
+            {vestingPercent}% Unlocked
           </span>
         </p>
       </div>
@@ -141,8 +141,8 @@ function HistoricalTimelineChart({
 
   // Calculate vesting milestones
   const vestingMilestones = useMemo(() => [
-    { year: startingYear + 5, label: '50% Vested', color: '#f59e0b' },
-    { year: startingYear + 10, label: '100% Vested', color: '#10b981' }
+    { year: startingYear + 5, label: '50% Unlocked', color: '#f59e0b' },
+    { year: startingYear + 10, label: '100% Unlocked', color: '#10b981' }
   ], [startingYear]);
 
   const currentYear = new Date().getFullYear();

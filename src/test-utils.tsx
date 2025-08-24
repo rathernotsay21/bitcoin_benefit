@@ -38,7 +38,7 @@ export const bitcoinTestData = {
   createMockTransaction: (overrides: Partial<AnnotatedTransaction> = {}): AnnotatedTransaction => ({
     txid: 'mock-txid-' + Math.random().toString(36).substr(2, 9),
     grantYear: 1,
-    type: 'Annual Grant',
+    type: 'Annual Award',
     isIncoming: true,
     amountBTC: 0.1,
     amountSats: 10000000,
@@ -348,11 +348,11 @@ export const formTestUtils = {
     }
     
     if (!data.annualGrantBtc || data.annualGrantBtc <= 0) {
-      errors.annualGrantBtc = 'Annual grant amount must be greater than 0';
+      errors.annualGrantBtc = 'Annual award amount must be greater than 0';
     }
     
     if (!data.totalGrants || data.totalGrants <= 0) {
-      errors.totalGrants = 'Total grants must be greater than 0';
+      errors.totalGrants = 'Total awards must be greater than 0';
     }
     
     return errors;

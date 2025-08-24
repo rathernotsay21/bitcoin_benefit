@@ -365,14 +365,14 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     [
       {
         value: formatBTC(vested5Year),
-        label: `Earned by ${vestingMilestones[0].label}`,
+        label: `Unlocked by ${vestingMilestones[0].label}`,
         color: 'orange' as const,
         sublabel: `${vestingMilestones[0].percentage}% of total`,
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />
       },
       {
         value: formatBTC(vested10Year),
-        label: `Earned by ${vestingMilestones[1].label}`,
+        label: `Unlocked by ${vestingMilestones[1].label}`,
         color: 'orange' as const,
         sublabel: `${vestingMilestones[1].percentage}% of total`,
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />

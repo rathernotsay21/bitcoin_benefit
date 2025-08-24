@@ -118,7 +118,7 @@ const Row = memo(({
             vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' :
             'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
           }`}>
-            <span className="hidden sm:inline">{vestingPercent}% Earned</span>
+            <span className="hidden sm:inline">{vestingPercent}% Unlocked</span>
             <span className="sm:hidden">{vestingPercent}%</span>
           </span>
         </div>

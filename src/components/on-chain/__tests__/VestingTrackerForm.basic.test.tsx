@@ -21,7 +21,7 @@ jest.mock('@/lib/on-chain/validation', () => ({
       return null;
     }
     if (field === 'annualGrantBtc') {
-      if (!value || value <= 0) return 'Annual grant must be positive';
+      if (!value || value <= 0) return 'Annual award must be positive';
       return null;
     }
     return null;
@@ -55,7 +55,7 @@ describe('VestingTrackerForm - Basic Functionality', () => {
 
     expect(screen.getByLabelText(/bitcoin address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/vesting start date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/annual grant amount/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/annual award amount/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /start tracking vesting grants/i })).toBeInTheDocument();
   });
 
@@ -158,7 +158,7 @@ describe('VestingTrackerForm - Basic Functionality', () => {
 
     const addressInput = screen.getByLabelText(/bitcoin address/i);
     const dateInput = screen.getByLabelText(/vesting start date/i);
-    const amountInput = screen.getByLabelText(/annual grant amount/i);
+    const amountInput = screen.getByLabelText(/annual award amount/i);
 
     expect(addressInput).toHaveAttribute('aria-label');
     expect(dateInput).toHaveAttribute('aria-label');
@@ -169,7 +169,7 @@ describe('VestingTrackerForm - Basic Functionality', () => {
     render(<VestingTrackerForm />);
 
     const dateInput = screen.getByLabelText(/vesting start date/i);
-    const amountInput = screen.getByLabelText(/annual grant amount/i);
+    const amountInput = screen.getByLabelText(/annual award amount/i);
 
     expect(dateInput).toHaveAttribute('type', 'date');
     expect(dateInput).toHaveAttribute('max');

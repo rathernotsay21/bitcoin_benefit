@@ -248,7 +248,7 @@ function HistoricalTimelineVisualizationOptimized({
         {/* Summary Information */}
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
           <span className="flex items-center gap-1">
-            <span className="font-medium">Total Granted:</span>
+            <span className="font-medium">Total Awarded:</span>
             <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>
           </span>
           <span className="flex items-center gap-1">
@@ -305,7 +305,7 @@ function HistoricalTimelineVisualizationOptimized({
                               ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white'
                               : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
                           }`}>
-                            {yearData.vestingPercent}% Vested
+                            {yearData.vestingPercent}% Unlocked
                           </span>
                         )}
                       </div>
@@ -330,7 +330,7 @@ function HistoricalTimelineVisualizationOptimized({
                         {yearData.grantCost > 0 && (
                           <div className="flex items-center justify-between bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3">
                             <div>
-                              <div className="text-gray-600 dark:text-white/80 text-xs font-medium">Grant Cost</div>
+                              <div className="text-gray-600 dark:text-white/80 text-xs font-medium">Award Cost</div>
                               <div className="font-bold text-orange-600 dark:text-orange-400 text-base">{formatUSDCompact(yearData.grantCost)}</div>
                             </div>
                           </div>
@@ -341,7 +341,7 @@ function HistoricalTimelineVisualizationOptimized({
                         <div className="mt-3">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs bg-gradient-to-r from-orange-100 to-amber-100 text-bitcoin font-bold">
                             <SatoshiIcon className="w-3 h-3 mr-1" />
-                            {formatBTC(yearData.grants.reduce((sum: number, g: any) => sum + g.amount, 0))} granted
+                            {formatBTC(yearData.grants.reduce((sum: number, g: any) => sum + g.amount, 0))} awarded
                           </span>
                         </div>
                       )}
@@ -393,7 +393,7 @@ function HistoricalTimelineVisualizationOptimized({
                 {selectedYearData.grantCost > 0 && (
                   <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 p-4 rounded-xl border border-purple-200 dark:border-purple-800 shadow-md">
                     <div className="text-sm font-semibold text-purple-800 dark:text-purple-200 mb-1">
-                      Grant Cost
+                      Award Cost
                     </div>
                     <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">
                       {formatUSD(selectedYearData.grantCost)}

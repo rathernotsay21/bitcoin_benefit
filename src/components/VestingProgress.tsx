@@ -40,7 +40,7 @@ const STRATEGY_CONFIG = {
       border: 'border-orange-200 dark:border-orange-800',
       accent: 'bg-orange-500'
     },
-    description: 'Do less work to let your employee earn more'
+    description: 'Do less work to let your employee unlock more'
   },
   'steady-builder': {
     name: 'The Stacker Plan',
@@ -205,7 +205,7 @@ export default function VestingProgress({
             Unlock Timeline
           </span>
           <span className="text-sm text-gray-500 dark:text-slate-400">
-            Change Plans and pick an Earning Schedule
+            Change Plans and pick an Unlocking Schedule
           </span>
         </div>
         
@@ -225,7 +225,7 @@ export default function VestingProgress({
                     key={index}
                     className={`h-full transition-all duration-500 ${segmentColor}`}
                     style={{ width: `${segment.width}%` }}
-                    title={`${segment.label}: ${segment.percentage}% earned`}
+                    title={`${segment.label}: ${segment.percentage}% unlocked`}
                   />
                 );
               })}
@@ -271,7 +271,7 @@ export default function VestingProgress({
       <div className={`p-4 ${strategyConfig.colors.bg} rounded-lg mb-4`} style={{border: '1px solid #777f89'}}>
         <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
-          Earning Schedule Overview
+          Unlocking Schedule Overview
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {vestingEvents
@@ -313,10 +313,10 @@ export default function VestingProgress({
             </div>
             <div>
               <p className="text-lg font-semibold text-green-900 dark:text-green-200">
-                100% Earned! 🎉
+                100% Unlocked! 🎉
               </p>
               <p className="text-sm text-green-700 dark:text-green-300">
-                Your employee has earned their full Bitcoin award.
+                Your employee has unlocked their full Bitcoin award.
               </p>
             </div>
           </div>
@@ -325,8 +325,8 @@ export default function VestingProgress({
       
       {/* ARIA announcements for accessibility */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {strategyConfig.name}: {currentProgress.toFixed(1)}% earned.
-        {nextVestingDate && ` Next earning milestone in ${daysUntilNext} days: ${nextVestingAmount.toFixed(1)}% additional award earned.`}
+        {strategyConfig.name}: {currentProgress.toFixed(1)}% unlocked.
+        {nextVestingDate && ` Next unlocking milestone in ${daysUntilNext} days: ${nextVestingAmount.toFixed(1)}% additional award unlocked.`}
       </div>
     </div>
   );

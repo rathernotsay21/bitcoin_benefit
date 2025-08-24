@@ -165,7 +165,7 @@ export default function SchemeTabSelector({
         
         return (
           <TabsContent key={scheme.id} value={scheme.id} className="mt-6">
-            <div className={`rounded-xl border-2 ${theme.border} ${theme.background} p-6 transition-all duration-300`}>
+            <div className="p-6">
               <div className="flex items-start space-x-4">
                 <div className="flex-shrink-0">
                   <div className={`w-12 h-12 ${theme.iconBg} rounded-xl flex items-center justify-center transition-all duration-300`}>

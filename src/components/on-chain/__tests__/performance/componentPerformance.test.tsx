@@ -17,7 +17,7 @@ const generateMockTransactions = (count: number): AnnotatedTransaction[] => {
     date: new Date(2023, 0, 1 + i).toISOString().split('T')[0],
     amountBTC: 0.1 + (i * 0.001),
     valueAtTimeOfTx: (0.1 + (i * 0.001)) * 45000,
-    type: i % 4 === 0 ? 'Annual Grant' : 'Regular Transaction',
+    type: i % 4 === 0 ? 'Annual Award' : 'Regular Transaction',
     grantYear: i % 4 === 0 ? Math.floor(i / 4) + 1 : null,
     isManuallyAnnotated: false,
     blockHeight: 800000 + i,

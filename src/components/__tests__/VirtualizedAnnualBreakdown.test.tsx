@@ -33,16 +33,16 @@ describe('VirtualizedAnnualBreakdown', () => {
     expect(screen.queryByText('5')).not.toBeInTheDocument();
   });
 
-  it('displays the total grant cost summary', () => {
+  it('displays the total award cost summary', () => {
     render(<VirtualizedAnnualBreakdown {...defaultProps} />);
-    expect(screen.getByText('Total Grant Cost')).toBeInTheDocument();
+    expect(screen.getByText('Total Award Cost')).toBeInTheDocument();
   });
 
   it('shows vesting status badges', () => {
     render(<VirtualizedAnnualBreakdown {...defaultProps} />);
-    expect(screen.getByText('0% Vested')).toBeInTheDocument();
-    expect(screen.getByText('50% Vested')).toBeInTheDocument();
-    expect(screen.getByText('100% Vested')).toBeInTheDocument();
+    expect(screen.getByText('0% Unlocked')).toBeInTheDocument();
+    expect(screen.getByText('50% Unlocked')).toBeInTheDocument();
+    expect(screen.getByText('100% Unlocked')).toBeInTheDocument();
   });
 
   it('handles small datasets without virtualization', () => {
@@ -61,13 +61,13 @@ describe('VirtualizedAnnualBreakdown', () => {
 
   it('calculates total BTC correctly for slow-burn scheme', () => {
     render(<VirtualizedAnnualBreakdown {...defaultProps} schemeId="slow-burn" />);
-    expect(screen.getByText(/₿\d+\.\d+ total grants/)).toBeInTheDocument();
+    expect(screen.getByText(/₿\d+\.\d+ total awards/)).toBeInTheDocument();
   });
 
-  it('displays grant cost for initial grant at year 0', () => {
+  it('displays award cost for initial award at year 0', () => {
     render(<VirtualizedAnnualBreakdown {...defaultProps} />);
-    // Year 0 should have a grant cost displayed
-    expect(screen.getByText('Grant Cost')).toBeInTheDocument();
+    // Year 0 should have an award cost displayed
+    expect(screen.getByText('Award Cost')).toBeInTheDocument();
   });
 
   it('handles undefined annualGrant prop gracefully', () => {

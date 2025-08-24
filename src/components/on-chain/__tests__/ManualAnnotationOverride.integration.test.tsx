@@ -32,7 +32,7 @@ const mockTransactions: AnnotatedTransaction[] = [
   {
     txid: 'tx1',
     grantYear: 1,
-    type: 'Annual Grant',
+    type: 'Annual Award',
     isIncoming: true,
     amountBTC: 0.5,
     amountSats: 50000000,
@@ -114,7 +114,7 @@ describe('ManualAnnotationOverride Integration Tests', () => {
       mockApplyManualAnnotations.mockReturnValue({
         annotatedTransactions: mockTransactions.map(tx => 
           tx.txid === 'tx2' 
-            ? { ...tx, grantYear: 2, type: 'Annual Grant' as const, isManuallyAnnotated: true }
+            ? { ...tx, grantYear: 2, type: 'Annual Award' as const, isManuallyAnnotated: true }
             : tx
         ),
         expectedGrants: mockExpectedGrants.map(grant => 
@@ -175,7 +175,7 @@ describe('ManualAnnotationOverride Integration Tests', () => {
       const updatedTransaction = {
         ...mockTransactions[1],
         grantYear: 2,
-        type: 'Annual Grant' as const,
+        type: 'Annual Award' as const,
         isManuallyAnnotated: true
       };
 

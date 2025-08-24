@@ -38,7 +38,7 @@ export const VestingChartTooltip = memo<CustomTooltipProps>(({
         </p>
         {vestingPercent > 0 && (
           <span className="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">
-            {vestingPercent}% Vested
+            {vestingPercent}% Unlocked
           </span>
         )}
       </div>
@@ -69,7 +69,7 @@ export const VestingChartTooltip = memo<CustomTooltipProps>(({
           <div className="pt-2 mt-2 border-t border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                {isInitialGrant ? 'Initial Grant:' : 'Annual Grant:'}
+                {isInitialGrant ? 'Initial Award:' : 'Annual Award:'}
               </span>
               <span className="font-mono text-sm font-medium text-blue-600 dark:text-blue-400">
                 {formatBTC(grantSize / bitcoinPrice)} BTC

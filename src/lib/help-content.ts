@@ -1,8 +1,8 @@
 export const HELP_CONTENT = {
   // Calculator Terms
-  initialGrant: "The starting Bitcoin award amount given to your employee. They'll earn this award gradually over time according to the schedule you choose.",
+  initialGrant: "The starting Bitcoin award amount given to your employee. They'll unlock this award gradually over time according to the schedule you choose.",
   
-  annualGrant: "Extra Bitcoin given each year to keep your best employees. These yearly awards help spread out the timing and make the program more affordable.",
+  annualGrant: "Extra Bitcoin awarded each year to keep your best employees. These yearly awards help spread out the timing and make the program more affordable.",
   
   unlockingSchedule: "The timeline showing when employees actually own their Bitcoin award. This encourages them to stay with your company longer.",
   
@@ -26,7 +26,7 @@ export const HELP_CONTENT = {
   
   acceleratedUnlocking: "Unlocking that speeds up under certain conditions, such as company acquisition, IPO, or other trigger events defined in the compensation plan.",
 
-  unlockingPercent: "How much of the Bitcoin award the employee has earned so far. At 100%, they've earned it all.",
+  unlockingPercent: "How much of the Bitcoin award the employee has unlocked so far. At 100%, they've unlocked it all.",
 
   // Bitcoin Terms
   btcPrice: "The current market price of Bitcoin in USD. This fluctuates constantly based on market conditions, supply and demand, and various economic factors.",
@@ -38,7 +38,7 @@ export const HELP_CONTENT = {
   marketVolatility: "Bitcoin's price can be highly volatile, with significant daily fluctuations. This creates both opportunities and risks for Bitcoin-based compensation.",
 
   // Strategy Terms
-  pioneerStrategy: "The bold approach with a bigger upfront award that employees earn faster. Great for startups that want to attract top talent with exciting rewards.",
+  pioneerStrategy: "The bold approach with a bigger upfront award that employees unlock faster. Great for startups that want to attract top talent with exciting rewards.",
   
   stackerStrategy: "The balanced approach with a good starting award plus yearly additions. Perfect for growing companies that want steady, manageable benefits.",
   

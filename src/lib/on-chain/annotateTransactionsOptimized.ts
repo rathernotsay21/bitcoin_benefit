@@ -451,7 +451,7 @@ export async function annotateTransactionsOptimized(
       return {
         txid: transaction.txid,
         grantYear: match?.grantYear || null,
-        type: (match?.grantYear !== null ? 'Annual Grant' : 'Other Transaction') as 'Annual Grant' | 'Other Transaction',
+        type: (match?.grantYear !== null ? 'Annual Award' : 'Other Transaction') as 'Annual Award' | 'Other Transaction',
         isIncoming: true,
         amountBTC: amountSats / 100_000_000,
         amountSats,
@@ -557,7 +557,7 @@ export function applyManualAnnotationsOptimized(
       return {
         ...tx,
         grantYear: newGrantYear ?? null,
-        type: (newGrantYear !== null && newGrantYear !== undefined ? 'Annual Grant' : 'Other Transaction') as 'Annual Grant' | 'Other Transaction',
+        type: (newGrantYear !== null && newGrantYear !== undefined ? 'Annual Award' : 'Other Transaction') as 'Annual Award' | 'Other Transaction',
         isManuallyAnnotated: true,
       };
     }

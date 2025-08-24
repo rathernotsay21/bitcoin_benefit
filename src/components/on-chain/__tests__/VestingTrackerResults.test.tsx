@@ -13,7 +13,7 @@ describe('VestingTrackerResults', () => {
     {
       txid: 'abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef12',
       grantYear: 1,
-      type: 'Annual Grant',
+      type: 'Annual Award',
       isIncoming: true,
       amountBTC: 0.5,
       amountSats: 50000000,
@@ -40,7 +40,7 @@ describe('VestingTrackerResults', () => {
     {
       txid: 'ghi789jkl012mno345pqr678stu901vwx234yz567890abcdef123456789012345',
       grantYear: 2,
-      type: 'Annual Grant',
+      type: 'Annual Award',
       isIncoming: true,
       amountBTC: 0.5,
       amountSats: 50000000,
@@ -178,7 +178,7 @@ describe('VestingTrackerResults', () => {
       expect(screen.getByText('Year 1')).toBeInTheDocument();
       expect(screen.getByText('Year 2')).toBeInTheDocument();
       expect(screen.getByText('Unmatched')).toBeInTheDocument();
-      expect(screen.getAllByText('Annual Grant')).toHaveLength(2);
+      expect(screen.getAllByText('Annual Award')).toHaveLength(2);
       expect(screen.getByText('Other Transaction')).toBeInTheDocument();
     });
 

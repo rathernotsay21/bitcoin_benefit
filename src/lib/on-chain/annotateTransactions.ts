@@ -123,7 +123,7 @@ function createAnnotatedTransaction(
   return {
     txid: transaction.txid,
     grantYear,
-    type: grantYear !== null ? 'Annual Grant' : 'Other Transaction',
+    type: grantYear !== null ? 'Annual Award' : 'Other Transaction',
     isIncoming,
     amountBTC: amountSats / 100_000_000,
     amountSats,
@@ -304,7 +304,7 @@ export function applyManualAnnotations(
       return {
         ...tx,
         grantYear: newGrantYear,
-        type: newGrantYear !== null ? 'Annual Grant' as const : 'Other Transaction' as const,
+        type: newGrantYear !== null ? 'Annual Award' as const : 'Other Transaction' as const,
         isManuallyAnnotated: true,
       };
     }

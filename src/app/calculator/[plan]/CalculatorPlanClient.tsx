@@ -181,7 +181,15 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Panel - Scheme Selection */}
           <div className="lg:col-span-1 w-full min-w-0">
-            <div className="card glass">
+            <div className={`card transition-all duration-300 ${
+              selectedScheme?.id === 'accelerator'
+                ? 'border-2 border-bitcoin/20 hover:border-bitcoin/30 bg-gradient-to-r from-bitcoin/5 to-orange-100/50 dark:from-bitcoin/10 dark:to-slate-800'
+                : selectedScheme?.id === 'steady-builder'
+                ? 'border-2 border-green-500/20 hover:border-green-500/30 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-slate-800'
+                : selectedScheme?.id === 'slow-burn'
+                ? 'border-2 border-blue-500/20 hover:border-blue-500/30 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-slate-800'
+                : 'glass'
+            }`}>
               <div className="flex items-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">
@@ -212,7 +220,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               )}
             </div>
 
-            {/* Earning Schedule Overview - Moved to left panel */}
+            {/* Unlocking Schedule Overview - Moved to left panel */}
             {displayScheme && (
               <div className="card mt-6" style={{border: '1px solid #777f89'}}>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-4">
@@ -240,7 +248,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     </div>
                   )}
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-gray-600 dark:text-slate-300">Time to Earn 100%</span>
+                    <span className="text-gray-600 dark:text-slate-300">Time to Unlock 100%</span>
                     <span className="font-semibold dark:text-slate-100">
                       {maxVestingMonths >= 12 
                         ? `${Math.round(maxVestingMonths / 12)} year${Math.round(maxVestingMonths / 12) !== 1 ? 's' : ''}`
@@ -251,7 +259,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
                 {/* Unlocking Schedule */}
                 <div className="mt-6">
-                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Earning Schedule</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-slate-100 mb-3">Unlocking Schedule</h4>
                   <div className="space-y-2">
                     {displayScheme.customVestingEvents && displayScheme.customVestingEvents.length > 0 ? (
                       // Show custom vesting events
@@ -280,7 +288,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                             {milestone.months === 0 ? 'Immediate' : `${milestone.months} months`}
                           </span>
                           <span className="text-base sm:text-sm dark:text-slate-100 text-right sm:text-left" style={{color: '#777f89'}}>
-                          {milestone.grantPercent}% award earned
+                          {milestone.grantPercent}% award unlocked
                           </span>
                         </div>
                       ))
@@ -293,11 +301,11 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       // Custom Schedule Active
                       <>
                         <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
-                          Custom Earning Timeline
+                          Custom Unlocking Timeline
                         </h5>
                         <div className="text-sm text-blue-800 dark:text-blue-300">
                           <p className="mb-3">
-                            This plan uses a <strong>custom earning schedule</strong> with {displayScheme.customVestingEvents.length} milestone{displayScheme.customVestingEvents.length !== 1 ? 's' : ''},
+                            This plan uses a <strong>custom unlocking schedule</strong> with {displayScheme.customVestingEvents.length} milestone{displayScheme.customVestingEvents.length !== 1 ? 's' : ''},
                             completing over {maxVestingMonths >= 12 
                               ? `${Math.round(maxVestingMonths / 12)} year${Math.round(maxVestingMonths / 12) !== 1 ? 's' : ''}`
                               : `${maxVestingMonths} month${maxVestingMonths !== 1 ? 's' : ''}`}.
@@ -317,36 +325,36 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       // Default Schedule Active
                       <>
                         <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
-                          {displayScheme.name} Earning Timeline
+                          {displayScheme.name} Unlocking Timeline
                         </h5>
                         <div className="text-sm text-blue-800 dark:text-blue-300">
                           {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
                             <strong>Default {displayScheme.name} schedule:</strong> {
                               displayScheme.id === 'accelerator' ? 'Go big up front and keep adding more.' :
-                              displayScheme.id === 'steady-builder' ? 'Balanced initial grant with steady annual additions.' :
-                              'Conservative approach with yearly grants only.'
+                              displayScheme.id === 'steady-builder' ? 'Balanced initial award with steady annual additions.' :
+                              'Conservative approach with yearly awards only.'
                             }
                           </p>
                           
                           {/* Show plan-specific descriptions only when using default schedule */}
                           {displayScheme.id === 'accelerator' && (
                             <div>
-                              <p className="mb-2">• <strong>Pioneer approach:</strong> 0.02 BTC immediate grant for early Bitcoin adopters</p>
+                              <p className="mb-2">• <strong>Pioneer approach:</strong> 0.02 BTC immediate award for early Bitcoin adopters</p>
                               <p className="mb-2">• <strong>Leadership positioning:</strong> Perfect for companies ready to lead in digital asset compensation</p>
                               <p>• <strong>Immediate impact:</strong> Jump-start your team's Bitcoin journey with upfront commitment</p>
                             </div>
                           )}
                           {displayScheme.id === 'steady-builder' && (
                             <div>
-                              <p className="mb-2">• <strong>Strategic distribution:</strong> Large initial grant + small yearly grants</p>
+                              <p className="mb-2">• <strong>Strategic distribution:</strong> Large initial award + small yearly awards</p>
                               <p className="mb-2">• <strong>Risk mitigation:</strong> Reduce market timing risk with conservative approach</p>
                               <p>• <strong>Dollar-cost advantage:</strong> Ideal for companies taking measured steps into Bitcoin adoption</p>
                             </div>
                           )}
                           {displayScheme.id === 'slow-burn' && (
                             <div>
-                              <p className="mb-2">• <strong>Delayed expense:</strong> BTC yearly for 10 years (no initial grant)</p>
+                              <p className="mb-2">• <strong>Delayed expense:</strong> BTC yearly for 10 years (no initial award)</p>
                               <p className="mb-2">• <strong>Highest Cost:</strong> Designed for companies prioritizing short-term savings</p>
                               <p>• <strong>Wealth building:</strong> Build the same reserve at a slower rate</p>
                             </div>

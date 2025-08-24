@@ -14,7 +14,7 @@ const VESTING_PRESETS = {
   recruit: {
     id: 'recruit',
     name: 'Recruit',
-    description: 'Fast earning to attract new talent',
+    description: 'Fast unlocking to attract new talent',
     events: [
       { id: 'recruit-1', timePeriod: 3, percentageVested: 10, label: '90 Days' },
       { id: 'recruit-2', timePeriod: 12, percentageVested: 40, label: 'Year 1' },
@@ -24,7 +24,7 @@ const VESTING_PRESETS = {
   retain: {
     id: 'retain',
     name: 'Retain',
-    description: 'Steady, predictable earning path',
+    description: 'Steady, predictable unlocking path',
     events: [
       { id: 'retain-1', timePeriod: 12, percentageVested: 20, label: 'Year 1' },
       { id: 'retain-2', timePeriod: 24, percentageVested: 40, label: 'Year 2' },
@@ -57,9 +57,9 @@ export default function VestingPresets({
   }, [onPresetSelect]);
 
   return (
-    <div className="mt-6 p-4 border border-solid border-purple-400 bg-purple-50 dark:bg-purple-900/20 dark:border-purple-600 rounded-lg">
-      <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4">
-        Earning Schedule
+    <div className="mt-2 p-4">
+      <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
+        Unlocking Schedule
       </h4>
       
       {/* Preset Selection Buttons - Fixed Responsive Layout */}
@@ -85,7 +85,7 @@ export default function VestingPresets({
       {selectedPreset && VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS] && (
         <div className="mt-4">
           <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
-            Earning Timeline:
+            Unlocking Timeline:
           </h5>
           <div className="space-y-2">
             {VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events.map((event, index) => (

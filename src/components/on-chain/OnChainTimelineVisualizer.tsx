@@ -50,7 +50,7 @@ export default function OnChainTimelineVisualizer({
   const timelineData: TimelineDataPoint[] = expectedGrants.map(grant => {
     // Find matching actual transaction
     const matchedTransaction = actualTransactions.find(tx => 
-      tx.grantYear === grant.year && tx.type === 'Annual Grant'
+      tx.grantYear === grant.year && tx.type === 'Annual Award'
     );
 
     return {

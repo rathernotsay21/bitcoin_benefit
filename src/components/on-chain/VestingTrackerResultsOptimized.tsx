@@ -87,7 +87,7 @@ const TransactionRow = memo(function TransactionRow({
       <td className="py-3 px-2 sm:px-4">
         <span
           className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
-            transaction.type === 'Annual Grant'
+            transaction.type === 'Annual Award'
               ? 'bg-bitcoin-100 text-bitcoin-700 dark:bg-bitcoin/20 dark:text-bitcoin'
               : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300'
           }`}
@@ -127,7 +127,7 @@ const SummaryStatistics = memo(function SummaryStatistics({
 }) {
   // Memoize expensive calculations
   const stats = useMemo(() => {
-    const matchedGrantsCount = transactions.filter(t => t.type === 'Annual Grant').length;
+    const matchedGrantsCount = transactions.filter(t => t.type === 'Annual Award').length;
     const totalBTC = transactions.reduce((sum, t) => sum + t.amountBTC, 0);
     const totalValue = transactions.reduce((sum, t) => sum + (t.valueAtTimeOfTx || 0), 0);
     const hasUnavailablePrices = transactions.some(t => t.valueAtTimeOfTx === null);
@@ -454,7 +454,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
           </h3>
           <p className="text-gray-600 dark:text-slate-400">
             Found {transactions.length} transaction{transactions.length !== 1 ? 's' : ''} • 
-            {' '}{transactions.filter(t => t.type === 'Annual Grant').length} matched to vesting grants
+            {' '}{transactions.filter(t => t.type === 'Annual Award').length} matched to vesting awards
           </p>
         </div>
 

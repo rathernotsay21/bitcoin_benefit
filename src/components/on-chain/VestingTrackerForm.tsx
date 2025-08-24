@@ -265,7 +265,7 @@ export default function VestingTrackerForm({
       >
         <fieldset className="space-y-6">
           <legend className="sr-only">
-            Enter your Bitcoin address, vesting start date, and annual grant amount to track your vesting history
+            Enter your Bitcoin address, vesting start date, and annual award amount to track your vesting history
           </legend>
 
           {/* Bitcoin Address Input */}
@@ -383,7 +383,7 @@ export default function VestingTrackerForm({
                   <li>• The date your vesting schedule began</li>
                   <li>• Must be in the past (not future)</li>
                   <li>• Used to calculate expected grant dates</li>
-                  <li>• Annual grants expected on anniversaries</li>
+                  <li>• Annual awards expected on anniversaries</li>
                 </ul>
               </div>
             )}
@@ -432,21 +432,21 @@ export default function VestingTrackerForm({
             )}
           </div>
 
-          {/* Annual Grant Amount Input */}
+          {/* Annual Award Amount Input */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <label 
                 htmlFor="annual-grant-btc"
                 className="block text-sm font-medium text-gray-700 dark:text-white"
               >
-                Annual Grant Amount (BTC) <span className="text-red-500" aria-label="required">*</span>
+                Annual Award Amount (BTC) <span className="text-red-500" aria-label="required">*</span>
               </label>
               
               <button
                 type="button"
                 onClick={() => toggleTooltip('amount')}
                 className="p-1 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
-                aria-label="More information about annual grant amount field"
+                aria-label="More information about annual award amount field"
                 aria-expanded={showTooltips.amount}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -458,7 +458,7 @@ export default function VestingTrackerForm({
             {/* Tooltip */}
             {showTooltips.amount && (
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
-                <p className="font-medium mb-1">Annual Grant Amount:</p>
+                <p className="font-medium mb-1">Annual Award Amount:</p>
                 <ul className="space-y-1 text-xs">
                   <li>• Amount of Bitcoin you receive each year</li>
                   <li>• Minimum: 0.00000001 BTC (1 satoshi)</li>
@@ -492,7 +492,7 @@ export default function VestingTrackerForm({
               className={`input-field ${
                 displayErrors.annualGrantBtc ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''
               } ${isLoading ? 'bg-gray-100 cursor-not-allowed dark:bg-slate-700' : ''}`}
-              aria-label="Annual Bitcoin grant amount"
+              aria-label="Annual Bitcoin award amount"
               aria-invalid={!!displayErrors.annualGrantBtc}
               aria-describedby={displayErrors.annualGrantBtc ? 'amount-error' : 'amount-help'}
               aria-required="true"
@@ -552,7 +552,7 @@ export default function VestingTrackerForm({
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
                 <p className="font-medium mb-1">Total Number of Grants:</p>
                 <ul className="space-y-1 text-xs">
-                  <li>• Total grants over the vesting period</li>
+                  <li>• Total awards over the vesting period</li>
                   <li>• 10 for yearly grants over 10 years</li>
                   <li>• 5 for grants only in first 5 years</li>
                   <li>• 1 for single grant scenarios</li>

@@ -104,7 +104,7 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
             vestingPercent > 0 ? 'bg-gradient-to-r from-orange-400 to-yellow-500 text-white' :
             'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
           }`}>
-            {vestingPercent}% Vested
+            {vestingPercent}% Unlocked
           </span>
         </div>
         
@@ -118,7 +118,7 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
           {vestingPercent > 0 && (
             <>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-green-600 dark:text-green-400">Vested BTC:</span>
+                <span className="text-sm font-medium text-green-600 dark:text-green-400">Unlocked BTC:</span>
                 <span className="text-sm font-bold text-green-700 dark:text-green-300">{formatBTC(vestedBTC)}</span>
               </div>
               {vestingPercent < 100 && (
@@ -482,12 +482,12 @@ function VestingTimelineChartRecharts({
   const costBasis = useMemo(() => {
     let totalCost = 0;
     
-    // Initial grant cost at current price
+    // Initial award cost at current price
     if (initialGrant > 0) {
       totalCost += initialGrant * deferredBitcoinPrice;
     }
     
-    // Annual grant costs at current price (employer's actual cost)
+    // Annual award costs at current price (employer's actual cost)
     if (annualGrant && annualGrant > 0) {
       // CRITICAL FIX: Use grant rules that respect custom vesting events
       const numberOfGrants = grantRules.hasAnnualGrants ? grantRules.maxYears : 0;
@@ -630,7 +630,7 @@ function VestingTimelineChartRecharts({
           {customVestingEvents && customVestingEvents.length > 0 ? (
             customVestingEvents.slice(0, 2).map((event, index) => (
               <span key={event.id} className="flex items-center gap-1">
-                <span className="font-medium">• {event.percentageVested}% vests:</span>
+                <span className="font-medium">• {event.percentageVested}% unlocks:</span>
                 <span className="text-gray-600 dark:text-gray-400 font-bold">
                   {event.timePeriod < 12 ? event.label : currentYear + Math.floor(event.timePeriod / 12)}
                 </span>
@@ -639,11 +639,11 @@ function VestingTimelineChartRecharts({
           ) : (
             <>
               <span className="flex items-center gap-1">
-                <span className="font-medium">• 50% vests:</span>
+                <span className="font-medium">• 50% unlocks:</span>
                 <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 5}</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="font-medium">• 100% vests:</span>
+                <span className="font-medium">• 100% unlocks:</span>
                 <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 10}</span>
               </span>
             </>

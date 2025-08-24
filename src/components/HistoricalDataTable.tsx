@@ -221,7 +221,7 @@ export default function HistoricalDataTable({
     columnHelper.accessor('vestingPercent', {
       header: () => (
         <span className="font-medium text-gray-500 dark:text-white/80 uppercase text-xs">
-          Earned
+          Unlocked
         </span>
       ),
       cell: ({ getValue }) => {
@@ -251,7 +251,7 @@ export default function HistoricalDataTable({
   });
 
   const downloadCSV = () => {
-    const headers = ['Year', 'Bonus Cost', 'BTC', 'BTC Price', 'Historical USD', 'Current USD', 'Earned %'];
+    const headers = ['Year', 'Bonus Cost', 'BTC', 'BTC Price', 'Historical USD', 'Current USD', 'Unlocked %'];
     const csvContent = [
       headers.join(','),
       ...data.map(row => [
@@ -375,7 +375,7 @@ export default function HistoricalDataTable({
         </Table>
       </div>
 
-      {/* Total Grant Cost Summary */}
+      {/* Total Award Cost Summary */}
       <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
         <div className="flex justify-between items-center">
           <div>

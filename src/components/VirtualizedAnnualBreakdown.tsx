@@ -92,7 +92,7 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
           vestingPercent === 50 ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-md' :
           'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
         }`}>
-          <span className="hidden sm:inline">{vestingPercent}% Vested</span>
+          <span className="hidden sm:inline">{vestingPercent}% Unlocked</span>
           <span className="sm:hidden">{vestingPercent}%</span>
         </span>
       </div>
@@ -193,7 +193,7 @@ function VirtualizedAnnualBreakdown({
           
           {/* Desktop-only columns */}
           <div className="flex-none w-24 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
-            Grant Cost
+            Award Cost
           </div>
           <div className="flex-none w-20 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:block">
             BTC Price
@@ -229,12 +229,12 @@ function VirtualizedAnnualBreakdown({
         </div>
       </div>
 
-      {/* Total Grant Cost Summary */}
+      {/* Total Award Cost Summary */}
       <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-xl shadow-lg">
         <div className="flex justify-between items-center">
           <div>
             <h5 className="text-base font-bold text-orange-900 dark:text-orange-200 mb-1">
-              Total Grant Cost
+              Total Award Cost
             </h5>
             <p className="text-xs text-orange-700 dark:text-orange-400">
               Based on projected Bitcoin price for each grant year
@@ -245,7 +245,7 @@ function VirtualizedAnnualBreakdown({
               {formatUSD(totalCost)}
             </div>
             <div className="text-sm font-medium text-orange-700 dark:text-orange-300">
-              {formatBTC(totalBTC)} total grants
+              {formatBTC(totalBTC)} total awards
             </div>
           </div>
         </div>

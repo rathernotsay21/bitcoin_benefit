@@ -432,8 +432,8 @@ export default function TrackerPage() {
   // Announce status changes to screen readers
   useEffect(() => {
     if (currentStep === 'complete' && annotatedTransactions.length > 0) {
-      const matchedGrants = Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5);
-      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${matchedGrants} vesting grants matched.`;
+      const matchedGrants = Math.min(annotatedTransactions.filter(t => t.type === 'Annual Award').length, totalGrants || 5);
+      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${matchedGrants} vesting awards matched.`;
       announceToScreenReader(announcement);
     }
   }, [currentStep, annotatedTransactions, totalGrants]);
@@ -619,9 +619,9 @@ export default function TrackerPage() {
                         </span>
                         <span
                           className="text-lg font-bold text-green-800 dark:text-green-300"
-                          aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)} unlocking grants matched`}
+                          aria-label={`${Math.min(annotatedTransactions.filter(t => t.type === 'Annual Award').length, totalGrants || 5)} unlocking awards matched`}
                         >
-                          {Math.min(annotatedTransactions.filter(t => t.type === 'Annual Grant').length, totalGrants || 5)}
+                          {Math.min(annotatedTransactions.filter(t => t.type === 'Annual Award').length, totalGrants || 5)}
                         </span>
                       </div>
 
