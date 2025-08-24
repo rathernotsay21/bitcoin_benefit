@@ -48,7 +48,7 @@ function formatUSD(amount: number): string {
 
 function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>(''); // No default preset
+  const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>('reward'); // Default to Reward preset
   
 
   const {
@@ -88,18 +88,17 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
   // Helper to set default vesting preset
   const _applyDefaultVestingPreset = useCallback((schemeId: string) => {
-    // Define default Recruit preset events
-    const recruitEvents = [
-      { id: `recruit-1-${Date.now()}`, timePeriod: 3, percentageVested: 10, label: '90 Days' },
-      { id: `recruit-2-${Date.now()}`, timePeriod: 12, percentageVested: 40, label: 'Year 1' },
-      { id: `recruit-3-${Date.now()}`, timePeriod: 24, percentageVested: 100, label: 'Year 2' },
+    // Define default Reward preset events
+    const rewardEvents = [
+      { id: `reward-1-${Date.now()}`, timePeriod: 60, percentageVested: 50, label: 'Year 5' },
+      { id: `reward-2-${Date.now()}`, timePeriod: 120, percentageVested: 100, label: 'Year 10' },
     ];
     
-    // Clear any existing custom events and apply Recruit preset
+    // Clear any existing custom events and apply Reward preset
     const currentEvents = schemeCustomizations[schemeId]?.customVestingEvents || [];
     currentEvents.forEach(event => removeCustomVestingEvent(schemeId, event.id));
-    recruitEvents.forEach(event => addCustomVestingEvent(schemeId, event));
-    setSelectedVestingPreset('recruit');
+    rewardEvents.forEach(event => addCustomVestingEvent(schemeId, event));
+    setSelectedVestingPreset('reward');
   }, [schemeCustomizations, removeCustomVestingEvent, addCustomVestingEvent]);
 
   // Load all data in parallel for faster initialization
@@ -205,16 +204,16 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               />
               
               {/* Vesting Presets Component - Moved here from Customize section */}
-              {selectedScheme && (
+              {displayScheme && (
                 <VestingPresets
-                  schemeId={selectedScheme.id}
+                  schemeId={displayScheme.id}
                   selectedPreset={selectedVestingPreset}
                   onPresetSelect={(presetId, events) => {
                     setSelectedVestingPreset(presetId);
                     // Clear existing custom events and add new ones
-                    const currentEvents = schemeCustomizations[selectedScheme.id]?.customVestingEvents || [];
-                    currentEvents.forEach(event => removeCustomVestingEvent(selectedScheme.id, event.id));
-                    events.forEach(event => addCustomVestingEvent(selectedScheme.id, event));
+                    const currentEvents = schemeCustomizations[displayScheme.id]?.customVestingEvents || [];
+                    currentEvents.forEach(event => removeCustomVestingEvent(displayScheme.id, event.id));
+                    events.forEach(event => addCustomVestingEvent(displayScheme.id, event));
                   }}
                 />
               )}

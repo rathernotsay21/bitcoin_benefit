@@ -38,7 +38,9 @@ const STRATEGY_CONFIG = {
       text: 'text-orange-700',
       bg: 'bg-orange-50 dark:bg-orange-900/10',
       border: 'border-orange-200 dark:border-orange-800',
-      accent: 'bg-orange-500'
+      accent: 'bg-orange-500',
+      iconBg: 'bg-[#fcf3e8] dark:bg-slate-800',
+      iconColor: 'text-[#f7931b]'
     },
     description: 'Do less work to let your employee unlock more'
   },
@@ -51,7 +53,9 @@ const STRATEGY_CONFIG = {
       text: 'text-green-700',
       bg: 'bg-green-50 dark:bg-green-900/10',
       border: 'border-green-200 dark:border-green-800',
-      accent: 'bg-green-500'
+      accent: 'bg-green-500',
+      iconBg: 'bg-[#e8f5e8] dark:bg-slate-800',
+      iconColor: 'text-green-600'
     },
     description: 'A balanced approach with steady award accumulation over time'
   },
@@ -64,7 +68,9 @@ const STRATEGY_CONFIG = {
       text: 'text-blue-700',
       bg: 'bg-blue-50 dark:bg-blue-900/10',
       border: 'border-blue-200 dark:border-blue-800',
-      accent: 'bg-blue-500'
+      accent: 'bg-blue-500',
+      iconBg: 'bg-[#e8f3fc] dark:bg-slate-800',
+      iconColor: 'text-blue-600'
     },
     description: 'A gradual approach that spreads awards over many years'
   }
@@ -77,21 +83,23 @@ function calculateVestingProgress(
 ): VestingProgressData {
   const startDate = new Date(currentDate.getFullYear() - 1, 0, 1); // Assume started Jan 1 of previous year for demo
   
-  let rawEvents: { date: Date; percentage: number; label: string }[] = [];
+  let rawEvents: { date: Date; percentage: number; label: string; fullLabel?: string }[] = [];
   
   if (customVestingEvents && customVestingEvents.length > 0) {
     // Use custom vesting events
     rawEvents = customVestingEvents.map(event => ({
       date: new Date(startDate.getTime() + (event.timePeriod * 30.44 * 24 * 60 * 60 * 1000)), // Convert months to milliseconds
       percentage: event.percentageVested,
-      label: event.label
+      label: event.label.replace(/Year\s*/i, '').trim(), // Remove "Year" for timeline display
+      fullLabel: event.label // Keep full label for overview
     }));
   } else {
     // Use default vesting schedule
     rawEvents = scheme.vestingSchedule.map(milestone => ({
       date: new Date(startDate.getTime() + (milestone.months * 30.44 * 24 * 60 * 60 * 1000)),
       percentage: milestone.grantPercent,
-      label: milestone.months === 0 ? 'Immediate' : `${Math.round(milestone.months / 12)} years`
+      label: milestone.months === 0 ? 'Immediate' : `${Math.round(milestone.months / 12)}`,
+      fullLabel: milestone.months === 0 ? 'Immediate' : `${Math.round(milestone.months / 12)} years`
     }));
   }
   
@@ -150,6 +158,10 @@ export default function VestingProgress({
   const strategyConfig = STRATEGY_CONFIG[scheme.id as keyof typeof STRATEGY_CONFIG] || STRATEGY_CONFIG['steady-builder'];
   const StrategyIcon = strategyConfig.icon;
   
+  // Check if dark mode is active
+  const isDarkMode = typeof window !== 'undefined' && 
+    document.documentElement.classList.contains('dark');
+  
   // Create progress segments based on vesting events
   const createProgressSegments = () => {
     if (vestingEvents.length === 0) return [];
@@ -178,12 +190,27 @@ export default function VestingProgress({
   const progressSegments = createProgressSegments();
   
   return (
-    <div className={`p-6 bg-white dark:bg-slate-800 rounded-xl border shadow-lg transition-all duration-300 hover:shadow-xl ${strategyConfig.colors.border} ${className}`}>
+    <div 
+      className={`p-6 bg-white dark:bg-slate-800 rounded-xl border shadow-lg transition-all duration-300 hover:shadow-xl ${strategyConfig.colors.border} ${className}`}
+      style={{
+        backgroundImage: `
+          linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
+          linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
+          linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
+          linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.06)' : 'rgba(107, 114, 128, 0.03)'}),
+          linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'}),
+          linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.03)' : 'rgba(107, 114, 128, 0.02)'})
+        `,
+        backgroundSize: '20px 35px',
+        backgroundPosition: '0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px',
+        backgroundColor: isDarkMode ? '#1e293b' : '#ffffff'
+      }}
+    >
       {/* Enhanced Header with Strategy Information */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <div className={`p-2 rounded-lg bg-gradient-to-br ${strategyConfig.colors.secondary} dark:from-slate-700 dark:to-slate-600 mr-3`}>
-            <StrategyIcon className={`w-6 h-6 ${strategyConfig.colors.text} dark:text-slate-200`} />
+          <div className={`p-2 rounded-lg ${strategyConfig.colors.iconBg} mr-3`}>
+            <StrategyIcon className={`w-6 h-6 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
@@ -250,9 +277,6 @@ export default function VestingProgress({
                     ? `${strategyConfig.colors.accent} opacity-60 border-white animate-pulse`
                     : 'bg-gray-300 border-gray-400 dark:bg-slate-600 dark:border-slate-500'
                 }`}>
-                  {event.achieved && (
-                    <CheckCircleIcon className="w-2 h-2 text-white absolute -top-0.5 -left-0.5" />
-                  )}
                 </div>
                 <span className={`text-xs mt-1 font-medium whitespace-nowrap ${
                   event.achieved 
@@ -282,12 +306,9 @@ export default function VestingProgress({
             .map((event, index) => (
               <div key={`${event.label}-${event.percentage}-${index}`} className="flex items-center justify-between p-2 bg-white dark:bg-slate-800 rounded">
                 <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
-                  {event.label}
+                  {(event as any).fullLabel || event.label}
                 </span>
                 <div className="flex items-center">
-                  {event.achieved && (
-                    <CheckCircleIcon className="w-4 h-4 text-green-500 mr-1" />
-                  )}
                   <span className={`text-sm ${
                     event.achieved 
                       ? 'text-green-600 dark:text-green-400'

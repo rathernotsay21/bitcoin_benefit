@@ -11,14 +11,13 @@ interface VestingPresetsProps {
 
 // Define the three preset vesting schedules
 const VESTING_PRESETS = {
-  recruit: {
-    id: 'recruit',
-    name: 'Recruit',
-    description: 'Fast unlocking to attract new talent',
+  reward: {
+    id: 'reward',
+    name: 'Reward',
+    description: 'Long-term loyalty rewards',
     events: [
-      { id: 'recruit-1', timePeriod: 3, percentageVested: 10, label: '90 Days' },
-      { id: 'recruit-2', timePeriod: 12, percentageVested: 40, label: 'Year 1' },
-      { id: 'recruit-3', timePeriod: 24, percentageVested: 100, label: 'Year 2' },
+      { id: 'reward-1', timePeriod: 60, percentageVested: 50, label: 'Year 5' },
+      { id: 'reward-2', timePeriod: 120, percentageVested: 100, label: 'Year 10' },
     ] as CustomVestingEvent[],
   },
   retain: {
@@ -33,13 +32,14 @@ const VESTING_PRESETS = {
       { id: 'retain-5', timePeriod: 60, percentageVested: 100, label: 'Year 5' },
     ] as CustomVestingEvent[],
   },
-  reward: {
-    id: 'reward',
-    name: 'Reward',
-    description: 'Long-term loyalty rewards',
+  recruit: {
+    id: 'recruit',
+    name: 'Recruit',
+    description: 'Fast unlocking to attract new talent',
     events: [
-      { id: 'reward-1', timePeriod: 60, percentageVested: 50, label: 'Year 5' },
-      { id: 'reward-2', timePeriod: 120, percentageVested: 100, label: 'Year 10' },
+      { id: 'recruit-1', timePeriod: 3, percentageVested: 10, label: '90 Days' },
+      { id: 'recruit-2', timePeriod: 12, percentageVested: 40, label: 'Year 1' },
+      { id: 'recruit-3', timePeriod: 24, percentageVested: 100, label: 'Year 2' },
     ] as CustomVestingEvent[],
   },
 };
@@ -56,6 +56,10 @@ export default function VestingPresets({
     }
   }, [onPresetSelect]);
 
+  // Check if dark mode is active
+  const isDarkMode = typeof window !== 'undefined' && 
+    document.documentElement.classList.contains('dark');
+
   return (
     <div className="mt-6 p-4">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
@@ -68,13 +72,30 @@ export default function VestingPresets({
           <button
             key={preset.id}
             onClick={() => handlePresetSelect(preset.id)}
-            className={`flex-1 min-w-0 px-2 sm:px-3 py-2.5 sm:py-2 rounded-lg border-2 transition-all duration-300 ${
+            className={`flex-1 min-w-0 px-2 sm:px-3 py-2.5 sm:py-2 rounded-lg border-2 transition-all duration-300 relative ${
               selectedPreset === preset.id
-                ? 'border-bitcoin bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-slate-700 dark:to-slate-600 shadow-lg'
+                ? 'border-bitcoin shadow-lg bg-white dark:bg-slate-800'
                 : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
             }`}
+            style={selectedPreset === preset.id ? {
+              backgroundImage: `
+                linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
+                linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
+                linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
+                linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
+                linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'}),
+                linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'})
+              `,
+              backgroundSize: '20px 35px',
+              backgroundPosition: '0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px',
+              backgroundColor: isDarkMode ? '#1e293b' : '#ffffff'
+            } : {}}
           >
-            <div className="font-normal text-sm sm:text-base text-[#777f89] truncate">
+            <div className={`font-normal text-sm sm:text-base truncate relative z-10 ${
+              selectedPreset === preset.id 
+                ? 'text-black' 
+                : 'text-black dark:text-white'
+            }`}>
               {preset.name}
             </div>
           </button>
