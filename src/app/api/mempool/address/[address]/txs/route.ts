@@ -9,6 +9,19 @@ interface RouteParams {
   };
 }
 
+// CORS headers for API responses
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400',
+};
+
+// Handle preflight requests
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
+}
+
 export async function GET(_request: NextRequest, { params }: RouteParams) {
   const { address } = params;
 
@@ -19,7 +32,10 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
         error: 'Invalid Bitcoin address format',
         code: 'INVALID_ADDRESS'
       },
-      { status: 400 }
+      { 
+        status: 400,
+        headers: corsHeaders
+      }
     );
   }
 
@@ -30,6 +46,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
       { 
         status: 200,
         headers: {
+          ...corsHeaders,
           'Cache-Control': 'public, max-age=60',
           'Content-Type': 'application/json',
           'X-Data-Source': 'mock',
@@ -77,6 +94,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(result, {
       headers: {
+        ...corsHeaders,
         'Cache-Control': `public, max-age=${cacheMaxAge}, stale-while-revalidate=${cacheMaxAge * 5}`,
         'Content-Type': 'application/json',
         'X-Data-Source': 'mempool.space',
@@ -95,6 +113,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
         { 
           status: 200,
           headers: {
+            ...corsHeaders,
             'Cache-Control': 'public, max-age=10, stale-while-revalidate=60',
             'X-Data-Source': 'mempool.space',
             'X-Note': 'No transactions found for address'
@@ -113,7 +132,10 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
         },
         { 
           status: 503,
-          headers: { 'Retry-After': '60' }
+          headers: { 
+            ...corsHeaders,
+            'Retry-After': '60' 
+          }
         }
       );
     }
@@ -125,7 +147,10 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
           error: 'Request timeout - mempool.space is not responding',
           code: 'TIMEOUT'
         },
-        { status: 408 }
+        { 
+          status: 408,
+          headers: corsHeaders
+        }
       );
     }
 
@@ -136,7 +161,10 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
         code: 'INTERNAL_ERROR',
         details: process.env['NODE_ENV'] === 'development' ? error?.message : undefined
       },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: corsHeaders
+      }
     );
   }
 }

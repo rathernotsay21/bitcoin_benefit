@@ -28,10 +28,32 @@ interface APIConfig {
 }
 
 /**
+ * Get the appropriate base URL for the environment
+ */
+function getBaseURL(): string {
+  // Check if we're in a browser environment
+  if (typeof window !== 'undefined') {
+    // Check if proxy is enabled (default to true)
+    const proxyEnabled = process.env.NEXT_PUBLIC_MEMPOOL_PROXY_ENABLED !== 'false';
+    
+    if (proxyEnabled) {
+      // Use relative path for client-side requests (goes through Next.js API routes)
+      return '/api/mempool';
+    }
+    
+    // Direct API call (not recommended for production due to CORS)
+    return process.env.NEXT_PUBLIC_MEMPOOL_API_BASE_URL || 'https://mempool.space/api';
+  }
+  
+  // Server-side: use the configured API URL or default
+  return process.env.MEMPOOL_API_BASE_URL || 'https://mempool.space/api';
+}
+
+/**
  * Default configuration for Mempool.space API (via proxy)
  */
 const DEFAULT_CONFIG: APIConfig = {
-  baseURL: '/api/mempool',
+  baseURL: getBaseURL(),
   timeout: 30000, // 30 seconds
   maxRetries: 3,
   retryDelay: 1000, // 1 second
@@ -269,7 +291,13 @@ export class MempoolAPI {
   private config: APIConfig;
   
   constructor(config: Partial<APIConfig> = {}) {
-    this.config = { ...DEFAULT_CONFIG, ...config };
+    // Ensure baseURL is always set appropriately for the environment
+    this.config = { 
+      ...DEFAULT_CONFIG, 
+      ...config,
+      // Override baseURL if not explicitly provided to ensure correct environment handling
+      baseURL: config.baseURL || getBaseURL()
+    };
   }
   
   /**

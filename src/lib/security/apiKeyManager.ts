@@ -58,21 +58,21 @@ class APIKeyManager {
       });
     }
 
-    // Mempool.space API Keys (Pro tier)
-    if (process.env.MEMPOOL_API_KEY) {
-      this.keys.set('mempool', {
-        provider: 'Mempool.space',
-        key: process.env.MEMPOOL_API_KEY,
-        fallbackKey: process.env.MEMPOOL_FALLBACK_API_KEY,
-        rateLimits: {
-          requestsPerMinute: parseInt(process.env.MEMPOOL_RPM || '60', 10),
-          requestsPerHour: parseInt(process.env.MEMPOOL_RPH || '1000', 10),
-          requestsPerDay: parseInt(process.env.MEMPOOL_RPD || '10000', 10)
-        },
-        endpoints: ['/api/mempool'],
-        isActive: true
-      });
-    }
+    // Mempool.space API Keys (Optional - public API)
+    // Mempool.space is a public API that doesn't require authentication
+    // But we still track rate limits to be respectful
+    this.keys.set('mempool', {
+      provider: 'Mempool.space',
+      key: process.env.MEMPOOL_API_KEY || 'public', // Use 'public' as placeholder for free tier
+      fallbackKey: process.env.MEMPOOL_FALLBACK_API_KEY,
+      rateLimits: {
+        requestsPerMinute: parseInt(process.env.MEMPOOL_RPM || '60', 10),
+        requestsPerHour: parseInt(process.env.MEMPOOL_RPH || '1000', 10),
+        requestsPerDay: parseInt(process.env.MEMPOOL_RPD || '10000', 10)
+      },
+      endpoints: ['/api/mempool'],
+      isActive: true
+    });
 
     // Add other API providers as needed
   }
@@ -286,7 +286,11 @@ class APIKeyManager {
         headers.set('x-cg-demo-api-key', apiKey);
         break;
       case 'mempool':
-        headers.set('Authorization', `Bearer ${apiKey}`);
+        // Mempool.space doesn't require authentication for public API
+        // Only add auth header if we have a real API key (not 'public')
+        if (apiKey && apiKey !== 'public') {
+          headers.set('Authorization', `Bearer ${apiKey}`);
+        }
         break;
       default:
         headers.set('X-API-Key', apiKey);
