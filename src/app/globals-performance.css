@@ -1,0 +1,154 @@
+/* Performance Optimizations for Lighthouse Issues */
+
+/* 1. Disable infinite animations by default - enable only on interaction */
+@media (prefers-reduced-motion: no-preference) {
+  /* Only animate on hover/focus, not infinitely */
+  .btn-hero-primary {
+    animation: none !important;
+  }
+  
+  .btn-hero-primary:hover {
+    animation: electricPulse 2s ease-in-out 1 !important;
+  }
+  
+  .btn-hero-secondary {
+    animation: none !important;
+  }
+  
+  .btn-hero-secondary:hover {
+    animation: lightningPulse 3s ease-in-out 1 !important;
+  }
+  
+  .btn-hero-primary::before,
+  .btn-hero-secondary::before {
+    animation: none !important;
+  }
+  
+  .btn-hero-primary:hover::before,
+  .btn-hero-secondary:hover::before {
+    animation: neonRotate 3s linear 1 !important;
+  }
+  
+  /* Disable other infinite animations */
+  [class*="shimmer"],
+  [class*="float"],
+  [class*="pulse"],
+  [class*="skeleton"] {
+    animation-play-state: paused !important;
+  }
+  
+  /* Re-enable on interaction */
+  [class*="shimmer"]:hover,
+  [class*="float"]:hover,
+  [class*="pulse"]:hover {
+    animation-play-state: running !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* 2. Reduce blur values for better performance */
+.btn-hero-primary::before,
+.btn-hero-secondary::before {
+  filter: blur(4px) !important; /* Reduced from 10px/8px */
+}
+
+/* Reduce backdrop-filter blur values */
+.btn-hero-secondary,
+[class*="glass"],
+[class*="backdrop"] {
+  backdrop-filter: blur(8px) saturate(150%) !important; /* Reduced from 24px */
+  -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+}
+
+/* 3. Remove unnecessary will-change properties */
+* {
+  will-change: auto !important;
+}
+
+/* Only use will-change on actively animating elements */
+.btn-hero-primary:hover,
+.btn-hero-secondary:hover {
+  will-change: transform, opacity;
+}
+
+/* 4. Optimize keyframe animations - reduce blur changes */
+@keyframes electricPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 2px rgba(247, 147, 26, 0.3),
+      0 0 4px rgba(247, 147, 26, 0.15);
+  }
+  50% {
+    box-shadow: 
+      0 0 3px rgba(247, 147, 26, 0.4),
+      0 0 6px rgba(247, 147, 26, 0.2);
+  }
+}
+
+@keyframes neonRotate {
+  0% {
+    background-position: 0% 50%;
+    /* Remove filter changes - just position */
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes lightningPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 1px rgba(100, 149, 237, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 2px rgba(100, 149, 237, 0.25);
+  }
+}
+
+/* 5. Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 6. Use CSS containment for better performance */
+.btn-hero-primary,
+.btn-hero-secondary,
+[class*="card"],
+[class*="chart"] {
+  contain: layout style paint;
+}
+
+/* 7. Optimize transform and opacity only transitions */
+* {
+  transition-property: transform, opacity !important;
+  transition-duration: 200ms !important;
+}
+
+/* 8. Add performance hints for browsers */
+.hero-section,
+.calculator-section,
+.chart-container {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 9. Lazy load animations - only animate when in viewport */
+[data-animate] {
+  animation-play-state: paused !important;
+}
+
+[data-animate].in-viewport {
+  animation-play-state: running !important;
+}
+
+/* 10. Reduce paint areas with isolation */
+.animated-element {
+  isolation: isolate;
+}

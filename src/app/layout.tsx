@@ -8,6 +8,7 @@ import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 import { PrefetchLinks } from '@/components/PrefetchLinks'
+import { PerformanceOptimizer } from '@/components/performance/PerformanceOptimizer'
 import './globals.css'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
@@ -128,13 +129,15 @@ export default function RootLayout({
             >
               <ThemeProvider>
                 <StoreSyncProvider>
-                  <ServiceWorkerRegistration />
-                  <PrefetchLinks />
-                  <div className="min-h-screen transition-colors duration-300 performance-optimized">
-                    <main className="relative">
-                      {children}
-                    </main>
-                  </div>
+                  <PerformanceOptimizer enabled={process.env.NODE_ENV === 'production'}>
+                    <ServiceWorkerRegistration />
+                    <PrefetchLinks />
+                    <div className="min-h-screen transition-colors duration-300 performance-optimized">
+                      <main className="relative">
+                        {children}
+                      </main>
+                    </div>
+                  </PerformanceOptimizer>
                 </StoreSyncProvider>
               </ThemeProvider>
             </PerformanceMonitor>

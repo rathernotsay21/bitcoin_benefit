@@ -1841,3 +1841,22 @@ scroll-behavior: smooth;
     @apply bg-bitcoin-500 dark:bg-slate-500;
   }
 }
+
+/* Performance optimizations for low-end devices */
+body.reduce-animations * {
+  animation: none !important;
+  transition: opacity 150ms ease-out !important;
+}
+
+body.reduce-animations .btn-hero-primary,
+body.reduce-animations .btn-hero-secondary {
+  animation: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+body.reduce-animations *::before,
+body.reduce-animations *::after {
+  animation: none !important;
+  filter: none !important;
+}
