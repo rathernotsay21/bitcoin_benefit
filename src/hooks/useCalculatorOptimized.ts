@@ -7,11 +7,16 @@ import { VestingScheme } from '@/types/vesting';
 /**
  * Optimized selectors to prevent unnecessary re-renders
  */
+
+// Empty constants to prevent re-renders
+const EMPTY_ARRAY: any[] = [];
+const EMPTY_OBJECT = {};
+
 export const calculatorSelectors = {
   // Core state selectors
   selectedScheme: (state: any) => state.selectedScheme,
-  inputs: (state: any) => state.inputs,
-  results: (state: any) => state.results,
+  inputs: (state: any) => state.inputs || EMPTY_OBJECT,
+  results: (state: any) => state.results || EMPTY_OBJECT,
   isCalculating: (state: any) => state.isCalculating,
   currentBitcoinPrice: (state: any) => state.currentBitcoinPrice,
   
@@ -20,9 +25,9 @@ export const calculatorSelectors = {
   equityAllocation: (state: any) => state.inputs?.equityPercentage || 0,
   bitcoinGrowthRate: (state: any) => state.inputs?.projectedBitcoinGrowth || 0,
   
-  // Result selectors
+  // Result selectors with stable references
   totalProjectedValue: (state: any) => state.results?.totalProjectedValue || 0,
-  projectionData: (state: any) => state.results?.projectionData || [],
+  projectionData: (state: any) => state.results?.projectionData || EMPTY_ARRAY,
   
   // UI state selectors
   isLoadingPrice: (state: any) => state.isLoadingPrice,

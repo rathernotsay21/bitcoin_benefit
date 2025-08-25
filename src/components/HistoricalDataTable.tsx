@@ -282,7 +282,7 @@ export default function HistoricalDataTable({
     // Each row's btcAmount is already cumulative, so we just need the last one
     const totalBTC = data[data.length - 1]?.btcAmount || 0;
     const currentTotalValue = data[data.length - 1]?.currentValue || 0;
-    const roi = totalCostBasis > 0 ? ((currentTotalValue / totalCostBasis - 1) * 100) : 0;
+    const roi = totalCostBasis > 0 ? ((currentTotalValue - totalCostBasis) / totalCostBasis * 100) : 0;
     
     return {
       totalBTC,

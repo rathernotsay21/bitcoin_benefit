@@ -9,14 +9,14 @@ export function ServiceWorkerRegistration() {
       if (process.env.NODE_ENV === 'production') {
         window.addEventListener('load', () => {
           navigator.serviceWorker
-            .register('/service-worker.js')
+            .register('/sw-optimized.js')
             .then((registration) => {
               console.log('Service Worker registered successfully:', registration.scope);
               
               // Check for updates periodically
               setInterval(() => {
                 registration.update();
-              }, 60 * 60 * 1000); // Check every hour
+              }, 60000); // Check every minute for better performance
               
               // Handle updates
               registration.addEventListener('updatefound', () => {
@@ -29,7 +29,7 @@ export function ServiceWorkerRegistration() {
                       
                       // Optionally show a notification to the user
                       if (window.confirm('A new version is available. Refresh to update?')) {
-                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                        newWorker.postMessage({ action: 'skipWaiting' });
                         window.location.reload();
                       }
                     }

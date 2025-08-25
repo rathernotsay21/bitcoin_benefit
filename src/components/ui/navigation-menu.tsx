@@ -121,21 +121,21 @@ function NavigationMenuViewport({
   )
 }
 
-function NavigationMenuLink({
-  className,
-  ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
-  return (
-    <NavigationMenuPrimitive.Link
-      data-slot="navigation-menu-link"
-      className={cn(
-        "data-[active=true]:bg-bitcoin/10 dark:data-[active=true]:bg-bitcoin/20 data-[active=true]:text-bitcoin dark:data-[active=true]:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-bitcoin dark:hover:text-bitcoin focus:bg-slate-100 dark:focus:bg-slate-800 focus:text-bitcoin dark:focus:text-bitcoin focus-visible:ring-bitcoin/50 [&_svg:not([class*='text-'])]:text-slate-500 dark:[&_svg:not([class*='text-'])]:text-slate-400 flex flex-col gap-1 rounded-md p-3 text-sm transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:outline-none [&_svg:not([class*='size-'])]:h-4 [&_svg:not([class*='size-'])]:w-4",
-        className
-      )}
-      {...props}
-    />
-  )
-}
+const NavigationMenuLink = React.forwardRef<
+  React.ComponentRef<typeof NavigationMenuPrimitive.Link>,
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>
+>(({ className, ...props }, ref) => (
+  <NavigationMenuPrimitive.Link
+    ref={ref}
+    data-slot="navigation-menu-link"
+    className={cn(
+      "data-[active=true]:bg-bitcoin/10 dark:data-[active=true]:bg-bitcoin/20 data-[active=true]:text-bitcoin dark:data-[active=true]:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-bitcoin dark:hover:text-bitcoin focus:bg-slate-100 dark:focus:bg-slate-800 focus:text-bitcoin dark:focus:text-bitcoin focus-visible:ring-bitcoin/50 [&_svg:not([class*='text-'])]:text-slate-500 dark:[&_svg:not([class*='text-'])]:text-slate-400 flex flex-col gap-1 rounded-md p-3 text-sm transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:outline-none [&_svg:not([class*='size-'])]:h-4 [&_svg:not([class*='size-'])]:w-4",
+      className
+    )}
+    {...props}
+  />
+))
+NavigationMenuLink.displayName = NavigationMenuPrimitive.Link.displayName
 
 function NavigationMenuIndicator({
   className,

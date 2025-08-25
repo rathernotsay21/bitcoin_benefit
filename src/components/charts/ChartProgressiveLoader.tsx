@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 
 // Lazy load the full chart component
 const VestingTimelineChartRecharts = dynamic(
-  () => import('../VestingTimelineChartRecharts'),
-  { 
+  () => import('../VestingTimelineChartRechartsOptimized'),
+  {
     ssr: false,
     loading: () => <ChartSkeleton />
   }

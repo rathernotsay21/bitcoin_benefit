@@ -85,14 +85,14 @@ export default function SchemeTabSelector({
           // Define color classes based on scheme
           const getColorClasses = () => {
             if (scheme.id === 'accelerator') {
-              // Pioneer - Orange when active, grey when inactive
-              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700";
+              // Pioneer - Orange when active, white text in dark mode
+              return "text-gray-600 dark:text-white data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700";
             } else if (scheme.id === 'steady-builder') {
-              // Stacker - Green when active, grey when inactive
-              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-green-700";
+              // Stacker - Green when active, white text in dark mode
+              return "text-gray-600 dark:text-white data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-green-700";
             } else if (scheme.id === 'slow-burn') {
-              // Builder - Blue when active, grey when inactive
-              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-blue-700";
+              // Builder - Blue when active, white text in dark mode
+              return "text-gray-600 dark:text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-blue-700";
             }
             return "";
           };
@@ -103,11 +103,11 @@ export default function SchemeTabSelector({
               value={scheme.id}
               className={`flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group ${getColorClasses()}`}
             >
-              <IconComponent className="w-6 h-6 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 text-current" />
-              <span className="text-xs font-semibold leading-tight text-center mb-1 text-current">
+              <IconComponent className="w-8 h-8 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 text-current" />
+              <span className="text-sm font-semibold leading-tight text-center mb-1 text-current">
                 {scheme.name}
               </span>
-              <span className="text-[10px] opacity-75 leading-tight text-center hidden sm:inline text-current">
+              <span className="text-xs opacity-75 leading-tight text-center hidden sm:inline text-current">
                 {scheme.tagline || 'Custom Plan'}
               </span>
             </TabsTrigger>

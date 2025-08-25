@@ -82,7 +82,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Tools</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-              Simple blockchain tools for everyone
+              In theory, there is no difference between theory and practice. In practice, there is.
             </p>
           </div>
         </div>

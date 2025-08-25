@@ -186,7 +186,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Sound Money Plan</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-              Design a plan that's right for your team
+              A nickel ain't worth a dime anymore.
             </p>
           </div>
         </div>
@@ -419,7 +419,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                           {/* Show the default unlocking schedule for this plan */}
                           <p className="mb-3">
                             <strong>Default {displayScheme.name} schedule:</strong> {
-                              displayScheme.id === 'accelerator' ? 'Go big up front and keep adding more.' :
+                              displayScheme.id === 'accelerator' ? 'Go big up front with a single award.' :
                               displayScheme.id === 'steady-builder' ? 'Balanced initial award with steady annual additions.' :
                               'Conservative approach with yearly awards only.'
                             }

@@ -1,5 +1,7 @@
 # Code Duplication Elimination - Master Orchestration Prompt
 
+PLEASE TAKE YOUR TIME AND BE CAREFUL! This is a critical project and we cannot afford any down time. Be conservative while implementing this plan and think about how changes may impact the functionality of the project. It is better to leave some duplications in the code than it is to break something!
+
 ## Execution Instructions for Agent Coordination
 
 This prompt should be used to initiate the systematic code duplication elimination process. Copy and use this prompt to start the implementation.

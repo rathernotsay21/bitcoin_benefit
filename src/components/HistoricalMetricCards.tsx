@@ -186,8 +186,8 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         icon: undefined
       },
       {
-        value: formatBTC(historicalResults.summary.averageAnnualGrant),
-        label: 'Average Yearly Bonus',
+        value: formatBTC(historicalResults.totalBitcoinGranted / yearsAnalyzed),
+        label: 'Average Yearly Award',
         color: 'orange' as const,
         sublabel: 'Bitcoin per year',
         icon: <SatoshiIcon className="w-6 h-6 text-bitcoin" />

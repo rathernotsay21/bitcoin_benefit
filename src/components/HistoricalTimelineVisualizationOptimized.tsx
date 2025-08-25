@@ -245,10 +245,7 @@ function HistoricalTimelineVisualizationOptimized({
           Interactive Timeline Explorer
         </h4>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          This page shows what bitcoin awards did in the past. The early days saw dramatic growth, but they were rough. The good news is that the wild volatility is settling down. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
-        </p>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          The timeline shows the journey your employee's Bitcoin award would have taken from a chosen starting year to today.
+          The timeline shows the journey your employee's Bitcoin award would have taken from any chosen year. The early days saw dramatic growth, but they were rough times. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
         </p>
         
         {/* Summary Information */}

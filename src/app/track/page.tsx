@@ -524,7 +524,7 @@ export default function TrackerPage() {
                 <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
               </h1>
               <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                Don't trust, verify. See your actual Bitcoin grants on-chain with complete transparency.
+                You can observe a lot by just watching.
               </p>
             </div>
           </div>

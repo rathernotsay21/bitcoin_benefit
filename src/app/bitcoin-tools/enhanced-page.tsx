@@ -59,7 +59,7 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
               </h1>
             </div>
             <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-6">
-              Explore the Bitcoin blockchain with user-friendly tools. No technical expertise required.
+              In theory, there is no difference between theory and practice. In practice, there is.
             </p>
             
             {/* Feature badges */}

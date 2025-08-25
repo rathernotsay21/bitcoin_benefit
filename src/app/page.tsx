@@ -80,7 +80,7 @@ export default function HomePage() {
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
             </h1>
             <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
-              No-nonsense benefits that grow stronger over time.
+              The future ain't what it used to be.
             </p>
             <HeroButtons />
           </div>
