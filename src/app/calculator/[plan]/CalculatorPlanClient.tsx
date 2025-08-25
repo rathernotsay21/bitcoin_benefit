@@ -482,6 +482,25 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               )}
             </CalculatorErrorBoundary>
 
+            {/* Bitcoin Price Projection Chart */}
+            <div className="card w-full overflow-hidden mt-8 md:mt-10">
+              <ChartErrorBoundary>
+                {results && displayScheme ? (
+                  <VestingTimelineChart
+                    timeline={results.timeline}
+                    initialGrant={displayScheme.initialGrant}
+                    annualGrant={displayScheme.annualGrant}
+                    projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
+                    currentBitcoinPrice={currentBitcoinPrice}
+                    schemeId={displayScheme.id}
+                    customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
+                  />
+                ) : (
+                  <ChartSkeleton />
+                )}
+              </ChartErrorBoundary>
+            </div>
+
             {/* Annual Breakdown Table */}
             {results && displayScheme && (
               <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6">
@@ -505,25 +524,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 />
               </div>
             )}
-
-            {/* Unlocking Timeline Chart */}
-            <div className="card w-full overflow-hidden mt-8 md:mt-10">
-              <ChartErrorBoundary>
-                {results && displayScheme ? (
-                  <VestingTimelineChart
-                    timeline={results.timeline}
-                    initialGrant={displayScheme.initialGrant}
-                    annualGrant={displayScheme.annualGrant}
-                    projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
-                    currentBitcoinPrice={currentBitcoinPrice}
-                    schemeId={displayScheme.id}
-                    customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
-                  />
-                ) : (
-                  <ChartSkeleton />
-                )}
-              </ChartErrorBoundary>
-            </div>
 
             </React.Fragment>
           </div>

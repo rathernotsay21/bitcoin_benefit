@@ -283,19 +283,25 @@ function analyzeNetworkConditions(mempoolData: MempoolInfo, feeData: MempoolFeeR
   let congestionLevel: NetworkConditions['congestionLevel'];
   let recommendation: string;
 
-  // Determine congestion level based on mempool size and fees
-  if (mempoolSize < 5000 && averageFee < 10) {
+  // Determine congestion level primarily based on fees (which is what really matters)
+  // Aligned with Network Status API logic for consistency
+  if (averageFee <= 5) {
     congestionLevel = 'low';
     recommendation = 'Great time to send! Low fees and fast confirmation.';
-  } else if (mempoolSize < 20000 && averageFee < 50) {
+  } else if (averageFee <= 20) {
     congestionLevel = 'normal';
     recommendation = 'Normal network conditions. Standard fees recommended.';
-  } else if (mempoolSize < 50000 && averageFee < 200) {
+  } else if (averageFee <= 50) {
     congestionLevel = 'high';
     recommendation = 'Network is busy. Consider waiting or using higher fees.';
   } else {
     congestionLevel = 'extreme';
     recommendation = 'Network extremely congested! High fees required or wait for off-peak hours.';
+  }
+  
+  // Adjust message if there's a large mempool but low fees (common scenario)
+  if (mempoolSize > 50000 && averageFee <= 5) {
+    recommendation += ' Many low-priority transactions in queue but fees remain low.';
   }
 
   return {

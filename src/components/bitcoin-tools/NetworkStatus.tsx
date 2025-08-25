@@ -512,28 +512,34 @@ const NetworkStatus: React.FC = React.memo(() => {
           <>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Current Fee Rates</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.entries(state.networkHealth.feeEstimates).map(([feeType, feeRate]) => {
-              const feeInfo = getFeeLabel(feeType);
-              const costUSD = calculateTxCostUSD(feeRate as FeeRate);
-              
-              return (
-                <div key={feeType} className="bg-white dark:bg-gray-700 rounded-sm p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">{feeInfo.emoji}</div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
-                    <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
-                    {state.bitcoinPrice && (
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        ~${costUSD.toFixed(2)} USD
+            {Object.entries(state.networkHealth.feeEstimates)
+              .filter(([feeType]) => {
+                // Only show known fee types
+                const knownFeeTypes = ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee'];
+                return knownFeeTypes.includes(feeType);
+              })
+              .map(([feeType, feeRate]) => {
+                const feeInfo = getFeeLabel(feeType);
+                const costUSD = calculateTxCostUSD(feeRate as FeeRate);
+                
+                return (
+                  <div key={feeType} className="bg-white dark:bg-gray-700 rounded-sm p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="text-center">
+                      <div className="text-2xl mb-2">{feeInfo.emoji}</div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
+                      <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
+                      {state.bitcoinPrice && (
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          ~${costUSD.toFixed(2)} USD
+                        </div>
+                      )}
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        {feeInfo.timeEstimate}
                       </div>
-                    )}
-                    <div className="text-xs text-gray-500 dark:text-gray-500">
-                      {feeInfo.timeEstimate}
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             </div>
             
             <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-700">
