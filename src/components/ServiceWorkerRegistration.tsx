@@ -5,11 +5,32 @@ import { useEffect } from 'react';
 export function ServiceWorkerRegistration() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      // Only register in production
-      if (process.env.NODE_ENV === 'production') {
+      // In development, unregister all service workers to prevent caching issues
+      if (process.env.NODE_ENV === 'development') {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister().then((success) => {
+              if (success) {
+                console.log('[Dev] Service Worker unregistered:', registration.scope);
+              }
+            });
+          });
+        });
+        
+        // Clear all caches in development
+        if ('caches' in window) {
+          caches.keys().then((names) => {
+            names.forEach((name) => {
+              caches.delete(name);
+              console.log('[Dev] Cache cleared:', name);
+            });
+          });
+        }
+      } else if (process.env.NODE_ENV === 'production') {
+        // Only register in production
         window.addEventListener('load', () => {
           navigator.serviceWorker
-            .register('/sw-optimized.js')
+            .register('/sw-production.js')
             .then((registration) => {
               console.log('Service Worker registered successfully:', registration.scope);
               

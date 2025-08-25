@@ -107,12 +107,12 @@ const Row = memo(({
         </div>
         
         {/* USD Value - Fixed width to prevent overflow */}
-        <div className="flex-none w-24 sm:w-32 lg:w-36 text-sm font-semibold text-green-600 dark:text-green-400 truncate">
+        <div className="flex-none w-24 sm:w-28 lg:w-32 text-sm font-semibold text-green-600 dark:text-green-400 truncate">
           {formatUSD(yearData.usdValue)}
         </div>
         
         {/* Status - Adjusted width for better spacing */}
-        <div className="flex-none w-16 sm:w-24 lg:w-28 text-sm">
+        <div className="flex-none w-20 sm:w-24 lg:w-28 text-sm">
           <span className={`px-1 sm:px-2 py-1 rounded-full text-xs font-medium ${
             vestingPercent === 100 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
             vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' :
@@ -225,8 +225,8 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
         <div className="flex items-center bg-gray-50 dark:bg-slate-700 px-2 sm:px-4 py-3 text-xs font-medium text-gray-500 dark:text-white/80 uppercase tracking-wider border-b border-gray-200 dark:border-slate-600">
           <div className="flex-none w-12 sm:w-16">Year</div>
           <div className="flex-none w-20 sm:w-24">BTC</div>
-          <div className="flex-none w-24 sm:w-32 lg:w-36">USD Value</div>
-          <div className="flex-none w-16 sm:w-24 lg:w-28">Status</div>
+          <div className="flex-none w-24 sm:w-28 lg:w-32">USD Value</div>
+          <div className="flex-none w-20 sm:w-24 lg:w-28">Status</div>
           
           {/* Desktop-only headers */}
           <div className="hidden lg:block flex-none w-24">Award</div>

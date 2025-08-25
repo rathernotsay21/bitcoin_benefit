@@ -9,6 +9,14 @@ const nextConfig = {
     // TODO: Fix all TypeScript errors and remove this flag
     ignoreBuildErrors: true,
   },
+  // Disable React Fast Refresh cache in development
+  reactStrictMode: true,
+  onDemandEntries: {
+    // Period (in ms) where the page is kept in the buffer
+    maxInactiveAge: 25 * 1000,
+    // Number of pages that should be kept simultaneously without being disposed
+    pagesBufferLength: 2,
+  },
   // Configure image optimization
   images: {
     // Enable image optimization in production
@@ -64,6 +72,16 @@ const nextConfig = {
           }
         },
       });
+    }
+    
+    // Disable caching in development mode
+    if (dev) {
+      config.cache = false;
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+        ignored: /node_modules/,
+      };
     }
     
     // Apply optimizations in production and Netlify environments
@@ -165,6 +183,38 @@ const nextConfig = {
   
   // Headers for security and caching
   async headers() {
+    // Development headers to prevent caching
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/:path*',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'
+            },
+            {
+              key: 'Pragma',
+              value: 'no-cache'
+            },
+            {
+              key: 'Expires',
+              value: '0'
+            },
+            {
+              key: 'Surrogate-Control',
+              value: 'no-store'
+            },
+            {
+              key: 'X-Development-Mode',
+              value: 'true'
+            }
+          ]
+        }
+      ];
+    }
+    
+    // Production headers
     return [
       {
         source: '/:path*',

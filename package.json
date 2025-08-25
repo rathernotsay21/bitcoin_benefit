@@ -24,6 +24,9 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:clean": "rm -rf .next && rm -rf node_modules/.cache && next dev",
+    "cache:clear": "rm -rf .next && rm -rf node_modules/.cache",
+    "cache:clear:all": "rm -rf .next && rm -rf node_modules/.cache && rm -rf .next/cache",
     "prebuild": "node scripts/generate-static-data.js",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build && node scripts/verify-css-build.js",
     "build:safe": "npm run prebuild && NODE_OPTIONS='--max-old-space-size=4096' next build && node scripts/verify-css-build.js && node scripts/test-deployment.js",

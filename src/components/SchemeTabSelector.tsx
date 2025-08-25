@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { VESTING_SCHEMES } from '@/lib/vesting-schemes';
 import { VestingScheme } from '@/types/vesting';
 import { BitcoinIcon, SatoshiIcon, MiningOutlineIcon } from '@/components/icons';
+import '@/styles/textured-backgrounds.css';
 
 interface SchemeTabSelectorProps {
   selectedScheme: VestingScheme | null;
@@ -97,17 +98,26 @@ export default function SchemeTabSelector({
             return "";
           };
           
+          // Add texture overlay for active state
+          const isActive = selectedScheme?.id === scheme.id;
+          
           return (
             <TabsTrigger
               key={scheme.id}
               value={scheme.id}
-              className={`flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group ${getColorClasses()}`}
+              className={`relative overflow-hidden flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group ${getColorClasses()}`}
             >
-              <IconComponent className="w-8 h-8 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 text-current" />
-              <span className="text-sm font-semibold leading-tight text-center mb-1 text-current">
+              {/* Texture overlay for active state */}
+              {isActive && (
+                <div className="absolute inset-0 pointer-events-none opacity-30">
+                  <div className="w-full h-full textured-preset-selected-light dark:textured-preset-selected-dark" />
+                </div>
+              )}
+              <IconComponent className="relative z-10 w-8 h-8 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 text-current" />
+              <span className="relative z-10 text-sm font-semibold leading-tight text-center mb-1 text-current">
                 {scheme.name}
               </span>
-              <span className="text-xs opacity-75 leading-tight text-center hidden sm:inline text-current">
+              <span className="relative z-10 text-xs opacity-75 leading-tight text-center hidden sm:inline text-current">
                 {scheme.tagline || 'Custom Plan'}
               </span>
             </TabsTrigger>
