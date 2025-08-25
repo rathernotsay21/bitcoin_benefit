@@ -1,14 +1,5 @@
 # Bitcoin Benefit Site - Complete Content Rewrite Guide
 
-## Document Overview
-This document provides comprehensive content rewrites for all pages on the Bitcoin Benefit site. Each section is clearly labeled with the page location and includes both the recommended new copy and strategic notes for implementation.
-
-**Target Audience**: Everyday people interested in bitcoin for long-term financial security, with limited technical knowledge but strong interest in wealth preservation.
-
-**Voice & Tone**: Conversational yet professional, reassuring, jargon-free, benefit-focused
-
----
-
 ## HOME PAGE (src/app/page.tsx)
 
 ### Hero Section Rewrite
@@ -35,22 +26,27 @@ No crypto expertise needed. No complex setups. Just choose a plan, fund it gradu
 ```
 Title: "Why Forward-Thinking Companies Choose Bitcoin"
 
-Every year, your traditional benefits package costs more and delivers less. Health insurance premiums rise. 401(k) matches barely beat inflation. Stock options are complex and often worthless.
+Traditional benefits packages cost more and delivers less ever year. Health insurance premiums rise. 401(k) matches barely beat inflation. Stock options are complex and often worthless.
 
 Bitcoin is different.
 
-**Scarce by Design**
-Only 21 million bitcoin will ever exist. Unlike dollars that can be printed endlessly, bitcoin's fixed supply means it tends to gain value over time, not lose it.
-
 **Proven Over 16 Years**
-Since 2009, bitcoin has survived every crisis, crash, and criticism to become a trillion-dollar asset class. Major companies like Tesla, MicroStrategy, and Square hold billions in bitcoin.
+Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar asset class. Billions of dollars are held in bitcoin by family office investors (footnote 1 and 2), registered investment advisors (3), Fidelity, and even the United States Treasury (5).
 
 **Simple to Implement**
-No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. Your employees can track their benefits value in real-time.
+No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. Your employees can track their benefits value in real-time. You can even document the process with Open Timestamps (LINK TO https://opentimestamps.org/)
 
 **Meaningful to Employees**
-Young talent especially values bitcoin. Offering it shows you understand their values and are investing in their long-term future, not just their next paycheck.
+Young talent values bitcoin. Use bitcoin to recruit, retain, or reward (LINK THESE THREE TO SCHEMES ON CALCULATOR PAGE) your team. Offering it shows you understand their values and are investing in their long-term future, not just their next paycheck.
 ```
+
+FOOTNOTES
+1. Source: BNY Mellon Wealth Management - Finding: 33% of US family offices actively investing in crypto, 39% globally investing or exploring
+2. Source: Goldman Sachs - Finding: 26% of family offices invested in crypto, up from 15% in 2021
+3. Source: CoinShares Research - Finding: RIAs hold $10.3 billion in Bitcoin ETFs (50% of all 13F Bitcoin ETF holdings of $21.2 billion)
+4. SEC 13F Filings - Source: SEC official filings database - Finding: RIAs with >$100M AUM required to report holdings quarterly
+5. Source: US Department of Justice (Official) - Finding: US government holds ~198,000-212,000 BTC from criminal seizures
+
 
 ### Plan Card Descriptions - EXPANDED
 
