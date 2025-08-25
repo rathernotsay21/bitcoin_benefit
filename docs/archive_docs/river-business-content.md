@@ -1,7 +1,0 @@
-# River Business Bitcoin Solution
-
-Running your business can be stressful, [buying bitcoin](https://river.com/signup?r=RH5MJKJM){:target="_blank"} for your employees doesn't have to be. Setup [recurring buys](https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281){:target="_blank"} to fund each grants over a few weeks or month and easily [send the bitcoin](https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452){:target="_blank"} to an on-chain wallet with [River](https://river.com/signup?r=RH5MJKJM){:target="_blank"}.
-
-## What sets River apart?
-
-For U.S. investors prioritizing security and long-term accumulation, River Financial offers a premier, Bitcoin-only platform. River's commitment to security is backed by industry-leading transparency, including monthly [proof of reserves](https://river.com/reserves){:target="_blank"} that allow clients to verify their holdings are fully backed, and SOC 2 compliance audits. River is particularly attractive for dollar-cost averaging (DCA) strategies, offering zero fees on recurring buys, a significant advantage over competitors. As a U.S.-based and regulated institution (NMLS ID 1906809), River combines institutional-grade security with high-touch human support, making it a trusted choice for building a Bitcoin position with confidence.

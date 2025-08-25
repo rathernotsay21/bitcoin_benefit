@@ -22,6 +22,7 @@ const inter = Inter({
   preload: true,
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: false,
+  variable: '--font-inter',
 })
 
 export const metadata: Metadata = {
@@ -57,8 +58,6 @@ export default function RootLayout({
         <link rel="prefetch" href="/data/schemes-meta.json" as="fetch" crossOrigin="anonymous" />
         <link rel="prefetch" href="/data/static-calculations.json" as="fetch" crossOrigin="anonymous" />
         
-        {/* Preload critical fonts */}
-        <link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         
         {/* Module preload for critical JavaScript */}
         <link rel="modulepreload" href="/_next/static/chunks/webpack.js" />
@@ -98,7 +97,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${inter.className}`}>
         <script
           dangerouslySetInnerHTML={{
             __html: `

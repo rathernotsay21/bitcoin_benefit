@@ -268,7 +268,7 @@ export default function HomePage() {
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Pioneer */}
-            <Link href="/calculator?scheme=accelerator" className="group block">
+            <Link href="/calculator?scheme=pioneer" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -310,7 +310,7 @@ export default function HomePage() {
             </Link>
 
             {/* Stacker */}
-            <Link href="/calculator?scheme=steady-builder" className="group block">
+            <Link href="/calculator?scheme=stacker" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -319,7 +319,7 @@ export default function HomePage() {
                   {/* Icon and title */}
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
-                      <SatoshiIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" size={24} color="#F7931A" />
+                      <SatoshiIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" size={24} />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-2xl font-bold text-white mb-2">
@@ -352,7 +352,7 @@ export default function HomePage() {
             </Link>
 
             {/* Builder */}
-            <Link href="/calculator?scheme=slow-burn" className="group block">
+            <Link href="/calculator?scheme=builder" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
