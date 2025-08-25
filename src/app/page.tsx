@@ -218,54 +218,81 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Pioneer */}
-            <Link href="/calculator/accelerator" className="feature-card group">
-              <div className="text-center">
-                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                  <BitcoinIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+            <Link href="/calculator/accelerator" className="feature-card group h-full">
+              <div className="flex flex-col h-full">
+                {/* Icon - keep centered */}
+                <div className="text-center mb-6">
+                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                    <BitcoinIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+                  </div>
                 </div>
-                <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
-                  Pioneer - Maximum Impact Plan
-                </h4>
-                <p className="text-deepSlate dark:text-slate-300 mb-6 leading-relaxed px-4">
-                  Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
-                </p>
-                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                
+                {/* Content - left aligned, grows to fill space */}
+                <div className="flex-1 flex flex-col">
+                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
+                    Pioneer
+                  </h4>
+                  <p className="text-deepSlate dark:text-slate-300 leading-relaxed text-left flex-1">
+                    Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
+                  </p>
+                </div>
+                
+                {/* Badge - aligned at bottom */}
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
                   <span className="badge badge-orange">Move First, Win Big</span>
                 </div>
               </div>
             </Link>
 
             {/* Stacker */}
-            <Link href="/calculator/steady-builder" className="feature-card group">
-              <div className="text-center">
-                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                  <SatoshiIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" size={32} />
+            <Link href="/calculator/steady-builder" className="feature-card group h-full">
+              <div className="flex flex-col h-full">
+                {/* Icon - keep centered */}
+                <div className="text-center mb-6">
+                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                    <SatoshiIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" size={32} />
+                  </div>
                 </div>
-                <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-3">
-                  Stacker - Balanced Growth Plan
-                </h4>
-                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed px-4">
-                  Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
-                </p>
-                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                
+                {/* Content - left aligned, grows to fill space */}
+                <div className="flex-1 flex flex-col">
+                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
+                    Stacker
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-left flex-1">
+                    Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
+                  </p>
+                </div>
+                
+                {/* Badge - aligned at bottom */}
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
                   <span className="badge badge-success">Consistent Growth</span>
                 </div>
               </div>
             </Link>
 
             {/* Builder */}
-            <Link href="/calculator/slow-burn" className="feature-card group">
-              <div className="text-center">
-                <div className="icon-container solid-bg-icon mx-auto mb-6 bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                  <MiningOutlineIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+            <Link href="/calculator/slow-burn" className="feature-card group h-full">
+              <div className="flex flex-col h-full">
+                {/* Icon - keep centered */}
+                <div className="text-center mb-6">
+                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
+                    <MiningOutlineIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+                  </div>
                 </div>
-                <h4 className="text-2xl font-bold text-slate-700 dark:text-slate-100 mb-3">
-                  Builder - Gradual Accumulation Plan
-                </h4>
-                <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed px-4">
-                  Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
-                </p>
-                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+                
+                {/* Content - left aligned, grows to fill space */}
+                <div className="flex-1 flex flex-col">
+                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
+                    Builder
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-left flex-1">
+                    Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
+                  </p>
+                </div>
+                
+                {/* Badge - aligned at bottom */}
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
                   <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Start Small, Think Big</span>
                 </div>
               </div>

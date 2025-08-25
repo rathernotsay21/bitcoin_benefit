@@ -28,34 +28,63 @@ export default function Footer() {
     <>
       {/* CTA Section - Only show on non-calculator pages */}
       {showCTA && (
-        <section className="py-20 bg-gradient-to-br from-bitcoin to-orange-600 dark:from-slate-700 dark:to-slate-800 relative overflow-hidden transition-colors duration-300">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+        <section className="py-24 bg-slate-900 dark:bg-black relative overflow-hidden transition-colors duration-300">
+          {/* Dynamic gradient background */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-bitcoin/20 via-transparent to-orange-600/20"></div>
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-bitcoin/30 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
           </div>
 
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
-            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-              Stop Losing Your Best Employees
-            </h3>
-            <p className="text-xl text-orange-100 dark:text-slate-300 mb-10 leading-relaxed">
-              Bitcoin awards cost less than you think and mean more than you know.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link
-                href="/calculator"
-                className="bg-offWhite dark:bg-slate-800 text-bitcoin dark:text-slate-100 hover:bg-bitcoin-50 dark:hover:bg-slate-700 font-bold py-4 px-10 rounded-sm text-lg transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md inline-flex items-center justify-center space-x-2"
-              >
-                <CalculatorIcon className="w-5 h-5" />
-                <span>Build Your Plan</span>
-              </Link>
-              <Link
-                href="/historical"
-                className="bg-orange-600 dark:bg-slate-600 text-white hover:bg-orange-700 dark:hover:bg-slate-500 font-bold py-4 px-10 rounded-sm text-lg transition-all duration-300 transform hover:scale-105 border-2 border-white/30 shadow-sm hover:shadow-md inline-flex items-center justify-center space-x-2"
-              >
-                <ClockIcon className="w-5 h-5" />
-                <span>See the Proof</span>
-              </Link>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left content */}
+              <div className="text-left">
+                <div className="inline-flex items-center gap-2 mb-6">
+                  <div className="w-2 h-8 bg-bitcoin rounded-full"></div>
+                  <span className="text-bitcoin uppercase text-sm font-bold tracking-wider">Urgent</span>
+                </div>
+                
+                <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                  Competitors Are
+                  <span className="block text-bitcoin">Already Doing This</span>
+                </h3>
+                
+                <p className="text-lg text-slate-300 dark:text-slate-400 mb-6 leading-relaxed max-w-xl">
+                  Forward-thinking companies are using bitcoin benefits to attract and retain the best talent. 
+                  Every day you wait is a day your employees' traditional benefits lose value to inflation.
+                </p>
+                
+                <div className="flex items-start gap-3 mb-10">
+                  <div className="w-1 h-16 bg-gradient-to-b from-bitcoin to-orange-500 rounded-full mt-1"></div>
+                  <p className="text-xl text-white dark:text-slate-200 font-semibold leading-snug">
+                    Start small.<br />
+                    Start today.<br />
+                    Start building real wealth.
+                  </p>
+                </div>
+              </div>
+
+              {/* Right side - Buttons */}
+              <div className="flex flex-col gap-4 lg:pl-12">
+                <Link
+                  href="/calculator"
+                  className="group relative bg-bitcoin hover:bg-orange-500 text-white font-bold py-5 px-8 rounded-sm text-lg transition-all duration-300 shadow-xl hover:shadow-2xl inline-flex items-center gap-3"
+                >
+                  <CalculatorIcon className="w-6 h-6" />
+                  <span>See What Your Team Could Earn</span>
+                  <div className="absolute inset-0 bg-white/20 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+                
+                <Link
+                  href="/learn"
+                  className="group relative bg-slate-800 dark:bg-slate-900 text-white hover:bg-slate-700 dark:hover:bg-slate-800 font-bold py-5 px-8 rounded-sm text-lg transition-all duration-300 border border-slate-700 dark:border-slate-600 shadow-lg hover:shadow-xl inline-flex items-center gap-3"
+                >
+                  <BitcoinIcon className="w-6 h-6 text-bitcoin" />
+                  <span>Learn Why Bitcoin First</span>
+                  <div className="absolute inset-0 bg-bitcoin/5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
