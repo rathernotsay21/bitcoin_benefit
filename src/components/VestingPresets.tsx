@@ -3,6 +3,7 @@
 import React, { useCallback } from 'react';
 import { CustomVestingEvent } from '@/types/vesting';
 import { GiftIcon, ShieldCheckIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import '@/styles/textured-backgrounds.css';
 
 interface VestingPresetsProps {
   schemeId: string;
@@ -60,10 +61,6 @@ export default function VestingPresets({
     }
   }, [onPresetSelect]);
 
-  // Check if dark mode is active
-  const isDarkMode = typeof window !== 'undefined' && 
-    document.documentElement.classList.contains('dark');
-
   return (
     <div className="mt-6 p-4">
       <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
@@ -80,22 +77,9 @@ export default function VestingPresets({
               onClick={() => handlePresetSelect(preset.id)}
               className={`flex-1 min-w-0 flex flex-col items-center px-2 sm:px-3 py-2 rounded-sm border-2 transition-all duration-300 relative group ${
                 selectedPreset === preset.id
-                  ? 'border-bitcoin shadow-sm bg-white dark:bg-slate-800'
+                  ? 'border-bitcoin shadow-sm bg-white dark:bg-slate-800 textured-preset-selected-light dark:textured-preset-selected-dark'
                   : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-md bg-white dark:bg-slate-800'
               }`}
-            style={selectedPreset === preset.id ? {
-              backgroundImage: `
-                linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
-                linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
-                linear-gradient(30deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
-                linear-gradient(150deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 12%, transparent 12.5%, transparent 87%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'} 87.5%, ${isDarkMode ? 'rgba(156, 163, 175, 0.15)' : 'rgba(107, 114, 128, 0.08)'}),
-                linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'}),
-                linear-gradient(60deg, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 25%, transparent 25.5%, transparent 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'} 75%, ${isDarkMode ? 'rgba(156, 163, 175, 0.08)' : 'rgba(107, 114, 128, 0.05)'})
-              `,
-              backgroundSize: '20px 35px',
-              backgroundPosition: '0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px',
-              backgroundColor: isDarkMode ? '#1e293b' : '#ffffff'
-            } : {}}
             >
               <IconComponent className={`w-5 h-5 mb-1 transition-transform duration-300 group-hover:scale-110 ${
                 selectedPreset === preset.id 

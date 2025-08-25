@@ -11,11 +11,11 @@ export function useMagneticHover(options: MagneticOptions = {}) {
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return undefined;
+    if (!element) return;
 
     // Check if device supports hover (not touch device)
     const supportsHover = window.matchMedia('(hover: hover)').matches;
-    if (!supportsHover) return undefined;
+    if (!supportsHover) return;
 
     let animationFrameId: number;
 
@@ -66,8 +66,6 @@ export function useMagneticHover(options: MagneticOptions = {}) {
         }
       };
     }
-    
-    return undefined;
   }, [strength, maxDistance]);
 
   return ref;

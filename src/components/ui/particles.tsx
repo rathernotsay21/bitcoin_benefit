@@ -135,7 +135,7 @@ export default function Particles({
           const distance = Math.sqrt(dx * dx + dy * dy);
           
           // Gentle mouse interaction
-          if (distance < 80) {
+          if (distance < 80 && distance > 0) {
             particle.targetOpacity = Math.min(1.0, 0.5 + (80 - distance) / 80 * 0.4);
             const force = (80 - distance) / 80;
             particle.vx -= (dx / distance) * force * 0.01;
@@ -176,6 +176,11 @@ export default function Particles({
         
         // Create glow effect
         const glowSize = particle.radius * 3;
+        // Ensure values are finite before creating gradient
+        if (!isFinite(particle.x) || !isFinite(particle.y) || !isFinite(glowSize)) {
+          ctx.restore();
+          return;
+        }
         const gradient = ctx.createRadialGradient(
           particle.x, particle.y, 0,
           particle.x, particle.y, glowSize

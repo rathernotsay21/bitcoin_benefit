@@ -1,0 +1,79 @@
+Common Name,File Location,Description,Key Components/Purpose,Section
+Landing/Home Page,src/app/page.tsx,Main landing page with hero section,"HeroButtons, Navigation, Footer",Main Pages
+Calculator (Main),src/app/calculator/page.tsx,Vesting calculator hub page,"SchemeTabSelector, VestingPresets",Main Pages
+Calculator (Plan-Specific),src/app/calculator/[plan]/page.tsx,Individual vesting plans (pioneer/stacker/builder),"CalculatorPlanClient, VestingTimelineChart*, MetricCards",Main Pages
+Historical Analysis,src/app/historical/page.tsx,Historical Bitcoin performance analyzer,"HistoricalTimelineVisualization*, HistoricalMetricCards, YearSelector",Main Pages
+On-Chain Tracker,src/app/track/page.tsx,Track actual Bitcoin vesting on blockchain,"VestingTrackerForm*, OnChainTimelineVisualizer, VestingTrackerResults*",Main Pages
+Bitcoin Tools,src/app/bitcoin-tools/page.tsx,Suite of Bitcoin utilities,"TransactionLookupTool, AddressExplorerTool, FeeCalculatorTool, DocumentTimestampingTool",Main Pages
+Learning Center,src/app/learn/page.tsx,Educational resources,"EducationalSidebar, ProgressiveDisclosure",Main Pages
+Terms of Service,src/app/terms/page.tsx,Legal terms,Basic page with markdown content,Main Pages
+Privacy Policy,src/app/privacy/page.tsx,Privacy information,Basic page with markdown content,Main Pages
+Risk Disclosure,src/app/risk-disclosure/page.tsx,Financial risk warnings,FinancialDisclaimer,Main Pages
+Vesting Timeline Chart,VestingTimelineChart*.tsx,Main chart showing vesting projections,Chart visualization,Calculator Components
+Annual Breakdown Table,VirtualizedAnnualBreakdown*.tsx,Year-by-year vesting details,Virtualized table,Calculator Components
+Metric Cards,MetricCards.tsx,Key metrics display,"ROI, total value display",Calculator Components
+Scheme Selector,SchemeTabSelector.tsx,Toggle between Pioneer/Stacker/Builder,Tab navigation,Calculator Components
+Custom Vesting Input,CustomVestingSchedule.tsx,Configure custom vesting parameters,Form inputs,Calculator Components
+Tax Calculator,TaxImplicationsCard.tsx,Tax impact calculations,Tax analysis,Calculator Components
+Risk Analysis,RiskAnalysisCard.tsx,Risk assessment display,Risk metrics,Calculator Components
+Historical Chart,HistoricalTimelineVisualization*.tsx,Historical performance visualization,Chart visualization,Historical Analysis Components
+Year Selector,YearSelector.tsx,Select historical time range,Date picker,Historical Analysis Components
+Historical Metrics,HistoricalMetricCards.tsx,Historical performance metrics,Metric display,Historical Analysis Components
+Data Table,HistoricalDataTable.tsx,Tabular historical data,Data table,Historical Analysis Components
+Network Status,NetworkStatus.tsx,Bitcoin network health monitor,Network metrics,Bitcoin Tools Components
+Transaction Lookup,TransactionLookupTool.tsx,Search Bitcoin transactions,Transaction search,Bitcoin Tools Components
+Address Explorer,AddressExplorerTool.tsx,Explore Bitcoin addresses,Address analysis,Bitcoin Tools Components
+Fee Calculator,FeeCalculatorTool.tsx,Calculate transaction fees,Fee estimation,Bitcoin Tools Components
+Document Timestamping,DocumentTimestampingTool.tsx,Blockchain timestamping service,Timestamping,Bitcoin Tools Components
+Tool Navigation,ToolTabsNavigation.tsx,Navigate between tools,Tab navigation,Bitcoin Tools Components
+Tracker Form,VestingTrackerForm*.tsx,Input Bitcoin address for tracking,Form input,On-Chain Tracking Components
+Results Display,VestingTrackerResults*.tsx,Show tracking results,Results view,On-Chain Tracking Components
+Timeline Visualizer,OnChainTimelineVisualizer.tsx,Visualize on-chain vesting,Timeline chart,On-Chain Tracking Components
+Manual Annotations,ManualAnnotationOverride.tsx,Add custom annotations,Annotation tool,On-Chain Tracking Components
+Button,ui/button.tsx,All buttons across the app,UI element,Core UI Elements
+Card,ui/card.tsx,Content containers,UI element,Core UI Elements
+Input,ui/input.tsx,Form inputs,UI element,Core UI Elements
+Select,ui/select.tsx,Dropdown selections,UI element,Core UI Elements
+Dialog,ui/dialog.tsx,Modal dialogs,UI element,Core UI Elements
+Sheet,ui/sheet.tsx,Slide-out panels,UI element,Core UI Elements
+Tabs,ui/tabs.tsx,Tab navigation,UI element,Core UI Elements
+Tooltip,ui/tooltip.tsx,Hover tooltips,UI element,Core UI Elements
+Alert,ui/alert.tsx,Alert messages,UI element,Core UI Elements
+Badge,ui/badge.tsx,Status badges,UI element,Core UI Elements
+Skeleton,ui/skeleton.tsx,Loading placeholders,UI element,Core UI Elements
+Main Navigation,Navigation.tsx,Top navigation bar,Navigation,Navigation Components
+Mobile Nav,MobileNavSheet.tsx,Mobile navigation drawer,Mobile navigation,Navigation Components
+Tools Dropdown,navigation/ToolsDropdown.tsx,Bitcoin tools menu,Dropdown menu,Navigation Components
+Footer,Footer.tsx,Site footer,Footer content,Navigation Components
+Vesting Charts,VestingTimelineChart.tsx,Standard vesting chart,Chart component,Chart Components
+Vesting Charts Optimized,VestingTimelineChart*Optimized.tsx,Performance-optimized vesting chart,Optimized chart,Chart Components
+Historical Charts,HistoricalTimelineChart.tsx,Standard historical chart,Chart component,Chart Components
+Historical Charts Optimized,HistoricalTimelineVisualizationOptimized.tsx,Performance-optimized historical chart,Optimized chart,Chart Components
+Recharts Base,charts/RechartsOptimized.tsx,Performance-optimized Recharts wrapper,Chart wrapper,Chart Components
+Lazy Loading Charts,charts/LazyCharts.tsx,Code-split chart loading,Lazy loading,Chart Components
+/api/bitcoin-price,api/bitcoin-price/route.ts,Current Bitcoin price,API endpoint,API Routes
+/api/historical-data,api/historical-data/route.ts,Historical price data,API endpoint,API Routes
+/api/mempool/*,api/mempool/*/route.ts,Blockchain data,"fees, transactions, addresses",API Routes
+/api/timestamps/*,api/timestamps/*/route.ts,Document timestamping service,API endpoint,API Routes
+/api/health,api/health/route.ts,System health check,API endpoint,API Routes
+/api/coingecko,api/coingecko/route.ts,CoinGecko API proxy,API endpoint,API Routes
+Calculator Store,stores/calculatorStore.ts,Future calculator state,State management,State Management (Zustand Stores)
+Historical Store,stores/historicalCalculatorStore.ts,Historical analysis state,State management,State Management (Zustand Stores)
+On-Chain Store,stores/onChainStore.ts,Blockchain tracking state,State management,State Management (Zustand Stores)
+Bitcoin Tools Store,stores/bitcoinToolsStore.ts,Tools state,State management,State Management (Zustand Stores)
+Error Boundary,ErrorBoundary.tsx,Catch component errors,Error handling,Utility Components
+Error Alert,ErrorAlert.tsx,Display error messages,Error display,Utility Components
+Help Tooltip,HelpTooltip.tsx,Contextual help,Help display,Utility Components
+Performance Monitor,performance/PerformanceMonitor.tsx,Track performance metrics,Performance tracking,Utility Components
+SEO/Structured Data,seo/StructuredData.tsx,SEO metadata,SEO optimization,Utility Components
+Mobile Navigation Sheet,MobileNavSheet.tsx,Mobile navigation drawer,Mobile-specific UI,Mobile-Specific Components
+Responsive UI Elements,ui/* directory,Touch-optimized UI elements,Mobile-optimized,Mobile-Specific Components
+API Tester,dev/APITester.tsx,Test API endpoints,Development tool,Development/Testing Components
+Icon Preview,app/icon-preview/page.tsx,Preview all icons,Development tool,Development/Testing Components
+Test Responsive,app/test-responsive/,Responsive design testing,Development tool,Development/Testing Components
+*Optimized.tsx pattern,Various locations,Performance-optimized version,VestingTrackerFormOptimized.tsx,Component Naming Patterns
+*Skeleton.tsx pattern,Various locations,Loading skeleton component,CalculatorSkeleton.tsx,Component Naming Patterns
+*Card.tsx pattern,Various locations,Card-based display component,TaxImplicationsCard.tsx,Component Naming Patterns
+*Tool.tsx pattern,Various locations,Bitcoin tool component,FeeCalculatorTool.tsx,Component Naming Patterns
+Lazy*.tsx pattern,Various locations,Lazy-loaded component,LazyVestingChart.tsx,Component Naming Patterns
+*Provider.tsx pattern,Various locations,Context/state provider,"ThemeProvider.tsx, StoreSyncProvider.tsx",Component Naming Patterns

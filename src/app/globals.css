@@ -236,69 +236,78 @@ scroll-behavior: smooth;
     box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
   }
 
-  /* Premium Hero Button System */
+  /* Premium Hero Button System - Neon Glow Effect */
   .btn-hero-primary {
-    @apply relative font-bold text-lg px-10 py-4 transition-all duration-700 overflow-hidden rounded-xl;
-    /* Base gradient with shimmer capability */
-    background: linear-gradient(135deg, #f7931a 0%, #ffa500 50%, #f7931a 100%);
-    background-size: 200% 200%;
-    color: white;
-    /* Advanced shadow system */
-    box-shadow: 0 4px 20px -3px rgba(247, 147, 26, 0.4),
-                0 8px 30px -5px rgba(247, 147, 26, 0.25),
-                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
+    /* Dark base for neon contrast */
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #f7931a;
+    border: 2px solid #f7931a;
+    /* Initial subtle glow */
+    box-shadow: 
+      0 0 5px rgba(247, 147, 26, 0.5),
+      0 0 10px rgba(247, 147, 26, 0.3),
+      inset 0 0 5px rgba(247, 147, 26, 0.1);
     /* GPU acceleration */
-    will-change: transform, box-shadow, background-position;
-    transform: translateZ(0) perspective(1000px);
-    /* Animated border */
+    will-change: transform, box-shadow, text-shadow, border-color;
+    transform: translateZ(0);
     position: relative;
     isolation: isolate;
-    /* Breathing animation */
-    animation: breathingGlow 3s ease-in-out infinite;
+    text-shadow: 0 0 5px rgba(247, 147, 26, 0.5);
+    /* Electric pulse animation */
+    animation: electricPulse 2s ease-in-out infinite;
   }
 
-  /* Shimmer border effect */
+  /* Neon border glow */
   .btn-hero-primary::before {
     content: '';
     position: absolute;
-    inset: -2px;
+    inset: -4px;
     background: linear-gradient(45deg, 
-      #f7931a, #ffd700, #f7931a, #ff8c00,
-      #f7931a, #ffd700, #f7931a
+      #f7931a, #ffd700, #ff8c00, #f7931a, #ffd700
     );
-    background-size: 300% 300%;
     border-radius: inherit;
     z-index: -1;
     opacity: 0;
+    filter: blur(15px);
     transition: opacity 0.3s ease;
-    animation: shimmerGold 3s linear infinite;
+    animation: neonRotate 3s linear infinite;
   }
 
-  /* Inner glow effect */
+  /* Inner electric glow */
   .btn-hero-primary::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 30% 30%, 
-      rgba(255, 255, 255, 0.3) 0%, 
+    background: radial-gradient(circle at center, 
+      rgba(247, 147, 26, 0.2) 0%, 
       transparent 70%);
     border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.3s ease;
     pointer-events: none;
   }
 
   .btn-hero-primary:hover {
+    transform: translateY(-2px) translateZ(0);
+    color: #ffffff;
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #2d1810 0%, #3d2418 100%);
+    /* Intense neon glow on hover */
+    box-shadow: 
+      0 0 10px rgba(247, 147, 26, 0.8),
+      0 0 20px rgba(247, 147, 26, 0.6),
+      0 0 30px rgba(247, 147, 26, 0.4),
+      0 0 40px rgba(247, 147, 26, 0.2),
+      inset 0 0 10px rgba(247, 147, 26, 0.2);
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(247, 147, 26, 0.6);
     animation-play-state: paused;
-    transform: translateY(-4px) translateZ(0) perspective(1000px) rotateX(5deg) scale(1.05);
-    box-shadow: 0 8px 30px -3px rgba(247, 147, 26, 0.5),
-                0 16px 40px -5px rgba(247, 147, 26, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4);
-    background-position: 100% 100%;
   }
 
   .btn-hero-primary:hover::before {
-    opacity: 1;
+    opacity: 0.7;
   }
 
   .btn-hero-primary:hover::after {
@@ -306,51 +315,54 @@ scroll-behavior: smooth;
   }
 
   .btn-hero-primary:active {
-    transform: translateY(-2px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
+    transform: translateY(0) translateZ(0) scale(0.98);
+    box-shadow: 
+      0 0 5px rgba(247, 147, 26, 0.8),
+      0 0 15px rgba(247, 147, 26, 0.6),
+      inset 0 0 10px rgba(247, 147, 26, 0.3);
   }
 
-  /* Hero Secondary Button - Glass Morphism */
+  /* Hero Secondary Button - Electric Outline */
   .btn-hero-secondary {
-    @apply relative font-bold text-lg px-10 py-4 transition-all duration-700 overflow-hidden rounded-xl;
-    /* Glass morphism base */
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.1) 0%, 
-      rgba(255, 255, 255, 0.05) 100%);
+    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
+    /* Transparent base with electric border */
+    background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
-    color: white;
-    /* Gradient border effect */
-    border: 1px solid transparent;
-    background-clip: padding-box;
+    color: #94a3b8;
+    /* Electric border */
+    border: 2px solid #64748b;
     position: relative;
     isolation: isolate;
-    /* Subtle shadow */
-    box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.2),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    /* Subtle initial glow */
+    box-shadow: 
+      0 0 3px rgba(100, 149, 237, 0.3),
+      inset 0 0 3px rgba(100, 149, 237, 0.1);
     /* GPU acceleration */
-    will-change: transform, box-shadow, border-color;
+    will-change: transform, box-shadow, border-color, color;
     transform: translateZ(0);
+    text-shadow: 0 0 3px rgba(148, 163, 184, 0.3);
+    /* Lightning pulse */
+    animation: lightningPulse 3s ease-in-out infinite;
   }
 
-  /* Gradient border */
+  /* Electric arc effect */
   .btn-hero-secondary::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: -3px;
     border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, 
-      rgba(247, 147, 26, 0.5) 0%, 
-      rgba(100, 149, 237, 0.5) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, 
-                  linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.7;
+    background: linear-gradient(45deg, 
+      #3b82f6, #60a5fa, #93c5fd, #dbeafe, #93c5fd, #60a5fa, #3b82f6);
+    background-size: 400% 400%;
+    opacity: 0;
+    filter: blur(10px);
     transition: opacity 0.3s ease;
+    animation: electricArc 2s linear infinite;
+    z-index: -1;
   }
 
-  /* Glass shine effect */
+  /* Lightning strike effect */
   .btn-hero-secondary::after {
     content: '';
     position: absolute;
@@ -360,59 +372,102 @@ scroll-behavior: smooth;
     height: 100%;
     background: linear-gradient(90deg, 
       transparent 0%, 
-      rgba(255, 255, 255, 0.2) 50%, 
+      rgba(147, 197, 253, 0.4) 50%, 
       transparent 100%);
     transition: left 0.5s ease;
     pointer-events: none;
+    transform: skewX(-20deg);
   }
 
   .btn-hero-secondary:hover {
-    transform: translateY(-4px) translateZ(0) scale(1.05);
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.15) 0%, 
-      rgba(255, 255, 255, 0.08) 100%);
-    box-shadow: 0 8px 30px -3px rgba(100, 149, 237, 0.3),
-                0 16px 40px -5px rgba(0, 0, 0, 0.2),
-                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px) translateZ(0);
+    background: rgba(30, 41, 59, 0.6);
+    color: #ffffff;
+    border-color: #60a5fa;
+    /* Electric blue glow */
+    box-shadow: 
+      0 0 10px rgba(96, 165, 250, 0.8),
+      0 0 20px rgba(96, 165, 250, 0.5),
+      0 0 30px rgba(96, 165, 250, 0.3),
+      inset 0 0 10px rgba(96, 165, 250, 0.2);
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8),
+      0 0 20px rgba(96, 165, 250, 0.6);
+    animation-play-state: paused;
   }
 
   .btn-hero-secondary:hover::before {
-    opacity: 1;
-    background: linear-gradient(135deg, 
-      rgba(247, 147, 26, 0.8) 0%, 
-      rgba(100, 149, 237, 0.8) 100%);
+    opacity: 0.8;
+    animation-play-state: running;
   }
 
   .btn-hero-secondary:hover::after {
     left: 100%;
+    transition: left 0.3s ease;
   }
 
   .btn-hero-secondary:active {
-    transform: translateY(-2px) translateZ(0) scale(1.02);
+    transform: translateY(0) translateZ(0) scale(0.98);
+    box-shadow: 
+      0 0 5px rgba(96, 165, 250, 0.8),
+      0 0 15px rgba(96, 165, 250, 0.5),
+      inset 0 0 10px rgba(96, 165, 250, 0.3);
   }
 
   /* Keyframe Animations */
-  @keyframes breathingGlow {
+  @keyframes electricPulse {
     0%, 100% {
-      transform: translateZ(0) scale(1);
-      box-shadow: 0 4px 20px -3px rgba(247, 147, 26, 0.4),
-                  0 8px 30px -5px rgba(247, 147, 26, 0.25),
-                  inset 0 1px 3px rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 0 5px rgba(247, 147, 26, 0.5),
+        0 0 10px rgba(247, 147, 26, 0.3),
+        inset 0 0 5px rgba(247, 147, 26, 0.1);
     }
     50% {
-      transform: translateZ(0) scale(1.02);
-      box-shadow: 0 6px 25px -3px rgba(247, 147, 26, 0.5),
-                  0 12px 35px -5px rgba(247, 147, 26, 0.35),
-                  inset 0 1px 3px rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 0 8px rgba(247, 147, 26, 0.6),
+        0 0 15px rgba(247, 147, 26, 0.4),
+        inset 0 0 8px rgba(247, 147, 26, 0.15);
     }
   }
 
-  @keyframes shimmerGold {
+  @keyframes neonRotate {
     0% {
       background-position: 0% 50%;
+      filter: blur(15px) hue-rotate(0deg);
+    }
+    50% {
+      filter: blur(20px) hue-rotate(10deg);
     }
     100% {
       background-position: 100% 50%;
+      filter: blur(15px) hue-rotate(0deg);
+    }
+  }
+
+  @keyframes lightningPulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 3px rgba(100, 149, 237, 0.3),
+        inset 0 0 3px rgba(100, 149, 237, 0.1);
+    }
+    50% {
+      box-shadow: 
+        0 0 6px rgba(100, 149, 237, 0.4),
+        inset 0 0 6px rgba(100, 149, 237, 0.15);
+    }
+  }
+
+  @keyframes electricArc {
+    0% {
+      background-position: 0% 50%;
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      background-position: 100% 50%;
+      opacity: 0;
     }
   }
 
