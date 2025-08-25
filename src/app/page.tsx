@@ -8,6 +8,11 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useTheme } from '@/components/ThemeProvider';
 import { MiningOutlineIcon, BitcoinIcon, SatoshiIcon } from '@/components/icons';
+import { 
+  ChartBarIcon,
+  ClipboardDocumentCheckIcon,
+  HeartIcon
+} from '@heroicons/react/24/outline';
 import Particles from '@/components/ui/particles';
 import { HeroButtons } from '@/components/HeroButtons';
 // Remove unused imports
@@ -88,101 +93,135 @@ export default function HomePage() {
       </section>
 
       {/* Why Bitcoin Benefits Section */}
-      <section className="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-deepSlate dark:text-slate-100 mb-6">
-              Forward-Thinking Companies Choose Bitcoin
+      <section className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
+        {/* Gradient background similar to footer */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-bitcoin/10 via-transparent to-orange-600/10"></div>
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-bitcoin/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* Section Header - Left aligned with strong hierarchy */}
+          <div className="text-left mb-16">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <div className="w-2 h-8 bg-bitcoin rounded-full"></div>
+              <span className="text-bitcoin uppercase text-sm font-bold tracking-wider">The Problem</span>
+            </div>
+            
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-deepSlate dark:text-white mb-6 leading-tight max-w-4xl">
+              Forward-Thinking Companies
+              <span className="block text-bitcoin">Choose Bitcoin</span>
             </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-              Traditional benefits packages cost more and deliver less every year. Health insurance premiums rise. 
-              401(k) matches barely beat inflation. Stock options are complex and often worthless.
-            </p>
-            <p className="text-2xl font-semibold text-bitcoin dark:text-bitcoin mt-6">
-              Bitcoin is different.
-            </p>
+            
+            <div className="max-w-3xl">
+              <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                Traditional benefits packages cost more and deliver less every year. Health insurance premiums rise. 
+                401(k) matches barely beat inflation. Stock options are complex and often worthless.
+              </p>
+              
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-12 bg-gradient-to-b from-bitcoin to-orange-500 rounded-full"></div>
+                <p className="text-xl text-deepSlate dark:text-white font-semibold">
+                  Bitcoin is different.
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Benefits Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {/* Proven Over 16 Years */}
-            <div className="bg-lightGrey dark:bg-slate-800 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-bitcoin/10 flex items-center justify-center">
-                  <BitcoinIcon className="w-8 h-8 text-bitcoin" />
+          {/* Benefits Grid - 2x2 grid with perfectly aligned cards */}
+          <div className="grid lg:grid-cols-2 lg:auto-rows-fr gap-8 mb-12">
+            {/* Proven Over 16 Years - Top Left */}
+            <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
+              <div className="flex items-start gap-4 w-full">
+                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                  <ChartBarIcon className="w-6 h-6 text-bitcoin" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
+                    Proven Over 16 Years
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar 
+                    asset class. Billions of dollars are held in bitcoin by family office investors
+                    <sup className="text-bitcoin font-semibold ml-1">[1,2]</sup>, registered investment advisors
+                    <sup className="text-bitcoin font-semibold ml-1">[3]</sup>, Fidelity, and even the United States Treasury
+                    <sup className="text-bitcoin font-semibold ml-1">[5]</sup>.
+                  </p>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                Proven Over 16 Years
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar 
-                asset class. Billions of dollars are held in bitcoin by family office investors
-                <sup className="text-bitcoin font-semibold ml-1">[1,2]</sup>, registered investment advisors
-                <sup className="text-bitcoin font-semibold ml-1">[3]</sup>, Fidelity, and even the United States Treasury
-                <sup className="text-bitcoin font-semibold ml-1">[5]</sup>.
-              </p>
             </div>
 
-            {/* Simple to Implement */}
-            <div className="bg-lightGrey dark:bg-slate-800 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-bitcoin/10 flex items-center justify-center">
-                  <SatoshiIcon className="w-8 h-8 text-bitcoin" size={32} color="#F7931A" />
+            {/* Meaningful to Employees - Top Right */}
+            <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
+              <div className="flex items-start gap-4 w-full">
+                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                  <HeartIcon className="w-6 h-6 text-bitcoin" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
+                    Meaningful to Employees
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 
+                    your team. Offering it shows you understand their values and are investing in their long-term future, 
+                    not just their next paycheck.
+                  </p>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                Simple to Implement
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. 
-                Your employees can track their benefits value in real-time. You can even document the process with{' '}
-                <a 
-                  href="https://opentimestamps.org/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-bitcoin hover:text-orange-500 underline transition-colors duration-200"
-                >
-                  Open Timestamps
-                </a>.
-              </p>
             </div>
 
-            {/* Meaningful to Employees */}
-            <div className="bg-lightGrey dark:bg-slate-800 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-bitcoin/10 flex items-center justify-center">
-                  <MiningOutlineIcon className="w-8 h-8 text-bitcoin" />
+            {/* Simple to Implement - Bottom Left */}
+            <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
+              <div className="flex items-start gap-4 w-full">
+                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                  <ClipboardDocumentCheckIcon className="w-6 h-6 text-bitcoin" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
+                    Simple to Implement
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. 
+                    Your employees can track their benefits value in real-time. You can even document the process with{' '}
+                    <a 
+                      href="https://opentimestamps.org/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-bitcoin hover:text-orange-400 underline transition-colors duration-200"
+                    >
+                      Open Timestamps
+                    </a>.
+                  </p>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                Meaningful to Employees
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                Young talent values bitcoin. Use bitcoin to{' '}
-                <Link href="/calculator/accelerator" className="text-bitcoin hover:text-orange-500 underline transition-colors duration-200">
-                  recruit
-                </Link>,{' '}
-                <Link href="/calculator/steady-builder" className="text-bitcoin hover:text-orange-500 underline transition-colors duration-200">
-                  retain
-                </Link>, or{' '}
-                <Link href="/calculator/slow-burn" className="text-bitcoin hover:text-orange-500 underline transition-colors duration-200">
-                  reward
-                </Link>{' '}
-                your team. Offering it shows you understand their values and are investing in their long-term future, 
-                not just their next paycheck.
-              </p>
+            </div>
+            
+            {/* The Bottom Line - Bottom Right */}
+            <div className="bg-orange-50 dark:bg-bitcoin/10 border border-orange-200 dark:border-bitcoin/30 rounded-sm p-6 hover:bg-orange-100 dark:hover:bg-bitcoin/15 transition-all duration-300 h-full flex">
+              <div className="flex items-start gap-4 w-full">
+                <div className="w-12 h-12 rounded-sm bg-bitcoin flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-2xl">₿</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
+                    The Bottom Line
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    While traditional benefits lose value to inflation, bitcoin has the potential to grow significantly over time, 
+                    creating real wealth for the people who build your business.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Sources */}
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+          <div className="border-t border-slate-200 dark:border-slate-700 pt-6 mt-8">
+            <div className="bg-lightGrey dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 rounded-sm p-6">
+              <h4 className="text-xs font-bold text-deepSlate dark:text-white mb-4 uppercase tracking-wider">
                 Sources
               </h4>
-              <div className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+              <div className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
                 <p>
                   <span className="font-semibold text-bitcoin">[1]</span> BNY Mellon Wealth Management: 33% of US family offices actively investing in crypto, 39% globally investing or exploring
                 </p>
@@ -205,95 +244,153 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-lightGrey dark:bg-slate-900 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-deepSlate dark:text-slate-100 mb-4">
-              Three Ways to Reward Your Team
+      <section className="py-24 bg-slate-800 dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-700/30 via-transparent to-slate-900/30"></div>
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-bitcoin/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '3s'}}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-left mb-16">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <div className="w-2 h-8 bg-bitcoin rounded-full"></div>
+              <span className="text-bitcoin uppercase text-sm font-bold tracking-wider">Choose Your Path</span>
+            </div>
+            
+            <h3 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
+              Three Ways to
+              <span className="block text-bitcoin">Reward Your Team</span>
             </h3>
-            <p className="text-xl text-deepSlate dark:text-slate-300 max-w-2xl mx-auto">
-              Pick the plan that fits your budget and goals
+            
+            <p className="text-lg text-slate-300 max-w-2xl leading-relaxed">
+              Pick the plan that fits your budget and goals. Each approach has been designed for different business situations and growth stages.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {/* Pioneer */}
-            <Link href="/calculator/accelerator" className="feature-card group h-full">
-              <div className="flex flex-col h-full">
-                {/* Icon - keep centered */}
-                <div className="text-center mb-6">
-                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                    <BitcoinIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+            <Link href="/calculator?scheme=accelerator" className="group block">
+              <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon and title */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
+                      <BitcoinIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-2xl font-bold text-white mb-2">
+                        Pioneer
+                      </h4>
+                      <div className="inline-flex items-center px-3 py-1 bg-bitcoin/20 rounded-full">
+                        <span className="text-bitcoin text-sm font-semibold">Move First, Win Big</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Content - left aligned, grows to fill space */}
-                <div className="flex-1 flex flex-col">
-                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                    Pioneer
-                  </h4>
-                  <p className="text-deepSlate dark:text-slate-300 leading-relaxed text-left flex-1">
-                    Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
-                  </p>
-                </div>
-                
-                {/* Badge - aligned at bottom */}
-                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
-                  <span className="badge badge-orange">Move First, Win Big</span>
+                  
+                  {/* Content */}
+                  <div className="flex-1">
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                      Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
+                    </p>
+                  </div>
+                  
+                  {/* Call to action */}
+                  <div className="mt-6 pt-4 border-t border-slate-600/50">
+                    <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
+                      <span className="text-sm font-semibold">Calculate Pioneer Plan</span>
+                      <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Link>
 
             {/* Stacker */}
-            <Link href="/calculator/steady-builder" className="feature-card group h-full">
-              <div className="flex flex-col h-full">
-                {/* Icon - keep centered */}
-                <div className="text-center mb-6">
-                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                    <SatoshiIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" size={32} />
+            <Link href="/calculator?scheme=steady-builder" className="group block">
+              <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon and title */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
+                      <SatoshiIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" size={24} color="#F7931A" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-2xl font-bold text-white mb-2">
+                        Stacker
+                      </h4>
+                      <div className="inline-flex items-center px-3 py-1 bg-green-500/20 rounded-full">
+                        <span className="text-green-400 text-sm font-semibold">Consistent Growth</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Content - left aligned, grows to fill space */}
-                <div className="flex-1 flex flex-col">
-                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                    Stacker
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-left flex-1">
-                    Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
-                  </p>
-                </div>
-                
-                {/* Badge - aligned at bottom */}
-                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
-                  <span className="badge badge-success">Consistent Growth</span>
+                  
+                  {/* Content */}
+                  <div className="flex-1">
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                      Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
+                    </p>
+                  </div>
+                  
+                  {/* Call to action */}
+                  <div className="mt-6 pt-4 border-t border-slate-600/50">
+                    <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
+                      <span className="text-sm font-semibold">Calculate Stacker Plan</span>
+                      <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Link>
 
             {/* Builder */}
-            <Link href="/calculator/slow-burn" className="feature-card group h-full">
-              <div className="flex flex-col h-full">
-                {/* Icon - keep centered */}
-                <div className="text-center mb-6">
-                  <div className="icon-container solid-bg-icon mx-auto bg-slate-600 group-hover:bg-bitcoin transition-colors duration-300">
-                    <MiningOutlineIcon className="w-8 h-8 transition-colors duration-300 text-bitcoin group-hover:text-white" />
+            <Link href="/calculator?scheme=slow-burn" className="group block">
+              <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon and title */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
+                      <MiningOutlineIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-2xl font-bold text-white mb-2">
+                        Builder
+                      </h4>
+                      <div className="inline-flex items-center px-3 py-1 bg-purple-500/20 rounded-full">
+                        <span className="text-purple-400 text-sm font-semibold">Start Small, Think Big</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Content - left aligned, grows to fill space */}
-                <div className="flex-1 flex flex-col">
-                  <h4 className="text-2xl font-bold text-deepSlate dark:text-slate-100 mb-4 text-center">
-                    Builder
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-left flex-1">
-                    Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
-                  </p>
-                </div>
-                
-                {/* Badge - aligned at bottom */}
-                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
-                  <span className="badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">Start Small, Think Big</span>
+                  
+                  {/* Content */}
+                  <div className="flex-1">
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                      Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
+                    </p>
+                  </div>
+                  
+                  {/* Call to action */}
+                  <div className="mt-6 pt-4 border-t border-slate-600/50">
+                    <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
+                      <span className="text-sm font-semibold">Calculate Builder Plan</span>
+                      <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Link>

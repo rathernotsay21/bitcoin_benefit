@@ -54,26 +54,14 @@ FOOTNOTES
 ```
 Title: Pioneer - Maximum Impact Plan
 
-For bold companies ready to lead. Make a significant upfront bitcoin investment that your employees earn over 2-4 years. Like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
-
-Perfect for: Startups, tech companies, and businesses competing for scarce talent
-Initial investment: Higher upfront, lower ongoing costs
-Employee impact: Life-changing potential in 5-10 years
-
-Example: $10,000 in bitcoin granted today could be worth $50,000-$100,000 by the time it fully vests, based on historical growth patterns.
+Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
 ```
 
 **Stacker Plan (Steady-Builder)**
 ```
 Title: Stacker - Balanced Growth Plan
 
-The sustainable approach. Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
-
-Perfect for: Growing companies with steady cash flow
-Initial investment: Moderate upfront, predictable ongoing costs
-Employee impact: Significant wealth building over career
-
-Example: $5,000 initial grant plus $2,000 yearly creates a powerful compounding effect, potentially worth $75,000+ after 5 years.
+Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
 ```
 
 **Builder Plan (Slow-Burn)**
@@ -81,12 +69,6 @@ Example: $5,000 initial grant plus $2,000 yearly creates a powerful compounding 
 Title: Builder - Gradual Accumulation Plan
 
 Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
-
-Perfect for: Cash-conscious businesses and traditional companies testing bitcoin
-Initial investment: Minimal upfront, very low ongoing costs
-Employee impact: Meaningful supplement to retirement
-
-Example: Just $1,000 per year in bitcoin could grow to $25,000+ over a decade, creating real value from modest contributions.
 ```
 
 ### NEW SECTION: How It Works
@@ -100,12 +82,10 @@ Title: "Three Simple Steps to Better Benefits"
 Select the approach that fits your budget and culture. Start conservative or go bold - you can adjust as you learn.
 
 2. **Fund Gradually**
-Buy bitcoin weekly or monthly to spread out costs. Services like River.com make recurring purchases automatic and simple.
+Buy bitcoin weekly or monthly to spread out costs (LINK TO "https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281"). Services like River.com ("http://localhost:3000/learn#:~:text=RECOMMENDED,Start%20with%20River") make recurring purchases automatic and simple.
 
 3. **Employees Earn Over Time**
 Your team earns their bitcoin gradually according to your vesting schedule. They can track value in real-time and know exactly what they're building toward.
-
-No blockchain knowledge required. No wallets to manage. Just straightforward value that grows.
 ```
 
 ### Footer CTA Rewrite
@@ -114,7 +94,7 @@ No blockchain knowledge required. No wallets to manage. Just straightforward val
 
 **NEW CTA**:
 ```
-Headline: "Your Competitors Are Already Doing This"
+Headline: "Competitors Are Already Doing This"
 
 Body: Forward-thinking companies are using bitcoin benefits to attract and retain the best talent. Every day you wait is a day your employees' traditional benefits lose value to inflation.
 
@@ -133,7 +113,7 @@ Start small. Start today. Start building real wealth for the people building you
 
 **NEW HERO**:
 ```
-Headline: "See Exactly What Bitcoin Benefits Could Mean for Your Team"
+Headline: "See What Bitcoin Benefits Could Mean for Your Team"
 Subheadline: "Play with the numbers. No commitment, no email required."
 ```
 
@@ -152,7 +132,7 @@ The numbers you see represent:
 - Vested Amount: How much employees own at different points
 - Tax Implications: Rough estimates (consult your accountant)
 
-Remember: Even conservative 20% annual growth far exceeds traditional investment returns.
+Remember: Even conservative 15% annual growth far exceeds traditional investment returns.
 ```
 
 ### Input Field Descriptions
