@@ -120,7 +120,7 @@ export default function Navigation() {
                           isActive && "text-bitcoin dark:text-bitcoin"
                         )}
                       >
-                        <Icon className={`w-5 h-5 transition-all duration-300 ${isActive
+                        <Icon className={`w-6 h-6 transition-all duration-300 ${isActive
                           ? 'text-bitcoin dark:text-bitcoin'
                           : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
                           }`} />
@@ -144,7 +144,7 @@ export default function Navigation() {
                         )}
                       >
                         <span className="flex items-center space-x-2">
-                          <Icon className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ${isActive
+                          <Icon className={`w-6 h-6 flex-shrink-0 transition-all duration-300 ${isActive
                             ? 'text-bitcoin dark:text-bitcoin'
                             : 'text-slate-500 group-hover:text-bitcoin dark:text-slate-300 dark:group-hover:text-bitcoin'
                             }`} />
@@ -176,7 +176,7 @@ export default function Navigation() {
                     }`}
                   title={item.name}
                 >
-                  <Icon className={`w-5 h-5 transition-all duration-300 ${isActive
+                  <Icon className={`w-6 h-6 transition-all duration-300 ${isActive
                     ? 'text-bitcoin dark:text-bitcoin'
                     : 'text-slate-500 hover:text-bitcoin dark:text-slate-300 dark:hover:text-bitcoin'
                     }`} />

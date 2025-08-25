@@ -245,15 +245,15 @@ scroll-behavior: smooth;
     border: 2px solid #f7931a;
     /* Initial subtle glow */
     box-shadow: 
-      0 0 5px rgba(247, 147, 26, 0.5),
-      0 0 10px rgba(247, 147, 26, 0.3),
-      inset 0 0 5px rgba(247, 147, 26, 0.1);
+      0 0 3px rgba(247, 147, 26, 0.3),
+      0 0 6px rgba(247, 147, 26, 0.15),
+      inset 0 0 3px rgba(247, 147, 26, 0.05);
     /* GPU acceleration */
     will-change: transform, box-shadow, text-shadow, border-color;
     transform: translateZ(0);
     position: relative;
     isolation: isolate;
-    text-shadow: 0 0 5px rgba(247, 147, 26, 0.5);
+    text-shadow: 0 0 3px rgba(247, 147, 26, 0.3);
     /* Electric pulse animation */
     animation: electricPulse 2s ease-in-out infinite;
   }
@@ -269,7 +269,7 @@ scroll-behavior: smooth;
     border-radius: inherit;
     z-index: -1;
     opacity: 0;
-    filter: blur(15px);
+    filter: blur(10px);
     transition: opacity 0.3s ease;
     animation: neonRotate 3s linear infinite;
   }
@@ -289,37 +289,34 @@ scroll-behavior: smooth;
   }
 
   .btn-hero-primary:hover {
-    transform: translateY(-2px) translateZ(0);
     color: #ffffff;
     border-color: #ffd700;
     background: linear-gradient(135deg, #2d1810 0%, #3d2418 100%);
-    /* Intense neon glow on hover */
+    /* Subtle neon glow on hover */
     box-shadow: 
-      0 0 10px rgba(247, 147, 26, 0.8),
-      0 0 20px rgba(247, 147, 26, 0.6),
-      0 0 30px rgba(247, 147, 26, 0.4),
-      0 0 40px rgba(247, 147, 26, 0.2),
-      inset 0 0 10px rgba(247, 147, 26, 0.2);
+      0 0 6px rgba(247, 147, 26, 0.5),
+      0 0 12px rgba(247, 147, 26, 0.3),
+      0 0 20px rgba(247, 147, 26, 0.15),
+      inset 0 0 6px rgba(247, 147, 26, 0.1);
     text-shadow: 
-      0 0 10px rgba(255, 255, 255, 0.8),
-      0 0 20px rgba(247, 147, 26, 0.6);
+      0 0 6px rgba(255, 255, 255, 0.5);
     animation-play-state: paused;
   }
 
   .btn-hero-primary:hover::before {
-    opacity: 0.7;
+    opacity: 0.4;
   }
 
   .btn-hero-primary:hover::after {
-    opacity: 1;
+    opacity: 0.6;
   }
 
   .btn-hero-primary:active {
-    transform: translateY(0) translateZ(0) scale(0.98);
+    transform: scale(0.98);
     box-shadow: 
-      0 0 5px rgba(247, 147, 26, 0.8),
-      0 0 15px rgba(247, 147, 26, 0.6),
-      inset 0 0 10px rgba(247, 147, 26, 0.3);
+      0 0 4px rgba(247, 147, 26, 0.5),
+      0 0 8px rgba(247, 147, 26, 0.3),
+      inset 0 0 5px rgba(247, 147, 26, 0.15);
   }
 
   /* Hero Secondary Button - Electric Outline */
@@ -336,12 +333,12 @@ scroll-behavior: smooth;
     isolation: isolate;
     /* Subtle initial glow */
     box-shadow: 
-      0 0 3px rgba(100, 149, 237, 0.3),
-      inset 0 0 3px rgba(100, 149, 237, 0.1);
+      0 0 2px rgba(100, 149, 237, 0.2),
+      inset 0 0 2px rgba(100, 149, 237, 0.05);
     /* GPU acceleration */
     will-change: transform, box-shadow, border-color, color;
     transform: translateZ(0);
-    text-shadow: 0 0 3px rgba(148, 163, 184, 0.3);
+    text-shadow: 0 0 2px rgba(148, 163, 184, 0.2);
     /* Lightning pulse */
     animation: lightningPulse 3s ease-in-out infinite;
   }
@@ -356,7 +353,7 @@ scroll-behavior: smooth;
       #3b82f6, #60a5fa, #93c5fd, #dbeafe, #93c5fd, #60a5fa, #3b82f6);
     background-size: 400% 400%;
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(8px);
     transition: opacity 0.3s ease;
     animation: electricArc 2s linear infinite;
     z-index: -1;
@@ -380,24 +377,22 @@ scroll-behavior: smooth;
   }
 
   .btn-hero-secondary:hover {
-    transform: translateY(-2px) translateZ(0);
     background: rgba(30, 41, 59, 0.6);
     color: #ffffff;
     border-color: #60a5fa;
-    /* Electric blue glow */
+    /* Subtle electric blue glow */
     box-shadow: 
-      0 0 10px rgba(96, 165, 250, 0.8),
-      0 0 20px rgba(96, 165, 250, 0.5),
-      0 0 30px rgba(96, 165, 250, 0.3),
-      inset 0 0 10px rgba(96, 165, 250, 0.2);
+      0 0 6px rgba(96, 165, 250, 0.5),
+      0 0 12px rgba(96, 165, 250, 0.3),
+      0 0 20px rgba(96, 165, 250, 0.15),
+      inset 0 0 6px rgba(96, 165, 250, 0.1);
     text-shadow: 
-      0 0 10px rgba(255, 255, 255, 0.8),
-      0 0 20px rgba(96, 165, 250, 0.6);
+      0 0 6px rgba(255, 255, 255, 0.5);
     animation-play-state: paused;
   }
 
   .btn-hero-secondary:hover::before {
-    opacity: 0.8;
+    opacity: 0.5;
     animation-play-state: running;
   }
 
@@ -407,26 +402,26 @@ scroll-behavior: smooth;
   }
 
   .btn-hero-secondary:active {
-    transform: translateY(0) translateZ(0) scale(0.98);
+    transform: scale(0.98);
     box-shadow: 
-      0 0 5px rgba(96, 165, 250, 0.8),
-      0 0 15px rgba(96, 165, 250, 0.5),
-      inset 0 0 10px rgba(96, 165, 250, 0.3);
+      0 0 4px rgba(96, 165, 250, 0.5),
+      0 0 8px rgba(96, 165, 250, 0.3),
+      inset 0 0 5px rgba(96, 165, 250, 0.15);
   }
 
   /* Keyframe Animations */
   @keyframes electricPulse {
     0%, 100% {
       box-shadow: 
-        0 0 5px rgba(247, 147, 26, 0.5),
-        0 0 10px rgba(247, 147, 26, 0.3),
-        inset 0 0 5px rgba(247, 147, 26, 0.1);
+        0 0 3px rgba(247, 147, 26, 0.3),
+        0 0 6px rgba(247, 147, 26, 0.15),
+        inset 0 0 3px rgba(247, 147, 26, 0.05);
     }
     50% {
       box-shadow: 
-        0 0 8px rgba(247, 147, 26, 0.6),
-        0 0 15px rgba(247, 147, 26, 0.4),
-        inset 0 0 8px rgba(247, 147, 26, 0.15);
+        0 0 5px rgba(247, 147, 26, 0.4),
+        0 0 10px rgba(247, 147, 26, 0.2),
+        inset 0 0 5px rgba(247, 147, 26, 0.08);
     }
   }
 
@@ -447,13 +442,13 @@ scroll-behavior: smooth;
   @keyframes lightningPulse {
     0%, 100% {
       box-shadow: 
-        0 0 3px rgba(100, 149, 237, 0.3),
-        inset 0 0 3px rgba(100, 149, 237, 0.1);
+        0 0 2px rgba(100, 149, 237, 0.2),
+        inset 0 0 2px rgba(100, 149, 237, 0.05);
     }
     50% {
       box-shadow: 
-        0 0 6px rgba(100, 149, 237, 0.4),
-        inset 0 0 6px rgba(100, 149, 237, 0.15);
+        0 0 4px rgba(100, 149, 237, 0.25),
+        inset 0 0 4px rgba(100, 149, 237, 0.08);
     }
   }
 

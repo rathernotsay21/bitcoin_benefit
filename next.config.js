@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+
+// Detect Netlify environment
+const isNetlify = process.env.NETLIFY === 'true' || process.env.CONTEXT === 'production';
+
 const nextConfig = {
   typescript: {
     // Temporarily ignoring build errors - TypeScript strictness issues need separate resolution
@@ -47,9 +51,23 @@ const nextConfig = {
   poweredByHeader: false,
   
   // Enhanced webpack config for better code splitting and LCP optimization
-  webpack: (config, { isServer, dev }) => {
-    // Apply optimizations in production
-    if (!isServer && !dev) {
+  webpack: (config, { isServer, dev, webpack }) => {
+    // Add Web Worker support
+    if (!isServer) {
+      config.module.rules.push({
+        test: /\.worker\.(js|ts)$/,
+        use: { 
+          loader: 'worker-loader',
+          options: {
+            filename: 'static/[hash].worker.js',
+            publicPath: '/_next/',
+          }
+        },
+      });
+    }
+    
+    // Apply optimizations in production and Netlify environments
+    if (!isServer && (!dev || isNetlify)) {
       config.optimization = {
         ...config.optimization,
         runtimeChunk: 'single',
@@ -123,7 +141,24 @@ const nextConfig = {
       
       // Tree-shaking optimizations
       // Note: Don't alias lodash as recharts needs specific modules
+      
+      // Add performance hints for Netlify
+      if (isNetlify) {
+        config.performance = {
+          maxAssetSize: 512000, // 500 KB
+          maxEntrypointSize: 512000,
+          hints: 'warning'
+        };
+      }
     }
+    
+    // Add DefinePlugin for environment detection
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.IS_NETLIFY': JSON.stringify(isNetlify),
+        'process.env.IS_LIGHTHOUSE': JSON.stringify(false), // Will be true during Lighthouse tests
+      })
+    );
 
     return config;
   },

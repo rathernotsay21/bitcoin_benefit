@@ -130,10 +130,17 @@ export class VestingScheduleCalculator {
     totalGrants: number;
     employerBalance: number;
   }> {
+    // Safety check for excessive timeline length to prevent hanging
+    const MAX_ALLOWED_MONTHS = 600; // 50 years max
+    if (maxMonths > MAX_ALLOWED_MONTHS) {
+      console.warn(`Timeline capped at ${MAX_ALLOWED_MONTHS} months (from ${maxMonths})`);
+      maxMonths = MAX_ALLOWED_MONTHS;
+    }
+    
     // Pre-calculate all values to avoid repeated function calls
     const grantRule = this.getGrantRule(schemeId);
     const hasAnnualGrant = annualGrant && annualGrant > 0;
-    const maxGrantMonth = grantRule.maxMonth;
+    const maxGrantMonth = Math.min(grantRule.maxMonth, MAX_ALLOWED_MONTHS);
     
     // Pre-allocate array with exact size for optimal memory usage
     const timelineLength = maxMonths + 1;
@@ -150,7 +157,17 @@ export class VestingScheduleCalculator {
     
     let nextAnnualGrantIndex = 0;
     
+    // Add iteration counter for safety in Netlify environment
+    let iterations = 0;
+    const MAX_ITERATIONS = MAX_ALLOWED_MONTHS + 10;
+    
     for (let month = 0; month <= maxMonths; month++) {
+      // Safety check for infinite loops (especially in CI/test environments)
+      if (++iterations > MAX_ITERATIONS) {
+        console.error(`Infinite loop detected in generateTimeline at month ${month}`);
+        break;
+      }
+      
       // Optimized annual grant logic
       if (nextAnnualGrantIndex < annualGrantMonths.length && 
           month === annualGrantMonths[nextAnnualGrantIndex]) {

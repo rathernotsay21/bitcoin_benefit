@@ -59,7 +59,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-bitcoin dark:hover:text-bitcoin focus:bg-slate-100 dark:focus:bg-slate-800 focus:text-bitcoin dark:focus:text-bitcoin disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 data-[state=open]:text-bitcoin dark:data-[state=open]:text-bitcoin focus-visible:ring-bitcoin/50 outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:outline-none"
+  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-bitcoin dark:hover:text-bitcoin focus:bg-slate-100 dark:focus:bg-slate-800 focus:text-bitcoin dark:focus:text-bitcoin disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 data-[state=open]:text-bitcoin dark:data-[state=open]:text-bitcoin focus-visible:ring-bitcoin/50 outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:outline-none"
 )
 
 function NavigationMenuTrigger({

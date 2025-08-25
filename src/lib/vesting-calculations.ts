@@ -7,10 +7,13 @@ import {
   RiskAnalysisEngine
 } from './calculators';
 import { calculateUsdValue, validateSafeNumber } from './bitcoin-precision';
+import { performanceMonitor, measureCalculation } from './performance-monitor';
 
 export class VestingCalculator {
   static calculate(inputs: CalculationInputs): VestingCalculationResult {
-    const { scheme, currentBitcoinPrice, projectedBitcoinGrowth } = inputs;
+    // Add performance monitoring for the entire calculation
+    return measureCalculation('VestingCalculator.calculate', () => {
+      const { scheme, currentBitcoinPrice, projectedBitcoinGrowth } = inputs;
     
     // Initialize specialized calculators with custom vesting events
     // Fix: Handle undefined bonuses field
@@ -68,6 +71,7 @@ export class VestingCalculator {
         averageVestingPeriod: vestingCalculator.calculateAverageVestingPeriod(),
       },
     };
+    }, 3000); // 3 second timeout for calculations
   }
   
   /**
