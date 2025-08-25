@@ -6,7 +6,7 @@ import { useChartOptimized } from '@/hooks/useCalculatorOptimized';
 
 // Lazy load the heavy chart component
 const VestingTimelineChart = dynamic(
-  () => import('@/components/VestingTimelineChart'),
+  () => import('@/components/VestingTimelineChartRecharts'),
   {
     ssr: false,
     loading: () => <ChartSkeleton />
@@ -51,8 +51,8 @@ const MemoizedChart = memo(function MemoizedChart({
         </div>
       )}
       <VestingTimelineChart 
-        data={data}
-        scheme={scheme}
+        timeline={data}
+        {...scheme}
       />
     </div>
   );

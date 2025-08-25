@@ -111,14 +111,14 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         label: 'What You Paid',
         color: 'blue' as const,
         sublabel: `Based on ${historicalResults.summary?.costBasisMethod || 'average'} yearly prices`,
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatNumber(Math.max(0, totalGainUSD)),
         label: 'Your Profit',
         color: 'green' as const,
         sublabel: `${roi.toFixed(0)}% gain in ${yearsAnalyzed} years`,
-        icon: undefined
+        icon: undefined as any
       },
     ],
     // Group 2: Performance & Analysis
@@ -128,21 +128,21 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         label: 'Yearly Growth',
         color: 'purple' as const,
         sublabel: 'Average per year',
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: `${gainMultiple.toFixed(1)}x`,
         label: 'Growth Multiple',
         color: 'blue' as const,
         sublabel: 'Value vs cost',
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: `${roi.toFixed(0)}%`,
         label: 'Return on Investment',
         color: 'green' as const,
         sublabel: 'Total gain',
-        icon: undefined
+        icon: undefined as any
       },
     ],
     // Group 3: Historical Details (matches the second set of cards from the image)
@@ -159,14 +159,14 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         label: 'Total Cost',
         color: 'green' as const,
         sublabel: 'What you actually paid',
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatUSD(historicalResults.currentTotalValue),
         label: "Today's Value",
         color: 'blue' as const,
         sublabel: 'Worth right now',
-        icon: undefined
+        icon: undefined as any
       },
     ],
     // Group 4: Historical Context
@@ -176,14 +176,14 @@ export default function HistoricalMetricCards({ historicalResults, currentBitcoi
         label: 'Starting Year',
         color: 'blue' as const,
         sublabel: `${yearsAnalyzed} years analyzed`,
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatUSD(totalGainUSD),
         label: 'Total Return',
         color: 'green' as const,
         sublabel: 'Dollar gain',
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatBTC(historicalResults.totalBitcoinGranted / yearsAnalyzed),

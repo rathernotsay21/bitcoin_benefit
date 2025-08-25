@@ -60,7 +60,8 @@ const MetricCard = memo(function MetricCard({
 
 // Main metric cards component with optimizations
 const MemoizedMetricCards = memo(function MemoizedMetricCards() {
-  const { totals, currentBitcoinPrice, bitcoinChange24h, inputs } = useCalculatorOptimized();
+  const { totals, currentBitcoinPrice, inputs } = useCalculatorOptimized();
+  const bitcoinChange24h = 0; // Placeholder for 24h change
   
   // Memoize formatted values
   const formattedMetrics = useMemo(() => {

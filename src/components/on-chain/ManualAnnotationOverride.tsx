@@ -65,6 +65,7 @@ export default function ManualAnnotationOverride({
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
+    return undefined;
   }, [isOpen, transaction.txid]);
 
   // Handle Escape key and window events
@@ -99,6 +100,7 @@ export default function ManualAnnotationOverride({
         window.removeEventListener('scroll', handleWindowScroll, true);
       };
     }
+    return undefined;
   }, [isOpen]);
 
   // Update local state when transaction changes

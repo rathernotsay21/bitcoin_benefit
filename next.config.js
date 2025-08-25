@@ -5,8 +5,7 @@ const isNetlify = process.env.NETLIFY === 'true' || process.env.CONTEXT === 'pro
 
 const nextConfig = {
   typescript: {
-    // Temporarily ignoring build errors - TypeScript strictness issues need separate resolution
-    // TODO: Fix all TypeScript errors and remove this flag
+    // Temporarily ignoring to verify performance fixes - TODO: fix remaining TS errors
     ignoreBuildErrors: true,
   },
   // Disable React Fast Refresh cache in development

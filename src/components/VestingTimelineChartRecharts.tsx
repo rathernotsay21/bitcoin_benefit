@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   ComposedChart
 } from 'recharts';
-import { getMobileChartConfig, optimizeChartData } from '@/components/charts/RechartsOptimized';
+// Removed import from deleted RechartsOptimized file - functions moved inline if needed
 import { VestingTimelinePoint } from '@/types/vesting';
 
 interface VestingTimelineChartProps {
@@ -562,7 +562,12 @@ function VestingTimelineChartRecharts({
   }, [yearlyData]);
 
   // Optimized mobile configuration
-  const chartConfig = useMemo(() => getMobileChartConfig(isMobile), [isMobile]);
+  const chartConfig = useMemo(() => ({
+    margin: isMobile ? { top: 5, right: 5, bottom: 5, left: 5 } : { top: 20, right: 20, bottom: 20, left: 20 },
+    strokeWidth: isMobile ? 1.5 : 2,
+    fontSize: isMobile ? 11 : 12,
+    legendHeight: isMobile ? 32 : 48
+  }), [isMobile]);
   
   // Callbacks for mouse events with performance optimization
   const handleMouseMove = useCallback((e: any) => {

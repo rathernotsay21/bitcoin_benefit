@@ -106,7 +106,7 @@ export const VestingChartContainer: React.FC<VestingChartContainerProps> = ({
     <div className="w-full">
       <VestingChartCore
         data={yearlyData}
-        usdDomain={usdDomain}
+        usdDomain={usdDomain as [number, number]}
         usdTicks={usdTicks}
         vestingMilestoneYears={vestingMilestoneYears}
         chartConfig={chartConfig}

@@ -1,0 +1,1862 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 24 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 24 83% 53%;
+    --radius: 0.125rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 24 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 24 83% 53%;
+  }
+}
+
+/* Font optimization with font-display: swap for better performance */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2-variations'),
+       url('/fonts/inter-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Color Palette Variables */
+:root {
+  /* Light Mode Palette */
+  --primary-bitcoin: #F7931A;
+  --text-dark: #1E2A3A;
+  --bg-light-grey: #F4F6F8;
+  --bg-off-white: #FAFAFA;
+  --accent-blue: #1A7EF7;
+  --neutral-text: #1E2A3A;
+  --border-light: #E2E8F0;
+}
+
+.dark {
+  /* Dark Mode Palette - Professional dark theme */
+  --bg-primary: #0F172A;      /* Dark slate background */
+  --bg-card: #1E293B;        /* Slightly lighter for cards */
+  --text-primary: #F8FAFC;   /* Light text */
+  --button-bg: #F7931A;      /* Bitcoin orange for buttons */
+  --border-dark: #334155;    /* Subtle borders */
+}
+
+/* Base Styles */
+@layer base {
+html {
+scroll-behavior: smooth;
+  overflow-x: hidden;
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Light Mode Body */
+  body {
+    @apply antialiased transition-colors duration-300;
+    background-color: #F4F6F8;
+    color: #1E2A3A;
+  }
+
+  /* Dark Mode Body - Professional Dark Background */
+  html.dark body {
+    @apply bg-slate-900 text-slate-100 !important;
+  }
+  
+  html.dark {
+    @apply bg-slate-900;
+  }
+
+  /* Typography - Enhanced */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-bold transition-colors duration-300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  /* Light Mode Typography */
+  h1, h2 {
+    color: #1E2A3A;
+    line-height: 1.15;
+  }
+
+  h3, h4, h5, h6 {
+    color: #1E2A3A;
+    line-height: 1.25;
+  }
+
+  /* Dark Mode Typography */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    @apply text-slate-100;
+  }
+
+  p {
+    color: #1E2A3A;
+    @apply dark:text-slate-300;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  /* Links - Enhanced */
+  a {
+    @apply transition-all duration-300;
+    position: relative;
+  }
+  
+  a:hover {
+    transform: translateX(1px);
+  }
+}
+
+@layer components {
+  /* Primary Button - Enhanced */
+  .btn-primary {
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
+    /* GPU acceleration for better performance */
+    will-change: transform, box-shadow;
+    transform: translateZ(0) perspective(1000px) rotateX(0deg);
+    /* Subtle gradient background */
+    background: linear-gradient(135deg, #F7931A 0%, #F7931A 60%, #FFB347 100%);
+    /* Enhanced shadow with colored glow */
+    box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.3),
+                0 8px 25px -5px rgba(247, 147, 26, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    /* Light Mode */
+    @apply text-white;
+    /* Dark Mode */
+    @apply dark:text-white;
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: inherit;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) translateZ(0) perspective(1000px) rotateX(2deg) scale(1.02);
+    box-shadow: 0 6px 20px -3px rgba(247, 147, 26, 0.4),
+                0 12px 35px -5px rgba(247, 147, 26, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-primary:active {
+    transform: translateY(-1px) translateZ(0) perspective(1000px) rotateX(0deg) scale(0.98);
+    box-shadow: 0 2px 10px -3px rgba(247, 147, 26, 0.3),
+                0 4px 15px -5px rgba(247, 147, 26, 0.15),
+                inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Secondary Button - Enhanced */
+  .btn-secondary {
+    @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
+    /* GPU acceleration */
+    will-change: transform, border-color, background-color;
+    transform: translateZ(0);
+    /* Simple border */
+    border: 2px solid #E2E8F0;
+    /* Light Mode - Off-White background */
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply shadow-sm;
+    /* Dark Mode */
+    @apply dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600;
+  }
+
+  .btn-secondary::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-all duration-500;
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.05) 0%, transparent 100%);
+    border-radius: inherit;
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-3px) translateZ(0) scale(1.02);
+    border-color: #F7931A;
+    box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.15),
+                0 8px 25px -5px rgba(247, 147, 26, 0.08);
+    /* Light Mode - Keep off-white */
+    background-color: #FAFAFA;
+    /* Dark Mode */
+    @apply dark:bg-slate-700 dark:border-slate-600;
+  }
+
+  .btn-secondary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-secondary:active {
+    transform: translateY(-1px) translateZ(0) scale(0.98);
+    box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Premium Hero Button System - Neon Glow Effect */
+  .btn-hero-primary {
+    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
+    /* Dark base for neon contrast */
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #f7931a;
+    border: 2px solid #f7931a;
+    /* Initial subtle glow */
+    box-shadow: 
+      0 0 3px rgba(247, 147, 26, 0.3),
+      0 0 6px rgba(247, 147, 26, 0.15),
+      inset 0 0 3px rgba(247, 147, 26, 0.05);
+    /* GPU acceleration */
+    will-change: transform, box-shadow, text-shadow, border-color;
+    transform: translateZ(0);
+    position: relative;
+    isolation: isolate;
+    text-shadow: 0 0 3px rgba(247, 147, 26, 0.3);
+    /* Electric pulse animation */
+    animation: electricPulse 2s ease-in-out infinite;
+  }
+
+  /* Neon border glow */
+  .btn-hero-primary::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(45deg, 
+      #f7931a, #ffd700, #ff8c00, #f7931a, #ffd700
+    );
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.3s ease;
+    animation: neonRotate 3s linear infinite;
+  }
+
+  /* Inner electric glow */
+  .btn-hero-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, 
+      rgba(247, 147, 26, 0.2) 0%, 
+      transparent 70%);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .btn-hero-primary:hover {
+    color: #ffffff;
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #2d1810 0%, #3d2418 100%);
+    /* Subtle neon glow on hover */
+    box-shadow: 
+      0 0 6px rgba(247, 147, 26, 0.5),
+      0 0 12px rgba(247, 147, 26, 0.3),
+      0 0 20px rgba(247, 147, 26, 0.15),
+      inset 0 0 6px rgba(247, 147, 26, 0.1);
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.5);
+    animation-play-state: paused;
+  }
+
+  .btn-hero-primary:hover::before {
+    opacity: 0.4;
+  }
+
+  .btn-hero-primary:hover::after {
+    opacity: 0.6;
+  }
+
+  .btn-hero-primary:active {
+    transform: scale(0.98);
+    box-shadow: 
+      0 0 4px rgba(247, 147, 26, 0.5),
+      0 0 8px rgba(247, 147, 26, 0.3),
+      inset 0 0 5px rgba(247, 147, 26, 0.15);
+  }
+
+  /* Hero Secondary Button - Electric Outline */
+  .btn-hero-secondary {
+    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
+    /* Transparent base with electric border */
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    color: #94a3b8;
+    /* Electric border */
+    border: 2px solid #64748b;
+    position: relative;
+    isolation: isolate;
+    /* Subtle initial glow */
+    box-shadow: 
+      0 0 2px rgba(100, 149, 237, 0.2),
+      inset 0 0 2px rgba(100, 149, 237, 0.05);
+    /* GPU acceleration */
+    will-change: transform, box-shadow, border-color, color;
+    transform: translateZ(0);
+    text-shadow: 0 0 2px rgba(148, 163, 184, 0.2);
+    /* Lightning pulse */
+    animation: lightningPulse 3s ease-in-out infinite;
+  }
+
+  /* Electric arc effect */
+  .btn-hero-secondary::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, 
+      #3b82f6, #60a5fa, #93c5fd, #dbeafe, #93c5fd, #60a5fa, #3b82f6);
+    background-size: 400% 400%;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.3s ease;
+    animation: electricArc 2s linear infinite;
+    z-index: -1;
+  }
+
+  /* Lightning strike effect */
+  .btn-hero-secondary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(147, 197, 253, 0.4) 50%, 
+      transparent 100%);
+    transition: left 0.5s ease;
+    pointer-events: none;
+    transform: skewX(-20deg);
+  }
+
+  .btn-hero-secondary:hover {
+    background: rgba(30, 41, 59, 0.6);
+    color: #ffffff;
+    border-color: #60a5fa;
+    /* Subtle electric blue glow */
+    box-shadow: 
+      0 0 6px rgba(96, 165, 250, 0.5),
+      0 0 12px rgba(96, 165, 250, 0.3),
+      0 0 20px rgba(96, 165, 250, 0.15),
+      inset 0 0 6px rgba(96, 165, 250, 0.1);
+    text-shadow: 
+      0 0 6px rgba(255, 255, 255, 0.5);
+    animation-play-state: paused;
+  }
+
+  .btn-hero-secondary:hover::before {
+    opacity: 0.5;
+    animation-play-state: running;
+  }
+
+  .btn-hero-secondary:hover::after {
+    left: 100%;
+    transition: left 0.3s ease;
+  }
+
+  .btn-hero-secondary:active {
+    transform: scale(0.98);
+    box-shadow: 
+      0 0 4px rgba(96, 165, 250, 0.5),
+      0 0 8px rgba(96, 165, 250, 0.3),
+      inset 0 0 5px rgba(96, 165, 250, 0.15);
+  }
+
+  /* Keyframe Animations */
+  @keyframes electricPulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 3px rgba(247, 147, 26, 0.3),
+        0 0 6px rgba(247, 147, 26, 0.15),
+        inset 0 0 3px rgba(247, 147, 26, 0.05);
+    }
+    50% {
+      box-shadow: 
+        0 0 5px rgba(247, 147, 26, 0.4),
+        0 0 10px rgba(247, 147, 26, 0.2),
+        inset 0 0 5px rgba(247, 147, 26, 0.08);
+    }
+  }
+
+  @keyframes neonRotate {
+    0% {
+      background-position: 0% 50%;
+      filter: blur(15px) hue-rotate(0deg);
+    }
+    50% {
+      filter: blur(20px) hue-rotate(10deg);
+    }
+    100% {
+      background-position: 100% 50%;
+      filter: blur(15px) hue-rotate(0deg);
+    }
+  }
+
+  @keyframes lightningPulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 2px rgba(100, 149, 237, 0.2),
+        inset 0 0 2px rgba(100, 149, 237, 0.05);
+    }
+    50% {
+      box-shadow: 
+        0 0 4px rgba(100, 149, 237, 0.25),
+        inset 0 0 4px rgba(100, 149, 237, 0.08);
+    }
+  }
+
+  @keyframes electricArc {
+    0% {
+      background-position: 0% 50%;
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      background-position: 100% 50%;
+      opacity: 0;
+    }
+  }
+
+  /* Magnetic hover utility class */
+  .magnetic-hover {
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Mobile optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    .btn-hero-primary,
+    .btn-hero-secondary {
+      animation: none;
+    }
+    
+    .btn-hero-primary:active,
+    .btn-hero-secondary:active {
+      transform: scale(0.98);
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-hero-primary,
+    .btn-hero-secondary {
+      animation: none;
+      transition-duration: 0.1s;
+    }
+    
+    .btn-hero-primary::before,
+    .btn-hero-secondary::before,
+    .btn-hero-primary::after,
+    .btn-hero-secondary::after {
+      animation: none;
+      transition-duration: 0.1s;
+    }
+  }
+
+  /* Dark Mode Toggle Button - Enhanced Glassmorphism */
+  .theme-toggle-btn {
+    @apply p-3 rounded-sm transition-all duration-300 relative overflow-hidden;
+    
+    /* Light Mode - Glass effect */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    
+    color: #1E2A3A;
+    will-change: transform, backdrop-filter;
+    transform: translateZ(0);
+  }
+  
+  .theme-toggle-btn:hover {
+    /* Theme toggle is actionable, small rise is ok */
+    transform: translateY(-1px);
+    background: linear-gradient(
+      135deg,
+      rgba(247, 147, 26, 0.15) 0%,
+      rgba(255, 255, 255, 0.8) 100%
+    );
+    box-shadow: 
+      0 4px 12px rgba(247, 147, 26, 0.2),
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+  
+  /* Dark Mode Theme Toggle */
+  .dark .theme-toggle-btn {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.8) 0%,
+      rgba(51, 65, 85, 0.6) 100%
+    );
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    color: #F8FAFC;
+  }
+  
+  .dark .theme-toggle-btn:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(247, 147, 26, 0.2) 0%,
+      rgba(30, 41, 59, 0.9) 100%
+    );
+    box-shadow: 
+      0 4px 12px rgba(247, 147, 26, 0.3),
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(12px)) {
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    
+    .dark .theme-toggle-btn {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+    }
+  }
+  
+  /* Legacy theme-toggle class for backward compatibility */
+  .theme-toggle {
+    @apply p-2 rounded-sm transition-all duration-300;
+    /* Light Mode - Off-white background */
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply hover:bg-bitcoin-50;
+    /* Dark Mode */
+    @apply dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700;
+  }
+
+  /* Navigation Bar - Enhanced Glassmorphism Effect */
+  .navbar {
+    /* Multi-layered glassmorphism with hero section gradient colors */
+    background: 
+      /* Top overlay: Bitcoin to Blue gradient (subtle) */
+      linear-gradient(
+        to right,
+        rgba(247, 147, 26, 0.1) 0%,
+        rgba(59, 130, 246, 0.1) 100%
+      ),
+      /* Base gradient: Hero section colors with enhanced transparency for glass effect */
+      linear-gradient(
+        135deg,
+        rgba(248, 250, 252, 0.85) 0%, /* slate-50 with transparency */
+        rgba(239, 246, 255, 0.8) 30%,  /* blue-50 with transparency */
+        rgba(224, 231, 255, 0.82) 70%, /* indigo-100 with transparency */
+        rgba(248, 250, 252, 0.88) 100% /* slate-50 with transparency */
+      );
+    
+    /* Advanced backdrop filtering for frosted glass effect */
+    backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    
+    /* Enhanced glass edge border with subtle color tint */
+    border-bottom: 1px solid rgba(224, 231, 255, 0.4);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      0 4px 15px rgba(59, 130, 246, 0.06),
+      0 8px 25px rgba(247, 147, 26, 0.03),
+      inset 0 1px 2px rgba(255, 255, 255, 0.8),
+      inset 0 -1px 1px rgba(224, 231, 255, 0.3);
+    
+    /* Performance optimizations */
+    will-change: backdrop-filter;
+    transform: translateZ(0);
+    
+    /* Transition for smooth theme changes */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Dark Mode Glassmorphism */
+  .dark .navbar {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.85) 0%,
+      rgba(30, 41, 59, 0.8) 50%,
+      rgba(15, 23, 42, 0.9) 100%
+    );
+    
+    /* Enhanced dark mode backdrop filtering */
+    backdrop-filter: blur(24px) saturate(200%) brightness(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(120%);
+    
+    /* Subtle dark glass edge border */
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not (backdrop-filter: blur(24px)) {
+    .navbar {
+      /* Fallback with hero gradient colors but higher opacity */
+      background: 
+        linear-gradient(
+          to right,
+          rgba(247, 147, 26, 0.08) 0%,
+          rgba(59, 130, 246, 0.08) 100%
+        ),
+        linear-gradient(
+          135deg,
+          rgba(248, 250, 252, 0.95) 0%,
+          rgba(239, 246, 255, 0.93) 30%,
+          rgba(224, 231, 255, 0.94) 70%,
+          rgba(248, 250, 252, 0.96) 100%
+        );
+      border-bottom: 1px solid rgba(224, 231, 255, 0.6);
+    }
+    
+    .dark .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+    }
+  }
+
+  /* Navigation Link - Enhanced with Full-Width Underlines */
+  .nav-link {
+    @apply relative font-medium transition-all duration-500 px-3 py-2 rounded-sm;
+    /* Light Mode - Enhanced contrast for readability */
+    color: rgba(30, 42, 58, 0.9);
+    /* Dark Mode - Improved contrast */
+    @apply dark:text-slate-200;
+    
+    /* No background - transparent only */
+    background: transparent;
+    backdrop-filter: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-link::before {
+    content: '';
+    @apply absolute bottom-1 left-0 w-0 h-0.5 transition-all duration-500;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 100%);
+    border-radius: 2px;
+    /* Animation starts from left edge */
+    transform-origin: left;
+  }
+
+  .nav-link:hover {
+    @apply text-bitcoin dark:text-bitcoin;
+    transform: translateY(-1px);
+    
+    /* No background on hover - keep transparent */
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .dark .nav-link:hover {
+    /* No background in dark mode hover - keep transparent */
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .nav-link:hover::before {
+    /* Expand to full width of the link content */
+    @apply w-full;
+  }
+
+  .nav-link.active {
+    @apply text-bitcoin dark:text-bitcoin;
+    /* Active state with no background */
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .dark .nav-link.active {
+    /* No background in dark mode active state */
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .nav-link.active::after {
+    content: '';
+    @apply absolute bottom-1 left-0 w-full h-0.5;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: navShimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes navShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  /* Cards - Enhanced */
+  .card {
+    @apply relative p-5 sm:p-6 transition-all duration-500 overflow-visible;
+    /* Consistent rounded-sm for all cards */
+    @apply rounded-sm;
+    /* Off-White background */
+    background: #FAFAFA;
+    /* Enhanced border with subtle color */
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    /* Small shadow for cards */
+    @apply shadow-sm;
+    /* Text color */
+    color: #1E2A3A;
+    /* Dark Mode */
+    @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
+    @apply dark:border-slate-700/50 dark:text-slate-100;
+  }
+  
+  /* Ensure dark mode cards override any other styles */
+  .dark .card {
+    background: linear-gradient(135deg, 
+                rgba(30, 41, 59, 1) 0%, 
+                rgba(30, 41, 59, 0.98) 50%,
+                rgba(15, 23, 42, 0.95) 100%) !important;
+    @apply border-slate-700/50 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Enhanced section spacing */
+  .section-spacing {
+    @apply py-8 sm:py-12 lg:py-16;
+  }
+
+  /* Improved text hierarchy */
+  .text-hierarchy h2 {
+    @apply text-xl sm:text-2xl font-bold mb-4 text-gray-900 dark:text-slate-100;
+  }
+
+  .text-hierarchy h3 {
+    @apply text-lg sm:text-xl font-semibold mb-3 text-gray-900 dark:text-slate-100;
+  }
+
+  /* Icon container improvements */
+  .icon-badge {
+    @apply w-12 h-12 bg-bitcoin/10 dark:bg-slate-700/40 rounded-full flex items-center justify-center transition-all duration-300;
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1);
+  }
+
+  .icon-badge-lg {
+    @apply w-16 h-16 bg-bitcoin/10 dark:bg-slate-700/40 rounded-full flex items-center justify-center transition-all duration-300;
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Utility classes for icon containers that won't obscure icons */
+  .icon-bg-light {
+    background: rgba(247, 147, 26, 0.08);
+  }
+
+  .icon-bg-medium {
+    background: rgba(247, 147, 26, 0.15);
+  }
+
+  .icon-bg-transparent {
+    background: transparent;
+    border: 1px solid rgba(247, 147, 26, 0.2);
+  }
+
+  /* Enhanced tab system */
+  .tabs-enhanced .tabs-trigger {
+    @apply transition-all duration-300 hover:scale-105;
+  }
+
+  .tabs-enhanced .tabs-trigger[data-state=active] {
+    @apply shadow-lg transform scale-105;
+  }
+
+  /* Strategy card improvements */
+  .strategy-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:border-bitcoin/30;
+  }
+
+  .strategy-card:hover .icon-container {
+    @apply scale-110;
+    background: rgba(247, 147, 26, 0.15);
+  }
+
+  /* No hover effects for informational cards - only shadow change if needed */
+  .card:hover {
+    /* Keep the card flat - no transform or rise */
+    @apply shadow-sm;
+  }
+
+  /* Feature Card - Enhanced (for actionable cards only) */
+  .feature-card {
+    @apply relative p-5 sm:p-6 overflow-hidden cursor-pointer;
+    background: #FAFAFA;
+    @apply rounded-sm;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    color: #1E2A3A;
+    @apply shadow-sm;
+    /* GPU acceleration */
+    will-change: transform, background-color;
+    transform: translateZ(0);
+    transition: all 0.3s ease;
+    @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
+    @apply dark:border-slate-700/50 dark:text-slate-100;
+  }
+
+  .feature-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full opacity-0 transition-all duration-500;
+    height: 3px;
+    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite paused;
+  }
+
+  .feature-card:hover::before {
+    @apply opacity-100;
+    animation-play-state: running;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .feature-card::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-500 pointer-events-none;
+    background: radial-gradient(circle at 50% 50%, rgba(247, 147, 26, 0.05) 0%, transparent 70%);
+    border-radius: inherit;
+  }
+
+  .feature-card:hover {
+    /* Feature cards can have hover rise since they're actionable */
+    transform: translateY(-2px);
+    @apply shadow-md;
+    background: linear-gradient(135deg, rgba(247, 147, 26, 0.05) 0%, #FAFAFA 100%);
+    @apply dark:bg-gradient-to-br dark:from-slate-700 dark:to-slate-800;
+  }
+
+  .feature-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Icon Container - Enhanced with better icon visibility */
+  .icon-container {
+    @apply w-14 h-14 flex items-center justify-center transition-all duration-500;
+    /* Consistent border radius */
+    @apply rounded-sm;
+    /* GPU acceleration */
+    will-change: transform, background-color;
+    transform: translateZ(0) rotate(0deg);
+    /* Subtle transparent background that doesn't obscure icons */
+    background: rgba(247, 147, 26, 0.08);
+    /* Soft outer shadow instead of inner shadow */
+    box-shadow: 0 2px 8px rgba(247, 147, 26, 0.1),
+                0 4px 16px rgba(247, 147, 26, 0.05);
+    /* Dark Mode */
+    @apply dark:bg-slate-700/40;
+  }
+
+  .feature-card:hover .icon-container {
+    /* Smooth rotation and scale with spring effect */
+    transform: rotate(5deg) scale(1.15) translateZ(0);
+    animation: iconBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Enhanced shadow */
+    box-shadow: 0 4px 12px rgba(247, 147, 26, 0.2),
+                0 8px 24px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Apply transparent background on hover only for default icon containers (not solid background ones) */
+  .feature-card:hover .icon-container:not(.solid-bg-icon) {
+    background: rgba(247, 147, 26, 0.15);
+    /* Dark Mode */
+    @apply dark:bg-slate-600/60;
+  }
+
+  /* Preserve solid background icons on hover - they keep their inline styles */
+  .feature-card:hover .icon-container.solid-bg-icon {
+    /* Keep the solid background from inline styles */
+    /* Enhanced glow effect for solid background icons */
+    box-shadow: 0 4px 16px rgba(247, 147, 26, 0.4),
+                0 8px 32px rgba(247, 147, 26, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
+
+  @keyframes iconBounce {
+    0% { transform: rotate(0deg) scale(1) translateZ(0); }
+    30% { transform: rotate(-3deg) scale(1.2) translateZ(0); }
+    60% { transform: rotate(7deg) scale(1.1) translateZ(0); }
+    100% { transform: rotate(5deg) scale(1.15) translateZ(0); }
+  }
+
+  /* Only apply orange color to SVG icons that are NOT in solid background containers */
+  .feature-card:hover .icon-container:not(.solid-bg-icon) svg {
+    @apply text-bitcoin;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    /* Ensure icons remain visible in dark mode */
+    @apply dark:text-bitcoin;
+  }
+  
+  /* Input Field - Enhanced */
+  .input-field {
+    @apply w-full px-3 py-3 transition-all duration-300 font-medium;
+    @apply border-2 border-gray-200 dark:border-slate-600;
+    background-color: #FAFAFA;
+    color: #1E2A3A;
+    @apply placeholder-slate-400;
+    @apply dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-400;
+    /* Ensure proper box sizing */
+    box-sizing: border-box !important;
+    @apply rounded-sm;
+    /* Enhanced shadow */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    /* Prevent overflow */
+    min-height: 44px;
+    max-height: 52px;
+    /* Ensure it doesn't overflow container */
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .input-field:hover {
+    @apply border-gray-300 dark:border-slate-500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04),
+                inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  .input-field:focus {
+    @apply outline-none border-orange-500 dark:border-orange-400;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
+                0 2px 8px rgba(247, 147, 26, 0.05),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+  }
+
+  /* Fix for input field width issues */
+  .input-container {
+    @apply w-full;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .input-container .input-field {
+    @apply w-full;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box !important;
+  }
+
+  /* Historical page specific fixes */
+  .historical-config-card {
+    @apply p-4 sm:p-5;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .historical-config-card .input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .historical-config-card .input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Force proper sizing on all screen sizes */
+  .historical-config-card select.input-field,
+  .historical-config-card input.input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Simplified input field fixes */
+  .historical-config-card .input-field {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-sm text-xs font-bold;
+  }
+
+  .badge-orange {
+    /* Light Mode */
+    @apply bg-bitcoin-100 text-bitcoin-700;
+    /* Dark Mode */
+    @apply dark:bg-bitcoin/20 dark:text-bitcoin;
+  }
+
+  .badge-success {
+    /* Light Mode */
+    @apply bg-green-100 text-green-800;
+    /* Dark Mode */
+    @apply dark:bg-green-900 dark:text-green-100;
+  }
+
+  /* Hero Section */
+  .hero-gradient {
+    /* Light Mode - Using light grey */
+    background: linear-gradient(135deg, #F4F6F8 0%, #F4F6F8 50%, #F4F6F8 100%);
+    /* Dark Mode */
+    @apply dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900;
+  }
+
+  /* Hero Background Texture */
+  .hero-texture {
+    position: relative;
+  }
+
+  .hero-texture::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23F7931A' fill-opacity='0.6'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .dark .hero-texture::after {
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12' viewBox='0 0 20 12'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='charlie-brown' fill='%23F8FAFC' fill-opacity='1'%3E%3Cpath d='M9.8 12L0 2.2V.8l10 10 10-10v1.4L10.2 12h-.4zm-4 0L0 6.2V4.8L7.2 12H5.8zm8.4 0L20 6.2V4.8L12.8 12h1.4zM9.8 0l.2.2.2-.2h-.4zm-4 0L10 4.2 14.2 0h-1.4L10 2.8 7.2 0H5.8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Section Background */
+  .section-alt {
+    /* Light Mode */
+    @apply bg-gradient-to-b from-slate-50 to-slate-100;
+    /* Dark Mode */
+    @apply dark:bg-gradient-to-b dark:from-slate-800 dark:to-slate-900;
+  }
+
+  /* Glass Effect - Enhanced */
+  .glass {
+    /* Enhanced glass morphism with off-white */
+    background: linear-gradient(135deg, 
+                rgba(250, 250, 250, 0.85) 0%, 
+                rgba(250, 250, 250, 0.7) 100%);
+    /* Ensure content doesn't get cut off */
+    @apply overflow-visible;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(250, 250, 250, 0.5);
+    /* Use consistent small shadow */
+    @apply shadow-sm;
+    /* Dark Mode */
+    @apply dark:bg-gradient-to-br dark:from-slate-800/80 dark:to-slate-800/60;
+    @apply dark:border-slate-700/60;
+  }
+  
+  /* Ensure dark mode glass override */
+  .dark .glass {
+    background: linear-gradient(135deg, 
+                rgba(30, 41, 59, 0.85) 0%, 
+                rgba(30, 41, 59, 0.7) 100%) !important;
+    /* Use consistent small shadow in dark mode too */
+    @apply shadow-sm !important;
+    @apply border-slate-700/60 !important;
+  }
+
+  /* Glow Effect */
+  .glow-orange {
+    /* Light Mode */
+    @apply shadow-[0_0_30px_rgba(247,147,26,0.3)];
+    /* Dark Mode */
+    @apply dark:shadow-[0_0_40px_rgba(247,147,26,0.2)];
+  }
+
+  .glow-orange-hover:hover {
+    /* Light Mode */
+    @apply shadow-[0_0_40px_rgba(247,147,26,0.4)];
+    /* Dark Mode */
+    @apply dark:shadow-[0_0_50px_rgba(247,147,26,0.3)];
+  }
+
+  /* Footer */
+  .footer {
+    /* Light Mode */
+    @apply bg-slate-900 text-white;
+    /* Dark Mode - Keep it distinct */
+    @apply dark:bg-slate-900 dark:text-white;
+  }
+}
+
+@layer utilities {
+  /* Bitcoin Tools Spacing Scale - Consistent 8px base unit */
+  .bt-space-1 { margin: 4px; padding: 4px; }
+  .bt-space-2 { margin: 8px; padding: 8px; }
+  .bt-space-3 { margin: 12px; padding: 12px; }
+  .bt-space-4 { margin: 16px; padding: 16px; }
+  .bt-space-6 { margin: 24px; padding: 24px; }
+  .bt-space-8 { margin: 32px; padding: 32px; }
+  .bt-space-12 { margin: 48px; padding: 48px; }
+  .bt-space-16 { margin: 64px; padding: 64px; }
+
+  /* Bitcoin Tools Typography Scale */
+  .bt-text-xs { font-size: 0.75rem; line-height: 1.4; }
+  .bt-text-sm { font-size: 0.875rem; line-height: 1.5; }
+  .bt-text-base { font-size: 1rem; line-height: 1.6; }
+  .bt-text-lg { font-size: 1.125rem; line-height: 1.55; }
+  .bt-text-xl { font-size: 1.25rem; line-height: 1.5; }
+  .bt-text-2xl { font-size: 1.5rem; line-height: 1.4; }
+  .bt-text-3xl { font-size: 1.875rem; line-height: 1.3; }
+  .bt-text-4xl { font-size: 2.25rem; line-height: 1.25; }
+  .bt-text-5xl { font-size: 3rem; line-height: 1.2; }
+  .bt-text-6xl { font-size: 3.75rem; line-height: 1.1; }
+
+  /* Bitcoin Tools Component Spacing */
+  .bt-card-padding { padding: 1.5rem 2rem; }
+  .bt-card-padding-lg { padding: 2rem 2.5rem; }
+  .bt-section-spacing { margin: 2rem 0; }
+  .bt-section-spacing-lg { margin: 3rem 0; }
+  .bt-input-spacing { margin-bottom: 1.5rem; }
+  .bt-button-spacing { margin: 1rem 0 0.5rem 0; }
+
+  /* Bitcoin Tools Enhanced Visual Hierarchy */
+  .bt-heading-primary {
+    @apply text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+  }
+
+  .bt-heading-secondary {
+    @apply text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .bt-heading-tertiary {
+    @apply text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    margin-bottom: 1rem;
+  }
+
+  .bt-body-text {
+    @apply text-base text-gray-600 dark:text-gray-400;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .bt-body-text-lg {
+    @apply text-lg text-gray-600 dark:text-gray-400;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Bitcoin Tools Enhanced Cards */
+  .bt-card-elevated {
+    @apply bg-white dark:bg-slate-800 rounded-sm shadow-xl border-2 border-gray-200 dark:border-slate-700;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .bt-card-elevated:hover {
+    @apply shadow-2xl border-bitcoin/20 dark:border-bitcoin/30;
+    transform: translateY(-4px);
+  }
+
+  .bt-card-standard {
+    @apply bg-white dark:bg-slate-800 rounded-sm shadow-lg border-2 border-gray-200 dark:border-slate-700;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .bt-card-standard:hover {
+    @apply shadow-xl border-bitcoin/15;
+    transform: translateY(-2px);
+  }
+
+  /* Bitcoin Tools Enhanced Buttons */
+  .bt-button-primary {
+    @apply px-8 py-4 bg-gradient-to-r from-bitcoin to-bitcoin-600 text-white rounded-sm;
+    @apply text-base font-semibold shadow-md hover:shadow-lg;
+    @apply transition-all duration-200 hover:from-bitcoin-600 hover:to-bitcoin-700;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bitcoin;
+    min-height: 60px;
+  }
+
+  .bt-button-secondary {
+    @apply px-6 py-3 bg-white dark:bg-slate-700 text-gray-900 dark:text-white;
+    @apply border-2 border-gray-300 dark:border-slate-600 rounded-sm;
+    @apply text-base font-medium shadow-sm hover:shadow-md;
+    @apply transition-all duration-200 hover:border-bitcoin/50;
+    min-height: 48px;
+  }
+
+  /* Bitcoin Tools Enhanced Inputs */
+  .bt-input-field {
+    @apply w-full px-4 py-4 border-2 border-gray-300 dark:border-gray-600;
+    @apply rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+    @apply text-base transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply focus:ring-2 focus:ring-bitcoin focus:border-bitcoin;
+  }
+
+  /* Bitcoin Tools Spacing Classes for Specific Elements */
+  .bt-tool-header {
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+  }
+
+  .bt-tool-content {
+    margin-bottom: 2rem;
+    padding: 1.5rem 0;
+  }
+
+  .bt-tool-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+  }
+
+  .bt-info-card {
+    @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700;
+    @apply rounded-sm p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-success-card {
+    @apply bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700;
+    @apply rounded-sm p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-warning-card {
+    @apply bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700;
+    @apply rounded-sm p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  .bt-error-card {
+    @apply bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700;
+    @apply rounded-sm p-6 shadow-sm;
+    margin-bottom: 2rem;
+  }
+
+  /* Text Colors */
+  .text-bitcoin {
+    color: #F7931A;
+  }
+
+  .text-bitcoin-dark {
+    color: #DE8417;
+  }
+  
+  /* Background Colors */
+  .bg-bitcoin {
+    background-color: #F7931A;
+  }
+
+  .bg-bitcoin-gradient {
+    background: linear-gradient(135deg, #F7931A, #DE8417);
+  }
+  
+  /* Border Colors */
+  .border-bitcoin {
+    border-color: #F7931A;
+  }
+
+  /* Animations */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) translateZ(0); }
+    50% { transform: translateY(-10px) translateZ(0); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: opacity;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Smooth Transitions */
+  .transition-theme {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+
+  /* Dark Mode Specific Utilities */
+  .dark-gradient {
+    @apply dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-800;
+  }
+
+  /* Hover States */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-2xl;
+  }
+
+  /* Focus States */
+  .focus-ring-bitcoin {
+    @apply focus:ring-4 focus:ring-bitcoin-200 dark:focus:ring-bitcoin/20;
+  }
+
+  /* Mobile responsiveness utilities */
+  .prevent-horizontal-scroll {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Ensure all containers respect viewport width */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Enhanced Radio Buttons */
+  input[type="radio"] {
+    @apply appearance-none w-5 h-5 border-2 border-slate-300 rounded-full transition-all duration-300 cursor-pointer;
+    @apply dark:border-slate-600;
+  }
+
+  input[type="radio"]:hover {
+    @apply border-bitcoin scale-110;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1);
+  }
+
+  input[type="radio"]:checked {
+    @apply border-bitcoin bg-bitcoin;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.15),
+                inset 0 0 0 3px white;
+  }
+
+  input[type="radio"]:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2);
+  }
+
+  /* Enhanced Checkboxes */
+  input[type="checkbox"] {
+    @apply appearance-none w-5 h-5 border-2 border-slate-300 rounded-md transition-all duration-300 cursor-pointer;
+    @apply dark:border-slate-600;
+  }
+
+  input[type="checkbox"]:hover {
+    @apply border-bitcoin scale-110;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1);
+  }
+
+  input[type="checkbox"]:checked {
+    @apply border-bitcoin bg-bitcoin;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.15);
+  }
+
+  input[type="checkbox"]:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2);
+  }
+
+  /* Enhanced Select Dropdowns */
+  select {
+    @apply appearance-none w-full px-4 py-3 pr-10 transition-all duration-300 font-medium cursor-pointer rounded-sm;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
+                      linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%231E2A3A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-origin: border-box;
+    background-clip: padding-box, border-box, content-box;
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: auto, auto, 1.5em 1.5em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    color: #1E2A3A;
+    @apply dark:text-slate-100;
+  }
+
+  .dark select {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #475569 0%, #334155 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  }
+
+  select:hover {
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 2px 4px rgba(247, 147, 26, 0.1),
+                inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  .dark select:hover {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #64748B 0%, #475569 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  }
+
+  select:focus {
+    @apply outline-none;
+    background-image: linear-gradient(#FAFAFA, #FAFAFA),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
+                0 2px 8px rgba(247, 147, 26, 0.05),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+  }
+
+  .dark select:focus {
+    background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
+                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2),
+                0 2px 8px rgba(247, 147, 26, 0.1);
+  }
+
+  /* Smooth Page Transitions */
+  .page-transition {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Dropdown Animation Classes */
+  .animate-in {
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-top-2 {
+    animation-name: slideInFromTop;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-8px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading States */
+  .skeleton {
+    @apply animate-pulse bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200;
+    @apply dark:from-slate-700 dark:via-slate-600 dark:to-slate-700;
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Enhanced Tables */
+  table {
+    @apply w-full;
+  }
+
+  thead {
+    @apply bg-gradient-to-r from-slate-50 to-slate-100;
+    @apply dark:from-slate-800 dark:to-slate-700;
+  }
+
+  th {
+    @apply px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider;
+    @apply dark:text-slate-400;
+  }
+
+  tbody tr {
+    @apply transition-all duration-300;
+  }
+
+  tbody tr:hover {
+    @apply bg-bitcoin-50/30;
+    @apply dark:bg-bitcoin/5;
+    transform: translateX(2px);
+  }
+
+  td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-slate-900;
+    @apply dark:text-slate-100;
+  }
+
+  /* Anti-flickering utilities for Bitcoin Tools */
+  .bt-stable-layout {
+    @apply transform-gpu will-change-auto;
+    contain: layout style paint;
+  }
+
+  .bt-explanatory-box {
+    @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700;
+    @apply rounded-xl p-6 shadow-sm transform-gpu will-change-auto;
+    contain: layout style;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .bt-network-status-container {
+    @apply transform-gpu will-change-auto;
+    contain: layout;
+  }
+
+  /* Mobile Navigation Sheet - Enhanced for landscape */
+  .mobile-nav-sheet {
+    @apply h-screen max-h-screen overflow-hidden;
+    /* Handle safe areas on devices with notches */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Ensure proper height calculation and prevent overlap */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    /* Performance optimizations */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Smooth scrolling for navigation items */
+  .mobile-nav-sheet .sheet-nav {
+    /* Smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    /* Prevent scroll bounce */
+    overflow-anchor: none;
+  }
+
+  /* Improved touch targets for better accessibility */
+  .mobile-nav-sheet .nav-link {
+    min-height: 44px; /* Minimum touch target size */
+    touch-action: manipulation;
+    /* Prevent text selection on touch */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .mobile-nav-sheet .theme-toggle-section button {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Global overlap prevention for all landscape orientations */
+  @media screen and (orientation: landscape) {
+    .mobile-nav-sheet .theme-toggle-section {
+      /* Ensure minimum separation from nav items in all landscape modes */
+      margin-top: max(1rem, 4vh) !important;
+      position: relative;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      left: 0;
+      right: 0;
+      height: 0.5rem;
+      /* Create invisible spacer to prevent any overlap */
+      pointer-events: none;
+    }
+  }
+
+  /* Critical height range optimization - prevents overlap */
+  @media screen and (max-height: 500px) and (min-height: 401px) and (orientation: landscape) {
+    .mobile-nav-sheet {
+      gap: 1.5rem !important; /* Force larger gap in critical range */
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-6;
+      /* Force generous separation in this critical range */
+      margin-top: max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) !important;
+      border-top: 2px solid;
+      @apply border-slate-200 dark:border-slate-700;
+    }
+  }
+
+  /* Landscape mode optimizations for mobile nav */
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-2;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply py-2 space-y-0.5 pb-4;
+    }
+    
+    .mobile-nav-sheet .nav-link {
+      @apply py-2;
+    }
+    
+    .mobile-nav-sheet .nav-link .nav-description {
+      @apply hidden;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-4 mt-4;
+      /* Ensure minimum separation */
+      margin-top: max(1rem, env(safe-area-inset-bottom, 1rem));
+    }
+    
+    .mobile-nav-sheet .theme-toggle-description {
+      @apply hidden;
+    }
+  }
+
+  /* Very short landscape mode (phones < 400px height) */
+  @media screen and (max-height: 400px) and (orientation: landscape) {
+    .mobile-nav-sheet .sheet-header p {
+      @apply hidden;
+    }
+    
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-1;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply pb-6;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-3 mt-6;
+      /* Force stronger separation in very short screens */
+      margin-top: max(1.5rem, env(safe-area-inset-bottom, 1.5rem)) !important;
+    }
+  }
+
+  /* Extra short landscape mode (phones < 350px height) */
+  @media screen and (max-height: 350px) and (orientation: landscape) {
+    .mobile-nav-sheet .nav-link {
+      @apply py-1;
+    }
+    
+    .mobile-nav-sheet .sheet-nav {
+      @apply py-1 pb-4;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section {
+      @apply pt-3 mt-4;
+      /* Maintain separation even in extra short screens */
+      margin-top: max(1rem, env(safe-area-inset-bottom, 1rem)) !important;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section button {
+      @apply py-2;
+    }
+  }
+
+  /* Extreme landscape mode (phones < 320px height) - Ultra compact */
+  @media screen and (max-height: 320px) and (orientation: landscape) {
+    .mobile-nav-sheet {
+      font-size: 0.875rem; /* Smaller base font size */
+    }
+    
+    .mobile-nav-sheet .sheet-header {
+      @apply pb-1;
+    }
+    
+    .mobile-nav-sheet .sheet-header h2 {
+      @apply text-lg;
+    }
+    
+    .mobile-nav-sheet .nav-link {
+      @apply px-3 py-1;
+      min-height: 36px; /* Smaller touch targets for extreme cases */
+    }
+    
+    .mobile-nav-sheet .nav-link .nav-description {
+      @apply text-xs;
+    }
+    
+    .mobile-nav-sheet .theme-toggle-section button {
+      @apply px-3 py-1;
+      min-height: 36px;
+    }
+  }
+
+  /* Enhanced Tooltips */
+  .tooltip {
+    @apply relative inline-block;
+  }
+
+  .tooltip .tooltip-text {
+    @apply invisible absolute z-[9999] px-3 py-2 text-sm transition-all duration-300;
+    @apply bg-white text-slate-900 dark:bg-slate-900 dark:text-white;
+    @apply rounded-sm opacity-0;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .tooltip:hover .tooltip-text {
+    @apply visible opacity-100;
+    transform: translateX(-50%) translateY(-4px);
+  }
+
+  .tooltip .tooltip-text::after {
+    content: "";
+    @apply absolute top-full left-1/2 -ml-1 border-4 border-transparent;
+    @apply border-t-white dark:border-t-slate-900;
+  }
+
+  /* Enhanced Dividers */
+  hr {
+    @apply border-0 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent;
+    @apply dark:via-slate-600;
+  }
+
+  .divider-bitcoin {
+    @apply border-0 h-px bg-gradient-to-r from-transparent via-bitcoin/30 to-transparent;
+  }
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-slate-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-bitcoin-400 dark:bg-slate-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-bitcoin-500 dark:bg-slate-500;
+  }
+}
+
+/* Performance optimizations for low-end devices */
+body.reduce-animations * {
+  animation: none !important;
+  transition: opacity 150ms ease-out !important;
+}
+
+body.reduce-animations .btn-hero-primary,
+body.reduce-animations .btn-hero-secondary {
+  animation: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+body.reduce-animations *::before,
+body.reduce-animations *::after {
+  animation: none !important;
+  filter: none !important;
+}

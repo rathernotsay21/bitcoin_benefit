@@ -33,8 +33,6 @@ export default function LearnMorePage() {
             <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 transition-colors duration-300 relative overflow-hidden">
                 {/* Background decorative elements */}
                 <div className="absolute inset-0 bg-gradient-to-r from-bitcoin/5 to-orange-500/5" aria-hidden="true"></div>
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-bitcoin/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
-                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">
@@ -254,8 +252,6 @@ export default function LearnMorePage() {
             <section id="hardware-wallets" className="py-16 sm:py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300 relative overflow-hidden">
                 {/* Background decorative elements */}
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-bitcoin/5" aria-hidden="true"></div>
-                <div className="absolute top-20 right-1/4 w-72 h-72 bg-orange-500/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
-                <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-bitcoin/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" aria-hidden="true"></div>
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">

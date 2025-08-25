@@ -126,6 +126,7 @@ export default function Tooltip({
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
+    return undefined;
   }, [trigger, handleClickOutside]);
 
 

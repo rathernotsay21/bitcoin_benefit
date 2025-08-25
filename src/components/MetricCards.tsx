@@ -130,7 +130,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     
     if (customVestingEvents && customVestingEvents.length > 0) {
       // Use custom vesting events to determine grant period
-      const lastEventMonth = Math.max(...customVestingEvents.map(e => e.timePeriod));
+      const lastEventMonth = Math.max(...customVestingEvents.map((e: any) => e.timePeriod));
       maxAnnualYears = Math.floor(lastEventMonth / 12);
       
       // For accelerator scheme, still no annual grants even with custom events
@@ -300,14 +300,14 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Cost Today',
         color: 'green' as const,
         sublabel: "At today's Bitcoin price",
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatUSD(totalInvestmentCost),
         label: 'Total You Pay',
         color: 'blue' as const,
         sublabel: 'All awards combined',
-        icon: undefined
+        icon: undefined as any
       },
     ],
     // Group 2: Future Projections
@@ -317,7 +317,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: '10-Year Projection',
         color: 'green' as const,
         sublabel: `Based on ${(inputs?.projectedBitcoinGrowth ?? 15) || 15}% annual growth`,
-        icon: undefined
+        icon: undefined as any
       },
       {
         value: formatBTC(totalBTCGranted),
@@ -331,7 +331,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Growth Multiple',
         color: 'blue' as const,
         sublabel: 'Value vs. cost',
-        icon: undefined,
+        icon: undefined as any,
         helpContent: HELP_CONTENT.growthMultiple
       },
     ],
@@ -342,7 +342,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Return on Investment',
         color: 'green' as const,
         sublabel: 'Total gain',
-        icon: undefined,
+        icon: undefined as any,
         helpContent: HELP_CONTENT.roi
       },
       {
@@ -350,7 +350,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Yearly Return',
         color: 'purple' as const,
         sublabel: 'Average growth per year',
-        icon: undefined,
+        icon: undefined as any,
         helpContent: HELP_CONTENT.cagr
       },
       {
@@ -358,7 +358,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'Bitcoin Growth',
         color: 'blue' as const,
         sublabel: 'Your projection',
-        icon: undefined
+        icon: undefined as any
       },
     ],
     // Group 4: Vesting Progress
@@ -382,7 +382,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
         label: 'BTC Price in 10Y',
         color: 'green' as const,
         sublabel: 'Projected value',
-        icon: undefined
+        icon: undefined as any
       },
     ],
   ];

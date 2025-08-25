@@ -154,7 +154,6 @@ scroll-behavior: smooth;
   .btn-primary {
     @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
     /* GPU acceleration for better performance */
-    will-change: transform, box-shadow;
     transform: translateZ(0) perspective(1000px) rotateX(0deg);
     /* Subtle gradient background */
     background: linear-gradient(135deg, #F7931A 0%, #F7931A 60%, #FFB347 100%);
@@ -197,7 +196,6 @@ scroll-behavior: smooth;
   .btn-secondary {
     @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
     /* GPU acceleration */
-    will-change: transform, border-color, background-color;
     transform: translateZ(0);
     /* Simple border */
     border: 2px solid #E2E8F0;
@@ -249,13 +247,12 @@ scroll-behavior: smooth;
       0 0 6px rgba(247, 147, 26, 0.15),
       inset 0 0 3px rgba(247, 147, 26, 0.05);
     /* GPU acceleration */
-    will-change: transform, box-shadow, text-shadow, border-color;
     transform: translateZ(0);
     position: relative;
     isolation: isolate;
     text-shadow: 0 0 3px rgba(247, 147, 26, 0.3);
     /* Electric pulse animation */
-    animation: electricPulse 2s ease-in-out infinite;
+    animation: electricPulse 2s ease-in-out  1;
   }
 
   /* Neon border glow */
@@ -269,9 +266,9 @@ scroll-behavior: smooth;
     border-radius: inherit;
     z-index: -1;
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(4px);
     transition: opacity 0.3s ease;
-    animation: neonRotate 3s linear infinite;
+    animation: neonRotate 3s linear  1;
   }
 
   /* Inner electric glow */
@@ -324,8 +321,8 @@ scroll-behavior: smooth;
     @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
     /* Transparent base with electric border */
     background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    backdrop-filter: blur(4px) saturate(180%);
+    -webkit-backdrop-filter: blur(4px) saturate(180%);
     color: #94a3b8;
     /* Electric border */
     border: 2px solid #64748b;
@@ -336,11 +333,10 @@ scroll-behavior: smooth;
       0 0 2px rgba(100, 149, 237, 0.2),
       inset 0 0 2px rgba(100, 149, 237, 0.05);
     /* GPU acceleration */
-    will-change: transform, box-shadow, border-color, color;
     transform: translateZ(0);
     text-shadow: 0 0 2px rgba(148, 163, 184, 0.2);
     /* Lightning pulse */
-    animation: lightningPulse 3s ease-in-out infinite;
+    animation: lightningPulse 3s ease-in-out  1;
   }
 
   /* Electric arc effect */
@@ -355,7 +351,7 @@ scroll-behavior: smooth;
     opacity: 0;
     filter: blur(8px);
     transition: opacity 0.3s ease;
-    animation: electricArc 2s linear infinite;
+    animation: electricArc 2s linear  1;
     z-index: -1;
   }
 
@@ -431,7 +427,7 @@ scroll-behavior: smooth;
       filter: blur(15px) hue-rotate(0deg);
     }
     50% {
-      filter: blur(20px) hue-rotate(10deg);
+      filter: blur(8px) hue-rotate(10deg);
     }
     100% {
       background-position: 100% 50%;
@@ -511,15 +507,14 @@ scroll-behavior: smooth;
       rgba(255, 255, 255, 0.7) 0%,
       rgba(255, 255, 255, 0.5) 100%
     );
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    backdrop-filter: blur(4px) saturate(150%);
+    -webkit-backdrop-filter: blur(4px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 
       0 2px 8px rgba(0, 0, 0, 0.08),
       inset 0 1px 1px rgba(255, 255, 255, 0.8);
     
     color: #1E2A3A;
-    will-change: transform, backdrop-filter;
     transform: translateZ(0);
   }
   
@@ -544,8 +539,8 @@ scroll-behavior: smooth;
       rgba(30, 41, 59, 0.8) 0%,
       rgba(51, 65, 85, 0.6) 100%
     );
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(6px) saturate(180%);
+    -webkit-backdrop-filter: blur(6px) saturate(180%);
     border: 1px solid rgba(148, 163, 184, 0.3);
     box-shadow: 
       0 2px 8px rgba(0, 0, 0, 0.3),
@@ -566,7 +561,7 @@ scroll-behavior: smooth;
   }
   
   /* Fallback for browsers without backdrop-filter support */
-  @supports not (backdrop-filter: blur(12px)) {
+  @supports not (backdrop-filter: blur(4px)) {
     .theme-toggle-btn {
       background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(226, 232, 240, 0.8);
@@ -609,8 +604,8 @@ scroll-behavior: smooth;
       );
     
     /* Advanced backdrop filtering for frosted glass effect */
-    backdrop-filter: blur(24px) saturate(180%) brightness(110%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(110%);
+    backdrop-filter: blur(8px) saturate(180%) brightness(110%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(110%);
     
     /* Enhanced glass edge border with subtle color tint */
     border-bottom: 1px solid rgba(224, 231, 255, 0.4);
@@ -622,7 +617,6 @@ scroll-behavior: smooth;
       inset 0 -1px 1px rgba(224, 231, 255, 0.3);
     
     /* Performance optimizations */
-    will-change: backdrop-filter;
     transform: translateZ(0);
     
     /* Transition for smooth theme changes */
@@ -639,8 +633,8 @@ scroll-behavior: smooth;
     );
     
     /* Enhanced dark mode backdrop filtering */
-    backdrop-filter: blur(24px) saturate(200%) brightness(120%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(120%);
+    backdrop-filter: blur(8px) saturate(200%) brightness(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(200%) brightness(120%);
     
     /* Subtle dark glass edge border */
     border-bottom: 1px solid rgba(148, 163, 184, 0.2);
@@ -652,7 +646,7 @@ scroll-behavior: smooth;
   }
   
   /* Fallback for browsers without backdrop-filter support */
-  @supports not (backdrop-filter: blur(24px)) {
+  @supports not (backdrop-filter: blur(8px)) {
     .navbar {
       /* Fallback with hero gradient colors but higher opacity */
       background: 
@@ -741,7 +735,7 @@ scroll-behavior: smooth;
     background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
     background-size: 200% 100%;
     border-radius: 2px;
-    animation: navShimmer 3s ease-in-out infinite;
+    animation: navShimmer 3s ease-in-out  1;
   }
 
   @keyframes navShimmer {
@@ -852,7 +846,6 @@ scroll-behavior: smooth;
     color: #1E2A3A;
     @apply shadow-sm;
     /* GPU acceleration */
-    will-change: transform, background-color;
     transform: translateZ(0);
     transition: all 0.3s ease;
     @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
@@ -865,7 +858,7 @@ scroll-behavior: smooth;
     height: 3px;
     background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
     background-size: 200% 100%;
-    animation: shimmer 2s ease-in-out infinite paused;
+    animation: shimmer 2s ease-in-out  1 paused;
   }
 
   .feature-card:hover::before {
@@ -903,7 +896,6 @@ scroll-behavior: smooth;
     /* Consistent border radius */
     @apply rounded-sm;
     /* GPU acceleration */
-    will-change: transform, background-color;
     transform: translateZ(0) rotate(0deg);
     /* Subtle transparent background that doesn't obscure icons */
     background: rgba(247, 147, 26, 0.08);
@@ -1112,8 +1104,8 @@ scroll-behavior: smooth;
                 rgba(250, 250, 250, 0.7) 100%);
     /* Ensure content doesn't get cut off */
     @apply overflow-visible;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
     border: 1px solid rgba(250, 250, 250, 0.5);
     /* Use consistent small shadow */
     @apply shadow-sm;
@@ -1334,8 +1326,7 @@ scroll-behavior: smooth;
 
   /* Animations */
   .animate-float {
-    animation: float 3s ease-in-out infinite;
-    will-change: transform;
+    animation: float 3s ease-in-out  1;
     transform: translateZ(0);
   }
 
@@ -1345,8 +1336,7 @@ scroll-behavior: smooth;
   }
 
   .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    will-change: opacity;
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1)  1;
   }
 
   @keyframes pulse {
@@ -1549,7 +1539,7 @@ scroll-behavior: smooth;
     @apply animate-pulse bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200;
     @apply dark:from-slate-700 dark:via-slate-600 dark:to-slate-700;
     background-size: 200% 100%;
-    animation: skeleton 1.5s ease-in-out infinite;
+    animation: skeleton 1.5s ease-in-out  1;
   }
 
   @keyframes skeleton {
@@ -1618,7 +1608,6 @@ scroll-behavior: smooth;
     height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     /* Performance optimizations */
-    will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }

@@ -117,7 +117,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       ]);
       
       if (!networkResponse.ok) {
-        const errorData = await networkResponse.json().catch(() => null);
+        const errorData = await networkResponse.json().catch((): null => null);
         
         if (errorData?.error && isToolError(errorData.error)) {
           const toolError = errorData.error as ToolError;

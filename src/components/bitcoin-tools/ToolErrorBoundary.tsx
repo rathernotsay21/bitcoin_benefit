@@ -65,7 +65,7 @@ export class ToolErrorBoundary extends React.Component<ToolErrorBoundaryProps, T
     if (this.state.retryCount < maxRetries) {
       this.setState(prevState => ({
         hasError: false,
-        error: null,
+        error: null as ToolError | null,
         retryCount: prevState.retryCount + 1
       }));
     }
@@ -74,7 +74,7 @@ export class ToolErrorBoundary extends React.Component<ToolErrorBoundaryProps, T
   handleReset = () => {
     this.setState({
       hasError: false,
-      error: null,
+      error: null as ToolError | null,
       retryCount: 0
     });
   };

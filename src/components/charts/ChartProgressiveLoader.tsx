@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 // Lazy load the full chart component
 const VestingTimelineChartRecharts = dynamic(
-  () => import('../VestingTimelineChartRechartsOptimized'),
+  () => import('../VestingTimelineChartRecharts'),
   {
     ssr: false,
     loading: () => <ChartSkeleton />
@@ -67,6 +67,8 @@ interface ChartProgressiveLoaderProps {
   schemeId: string;
   currentBitcoinPrice: number;
   projectedBitcoinGrowth: number;
+  initialGrant?: number;
+  annualGrant?: number;
   className?: string;
 }
 
@@ -75,6 +77,8 @@ export const ChartProgressiveLoader: React.FC<ChartProgressiveLoaderProps> = ({
   schemeId,
   currentBitcoinPrice,
   projectedBitcoinGrowth,
+  initialGrant = 0,
+  annualGrant = 0,
   className = ''
 }) => {
   const [phase, setPhase] = useState<'skeleton' | 'basic' | 'full'>('skeleton');
@@ -94,7 +98,7 @@ export const ChartProgressiveLoader: React.FC<ChartProgressiveLoaderProps> = ({
 
   // Progressive loading phases
   useEffect(() => {
-    if (!data || data.length === 0) return;
+    if (!data || data.length === 0) return undefined;
 
     // Phase 1: Show skeleton immediately (0ms)
     const timer1 = setTimeout(() => {
@@ -116,7 +120,7 @@ export const ChartProgressiveLoader: React.FC<ChartProgressiveLoaderProps> = ({
 
   // Intersection observer for lazy loading when scrolled into view
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -153,10 +157,12 @@ export const ChartProgressiveLoader: React.FC<ChartProgressiveLoaderProps> = ({
       )}
       {phase === 'full' && isVisible && (
         <VestingTimelineChartRecharts
-          data={chartData}
+          timeline={chartData}
           schemeId={schemeId}
           currentBitcoinPrice={currentBitcoinPrice}
           projectedBitcoinGrowth={projectedBitcoinGrowth}
+          initialGrant={initialGrant}
+          annualGrant={annualGrant}
         />
       )}
     </div>

@@ -24,7 +24,7 @@ import VirtualizedAnnualBreakdown from '@/components/VirtualizedAnnualBreakdownO
 
 // Lazy load the chart component
 const VestingTimelineChart = dynamic(
-  () => import('@/components/VestingTimelineChart'),
+  () => import('@/components/VestingTimelineChartRecharts'),
   {
     ssr: false, // Disable server-side rendering for this client-side component
     loading: () => <ChartSkeleton /> // Show a loading component

@@ -10,15 +10,6 @@ export const LazyVestingTimelineChart = dynamic(
   }
 );
 
-// Lazy load the optimized chart version
-export const LazyVestingTimelineChartOptimized = dynamic(
-  () => import('@/components/VestingTimelineChartOptimized'),
-  {
-    ssr: false,
-    loading: () => <ChartSkeleton />
-  }
-);
-
 // Lazy load historical chart
 export const LazyHistoricalTimelineChart = dynamic(
   () => import('@/components/HistoricalTimelineVisualizationOptimized'),
@@ -28,12 +19,7 @@ export const LazyHistoricalTimelineChart = dynamic(
   }
 );
 
-// Export a wrapper that decides which chart to use based on data size
+// Export a wrapper that uses the main chart component
 export function VestingChartWrapper({ data, ...props }: any) {
-  // Use optimized version for large datasets
-  const ChartComponent = data?.timeline?.length > 100 
-    ? LazyVestingTimelineChartOptimized 
-    : LazyVestingTimelineChart;
-    
-  return <ChartComponent data={data} {...props} />;
+  return <LazyVestingTimelineChart data={data} {...props} />;
 }

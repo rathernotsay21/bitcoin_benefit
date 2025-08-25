@@ -174,7 +174,7 @@ export const useProcessedChartData = (
   }, [yearlyData, costBasis]);
 
   // Calculate USD domain and ticks for Y-axis
-  const { usdDomain, usdTicks } = useMemo(() => {
+  const { usdDomain, usdTicks }: { usdDomain: number[]; usdTicks: number[] } = useMemo(() => {
     const maxValue = chartMetrics.maxUsdValue;
     const calculateNiceScale = (max: number) => {
       if (max <= 0) return { domain: [0, 100000], ticks: [0, 25000, 50000, 75000, 100000] };
@@ -211,7 +211,8 @@ export const useProcessedChartData = (
       return { domain: [0, maxDomain], ticks };
     };
     
-    return calculateNiceScale(maxValue);
+    const result = calculateNiceScale(maxValue);
+    return { usdDomain: result.domain, usdTicks: result.ticks };
   }, [chartMetrics.maxUsdValue]);
 
   // Vesting milestone years
