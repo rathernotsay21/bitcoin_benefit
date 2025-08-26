@@ -85,7 +85,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   }, [updateSchemeCustomization]);
 
   const handleBitcoinGrowthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateInputs({ projectedBitcoinGrowth: parseFloat(e.target.value) || 0 });
+    const value = parseFloat(e.target.value) || 0;
+    // Enforce max limit of 70%
+    const clampedValue = Math.min(Math.max(value, 0), 70);
+    updateInputs({ projectedBitcoinGrowth: clampedValue });
   }, [updateInputs]);
 
   // Helper to set default vesting preset
@@ -290,6 +293,8 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       value={inputs.projectedBitcoinGrowth || 15}
                       onChange={handleBitcoinGrowthChange}
                       className="input-field"
+                      max="70"
+                      min="0"
                     />
                   </div>
                 </div>
@@ -458,12 +463,29 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
           {/* Right Panel - Results */}
           <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
-            {/* Unlock Timeline - Moved to top of right column */}
+            {/* Bitcoin Price Projection Chart - Moved above VestingProgress, no card wrapper */}
+            <ChartErrorBoundary>
+              {results && displayScheme ? (
+                <VestingTimelineChart
+                  timeline={results.timeline}
+                  initialGrant={displayScheme.initialGrant}
+                  annualGrant={displayScheme.annualGrant}
+                  projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
+                  currentBitcoinPrice={currentBitcoinPrice}
+                  schemeId={displayScheme.id}
+                  customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
+                />
+              ) : (
+                <ChartSkeleton />
+              )}
+            </ChartErrorBoundary>
+            
+            {/* Unlock Timeline - Below chart */}
             {displayScheme && (
               <VestingProgress
                 scheme={displayScheme}
                 customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
-                className="mb-4"
+                className="mt-4 mb-4"
               />
             )}
             
@@ -481,25 +503,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 <MetricCardsSkeleton />
               )}
             </CalculatorErrorBoundary>
-
-            {/* Bitcoin Price Projection Chart */}
-            <div className="card w-full overflow-hidden mt-8 md:mt-10">
-              <ChartErrorBoundary>
-                {results && displayScheme ? (
-                  <VestingTimelineChart
-                    timeline={results.timeline}
-                    initialGrant={displayScheme.initialGrant}
-                    annualGrant={displayScheme.annualGrant}
-                    projectedBitcoinGrowth={inputs.projectedBitcoinGrowth || 15}
-                    currentBitcoinPrice={currentBitcoinPrice}
-                    schemeId={displayScheme.id}
-                    customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
-                  />
-                ) : (
-                  <ChartSkeleton />
-                )}
-              </ChartErrorBoundary>
-            </div>
 
             {/* Annual Breakdown Table */}
             {results && displayScheme && (

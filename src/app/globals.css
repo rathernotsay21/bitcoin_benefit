@@ -24,6 +24,13 @@
     --input: 240 5.9% 90%;
     --ring: 24 83% 53%;
     --radius: 0.125rem;
+    
+    /* Chart colors */
+    --chart-1: 142 71% 45%;  /* Green for USD value line */
+    --chart-2: 24 83% 53%;   /* Bitcoin orange for BTC */
+    --chart-3: 47 84% 63%;   /* Yellow for vesting milestones */
+    --chart-4: 200 85% 55%;  /* Blue for growth */
+    --chart-5: 280 65% 60%;  /* Purple for additional data */
   }
 
   .dark {
@@ -46,6 +53,13 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 24 83% 53%;
+    
+    /* Chart colors for dark mode */
+    --chart-1: 142 71% 55%;  /* Green for USD value line (brighter) */
+    --chart-2: 24 83% 60%;   /* Bitcoin orange (brighter) */
+    --chart-3: 47 84% 70%;   /* Yellow for vesting (brighter) */
+    --chart-4: 200 85% 65%;  /* Blue for growth (brighter) */
+    --chart-5: 280 65% 70%;  /* Purple (brighter) */
   }
 }
 

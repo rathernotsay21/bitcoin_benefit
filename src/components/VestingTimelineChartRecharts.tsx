@@ -6,13 +6,25 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
+  LabelList,
   ComposedChart
 } from 'recharts';
-// Removed import from deleted RechartsOptimized file - functions moved inline if needed
+import { TrendingUp } from 'lucide-react';
 import { VestingTimelinePoint } from '@/types/vesting';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
 
 interface VestingTimelineChartProps {
   timeline: VestingTimelinePoint[];
@@ -63,7 +75,7 @@ interface CustomTooltipProps {
   }>;
 }
 
-// Memoized tooltip with performance optimizations
+// Simplified tooltip showing only essential information (no growth rate)
 const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: CustomTooltipProps) => {
   // Early returns for performance
   if (!active || !payload?.length || !yearlyData?.length) return null;
@@ -81,20 +93,11 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
     // Calculate vested BTC amount
     const vestedBTC = yearData.btcBalance * (vestingPercent / 100);
     const unvestedBTC = yearData.btcBalance * ((100 - vestingPercent) / 100);
-    
-    // Calculate year-over-year growth if not year 0
-    let yoyGrowth: number | null = null;
-    if (year > 0) {
-      const prevYearData = yearlyData[year - 1];
-      if (prevYearData?.usdValue > 0) {
-        yoyGrowth = ((yearData.usdValue - prevYearData.usdValue) / prevYearData.usdValue) * 100;
-      }
-    }
 
     return (
-      <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-4 border border-gray-200/50 dark:border-slate-700/50 rounded-sm shadow-md min-w-[240px]">
+      <div className="bg-background/95 backdrop-blur-lg p-4 border border-border/50 rounded-sm shadow-md min-w-[240px]">
         <div className="flex items-center justify-between mb-3">
-          <p className="font-bold text-gray-900 dark:text-white text-base">Year {year}</p>
+          <p className="font-bold text-foreground text-base">Year {year}</p>
           <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
             vestingPercent === 100 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' :
             vestingPercent >= 75 ? 'bg-gradient-to-r from-lime-400 to-green-500 text-white' :
@@ -110,8 +113,8 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
         {/* Bitcoin Holdings Section */}
         <div className="space-y-2 mb-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-bitcoin dark:text-bitcoin">Total BTC Balance:</span>
-            <span className="text-sm font-bold text-bitcoin dark:text-bitcoin">{formatBTC(yearData.btcBalance)}</span>
+            <span className="text-sm font-medium text-bitcoin">Total BTC Balance:</span>
+            <span className="text-sm font-bold text-bitcoin">{formatBTC(yearData.btcBalance)}</span>
           </div>
 
           {vestingPercent > 0 && (
@@ -130,37 +133,14 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
           )}
         </div>
         
-        {/* Value Section */}
-        <div className="pt-3 border-t border-gray-200 dark:border-slate-700 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-green-600 dark:text-green-400">Total USD Value:</span>
-            <span className="text-sm font-bold text-green-700 dark:text-green-300">{formatUSD(yearData.usdValue)}</span>
-          </div>
-
-        </div>
-        
-        {/* Year-over-year growth */}
-        {yoyGrowth !== null && (
-          <div className="pt-3 border-t border-gray-200 dark:border-slate-700">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-purple-600 dark:text-purple-400">YoY Growth:</span>
-              <span className={`text-sm font-bold ${
-                yoyGrowth >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'
-              }`}>
-                {yoyGrowth >= 0 ? '+' : ''}{yoyGrowth.toFixed(1)}%
-              </span>
-            </div>
-          </div>
-        )}
-        
         {/* Grant Info for this year if applicable */}
         {yearData.grantSize > 0 && (
-          <div className="mt-3 pt-3 border-t border-gray-200 dark:border-slate-700">
+          <div className="pt-3 border-t border-border">
             <div className="flex items-center gap-2">
               <span className="inline-flex px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white">
                 New Grant
               </span>
-              <span className="text-sm font-bold text-bitcoin dark:text-bitcoin">+{formatBTC(yearData.grantSize)}</span>
+              <span className="text-sm font-bold text-bitcoin">+{formatBTC(yearData.grantSize)}</span>
             </div>
           </div>
         )}
@@ -229,70 +209,8 @@ CustomGrantDot.displayName = 'CustomGrantDot';
 
 
 
-interface CustomLegendProps {
-  schemeId?: string;
-  initialGrant: number;
-  annualGrant?: number;
-}
 
-const CustomLegend = ({ schemeId, initialGrant, annualGrant }: CustomLegendProps) => {
-  return (
-    <div className="flex flex-col items-center gap-4 mt-4">
-      <div className="flex justify-center gap-8">
-        <div className="flex items-center gap-3">
-          <svg width="24" height="12" className="overflow-visible">
-            <circle cx="12" cy="6" r="6" fill="#F7931A" stroke="white" strokeWidth="2" opacity="0.9" />
-          </svg>
-          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">Awards</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <svg width="24" height="3" className="overflow-visible">
-            <line
-              x1="0"
-              y1="1.5"
-              x2="24"
-              y2="1.5"
-              stroke="#10b981"
-              strokeWidth="3"
-              filter="drop-shadow(0 0 4px #10b98140)"
-            />
-          </svg>
-          <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
-            Total Value (USD)
-          </span>
-        </div>
-      </div>
-      {/* Grant schedule subtitle */}
-      <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
-        {schemeId === 'accelerator' && `One award of ${formatBTC(initialGrant)} given upfront`}
-        {schemeId === 'steady-builder' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 5 years`}
-        {schemeId === 'slow-burn' && `Starting ${formatBTC(initialGrant)} + ${formatBTC(annualGrant || 0)} yearly for 9 years`}
-      </div>
-    </div>
-  );
-};
 
-// Simplified chart component for performance fallback
-const SimplifiedChart: React.FC<{ data: any[] }> = ({ data }) => {
-  return (
-    <div className="w-full max-w-full overflow-hidden">
-      <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          Bitcoin Price Projection (Simplified View)
-        </h3>
-      </div>
-      <div className="w-full overflow-hidden">
-        <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-sm flex items-center justify-center">
-          <div className="text-center text-gray-500 dark:text-slate-400">
-            <div className="text-4xl mb-2">⚡</div>
-            <div>Showing simplified view for performance</div>
-            <div className="text-xs mt-2">Dataset contains {data.length} points</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 function VestingTimelineChartRecharts({
   timeline,
@@ -304,7 +222,6 @@ function VestingTimelineChartRecharts({
   customVestingEvents
 }: VestingTimelineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [, setHoveredYear] = useState<number | null>(null);
   
   // Defer expensive timeline processing to prevent blocking UI
   const deferredTimeline = useDeferredValue(timeline);
@@ -529,27 +446,28 @@ function VestingTimelineChartRecharts({
     
     const maxUsd = Math.max(...usdValues);
     
-    // Calculate nice round maximum for the scale
+    // Calculate nice round maximum for the scale with less headroom (15% instead of default)
+    const paddedMax = maxUsd * 1.15;
     let maxDomain: number;
     let ticks: number[];
     
-    if (maxUsd <= 12000) {
-      maxDomain = 12000;
-      ticks = [0, 2000, 4000, 6000, 8000, 10000, 12000];
-    } else if (maxUsd <= 20000) {
-      maxDomain = 20000;
-      ticks = [0, 4000, 8000, 12000, 16000, 20000];
-    } else if (maxUsd <= 50000) {
-      maxDomain = 50000;
-      ticks = [0, 10000, 20000, 30000, 40000, 50000];
-    } else if (maxUsd <= 100000) {
-      maxDomain = 100000;
-      ticks = [0, 20000, 40000, 60000, 80000, 100000];
-    } else if (maxUsd <= 200000) {
-      maxDomain = 200000;
-      ticks = [0, 40000, 80000, 120000, 160000, 200000];
-    } else if (maxUsd <= 500000) {
-      maxDomain = 500000;
+    if (paddedMax <= 12000) {
+      maxDomain = Math.ceil(paddedMax / 2000) * 2000;
+      ticks = Array.from({length: 7}, (_, i) => i * (maxDomain / 6));
+    } else if (paddedMax <= 20000) {
+      maxDomain = Math.ceil(paddedMax / 4000) * 4000;
+      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+    } else if (paddedMax <= 50000) {
+      maxDomain = Math.ceil(paddedMax / 10000) * 10000;
+      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+    } else if (paddedMax <= 100000) {
+      maxDomain = Math.ceil(paddedMax / 20000) * 20000;
+      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+    } else if (paddedMax <= 200000) {
+      maxDomain = Math.ceil(paddedMax / 40000) * 40000;
+      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+    } else if (paddedMax <= 500000) {
+      maxDomain = Math.ceil(paddedMax / 100000) * 100000;
       ticks = [0, 100000, 200000, 300000, 400000, 500000];
     } else {
       // For very large values, round up to nearest 100K
@@ -561,171 +479,70 @@ function VestingTimelineChartRecharts({
     return { usdDomain: [0, maxDomain], usdTicks: ticks };
   }, [yearlyData]);
 
-  // Optimized mobile configuration
+  // Chart configuration for shadcn/ui
   const chartConfig = useMemo(() => ({
-    margin: isMobile ? { top: 5, right: 5, bottom: 5, left: 5 } : { top: 20, right: 20, bottom: 20, left: 20 },
-    strokeWidth: isMobile ? 1.5 : 2,
-    fontSize: isMobile ? 11 : 12,
-    legendHeight: isMobile ? 32 : 48
-  }), [isMobile]);
-  
-  // Callbacks for mouse events with performance optimization
-  const handleMouseMove = useCallback((e: any) => {
-    if (e && e.activeLabel !== undefined) {
-      // Use startTransition for non-urgent updates
-      startTransition(() => {
-        setHoveredYear(e.activeLabel);
-      });
-    }
-  }, []);
+    usdValue: {
+      label: "Total Value (USD)",
+      color: "hsl(var(--chart-1))",
+    },
+  }) satisfies ChartConfig, []);
 
-  const handleMouseLeave = useCallback(() => {
-    startTransition(() => {
-      setHoveredYear(null);
-    });
-  }, []);
-
-  // Emergency performance guard - prevent rendering with huge datasets (after all hooks)
-  if (timeline.length > 1000) {
-    console.warn('Dataset too large, using simplified rendering');
-    return <SimplifiedChart data={timeline.slice(0, 100)} />;
-  }
 
   // Early return if no valid data - after all hooks
   if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
     return (
-      <div className="w-full max-w-full overflow-hidden">
-        <div className="mb-6">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-            Bitcoin Price Projection
-          </h3>
-        </div>
-        <div className="w-full overflow-hidden">
-          <div className="h-64 bg-gray-100 dark:bg-slate-800 rounded-sm flex items-center justify-center">
-            <div className="text-center text-gray-500 dark:text-slate-400">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Bitcoin Price Projection</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 bg-muted rounded-sm flex items-center justify-center">
+            <div className="text-center text-muted-foreground">
               <div className="text-4xl mb-2">📊</div>
               <div>Loading chart data...</div>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="w-full max-w-full overflow-hidden">
-      <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
-          Bitcoin Price Projection
-        </h3>
-        <p className="text-base text-gray-600 dark:text-gray-400 mb-3">
-          The 10-year projection chart gives you a look at potential future value. It shows how the total value of the Bitcoin award in U.S. dollars could grow over the next 10 years, based on the annual growth percentage you entered.
-        </p>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
-          <span className="flex items-center gap-1">
-            <span className="font-medium">Initial:</span>
-            <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
-          </span>
-          {annualGrant && annualGrant > 0 && (
-            <span className="flex items-center gap-1">
-              <span className="font-medium">• Annual:</span>
-              <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(annualGrant)} per year</span>
-            </span>
-          )}
-          {customVestingEvents && customVestingEvents.length > 0 ? (
-            customVestingEvents.slice(0, 2).map((event, index) => (
-              <span key={event.id} className="flex items-center gap-1">
-                <span className="font-medium">• {event.percentageVested}% unlocks:</span>
-                <span className="text-gray-600 dark:text-gray-400 font-bold">
-                  {event.timePeriod < 12 ? event.label : currentYear + Math.floor(event.timePeriod / 12)}
-                </span>
-              </span>
-            ))
-          ) : (
-            <>
-              <span className="flex items-center gap-1">
-                <span className="font-medium">• 50% unlocks:</span>
-                <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 5}</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="font-medium">• 100% unlocks:</span>
-                <span className="text-gray-600 dark:text-gray-400 font-bold">{currentYear + 10}</span>
-              </span>
-            </>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-1">
-          <span className="flex items-center gap-1">
-            <span className="font-medium">Cost Basis:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="font-medium">• Projected Growth:</span>
-            <span className="text-blue-600 dark:text-blue-400 font-bold">{projectedBitcoinGrowth}% annually</span>
-          </span>
-        </div>
-      </div>
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Bitcoin Price Projection</CardTitle>
+        <CardDescription>
+          10-year value projection based on {projectedBitcoinGrowth}% annual growth
+        </CardDescription>
+      </CardHeader>
 
-      <div className="w-full overflow-hidden">
-        <ResponsiveContainer 
-          width="100%" 
-          height={chartConfig.height} 
-          minHeight={300}
-          debounce={150}
-        >
+      <CardContent>
+        <ChartContainer config={chartConfig}>
           <ComposedChart
             data={yearlyData}
-            throttleDelay={100}
-            margin={chartConfig.margin}
-            maxBarSize={isMobile ? 20 : undefined}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            margin={{
+              top: 20,
+              left: 20,
+              right: 12,
+              bottom: 12
+            }}
+            accessibilityLayer
           >
-            <defs>
-              {/* Gradient for USD line (green) */}
-              <linearGradient id="usdGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
-                <stop offset="100%" stopColor="#10b981" stopOpacity={1} />
-              </linearGradient>
 
-              {/* Area gradient for USD (green) */}
-              <linearGradient id="usdAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#10b981" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="#10b981" stopOpacity={0.02} />
-              </linearGradient>
-
-              {/* Glow filters */}
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-
-              {/* Bar gradient for cost */}
-              <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#F7931A" stopOpacity={0.9} />
-                <stop offset="100%" stopColor="#F7931A" stopOpacity={0.9} />
-              </linearGradient>
-            </defs>
-
-            <CartesianGrid 
-              stroke="transparent" 
-              vertical={false}
-            />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" />
 
             <XAxis
               dataKey="year"
               ticks={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
               domain={[0, 10]}
-              axisLine={{ stroke: '#e5e7eb', strokeWidth: 1 }}
               tickLine={false}
+              axisLine={false}
+              tickMargin={8}
               tick={(props: { x: number; y: number; payload: { value: number } }) => {
                 const { x, y, payload } = props;
                 const isVestingMilestone = vestingMilestoneYears.includes(payload.value);
                 
-                // Don't render label for year 0 - return empty group instead of null
+                // Don't render label for year 0
                 if (payload.value === 0) {
                   return <g></g>;
                 }
@@ -737,9 +554,10 @@ function VestingTimelineChartRecharts({
                       y={0}
                       dy={16}
                       textAnchor="middle"
-                      fill={isVestingMilestone ? '#eab308' : '#6b7280'}
-                      fontSize={14}
-                      fontWeight={isVestingMilestone ? 700 : 500}
+                      fill={isVestingMilestone ? 'hsl(var(--chart-3))' : 'hsl(var(--muted-foreground))'}
+                      fontSize={12}
+                      fontWeight={isVestingMilestone ? 600 : 400}
+                      className="fill-current"
                     >
                       {payload.value}
                     </text>
@@ -752,51 +570,119 @@ function VestingTimelineChartRecharts({
               yAxisId="usd"
               orientation="left"
               tickFormatter={(value) => formatUSDCompact(value)}
-              stroke="#10b981"
               domain={usdDomain}
               ticks={usdTicks}
-              axisLine={{ stroke: '#10b981', strokeWidth: 2 }}
-              tick={{ fill: '#10b981', fontSize: 15, fontWeight: 600 }}
+              axisLine={false}
               tickLine={false}
+              tick={{ fontSize: 12, dx: -25 }}
+              className="fill-muted-foreground"
             />
 
-            <Tooltip 
+            <ChartTooltip 
               content={<CustomTooltip yearlyData={yearlyData} />}
-              cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '5 5' }}
-              isAnimationActive={false}
-              wrapperStyle={{ 
-                pointerEvents: 'none', 
-                zIndex: 1000,
-                outline: 'none'
-              }}
-            />
-
-            <Legend
-              content={<CustomLegend schemeId={schemeId} initialGrant={initialGrant} annualGrant={annualGrant} />}
-              wrapperStyle={{ paddingTop: '20px' }}
+              cursor={false}
             />
 
 
-            {/* USD Value line - optimized for performance */}
+
+            {/* USD Value line with BTC grant labels on dots */}
             <Line
               yAxisId="usd"
               type="natural"
               dataKey="usdValue"
-              stroke="url(#usdGradient)"
-              strokeWidth={chartConfig.strokeWidth}
+              stroke="hsl(var(--chart-1))"
+              strokeWidth={2.5}
               name="USD Value"
               dot={<CustomGrantDot />}
-              isAnimationActive={!isMobile} // Disable animation on mobile for better performance
-              animationDuration={chartConfig.animationDuration}
-              filter="url(#glow)"
-              connectNulls={true}
-            />
+              activeDot={{ r: 6 }}
+            >
+              <LabelList
+                position="top"
+                offset={15}
+                className="fill-bitcoin font-bold"
+                fontSize={11}
+                content={(props: any) => {
+                  const { x, y, index } = props;
+                  const data = yearlyData[index];
+                  
+                  // Only show label if there's a grant this year
+                  if (data && data.grantSize > 0) {
+                    // Calculate slope to next point for horizontal adjustment
+                    let xOffset = 0;
+                    if (index < yearlyData.length - 1) {
+                      const nextData = yearlyData[index + 1];
+                      const currentValue = data.usdValue;
+                      const nextValue = nextData.usdValue;
+                      
+                      // Use relative position in the value range for better slope detection
+                      const maxValue = yearlyData[yearlyData.length - 1].usdValue;
+                      const valueRange = maxValue - yearlyData[0].usdValue;
+                      const slopeRatio = (nextValue - currentValue) / valueRange;
+                      
+                      // Adjusted thresholds based on visual observation
+                      if (slopeRatio > 0.15) {
+                        xOffset = -30; // Extreme slope: move left significantly
+                      } else if (slopeRatio > 0.08) {
+                        xOffset = -20; // Steep slope: move left more
+                      } else if (slopeRatio > 0.04) {
+                        xOffset = -10; // Moderate slope: move left a bit
+                      } else if (slopeRatio > 0.02) {
+                        xOffset = -4;  // Slight slope: tiny offset
+                      }
+                      // Gentle slope (< 0.02): no offset needed
+                    }
+                    
+                    return (
+                      <text
+                        x={x + xOffset}
+                        y={y - 12}
+                        textAnchor="middle"
+                        className="fill-black dark:fill-white"
+                        fontSize={11}
+                      >
+                        {data.grantSize.toFixed(3)}
+                      </text>
+                    );
+                  }
+                  return null;
+                }}
+              />
+            </Line>
           </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Enhanced Key Insights Cards */}
-    </div>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 leading-none font-medium">
+          <span className="flex items-center gap-1">
+            <span className="text-muted-foreground">Initial:</span>
+            <span className="text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
+          </span>
+          {annualGrant && annualGrant > 0 && (
+            <span className="flex items-center gap-1">
+              <span className="text-muted-foreground">• Annual:</span>
+              <span className="text-bitcoin font-bold">{formatBTC(annualGrant)}</span>
+            </span>
+          )}
+          <span className="flex items-center gap-1">
+            <span className="text-muted-foreground">• Cost Basis:</span>
+            <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
+          </span>
+        </div>
+        <div className="text-muted-foreground leading-none">
+          {customVestingEvents && customVestingEvents.length > 0 ? (
+            <span>Vesting milestones: {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
+          ) : (
+            <span>Standard vesting: 50% at year 5, 100% at year 10</span>
+          )}
+        </div>
+        {growthMultiple > 1 && (
+          <div className="flex gap-2 leading-none font-medium pt-2 border-t w-full">
+            Projected {growthMultiple.toFixed(1)}x return over 10 years
+            <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
+          </div>
+        )}
+      </CardFooter>
+    </Card>
   );
 }
 
