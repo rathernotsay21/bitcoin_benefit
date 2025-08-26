@@ -521,10 +521,10 @@ function VestingTimelineChartRecharts({
           <ComposedChart
             data={yearlyData}
             margin={{
-              top: 20,
-              left: 20,
-              right: 12,
-              bottom: 12
+              top: isMobile ? 15 : 20,
+              left: isMobile ? 15 : 20,
+              right: isMobile ? 8 : 12,
+              bottom: isMobile ? 8 : 12
             }}
             accessibilityLayer
           >
@@ -577,20 +577,22 @@ function VestingTimelineChartRecharts({
               ticks={usdTicks}
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, dx: -25 }}
+              tick={{ fontSize: isMobile ? 10 : 12, dx: isMobile ? -15 : -25 }}
               className="fill-muted-foreground"
             />
 
             <ChartTooltip 
               content={<CustomTooltip yearlyData={yearlyData} />}
               cursor={false}
-              position={{ x: 80, y: 40 }}
+              position={isMobile ? { x: 20, y: 20 } : { x: 80, y: 40 }}
               wrapperStyle={{
                 position: 'absolute',
                 pointerEvents: 'none',
                 transition: 'opacity 0.2s ease-out'
               }}
               isAnimationActive={false}
+              // Enable better touch interaction on mobile
+              allowEscapeViewBox={{ x: true, y: true }}
             />
 
 
@@ -606,90 +608,135 @@ function VestingTimelineChartRecharts({
               dot={<CustomGrantDot />}
               activeDot={{ r: 6 }}
             >
-              <LabelList
-                position="top"
-                offset={15}
-                className="fill-bitcoin font-bold"
-                fontSize={11}
-                content={(props: any) => {
-                  const { x, y, index } = props;
-                  const data = yearlyData[index];
-                  
-                  // Only show label if there's a grant this year
-                  if (data && data.grantSize > 0) {
-                    // Calculate slope to next point for horizontal adjustment
-                    let xOffset = 0;
-                    if (index < yearlyData.length - 1) {
-                      const nextData = yearlyData[index + 1];
-                      const currentValue = data.usdValue;
-                      const nextValue = nextData.usdValue;
-                      
-                      // Use relative position in the value range for better slope detection
-                      const maxValue = yearlyData[yearlyData.length - 1].usdValue;
-                      const valueRange = maxValue - yearlyData[0].usdValue;
-                      const slopeRatio = (nextValue - currentValue) / valueRange;
-                      
-                      // Adjusted thresholds based on visual observation
-                      if (slopeRatio > 0.15) {
-                        xOffset = -30; // Extreme slope: move left significantly
-                      } else if (slopeRatio > 0.08) {
-                        xOffset = -20; // Steep slope: move left more
-                      } else if (slopeRatio > 0.04) {
-                        xOffset = -10; // Moderate slope: move left a bit
-                      } else if (slopeRatio > 0.02) {
-                        xOffset = -4;  // Slight slope: tiny offset
-                      }
-                      // Gentle slope (< 0.02): no offset needed
-                    }
+              {/* Hide Bitcoin grant value labels on mobile to reduce clutter */}
+              {!isMobile && (
+                <LabelList
+                  position="top"
+                  offset={15}
+                  className="fill-bitcoin font-bold"
+                  fontSize={11}
+                  content={(props: any) => {
+                    const { x, y, index } = props;
+                    const data = yearlyData[index];
                     
-                    return (
-                      <text
-                        x={x + xOffset}
-                        y={y - 12}
-                        textAnchor="middle"
-                        className="fill-black dark:fill-white"
-                        fontSize={11}
-                      >
-                        {data.grantSize.toFixed(3)}
-                      </text>
-                    );
-                  }
-                  return null;
-                }}
-              />
+                    // Only show label if there's a grant this year
+                    if (data && data.grantSize > 0) {
+                      // Calculate slope to next point for horizontal adjustment
+                      let xOffset = 0;
+                      if (index < yearlyData.length - 1) {
+                        const nextData = yearlyData[index + 1];
+                        const currentValue = data.usdValue;
+                        const nextValue = nextData.usdValue;
+                        
+                        // Use relative position in the value range for better slope detection
+                        const maxValue = yearlyData[yearlyData.length - 1].usdValue;
+                        const valueRange = maxValue - yearlyData[0].usdValue;
+                        const slopeRatio = (nextValue - currentValue) / valueRange;
+                        
+                        // Adjusted thresholds based on visual observation
+                        if (slopeRatio > 0.15) {
+                          xOffset = -30; // Extreme slope: move left significantly
+                        } else if (slopeRatio > 0.08) {
+                          xOffset = -20; // Steep slope: move left more
+                        } else if (slopeRatio > 0.04) {
+                          xOffset = -10; // Moderate slope: move left a bit
+                        } else if (slopeRatio > 0.02) {
+                          xOffset = -4;  // Slight slope: tiny offset
+                        }
+                        // Gentle slope (< 0.02): no offset needed
+                      }
+                      
+                      return (
+                        <text
+                          x={x + xOffset}
+                          y={y - 12}
+                          textAnchor="middle"
+                          className="fill-black dark:fill-white"
+                          fontSize={11}
+                        >
+                          {data.grantSize.toFixed(3)}
+                        </text>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              )}
             </Line>
           </ComposedChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          <span className="flex items-center gap-1">
-            <span className="text-muted-foreground">Initial:</span>
-            <span className="text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
-          </span>
-          {annualGrant && annualGrant > 0 && (
-            <span className="flex items-center gap-1">
-              <span className="text-muted-foreground">• Annual:</span>
-              <span className="text-bitcoin font-bold">{formatBTC(annualGrant)}</span>
-            </span>
-          )}
-          <span className="flex items-center gap-1">
-            <span className="text-muted-foreground">• Cost Basis:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
-          </span>
-        </div>
-        <div className="text-muted-foreground leading-none">
-          {customVestingEvents && customVestingEvents.length > 0 ? (
-            <span><span style={{color: '#eab308', fontWeight: 500}}>Vesting milestones:</span> {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
-          ) : (
-            <span><span style={{color: '#eab308', fontWeight: 500}}>Standard vesting:</span> 50% at year 5, 100% at year 10</span>
-          )}
-        </div>
-        {growthMultiple > 1 && (
-          <div className="flex gap-2 leading-none font-medium pt-2 border-t w-full">
-            Projected {growthMultiple.toFixed(1)}x return over 10 years
-            <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
-          </div>
+      <CardFooter className={`flex-col items-start gap-2 text-sm ${isMobile ? 'px-4 pb-4' : ''}`}>
+        {/* On mobile, show simplified footer with essential info only */}
+        {isMobile ? (
+          <>
+            <div className="flex flex-col gap-2 w-full">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Initial Grant:</span>
+                <span className="text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
+              </div>
+              {annualGrant && annualGrant > 0 && (
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Annual Grant:</span>
+                  <span className="text-bitcoin font-bold">{formatBTC(annualGrant)}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Cost Basis:</span>
+                <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
+              </div>
+            </div>
+            {growthMultiple > 1 && (
+              <div className="flex items-center justify-between w-full pt-2 border-t font-medium">
+                <span>Projected Return:</span>
+                <span className="flex items-center gap-1">
+                  {growthMultiple.toFixed(1)}x over 10 years
+                  <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
+                </span>
+              </div>
+            )}
+            {/* Simplified vesting info on mobile */}
+            <div className="text-xs text-muted-foreground leading-tight">
+              {customVestingEvents && customVestingEvents.length > 0 ? (
+                <span>Custom vesting schedule applied</span>
+              ) : (
+                <span>Standard vesting: 50% at year 5, 100% at year 10</span>
+              )}
+            </div>
+          </>
+        ) : (
+          /* Desktop layout - unchanged */
+          <>
+            <div className="flex gap-2 leading-none font-medium">
+              <span className="flex items-center gap-1">
+                <span className="text-muted-foreground">Initial:</span>
+                <span className="text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
+              </span>
+              {annualGrant && annualGrant > 0 && (
+                <span className="flex items-center gap-1">
+                  <span className="text-muted-foreground">• Annual:</span>
+                  <span className="text-bitcoin font-bold">{formatBTC(annualGrant)}</span>
+                </span>
+              )}
+              <span className="flex items-center gap-1">
+                <span className="text-muted-foreground">• Cost Basis:</span>
+                <span className="text-green-600 dark:text-green-400 font-bold">{formatUSD(costBasis)}</span>
+              </span>
+            </div>
+            <div className="text-muted-foreground leading-none">
+              {customVestingEvents && customVestingEvents.length > 0 ? (
+                <span><span style={{color: '#eab308', fontWeight: 500}}>Vesting milestones:</span> {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
+              ) : (
+                <span><span style={{color: '#eab308', fontWeight: 500}}>Standard vesting:</span> 50% at year 5, 100% at year 10</span>
+              )}
+            </div>
+            {growthMultiple > 1 && (
+              <div className="flex gap-2 leading-none font-medium pt-2 border-t w-full">
+                Projected {growthMultiple.toFixed(1)}x return over 10 years
+                <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
+              </div>
+            )}
+          </>
         )}
       </CardFooter>
     </Card>
