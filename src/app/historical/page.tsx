@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useHistoricalCalculatorStore } from '@/stores/historicalCalculatorStore';
@@ -31,6 +31,9 @@ const HistoricalTimelineVisualization = dynamic(
 function HistoricalCalculatorContent() {
   const searchParams = useSearchParams();
   
+  // Local state for input fields to allow empty values during editing
+  const [initialGrantInput, setInitialGrantInput] = useState<string>('');
+  const [annualGrantInput, setAnnualGrantInput] = useState<string>('');
   
   const {
     selectedScheme,
@@ -81,6 +84,17 @@ function HistoricalCalculatorContent() {
       }
     }
   }, [searchParams, selectedScheme, setSelectedScheme]);
+
+  // Sync local input state with store values when scheme changes or customizations update
+  useEffect(() => {
+    if (selectedScheme) {
+      const effectiveInitialGrant = schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant;
+      const effectiveAnnualGrant = schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant ?? 0;
+      
+      setInitialGrantInput(effectiveInitialGrant.toString());
+      setAnnualGrantInput(effectiveAnnualGrant.toString());
+    }
+  }, [selectedScheme, schemeCustomizations]);
 
   // Load initial data with proper sequencing
   useEffect(() => {
@@ -231,10 +245,13 @@ function HistoricalCalculatorContent() {
                       <input
                         type="number"
                         step="0.001"
-                        value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                        onChange={(e) => {
-                          const value = parseFloat(e.target.value) || 0;
-                          updateSchemeCustomization(selectedScheme.id, { initialGrant: value });
+                        value={initialGrantInput}
+                        onChange={(e) => setInitialGrantInput(e.target.value)}
+                        onBlur={() => {
+                          const numValue = parseFloat(initialGrantInput) || selectedScheme.initialGrant;
+                          const validValue = Math.max(0, numValue);
+                          updateSchemeCustomization(selectedScheme.id, { initialGrant: validValue });
+                          setInitialGrantInput(validValue.toString());
                         }}
                         className="input-field"
                         disabled={isLoadingHistoricalData}
@@ -249,10 +266,13 @@ function HistoricalCalculatorContent() {
                         <input
                           type="number"
                           step="0.001"
-                          value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
-                          onChange={(e) => {
-                            const value = parseFloat(e.target.value) || 0;
-                            updateSchemeCustomization(selectedScheme.id, { annualGrant: value });
+                          value={annualGrantInput}
+                          onChange={(e) => setAnnualGrantInput(e.target.value)}
+                          onBlur={() => {
+                            const numValue = parseFloat(annualGrantInput) || (selectedScheme.annualGrant || 0);
+                            const validValue = Math.max(0, numValue);
+                            updateSchemeCustomization(selectedScheme.id, { annualGrant: validValue });
+                            setAnnualGrantInput(validValue.toString());
                           }}
                           className="input-field"
                           disabled={isLoadingHistoricalData}

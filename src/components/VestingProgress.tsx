@@ -189,16 +189,16 @@ export default function VestingProgress({
   
   return (
     <div 
-      className={`p-6 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin textured-bg-light dark:textured-bg-dark ${className}`}
+      className={`p-4 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin textured-bg-light dark:textured-bg-dark ${className}`}
     >
       {/* Enhanced Header with Strategy Information */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center">
           <div className={`p-2 rounded-sm ${strategyConfig.colors.iconBg} mr-3`}>
-            <StrategyIcon className={`w-6 h-6 ${strategyConfig.colors.iconColor}`} />
+            <StrategyIcon className={`w-5 h-5 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100 flex items-center">
               {strategyConfig.name}
               <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
             </h3>
@@ -211,8 +211,8 @@ export default function VestingProgress({
       </div>
       
       {/* Enhanced Progress Visualization */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
             Unlock Timeline
           </span>
@@ -243,53 +243,23 @@ export default function VestingProgress({
               })}
             </div>
           </div>
-          
-          {/* Milestone Labels */}
-          <div className="relative h-12 mt-2">
-            {vestingEvents.map((event, index) => (
-              <div 
-                key={index}
-                className="absolute flex flex-col items-center"
-                style={{ 
-                  left: `${event.percentage}%`,
-                  transform: 'translateX(-50%)'
-                }}
-              >
-                <div className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
-                  event.achieved 
-                    ? `${strategyConfig.colors.accent} border-white shadow-md`
-                    : event.isNext
-                    ? `${strategyConfig.colors.accent} opacity-60 border-white animate-pulse`
-                    : 'bg-gray-300 border-gray-400 dark:bg-slate-600 dark:border-slate-500'
-                }`}>
-                </div>
-                <span className={`text-xs mt-1 font-medium whitespace-nowrap ${
-                  event.achieved 
-                    ? strategyConfig.colors.text + ' dark:text-slate-200'
-                    : 'text-gray-500 dark:text-slate-400'
-                }`}>
-                  {event.label}
-                </span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
       
       {/* Unlocking Schedule Overview */}
-      <div className={`p-4 ${strategyConfig.colors.bg} rounded-sm mb-4`} style={{border: '1px solid #777f89'}}>
-        <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-3 flex items-center">
+      <div className={`p-3 ${strategyConfig.colors.bg} rounded-sm`} style={{border: '1px solid #777f89'}}>
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-2 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
           Unlocking Schedule Overview
         </h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {vestingEvents
             // Remove duplicate events with same label and percentage
             .filter((event, index, self) => 
               index === self.findIndex(e => e.label === event.label && e.percentage === event.percentage)
             )
             .map((event, index) => (
-              <div key={`${event.label}-${event.percentage}-${index}`} className="flex items-center justify-between p-2 bg-white dark:bg-slate-800 rounded">
+              <div key={`${event.label}-${event.percentage}-${index}`} className="flex items-center justify-between px-2 py-1 bg-white dark:bg-slate-800 rounded">
                 <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
                   {(event as any).fullLabel || event.label}
                 </span>
@@ -312,16 +282,16 @@ export default function VestingProgress({
       
       {/* Completion Message - Enhanced */}
       {currentProgress >= 100 && (
-        <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-sm border-2 border-green-200 dark:border-green-700">
+        <div className="p-3 mt-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-sm border-2 border-green-200 dark:border-green-700">
           <div className="flex items-center">
-            <div className="p-2 bg-green-500 rounded-full mr-3">
-              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="p-1.5 bg-green-500 rounded-full mr-2">
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
             <div className="flex-1">
-              <p className="text-green-800 dark:text-green-200 font-semibold">Fully Unlocked!</p>
-              <p className="text-sm text-green-600 dark:text-green-300">All awards have been unlocked.</p>
+              <p className="text-green-800 dark:text-green-200 font-semibold text-sm">Fully Unlocked!</p>
+              <p className="text-xs text-green-600 dark:text-green-300">All awards have been unlocked.</p>
             </div>
           </div>
         </div>

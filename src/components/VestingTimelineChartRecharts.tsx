@@ -493,7 +493,7 @@ function VestingTimelineChartRecharts({
     return (
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Bitcoin Price Projection</CardTitle>
+          <CardTitle>Your Benefit's Growth Projection</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-64 bg-muted rounded-sm flex items-center justify-center">
@@ -510,9 +510,9 @@ function VestingTimelineChartRecharts({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Bitcoin Price Projection</CardTitle>
+        <CardTitle>Your Benefit's Growth Projection</CardTitle>
         <CardDescription>
-          10-year value projection based on {projectedBitcoinGrowth}% annual growth
+          10-year potential value based on the awards plan and unlock schedule you have selected or customized
         </CardDescription>
       </CardHeader>
 
@@ -540,10 +540,12 @@ function VestingTimelineChartRecharts({
               tickMargin={8}
               tick={(props: { x: number; y: number; payload: { value: number } }) => {
                 const { x, y, payload } = props;
-                const isVestingMilestone = vestingMilestoneYears.includes(payload.value);
+                // Ensure we're comparing numbers properly
+                const year = Number(payload.value);
+                const isVestingMilestone = vestingMilestoneYears.some(y => Number(y) === year);
                 
                 // Don't render label for year 0
-                if (payload.value === 0) {
+                if (year === 0) {
                   return <g></g>;
                 }
                 
@@ -554,12 +556,13 @@ function VestingTimelineChartRecharts({
                       y={0}
                       dy={16}
                       textAnchor="middle"
-                      fill={isVestingMilestone ? 'hsl(var(--chart-3))' : 'hsl(var(--muted-foreground))'}
+                      style={{ 
+                        fill: isVestingMilestone ? '#eab308' : '#6b7280',
+                        fontWeight: isVestingMilestone ? 700 : 400 
+                      }}
                       fontSize={12}
-                      fontWeight={isVestingMilestone ? 600 : 400}
-                      className="fill-current"
                     >
-                      {payload.value}
+                      {year}
                     </text>
                   </g>
                 );
@@ -581,6 +584,13 @@ function VestingTimelineChartRecharts({
             <ChartTooltip 
               content={<CustomTooltip yearlyData={yearlyData} />}
               cursor={false}
+              position={{ x: 80, y: 40 }}
+              wrapperStyle={{
+                position: 'absolute',
+                pointerEvents: 'none',
+                transition: 'opacity 0.2s ease-out'
+              }}
+              isAnimationActive={false}
             />
 
 
@@ -670,9 +680,9 @@ function VestingTimelineChartRecharts({
         </div>
         <div className="text-muted-foreground leading-none">
           {customVestingEvents && customVestingEvents.length > 0 ? (
-            <span>Vesting milestones: {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
+            <span><span style={{color: '#eab308', fontWeight: 500}}>Vesting milestones:</span> {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
           ) : (
-            <span>Standard vesting: 50% at year 5, 100% at year 10</span>
+            <span><span style={{color: '#eab308', fontWeight: 500}}>Standard vesting:</span> 50% at year 5, 100% at year 10</span>
           )}
         </div>
         {growthMultiple > 1 && (

@@ -39,6 +39,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     initialGrant: 0.015,
     employeeMatchPercentage: 0,
     annualGrant: 0.001,
+    maxAnnualGrants: 5, // Explicitly set to 5 annual grants
     icon: 'chart-trending-up',
     tagline: 'Balance',
     bestFor: 'Growing businesses',
@@ -71,7 +72,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     initialGrant: 0.002,
     employeeMatchPercentage: 0,
     annualGrant: 0.002,
-    maxAnnualGrants: 9,
+    maxAnnualGrants: 9, // Keep at 9 annual grants
     icon: 'building-office',
     tagline: 'Low Cost',
     bestFor: 'Budget-conscious companies',
@@ -97,6 +98,6 @@ export const VESTING_SCHEMES: VestingScheme[] = [
       },
     ],
   },
-];
+];;
 
 

@@ -52,6 +52,10 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>('reward'); // Default to Reward preset
   
+  // Local state for input fields to allow empty values during editing
+  const [initialGrantInput, setInitialGrantInput] = useState<string>('');
+  const [annualGrantInput, setAnnualGrantInput] = useState<string>('');
+  const [growthRateInput, setGrowthRateInput] = useState<string>('');
 
   const {
     selectedScheme,
@@ -74,22 +78,40 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   } = useCalculatorStore();
 
   // Define all callbacks at the component level
-  const handleInitialGrantChange = useCallback((schemeId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
-    updateSchemeCustomization(schemeId, { initialGrant: value });
-  }, [updateSchemeCustomization]);
+  // Input change handlers - update local state only
+  const handleInitialGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setInitialGrantInput(e.target.value);
+  }, []);
 
-  const handleAnnualGrantChange = useCallback((schemeId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
-    updateSchemeCustomization(schemeId, { annualGrant: value });
-  }, [updateSchemeCustomization]);
+  const handleAnnualGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnnualGrantInput(e.target.value);
+  }, []);
 
   const handleBitcoinGrowthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value) || 0;
-    // Enforce max limit of 70%
-    const clampedValue = Math.min(Math.max(value, 0), 70);
+    setGrowthRateInput(e.target.value);
+  }, []);
+
+  // Blur handlers - parse, validate, and sync with store
+  const handleInitialGrantBlur = useCallback((schemeId: string, defaultValue: number) => () => {
+    const numValue = parseFloat(initialGrantInput) || defaultValue;
+    const validValue = Math.max(0, numValue); // Ensure non-negative
+    updateSchemeCustomization(schemeId, { initialGrant: validValue });
+    setInitialGrantInput(validValue.toString());
+  }, [initialGrantInput, updateSchemeCustomization]);
+
+  const handleAnnualGrantBlur = useCallback((schemeId: string, defaultValue: number) => () => {
+    const numValue = parseFloat(annualGrantInput) || defaultValue;
+    const validValue = Math.max(0, numValue); // Ensure non-negative
+    updateSchemeCustomization(schemeId, { annualGrant: validValue });
+    setAnnualGrantInput(validValue.toString());
+  }, [annualGrantInput, updateSchemeCustomization]);
+
+  const handleBitcoinGrowthBlur = useCallback((defaultValue: number) => () => {
+    const numValue = parseFloat(growthRateInput) || defaultValue;
+    const clampedValue = Math.min(Math.max(numValue, 0), 70); // Enforce limits
     updateInputs({ projectedBitcoinGrowth: clampedValue });
-  }, [updateInputs]);
+    setGrowthRateInput(clampedValue.toString());
+  }, [growthRateInput, updateInputs]);
 
   // Helper to set default vesting preset
   const _applyDefaultVestingPreset = useCallback((schemeId: string) => {
@@ -129,6 +151,22 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
     initializeCalculator();
   }, [planId, initialScheme, isLoaded, fetchBitcoinPrice, setSelectedScheme, loadStaticData]);
+
+  // Sync local input state with store values when scheme changes or customizations update
+  useEffect(() => {
+    if (selectedScheme) {
+      const effectiveInitialGrant = schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant;
+      const effectiveAnnualGrant = schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant ?? 0;
+      
+      setInitialGrantInput(effectiveInitialGrant.toString());
+      setAnnualGrantInput(effectiveAnnualGrant.toString());
+    }
+  }, [selectedScheme, schemeCustomizations]);
+
+  // Sync growth rate input with store value
+  useEffect(() => {
+    setGrowthRateInput((inputs.projectedBitcoinGrowth || 15).toString());
+  }, [inputs.projectedBitcoinGrowth]);
 
   const handleSchemeSelect = useCallback((schemeId: string) => {
     const scheme = VESTING_SCHEMES.find(s => s.id === schemeId);
@@ -261,8 +299,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     <input
                       type="number"
                       step="0.001"
-                      value={schemeCustomizations[selectedScheme.id]?.initialGrant ?? selectedScheme.initialGrant}
-                      onChange={handleInitialGrantChange(selectedScheme.id)}
+                      value={initialGrantInput}
+                      onChange={handleInitialGrantChange}
+                      onBlur={handleInitialGrantBlur(selectedScheme.id, selectedScheme.initialGrant)}
                       className="input-field"
                     />
                   </div>
@@ -276,8 +315,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                       <input
                         type="number"
                         step="0.001"
-                        value={(schemeCustomizations[selectedScheme.id]?.annualGrant ?? selectedScheme.annualGrant) || 0}
-                        onChange={handleAnnualGrantChange(selectedScheme.id)}
+                        value={annualGrantInput}
+                        onChange={handleAnnualGrantChange}
+                        onBlur={handleAnnualGrantBlur(selectedScheme.id, selectedScheme.annualGrant || 0)}
                         className="input-field"
                       />
                     </div>
@@ -290,11 +330,13 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     </label>
                     <input
                       type="number"
-                      value={inputs.projectedBitcoinGrowth || 15}
+                      value={growthRateInput}
                       onChange={handleBitcoinGrowthChange}
+                      onBlur={handleBitcoinGrowthBlur(15)}
                       className="input-field"
                       max="70"
                       min="0"
+                      step="0.1"
                     />
                   </div>
                 </div>
@@ -463,7 +505,16 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
           {/* Right Panel - Results */}
           <div className="lg:col-span-2 w-full min-w-0 overflow-hidden">
-            {/* Bitcoin Price Projection Chart - Moved above VestingProgress, no card wrapper */}
+            {/* Unlock Timeline - Above chart */}
+            {displayScheme && (
+              <VestingProgress
+                scheme={displayScheme}
+                customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
+                className="mb-4"
+              />
+            )}
+            
+            {/* Bitcoin Price Projection Chart - Below VestingProgress, no card wrapper */}
             <ChartErrorBoundary>
               {results && displayScheme ? (
                 <VestingTimelineChart
@@ -479,15 +530,6 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 <ChartSkeleton />
               )}
             </ChartErrorBoundary>
-            
-            {/* Unlock Timeline - Below chart */}
-            {displayScheme && (
-              <VestingProgress
-                scheme={displayScheme}
-                customVestingEvents={[...(displayScheme.customVestingEvents || [])]}
-                className="mt-4 mb-4"
-              />
-            )}
             
             <React.Fragment>
             {/* Metric Cards Carousel */}

@@ -64,7 +64,7 @@ vi.mock('@/components/icons', () => ({
   SatoshiIcon: () => <div>SatoshiIcon</div>,
 }));
 
-vi.mock('@/components/VestingTimelineChart', () => {
+vi.mock('@/components/VestingTimelineChartRecharts', () => {
   return function VestingTimelineChart() {
     return <div>VestingTimelineChart</div>;
   };

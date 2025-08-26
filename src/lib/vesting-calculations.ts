@@ -103,14 +103,14 @@ export class VestingCalculator {
         numberOfGrants = 0; // Pioneer scheme has no annual grants
         break;
       case 'steady-builder':
-        // Respect custom vesting events or default to 5 years max
-        const steadyMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : 60;
-        numberOfGrants = Math.min(5, Math.floor(Math.min(steadyMax, maxMonths) / 12));
+        // Stacker: 5 annual grants (years 1-5) to reach 0.020 total
+        // 0.015 initial + 5 * 0.001 = 0.020
+        numberOfGrants = Math.min(5, Math.floor(maxMonths / 12));
         break;
       case 'slow-burn':
-        // Respect custom vesting events or default to 9 years max
-        const slowMax = scheme.customVestingEvents?.length > 0 ? maxGrantMonths : 108;
-        numberOfGrants = Math.min(9, Math.floor(Math.min(slowMax, maxMonths) / 12));
+        // Builder: 9 annual grants (years 1-9) to reach 0.020 total  
+        // 0.002 initial + 9 * 0.002 = 0.020
+        numberOfGrants = Math.min(9, Math.floor(maxMonths / 12));
         break;
       case 'custom':
         // Respect custom vesting events or default to 10 years max
