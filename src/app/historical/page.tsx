@@ -9,7 +9,7 @@ import YearSelector from '@/components/YearSelector';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { ChartBarIcon, CogIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import { ChartBarIcon, CogIcon, ChevronDownIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { HistoricalSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import { MetricCardsSkeleton, TableSkeleton } from '@/components/loading/EnhancedSkeletons';
@@ -34,6 +34,7 @@ function HistoricalCalculatorContent() {
   // Local state for input fields to allow empty values during editing
   const [initialGrantInput, setInitialGrantInput] = useState<string>('');
   const [annualGrantInput, setAnnualGrantInput] = useState<string>('');
+  const [isSettingsCollapsed, setIsSettingsCollapsed] = useState(true);
   
   const {
     selectedScheme,
@@ -198,14 +199,26 @@ function HistoricalCalculatorContent() {
 
             {/* Historical Configuration */}
             <div className="card glass overflow-hidden historical-config-card">
-              <div className="flex items-center mb-6">
-                <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Time Travel Settings
-                </h3>
+              <div 
+                className="flex items-center justify-between mb-6 cursor-pointer"
+                onClick={() => setIsSettingsCollapsed(!isSettingsCollapsed)}
+              >
+                <div className="flex items-center">
+                  <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
+                    Time Travel Settings
+                  </h3>
+                </div>
+                <ChevronDownIcon 
+                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                    isSettingsCollapsed ? '-rotate-90' : ''
+                  }`}
+                />
               </div>
 
-              <div className="space-y-6 w-full max-w-full overflow-hidden">
+              <div className={`space-y-6 w-full max-w-full overflow-hidden transition-all duration-300 ${
+                isSettingsCollapsed ? 'hidden' : ''
+              }`}>
                 <div className="input-container">
                   <YearSelector
                     selectedYear={startingYear}

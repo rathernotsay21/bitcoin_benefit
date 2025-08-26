@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import HelpTooltip from '@/components/HelpTooltip';
 import { HELP_CONTENT } from '@/lib/help-content';
-import { CogIcon } from '@heroicons/react/24/solid';
+import { CogIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import { SatoshiIcon } from '@/components/icons';
 import { CalculatorSkeleton, ChartSkeleton } from '@/components/loading/Skeletons';
 import { MetricCardsSkeleton } from '@/components/loading/EnhancedSkeletons';
@@ -51,6 +51,7 @@ function formatUSD(amount: number): string {
 function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedVestingPreset, setSelectedVestingPreset] = useState<string>('reward'); // Default to Reward preset
+  const [isCustomizationCollapsed, setIsCustomizationCollapsed] = useState(true);
   
   // Local state for input fields to allow empty values during editing
   const [initialGrantInput, setInitialGrantInput] = useState<string>('');
@@ -283,14 +284,26 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {/* Scheme Customization */}
             {selectedScheme && (
               <div className="card mt-6 glass">
-                <div className="flex items-center mb-6">
-                  <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
-                  Customize Your Plan
-                  </h3>
+                <div 
+                  className="flex items-center justify-between mb-6 cursor-pointer"
+                  onClick={() => setIsCustomizationCollapsed(!isCustomizationCollapsed)}
+                >
+                  <div className="flex items-center">
+                    <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
+                      Customize Your Plan
+                    </h3>
+                  </div>
+                  <ChevronDownIcon 
+                    className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                      isCustomizationCollapsed ? '-rotate-90' : ''
+                    }`}
+                  />
                 </div>
 
-                <div className="space-y-6">
+                <div className={`space-y-6 transition-all duration-300 ${
+                  isCustomizationCollapsed ? 'hidden' : ''
+                }`}>
                   <div>
                     <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
                       Bitcoin Bonus Amount
@@ -342,7 +355,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 </div>
 
                 {/* Custom Vesting Schedule Dialog */}
-                <div className="mt-4">
+                <div className={`mt-4 ${isCustomizationCollapsed ? 'hidden' : ''}`}>
                   <CustomVestingSchedule
                     schemeId={selectedScheme.id}
                     customVestingEvents={[...(schemeCustomizations[selectedScheme.id]?.customVestingEvents || [])]}
