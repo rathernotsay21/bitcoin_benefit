@@ -27,13 +27,85 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinbenefits.com'),
-  title: 'Modern Employee Benefits - Retention Solutions',
-  description: 'Create an employee retention protocol that works—powered by valuable benefits. Plan vesting schemes, analyze historical performance, and secure your team\'s future.',
-  keywords: ['employee benefits', 'vesting', 'retention', 'modern benefits', 'retirement', 'employee retention', 'compensation'],
+  title: 'Employee Benefits Platform | Modern Retention Solutions for HR Teams',
+  description: 'Enterprise-grade employee benefits management platform. Design competitive compensation packages, implement vesting schedules, and boost retention with data-driven insights. Trusted by forward-thinking HR teams.',
+  keywords: [
+    'employee benefits platform',
+    'HR technology',
+    'compensation management',
+    'employee retention software',
+    'vesting schedules',
+    'benefits administration',
+    'total rewards',
+    'human capital management',
+    'workforce planning',
+    'employee engagement',
+    'talent retention',
+    'compensation analytics'
+  ],
+  authors: [{ name: 'Bitcoin Benefit Solutions' }],
+  creator: 'Bitcoin Benefit Solutions',
+  publisher: 'Bitcoin Benefit Solutions',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  category: 'Business Software',
+  classification: 'HR Technology / Employee Benefits',
+  applicationName: 'Employee Benefits Platform',
+  generator: 'Next.js',
+  referrer: 'origin-when-cross-origin',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
-    title: 'Modern Employee Benefits - Retention Solutions',
-    description: 'Reward loyalty with valuable employee benefits. Create modern employee vesting schemes.',
+    title: 'Employee Benefits Platform | Modern HR Solutions',
+    description: 'Transform your employee retention strategy with our comprehensive benefits management platform. Design, implement, and track compensation packages that attract and retain top talent.',
+    url: 'https://bitcoinbenefit.netlify.app',
+    siteName: 'Employee Benefits Platform',
     type: 'website',
+    locale: 'en_US',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Employee Benefits Platform - Modern HR Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Employee Benefits Platform | Modern HR Solutions',
+    description: 'Enterprise-grade benefits management for forward-thinking companies',
+    images: ['/twitter-image.png'],
+    creator: '@bitcoinbenefit',
+    site: '@bitcoinbenefit',
+  },
+  verification: {
+    google: 'google-site-verification-code',
+    yandex: 'yandex-verification-code',
+    yahoo: 'yahoo-site-verification-code',
+  },
+  alternates: {
+    canonical: 'https://bitcoinbenefit.netlify.app',
+    languages: {
+      'en-US': 'https://bitcoinbenefit.netlify.app',
+    },
+  },
+  other: {
+    'msapplication-TileColor': '#0F172A',
+    'msapplication-TileImage': '/ms-icon-144x144.png',
+    'theme-color': '#F7931A',
   },
 }
 
@@ -45,46 +117,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Critical performance optimizations - Preconnect to external domains */}
+        {/* Critical performance optimizations - Only essential preconnects */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://mempool.space" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.mempool.space" />
         
-        {/* Resource hints for critical data */}
-        <link rel="prefetch" href="/data/bitcoin-price.json" as="fetch" crossOrigin="anonymous" />
-        <link rel="prefetch" href="/data/historical-bitcoin.json" as="fetch" crossOrigin="anonymous" />
-        <link rel="prefetch" href="/data/schemes-meta.json" as="fetch" crossOrigin="anonymous" />
-        <link rel="prefetch" href="/data/static-calculations.json" as="fetch" crossOrigin="anonymous" />
-        
-        
-        {/* Module preload for critical JavaScript */}
-        <link rel="modulepreload" href="/_next/static/chunks/webpack.js" />
-        
-        {/* Prefetch likely user journeys */}
-        <link rel="prefetch" href="/calculator/pioneer" />
-        <link rel="prefetch" href="/bitcoin-tools" />
-        
-        {/* CSS preload will be handled by Next.js automatically */}
-        
-        {/* Enhanced critical CSS to prevent FOUC and improve LCP */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            body{margin:0;padding:0;min-height:100vh;font-display:swap;background-color:#F4F6F8}
-            .btn-primary{background:linear-gradient(135deg,#f7931a 0%,#f7931a 100%);padding:14px 28px;color:white;font-weight:600;border:none;cursor:pointer;transition:all 0.2s ease;transform:translateZ(0);will-change:transform}
-            .btn-hero-primary{background:linear-gradient(135deg,#f7931a 0%,#ffa500 50%,#f7931a 100%);padding:16px 40px;border-radius:12px;color:white;font-weight:600;cursor:pointer}
-            .btn-hero-secondary{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:16px 40px;border-radius:12px;color:white;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.2)}
-            .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
-            @keyframes loading{0%{background-position:200% 0}to{background-position:-200% 0}}
-            .chart-container{contain:layout style paint;will-change:contents;height:540px}
-            .performance-optimized{contain:layout;will-change:auto}
-            .hero-section{min-height:400px;background:#0f172a;contain:layout style}
-            .feature-card{background:white;border-radius:12px;padding:2rem;transition:transform 0.2s;contain:layout style}
-            .feature-card:hover{transform:translateY(-4px)}
-            .icon-container{width:4rem;height:4rem;background:rgba(247,147,26,0.1);border-radius:1.25rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(247,147,26,0.1)}
-          `
-        }} />
+        {/* Critical CSS loaded from external file for better caching */}
+        <link rel="stylesheet" href="/critical.css" />
         
         
         {/* Structured Data for SEO */}

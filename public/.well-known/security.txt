@@ -1,0 +1,35 @@
+# Security Policy for Bitcoin Benefit Platform
+# Employee Benefits and Retention Solutions
+
+Contact: security@bitcoinbenefit.com
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en
+
+# Reporting Security Issues
+# We take security seriously. If you discover a security vulnerability,
+# please report it responsibly by emailing security@bitcoinbenefit.com
+
+Policy: https://bitcoinbenefit.netlify.app/security-policy
+Acknowledgments: https://bitcoinbenefit.netlify.app/security-acknowledgments
+
+# Canonical URL
+Canonical: https://bitcoinbenefit.netlify.app/.well-known/security.txt
+
+# Encryption
+# For sensitive communications, please use PGP encryption
+# Key available at: https://bitcoinbenefit.netlify.app/pgp-key.txt
+
+# Our Commitment
+# - We respond to security reports within 48 hours
+# - We provide regular security updates
+# - We follow industry best practices for data protection
+# - We are committed to user privacy and security
+
+# Bug Bounty Program
+# We offer rewards for responsibly disclosed security vulnerabilities
+# Details: https://bitcoinbenefit.netlify.app/bug-bounty
+
+# Technologies
+# Built with: Next.js, TypeScript, React
+# Hosted on: Netlify (Enterprise Grade Infrastructure)
+# Security: TLS 1.3, CSP, HSTS, XSS Protection

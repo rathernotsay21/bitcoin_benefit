@@ -17,7 +17,7 @@ Disallow: /_next/
 Disallow: /preview-icons/
 
 # Sitemap location
-Sitemap: https://bitcoinbenefit.com/sitemap.xml
+Sitemap: https://bitcoinbenefit.netlify.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

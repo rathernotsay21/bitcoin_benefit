@@ -1,16 +1,56 @@
 {
-  "name": "Bitcoin Benefit Calculator",
-  "short_name": "BTC Benefit",
+  "name": "Employee Benefits Platform",
+  "short_name": "Benefits Hub",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0F172A",
   "theme_color": "#F7931A",
-  "description": "Calculate and visualize Bitcoin investment benefits across different schemes",
+  "description": "Modern employee retention and benefits management platform. Create vesting schedules, analyze performance, and optimize compensation packages.",
+  "categories": ["business", "finance", "productivity"],
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/favicon.ico",
       "sizes": "32x32",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Benefits Dashboard"
+    },
+    {
+      "src": "/screenshots/calculator.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Vesting Calculator"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

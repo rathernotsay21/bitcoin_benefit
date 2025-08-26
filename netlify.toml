@@ -77,6 +77,19 @@
     X-Download-Options = "noopen"
     # Require same-origin for user activation
     X-Permitted-Cross-Domain-Policies = "none"
+    # Business categorization headers
+    X-Business-Category = "HR-Technology"
+    X-Service-Type = "Enterprise-SaaS"
+    X-Platform-Type = "Employee-Benefits-Management"
+    # SEO and crawler hints
+    X-Robots-Tag = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    # Powered by header for transparency
+    X-Powered-By = "Employee Benefits Platform"
+    # CORS headers for API access
+    Access-Control-Allow-Origin = "https://bitcoinbenefit.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Max-Age = "86400"
 
 # Redirect configuration for better SEO
 [[redirects]]

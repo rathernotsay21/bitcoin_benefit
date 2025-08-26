@@ -222,6 +222,14 @@ const nextConfig = {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
           },
+          {
+            key: 'X-Business-Category',
+            value: 'HR-Technology'
+          },
+          {
+            key: 'X-Service-Type',
+            value: 'Enterprise-SaaS'
+          },
           // Add Link header for critical resource preloading
           {
             key: 'Link',
@@ -272,6 +280,18 @@ const nextConfig = {
               "frame-ancestors 'none'",
               "upgrade-insecure-requests"
             ].join('; ')
+          },
+          {
+            key: 'X-Powered-By',
+            value: 'Employee Benefits Platform'
+          },
+          {
+            key: 'X-Robots-Tag',
+            value: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+          },
+          {
+            key: 'X-UA-Compatible',
+            value: 'IE=edge'
           },
         ],
       },
