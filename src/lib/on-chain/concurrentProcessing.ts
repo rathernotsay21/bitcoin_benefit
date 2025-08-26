@@ -348,9 +348,9 @@ export class ConcurrentProcessingService {
   private createEmptyResult(startTime: number) {
     const endTime = performance.now();
     return {
-      transactions: [],
-      annotatedTransactions: [],
-      expectedGrants: [],
+      transactions: [] as any[],
+      annotatedTransactions: [] as any[],
+      expectedGrants: [] as any[],
       historicalPrices: {},
       performanceMetrics: this.buildMetrics(endTime - startTime)
     };

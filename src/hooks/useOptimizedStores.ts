@@ -5,7 +5,6 @@ import {
   selectCalculatorResults,
   selectBitcoinPrice,
   selectStaticData,
-  selectCustomVestingSchedule,
   selectHistoricalInputs,
   selectHistoricalResults,
   selectHistoricalPrices,

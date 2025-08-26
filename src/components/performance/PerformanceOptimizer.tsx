@@ -20,7 +20,7 @@ export function PerformanceOptimizer({
   usePerformanceAdaptiveAnimations();
   
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) return undefined;
     
     if (enabled) {
       injectPerformanceCSS();
@@ -59,6 +59,7 @@ export function PerformanceOptimizer({
         }
       };
     }
+    return undefined;
   }, [enabled]);
   
   return <>{children}</>;

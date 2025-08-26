@@ -13,11 +13,11 @@ interface PreloadOptions {
  */
 export function useConditionalPreload(options: PreloadOptions) {
     useEffect(() => {
-        if (!options.condition) return;
+        if (!options.condition) return undefined;
 
         // Check if preload link already exists
         const existingLink = document.querySelector(`link[href="${options.href}"][rel="preload"]`);
-        if (existingLink) return;
+        if (existingLink) return undefined;
 
         // Create preload link
         const link = document.createElement('link');

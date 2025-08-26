@@ -135,7 +135,9 @@ export class SecureCacheManager {
       // Clear corrupted cache
       try {
         localStorage.removeItem(key);
-      } catch {}
+      } catch {
+        // Silently ignore removal errors - cache is already corrupted
+      }
       return null;
     }
   }

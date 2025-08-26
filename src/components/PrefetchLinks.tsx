@@ -15,7 +15,7 @@ const navigationMap: Record<string, string[]> = {
   '/learn': ['/calculator/pioneer', '/bitcoin-tools'],
 };
 
-export function PrefetchLinks() {
+export function PrefetchLinks(): JSX.Element | null {
   const pathname = usePathname();
 
   useEffect(() => {

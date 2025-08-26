@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 interface WebVitalsReporterProps {
   enableReporting?: boolean;
@@ -11,7 +11,7 @@ export const WebVitalsReporter: React.FC<WebVitalsReporterProps> = ({
   enableReporting = true 
 }) => {
   useEffect(() => {
-    if (!enableReporting || typeof window === 'undefined') return;
+    if (!enableReporting || typeof window === 'undefined') return undefined;
 
     // Report to analytics service
     const reportWebVital = (metric: any) => {
@@ -27,8 +27,8 @@ export const WebVitalsReporter: React.FC<WebVitalsReporterProps> = ({
         
       }
 
-      if (metric.name === 'FID' && metric.value > 100) {
-        console.warn('FID is poor (>100ms). Consider optimizing JavaScript execution.');
+      if (metric.name === 'INP' && metric.value > 200) {
+        console.warn('INP is poor (>200ms). Consider optimizing JavaScript execution.');
       }
 
       // Store metrics for debugging
@@ -43,11 +43,11 @@ export const WebVitalsReporter: React.FC<WebVitalsReporterProps> = ({
     window.bitcoinBenefitMetrics = {};
 
     // Collect all Web Vitals
-    getCLS(reportWebVital);
-    getFID(reportWebVital);
-    getFCP(reportWebVital);
-    getLCP(reportWebVital);
-    getTTFB(reportWebVital);
+    onCLS(reportWebVital);
+    onINP(reportWebVital);  // INP replaced FID in web-vitals v3+
+    onFCP(reportWebVital);
+    onLCP(reportWebVital);
+    onTTFB(reportWebVital);
 
     // Custom performance observers
     if ('PerformanceObserver' in window) {
@@ -81,8 +81,10 @@ export const WebVitalsReporter: React.FC<WebVitalsReporterProps> = ({
         };
       } catch (error) {
         console.warn('Performance observers not supported:', error);
+        return undefined;
       }
     }
+    return undefined;
   }, [enableReporting]);
 
   return null;

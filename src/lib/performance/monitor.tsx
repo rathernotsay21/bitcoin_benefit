@@ -185,7 +185,7 @@ export function PerformanceOverlay() {
   const [report, setReport] = React.useState(performanceMonitor.getReport());
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== 'development') return;
+    if (process.env.NODE_ENV !== 'development') return undefined;
 
     const interval = setInterval(() => {
       setReport(performanceMonitor.getReport());

@@ -173,6 +173,28 @@ export class TaxImplicationCalculator {
     }));
   }
 
+  calculateVestingTax(
+    vestingValue: number,
+    costBasis: number,
+    holdingMonths: number,
+    annualIncome: number
+  ): TaxImplicationResult {
+    const capitalGain = vestingValue - costBasis;
+    const isLongTerm = holdingMonths >= 12;
+    
+    // Create tax calculation params
+    const params: TaxCalculationParams = {
+      btcAmount: 1, // Assuming 1 BTC as default
+      btcPrice: vestingValue,
+      costBasis: costBasis,
+      holdingPeriod: holdingMonths,
+      filingStatus: FilingStatus.SINGLE, // Default to single
+      state: 'CA' // Default to CA (can be made configurable)
+    };
+    
+    return this.calculateTax(params);
+  }
+
   calculateNIIT(params: NIITParams): number {
     const { income, investmentIncome, filingStatus } = params;
     

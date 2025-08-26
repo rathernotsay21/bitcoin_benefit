@@ -111,11 +111,11 @@ export class TypeSafeApiClient {
           return createApiSuccess(parseResult.data, fullUrl);
         } else {
           return createApiError(
-            `Invalid response format: ${parseResult.error}`,
+            `Invalid response format: ${JSON.stringify((parseResult as any).error)}`,
             'VALIDATION_ERROR',
             {
               url: fullUrl,
-              validationError: parseResult.error,
+              validationError: (parseResult as any).error,
               rawData: data,
             }
           );
@@ -234,7 +234,7 @@ export class BitcoinPriceClient extends TypeSafeApiClient {
     );
 
     if (!response.success) {
-      return response;
+      return response as ApiResponse<BitcoinPriceData>;
     }
 
     // Transform CoinGecko format to our internal format
@@ -243,10 +243,10 @@ export class BitcoinPriceClient extends TypeSafeApiClient {
       price: bitcoinData.usd,
       change24h: bitcoinData.usd_24h_change || 0,
       lastUpdated: new Date(),
-      source: 'coingecko',
+      source: 'coingecko' as const,
     };
 
-    return createApiSuccess(priceData);
+    return createApiSuccess(priceData) as ApiResponse<BitcoinPriceData>;
   }
 
   /**
@@ -347,7 +347,7 @@ export function unwrapApiResponse<T>(response: ApiResponse<T>): T {
   if (response.success === true) {
     return response.data;
   } else {
-    throw new Error(response.error);
+    throw new Error((response as ApiError).error);
   }
 }
 
@@ -373,7 +373,7 @@ export async function handleApiResponse<T, R = void>(
   if (response.success === true) {
     return handlers.onSuccess(response.data);
   } else {
-    return handlers.onError(response.error);
+    return handlers.onError((response as ApiError).error);
   }
 }
 

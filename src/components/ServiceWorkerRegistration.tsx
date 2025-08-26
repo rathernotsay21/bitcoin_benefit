@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-export function ServiceWorkerRegistration() {
+export function ServiceWorkerRegistration(): JSX.Element | null {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       // In development, unregister all service workers to prevent caching issues

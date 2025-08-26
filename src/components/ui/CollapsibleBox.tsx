@@ -375,6 +375,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
       const timer = setTimeout(() => setShowPulse(false), 3000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [showPulse]);
   
   // Cleanup timeouts on unmount

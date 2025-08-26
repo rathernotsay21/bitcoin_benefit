@@ -45,6 +45,7 @@ export function useBitcoinPrice(autoRefresh = true, refreshInterval = 5 * 60 * 1
       const interval = setInterval(fetchPrice, refreshInterval);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [autoRefresh, refreshInterval]);
 
   return {

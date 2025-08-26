@@ -50,8 +50,8 @@ export function calculateTaxes() {
   );
   
   console.log(`Total tax: $${taxResult.totalTax.toFixed(2)}`);
-  console.log(`Net value: $${taxResult.netValue.toFixed(2)}`);
-  console.log(`Effective tax rate: ${taxResult.effectiveTaxRate.toFixed(1)}%`);
+  console.log(`Net proceeds: $${taxResult.netProceeds.toFixed(2)}`);
+  console.log(`Effective tax rate: ${taxResult.effectiveRate.toFixed(1)}%`);
   
   return taxResult;
 }

@@ -260,12 +260,7 @@ export function withPerformanceMonitoring<P extends object>(
       
       return () => {
         const end = performance.now();
-        performanceMonitor.recordMetric(`component-${componentName}`, {
-          renderTime: end - start,
-          bundleSize: 0,
-          memoryUsage: performanceMonitor['getCurrentMemoryUsage'](),
-          timestamp: Date.now()
-        });
+        performanceMonitor.recordMetric(`component-${componentName}`, end - start, 'timing');
       };
     });
     
@@ -284,12 +279,7 @@ export function usePerformanceMetric(name: string) {
   const endMeasurement = React.useCallback(() => {
     if (start.current > 0) {
       const end = performance.now();
-      performanceMonitor.recordMetric(name, {
-        renderTime: end - start.current,
-        bundleSize: 0,
-        memoryUsage: 0,
-        timestamp: Date.now()
-      });
+      performanceMonitor.recordMetric(name, end - start.current, 'timing');
       start.current = 0;
     }
   }, [name]);

@@ -73,7 +73,7 @@ export default function Particles({
   
   // Handle canvas resize
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) return undefined;
     
     const canvas = canvasRef.current;
     const resizeCanvas = (): void => {
@@ -98,7 +98,7 @@ export default function Particles({
   
   // Handle mouse movement
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) return undefined;
     
     const handleMouseMove = (e: MouseEvent): void => {
       const rect = canvasRef.current!.getBoundingClientRect();
@@ -118,11 +118,11 @@ export default function Particles({
   
   // Animation loop
   useEffect(() => {
-    if (!canvasRef.current || particles.length === 0) return;
+    if (!canvasRef.current || particles.length === 0) return undefined;
     
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) return undefined;
     
     const animate = (): void => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);

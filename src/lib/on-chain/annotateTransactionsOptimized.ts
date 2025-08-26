@@ -457,7 +457,7 @@ export async function annotateTransactionsOptimized(
         amountSats,
         date: new Date(transaction.status.block_time * 1000).toISOString().split('T')[0],
         blockHeight: transaction.status.block_height,
-        valueAtTimeOfTx: null,
+        valueAtTimeOfTx: null as any,
         status: (transaction.status.confirmed ? 'Confirmed' : 'Unconfirmed') as 'Confirmed' | 'Unconfirmed',
         matchScore: match?.matchScore,
         isManuallyAnnotated: false,

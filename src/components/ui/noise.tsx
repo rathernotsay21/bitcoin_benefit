@@ -82,7 +82,7 @@ export default function Noise({
   
   // Handle canvas resize
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) return undefined;
     
     const canvas = canvasRef.current;
     const resizeCanvas = () => {
@@ -115,6 +115,7 @@ export default function Noise({
     } else {
       generateNoise();
     }
+    return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patternRefreshInterval, theme, patternAlpha]);
   

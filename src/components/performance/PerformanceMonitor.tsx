@@ -87,6 +87,7 @@ export function useCoreWebVitals() {
         return () => po.disconnect();
       } catch (error) {
         console.warn('LCP observation not supported');
+        return () => {}; // Return no-op cleanup function
       }
     };
     
@@ -111,6 +112,7 @@ export function useCoreWebVitals() {
         return () => po.disconnect();
       } catch (error) {
         console.warn('FID observation not supported');
+        return () => {}; // Return no-op cleanup function
       }
     };
     
@@ -138,6 +140,7 @@ export function useCoreWebVitals() {
         return () => po.disconnect();
       } catch (error) {
         console.warn('CLS observation not supported');
+        return () => {}; // Return no-op cleanup function
       }
     };
     

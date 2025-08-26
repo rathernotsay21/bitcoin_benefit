@@ -117,7 +117,7 @@ export const adaptiveChartLoader = (
     // Load lightweight canvas-based chart
     return lazy(() => 
       deferredChartLoader(
-        () => import('@/components/charts/LightweightChart'),
+        () => import('@/components/VestingTimelineChartRecharts'),
         ChartPriority.MEDIUM
       )
     );

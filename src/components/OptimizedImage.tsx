@@ -69,7 +69,6 @@ export function OptimizedImage({
     // If WebP fails, try original format
     if (optimizedSrc !== src && !hasError) {
       setHasError(false);
-      return src;
     }
   };
 

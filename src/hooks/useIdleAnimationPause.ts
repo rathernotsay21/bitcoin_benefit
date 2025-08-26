@@ -78,7 +78,7 @@ export function useIdleAnimationPause(timeout = 10000) {
  */
 export function usePerformanceAdaptiveAnimations() {
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return undefined;
     
     // Check if the device has low performance
     const checkPerformance = () => {
@@ -107,5 +107,6 @@ export function usePerformanceAdaptiveAnimations() {
         document.body.classList.remove('reduce-animations');
       };
     }
+    return undefined;
   }, []);
 }
