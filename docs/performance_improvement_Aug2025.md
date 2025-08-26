@@ -30,14 +30,7 @@ This document outlines a comprehensive plan to improve the Bitcoin Benefit websi
 
 ### Critical Issues Identified
 
-1. **Heavy Canvas-Based Particle Animation (30% of performance impact)**
-   - Location: `src/app/page.tsx` lines 63-69
-   - Component: `<Particles>` from `@/components/ui/particles`
-   - Issue: Continuous canvas repainting with 50 particles
-   - Impact: High CPU/GPU usage, blocking main thread
-   - Evidence: requestAnimationFrame runs continuously, even when not visible
-
-2. **Excessive Resource Preloading (15% of performance impact)**
+1. **Excessive Resource Preloading (15% of performance impact)**
    - Location: `src/app/layout.tsx` lines 56-67
    - Issues:
      - Prefetching 4 JSON files that may not be needed
@@ -65,197 +58,12 @@ This document outlines a comprehensive plan to improve the Bitcoin Benefit websi
 
 ## Implementation Plan
 
-### Phase 1: Replace Heavy Canvas Animation [Priority: CRITICAL]
-**Impact: +25-30 PageSpeed points**
-**Time: 2 hours**
-**Risk: Low**
-
-#### Step 1.1: Create New Dust Particles Component
-
-**File:** Create new file `src/components/ui/dust-particles.tsx`
-
-```typescript
-'use client';
-
-import { useEffect, useRef } from 'react';
-
-interface DustParticlesProps {
-  className?: string;
-}
-
-export default function DustParticles({ className = '' }: DustParticlesProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Detect reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    // Detect mobile for performance
-    const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 0 : 60; // No particles on mobile
-
-    const particles: HTMLDivElement[] = [];
-
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'dust-particle';
-      
-      // Random positioning
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      
-      // Random animation duration (slower = more realistic)
-      const duration = 20 + Math.random() * 30; // 20-50s
-      particle.style.animationDuration = `${duration}s`;
-      
-      // Random animation delay for staggered effect
-      const delay = Math.random() * 20;
-      particle.style.animationDelay = `${delay}s`;
-      
-      // Random size (smaller particles)
-      const size = 1 + Math.random() * 2; // 1-3px
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      
-      // Random opacity for depth
-      const opacity = 0.2 + Math.random() * 0.4; // 0.2-0.6
-      particle.style.opacity = `${opacity}`;
-      
-      container.appendChild(particle);
-      particles.push(particle);
-    }
-
-    // Cleanup
-    return () => {
-      particles.forEach(particle => particle.remove());
-    };
-  }, []);
-
-  return (
-    <div ref={containerRef} className={`dust-particles-container ${className}`}>
-      <style jsx global>{`
-        .dust-particles-container {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .dust-particle {
-          position: absolute;
-          background: rgba(148, 163, 184, 0.6); /* Matches current #94a3b8 */
-          border-radius: 50%;
-          pointer-events: none;
-          will-change: transform;
-          animation: dustFloat linear infinite;
-        }
-
-        @keyframes dustFloat {
-          0% {
-            transform: translateY(100vh) translateX(0) scale(1);
-            opacity: 0;
-          }
-          10% {
-            opacity: var(--particle-opacity, 0.3);
-          }
-          90% {
-            opacity: var(--particle-opacity, 0.3);
-          }
-          100% {
-            transform: translateY(-100vh) translateX(20px) scale(0.8);
-            opacity: 0;
-          }
-        }
-
-        /* Performance optimizations */
-        @media (prefers-reduced-motion: reduce) {
-          .dust-particle {
-            animation: none !important;
-          }
-        }
-
-        /* Hide on mobile for better performance */
-        @media (max-width: 768px) {
-          .dust-particles-container {
-            display: none !important;
-          }
-        }
-
-        /* Reduce particles on tablets */
-        @media (max-width: 1024px) {
-          .dust-particle:nth-child(3n) {
-            display: none;
-          }
-        }
-      `}</style>
-    </div>
-  );
-}
-```
-
-**Why this approach:**
-- Pure CSS animations use GPU acceleration
-- No continuous JavaScript execution
-- Auto-disables on mobile and for users with motion preferences
-- 60 lightweight DOM elements vs continuous canvas operations
-- Each particle animates independently without blocking
-
-#### Step 1.2: Update Homepage to Use New Component
-
-**File:** `src/app/page.tsx`
-
-**Changes:**
-1. Line 16: Replace import
-   ```typescript
-   // OLD:
-   import Particles from '@/components/ui/particles';
-   
-   // NEW:
-   import DustParticles from '@/components/ui/dust-particles';
-   ```
-
-2. Lines 63-69: Replace component usage
-   ```typescript
-   // OLD:
-   <Particles
-     className="absolute inset-0 z-0"
-     quantity={50}
-     ease={80}
-     color="#94a3b8"
-     refresh={false}
-   />
-   
-   // NEW:
-   <DustParticles className="absolute inset-0 z-0" />
-   ```
-
-**Testing Required:**
-- Verify particles appear on desktop
-- Verify particles are hidden on mobile
-- Test with prefers-reduced-motion enabled
-- Check CPU usage in Performance tab
-
-**Potential Issues & Solutions:**
-- **Issue:** Particles might not match exact visual style
-  - **Solution:** Adjust opacity and size values in dust-particles.tsx
-- **Issue:** Z-index conflicts with content
-  - **Solution:** Already set to z-0, but can adjust if needed
-
----
-
-### Phase 2: Remove Excessive Resource Hints [Priority: HIGH]
+### Phase 1: Remove Excessive Resource Hints [Priority: HIGH]
 **Impact: +10-15 PageSpeed points**
 **Time: 30 minutes**
 **Risk: Very Low**
 
-#### Step 2.1: Clean Up Prefetch Links
+#### Step 1.1: Clean Up Prefetch Links
 
 **File:** `src/app/layout.tsx`
 
@@ -309,12 +117,12 @@ export default function DustParticles({ className = '' }: DustParticlesProps) {
 
 ---
 
-### Phase 3: Optimize Critical CSS [Priority: HIGH]
+### Phase 2: Optimize Critical CSS [Priority: HIGH]
 **Impact: +8-10 PageSpeed points**
 **Time: 1 hour**
 **Risk: Low**
 
-#### Step 3.1: Extract Non-Critical CSS
+#### Step 2.1: Extract Non-Critical CSS
 
 **File:** `src/app/layout.tsx`
 
@@ -376,12 +184,12 @@ export default function DustParticles({ className = '' }: DustParticlesProps) {
 
 ---
 
-### Phase 4: Optimize Recharts Loading [Priority: MEDIUM]
+### Phase 3: Optimize Recharts Loading [Priority: MEDIUM]
 **Impact: +10-15 PageSpeed points**
 **Time: 1 hour**
 **Risk: Low**
 
-#### Step 4.1: Update Bundle Configuration
+#### Step 3.1: Update Bundle Configuration
 
 **File:** `next.config.js`
 
@@ -409,7 +217,7 @@ recharts: {
 },
 ```
 
-#### Step 4.2: Add Intersection Observer to Chart Component
+#### Step 3.2: Add Intersection Observer to Chart Component
 
 **File:** `src/components/VestingTimelineChartRecharts.tsx`
 
@@ -459,12 +267,12 @@ return (
 
 ---
 
-### Phase 5: Defer Bitcoin Price Loading [Priority: MEDIUM]
+### Phase 4: Defer Bitcoin Price Loading [Priority: MEDIUM]
 **Impact: +5-8 PageSpeed points**
 **Time: 30 minutes**
 **Risk: Very Low**
 
-#### Step 5.1: Update Price Fetching Logic
+#### Step 4.1: Update Price Fetching Logic
 
 **File:** `src/app/page.tsx`
 
@@ -519,12 +327,12 @@ useEffect(() => {
 
 ---
 
-### Phase 6: Font Optimization [Priority: LOW]
+### Phase 5: Font Optimization [Priority: LOW]
 **Impact: +3-5 PageSpeed points**
 **Time: 15 minutes**
 **Risk: Very Low**
 
-#### Step 6.1: Update Font Loading Strategy
+#### Step 5.1: Update Font Loading Strategy
 
 **File:** `src/app/layout.tsx`
 
@@ -558,12 +366,12 @@ const inter = Inter({
 
 ---
 
-### Phase 7: Additional Quick Wins [Priority: LOW]
+### Phase 6: Additional Quick Wins [Priority: LOW]
 **Impact: +5 PageSpeed points total**
 **Time: 30 minutes**
 **Risk: Very Low**
 
-#### Step 7.1: Remove Float Animation
+#### Step 6.1: Remove Float Animation
 
 **File:** `src/app/page.tsx`
 
@@ -579,7 +387,7 @@ const inter = Inter({
 
 **Why:** Continuous animations block CPU
 
-#### Step 7.2: Reduce Bundle Size Limits
+#### Step 6.2: Reduce Bundle Size Limits
 
 **File:** `next.config.js`
 
@@ -680,9 +488,9 @@ If issues arise after deployment:
 
 If only one change causes issues:
 
-1. **Particles only:** Revert page.tsx changes
-2. **Resource hints only:** Revert layout.tsx prefetch deletions
-3. **Charts only:** Revert next.config.js and chart component changes
+1. **Resource hints only:** Revert layout.tsx prefetch deletions
+2. **Charts only:** Revert next.config.js and chart component changes
+3. **CSS only:** Revert critical CSS extraction changes
 
 ---
 
@@ -712,9 +520,6 @@ If only one change causes issues:
 
 ### Common Issues & Solutions
 
-#### Issue: Dust particles not visible
-**Solution:** Check z-index values, ensure not covered by gradient overlay
-
 #### Issue: Charts not loading
 **Solution:** Check intersection observer implementation, verify chartRef is attached
 
@@ -738,18 +543,16 @@ npm run build
 
 ### Why These Specific Changes?
 
-1. **Canvas to CSS Particles:** Canvas requires continuous JavaScript execution and GPU repainting. CSS animations are hardware-accelerated and run on the compositor thread.
+1. **Resource Hint Removal:** Each prefetch triggers a network request, competing with critical resources. The browser is smart enough to prioritize without hints.
 
-2. **Resource Hint Removal:** Each prefetch triggers a network request, competing with critical resources. The browser is smart enough to prioritize without hints.
+2. **CSS Optimization:** Inline CSS blocks HTML parsing. Moving non-critical styles allows faster initial render.
 
-3. **CSS Optimization:** Inline CSS blocks HTML parsing. Moving non-critical styles allows faster initial render.
-
-4. **Deferred Loading:** Not all content needs to load immediately. Deferring non-critical JavaScript improves Time to Interactive.
+3. **Deferred Loading:** Not all content needs to load immediately. Deferring non-critical JavaScript improves Time to Interactive.
 
 ### What We're NOT Changing
 
 - **Recharts Library:** Keeping it, just optimizing when it loads
-- **Design/UX:** No visual changes except particle effect (which looks similar)
+- **Design/UX:** No visual changes to the user interface
 - **Functionality:** All features remain exactly the same
 - **Content:** No content changes
 
@@ -776,16 +579,15 @@ All changes are compatible with:
 
 | File | Lines Changed | Risk | Impact |
 |------|--------------|------|--------|
-| `src/components/ui/dust-particles.tsx` | NEW (120 lines) | Low | High |
-| `src/app/page.tsx` | 16, 63-69, 77, 28-47 | Low | High |
+| `src/app/page.tsx` | 77, 28-47 | Low | Medium |
 | `src/app/layout.tsx` | 56-59, 63, 66-67, 72-87, 21 | Low | Medium |
 | `next.config.js` | 100-106, 94-96 | Low | Medium |
 | `src/components/VestingTimelineChartRecharts.tsx` | 215-230, 489-495 | Low | Medium |
 
-Total files modified: 5
-New files created: 1
-Lines of code changed: ~50
-Lines of code added: ~120
+Total files modified: 4
+New files created: 0
+Lines of code changed: ~40
+Lines of code added: ~20
 
 ---
 
