@@ -200,7 +200,9 @@ function HistoricalCalculatorContent() {
             {/* Historical Configuration */}
             <div className="card glass overflow-hidden historical-config-card">
               <div 
-                className="flex items-center justify-between mb-6 cursor-pointer"
+                className={`flex items-center justify-between cursor-pointer ${
+                  isSettingsCollapsed ? '' : 'mb-6'
+                }`}
                 onClick={() => setIsSettingsCollapsed(!isSettingsCollapsed)}
               >
                 <div className="flex items-center">

@@ -285,7 +285,9 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             {selectedScheme && (
               <div className="card mt-6 glass">
                 <div 
-                  className="flex items-center justify-between mb-6 cursor-pointer"
+                  className={`flex items-center justify-between cursor-pointer ${
+                    isCustomizationCollapsed ? '' : 'mb-6'
+                  }`}
                   onClick={() => setIsCustomizationCollapsed(!isCustomizationCollapsed)}
                 >
                   <div className="flex items-center">
