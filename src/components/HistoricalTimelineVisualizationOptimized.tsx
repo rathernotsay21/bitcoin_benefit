@@ -463,7 +463,7 @@ function HistoricalTimelineVisualizationOptimized({
 
         <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-800 rounded-sm shadow-md">
           <div className="text-sm text-blue-800 dark:text-blue-200 font-medium">
-            💡 <strong>Interactive Timeline:</strong> Click on any year marker to explore detailed grant information, vesting status, and portfolio performance for that specific year.
+            💡 <strong>Interactive Timeline:</strong> Click on any year marker to explore detailed award information, unlocking status, and portfolio performance for that specific year.
           </div>
         </div>
       </div>

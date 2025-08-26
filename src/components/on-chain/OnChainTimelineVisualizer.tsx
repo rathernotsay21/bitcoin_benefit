@@ -166,7 +166,7 @@ export default function OnChainTimelineVisualizer({
           className="text-lg font-bold text-gray-900 dark:text-white mb-4"
           id="table-heading"
         >
-          Grant Status Breakdown
+          Award Status Breakdown
         </h4>
         <div className="overflow-x-auto rounded-sm shadow-sm">
           <table 
@@ -334,7 +334,7 @@ export default function OnChainTimelineVisualizer({
           className="text-xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight"
           id="timeline-heading"
         >
-          10-Year Vesting Grant Timeline
+          10-Year Vesting Award Timeline
         </h3>
         <div 
           className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400"

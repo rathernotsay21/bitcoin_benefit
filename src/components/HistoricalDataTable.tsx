@@ -96,7 +96,7 @@ export default function HistoricalDataTable({
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="px-0 hover:bg-transparent font-medium text-gray-500 dark:text-white/80 uppercase text-xs hidden sm:flex"
         >
-          Bonus Cost
+          Award Cost
           {column.getIsSorted() === "asc" ? (
             <ArrowUpIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -251,7 +251,7 @@ export default function HistoricalDataTable({
   });
 
   const downloadCSV = () => {
-    const headers = ['Year', 'Bonus Cost', 'BTC', 'BTC Price', 'Historical USD', 'Current USD', 'Unlocked %'];
+    const headers = ['Year', 'Award Cost', 'BTC', 'BTC Price', 'Historical USD', 'Current USD', 'Unlocked %'];
     const csvContent = [
       headers.join(','),
       ...data.map(row => [

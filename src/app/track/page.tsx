@@ -183,7 +183,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
 }) {
   const steps = [
     { id: 'fetching', label: 'Fetching Transactions', icon: MagnifyingGlassIcon, description: 'Fetching transaction data from blockchain...' },
-    { id: 'annotating', label: 'Analyzing & Matching', icon: CalculatorIcon, description: 'Analyzing transactions and matching to vesting schedule...' },
+    { id: 'annotating', label: 'Analyzing & Matching', icon: CalculatorIcon, description: 'Analyzing transactions and matching to unlocking schedule...' },
     { id: 'pricing', label: 'Retrieving Values', icon: CurrencyDollarIcon, description: 'Retrieving historical benefit values...' },
     { id: 'complete', label: 'Analysis Complete', icon: CheckIcon, description: 'All processing complete' }
   ];
@@ -303,12 +303,12 @@ function FeatureOverview() {
     {
       icon: MagnifyingGlassIcon,
       title: 'Automatic Matching',
-      description: 'Smart algorithm matches transactions to expected vesting grants based on timing and amounts'
+      description: 'Smart algorithm matches transactions to expected unlocking awards based on timing and amounts'
     },
     {
       icon: PencilIcon,
       title: 'Manual Overrides',
-      description: 'Easily reassign transactions to different grant years with dropdown controls and undo functionality'
+      description: 'Easily reassign transactions to different award years with dropdown controls and undo functionality'
     },
     {
       icon: BanknotesIcon,
@@ -318,7 +318,7 @@ function FeatureOverview() {
     {
       icon: ChartBarIcon,
       title: 'Verify On-Chain',
-      description: 'See grants and vesting anytime online without creating yet another account with some bank you\'ll never use again'
+      description: 'See awards and unlocking anytime online without creating yet another account with some bank you\'ll never use again'
     },
     {
       icon: LockClosedIcon,
@@ -432,7 +432,7 @@ export default function TrackerPage() {
   useEffect(() => {
     if (currentStep === 'complete' && annotatedTransactions.length > 0) {
       const matchedGrants = Math.min(annotatedTransactions.filter(t => t.type === 'Annual Award').length, totalGrants || 5);
-      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${matchedGrants} vesting awards matched.`;
+      const announcement = `Analysis complete. Found ${annotatedTransactions.length} transactions with ${matchedGrants} unlocking awards matched.`;
       announceToScreenReader(announcement);
     }
   }, [currentStep, annotatedTransactions, totalGrants]);
@@ -612,7 +612,7 @@ export default function TrackerPage() {
                         role="listitem"
                       >
                         <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                          Unlocking Grants Matched
+                          Unlocking Awards Matched
                         </span>
                         <span
                           className="text-lg font-bold text-green-800 dark:text-green-300"

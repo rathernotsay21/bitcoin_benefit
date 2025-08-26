@@ -158,12 +158,12 @@ export default function HomePage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
-                    Meaningful to Employees
+                  A Benefit Employees Value.
                   </h3>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                     Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 
-                    your team. Offering it shows you understand their values and are investing in their long-term future, 
-                    not just their next paycheck.
+                    your team. Offering it shows you understand their values and want to help build their future, 
+                    not just fund their paycheck.
                   </p>
                 </div>
               </div>
@@ -292,7 +292,7 @@ export default function HomePage() {
                   {/* Content */}
                   <div className="flex-1">
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                      Are you ready to lead? Make a significant upfront investment and like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
+                      Are you ready to lead? Make a significant upfront contribution and just like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
                     </p>
                   </div>
                   
@@ -334,7 +334,7 @@ export default function HomePage() {
                   {/* Content */}
                   <div className="flex-1">
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                      Combine a meaningful initial grant with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
+                      Combine a meaningful initial award with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
                     </p>
                   </div>
                   

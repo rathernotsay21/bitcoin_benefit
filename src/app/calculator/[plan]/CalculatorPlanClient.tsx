@@ -79,14 +79,26 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   } = useCalculatorStore();
 
   // Define all callbacks at the component level
-  // Input change handlers - update local state only
+  // Input change handlers - update local state and trigger immediate calculation
   const handleInitialGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setInitialGrantInput(e.target.value);
-  }, []);
+    const value = e.target.value;
+    setInitialGrantInput(value);
+    // Trigger immediate update for valid numeric values
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue >= 0) {
+      updateSchemeCustomization(selectedScheme.id, { initialGrant: numValue });
+    }
+  }, [selectedScheme.id, updateSchemeCustomization]);
 
   const handleAnnualGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnnualGrantInput(e.target.value);
-  }, []);
+    const value = e.target.value;
+    setAnnualGrantInput(value);
+    // Trigger immediate update for valid numeric values
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue >= 0) {
+      updateSchemeCustomization(selectedScheme.id, { annualGrant: numValue });
+    }
+  }, [selectedScheme.id, updateSchemeCustomization]);
 
   const handleBitcoinGrowthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setGrowthRateInput(e.target.value);
@@ -308,7 +320,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 }`}>
                   <div>
                     <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
-                      Bitcoin Bonus Amount
+                      Bitcoin Award Amount
                       <HelpTooltip content={HELP_CONTENT.initialGrant} />
                     </label>
                     <input
@@ -324,7 +336,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                     <div>
                       <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
-                        Yearly Bitcoin Bonus
+                        Yearly Bitcoin Award
                         <HelpTooltip content={HELP_CONTENT.annualGrant} />
                       </label>
                       <input

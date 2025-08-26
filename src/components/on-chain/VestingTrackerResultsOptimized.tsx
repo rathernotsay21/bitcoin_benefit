@@ -148,7 +148,7 @@ const SummaryStatistics = memo(function SummaryStatistics({
             {stats.matchedGrantsCount}
           </div>
           <div className="text-sm text-gray-600 dark:text-slate-400">
-            Vesting Grants Matched
+            Vesting Awards Matched
           </div>
         </div>
         <div className="text-center">

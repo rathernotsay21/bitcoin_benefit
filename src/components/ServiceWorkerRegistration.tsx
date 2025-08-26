@@ -6,7 +6,7 @@ export function ServiceWorkerRegistration(): JSX.Element | null {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       // In development, unregister all service workers to prevent caching issues
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') {
         navigator.serviceWorker.getRegistrations().then((registrations) => {
           registrations.forEach((registration) => {
             registration.unregister().then((success) => {
@@ -15,6 +15,9 @@ export function ServiceWorkerRegistration(): JSX.Element | null {
               }
             });
           });
+        }).catch(err => {
+          // Silently fail if service workers can't be accessed
+          console.debug('[Dev] Could not unregister service workers:', err);
         });
         
         // Clear all caches in development
@@ -24,10 +27,18 @@ export function ServiceWorkerRegistration(): JSX.Element | null {
               caches.delete(name);
               console.log('[Dev] Cache cleared:', name);
             });
+          }).catch(err => {
+            // Silently fail if caches can't be accessed
+            console.debug('[Dev] Could not clear caches:', err);
           });
         }
-      } else if (process.env.NODE_ENV === 'production') {
-        // Only register in production
+        
+        // Important: Return early to prevent any SW registration on localhost
+        return;
+      }
+      
+      // Only register in production (non-localhost)
+      if (process.env.NODE_ENV === 'production' && window.location.hostname !== 'localhost') {
         window.addEventListener('load', () => {
           navigator.serviceWorker
             .register('/sw-production.js')

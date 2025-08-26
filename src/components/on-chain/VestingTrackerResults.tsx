@@ -103,7 +103,7 @@ export default function VestingTrackerResults({
     // Announce sort change to screen readers
     const fieldLabels = {
       'date': 'Date',
-      'grantYear': 'Grant Year', 
+      'grantYear': 'Award Year', 
       'type': 'Type',
       'amountBTC': 'Bitcoin Amount',
       'valueAtTimeOfTx': 'USD Value'
@@ -656,7 +656,7 @@ export default function VestingTrackerResults({
                 {transactions.filter(t => t.type === 'Annual Award').length}
               </div>
               <div className="text-sm text-green-700 dark:text-green-400 font-medium">
-                Vesting Grants Matched
+                Vesting Awards Matched
               </div>
             </div>
             

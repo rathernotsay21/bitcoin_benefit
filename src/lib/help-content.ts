@@ -17,7 +17,7 @@ export const HELP_CONTENT = {
   
   growthMultiple: "How many times the initial investment has grown. A 3x multiple means the investment is worth 3 times its original value, representing a 200% gain.",
   
-  totalCost: "The total USD amount needed to fund all Bitcoin grants over the unlocking period, calculated using current or historical Bitcoin prices.",
+  totalCost: "The total USD amount needed to fund all Bitcoin awards over the unlocking period, calculated using current or historical Bitcoin prices.",
 
   // Unlocking Terms
   cliffUnlocking: "An unlocking schedule where no benefits unlock until a specific date, then a large percentage unlocks all at once. Common in traditional equity compensation.",
@@ -47,7 +47,7 @@ export const HELP_CONTENT = {
   // Historical Analysis Terms
   historicalPerformance: "How the unlocking strategy would have performed using actual Bitcoin price data from the past. Helps understand potential outcomes and risks.",
 
-  costBasis: "The original purchase price of Bitcoin grants, used to calculate gains or losses. Different cost basis methods (high, low, average) show various scenarios.",
+  costBasis: "The original purchase price of Bitcoin awards, used to calculate gains or losses. Different cost basis methods (high, low, average) show various scenarios.",
 
   yearOverYear: "Comparing performance from one year to the next, showing how Bitcoin's volatility affects year-to-year benefit values.",
 
@@ -59,9 +59,9 @@ export const HELP_CONTENT = {
   regulatoryRisk: "The risk that government regulations could affect Bitcoin's value or usability as a compensation tool. Laws and regulations continue to evolve.",
 
   // Implementation Terms
-  custodyOptions: "Different ways to store and manage Bitcoin grants: company custody, third-party custody services, or employee self-custody with proper security measures.",
+  custodyOptions: "Different ways to store and manage Bitcoin awards: company custody, third-party custody services, or employee self-custody with proper security measures.",
 
-  taxImplications: "Bitcoin compensation may have complex tax consequences. The value at grant time, unlocking events, and eventual sale can all create taxable events.",
+  taxImplications: "Bitcoin compensation may have complex tax consequences. The value at award time, unlocking events, and eventual sale can all create taxable events.",
 
   complianceRequirements: "Legal and regulatory requirements that may apply to Bitcoin-based compensation programs, varying by jurisdiction and company size.",
 } as const;

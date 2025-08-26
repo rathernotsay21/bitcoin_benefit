@@ -138,7 +138,7 @@ const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: Custom
           <div className="pt-3 border-t border-border">
             <div className="flex items-center gap-2">
               <span className="inline-flex px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-orange-400 to-amber-500 text-white">
-                New Grant
+                New Award
               </span>
               <span className="text-sm font-bold text-bitcoin">+{formatBTC(yearData.grantSize)}</span>
             </div>
@@ -672,12 +672,12 @@ function VestingTimelineChartRecharts({
           <>
             <div className="flex flex-col gap-2 w-full">
               <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Initial Grant:</span>
+                <span className="text-muted-foreground">Initial Award:</span>
                 <span className="text-bitcoin font-bold">{formatBTC(initialGrant)}</span>
               </div>
               {annualGrant && annualGrant > 0 && (
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Annual Grant:</span>
+                  <span className="text-muted-foreground">Annual Award:</span>
                   <span className="text-bitcoin font-bold">{formatBTC(annualGrant)}</span>
                 </div>
               )}
@@ -700,7 +700,7 @@ function VestingTimelineChartRecharts({
               {customVestingEvents && customVestingEvents.length > 0 ? (
                 <span>Custom vesting schedule applied</span>
               ) : (
-                <span>Standard vesting: 50% at year 5, 100% at year 10</span>
+                <span>Standard unlocking: 50% at year 5, 100% at year 10</span>
               )}
             </div>
           </>
@@ -727,7 +727,7 @@ function VestingTimelineChartRecharts({
               {customVestingEvents && customVestingEvents.length > 0 ? (
                 <span><span style={{color: '#eab308', fontWeight: 500}}>Vesting milestones:</span> {customVestingEvents.map(e => `${e.percentageVested}% at ${e.label}`).join(', ')}</span>
               ) : (
-                <span><span style={{color: '#eab308', fontWeight: 500}}>Standard vesting:</span> 50% at year 5, 100% at year 10</span>
+                <span><span style={{color: '#eab308', fontWeight: 500}}>Standard unlocking:</span> 50% at year 5, 100% at year 10</span>
               )}
             </div>
             {growthMultiple > 1 && (

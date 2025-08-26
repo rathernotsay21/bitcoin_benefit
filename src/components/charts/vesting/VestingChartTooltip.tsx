@@ -76,7 +76,7 @@ export const VestingChartTooltip = memo<CustomTooltipProps>(({
               </span>
             </div>
             <div className="flex justify-between items-center mt-1">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Grant Value:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Award Value:</span>
               <span className="font-mono text-sm text-gray-700 dark:text-gray-300">
                 {formatUSD(grantSize)}
               </span>

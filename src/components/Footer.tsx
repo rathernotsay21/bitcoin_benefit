@@ -118,7 +118,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/track" className="text-slate-400 hover:text-bitcoin transition-colors">
-                      Track Bonuses
+                      Track Awards
                     </Link>
                   </li>
                   <li>

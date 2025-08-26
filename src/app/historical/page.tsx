@@ -255,7 +255,7 @@ function HistoricalCalculatorContent() {
                   <>
                     <div className="input-container">
                       <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
-                        Starting Bitcoin Bonus
+                        Starting Bitcoin Award
                       </label>
                       <input
                         type="number"
@@ -276,7 +276,7 @@ function HistoricalCalculatorContent() {
                     {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                       <div className="input-container">
                         <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
-                          Yearly Bitcoin Bonus
+                          Yearly Bitcoin Award
                         </label>
                         <input
                           type="number"

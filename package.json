@@ -23,12 +23,13 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "dev:clean": "rm -rf .next && rm -rf node_modules/.cache && next dev",
+    "dev": "node scripts/manage-service-worker.js && next dev",
+    "dev:clean": "rm -rf .next && rm -rf node_modules/.cache && node scripts/manage-service-worker.js && next dev",
     "cache:clear": "rm -rf .next && rm -rf node_modules/.cache",
     "cache:clear:all": "rm -rf .next && rm -rf node_modules/.cache && rm -rf .next/cache",
-    "prebuild": "node scripts/generate-static-data.js",
+    "prebuild": "node scripts/generate-static-data.js && NODE_ENV=production node scripts/manage-service-worker.js",
     "build": "NODE_OPTIONS='--max-old-space-size=4096' next build && node scripts/verify-css-build.js",
+    "postbuild": "NODE_ENV=production node scripts/manage-service-worker.js",
     "build:safe": "npm run prebuild && NODE_OPTIONS='--max-old-space-size=4096' next build && node scripts/verify-css-build.js && node scripts/test-deployment.js",
     "test:deployment": "node scripts/test-deployment.js",
     "build:analyze": "ANALYZE=true npm run build",

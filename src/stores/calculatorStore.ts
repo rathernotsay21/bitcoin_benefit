@@ -332,8 +332,6 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     },
   
     updateSchemeCustomization: (schemeId, customization) => {
-      const { debouncedCalculate } = getDebouncedFunctions();
-      
       set((state) => ({
         schemeCustomizations: {
           ...state.schemeCustomizations,
@@ -344,8 +342,8 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
         }
       }));
       
-      // Use debounced calculation
-      debouncedCalculate();
+      // Use immediate calculation for responsive updates
+      get().calculateResults();
     },
     
     addCustomVestingEvent: (schemeId, event) => {
