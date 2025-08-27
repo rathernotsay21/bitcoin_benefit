@@ -143,7 +143,7 @@ function HistoricalCalculatorContent() {
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
       <Navigation />
       
       {/* Hero Section */}
@@ -372,7 +372,7 @@ function HistoricalCalculatorContent() {
                 />
 
                 {/* Historical Timeline Visualization */}
-                <div className="card mb-6">
+                <div className="card mb-6 border-2 border-bitcoin">
                   <HistoricalTimelineVisualization
                     results={historicalResults}
                     startingYear={startingYear}
@@ -383,7 +383,7 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 {/* Enhanced Annual Breakdown Table */}
-                <div className="card mb-6">
+                <div className="card mb-6 border-2 border-bitcoin">
                   <HistoricalDataTable
                     data={(() => {
                       // Prepare data for the enhanced table

@@ -554,7 +554,7 @@ function VestingTimelineChartRecharts({
   // Early return if no valid data - after all hooks
   if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
     return (
-      <Card className="w-full">
+      <Card className="w-full border-2 border-bitcoin">
         <CardHeader>
           <CardTitle>Your Benefit's Growth Projection</CardTitle>
         </CardHeader>
@@ -571,7 +571,7 @@ function VestingTimelineChartRecharts({
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full border-2 border-bitcoin">
       <CardHeader>
         <CardTitle>Your Benefit's Growth Projection</CardTitle>
         <CardDescription>

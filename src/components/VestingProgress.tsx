@@ -28,6 +28,59 @@ interface VestingProgressData {
   }[];
 }
 
+// Helper function to adjust color brightness
+function adjustBrightness(hex: string, percent: number): string {
+  // Remove # if present
+  const num = parseInt(hex.replace('#', ''), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const G = (num >> 8 & 0x00FF) + amt;
+  const B = (num & 0x0000FF) + amt;
+  return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+    (B < 255 ? B < 1 ? 0 : B : 255))
+    .toString(16).slice(1);
+}
+
+// Generate color gradations for each plan
+function generateColorGradations(baseColor: string): Array<{ bg: string, text: string, border: string, label: string }> {
+  const colors = [];
+  
+  // First period uses the base color (same as plan selector button)
+  colors.push({ bg: baseColor, text: baseColor, border: baseColor, label: 'Base' });
+  
+  // Generate 5 additional gradations (darker/lighter variants)
+  for (let i = 1; i < 6; i++) {
+    // Alternate between darker and lighter shades
+    const adjustment = i % 2 === 1 ? -(i * 8) : (i * 6);
+    const adjustedColor = adjustBrightness(baseColor, adjustment);
+    colors.push({ 
+      bg: adjustedColor, 
+      text: adjustedColor, 
+      border: adjustedColor, 
+      label: `Variant ${i}` 
+    });
+  }
+  
+  return colors;
+}
+
+// Period color palettes for each strategy - based on plan selector button colors
+const PERIOD_COLORS = {
+  accelerator: {
+    // Bitcoin orange base (#f7931b) with gradations
+    colors: generateColorGradations('#f7931b')
+  },
+  'steady-builder': {
+    // Green base (#10b981) with gradations - using Tailwind's green-500
+    colors: generateColorGradations('#10b981')
+  },
+  'slow-burn': {
+    // Blue base (#3b82f6) with gradations - using Tailwind's blue-500
+    colors: generateColorGradations('#3b82f6')
+  }
+};
+
 // Strategy-specific configurations
 const STRATEGY_CONFIG = {
   accelerator: {
@@ -159,7 +212,11 @@ export default function VestingProgress({
   const strategyConfig = STRATEGY_CONFIG[scheme.id as keyof typeof STRATEGY_CONFIG] || STRATEGY_CONFIG['steady-builder'];
   const StrategyIcon = strategyConfig.icon;
   
-  // Create progress segments based on vesting events
+  // Get color palette for current strategy
+  const strategyKey = scheme.id as keyof typeof PERIOD_COLORS;
+  const colorPalette = PERIOD_COLORS[strategyKey] || PERIOD_COLORS['steady-builder'];
+  
+  // Create progress segments based on vesting events with unique colors
   const createProgressSegments = () => {
     if (vestingEvents.length === 0) return [];
     
@@ -169,13 +226,17 @@ export default function VestingProgress({
     for (let i = 0; i < vestingEvents.length; i++) {
       const event = vestingEvents[i];
       const segmentWidth = event.percentage - previousPercentage;
+      const colorIndex = i % colorPalette.colors.length;
+      const periodColor = colorPalette.colors[colorIndex];
       
       segments.push({
         width: segmentWidth,
         achieved: event.achieved,
         isNext: event.isNext,
         label: event.label,
-        percentage: event.percentage
+        percentage: event.percentage,
+        color: periodColor,
+        index: i
       });
       
       previousPercentage = event.percentage;
@@ -209,39 +270,12 @@ export default function VestingProgress({
 
       </div>
       
-      {/* Enhanced Progress Visualization */}
+      {/* Helper text */}
       <div className="mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
-            Unlock Timeline
-          </span>
+        <div className="flex justify-end items-center">
           <span className="text-sm text-gray-500 dark:text-slate-400">
             Try changing the plan and unlock schedule
           </span>
-        </div>
-        
-        {/* Multi-segment Progress Bar */}
-        <div className="relative">
-          <div className="w-full h-4 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div className="flex h-full">
-              {progressSegments.map((segment, index) => {
-                const segmentColor = segment.achieved 
-                  ? strategyConfig.colors.accent
-                  : segment.isNext 
-                  ? `${strategyConfig.colors.accent} opacity-60 animate-pulse`
-                  : 'bg-gray-300 dark:bg-slate-600';
-                
-                return (
-                  <div
-                    key={index}
-                    className={`h-full transition-all duration-500 ${segmentColor}`}
-                    style={{ width: `${segment.width}%` }}
-                    title={`${segment.label}: ${segment.percentage}% unlocked`}
-                  />
-                );
-              })}
-            </div>
-          </div>
         </div>
       </div>
       
@@ -257,24 +291,77 @@ export default function VestingProgress({
             .filter((event, index, self) => 
               index === self.findIndex(e => e.label === event.label && e.percentage === event.percentage)
             )
-            .map((event, index) => (
-              <div key={`${event.label}-${event.percentage}-${index}`} className="flex items-center justify-between px-2 py-1 bg-white dark:bg-slate-800 rounded">
-                <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
-                  {(event as any).fullLabel || event.label}
-                </span>
-                <div className="flex items-center">
-                  <span className={`text-sm ${
-                    event.achieved 
-                      ? 'text-green-600 dark:text-green-400'
-                      : event.isNext
-                      ? strategyConfig.colors.text
-                      : 'text-gray-600 dark:text-slate-400'
-                  }`} style={{color: '#777f89'}}>
-                    {event.percentage}%
+            .map((event, eventIndex) => {
+              // Find the matching color from the segments
+              const matchingSegment = progressSegments.find(
+                seg => seg.label === event.label && seg.percentage === event.percentage
+              );
+              const colorIndex = matchingSegment?.index ?? eventIndex;
+              const periodColor = colorPalette.colors[colorIndex % colorPalette.colors.length];
+              
+              // Improved color contrast settings
+              let backgroundColor = periodColor.bg;
+              let textColor = '#ffffff';
+              let borderStyle = `2px solid ${periodColor.border}`;
+              let boxShadow = 'none';
+              
+              if (event.achieved) {
+                // Full color with white text for achieved milestones
+                backgroundColor = periodColor.bg;
+                textColor = '#ffffff';
+                boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+              } else if (event.isNext) {
+                // Next milestone: medium opacity with white text
+                backgroundColor = `${periodColor.bg}cc`; // 80% opacity via hex
+                textColor = '#ffffff';
+                borderStyle = `2px solid ${periodColor.bg}`;
+              } else {
+                // Future milestones: very light background with appropriate text color
+                backgroundColor = `${periodColor.bg}1a`; // 10% opacity via hex for light mode
+                // Use dark color for text in light mode, lighter text in dark mode
+                textColor = '#1f2937'; // Dark gray for better contrast
+                borderStyle = `1px solid ${periodColor.bg}4d`; // 30% opacity border
+              }
+              
+              return (
+                <div 
+                  key={`${event.label}-${event.percentage}-${eventIndex}`} 
+                  className={`flex items-center justify-between px-3 py-2 rounded-lg transition-all duration-300 hover:shadow-md ${
+                    !event.achieved && !event.isNext ? 'dark:bg-slate-800/50' : ''
+                  }`}
+                  style={{
+                    backgroundColor: backgroundColor,
+                    border: borderStyle,
+                    boxShadow: boxShadow,
+                    transform: event.achieved ? 'scale(1.02)' : 'scale(1)'
+                  }}
+                >
+                  <span 
+                    className={`text-sm font-semibold ${
+                      !event.achieved && !event.isNext ? 'dark:text-slate-300' : ''
+                    }`}
+                    style={{ color: event.achieved || event.isNext ? textColor : undefined }}
+                  >
+                    {(event as any).fullLabel || event.label}
                   </span>
+                  <div className="flex items-center gap-2">
+                    <span 
+                      className={`text-sm font-bold ${
+                        !event.achieved && !event.isNext ? 'dark:text-slate-300' : ''
+                      }`}
+                      style={{ color: event.achieved || event.isNext ? textColor : undefined }}
+                    >
+                      {event.percentage}%
+                    </span>
+                    {event.achieved && (
+                      <svg className="w-4 h-4" fill={textColor} viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
 

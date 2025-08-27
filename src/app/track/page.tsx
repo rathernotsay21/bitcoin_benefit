@@ -333,7 +333,7 @@ function FeatureOverview() {
   ];
 
   return (
-    <div className="card">
+    <div className="card border-2 border-bitcoin">
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Don't Trust. Verify.

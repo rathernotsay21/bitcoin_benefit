@@ -58,7 +58,7 @@ interface BitcoinToolsPageProps {
 
 export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps) {
   return (
-    <div className="min-h-screen transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
       <Navigation />
       
       {/* Skip to main content link for accessibility */}

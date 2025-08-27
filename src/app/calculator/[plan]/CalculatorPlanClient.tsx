@@ -227,7 +227,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   })();
 
   return (
-    <div className="min-h-screen transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
       <Navigation />
 
       {/* Hero Section */}
@@ -428,7 +428,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
             {/* Annual Breakdown Table */}
             {results && displayScheme && (
-              <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6">
+              <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6 border-2 border-bitcoin">
                 <VirtualizedAnnualBreakdown
                   yearlyData={results.timeline.filter((_, i) => i % 12 === 0).map((point, year) => ({
                     year,
