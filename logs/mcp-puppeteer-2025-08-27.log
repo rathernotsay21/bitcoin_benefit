@@ -140,3 +140,7 @@
 {"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.850"}
 {"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.853","title":"Employee Benefits Platform | Modern Retention Solutions for HR Teams","url":"http://localhost:3000/"}
 {"arguments":{"height":800,"name":"production-buttons-verified","width":1200},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:52.510","tool":"puppeteer_screenshot"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 18:57:28.722"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 18:57:28.723"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 19:03:07.166"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 19:03:07.166"}

@@ -195,12 +195,17 @@ export function FeeCalculatorTool() {
     }
   }, [checkRateLimit, recordRequest, setFeeCalculatorLoading, setFeeCalculatorData, setFeeCalculatorError]);
 
-  // Initial load
+  // Initial load - only run once on mount
   useEffect(() => {
-    if (!feeCalculator.data) {
-      fetchFeeRecommendations(feeCalculator.txSize);
-    }
-  }, [feeCalculator.data, feeCalculator.txSize, fetchFeeRecommendations]);
+    const timer = setTimeout(() => {
+      if (!feeCalculator.data) {
+        fetchFeeRecommendations(feeCalculator.txSize);
+      }
+    }, 100); // Small delay to ensure component is fully mounted
+    
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array ensures this only runs once
 
   // Auto-refresh every 60 seconds
   useEffect(() => {
@@ -278,27 +283,38 @@ export function FeeCalculatorTool() {
   // Re-transform recommendations when BTC price updates
   useEffect(() => {
     if (btcPrice && feeCalculator.data && networkData && lastUpdated) {
-      const apiData: FeeApiResponse = {
-        recommendations: feeCalculator.data.map((rec: FeeRecommendation) => ({
-          level: rec.level as 'economy' | 'balanced' | 'priority',
-          emoji: rec.emoji,
-          label: rec.label,
-          timeEstimate: rec.timeEstimate,
-          satPerVByte: rec.satPerVByte,
-          description: rec.description,
-          savings: rec.savings.percent > 0 ? {
-            percent: rec.savings.percent,
-            comparedTo: rec.savings.comparedTo
-          } : undefined
-        })),
-        networkConditions: networkData,
-        lastUpdated: lastUpdated,
-        txSize: feeCalculator.txSize
-      };
-      const updatedRecommendations = transformToFeeRecommendations(apiData, btcPrice);
-      setFeeCalculatorData(updatedRecommendations);
+      // Only update if the BTC price in recommendations doesn't match current price
+      // Check if price needs updating by comparing the USD value calculation
+      const currentTotalUSD = feeCalculator.data[0]?.totalCost?.usd;
+      const currentTotalSats = feeCalculator.data[0]?.satPerVByte * feeCalculator.txSize;
+      const expectedUSD = (currentTotalSats / 100000000) * btcPrice;
+      
+      // Only update if prices differ significantly (more than 1% difference)
+      if (currentTotalUSD && Math.abs(currentTotalUSD - expectedUSD) / expectedUSD > 0.01) {
+        const apiData: FeeApiResponse = {
+          recommendations: feeCalculator.data.map((rec: FeeRecommendation) => ({
+            level: rec.level as 'economy' | 'balanced' | 'priority',
+            emoji: rec.emoji,
+            label: rec.label,
+            timeEstimate: rec.timeEstimate,
+            satPerVByte: rec.satPerVByte,
+            description: rec.description,
+            savings: rec.savings.percent > 0 ? {
+              percent: rec.savings.percent,
+              comparedTo: rec.savings.comparedTo
+            } : undefined
+          })),
+          networkConditions: networkData,
+          lastUpdated: lastUpdated,
+          txSize: feeCalculator.txSize
+        };
+        const updatedRecommendations = transformToFeeRecommendations(apiData, btcPrice);
+        setFeeCalculatorData(updatedRecommendations);
+      }
     }
-  }, [btcPrice, feeCalculator.data, feeCalculator.txSize, lastUpdated, networkData, setFeeCalculatorData]);
+    // Remove feeCalculator.data from dependencies to prevent infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [btcPrice, feeCalculator.txSize, lastUpdated, networkData, setFeeCalculatorData]);
 
   const formatUSD = (satoshis: number): string => {
     const actualBtcPrice = btcPrice || 30000; // Fallback price
