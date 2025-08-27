@@ -249,7 +249,7 @@ export default function VestingProgress({
   
   return (
     <div 
-      className={`p-4 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin ${className}`}
+      className={`p-4 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin dark:border-0 ${className}`}
     >
       {/* Enhanced Header with Strategy Information */}
       <div className="flex items-center justify-between mb-3">

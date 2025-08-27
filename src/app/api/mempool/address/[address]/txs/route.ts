@@ -3,6 +3,9 @@ import { validateBitcoinAddress } from '@/lib/on-chain/validation';
 import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
 
+// Force this route to be dynamically rendered (uses dynamic params)
+export const dynamic = 'force-dynamic';
+
 interface RouteParams {
   params: {
     address: string;

@@ -3,6 +3,9 @@ import { withSizeLimit } from '@/lib/security/requestSizeLimiter';
 import { withAPISecurityMiddleware } from '@/lib/security/apiMiddleware';
 import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
+// Force this route to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 // Internal handler function
 async function handleCoinGeckoRequest(request: NextRequest): Promise<Response> {
   return withSizeLimit(request, async (_request: NextRequest) => {

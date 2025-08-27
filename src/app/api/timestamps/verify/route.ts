@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Force this route to be dynamically rendered (uses request.json())
+export const dynamic = 'force-dynamic';
+
 interface VerifyTimestampRequest {
   proof: string;
   hash: string;

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
 
+// Force this route to be dynamically rendered (uses dynamic params)
+export const dynamic = 'force-dynamic';
+
 interface RouteParams {
   params: {
     txid: string;

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RateLimiter } from '@/lib/security/rateLimiter';
 
+// Force this route to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 const rateLimiter = new RateLimiter({
   windowMs: 60 * 1000, // 1 minute
   max: 100, // 100 requests per minute

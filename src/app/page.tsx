@@ -58,36 +58,42 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="hero-section relative min-h-[400px] py-24 overflow-hidden bg-slate-950 dark:bg-slate-950">
-        {/* Particles Background */}
-        <Particles
-          className="absolute inset-0 z-0"
-          quantity={50}
-          ease={80}
-          color="#94a3b8"
-          refresh={false}
-        />
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-br from-slate-900/60 via-slate-950/40 to-slate-900/60 pointer-events-none"></div>
+      <section className="hero-section relative min-h-[400px] bg-slate-950 dark:bg-slate-950">
+        {/* Background container with overflow hidden */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Particles Background */}
+          <Particles
+            className="absolute inset-0 z-0"
+            quantity={50}
+            ease={80}
+            color="#94a3b8"
+            refresh={false}
+          />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-br from-slate-900/60 via-slate-950/40 to-slate-900/60 pointer-events-none"></div>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <div className="text-center">
-            <div className="flex justify-center mb-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full animate-float shadow-sm" style={{backgroundColor: '#F7931A'}}>
-                <SatoshiIcon className="w-10 h-10" size={40} color="#FFFFFF" />
+        {/* Content container without overflow constraints */}
+        <div className="relative z-20 py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <div className="flex justify-center mb-8">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full animate-float shadow-sm" style={{backgroundColor: '#F7931A'}}>
+                  <SatoshiIcon className="w-10 h-10" size={40} color="#FFFFFF" />
+                </div>
               </div>
-            </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-              <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Reward Loyalty</span>
-              <br />
-              <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
-            </h1>
-            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-700 leading-relaxed">
-              The future ain't what it used to be.
-            </p>
-            <HeroButtons />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Reward Loyalty</span>
+                <br />
+                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
+              </h1>
+              <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-700 leading-relaxed">
+                The future ain't what it used to be.
+              </p>
+              <HeroButtons />
+            </div>
           </div>
         </div>
       </section>

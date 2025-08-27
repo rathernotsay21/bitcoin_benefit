@@ -428,7 +428,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
             {/* Annual Breakdown Table */}
             {results && displayScheme && (
-              <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6 border-2 border-bitcoin">
+              <div className="card w-full overflow-hidden mt-8 md:mt-10 p-6 border-2 border-bitcoin dark:border-0">
                 <VirtualizedAnnualBreakdown
                   yearlyData={results.timeline.filter((_, i) => i % 12 === 0).map((point, year) => ({
                     year,

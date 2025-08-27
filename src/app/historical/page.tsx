@@ -372,7 +372,7 @@ function HistoricalCalculatorContent() {
                 />
 
                 {/* Historical Timeline Visualization */}
-                <div className="card mb-6 border-2 border-bitcoin">
+                <div className="card mb-6 border-2 border-bitcoin dark:border-0">
                   <HistoricalTimelineVisualization
                     results={historicalResults}
                     startingYear={startingYear}
@@ -383,7 +383,7 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 {/* Enhanced Annual Breakdown Table */}
-                <div className="card mb-6 border-2 border-bitcoin">
+                <div className="card mb-6 border-2 border-bitcoin dark:border-0">
                   <HistoricalDataTable
                     data={(() => {
                       // Prepare data for the enhanced table

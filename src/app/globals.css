@@ -246,175 +246,37 @@ scroll-behavior: smooth;
                 inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  /* Premium Hero Button System - Neon Glow Effect */
-  .btn-hero-primary {
-    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
-    /* Dark base for neon contrast */
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    color: #f2a900;
-    border: 2px solid #f2a900;
-    /* Initial subtle glow */
-    box-shadow: 
-      0 0 3px rgba(247, 147, 26, 0.3),
-      0 0 6px rgba(247, 147, 26, 0.15),
-      inset 0 0 3px rgba(247, 147, 26, 0.05);
-    /* GPU acceleration */
-    transform: translateZ(0);
-    position: relative;
-    isolation: isolate;
-    text-shadow: 0 0 3px rgba(247, 147, 26, 0.3);
-    /* Electric pulse animation */
-    animation: electricPulse 2s ease-in-out  1;
+  /* Production-Safe Hero Button Styles */
+  .hero-btn-primary {
+    box-shadow: 0 0 12px rgba(247, 147, 26, 0.3), 0 4px 20px rgba(247, 147, 26, 0.15);
+    text-shadow: 0 0 4px rgba(247, 147, 26, 0.4);
   }
 
-  /* Neon border glow */
-  .btn-hero-primary::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    background: linear-gradient(45deg, 
-      #f2a900, #ffd700, #ff8c00, #f2a900, #ffd700
-    );
-    border-radius: inherit;
-    z-index: -1;
-    opacity: 0;
-    filter: blur(4px);
-    transition: opacity 0.3s ease;
-    animation: neonRotate 3s linear  1;
-  }
-
-  /* Inner electric glow */
-  .btn-hero-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, 
-      rgba(247, 147, 26, 0.2) 0%, 
-      transparent 70%);
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .btn-hero-primary:hover {
-    color: #ffffff;
+  .hero-btn-primary:hover {
     border-color: #ffd700;
-    background: linear-gradient(135deg, #2d1810 0%, #3d2418 100%);
-    /* Subtle neon glow on hover */
-    box-shadow: 
-      0 0 6px rgba(247, 147, 26, 0.5),
-      0 0 12px rgba(247, 147, 26, 0.3),
-      0 0 20px rgba(247, 147, 26, 0.15),
-      inset 0 0 6px rgba(247, 147, 26, 0.1);
-    text-shadow: 
-      0 0 6px rgba(255, 255, 255, 0.5);
-    animation-play-state: paused;
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(247, 147, 26, 0.5), 0 8px 30px rgba(247, 147, 26, 0.25);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
   }
 
-  .btn-hero-primary:hover::before {
-    opacity: 0.4;
+  .hero-btn-primary:active {
+    transform: translateY(0px) scale(0.98);
   }
 
-  .btn-hero-primary:hover::after {
-    opacity: 0.6;
+  .hero-btn-secondary {
+    box-shadow: 0 0 12px rgba(100, 149, 237, 0.2), 0 4px 20px rgba(100, 149, 237, 0.1);
+    text-shadow: 0 0 2px rgba(148, 163, 184, 0.3);
   }
 
-  .btn-hero-primary:active {
-    transform: scale(0.98);
-    box-shadow: 
-      0 0 4px rgba(247, 147, 26, 0.5),
-      0 0 8px rgba(247, 147, 26, 0.3),
-      inset 0 0 5px rgba(247, 147, 26, 0.15);
-  }
-
-  /* Hero Secondary Button - Electric Outline */
-  .btn-hero-secondary {
-    @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
-    /* Transparent base with electric border */
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(4px) saturate(180%);
-    -webkit-backdrop-filter: blur(4px) saturate(180%);
-    color: #94a3b8;
-    /* Electric border */
-    border: 2px solid #64748b;
-    position: relative;
-    isolation: isolate;
-    /* Subtle initial glow */
-    box-shadow: 
-      0 0 2px rgba(100, 149, 237, 0.2),
-      inset 0 0 2px rgba(100, 149, 237, 0.05);
-    /* GPU acceleration */
-    transform: translateZ(0);
-    text-shadow: 0 0 2px rgba(148, 163, 184, 0.2);
-    /* Lightning pulse */
-    animation: lightningPulse 3s ease-in-out  1;
-  }
-
-  /* Electric arc effect */
-  .btn-hero-secondary::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: inherit;
-    background: linear-gradient(45deg, 
-      #3b82f6, #60a5fa, #93c5fd, #dbeafe, #93c5fd, #60a5fa, #3b82f6);
-    background-size: 400% 400%;
-    opacity: 0;
-    filter: blur(8px);
-    transition: opacity 0.3s ease;
-    animation: electricArc 2s linear  1;
-    z-index: -1;
-  }
-
-  /* Lightning strike effect */
-  .btn-hero-secondary::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(147, 197, 253, 0.4) 50%, 
-      transparent 100%);
-    transition: left 0.5s ease;
-    pointer-events: none;
-    transform: skewX(-20deg);
-  }
-
-  .btn-hero-secondary:hover {
-    background: rgba(30, 41, 59, 0.6);
-    color: #ffffff;
+  .hero-btn-secondary:hover {
     border-color: #60a5fa;
-    /* Subtle electric blue glow */
-    box-shadow: 
-      0 0 6px rgba(96, 165, 250, 0.5),
-      0 0 12px rgba(96, 165, 250, 0.3),
-      0 0 20px rgba(96, 165, 250, 0.15),
-      inset 0 0 6px rgba(96, 165, 250, 0.1);
-    text-shadow: 
-      0 0 6px rgba(255, 255, 255, 0.5);
-    animation-play-state: paused;
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.4), 0 8px 30px rgba(96, 165, 250, 0.2);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
   }
 
-  .btn-hero-secondary:hover::before {
-    opacity: 0.5;
-    animation-play-state: running;
-  }
-
-  .btn-hero-secondary:hover::after {
-    left: 100%;
-    transition: left 0.3s ease;
-  }
-
-  .btn-hero-secondary:active {
-    transform: scale(0.98);
-    box-shadow: 
-      0 0 4px rgba(96, 165, 250, 0.5),
-      0 0 8px rgba(96, 165, 250, 0.3),
-      inset 0 0 5px rgba(96, 165, 250, 0.15);
+  .hero-btn-secondary:active {
+    transform: translateY(0px) scale(0.98);
   }
 
   /* Keyframe Animations */
@@ -481,29 +343,21 @@ scroll-behavior: smooth;
 
   /* Mobile optimizations */
   @media (hover: none) and (pointer: coarse) {
-    .btn-hero-primary,
-    .btn-hero-secondary {
+    .hero-primary-btn,
+    .hero-secondary-btn {
       animation: none;
     }
     
-    .btn-hero-primary:active,
-    .btn-hero-secondary:active {
-      transform: scale(0.98);
+    .hero-primary-btn:active,
+    .hero-secondary-btn:active {
+      transform: scale(0.98) !important;
     }
   }
 
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
-    .btn-hero-primary,
-    .btn-hero-secondary {
-      animation: none;
-      transition-duration: 0.1s;
-    }
-    
-    .btn-hero-primary::before,
-    .btn-hero-secondary::before,
-    .btn-hero-primary::after,
-    .btn-hero-secondary::after {
+    .hero-primary-btn,
+    .hero-secondary-btn {
       animation: none;
       transition-duration: 0.1s;
     }

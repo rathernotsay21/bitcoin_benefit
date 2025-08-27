@@ -5,6 +5,9 @@ import { safeAsync, TypeSafeRateLimiter } from '@/lib/type-safe-error-handler';
 import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
 import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
+// Force this route to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 // Rate limiter for external API calls
 const apiRateLimiter = new TypeSafeRateLimiter(30, 60000); // 30 requests per minute
 

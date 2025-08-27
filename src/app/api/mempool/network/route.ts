@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAPISecurityMiddleware } from '@/lib/security/apiMiddleware';
 import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
 
+// Force this route to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 async function handleMempoolNetworkRequest(_request: NextRequest): Promise<Response> {
   try {
     // Check if API calls should be skipped (development mode)
