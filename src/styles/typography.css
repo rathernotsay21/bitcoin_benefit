@@ -1,0 +1,439 @@
+/**
+ * Typography System - Bitcoin Benefit Platform
+ * Phase 1 Implementation: CSS Custom Properties Foundation
+ * 
+ * Features:
+ * - Modular scale system (1.333 ratio for mathematical harmony)
+ * - Fluid typography using clamp() for responsive scaling
+ * - Theme-aware variables for light/dark/high-contrast modes
+ * - Dynamic line-height calculations based on font size
+ * - Performance-optimized custom properties
+ */
+
+/* =============================================================================
+   CSS CUSTOM PROPERTIES FOUNDATION
+   ============================================================================= */
+
+:root {
+  /* Typography Scale Configuration */
+  --typography-scale: 1.333; /* Perfect fourth ratio for mathematical harmony */
+  --typography-base: 16; /* Base font size in pixels */
+  
+  /* Viewport Range for Fluid Calculations */
+  --viewport-min: 320; /* Minimum viewport width */
+  --viewport-max: 1440; /* Maximum viewport width */
+  
+  /* Font Size Scale - Modular Scale (1.333) with Fluid Calculations */
+  --font-size-caption: clamp(0.75rem, 0.6875rem + 0.3125vw, 0.875rem);    /* 12-14px */
+  --font-size-body: clamp(0.875rem, 0.8125rem + 0.3125vw, 1rem);          /* 14-16px */
+  --font-size-base: clamp(1rem, 0.9375rem + 0.3125vw, 1.125rem);          /* 16-18px */
+  --font-size-lead: clamp(1.125rem, 1.0625rem + 0.3125vw, 1.25rem);       /* 18-20px */
+  --font-size-lg: clamp(1.25rem, 1.1875rem + 0.3125vw, 1.375rem);         /* 20-22px */
+  --font-size-xl: clamp(1.375rem, 1.25rem + 0.625vw, 1.625rem);           /* 22-26px */
+  --font-size-2xl: clamp(1.5rem, 1.3125rem + 0.9375vw, 1.875rem);         /* 24-30px */
+  --font-size-3xl: clamp(1.875rem, 1.625rem + 1.25vw, 2.5rem);            /* 30-40px */
+  --font-size-4xl: clamp(2.25rem, 1.875rem + 1.875vw, 3.375rem);          /* 36-54px */
+  --font-size-5xl: clamp(2.75rem, 2.25rem + 2.5vw, 4.5rem);               /* 44-72px */
+  --font-size-6xl: clamp(3.5rem, 2.75rem + 3.75vw, 6rem);                 /* 56-96px */
+  --font-size-display: clamp(4rem, 3rem + 5vw, 8rem);                     /* 64-128px */
+  
+  /* Line Height Scale - Dynamic calculations based on font size */
+  --line-height-tight: 1.1;     /* Headlines */
+  --line-height-snug: 1.2;      /* Sub-headlines */
+  --line-height-normal: 1.4;    /* UI text */
+  --line-height-relaxed: 1.6;   /* Body text */
+  --line-height-loose: 1.8;     /* Reading text */
+  
+  /* Font Weight Scale */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Letter Spacing Scale */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+  
+  /* Font Family Variables with Fallbacks */
+  --font-family-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  --font-family-display: var(--font-family-sans);
+  
+  /* Theme-Aware Typography Colors - Light Mode */
+  --text-primary: hsl(210, 15%, 15%);        /* Primary text color */
+  --text-secondary: hsl(210, 10%, 35%);      /* Secondary text color */
+  --text-muted: hsl(210, 8%, 55%);           /* Muted text color */
+  --text-subtle: hsl(210, 6%, 70%);          /* Subtle text color */
+  --text-inverse: hsl(0, 0%, 100%);          /* Inverse text color */
+  
+  /* Bitcoin Brand Typography Colors */
+  --text-bitcoin: hsl(42, 100%, 49%);        /* Bitcoin orange (#f2a900) */
+  --text-bitcoin-dark: hsl(35, 85%, 45%);    /* Darker Bitcoin orange */
+  --text-accent: hsl(217, 91%, 60%);         /* Blue accent (#3b82f6) */
+  --text-success: hsl(142, 71%, 45%);        /* Success green */
+  --text-warning: hsl(45, 93%, 47%);         /* Warning yellow */
+  --text-error: hsl(0, 84%, 60%);            /* Error red */
+  
+  /* Typography Shadow Variables */
+  --text-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --text-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --text-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+  
+  /* Container Query Breakpoints for Typography */
+  --container-xs: 20rem;   /* 320px */
+  --container-sm: 24rem;   /* 384px */
+  --container-md: 28rem;   /* 448px */
+  --container-lg: 32rem;   /* 512px */
+  --container-xl: 36rem;   /* 576px */
+  --container-2xl: 42rem;  /* 672px */
+}
+
+/* Dark Theme Typography Colors */
+.dark {
+  --text-primary: hsl(210, 15%, 95%);        /* Primary text color */
+  --text-secondary: hsl(210, 10%, 80%);      /* Secondary text color */
+  --text-muted: hsl(210, 8%, 65%);           /* Muted text color */
+  --text-subtle: hsl(210, 6%, 50%);          /* Subtle text color */
+  --text-inverse: hsl(210, 15%, 15%);        /* Inverse text color */
+  
+  /* Adjusted brand colors for dark mode */
+  --text-bitcoin: hsl(42, 100%, 55%);        /* Brighter Bitcoin orange for dark mode */
+  --text-bitcoin-dark: hsl(35, 85%, 50%);    /* Darker Bitcoin orange */
+  --text-accent: hsl(217, 91%, 65%);         /* Brighter blue accent for dark mode */
+  --text-success: hsl(142, 71%, 55%);        /* Brighter success green */
+  --text-warning: hsl(45, 93%, 57%);         /* Brighter warning yellow */
+  --text-error: hsl(0, 84%, 70%);            /* Brighter error red */
+}
+
+/* High Contrast Theme */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: hsl(0, 0%, 0%);
+    --text-secondary: hsl(0, 0%, 20%);
+    --text-muted: hsl(0, 0%, 40%);
+    --text-bitcoin: hsl(42, 100%, 40%);     /* Darker for high contrast */
+    --text-accent: hsl(217, 91%, 45%);      /* Darker blue for high contrast */
+  }
+  
+  .dark {
+    --text-primary: hsl(0, 0%, 100%);
+    --text-secondary: hsl(0, 0%, 90%);
+    --text-muted: hsl(0, 0%, 80%);
+    --text-bitcoin: hsl(42, 100%, 60%);     /* Brighter for dark high contrast */
+    --text-accent: hsl(217, 91%, 70%);      /* Brighter blue for dark high contrast */
+  }
+}
+
+/* =============================================================================
+   TYPOGRAPHY UTILITY CLASSES
+   ============================================================================= */
+
+/* Font Size Classes with Modular Scale */
+.text-caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-normal);
+}
+
+.text-body {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+}
+
+.text-base {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+.text-lead {
+  font-size: var(--font-size-lead);
+  line-height: var(--line-height-relaxed);
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+}
+
+.text-xl {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-snug);
+}
+
+.text-2xl {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-snug);
+}
+
+.text-3xl {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+}
+
+.text-4xl {
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-tight);
+}
+
+.text-5xl {
+  font-size: var(--font-size-5xl);
+  line-height: var(--line-height-tight);
+}
+
+.text-6xl {
+  font-size: var(--font-size-6xl);
+  line-height: var(--line-height-tight);
+}
+
+.text-display {
+  font-size: var(--font-size-display);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Font Weight Classes */
+.font-thin { font-weight: var(--font-weight-thin); }
+.font-extralight { font-weight: var(--font-weight-extralight); }
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-extrabold { font-weight: var(--font-weight-extrabold); }
+.font-black { font-weight: var(--font-weight-black); }
+
+/* Line Height Classes */
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-snug { line-height: var(--line-height-snug); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: var(--line-height-relaxed); }
+.leading-loose { line-height: var(--line-height-loose); }
+
+/* Letter Spacing Classes */
+.tracking-tighter { letter-spacing: var(--letter-spacing-tighter); }
+.tracking-tight { letter-spacing: var(--letter-spacing-tight); }
+.tracking-normal { letter-spacing: var(--letter-spacing-normal); }
+.tracking-wide { letter-spacing: var(--letter-spacing-wide); }
+.tracking-wider { letter-spacing: var(--letter-spacing-wider); }
+.tracking-widest { letter-spacing: var(--letter-spacing-widest); }
+
+/* Font Family Classes */
+.font-sans { font-family: var(--font-family-sans); }
+.font-mono { font-family: var(--font-family-mono); }
+.font-display { font-family: var(--font-family-display); }
+
+/* Text Color Classes - Theme Aware */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-subtle { color: var(--text-subtle); }
+.text-inverse { color: var(--text-inverse); }
+
+/* Brand Color Classes */
+.text-bitcoin { color: var(--text-bitcoin); }
+.text-bitcoin-dark { color: var(--text-bitcoin-dark); }
+.text-accent { color: var(--text-accent); }
+.text-success { color: var(--text-success); }
+.text-warning { color: var(--text-warning); }
+.text-error { color: var(--text-error); }
+
+/* Text Shadow Classes */
+.text-shadow-sm { text-shadow: var(--text-shadow-sm); }
+.text-shadow-md { text-shadow: var(--text-shadow-md); }
+.text-shadow-lg { text-shadow: var(--text-shadow-lg); }
+
+/* =============================================================================
+   SEMANTIC TYPOGRAPHY COMPONENTS
+   ============================================================================= */
+
+/* Heading Hierarchy */
+.heading-display {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+}
+
+.heading-1 {
+  font-size: var(--font-size-6xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+}
+
+.heading-2 {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+}
+
+.heading-3 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+}
+
+.heading-4 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+  color: var(--text-primary);
+}
+
+.heading-5 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-snug);
+  color: var(--text-primary);
+}
+
+.heading-6 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+}
+
+/* Body Text Variants */
+.body-large {
+  font-size: var(--font-size-lead);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+}
+
+.body-normal {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+}
+
+.body-small {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+}
+
+.caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Special Text Styles */
+.label {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.overline {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+}
+
+/* Bitcoin-specific Typography */
+.bitcoin-symbol {
+  font-feature-settings: "liga" on, "kern" on;
+  font-variant-ligatures: common-ligatures;
+}
+
+.bitcoin-amount {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" on;
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* =============================================================================
+   CONTAINER QUERY RESPONSIVE TYPOGRAPHY
+   ============================================================================= */
+
+/* Container Query Support for Typography */
+@supports (container-type: inline-size) {
+  .typography-container {
+    container-type: inline-size;
+  }
+  
+  @container (min-width: 20rem) {
+    .container-text-responsive {
+      font-size: var(--font-size-base);
+    }
+  }
+  
+  @container (min-width: 24rem) {
+    .container-text-responsive {
+      font-size: var(--font-size-lg);
+    }
+  }
+  
+  @container (min-width: 32rem) {
+    .container-text-responsive {
+      font-size: var(--font-size-xl);
+    }
+  }
+}
+
+/* =============================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================================================= */
+
+/* Font Loading Optimizations */
+.font-display-swap {
+  font-display: swap;
+}
+
+/* Prevent Layout Shift */
+.text-stable {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" on;
+}
+
+/* Reduce Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    text-shadow: none !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  :root {
+    --font-size-display: 2rem;
+    --font-size-6xl: 1.75rem;
+    --font-size-5xl: 1.5rem;
+    --font-size-4xl: 1.25rem;
+    --font-size-3xl: 1.125rem;
+    --font-size-2xl: 1rem;
+    --font-size-xl: 0.875rem;
+    --font-size-lg: 0.8125rem;
+    --font-size-base: 0.75rem;
+    --font-size-body: 0.6875rem;
+    --font-size-caption: 0.625rem;
+  }
+  
+  .text-bitcoin,
+  .text-accent {
+    color: var(--text-primary) !important;
+  }
+}

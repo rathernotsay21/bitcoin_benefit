@@ -1,0 +1,431 @@
+/**
+ * Font System - Bitcoin Benefit Platform
+ * Phase 1 Implementation: Variable Font System & Bitcoin Symbol Subsetting
+ * 
+ * Features:
+ * - Inter variable font with full weight axis (100-900)
+ * - Bitcoin symbol font subsetting (₿, ₑ, ⚡)
+ * - Font-size-adjust for x-height consistency
+ * - Metric-compatible fallback fonts
+ * - Performance-optimized font loading strategies
+ */
+
+/* =============================================================================
+   INTER VARIABLE FONT SYSTEM
+   ============================================================================= */
+
+/**
+ * Inter Variable Font - Primary typeface
+ * Supports weight axis from 100-900
+ * Optimized for screen rendering and readability
+ */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-variable.woff2') format('woff2-variations'),
+       url('/fonts/inter-variable.woff2') format('woff2');
+  font-variation-settings: 'wght' 400;
+  unicode-range: U+0020-007F,      /* Basic Latin */
+                 U+00A0-00FF,      /* Latin-1 Supplement */
+                 U+0100-017F,      /* Latin Extended-A */
+                 U+0180-024F,      /* Latin Extended-B */
+                 U+1E00-1EFF,      /* Latin Extended Additional */
+                 U+2000-206F,      /* General Punctuation */
+                 U+2070-209F,      /* Superscripts and Subscripts */
+                 U+20A0-20CF,      /* Currency Symbols */
+                 U+2100-214F,      /* Letterlike Symbols */
+                 U+2190-21FF,      /* Arrows */
+                 U+2200-22FF,      /* Mathematical Operators */
+                 U+FB00-FB4F;      /* Alphabetic Presentation Forms */
+}
+
+/**
+ * Inter Variable Font - Italic variant
+ * For emphasis and contextual styling
+ */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-variable-italic.woff2') format('woff2-variations'),
+       url('/fonts/inter-variable-italic.woff2') format('woff2');
+  font-variation-settings: 'wght' 400;
+  unicode-range: U+0020-007F,      /* Basic Latin */
+                 U+00A0-00FF,      /* Latin-1 Supplement */
+                 U+0100-017F,      /* Latin Extended-A */
+                 U+0180-024F,      /* Latin Extended-B */
+                 U+1E00-1EFF,      /* Latin Extended Additional */
+                 U+2000-206F,      /* General Punctuation */
+                 U+2070-209F,      /* Superscripts and Subscripts */
+                 U+20A0-20CF,      /* Currency Symbols */
+                 U+2100-214F,      /* Letterlike Symbols */
+                 U+2190-21FF,      /* Arrows */
+                 U+2200-22FF,      /* Mathematical Operators */
+                 U+FB00-FB4F;      /* Alphabetic Presentation Forms */
+}
+
+/**
+ * Inter Static Font - Fallback for older browsers
+ * Regular weight only for compatibility
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-regular.woff2') format('woff2'),
+       url('/fonts/inter-regular.woff') format('woff');
+  unicode-range: U+0020-007F,      /* Basic Latin */
+                 U+00A0-00FF,      /* Latin-1 Supplement */
+                 U+0100-017F,      /* Latin Extended-A */
+                 U+0180-024F,      /* Latin Extended-B */
+                 U+1E00-1EFF,      /* Latin Extended Additional */
+                 U+2000-206F,      /* General Punctuation */
+                 U+2070-209F,      /* Superscripts and Subscripts */
+                 U+20A0-20CF,      /* Currency Symbols */
+                 U+2100-214F,      /* Letterlike Symbols */
+                 U+2190-21FF,      /* Arrows */
+                 U+2200-22FF,      /* Mathematical Operators */
+                 U+FB00-FB4F;      /* Alphabetic Presentation Forms */
+}
+
+/* =============================================================================
+   BITCOIN SYMBOL FONT SUBSETTING
+   ============================================================================= */
+
+/**
+ * Bitcoin Symbols Font - Specialized subset
+ * Contains only essential Bitcoin-related symbols for optimal loading
+ * Symbols: ₿ (Bitcoin), ₑ (Euro), ⚡ (Lightning), $ (Dollar), £ (Pound), ¥ (Yen)
+ * Using system fonts that include these symbols
+ */
+@font-face {
+  font-family: 'Bitcoin Symbols';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* Fallback to system fonts that include Bitcoin and currency symbols */
+  src: local('Apple Color Emoji'),
+       local('Segoe UI Emoji'),
+       local('Segoe UI Symbol'),
+       local('Noto Color Emoji'),
+       local('EmojiOne Color'),
+       local('Android Emoji');
+  unicode-range: U+20BF,          /* ₿ Bitcoin Symbol */
+                 U+20AC,          /* € Euro Symbol */
+                 U+0024,          /* $ Dollar Symbol */
+                 U+00A3,          /* £ Pound Symbol */
+                 U+00A5,          /* ¥ Yen Symbol */
+                 U+26A1,          /* ⚡ Lightning Symbol */
+                 U+20B5,          /* ₵ Cedi Symbol */
+                 U+20A6,          /* ₦ Naira Symbol */
+                 U+20B9;          /* ₹ Rupee Symbol */
+}
+
+/**
+ * Bitcoin Symbols Font - Bold variant
+ * For emphasized Bitcoin amounts and symbols
+ * Using system fonts that include these symbols
+ */
+@font-face {
+  font-family: 'Bitcoin Symbols';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  /* Fallback to system fonts that include Bitcoin and currency symbols */
+  src: local('Apple Color Emoji'),
+       local('Segoe UI Emoji'),
+       local('Segoe UI Symbol'),
+       local('Noto Color Emoji'),
+       local('EmojiOne Color'),
+       local('Android Emoji');
+  unicode-range: U+20BF,          /* ₿ Bitcoin Symbol */
+                 U+20AC,          /* € Euro Symbol */
+                 U+0024,          /* $ Dollar Symbol */
+                 U+00A3,          /* £ Pound Symbol */
+                 U+00A5,          /* ¥ Yen Symbol */
+                 U+26A1,          /* ⚡ Lightning Symbol */
+                 U+20B5,          /* ₵ Cedi Symbol */
+                 U+20A6,          /* ₦ Naira Symbol */
+                 U+20B9;          /* ₹ Rupee Symbol */
+}
+
+/* =============================================================================
+   FONT-SIZE-ADJUST CONFIGURATIONS
+   ============================================================================= */
+
+/**
+ * Font-size-adjust ensures consistent x-height across different fonts
+ * Inter has an x-height ratio of approximately 0.52
+ */
+:root {
+  /* Inter Variable Font Metrics */
+  --font-size-adjust-inter: 0.52;
+  
+  /* System Font Metrics for Fallbacks */
+  --font-size-adjust-system: 0.5;     /* Generic system font */
+  --font-size-adjust-helvetica: 0.52; /* Helvetica Neue */
+  --font-size-adjust-arial: 0.52;     /* Arial */
+  --font-size-adjust-segoe: 0.53;     /* Segoe UI */
+  --font-size-adjust-roboto: 0.54;    /* Roboto */
+}
+
+/* Apply font-size-adjust to main font families */
+.font-inter {
+  font-family: 'Inter Variable', 'Inter', sans-serif;
+  font-size-adjust: var(--font-size-adjust-inter);
+}
+
+.font-system {
+  font-family: system-ui, sans-serif;
+  font-size-adjust: var(--font-size-adjust-system);
+}
+
+.font-bitcoin-symbols {
+  font-family: 'Bitcoin Symbols', 'Inter Variable', 'Inter', sans-serif;
+  font-size-adjust: var(--font-size-adjust-inter);
+}
+
+/* =============================================================================
+   METRIC-COMPATIBLE FALLBACK FONTS
+   ============================================================================= */
+
+/**
+ * Fallback font stack optimized for metric compatibility
+ * Prioritizes fonts with similar character widths and x-heights to Inter
+ */
+:root {
+  /* Primary Font Stack with Metric Compatibility */
+  --font-stack-primary: 'Inter Variable', 'Inter', 
+                       'SF Pro Display', 'SF Pro Text',           /* Apple System */
+                       'Segoe UI', 'Segoe UI Variable',          /* Windows */
+                       'Roboto', 'Roboto Flex',                 /* Android/Google */
+                       'Helvetica Neue', 'Helvetica',           /* Legacy Apple */
+                       'Arial', sans-serif;                      /* Universal fallback */
+  
+  /* Monospace Stack for Code and Data */
+  --font-stack-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 
+                     'Source Code Pro', 'Menlo', 'Consolas', 
+                     'Liberation Mono', monospace;
+  
+  /* Bitcoin Symbols Stack */
+  --font-stack-bitcoin: 'Bitcoin Symbols', 'Inter Variable', 'Inter',
+                        'Apple Color Emoji', 'Segoe UI Emoji',
+                        'Noto Color Emoji', sans-serif;
+}
+
+/* =============================================================================
+   FONT LOADING OPTIMIZATION STRATEGIES
+   ============================================================================= */
+
+/**
+ * Font loading classes for progressive enhancement
+ */
+
+/* Critical fonts loaded first */
+.fonts-loading .font-critical {
+  font-family: system-ui, sans-serif;
+  font-size-adjust: var(--font-size-adjust-system);
+}
+
+/* Progressive font loading states */
+.fonts-loaded-primary .font-primary {
+  font-family: var(--font-stack-primary);
+  font-size-adjust: var(--font-size-adjust-inter);
+}
+
+.fonts-loaded-symbols .font-symbols {
+  font-family: var(--font-stack-bitcoin);
+  font-size-adjust: var(--font-size-adjust-inter);
+}
+
+/* Font feature settings for optimal rendering */
+.font-optimized {
+  font-feature-settings: 'kern' on,      /* Enable kerning */
+                         'liga' on,      /* Enable ligatures */
+                         'calt' on,      /* Enable contextual alternates */
+                         'case' on,      /* Enable case-sensitive forms */
+                         'tnum' off,     /* Use proportional numbers by default */
+                         'frac' on;      /* Enable fractions */
+  font-variant-ligatures: common-ligatures contextual;
+  font-variant-numeric: proportional-nums;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular numbers for data display */
+.font-tabular {
+  font-feature-settings: 'kern' on,
+                         'liga' on,
+                         'calt' on,
+                         'tnum' on,      /* Use tabular numbers */
+                         'zero' on;      /* Use slashed zero */
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+/* =============================================================================
+   BITCOIN-SPECIFIC FONT UTILITIES
+   ============================================================================= */
+
+/* Bitcoin symbol styling */
+.bitcoin-symbol {
+  font-family: var(--font-stack-bitcoin);
+  font-feature-settings: 'kern' on, 'liga' on;
+  font-variant-ligatures: common-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Bitcoin amount formatting */
+.bitcoin-amount {
+  font-family: var(--font-stack-primary);
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: 'tnum' on, 'zero' on;
+  letter-spacing: 0.025em;
+}
+
+/* Lightning network symbol */
+.lightning-symbol {
+  font-family: var(--font-stack-bitcoin);
+  color: var(--text-bitcoin);
+  font-size: 1.2em;
+  vertical-align: text-top;
+}
+
+/* Currency symbol alignment */
+.currency-symbol {
+  font-family: var(--font-stack-bitcoin);
+  vertical-align: baseline;
+  margin-right: 0.125em;
+}
+
+/* =============================================================================
+   BROWSER-SPECIFIC OPTIMIZATIONS
+   ============================================================================= */
+
+/* WebKit/Blink optimizations */
+@supports (-webkit-font-feature-settings: normal) {
+  .font-webkit-optimized {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke: 0.01em transparent;
+  }
+}
+
+/* Firefox optimizations */
+@supports (-moz-font-feature-settings: normal) {
+  .font-firefox-optimized {
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: 'kern' on, 'liga' on;
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ============================================================================= */
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .font-animation {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .font-high-contrast {
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    text-shadow: none;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  * {
+    font-family: var(--font-stack-primary) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .bitcoin-symbol,
+  .currency-symbol {
+    font-family: serif !important;
+  }
+}
+
+/* =============================================================================
+   FONT WEIGHT AXIS CONFIGURATIONS
+   ============================================================================= */
+
+/**
+ * Inter Variable Font Weight Axis Utilities
+ * Precise weight control using font-variation-settings
+ */
+
+/* Ultra-precise weight controls */
+.font-weight-150 { font-variation-settings: 'wght' 150; }
+.font-weight-250 { font-variation-settings: 'wght' 250; }
+.font-weight-350 { font-variation-settings: 'wght' 350; }
+.font-weight-450 { font-variation-settings: 'wght' 450; }
+.font-weight-550 { font-variation-settings: 'wght' 550; }
+.font-weight-650 { font-variation-settings: 'wght' 650; }
+.font-weight-750 { font-variation-settings: 'wght' 750; }
+.font-weight-850 { font-variation-settings: 'wght' 850; }
+
+/* Contextual weight adjustments */
+.font-weight-adaptive {
+  font-variation-settings: 'wght' 400;
+}
+
+@media (min-width: 768px) {
+  .font-weight-adaptive {
+    font-variation-settings: 'wght' 350;
+  }
+}
+
+@media (min-width: 1024px) {
+  .font-weight-adaptive {
+    font-variation-settings: 'wght' 300;
+  }
+}
+
+/* Dark mode weight adjustments */
+.dark .font-weight-auto {
+  font-variation-settings: 'wght' 450; /* Slightly heavier in dark mode */
+}
+
+/* =============================================================================
+   FONT LOADING PERFORMANCE MONITORING
+   ============================================================================= */
+
+/**
+ * Font loading performance classes
+ * Used with JavaScript font loading API
+ */
+
+.font-loading-fallback {
+  font-family: system-ui, sans-serif;
+  font-size-adjust: 0.5;
+  visibility: hidden;
+}
+
+.font-loaded .font-loading-fallback {
+  visibility: visible;
+  font-family: var(--font-stack-primary);
+  font-size-adjust: var(--font-size-adjust-inter);
+}
+
+/* Font swap periods */
+.font-swap-period {
+  font-display: swap;
+}
+
+.font-optional-period {
+  font-display: optional;
+}
+
+.font-fallback-period {
+  font-display: fallback;
+}

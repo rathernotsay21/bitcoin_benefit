@@ -129,7 +129,108 @@ module.exports = {
         'dark-primary': '#334155', // Medium slate for borders
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Inter Variable', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        mono: ['SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'],
+        display: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+        'bitcoin-symbols': ['Bitcoin Symbols', 'Inter Variable', 'Inter', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'sans-serif'],
+      },
+      fontSize: {
+        // Modular Scale Typography (1.333 ratio) with Fluid Sizing
+        'caption': ['var(--font-size-caption)', {
+          lineHeight: 'var(--line-height-normal)',
+          letterSpacing: '0',
+        }],
+        'body': ['var(--font-size-body)', {
+          lineHeight: 'var(--line-height-relaxed)',
+          letterSpacing: '0.01em',
+        }],
+        'base': ['var(--font-size-base)', {
+          lineHeight: 'var(--line-height-normal)',
+          letterSpacing: '0',
+        }],
+        'lead': ['var(--font-size-lead)', {
+          lineHeight: 'var(--line-height-relaxed)',
+          letterSpacing: '0',
+        }],
+        'lg': ['var(--font-size-lg)', {
+          lineHeight: 'var(--line-height-normal)',
+          letterSpacing: '0',
+        }],
+        'xl': ['var(--font-size-xl)', {
+          lineHeight: 'var(--line-height-snug)',
+          letterSpacing: '-0.01em',
+        }],
+        '2xl': ['var(--font-size-2xl)', {
+          lineHeight: 'var(--line-height-snug)',
+          letterSpacing: '-0.015em',
+        }],
+        '3xl': ['var(--font-size-3xl)', {
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: '-0.02em',
+        }],
+        '4xl': ['var(--font-size-4xl)', {
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: '-0.025em',
+        }],
+        '5xl': ['var(--font-size-5xl)', {
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: '-0.025em',
+        }],
+        '6xl': ['var(--font-size-6xl)', {
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: '-0.025em',
+        }],
+        'display': ['var(--font-size-display)', {
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: '-0.025em',
+          fontWeight: '700',
+        }],
+        // Legacy sizes for backward compatibility
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+      },
+      fontWeight: {
+        thin: 'var(--font-weight-thin)',
+        extralight: 'var(--font-weight-extralight)',
+        light: 'var(--font-weight-light)',
+        normal: 'var(--font-weight-normal)',
+        medium: 'var(--font-weight-medium)',
+        semibold: 'var(--font-weight-semibold)',
+        bold: 'var(--font-weight-bold)',
+        extrabold: 'var(--font-weight-extrabold)',
+        black: 'var(--font-weight-black)',
+      },
+      lineHeight: {
+        tight: 'var(--line-height-tight)',
+        snug: 'var(--line-height-snug)',
+        normal: 'var(--line-height-normal)',
+        relaxed: 'var(--line-height-relaxed)',
+        loose: 'var(--line-height-loose)',
+      },
+      letterSpacing: {
+        tighter: 'var(--letter-spacing-tighter)',
+        tight: 'var(--letter-spacing-tight)',
+        normal: 'var(--letter-spacing-normal)',
+        wide: 'var(--letter-spacing-wide)',
+        wider: 'var(--letter-spacing-wider)',
+        widest: 'var(--letter-spacing-widest)',
+      },
+      textColor: {
+        // Theme-aware text colors
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        muted: 'var(--text-muted)',
+        subtle: 'var(--text-subtle)',
+        inverse: 'var(--text-inverse)',
+        // Brand colors
+        bitcoin: 'var(--text-bitcoin)',
+        'bitcoin-dark': 'var(--text-bitcoin-dark)',
+        accent: 'var(--text-accent)',
+        success: 'var(--text-success)',
+        warning: 'var(--text-warning)',
+        error: 'var(--text-error)',
+        // Legacy colors
+        'dark-primary': '#F8FAFC',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -152,7 +253,125 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    // Typography heading classes
+    'heading-display',
+    'heading-1',
+    'heading-2', 
+    'heading-3',
+    'heading-4',
+    'heading-5',
+    'heading-6',
+    // Body text classes
+    'body-large',
+    'body-normal',
+    'body-small',
+    // Special text classes
+    'label',
+    'caption',
+    'overline',
+    // Color classes
+    'text-primary',
+    'text-secondary',
+    'text-muted',
+    'text-subtle',
+    'text-inverse',
+    'text-bitcoin',
+    'text-bitcoin-dark',
+    'text-accent',
+    'text-success',
+    'text-warning',
+    'text-error',
+  ],
   plugins: [
     require('@tailwindcss/forms'), // Install with: npm install @tailwindcss/forms
+    require('@tailwindcss/container-queries'), // Container query support
+    // Typography plugin with custom configuration
+    function({ addUtilities, addComponents, theme }) {
+      // Add fluid typography utilities
+      addUtilities({
+        '.text-fluid-sm': {
+          fontSize: 'clamp(0.875rem, 0.8125rem + 0.3125vw, 1rem)',
+          lineHeight: 'var(--line-height-normal)',
+        },
+        '.text-fluid-base': {
+          fontSize: 'clamp(1rem, 0.9375rem + 0.3125vw, 1.125rem)',
+          lineHeight: 'var(--line-height-normal)',
+        },
+        '.text-fluid-lg': {
+          fontSize: 'clamp(1.125rem, 1.0625rem + 0.3125vw, 1.25rem)',
+          lineHeight: 'var(--line-height-snug)',
+        },
+        '.text-fluid-xl': {
+          fontSize: 'clamp(1.25rem, 1.125rem + 0.625vw, 1.625rem)',
+          lineHeight: 'var(--line-height-snug)',
+        },
+        '.text-fluid-2xl': {
+          fontSize: 'clamp(1.5rem, 1.25rem + 1.25vw, 2.25rem)',
+          lineHeight: 'var(--line-height-tight)',
+        },
+        '.text-fluid-3xl': {
+          fontSize: 'clamp(1.875rem, 1.5rem + 1.875vw, 3rem)',
+          lineHeight: 'var(--line-height-tight)',
+        },
+        '.text-fluid-4xl': {
+          fontSize: 'clamp(2.25rem, 1.875rem + 1.875vw, 3.75rem)',
+          lineHeight: 'var(--line-height-tight)',
+        },
+        '.text-fluid-display': {
+          fontSize: 'clamp(3rem, 2rem + 5vw, 6rem)',
+          lineHeight: 'var(--line-height-tight)',
+          fontWeight: 'var(--font-weight-bold)',
+        },
+      });
+      
+      // Add typography component classes
+      addComponents({
+        '.typography-container': {
+          containerType: 'inline-size',
+        },
+        '.heading-display': {
+          fontSize: 'var(--font-size-display)',
+          fontWeight: 'var(--font-weight-bold)',
+          lineHeight: 'var(--line-height-tight)',
+          letterSpacing: 'var(--letter-spacing-tight)',
+          color: 'var(--text-primary)',
+        },
+        '.heading-section': {
+          fontSize: 'var(--font-size-4xl)',
+          fontWeight: 'var(--font-weight-semibold)',
+          lineHeight: 'var(--line-height-snug)',
+          letterSpacing: 'var(--letter-spacing-tight)',
+          color: 'var(--text-primary)',
+        },
+        '.body-large': {
+          fontSize: 'var(--font-size-lead)',
+          lineHeight: 'var(--line-height-relaxed)',
+          color: 'var(--text-secondary)',
+        },
+        '.body-normal': {
+          fontSize: 'var(--font-size-base)',
+          lineHeight: 'var(--line-height-relaxed)',
+          color: 'var(--text-secondary)',
+        },
+        '.caption-text': {
+          fontSize: 'var(--font-size-caption)',
+          lineHeight: 'var(--line-height-normal)',
+          color: 'var(--text-muted)',
+          fontWeight: 'var(--font-weight-medium)',
+        },
+        '.bitcoin-amount': {
+          fontFamily: 'var(--font-family-sans)',
+          fontVariantNumeric: 'tabular-nums slashed-zero',
+          fontFeatureSettings: '"tnum" on, "zero" on',
+          letterSpacing: '0.025em',
+        },
+        '.bitcoin-symbol': {
+          fontFamily: 'var(--font-family-sans)',
+          fontFeatureSettings: '"liga" on, "kern" on',
+          fontVariantLigatures: 'common-ligatures',
+        },
+      });
+    },
   ],
-}
+};

@@ -1,6 +1,11 @@
 'use client';
 
 import React, { Component, ReactNode, useState } from 'react';
+import { 
+  SectionHeading, 
+  BodyText, 
+  SmallText 
+} from '@/components/ui/typography';
 
 interface Props {
   children: ReactNode;
@@ -68,12 +73,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <SectionHeading className="mb-2">
               Oops! Something went wrong
-            </h2>
-            <p className="text-gray-600 dark:text-white/90 mb-6">
+            </SectionHeading>
+            <BodyText color="secondary" className="mb-6">
               We encountered an error while processing your request. Please try refreshing the page.
-            </p>
+            </BodyText>
             <div className="flex gap-3 justify-center">
               <button
                 onClick={this.resetError}
@@ -116,8 +121,10 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="cursor-pointer text-sm text-gray-500 dark:text-white/70 hover:text-gray-700 dark:hover:text-white">
-                  Error Details (Development Only)
+                <summary className="cursor-pointer hover:text-primary">
+                  <SmallText color="muted">
+                    Error Details (Development Only)
+                  </SmallText>
                 </summary>
                 <pre className="mt-2 text-xs bg-gray-100 dark:bg-slate-800 dark:text-white p-3 rounded overflow-auto max-h-48">
                   {this.state.error.toString()}
@@ -162,12 +169,12 @@ export function CalculatorErrorBoundary({ children }: { children: ReactNode }) {
               />
             </svg>
             <div>
-              <h3 className="text-lg font-medium text-yellow-800 dark:text-yellow-200">
+              <SectionHeading className="text-warning">
                 Calculator Error
-              </h3>
-              <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+              </SectionHeading>
+              <BodyText className="mt-1 text-warning">
                 The calculator encountered an error. Please check your inputs and try again.
-              </p>
+              </BodyText>
               <div className="mt-3 flex gap-3">
                 <button
                   onClick={resetCalculatorError}
@@ -215,12 +222,12 @@ export function ChartErrorBoundary({ children }: { children: ReactNode }) {
               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
             />
           </svg>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
+          <SectionHeading className="mb-1">
             Chart Unavailable
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-white/80">
+          </SectionHeading>
+          <SmallText color="secondary">
             Unable to render the chart. Please try refreshing the page.
-          </p>
+          </SmallText>
         </div>
       }
     >

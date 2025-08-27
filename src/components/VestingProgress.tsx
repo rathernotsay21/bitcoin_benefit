@@ -6,7 +6,6 @@ import { ClockIcon, CalendarIcon } from '@heroicons/react/24/solid';
 import { BitcoinIcon, SatoshiIcon, MiningOutlineIcon } from '@/components/icons';
 import HelpTooltip from '@/components/HelpTooltip';
 import { HELP_CONTENT } from '@/lib/help-content';
-import '@/styles/textured-backgrounds.css';
 
 interface VestingProgressProps {
   scheme: VestingScheme;
@@ -189,7 +188,7 @@ export default function VestingProgress({
   
   return (
     <div 
-      className={`p-4 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin textured-bg-light dark:textured-bg-dark ${className}`}
+      className={`p-4 bg-white dark:bg-slate-800 rounded-sm border-2 shadow-sm transition-all duration-300 hover:shadow-md border-bitcoin ${className}`}
     >
       {/* Enhanced Header with Strategy Information */}
       <div className="flex items-center justify-between mb-3">

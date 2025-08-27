@@ -271,7 +271,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
-              "font-src 'self' data:",
+              "font-src 'self' data: https://r2cdn.perplexity.ai",
               "connect-src 'self' https://api.coingecko.com https://mempool.space https://api.mempool.space",
               "media-src 'self'",
               "object-src 'none'",

@@ -17,3 +17,16 @@
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 11:35:43.119"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 11:44:09.391"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 11:44:09.392"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 14:37:22.502"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 14:37:22.503"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 15:16:41.144","tool":"puppeteer_connect_active_tab"}
+{"0":"n","1":"p","2":"x","level":"info","message":"Launching browser with config:","service":"mcp-puppeteer","timestamp":"2025-08-27 15:16:41.145"}
+{"level":"info","message":"Browser launched successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 15:16:43.034"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 15:18:58.715","tool":"puppeteer_connect_active_tab"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","timestamp":"2025-08-27 15:18:58.722","wsEndpoint":"ws://localhost:9222/devtools/browser/ca2f2aee-cfb0-4d25-9b78-5ed27f9d6466"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 15:18:58.722"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 15:18:58.726"}
+{"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-27 15:18:58.731","title":"Employee Benefits Platform | Modern Retention Solutions for HR Teams","url":"http://localhost:3001/"}
+{"arguments":{"height":120,"name":"navigation-fixed","width":1440},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 15:19:09.384","tool":"puppeteer_screenshot"}
+{"arguments":{"height":120,"name":"navigation-mobile","width":375},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 15:19:15.453","tool":"puppeteer_screenshot"}
+{"arguments":{"height":120,"name":"navigation-tablet","width":768},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 15:19:21.659","tool":"puppeteer_screenshot"}

@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-08-27T17:11:59.127Z",
+  "typography": {
+    "scale": {
+      "ratio": 1.333,
+      "base": 16,
+      "viewportMin": 320,
+      "viewportMax": 1440
+    },
+    "tokens": {
+      "fontSizes": [
+        "caption",
+        "body",
+        "base",
+        "lead",
+        "lg",
+        "xl",
+        "2xl",
+        "3xl",
+        "4xl",
+        "5xl",
+        "6xl",
+        "display"
+      ],
+      "lineHeights": [
+        "tight",
+        "snug",
+        "normal",
+        "relaxed",
+        "loose"
+      ],
+      "fontWeights": [
+        "thin",
+        "extralight",
+        "light",
+        "normal",
+        "medium",
+        "semibold",
+        "bold",
+        "extrabold",
+        "black"
+      ]
+    },
+    "semantic": {
+      "headings": [
+        "display",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6"
+      ],
+      "body": [
+        "large",
+        "normal",
+        "small"
+      ],
+      "special": [
+        "label",
+        "caption",
+        "overline",
+        "bitcoin-symbol",
+        "bitcoin-amount"
+      ]
+    },
+    "cssVariables": {
+      "fontSizes": [
+        "--font-size-caption",
+        "--font-size-body",
+        "--font-size-base",
+        "--font-size-lead",
+        "--font-size-lg",
+        "--font-size-xl",
+        "--font-size-2xl",
+        "--font-size-3xl",
+        "--font-size-4xl",
+        "--font-size-5xl",
+        "--font-size-6xl",
+        "--font-size-display"
+      ],
+      "lineHeights": [
+        "--line-height-tight",
+        "--line-height-snug",
+        "--line-height-normal",
+        "--line-height-relaxed",
+        "--line-height-loose"
+      ],
+      "fontWeights": [
+        "--font-weight-thin",
+        "--font-weight-extralight",
+        "--font-weight-light",
+        "--font-weight-normal",
+        "--font-weight-medium",
+        "--font-weight-semibold",
+        "--font-weight-bold",
+        "--font-weight-extrabold",
+        "--font-weight-black"
+      ]
+    }
+  },
+  "utilities": [
+    "getFontSizeVar(scale: FontSizeScale): string",
+    "getLineHeightVar(scale: LineHeightScale): string",
+    "getFontWeightVar(scale: FontWeightScale): string",
+    "semanticToCSSProperties(semantic: SemanticTypography): CSSProperties",
+    "validateTypographyToken(tokenType: string, value: string): ValidationResult",
+    "checkTextSizeAccessibility(fontSize: number, lineHeight: number): AccessibilityResult"
+  ],
+  "examples": {
+    "react": [
+      "<h1 className=\"text-h1\">Primary Heading</h1>",
+      "<p className=\"text-body-normal\">Standard paragraph text</p>",
+      "<span className=\"text-bitcoin-amount\">₿ 0.12345</span>"
+    ],
+    "css": [
+      ".custom { font-size: var(--font-size-xl); }",
+      ".heading { font-weight: var(--font-weight-semibold); }",
+      ".text { line-height: var(--line-height-relaxed); }"
+    ]
+  }
+}

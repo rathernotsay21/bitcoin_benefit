@@ -3,6 +3,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import { RiskAnalysisEngine } from '@/lib/calculators';
 import { formatUSD, formatPercent } from '@/lib/utils';
+import { 
+  SectionHeading, 
+  BodyText, 
+  SmallText, 
+  Caption,
+  Overline 
+} from '@/components/ui/typography';
 import {
   LineChart,
   Line,
@@ -79,46 +86,48 @@ export default function RiskAnalysisCard({
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Risk Analysis</h3>
+        <SectionHeading>Risk Analysis</SectionHeading>
         <button
           onClick={() => setShowAdvanced(prev => !prev)}
-          className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+          className="text-accent hover:text-accent/80 transition-colors"
         >
-          {showAdvanced ? 'Simple' : 'Advanced'} View
+          <SmallText>
+            {showAdvanced ? 'Simple' : 'Advanced'} View
+          </SmallText>
         </button>
       </div>
 
       {/* Key Risk Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="text-center">
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">
+          <BodyText className="text-2xl font-bold">
             {riskMetrics.volatility.toFixed(0)}%
-          </p>
-          <p className="text-xs text-gray-600 dark:text-white/80">Annual Volatility</p>
+          </BodyText>
+          <Caption>Annual Volatility</Caption>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400">
+          <BodyText className="text-2xl font-bold text-error">
             {formatUSD(riskMetrics.valueAtRisk)}
-          </p>
-          <p className="text-xs text-gray-600 dark:text-white/80">Value at Risk (95%)</p>
+          </BodyText>
+          <Caption>Value at Risk (95%)</Caption>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <BodyText className="text-2xl font-bold text-accent">
             {riskMetrics.sharpeRatio.toFixed(2)}
-          </p>
-          <p className="text-xs text-gray-600 dark:text-white/80">Sharpe Ratio</p>
+          </BodyText>
+          <Caption>Sharpe Ratio</Caption>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
+          <BodyText className="text-2xl font-bold text-warning">
             {riskMetrics.probabilityOfLoss.toFixed(0)}%
-          </p>
-          <p className="text-xs text-gray-600 dark:text-white/80">Probability of Loss</p>
+          </BodyText>
+          <Caption>Probability of Loss</Caption>
         </div>
       </div>
 
       {/* Risk Scenarios Chart */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 dark:text-white mb-3">Potential Scenarios</h4>
+        <Overline className="mb-3">Potential Scenarios</Overline>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={scenarioData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -152,33 +161,33 @@ export default function RiskAnalysisCard({
       {/* Monte Carlo Results */}
       {monteCarloResults && (
         <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-sm">
-          <h4 className="text-sm font-medium text-gray-700 dark:text-white mb-3">
+          <Overline className="mb-3">
             Monte Carlo Simulation Results ({timePeriodYears} years)
-          </h4>
+          </Overline>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-xs text-gray-600 dark:text-white/80">Median Outcome</p>
-              <p className="text-lg font-semibold text-gray-900 dark:text-white">
+              <Caption>Median Outcome</Caption>
+              <BodyText className="text-lg font-semibold">
                 {formatUSD(monteCarloResults.median)}
-              </p>
+              </BodyText>
             </div>
             <div>
-              <p className="text-xs text-gray-600 dark:text-white/80">Probability of 2x</p>
-              <p className="text-lg font-semibold text-green-600 dark:text-green-400">
+              <Caption>Probability of 2x</Caption>
+              <BodyText className="text-lg font-semibold text-success">
                 {(monteCarloResults.probabilityOfDoubling * 100).toFixed(0)}%
-              </p>
+              </BodyText>
             </div>
             <div>
-              <p className="text-xs text-gray-600 dark:text-white/80">10th Percentile</p>
-              <p className="text-sm font-medium text-red-600 dark:text-red-400">
+              <Caption>10th Percentile</Caption>
+              <SmallText className="font-medium text-error">
                 {formatUSD(monteCarloResults.percentile10)}
-              </p>
+              </SmallText>
             </div>
             <div>
-              <p className="text-xs text-gray-600 dark:text-white/80">90th Percentile</p>
-              <p className="text-sm font-medium text-green-600 dark:text-green-400">
+              <Caption>90th Percentile</Caption>
+              <SmallText className="font-medium text-success">
                 {formatUSD(monteCarloResults.percentile90)}
-              </p>
+              </SmallText>
             </div>
           </div>
         </div>
@@ -187,37 +196,37 @@ export default function RiskAnalysisCard({
       {/* Advanced Risk Metrics */}
       {showAdvanced && (
         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-700">
-          <h4 className="text-sm font-medium text-gray-700 dark:text-white mb-3">Advanced Metrics</h4>
+          <Overline className="mb-3">Advanced Metrics</Overline>
           
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600 dark:text-white/80">Maximum Drawdown (95% CI)</span>
-              <span className="text-sm font-medium text-red-600 dark:text-red-400">
+              <SmallText color="muted">Maximum Drawdown (95% CI)</SmallText>
+              <SmallText className="font-medium text-error">
                 -{formatUSD(riskMetrics.maxDrawdown)}
-              </span>
+              </SmallText>
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600 dark:text-white/80">Risk-Adjusted Return</span>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <SmallText color="muted">Risk-Adjusted Return</SmallText>
+              <SmallText className="font-medium">
                 {((expectedAnnualReturn - 0.045) / (riskMetrics.volatility / 100)).toFixed(2)}
-              </span>
+              </SmallText>
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600 dark:text-white/80">Daily VaR (95%)</span>
-              <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+              <SmallText color="muted">Daily VaR (95%)</SmallText>
+              <SmallText className="font-medium text-warning">
                 {formatUSD(riskMetrics.valueAtRisk / Math.sqrt(252 * timePeriodYears))}
-              </span>
+              </SmallText>
             </div>
           </div>
 
           <div className="mt-4 p-3 bg-bitcoin-50 dark:bg-bitcoin-900/20 rounded-sm">
-            <p className="text-xs text-amber-800 dark:text-amber-200">
+            <Caption className="text-warning">
               <strong>Risk Warning:</strong> Bitcoin is a highly volatile asset. 
               Historical volatility of ~70% means your investment could fluctuate 
               significantly. Only invest what you can afford to lose.
-            </p>
+            </Caption>
           </div>
         </div>
       )}

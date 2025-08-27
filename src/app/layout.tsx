@@ -121,11 +121,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://mempool.space" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://api.mempool.space" />
+        <link rel="preconnect" href="https://api.mempool.space" crossOrigin="anonymous" />
         
-        {/* Critical CSS loaded from external file for better caching */}
-        <link rel="stylesheet" href="/critical.css" />
+        {/* Critical CSS is now included through the CSS imports in globals.css */}
         
         
         {/* Structured Data for SEO */}
@@ -172,7 +170,7 @@ export default function RootLayout({
                   <PerformanceOptimizer enabled={process.env.NODE_ENV === 'production'}>
                     <ServiceWorkerRegistration />
                     <PrefetchLinks />
-                    <div className="min-h-screen transition-colors duration-300 performance-optimized">
+                    <div className="min-h-screen transition-colors duration-300 performance-optimized" style={{ backgroundColor: '#F4F6F8' }}>
                       <main className="relative">
                         {children}
                       </main>

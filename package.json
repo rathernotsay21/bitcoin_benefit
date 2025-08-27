@@ -81,7 +81,10 @@
     "security:update-deps": "npx npm-check-updates -u --target minor",
     "security:lockfile-lint": "npx lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --allowed-schemes https:",
     "security:analyze": "node scripts/security-analyzer.js",
-    "security:report": "npm run security:analyze && cat security/security-analysis-report.json"
+    "security:report": "npm run security:analyze && cat security/security-analysis-report.json",
+    "docs:typography": "node scripts/generate-typography-docs.js",
+    "docs:generate": "npm run docs:typography",
+    "docs:watch": "nodemon scripts/generate-typography-docs.js --watch src/lib/typography --watch src/types/typography.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",
@@ -142,6 +145,7 @@
   "devDependencies": {
     "@cyclonedx/cyclonedx-npm": "4.0.0",
     "@netlify/plugin-nextjs": "^5.12.0",
+    "@tailwindcss/container-queries": "0.1.1",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
