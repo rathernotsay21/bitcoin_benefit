@@ -133,3 +133,10 @@
 {"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 16:53:42.903"}
 {"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-27 16:53:42.906","title":"Employee Benefits Platform | Modern Retention Solutions for HR Teams","url":"http://localhost:3000/"}
 {"arguments":{"height":800,"name":"hero-buttons-fixed","width":1200},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 16:53:55.104","tool":"puppeteer_screenshot"}
+{"arguments":{"debugPort":9222},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.844","tool":"puppeteer_connect_active_tab"}
+{"level":"info","message":"Connecting to existing browser","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.847","wsEndpoint":"ws://localhost:9222/devtools/browser/ba07213f-82fa-4b4d-adba-52c7e9f7a35f"}
+{"level":"debug","message":"Closing existing browser connection","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.847"}
+{"level":"debug","message":"Establishing connection to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.847"}
+{"level":"info","message":"Successfully connected to browser","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.850"}
+{"level":"info","message":"Found active webpage:","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:46.853","title":"Employee Benefits Platform | Modern Retention Solutions for HR Teams","url":"http://localhost:3000/"}
+{"arguments":{"height":800,"name":"production-buttons-verified","width":1200},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-27 17:03:52.510","tool":"puppeteer_screenshot"}
