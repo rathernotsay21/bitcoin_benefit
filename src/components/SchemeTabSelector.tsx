@@ -83,17 +83,17 @@ export default function SchemeTabSelector({
         {VESTING_SCHEMES.map((scheme) => {
           const IconComponent = getSchemeIcon(scheme.icon || 'rocket');
           
-          // Define color classes based on scheme
+          // Define color classes based on scheme - colored backgrounds with black text for readability
           const getColorClasses = () => {
             if (scheme.id === 'accelerator') {
-              // Pioneer - Orange when active, white text in dark mode
-              return "text-gray-600 dark:text-white data-[state=active]:bg-bitcoin data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700";
+              // Pioneer - Orange/gold background with black text for active state
+              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-bitcoin data-[state=active]:text-black hover:bg-gray-50 dark:hover:bg-gray-700";
             } else if (scheme.id === 'steady-builder') {
-              // Stacker - Green when active, white text in dark mode
-              return "text-gray-600 dark:text-white data-[state=active]:bg-green-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-green-700";
+              // Stacker - Green background with black text for active state
+              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black hover:bg-gray-50 dark:hover:bg-gray-700";
             } else if (scheme.id === 'slow-burn') {
-              // Builder - Blue when active, white text in dark mode
-              return "text-gray-600 dark:text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white hover:bg-gray-100 dark:hover:bg-gray-700 dark:data-[state=active]:bg-blue-700";
+              // Builder - Blue background with black text for active state
+              return "text-gray-600 dark:text-gray-300 data-[state=active]:bg-blue-500 data-[state=active]:text-black hover:bg-gray-50 dark:hover:bg-gray-700";
             }
             return "";
           };
@@ -105,7 +105,7 @@ export default function SchemeTabSelector({
             <TabsTrigger
               key={scheme.id}
               value={scheme.id}
-              className={`relative overflow-hidden flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group ${getColorClasses()}`}
+              className={`relative overflow-hidden flex flex-col items-center py-4 px-3 text-sm font-medium transition-all duration-300 group border border-transparent ${getColorClasses()}`}
             >
               {/* Texture overlay for active state */}
               {isActive && (
