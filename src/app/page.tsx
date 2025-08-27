@@ -158,7 +158,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
-                  A Benefit Employees Value.
+                  A Benefit Employees Value
                   </h3>
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
                     Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 

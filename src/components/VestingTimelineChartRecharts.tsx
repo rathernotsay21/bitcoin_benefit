@@ -623,7 +623,11 @@ function VestingTimelineChartRecharts({
                     if (data && data.grantSize > 0) {
                       // Calculate slope to next point for horizontal adjustment
                       let xOffset = 0;
-                      if (index < yearlyData.length - 1) {
+                      
+                      // Special handling for the last point (year 10)
+                      if (index === yearlyData.length - 1) {
+                        xOffset = -25; // Move left to avoid collision with year 10 label
+                      } else if (index < yearlyData.length - 1) {
                         const nextData = yearlyData[index + 1];
                         const currentValue = data.usdValue;
                         const nextValue = nextData.usdValue;
