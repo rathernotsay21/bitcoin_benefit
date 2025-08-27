@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from '@/components/ThemeProvider';
 import MobileNavSheet from '@/components/MobileNavSheet';
 import {
   NavigationMenu,
@@ -23,8 +22,6 @@ import {
   BookOpenIcon,
   LinkIcon,
   MagnifyingGlassIcon,
-  SunIcon,
-  MoonIcon,
 } from '@heroicons/react/24/outline';
 import {
   HomeIcon as HomeIconSolid,
@@ -33,14 +30,11 @@ import {
   BookOpenIcon as BookOpenIconSolid,
   LinkIcon as LinkIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
-  SunIcon as SunIconSolid,
-  MoonIcon as MoonIconSolid,
 } from '@heroicons/react/24/solid';
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     {
@@ -185,20 +179,8 @@ export default function Navigation() {
             })}
           </nav>
 
-          {/* Theme Toggle & Mobile Menu */}
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="theme-toggle-btn"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            >
-              {theme === 'dark' ? (
-                <SunIconSolid className="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" />
-              ) : (
-                <MoonIconSolid className="w-6 h-6 text-gray-700 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
-              )}
-            </button>
-            
+          {/* Mobile Menu */}
+          <div className="flex items-center">
             {/* Mobile Navigation Sheet */}
             <MobileNavSheet />
           </div>

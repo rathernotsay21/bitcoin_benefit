@@ -132,8 +132,6 @@ export function injectPerformanceCSS(): void {
   style.id = 'performance-css-optimizer';
   style.innerHTML = performanceCSS;
   document.head.appendChild(style);
-  
-  console.log('[Performance] CSS optimizations applied - animations disabled');
 }
 
 export function removePerformanceCSS(): void {
@@ -142,7 +140,6 @@ export function removePerformanceCSS(): void {
   const style = document.getElementById('performance-css-optimizer');
   if (style) {
     style.remove();
-    console.log('[Performance] CSS optimizations removed');
   }
 }
 
