@@ -56,7 +56,7 @@ const BasicChart = ({ data, schemeId }: { data: any[]; schemeId: string }) => (
         );
       })}
     </div>
-    <div className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+    <div className="mt-2 text-center text-sm text-gray-500 dark:text-gray-600">
       {schemeId} Vesting Timeline (Simplified View)
     </div>
   </div>

@@ -6,3 +6,10 @@
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 05:58:10.905"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 06:06:08.844"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 06:06:08.845"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 06:43:06.874"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 06:43:06.874"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 08:43:11.841"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 08:43:11.842"}
+{"level":"info","message":"Puppeteer MCP Server closing","service":"mcp-puppeteer","timestamp":"2025-08-27 09:17:58.637"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-27 09:19:32.566"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-27 09:19:32.567"}

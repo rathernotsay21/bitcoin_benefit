@@ -121,7 +121,7 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
                     <span className="text-2xl" role="img" aria-label="Privacy">🔒</span>
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Privacy First</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-600">
                     No accounts, no tracking, data processed locally when possible
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
                     <span className="text-2xl" role="img" aria-label="Learning">📖</span>
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Learn as You Go</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-600">
                     Helpful explanations and tooltips for Bitcoin terms
                   </p>
                 </div>
@@ -139,7 +139,7 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
                     <span className="text-2xl" role="img" aria-label="Mobile">📱</span>
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Mobile Friendly</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-600">
                     Works perfectly on all devices and screen sizes
                   </p>
                 </div>
@@ -155,7 +155,7 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
         <footer className="mt-8" role="contentinfo" aria-labelledby="privacy-notice">
           <Card className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700">
             <CardContent className="pt-6">
-              <p id="privacy-notice" className="text-sm text-gray-600 dark:text-gray-400 text-center max-w-4xl mx-auto">
+              <p id="privacy-notice" className="text-sm text-gray-600 dark:text-gray-600 text-center max-w-4xl mx-auto">
                 <strong className="text-gray-900 dark:text-gray-100">Privacy Notice:</strong> These tools may send data to public APIs (like mempool.space) to fetch blockchain information. 
                 We do not store or track this data. Data is automatically cleared when you leave this page. For maximum privacy, consider running your own Bitcoin node.
               </p>

@@ -158,7 +158,7 @@ export default function RiskDisclosure() {
             </ul>
           </section>
 
-          <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-sm p-6 mt-12">
+          <div className="bg-bitcoin-50 dark:bg-bitcoin-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-sm p-6 mt-12">
             <p className="text-amber-900 dark:text-amber-200 font-semibold">
               By using this tool, you acknowledge that you understand and accept all risks associated with Bitcoin 
               investments. You agree that you are solely responsible for any investment decisions and their consequences.

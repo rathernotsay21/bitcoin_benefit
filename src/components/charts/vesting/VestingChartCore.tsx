@@ -122,8 +122,8 @@ export const VestingChartCore = memo<VestingChartCoreProps>(({
             <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
           </linearGradient>
           <linearGradient id="colorBtc" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#f97316" stopOpacity={0.3}/>
-            <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+            <stop offset="5%" stopColor="#f2a900" stopOpacity={0.3}/>
+            <stop offset="95%" stopColor="#f2a900" stopOpacity={0.1}/>
           </linearGradient>
         </defs>
 
@@ -155,7 +155,7 @@ export const VestingChartCore = memo<VestingChartCoreProps>(({
           <ReferenceLine
             key={`vesting-${year}`}
             x={year}
-            stroke="#fbbf24"
+            stroke="#f2a900"
             strokeDasharray="5 5"
             strokeWidth={2}
             opacity={0.6}
@@ -178,7 +178,7 @@ export const VestingChartCore = memo<VestingChartCoreProps>(({
         <Line
           type="monotone"
           dataKey="bitcoinPrice"
-          stroke="#f97316"
+          stroke="#f2a900"
           strokeWidth={2}
           dot={false}
           name="Bitcoin Price"

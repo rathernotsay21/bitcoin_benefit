@@ -230,7 +230,7 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                     className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-300 rounded-sm data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-slate-50/80 dark:hover:bg-slate-700/50 border-0 bg-transparent shadow-none group min-h-[80px] sm:min-h-[90px] data-[state=active]:transform data-[state=active]:scale-[1.02] hover:scale-[1.01] data-[state=active]:ring-2 data-[state=active]:ring-bitcoin/20 data-[state=active]:ring-offset-2"
                   >
                     {/* Icon with improved sizing */}
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 mb-2 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110 group-hover:scale-105">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 mb-2 text-gray-600 dark:text-gray-600 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110 group-hover:scale-105">
                       <tool.icon className="w-full h-full" />
                     </div>
                     
@@ -294,11 +294,11 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                   
                   {/* Enhanced Tool Stats with better responsive design */}
                   <div className="flex flex-wrap items-center gap-4 text-sm">
-                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-600">
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                       <span>Response time: ~{tool.estimatedResponseTime/1000}s</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-600">
                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                       <span>{tool.requiresInput ? 'Input required' : 'Ready to use'}</span>
                     </div>

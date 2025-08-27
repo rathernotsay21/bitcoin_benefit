@@ -166,7 +166,7 @@ export default function Tooltip({
           {content.definition}
         </div>
         {content.example && (
-          <div className="text-xs text-slate-600 dark:text-slate-300 italic border-l-2 border-bitcoin pl-2">
+          <div className="text-xs text-slate-600 dark:text-slate-700 italic border-l-2 border-bitcoin pl-2">
             Example: {content.example}
           </div>
         )}

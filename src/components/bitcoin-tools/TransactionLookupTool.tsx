@@ -113,7 +113,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
       case 'failed':
         return 'text-red-600 dark:text-red-400';
       default:
-        return 'text-gray-600 dark:text-gray-400';
+        return 'text-gray-600 dark:text-gray-600';
     }
   };
 
@@ -309,7 +309,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               <div className="bg-white dark:bg-slate-700 rounded-sm p-5 border-2 border-gray-200 dark:border-slate-600 shadow-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-base font-semibold text-gray-500 dark:text-slate-400">Transaction ID</span>
-                  <span className="text-base font-mono text-gray-600 dark:text-slate-300">
+                  <span className="text-base font-mono text-gray-600 dark:text-slate-700">
                     {TransactionService.formatTxidForDisplay(String(transactionLookup.data.txid))}
                   </span>
                 </div>
@@ -385,7 +385,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
-                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-300">Total Fee</span>
+                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-700">Total Fee</span>
                   <div className="text-right">
                     <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
                       ${transactionLookup.data.fee.usd.toFixed(2)} USD
@@ -397,7 +397,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 </div>
                 
                 <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
-                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-300">Fee Rate</span>
+                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-700">Fee Rate</span>
                   <div className="text-right">
                     <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
                       {transactionLookup.data.fee.rate} sat/vB

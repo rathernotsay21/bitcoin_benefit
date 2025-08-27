@@ -488,8 +488,8 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
         text-xs transition-colors duration-200 flex items-center gap-1 
         px-2 py-1 rounded-md backdrop-blur-sm touch-manipulation
         ${disabled
-          ? 'text-gray-400 cursor-not-allowed'
-          : 'text-gray-500 dark:text-gray-400 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
+          ? 'text-gray-600 cursor-not-allowed'
+          : 'text-gray-500 dark:text-gray-600 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
         }
       `}
       aria-label={`Expand to see more ${title ? `of ${title}` : 'content'}`}

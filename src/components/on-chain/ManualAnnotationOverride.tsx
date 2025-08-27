@@ -454,7 +454,7 @@ export default function ManualAnnotationOverride({
                   transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-inset
                   ${isSelected
                     ? 'bg-bitcoin/10 text-bitcoin dark:bg-bitcoin/20'
-                    : 'text-gray-700 dark:text-slate-300'
+                    : 'text-gray-700 dark:text-slate-700'
                   }
                   ${isFocused && !isOccupied && !isSelected
                     ? 'bg-gray-100 dark:bg-slate-700'
@@ -487,7 +487,7 @@ export default function ManualAnnotationOverride({
 
                 {/* Status indicators */}
                 {isOccupied && (
-                  <span className="text-xs text-orange-600 dark:text-orange-400 font-medium">
+                  <span className="text-xs text-bitcoin-600 dark:text-orange-400 font-medium">
                     Occupied
                   </span>
                 )}

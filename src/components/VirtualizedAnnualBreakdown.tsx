@@ -100,7 +100,7 @@ const Row = ({ index, style, data }: { index: number; style: CSSProperties; data
       {/* Desktop-only columns - Adjusted spacing */}
       <div className="flex-none w-24 text-sm text-gray-700 dark:text-gray-300 hidden lg:block">
         {grantCost > 0 ? (
-          <span className="font-semibold text-orange-600 dark:text-orange-400">
+          <span className="font-semibold text-bitcoin-600 dark:text-orange-400">
             {formatUSD(grantCost)}
           </span>
         ) : (
@@ -174,7 +174,7 @@ function VirtualizedAnnualBreakdown({
   return (
     <div className="mt-6 w-full overflow-hidden">
       <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Annual Breakdown</h4>
-      <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
+      <p className="text-base text-gray-600 dark:text-gray-600 mb-4">
         Here are the same projections, but broken down year by year. You can see the potential cash value of the grant each year and what percentage of it the employee officially owns (has "unlocked").
       </p>
       
@@ -233,13 +233,13 @@ function VirtualizedAnnualBreakdown({
       </div>
 
       {/* Total Award Cost Summary */}
-      <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-orange-200 dark:border-orange-800 rounded-sm shadow-sm">
+      <div className="mt-6 p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 border border-bitcoin-200 dark:border-bitcoin-800 rounded-sm shadow-sm">
         <div className="flex justify-between items-center">
           <div>
             <h5 className="text-base font-bold text-orange-900 dark:text-orange-200 mb-1">
               Total Award Cost
             </h5>
-            <p className="text-xs text-orange-700 dark:text-orange-400">
+            <p className="text-xs text-bitcoin-700 dark:text-orange-400">
               Based on projected Bitcoin price for each grant year
             </p>
           </div>
@@ -247,7 +247,7 @@ function VirtualizedAnnualBreakdown({
             <div className="text-2xl font-bold text-orange-900 dark:text-orange-100 mb-1">
               {formatUSD(totalCost)}
             </div>
-            <div className="text-sm font-medium text-orange-700 dark:text-orange-300">
+            <div className="text-sm font-medium text-bitcoin-700 dark:text-orange-300">
               {formatBTC(totalBTC)} total awards
             </div>
           </div>

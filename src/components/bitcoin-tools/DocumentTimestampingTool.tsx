@@ -327,10 +327,10 @@ function DocumentTimestampingTool() {
                     ...prev,
                     original: e.target.files![0]
                   }))}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
+                  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
                 />
                 {verificationFiles.original && (
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-600 mt-1">
                     {verificationFiles.original.name} ({TimestampService.formatFileSize(verificationFiles.original.size)})
                   </p>
                 )}
@@ -348,10 +348,10 @@ function DocumentTimestampingTool() {
                     ...prev,
                     proof: e.target.files![0]
                   }))}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
+                  className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-medium file:bg-bitcoin file:text-white hover:file:bg-bitcoin-600"
                 />
                 {verificationFiles.proof && (
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-600 mt-1">
                     {verificationFiles.proof.name} ({TimestampService.formatFileSize(verificationFiles.proof.size)})
                   </p>
                 )}
@@ -436,7 +436,7 @@ function DocumentTimestampingTool() {
                     <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                     Select Your Document
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-gray-600 dark:text-gray-600 mb-4">
                     Drag and drop any file here, or click to browse
                     </p>
                     <button
@@ -452,7 +452,7 @@ function DocumentTimestampingTool() {
                       className="hidden"
                     />
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                  <div className="text-xs text-gray-500 dark:text-gray-600">
                     Any file type • Maximum 10MB • Your file stays on your computer
                   </div>
                 </div>
@@ -465,7 +465,7 @@ function DocumentTimestampingTool() {
                     <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">
                       Ready: {documentTimestamp.uploadedFile.name}
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-gray-600 dark:text-gray-600 mb-4">
                       Size: {TimestampService.formatFileSize(documentTimestamp.uploadedFile.size)}
                     </p>
                     <div className="flex space-x-3 justify-center">
@@ -510,11 +510,11 @@ function DocumentTimestampingTool() {
                   <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Your Proof Details:</h5>
                   <div className="space-y-2 text-sm">
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Timestamped at:</span>
+                      <span className="text-gray-600 dark:text-gray-600">Timestamped at:</span>
                       <div className="font-medium">{new Date(documentTimestamp.data.timestamp * 1000).toLocaleString()}</div>
                     </div>
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Document fingerprint (hash):</span>
+                      <span className="text-gray-600 dark:text-gray-600">Document fingerprint (hash):</span>
                       <div className="font-mono text-xs break-all mt-1">{documentTimestamp.data.hash}</div>
                     </div>
                   </div>

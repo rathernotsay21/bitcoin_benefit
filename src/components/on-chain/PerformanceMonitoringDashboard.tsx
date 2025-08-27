@@ -306,7 +306,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 enablePerformanceOptimizations
                   ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400'
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-300'
+                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-700'
               }`}
             >
               Optimizations {enablePerformanceOptimizations ? 'ON' : 'OFF'}
@@ -319,7 +319,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
             </button>
             <button
               onClick={handleToggleCollapsed}
-              className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="p-1 text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             >
               <svg 
                 className={`w-5 h-5 transform transition-transform ${isCollapsed ? '' : 'rotate-180'}`} 

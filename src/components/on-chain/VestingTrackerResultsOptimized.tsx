@@ -61,7 +61,7 @@ const TransactionRow = memo(function TransactionRow({
             className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
               transaction.grantYear !== null
                 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300'
+                : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-700'
             }`}
           >
             {memoizedGrantYear}
@@ -89,7 +89,7 @@ const TransactionRow = memo(function TransactionRow({
           className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
             transaction.type === 'Annual Award'
               ? 'bg-bitcoin-100 text-bitcoin-700 dark:bg-bitcoin/20 dark:text-bitcoin'
-              : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300'
+              : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-700'
           }`}
         >
           {transaction.type}
@@ -200,7 +200,7 @@ const SortHeader = memo(function SortHeader({
   const SortIcon = useMemo(() => {
     if (currentSortField !== field) {
       return (
-        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
         </svg>
       );
@@ -221,7 +221,7 @@ const SortHeader = memo(function SortHeader({
     <th className="text-left py-3 px-4">
       <button
         onClick={handleClick}
-        className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors"
+        className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors"
       >
         {children}
         {SortIcon}
@@ -505,7 +505,7 @@ const VestingTrackerResultsOptimized = memo(function VestingTrackerResultsOptimi
                   <span className="sm:hidden">$</span>
                 </SortHeader>
                 <th className="text-left py-3 px-4">
-                  <span className="font-medium text-gray-700 dark:text-slate-300">
+                  <span className="font-medium text-gray-700 dark:text-slate-700">
                     <span className="hidden sm:inline">Match</span>
                     <span className="sm:hidden">M</span>
                   </span>

@@ -239,7 +239,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Build a </span>
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Sound Money Plan</span>
             </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-700 leading-relaxed">
               A nickel ain't worth a dime anymore.
             </p>
           </div>
@@ -309,7 +309,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                     </h3>
                   </div>
                   <ChevronDownIcon 
-                    className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-gray-700 transition-transform duration-200 ${
                       isCustomizationCollapsed ? '-rotate-90' : ''
                     }`}
                   />
@@ -319,7 +319,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   isCustomizationCollapsed ? 'hidden' : ''
                 }`}>
                   <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                    <label className="block text-base font-medium text-gray-700 dark:text-slate-700 mb-1 flex items-center">
                       Bitcoin Award Amount
                       <HelpTooltip content={HELP_CONTENT.initialGrant} />
                     </label>
@@ -335,7 +335,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
                   {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                     <div>
-                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                      <label className="block text-base font-medium text-gray-700 dark:text-slate-700 mb-1 flex items-center">
                         Yearly Bitcoin Award
                         <HelpTooltip content={HELP_CONTENT.annualGrant} />
                       </label>
@@ -351,7 +351,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   )}
 
                   <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                    <label className="block text-base font-medium text-gray-700 dark:text-slate-700 mb-1 flex items-center">
                       Projected Annual Growth (%)
                       <HelpTooltip content={HELP_CONTENT.projectedGrowth} />
                     </label>

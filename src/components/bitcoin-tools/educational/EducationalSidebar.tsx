@@ -36,7 +36,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
         >
           <div className="space-y-3">
             {section.content.map((paragraph, pIndex) => (
-              <p key={pIndex} className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p key={pIndex} className="text-base text-gray-600 dark:text-gray-600 leading-relaxed">
                 {paragraph}
               </p>
             ))}
@@ -74,7 +74,7 @@ export function EducationalSidebar({ sections, className = '' }: EducationalSide
                       <div className="text-base font-semibold text-bitcoin hover:text-bitcoin-600 group-hover:underline">
                         {link.title} →
                       </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="text-sm text-gray-500 dark:text-gray-600 mt-1">
                         {link.description}
                       </div>
                     </a>

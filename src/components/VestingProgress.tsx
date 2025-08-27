@@ -37,10 +37,10 @@ const STRATEGY_CONFIG = {
     colors: {
       primary: 'from-orange-500 to-red-500',
       secondary: 'from-orange-100 to-red-100',
-      text: 'text-orange-700',
+      text: 'text-bitcoin-700',
       bg: 'bg-orange-50 dark:bg-orange-900/10',
-      border: 'border-orange-200 dark:border-orange-800',
-      accent: 'bg-orange-500',
+      border: 'border-bitcoin-200 dark:border-bitcoin-800',
+      accent: 'bg-bitcoin-500',
       iconBg: 'bg-[#fcf3e8] dark:bg-slate-800',
       iconColor: 'text-[#f7931b]'
     },
@@ -213,7 +213,7 @@ export default function VestingProgress({
       {/* Enhanced Progress Visualization */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
+          <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
             Unlock Timeline
           </span>
           <span className="text-sm text-gray-500 dark:text-slate-400">
@@ -260,7 +260,7 @@ export default function VestingProgress({
             )
             .map((event, index) => (
               <div key={`${event.label}-${event.percentage}-${index}`} className="flex items-center justify-between px-2 py-1 bg-white dark:bg-slate-800 rounded">
-                <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
                   {(event as any).fullLabel || event.label}
                 </span>
                 <div className="flex items-center">

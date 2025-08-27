@@ -212,7 +212,7 @@ export default function RiskAnalysisCard({
             </div>
           </div>
 
-          <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-sm">
+          <div className="mt-4 p-3 bg-bitcoin-50 dark:bg-bitcoin-900/20 rounded-sm">
             <p className="text-xs text-amber-800 dark:text-amber-200">
               <strong>Risk Warning:</strong> Bitcoin is a highly volatile asset. 
               Historical volatility of ~70% means your investment could fluctuate 

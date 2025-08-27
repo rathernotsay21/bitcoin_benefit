@@ -163,7 +163,7 @@ export default function MobileNavSheet() {
                       "nav-link group flex items-center justify-between px-4 py-3 rounded-sm transition-all duration-300 w-full",
                       isActive 
                         ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
-                        : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
+                        : 'text-slate-600 dark:text-slate-700 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
                     )}
                   >
                     <div className="flex items-center">
@@ -219,7 +219,7 @@ export default function MobileNavSheet() {
                     "nav-link group flex items-center px-4 py-3 rounded-sm transition-all duration-300",
                     isActive 
                       ? 'bg-bitcoin/10 dark:bg-bitcoin/20 text-bitcoin border-l-4 border-bitcoin' 
-                      : 'text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
+                      : 'text-slate-600 dark:text-slate-700 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700'
                   )}
                 >
                   <Icon className={cn(
@@ -246,13 +246,13 @@ export default function MobileNavSheet() {
         <div className="theme-toggle-section flex-shrink-0 border-t border-slate-200 dark:border-slate-700 pt-4 sm:pt-6">
           <button
             onClick={toggleTheme}
-            className="flex items-center w-full px-4 py-3 rounded-sm text-slate-600 dark:text-slate-300 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
+            className="flex items-center w-full px-4 py-3 rounded-sm text-slate-600 dark:text-slate-700 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
             {theme === 'dark' ? (
               <SunIconSolid className="w-6 h-6 mr-4 text-yellow-400 flex-shrink-0" />
             ) : (
-              <MoonIconSolid className="w-6 h-6 mr-4 text-slate-600 dark:text-slate-300 flex-shrink-0" />
+              <MoonIconSolid className="w-6 h-6 mr-4 text-slate-600 dark:text-slate-700 flex-shrink-0" />
             )}
             <div className="flex flex-col items-start min-w-0">
               <span className="font-semibold truncate">

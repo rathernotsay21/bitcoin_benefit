@@ -57,7 +57,7 @@ export function OptimizedCalculatorInput() {
             </div>
           )}
         </div>
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+        <p className="mt-1 text-xs text-gray-500 dark:text-gray-600">
           Changes are automatically calculated after you stop typing
         </p>
       </div>
@@ -100,13 +100,13 @@ export function OptimizedSchemeSearch() {
           placeholder="Search vesting schemes..."
           className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-sm focus:ring-2 focus:ring-bitcoin focus:border-transparent dark:bg-slate-800 dark:text-white"
         />
-        <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         {query && (
           <button
             onClick={clearSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-600"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -116,7 +116,7 @@ export function OptimizedSchemeSearch() {
       </div>
       
       {isSearching && (
-        <div className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-sm text-gray-500 dark:text-gray-600">
           Searching...
         </div>
       )}
@@ -130,14 +130,14 @@ export function OptimizedSchemeSearch() {
               className="p-3 text-left border border-gray-200 dark:border-gray-700 rounded-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
             >
               <div className="font-medium text-gray-900 dark:text-white">{scheme.name}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">{scheme.description}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-600">{scheme.description}</div>
             </button>
           ))}
         </div>
       )}
       
       {!isSearching && query && schemes.length === 0 && (
-        <div className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-sm text-gray-500 dark:text-gray-600">
           No schemes found matching "{query}"
         </div>
       )}

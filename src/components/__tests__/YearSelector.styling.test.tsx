@@ -75,7 +75,7 @@ describe('YearSelector Styling', () => {
     expect(label).toHaveClass('block', 'text-sm', 'font-medium', 'text-gray-700');
     
     // Helper text should use muted styling
-    expect(helperText).toHaveClass('text-sm', 'text-gray-500');
+    expect(helperText).toHaveClass('text-sm', 'text-gray-700');
   });
 
   it('error message uses consistent error styling', () => {

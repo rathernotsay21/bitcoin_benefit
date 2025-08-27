@@ -521,7 +521,7 @@ export default function TrackerPage() {
                 <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Track Your </span>
                 <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Bitcoin Benefits</span>
               </h1>
-              <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-700 leading-relaxed">
                 You can observe a lot by just watching.
               </p>
             </div>
@@ -596,7 +596,7 @@ export default function TrackerPage() {
                         className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-800 rounded-sm"
                         role="listitem"
                       >
-                        <span className="text-sm font-medium text-gray-700 dark:text-slate-300">
+                        <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
                           Transactions Found
                         </span>
                         <span

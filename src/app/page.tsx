@@ -84,7 +84,7 @@ export default function HomePage() {
               <br />
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
             </h1>
-            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
+            <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-700 leading-relaxed">
               The future ain't what it used to be.
             </p>
             <HeroButtons />
@@ -113,7 +113,7 @@ export default function HomePage() {
             </h2>
             
             <div className="max-w-3xl">
-              <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+              <p className="text-lg text-slate-600 dark:text-slate-700 leading-relaxed mb-6">
                 Traditional benefits packages cost more and deliver less every year. Health insurance premiums rise. 
                 401(k) matches barely beat inflation. Stock options are complex and often worthless.
               </p>
@@ -139,7 +139,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     Proven Over 16 Years
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                     Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar 
                     asset class. Billions of dollars are held in bitcoin by family office investors
                     <sup className="text-bitcoin font-semibold ml-1">[1,2]</sup>, registered investment advisors
@@ -160,7 +160,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                   A Benefit Employees Value
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                     Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 
                     your team. Offering it shows you understand their values and want to help build their future, 
                     not just fund their paycheck.
@@ -179,7 +179,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     Simple to Implement
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                     No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. 
                     Your employees can track their benefits value in real-time. You can even document the process with{' '}
                     <a 
@@ -196,7 +196,7 @@ export default function HomePage() {
             </div>
             
             {/* The Bottom Line - Bottom Right */}
-            <div className="bg-orange-50 dark:bg-bitcoin/10 border border-orange-200 dark:border-bitcoin/30 rounded-sm p-6 hover:bg-orange-100 dark:hover:bg-bitcoin/15 transition-all duration-300 h-full flex">
+            <div className="bg-bitcoin-50 dark:bg-bitcoin/10 border border-bitcoin-200 dark:border-bitcoin/30 rounded-sm p-6 hover:bg-bitcoin-100 dark:hover:bg-bitcoin/15 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
                 <div className="w-12 h-12 rounded-sm bg-bitcoin flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-2xl">₿</span>
@@ -205,7 +205,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     The Bottom Line
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                     While traditional benefits lose value to inflation, bitcoin has the potential to grow significantly over time, 
                     creating real wealth for the people who build your business.
                   </p>
@@ -257,11 +257,11 @@ export default function HomePage() {
             </div>
             
             <h3 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
-              Three Ways to
-              <span className="block text-bitcoin">Reward Your Team</span>
+              Choose Your Bitcoin
+              <span className="block text-bitcoin">Benefits Plan</span>
             </h3>
             
-            <p className="text-lg text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-lg text-slate-700 max-w-2xl leading-relaxed">
               Pick the plan that fits your budget and goals. Each approach has been designed for different business situations and growth stages.
             </p>
           </div>
@@ -291,7 +291,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                       Are you ready to lead? Make a significant upfront contribution and just like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
                     </p>
                   </div>
@@ -333,7 +333,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                       Combine a meaningful initial award with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
                     </p>
                   </div>
@@ -375,7 +375,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-700 leading-relaxed">
                       Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
                     </p>
                   </div>

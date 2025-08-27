@@ -142,7 +142,7 @@ const Row = memo(({
               {yoyGrowth >= 0 ? '+' : ''}{formatPercent(yoyGrowth)}
             </span>
           ) : (
-            <span className="text-gray-400">—</span>
+            <span className="text-gray-600">—</span>
           )}
         </div>
       </div>
@@ -215,7 +215,7 @@ function VirtualizedAnnualBreakdownOptimized(props: VirtualizedAnnualBreakdownPr
       <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
         Annual Breakdown
       </h4>
-      <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
+      <p className="text-base text-gray-600 dark:text-gray-600 mb-4">
         Here's a breakdown year by year. You can see the potential cash value of the award each year and what percentage of it the employee officially owns (has "unlocked").
       </p>
 

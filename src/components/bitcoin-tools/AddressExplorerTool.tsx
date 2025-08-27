@@ -198,7 +198,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
         {/* Privacy Warning - Moved below Address Explorer card */}
         {showPrivacyWarning && (
-          <div className="card bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 mb-6">
+          <div className="card bg-bitcoin-50 dark:bg-bitcoin-900/20 border-2 border-amber-200 dark:border-amber-700 mb-6">
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-4">
               <div className="text-amber-500 text-3xl">🔒</div>
@@ -272,11 +272,11 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               </div>
             </div>
             
-            <div className="font-mono text-base text-gray-600 dark:text-gray-400 break-all mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-sm">
+            <div className="font-mono text-base text-gray-600 dark:text-gray-600 break-all mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-sm">
               {addressExplorer.data.address}
             </div>
             
-            <div className="text-base text-gray-600 dark:text-gray-400">
+            <div className="text-base text-gray-600 dark:text-gray-600">
               {addressExplorer.data.humanReadable.activitySummary}
             </div>
           </div>
@@ -286,7 +286,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
             <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">
               Current Balance
             </h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-sm text-gray-600 dark:text-gray-600 mb-6">
               The total amount of Bitcoin currently stored at this address
             </p>
             
@@ -295,25 +295,25 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                 <div className="text-3xl font-bold text-bitcoin mb-2">
                   {formatBTC(addressExplorer.data.balance.btc)}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Bitcoin</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-600">In Bitcoin</div>
               </div>
               
               <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-sm">
                 <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                   {formatUSD(addressExplorer.data.balance.usd)}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In US Dollars</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-600">In US Dollars</div>
               </div>
               
               <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-sm">
                 <div className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
                   {addressExplorer.data.balance.sats.toLocaleString()}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Satoshis (smallest unit)</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-600">In Satoshis (smallest unit)</div>
               </div>
             </div>
             
-            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-400">
+            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-600">
               {addressExplorer.data.humanReadable.balanceDescription}
             </div>
           </div>
@@ -325,11 +325,11 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                 <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
                   Transaction History
                 </h4>
-                <div className="text-base text-gray-600 dark:text-gray-400">
+                <div className="text-base text-gray-600 dark:text-gray-600">
                   Showing {Math.min(25, addressExplorer.data.transactions.length)} of {addressExplorer.data.transactionCount}
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-sm text-gray-600 dark:text-gray-600 mb-6">
                 Every time Bitcoin was sent to or from this address
               </p>
               
@@ -344,7 +344,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                           <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                           {tx.type === 'received' ? 'Money Received' : 'Money Sent'}
                           </div>
-                          <div className="text-base text-gray-600 dark:text-gray-400">
+                          <div className="text-base text-gray-600 dark:text-gray-600">
                           {tx.date} • {tx.status === 'confirmed' ? 'Complete' : 'Processing'}
                           </div>
                         </div>
@@ -354,13 +354,13 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                         <div className={`text-xl font-bold ${tx.type === 'received' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                           {tx.type === 'received' ? '+' : '-'}{formatBTC(tx.amount.btc)}
                         </div>
-                        <div className="text-base text-gray-600 dark:text-gray-400">
+                        <div className="text-base text-gray-600 dark:text-gray-600">
                           {formatUSD(tx.amount.usd)}
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-600">
                       <span className="font-mono">
                         {AddressService.formatAddressForDisplay(tx.txid, 8)}
                       </span>
@@ -378,7 +378,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               {/* Pagination would go here if needed */}
               {addressExplorer.data.transactionCount > 25 && (
                 <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray-600 dark:text-gray-600">
                     Showing first 25 transactions. Use a full blockchain explorer for complete history.
                   </p>
                 </div>
@@ -393,7 +393,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 No Transactions Found
               </h4>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 dark:text-gray-600">
                 This address has no transaction history or has not been used yet.
               </p>
             </div>

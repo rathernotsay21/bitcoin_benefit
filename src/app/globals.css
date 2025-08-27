@@ -10,24 +10,24 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 24 83% 53%;
+    --primary: 42 100% 49%; /* Updated to #f2a900 Bitcoin industry standard */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 217 91% 60%; /* Blue for secondary actions #3b82f6 */
+    --secondary-foreground: 0 0% 100%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 217 91% 60%; /* Blue accent matching secondary */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 24 83% 53%;
+    --ring: 42 100% 49%; /* Updated to match primary Bitcoin orange */
     --radius: 0.125rem;
     
     /* Chart colors */
     --chart-1: 142 71% 45%;  /* Green for USD value line */
-    --chart-2: 24 83% 53%;   /* Bitcoin orange for BTC */
+    --chart-2: 42 100% 49%;  /* Bitcoin orange for BTC - updated to #f2a900 */
     --chart-3: 47 84% 63%;   /* Yellow for vesting milestones */
     --chart-4: 200 85% 55%;  /* Blue for growth */
     --chart-5: 280 65% 60%;  /* Purple for additional data */
@@ -40,23 +40,23 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 24 83% 53%;
+    --primary: 42 100% 49%; /* Keep Bitcoin orange consistent in dark mode */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 217 91% 60%; /* Blue for secondary actions */
+    --secondary-foreground: 0 0% 100%;
     --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --muted-foreground: 215 20% 65%; /* Improved contrast for muted text in dark mode */
+    --accent: 217 91% 60%; /* Blue accent matching secondary */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 24 83% 53%;
+    --ring: 42 100% 49%; /* Updated to match primary Bitcoin orange */
     
     /* Chart colors for dark mode */
     --chart-1: 142 71% 55%;  /* Green for USD value line (brighter) */
-    --chart-2: 24 83% 60%;   /* Bitcoin orange (brighter) */
+    --chart-2: 42 100% 55%;  /* Bitcoin orange (brighter) - updated to #f2a900 based */
     --chart-3: 47 84% 70%;   /* Yellow for vesting (brighter) */
     --chart-4: 200 85% 65%;  /* Blue for growth (brighter) */
     --chart-5: 280 65% 70%;  /* Purple (brighter) */
@@ -77,13 +77,14 @@
 /* Color Palette Variables */
 :root {
   /* Light Mode Palette */
-  --primary-bitcoin: #F7931A;
+  --primary-bitcoin: #f2a900;  /* Updated to Bitcoin industry standard */
   --text-dark: #1E2A3A;
   --bg-light-grey: #F4F6F8;
   --bg-off-white: #FAFAFA;
-  --accent-blue: #1A7EF7;
+  --accent-blue: #3b82f6;      /* Updated to consistent blue for secondary actions */
   --neutral-text: #1E2A3A;
   --border-light: #E2E8F0;
+  --text-muted: #6b7280;        /* Minimum contrast color for WCAG AA */
 }
 
 .dark {
@@ -91,8 +92,9 @@
   --bg-primary: #0F172A;      /* Dark slate background */
   --bg-card: #1E293B;        /* Slightly lighter for cards */
   --text-primary: #F8FAFC;   /* Light text */
-  --button-bg: #F7931A;      /* Bitcoin orange for buttons */
+  --button-bg: #f2a900;      /* Bitcoin orange for buttons - industry standard */
   --border-dark: #334155;    /* Subtle borders */
+  --text-muted: #9ca3af;     /* Improved muted text for dark mode */
 }
 
 /* Base Styles */
@@ -170,7 +172,7 @@ scroll-behavior: smooth;
     /* GPU acceleration for better performance */
     transform: translateZ(0) perspective(1000px) rotateX(0deg);
     /* Subtle gradient background */
-    background: linear-gradient(135deg, #F7931A 0%, #F7931A 60%, #FFB347 100%);
+    background: linear-gradient(135deg, #f2a900 0%, #f2a900 60%, #FFB347 100%);
     /* Enhanced shadow with colored glow */
     box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.3),
                 0 8px 25px -5px rgba(247, 147, 26, 0.15),
@@ -206,37 +208,36 @@ scroll-behavior: smooth;
                 inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* Secondary Button - Enhanced */
+  /* Secondary Button - Enhanced with Blue Accent */
   .btn-secondary {
     @apply relative font-bold py-3.5 px-7 transition-all duration-500 overflow-hidden rounded-sm;
     /* GPU acceleration */
     transform: translateZ(0);
-    /* Simple border */
-    border: 2px solid #E2E8F0;
-    /* Light Mode - Off-White background */
-    background-color: #FAFAFA;
-    color: #1E2A3A;
+    /* Blue accent scheme - darker for WCAG AA compliance */
+    background-color: #2563eb; /* Darker blue for better contrast */
+    color: #ffffff;
+    border: 2px solid #2563eb;
     @apply shadow-sm;
     /* Dark Mode */
-    @apply dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600;
+    @apply dark:bg-accent dark:text-white dark:border-accent;
   }
 
   .btn-secondary::before {
     content: '';
     @apply absolute top-0 left-0 w-full h-full opacity-0 transition-all duration-500;
-    background: linear-gradient(135deg, rgba(148, 163, 184, 0.05) 0%, transparent 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
     border-radius: inherit;
   }
 
   .btn-secondary:hover {
     transform: translateY(-3px) translateZ(0) scale(1.02);
-    border-color: #F7931A;
-    box-shadow: 0 4px 15px -3px rgba(247, 147, 26, 0.15),
-                0 8px 25px -5px rgba(247, 147, 26, 0.08);
-    /* Light Mode - Keep off-white */
-    background-color: #FAFAFA;
-    /* Dark Mode */
-    @apply dark:bg-slate-700 dark:border-slate-600;
+    background-color: #1d4ed8; /* Even darker blue on hover */
+    border-color: #1d4ed8;
+    box-shadow: 0 4px 15px -3px rgba(59, 130, 246, 0.4),
+                0 8px 25px -5px rgba(59, 130, 246, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+    /* Dark Mode - use darker blue directly */
+    @apply dark:bg-[#1d4ed8] dark:border-[#1d4ed8];
   }
 
   .btn-secondary:hover::before {
@@ -245,7 +246,10 @@ scroll-behavior: smooth;
 
   .btn-secondary:active {
     transform: translateY(-1px) translateZ(0) scale(0.98);
-    box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
+    background-color: #1d4ed8; /* Even darker on active */
+    box-shadow: 0 2px 10px -3px rgba(59, 130, 246, 0.3),
+                0 4px 15px -5px rgba(59, 130, 246, 0.15),
+                inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   /* Premium Hero Button System - Neon Glow Effect */
@@ -253,8 +257,8 @@ scroll-behavior: smooth;
     @apply relative font-bold text-lg px-10 py-4 transition-all duration-500 overflow-hidden rounded-xl;
     /* Dark base for neon contrast */
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    color: #f7931a;
-    border: 2px solid #f7931a;
+    color: #f2a900;
+    border: 2px solid #f2a900;
     /* Initial subtle glow */
     box-shadow: 
       0 0 3px rgba(247, 147, 26, 0.3),
@@ -275,7 +279,7 @@ scroll-behavior: smooth;
     position: absolute;
     inset: -4px;
     background: linear-gradient(45deg, 
-      #f7931a, #ffd700, #ff8c00, #f7931a, #ffd700
+      #f2a900, #ffd700, #ff8c00, #f2a900, #ffd700
     );
     border-radius: inherit;
     z-index: -1;
@@ -702,7 +706,7 @@ scroll-behavior: smooth;
   .nav-link::before {
     content: '';
     @apply absolute bottom-1 left-0 w-0 h-0.5 transition-all duration-500;
-    background: linear-gradient(90deg, #F7931A 0%, #FFB347 100%);
+    background: linear-gradient(90deg, #f2a900 0%, #FFB347 100%);
     border-radius: 2px;
     /* Animation starts from left edge */
     transform-origin: left;
@@ -746,7 +750,7 @@ scroll-behavior: smooth;
   .nav-link.active::after {
     content: '';
     @apply absolute bottom-1 left-0 w-full h-0.5;
-    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background: linear-gradient(90deg, #f2a900 0%, #FFB347 50%, #f2a900 100%);
     background-size: 200% 100%;
     border-radius: 2px;
     animation: navShimmer 3s ease-in-out  1;
@@ -870,7 +874,7 @@ scroll-behavior: smooth;
     content: '';
     @apply absolute top-0 left-0 w-full opacity-0 transition-all duration-500;
     height: 3px;
-    background: linear-gradient(90deg, #F7931A 0%, #FFB347 50%, #F7931A 100%);
+    background: linear-gradient(90deg, #f2a900 0%, #FFB347 50%, #f2a900 100%);
     background-size: 200% 100%;
     animation: shimmer 2s ease-in-out  1 paused;
   }
@@ -1317,7 +1321,7 @@ scroll-behavior: smooth;
 
   /* Text Colors */
   .text-bitcoin {
-    color: #F7931A;
+    color: #f2a900;
   }
 
   .text-bitcoin-dark {
@@ -1326,16 +1330,16 @@ scroll-behavior: smooth;
   
   /* Background Colors */
   .bg-bitcoin {
-    background-color: #F7931A;
+    background-color: #f2a900;
   }
 
   .bg-bitcoin-gradient {
-    background: linear-gradient(135deg, #F7931A, #DE8417);
+    background: linear-gradient(135deg, #f2a900, #DE8417);
   }
   
   /* Border Colors */
   .border-bitcoin {
-    border-color: #F7931A;
+    border-color: #f2a900;
   }
 
   /* Animations */
@@ -1466,7 +1470,7 @@ scroll-behavior: smooth;
 
   select:hover {
     background-image: linear-gradient(#FAFAFA, #FAFAFA),
-                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      linear-gradient(135deg, #f2a900 0%, #FFB347 100%),
                       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     box-shadow: 0 2px 4px rgba(247, 147, 26, 0.1),
                 inset 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -1481,7 +1485,7 @@ scroll-behavior: smooth;
   select:focus {
     @apply outline-none;
     background-image: linear-gradient(#FAFAFA, #FAFAFA),
-                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      linear-gradient(135deg, #f2a900 0%, #FFB347 100%),
                       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.1),
                 0 2px 8px rgba(247, 147, 26, 0.05),
@@ -1491,7 +1495,7 @@ scroll-behavior: smooth;
 
   .dark select:focus {
     background-image: linear-gradient(rgb(30, 41, 59), rgb(30, 41, 59)),
-                      linear-gradient(135deg, #F7931A 0%, #FFB347 100%),
+                      linear-gradient(135deg, #f2a900 0%, #FFB347 100%),
                       url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23F7931A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     box-shadow: 0 0 0 4px rgba(247, 147, 26, 0.2),
                 0 2px 8px rgba(247, 147, 26, 0.1);

@@ -25,7 +25,7 @@ interface HistoricalMetricCardsProps {
 
 function MetricCard({ value, label, color, sublabel, icon }: MetricCardProps) {
   const colorClasses = {
-    orange: 'bg-orange-50 border-orange-200 dark:bg-orange-950/20 dark:border-orange-800',
+    orange: 'bg-orange-50 border-bitcoin-200 dark:bg-bitcoin-900/20 dark:border-bitcoin-800',
     green: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800',
     blue: 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-800',
     purple: 'bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-800',

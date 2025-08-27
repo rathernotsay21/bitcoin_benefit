@@ -193,7 +193,7 @@ export default function CustomVestingSchedule({
           {/* Existing vesting events */}
           {sortedEvents.length > 0 && (
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 flex items-center">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-700 flex items-center">
                 Unlocking Milestones
                 <HelpTooltip content={HELP_CONTENT.gradualUnlocking} />
               </label>
@@ -246,7 +246,7 @@ export default function CustomVestingSchedule({
           {/* Add new vesting event */}
           {totalVested < 100 && (
             <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-700 mb-3">
                 Add Unlocking Milestone
               </label>
               <div className="flex items-center space-x-3">
@@ -278,7 +278,7 @@ export default function CustomVestingSchedule({
                 <Button
                   onClick={handleAddEvent}
                   disabled={!canAddPercentage(newEventPercentage)}
-                  className="bg-bitcoin hover:bg-orange-600 text-white px-3 py-2"
+                  className="bg-bitcoin hover:bg-bitcoin-600 text-white px-3 py-2"
                   title="Add unlocking milestone"
                 >
                   <PlusIcon className="w-4 h-4 mr-1" />
@@ -297,7 +297,7 @@ export default function CustomVestingSchedule({
           {/* Example presets */}
           {customVestingEvents.length === 0 && (
             <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-sm border border-gray-200 dark:border-slate-700">
-              <p className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-3 flex items-center">
+              <p className="text-sm font-medium text-gray-700 dark:text-slate-700 mb-3 flex items-center">
                 Quick Start Examples
                 <HelpTooltip content="Common unlocking schedules you can use as starting points" />
               </p>
@@ -430,7 +430,7 @@ export default function CustomVestingSchedule({
             disabled={!isValidSchedule}
             className={`sm:order-2 ${
               isValidSchedule
-                ? 'bg-bitcoin hover:bg-orange-600 text-white'
+                ? 'bg-bitcoin hover:bg-bitcoin-600 text-white'
                 : 'bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-slate-400 cursor-not-allowed'
             }`}
           >

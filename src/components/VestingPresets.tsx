@@ -84,7 +84,7 @@ export default function VestingPresets({
               <IconComponent className={`w-5 h-5 mb-1 transition-transform duration-300 group-hover:scale-110 ${
                 selectedPreset === preset.id 
                   ? 'text-bitcoin scale-110' 
-                  : 'text-gray-600 dark:text-gray-400'
+                  : 'text-gray-600 dark:text-gray-600'
               }`} />
               <span className={`text-xs font-semibold leading-tight text-center ${
                 selectedPreset === preset.id 

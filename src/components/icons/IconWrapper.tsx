@@ -24,6 +24,6 @@ export const IconWrapper: React.FC<IconWrapperProps> = ({
 };
 
 // Usage example:
-// <IconWrapper size="lg" className="text-orange-500">
+// <IconWrapper size="lg" className="text-bitcoin-500">
 //   <BitcoinIcon />
 // </IconWrapper>

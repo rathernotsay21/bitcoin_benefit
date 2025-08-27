@@ -3,13 +3,13 @@
     "year": 2025,
     "high": 123560.99,
     "low": 76329.09,
-    "average": 100674.84,
+    "average": 100721.76,
     "open": 94384.18,
-    "close": 110185.35,
-    "dataPoints": 237,
+    "close": 111842.71,
+    "dataPoints": 238,
     "source": "live",
-    "lastUpdated": "2025-08-26T20:28:07.405Z"
+    "lastUpdated": "2025-08-27T13:43:18.573Z"
   },
-  "timestamp": 1756240087405,
-  "generatedAt": "2025-08-26T20:28:07.405Z"
+  "timestamp": 1756302198573,
+  "generatedAt": "2025-08-27T13:43:18.573Z"
 }

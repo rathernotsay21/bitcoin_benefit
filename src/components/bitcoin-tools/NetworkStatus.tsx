@@ -214,7 +214,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         );
       case 'high':
         return (
-          <div className="w-6 h-6 text-orange-500">
+          <div className="w-6 h-6 text-bitcoin-500">
             <svg fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
@@ -241,7 +241,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       case 'yellow':
         return `${baseClasses} bg-yellow-100 text-yellow-800`;
       case 'orange':
-        return `${baseClasses} bg-orange-100 text-orange-800`;
+        return `${baseClasses} bg-orange-100 text-bitcoin-800`;
       case 'red':
         return `${baseClasses} bg-red-100 text-red-800`;
       default:
@@ -286,7 +286,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         label = 'Normal Traffic';
         break;
       case 'heavy':
-        color = 'bg-orange-500';
+        color = 'bg-bitcoin-500';
         label = 'Heavy Traffic';
         break;
       case 'extreme':
@@ -347,7 +347,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
         <div className="lg:flex-[1.5] w-full min-w-0">
           <div className="text-center py-8">
-            <div className="w-12 h-12 mx-auto mb-4 text-gray-400">
+            <div className="w-12 h-12 mx-auto mb-4 text-gray-600">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -355,12 +355,12 @@ const NetworkStatus: React.FC = React.memo(() => {
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               {state.error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-600 mb-4">
               {state.error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
             </p>
             
             {state.error?.retryAfter && (
-              <p className="text-sm text-orange-600 dark:text-orange-400 mb-4">
+              <p className="text-sm text-bitcoin-600 dark:text-orange-400 mb-4">
                 Rate limit exceeded. Please wait {Math.ceil((state.error.retryAfter - Date.now()) / 1000)} seconds.
               </p>
             )}
@@ -454,7 +454,7 @@ const NetworkStatus: React.FC = React.memo(() => {
           {getStatusIcon(state.networkHealth.congestionLevel)}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Current Network Health</h2>
-            <p className="text-base text-gray-600 dark:text-gray-400">Live updates every 30 seconds</p>
+            <p className="text-base text-gray-600 dark:text-gray-600">Live updates every 30 seconds</p>
           </div>
         </div>
         <span className={getStatusBadgeClasses(state.networkHealth.humanReadable.colorScheme)}>
@@ -469,7 +469,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         <div className="bg-white dark:bg-gray-700 rounded-sm p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-600">
               {congestionProgress.label}
             </span>
           </div>
@@ -481,7 +481,7 @@ const NetworkStatus: React.FC = React.memo(() => {
                 style={{ width: `${congestionProgress.percentage}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-600">
               <span>Clear</span>
               <span>Normal</span>
               <span>Busy</span>
@@ -491,13 +491,13 @@ const NetworkStatus: React.FC = React.memo(() => {
           
           <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-600 dark:text-gray-400">Queue: </span>
+              <span className="text-gray-600 dark:text-gray-600">Queue: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
                 {formatNumber(state.networkHealth.mempoolSize)} transactions
               </span>
             </div>
             <div>
-              <span className="text-gray-600 dark:text-gray-400">Size: </span>
+              <span className="text-gray-600 dark:text-gray-600">Size: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
                 {formatBytes(state.networkHealth.mempoolBytes)}
               </span>
@@ -529,11 +529,11 @@ const NetworkStatus: React.FC = React.memo(() => {
                       <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
                       <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
                       {state.bitcoinPrice && (
-                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <div className="text-sm text-gray-600 dark:text-gray-600 mb-2">
                           ~${costUSD.toFixed(2)} USD
                         </div>
                       )}
-                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                      <div className="text-xs text-gray-500 dark:text-gray-700">
                         {feeInfo.timeEstimate}
                       </div>
                     </div>
@@ -570,7 +570,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         <div className={`rounded-sm p-6 border-l-4 shadow-sm min-h-[200px] ${
           state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
           state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
-          state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-400' :
+          state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-bitcoin-900/20 border-bitcoin-400' :
           'bg-red-50 dark:bg-red-900/20 border-red-400'
         }`}>
           <p className="text-gray-900 dark:text-white text-lg font-semibold mb-3">
@@ -617,7 +617,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       </div>
 
         {/* Next Block Estimation */}
-        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
+        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-600 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
           <div className="flex items-center space-x-3">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

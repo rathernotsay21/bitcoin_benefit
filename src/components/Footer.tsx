@@ -67,7 +67,7 @@ export default function Footer() {
               <div className="flex flex-col gap-4 lg:pl-12">
                 <Link
                   href="/calculator"
-                  className="group relative bg-bitcoin hover:bg-orange-500 text-white font-bold py-5 px-8 rounded-sm text-lg transition-all duration-300 shadow-xl hover:shadow-2xl inline-flex items-center gap-3"
+                  className="group relative bg-bitcoin hover:bg-bitcoin-500 text-white font-bold py-5 px-8 rounded-sm text-lg transition-all duration-300 shadow-xl hover:shadow-2xl inline-flex items-center gap-3"
                 >
                   <CalculatorIcon className="w-6 h-6" />
                   <span>See What Your Team Could Earn</span>

@@ -318,7 +318,7 @@ export function FeeCalculatorTool() {
     switch (networkData.congestionLevel) {
       case 'low': return 'text-green-600 dark:text-green-400';
       case 'normal': return 'text-blue-600 dark:text-blue-400';
-      case 'high': return 'text-orange-600 dark:text-orange-400';
+      case 'high': return 'text-bitcoin-600 dark:text-orange-400';
       case 'extreme': return 'text-red-600 dark:text-red-400';
       default: return 'text-gray-600';
     }
@@ -412,7 +412,7 @@ export function FeeCalculatorTool() {
           <div className={`card mb-6 border-l-4 ${
             networkData.congestionLevel === 'low' ? 'bg-green-50 border-green-400 dark:bg-green-900/20' :
             networkData.congestionLevel === 'normal' ? 'bg-blue-50 border-blue-400 dark:bg-blue-900/20' :
-            networkData.congestionLevel === 'high' ? 'bg-orange-50 border-orange-400 dark:bg-orange-900/20' :
+            networkData.congestionLevel === 'high' ? 'bg-bitcoin-50 border-bitcoin-400 dark:bg-bitcoin-900/20' :
             'bg-red-50 border-red-400 dark:bg-red-900/20'
           }`}>
             <div className="flex items-center justify-between">
@@ -422,14 +422,14 @@ export function FeeCalculatorTool() {
                                    networkData.congestionLevel === 'normal' ? 'Moderate' :
                                    networkData.congestionLevel === 'high' ? 'Busy' : 'Very Busy'}
                 </p>
-                <p className="text-lg text-gray-600 dark:text-slate-300 mt-2">
+                <p className="text-lg text-gray-600 dark:text-slate-700 mt-2">
                   {networkData.congestionLevel === 'low' ? 'Great time to send - fees are low!' :
                    networkData.congestionLevel === 'normal' ? 'Normal fees apply for transactions' :
                    networkData.congestionLevel === 'high' ? 'Network is busy - fees are higher than usual' :
                    'Network very congested - consider waiting if not urgent'}
                 </p>
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-700">
                 {networkData.mempoolSize > 0 && `${networkData.mempoolSize.toLocaleString()} transactions waiting`}
               </div>
             </div>
@@ -493,7 +493,7 @@ export function FeeCalculatorTool() {
 
           {/* Custom Size Input - Hidden by default for simplicity */}
           <details className="mt-4">
-            <summary className="text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-bitcoin font-medium">
+            <summary className="text-sm text-gray-500 dark:text-gray-600 cursor-pointer hover:text-bitcoin font-medium">
               Advanced: Set custom transaction size
             </summary>
             <form onSubmit={handleCustomSizeSubmit} className="flex gap-3 mt-3">
@@ -564,7 +564,7 @@ export function FeeCalculatorTool() {
                       </div>
                     </div>
 
-                    <div className="text-lg text-gray-700 dark:text-slate-300 mb-4">
+                    <div className="text-lg text-gray-700 dark:text-slate-700 mb-4">
                       {recommendation.description}
                     </div>
 
@@ -589,14 +589,14 @@ export function FeeCalculatorTool() {
                         </p>
                         <div className="space-y-4 text-base">
                           <div className="flex justify-between">
-                            <span className="text-gray-600 dark:text-gray-400">Total Cost:</span>
+                            <span className="text-gray-600 dark:text-gray-600">Total Cost:</span>
                             <span className="font-semibold">${formatUSD(totalCostSats)} USD</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-600 dark:text-gray-400">In Bitcoin:</span>
+                            <span className="text-gray-600 dark:text-gray-600">In Bitcoin:</span>
                             <span className="font-mono font-medium">{formatBTC(totalCostSats)} BTC</span>
                           </div>
-                          <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                          <div className="flex justify-between text-gray-600 dark:text-gray-600">
                             <span>In Satoshis:</span>
                             <span className="font-mono font-medium">{totalCostSats.toLocaleString()} sats</span>
                           </div>

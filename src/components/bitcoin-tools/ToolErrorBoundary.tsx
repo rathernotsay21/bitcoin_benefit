@@ -145,7 +145,7 @@ function ToolErrorDisplay({
       case 'not_found':
         return 'border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/20';
       case 'rate_limit':
-        return 'border-orange-200 bg-orange-50 dark:border-orange-700 dark:bg-orange-900/20';
+        return 'border-bitcoin-200 bg-bitcoin-50 dark:border-bitcoin-700 dark:bg-bitcoin-900/20';
       default:
         return 'border-red-200 bg-red-50 dark:border-red-700 dark:bg-red-900/20';
     }
@@ -183,7 +183,7 @@ function ToolErrorDisplay({
       {/* Retry Information */}
       {error.retryable && retryCount > 0 && (
         <div className="mb-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-md">
-          <p className="text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-xs text-gray-600 dark:text-gray-600">
             Retry attempt: {retryCount} of {maxRetries}
           </p>
         </div>
@@ -218,10 +218,10 @@ function ToolErrorDisplay({
       {/* Debug Info (Development Only) */}
       {process.env.NODE_ENV === 'development' && error.originalError && (
         <details className="mt-4">
-          <summary className="cursor-pointer text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+          <summary className="cursor-pointer text-xs text-gray-500 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-200">
             Debug Information
           </summary>
-          <pre className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-400 overflow-auto">
+          <pre className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-600 overflow-auto">
             {error.originalError.stack || error.originalError.message}
           </pre>
         </details>

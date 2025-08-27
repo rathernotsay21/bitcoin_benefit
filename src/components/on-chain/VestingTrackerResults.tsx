@@ -134,12 +134,12 @@ export default function VestingTrackerResults({
   const getStatusColor = (type: string) => {
     return type === 'Annual Award' 
       ? 'bg-bitcoin-100 text-bitcoin-700 dark:bg-bitcoin/20 dark:text-bitcoin'
-      : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300';
+      : 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-700';
   };
 
   const getGrantYearColor = (grantYear: number | null, isManual: boolean) => {
     if (grantYear === null) {
-      return 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-300';
+      return 'bg-gray-100 text-gray-800 dark:bg-slate-700 dark:text-slate-700';
     }
     return isManual 
       ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
@@ -231,7 +231,7 @@ export default function VestingTrackerResults({
     if (!isActive) {
       return (
         <svg 
-          className="w-4 h-4 text-gray-400" 
+          className="w-4 h-4 text-gray-600" 
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -400,7 +400,7 @@ export default function VestingTrackerResults({
             >
               <button
                 onClick={() => handleSort('grantYear')}
-                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Grant Year ${sortField === 'grantYear' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
                 Year
@@ -414,7 +414,7 @@ export default function VestingTrackerResults({
             >
               <button
                 onClick={() => handleSort('date')}
-                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Date ${sortField === 'date' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
                 Date
@@ -428,7 +428,7 @@ export default function VestingTrackerResults({
             >
               <button
                 onClick={() => handleSort('type')}
-                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Type ${sortField === 'type' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
                 Type
@@ -442,7 +442,7 @@ export default function VestingTrackerResults({
             >
               <button
                 onClick={() => handleSort('amountBTC')}
-                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by Bitcoin Amount ${sortField === 'amountBTC' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
                 BTC
@@ -456,7 +456,7 @@ export default function VestingTrackerResults({
             >
               <button
                 onClick={() => handleSort('valueAtTimeOfTx')}
-                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-300 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
+                className="flex items-center gap-2 font-medium text-gray-700 dark:text-slate-700 hover:text-bitcoin transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2 rounded"
                 aria-label={`Sort by USD Value ${sortField === 'valueAtTimeOfTx' ? (sortDirection === 'asc' ? 'descending' : 'ascending') : ''}`}
               >
                 USD
@@ -468,7 +468,7 @@ export default function VestingTrackerResults({
               className="text-left py-3 px-4"
               scope="col"
             >
-              <span className="font-medium text-gray-700 dark:text-slate-300">
+              <span className="font-medium text-gray-700 dark:text-slate-700">
                 Match
               </span>
             </th>
@@ -609,7 +609,7 @@ export default function VestingTrackerResults({
                     className={`px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-inset ${
                       viewMode === 'table'
                         ? 'bg-bitcoin text-white'
-                        : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
+                        : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'
                     }`}
                     role="tab"
                     aria-selected={viewMode === 'table'}
@@ -622,7 +622,7 @@ export default function VestingTrackerResults({
                     className={`px-3 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-inset ${
                       viewMode === 'cards'
                         ? 'bg-bitcoin text-white'
-                        : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
+                        : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'
                     }`}
                     role="tab"
                     aria-selected={viewMode === 'cards'}
@@ -669,7 +669,7 @@ export default function VestingTrackerResults({
               </div>
             </div>
             
-            <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-sm">
+            <div className="text-center p-4 bg-orange-50 dark:bg-bitcoin-900/20 rounded-sm">
               <div className="text-2xl font-bold text-orange-900 dark:text-orange-300 mb-1">
                 {(() => {
                   const totalValue = transactions.reduce((sum, t) => 
@@ -678,7 +678,7 @@ export default function VestingTrackerResults({
                   return totalValue > 0 ? formatUSD(totalValue) : 'N/A';
                 })()}
               </div>
-              <div className="text-sm text-orange-700 dark:text-orange-400 font-medium">
+              <div className="text-sm text-bitcoin-700 dark:text-orange-400 font-medium">
                 Total USD Value at Time
                 {transactions.some(t => t.valueAtTimeOfTx === null) && (
                   <div className="text-xs mt-1 text-yellow-600 dark:text-yellow-400">

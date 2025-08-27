@@ -75,7 +75,7 @@ const TimelineMarker = memo(({
       onClick={onClick}
     >
       <div className={`text-sm font-bold mb-4 transition-colors ${
-        isSelected ? 'text-bitcoin' : 'text-gray-600 dark:text-gray-400 group-hover:text-bitcoin'
+        isSelected ? 'text-bitcoin' : 'text-gray-600 dark:text-gray-600 group-hover:text-bitcoin'
       }`}>
         {yearData.year}
       </div>
@@ -100,7 +100,7 @@ const TimelineMarker = memo(({
         <div className="text-sm font-medium text-bitcoin dark:text-bitcoin">
           {formatBTCCompact(yearData.btcBalance)}
         </div>
-        <div className="text-sm font-medium text-orange-600 dark:text-orange-400 h-5">
+        <div className="text-sm font-medium text-bitcoin-600 dark:text-orange-400 h-5">
           {yearData.grantCost > 0 ? formatUSDCompact(yearData.grantCost) : ''}
         </div>
         <div className="text-sm font-bold text-green-600 dark:text-green-400">
@@ -244,19 +244,19 @@ function HistoricalTimelineVisualizationOptimized({
         <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           Interactive Timeline Explorer
         </h4>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-gray-600 dark:text-gray-600 mb-4">
           The timeline shows the journey your employee's Bitcoin award would have taken from any chosen year. The early days saw dramatic growth, but they were rough times. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
         </p>
         
         {/* Summary Information */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-600 mb-6">
           <span className="flex items-center gap-1">
             <span className="font-medium">Total Awarded:</span>
             <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Cost Basis:</span>
-            <span className="text-orange-600 dark:text-orange-400 font-bold capitalize">{deferredResults.summary.costBasisMethod} prices</span>
+            <span className="text-bitcoin-600 dark:text-orange-400 font-bold capitalize">{deferredResults.summary.costBasisMethod} prices</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="font-medium">• Annualized Return:</span>
@@ -331,10 +331,10 @@ function HistoricalTimelineVisualizationOptimized({
                           </div>
                         </div>
                         {yearData.grantCost > 0 && (
-                          <div className="flex items-center justify-between bg-orange-50 dark:bg-orange-900/20 rounded-sm p-3">
+                          <div className="flex items-center justify-between bg-orange-50 dark:bg-bitcoin-900/20 rounded-sm p-3">
                             <div>
                               <div className="text-gray-600 dark:text-white/80 text-xs font-medium">Award Cost</div>
-                              <div className="font-bold text-orange-600 dark:text-orange-400 text-base">{formatUSDCompact(yearData.grantCost)}</div>
+                              <div className="font-bold text-bitcoin-600 dark:text-orange-400 text-base">{formatUSDCompact(yearData.grantCost)}</div>
                             </div>
                           </div>
                         )}
@@ -379,15 +379,15 @@ function HistoricalTimelineVisualizationOptimized({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {selectedYearData.hasGrants && (
-                  <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-sm border border-orange-200 dark:border-orange-800 shadow-md">
-                    <div className="text-sm font-semibold text-orange-800 dark:text-orange-200 mb-1 flex items-center">
+                  <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/30 dark:to-amber-900/30 p-4 rounded-sm border border-bitcoin-200 dark:border-bitcoin-800 shadow-md">
+                    <div className="text-sm font-semibold text-bitcoin-800 dark:text-orange-200 mb-1 flex items-center">
                       <SatoshiIcon className="w-4 h-4 mr-1" />
                       This Year
                     </div>
                     <div className="text-2xl font-bold text-orange-900 dark:text-orange-100">
                       {formatBTC(selectedYearData.grants.reduce((sum: number, g: any) => sum + g.amount, 0))}
                     </div>
-                    <div className="text-xs text-orange-700 dark:text-orange-300 mt-1">
+                    <div className="text-xs text-bitcoin-700 dark:text-orange-300 mt-1">
                       {selectedYearData.grants.map((g: any) => g.type).join(', ')} grant
                     </div>
                   </div>

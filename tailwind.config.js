@@ -11,17 +11,17 @@ module.exports = {
       colors: {
         // Refined color palette for consistency
         bitcoin: {
-          DEFAULT: '#F7931A',     // Primary Bitcoin Orange
-          50: '#FFF4E0',          // Lightest
-          100: '#FFE8C2',
-          200: '#FFD485',
-          300: '#FFC047',
-          400: '#FFAA1A',
-          500: '#F7931A',         // Main Bitcoin Orange
-          600: '#DE8417',         // Slightly Darker Orange (for dark mode cards)
-          700: '#C47014',
-          800: '#A05C11',
-          900: '#7D480E',
+          DEFAULT: '#f2a900',     // Bitcoin Industry Standard Orange
+          50: '#FFF9E6',          // Lightest - recalculated for #f2a900
+          100: '#FFF0B3',
+          200: '#FFE580',
+          300: '#FFD94D',
+          400: '#FFCB1A',
+          500: '#f2a900',         // Main Bitcoin Orange - Industry Standard
+          600: '#D99500',         // Slightly Darker Orange
+          700: '#B37E00',
+          800: '#8C6300',
+          900: '#664700',
         },
         deepSlate: {
           DEFAULT: '#1E2A3A',     // Deep Slate Blue for text
@@ -46,17 +46,17 @@ module.exports = {
           900: '#171923',
         },
         accent: {
-          DEFAULT: '#1A7EF7',     // Bright Blue (complementary)
-          50: '#E8F2FF',
-          100: '#D1E6FF',
-          200: '#A3CDFF',
-          300: '#75B4FF',
-          400: '#479BFF',
-          500: '#1A7EF7',         // Main Accent Blue
-          600: '#0066DE',
-          700: '#0052B3',
-          800: '#003D87',
-          900: '#00295C',
+          DEFAULT: '#3b82f6',     // Consistent Blue for Secondary Actions
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3b82f6',         // Main Secondary Action Blue
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
         },
         neutral: {
           DEFAULT: '#FAFAFA',     // Off-White
@@ -120,7 +120,7 @@ module.exports = {
       backgroundColor: {
         'dark-primary': '#0F172A', // Dark slate for dark mode background
         'dark-card': '#1E293B',    // Slightly lighter slate for cards
-        'dark-button': '#F7931A',  // Bitcoin orange for buttons
+        'dark-button': '#f2a900',  // Bitcoin orange for buttons - industry standard
       },
       textColor: {
         'dark-primary': '#F8FAFC', // Light slate for dark mode text

@@ -50,19 +50,19 @@ export default function Navigation() {
       activeIcon: HomeIconSolid,
     },
     {
-      name: 'Plans',
+      name: 'Calculator',
       href: '/calculator',
       icon: CalculatorIcon,
       activeIcon: CalculatorIconSolid,
     },
     {
-      name: 'Results',
+      name: 'Performance',
       href: '/historical',
       icon: ClockIcon,
       activeIcon: ClockIconSolid,
     },
     {
-      name: 'Track',
+      name: 'Dashboard',
       href: '/track',
       icon: MagnifyingGlassIcon,
       activeIcon: MagnifyingGlassIconSolid,
@@ -95,7 +95,7 @@ export default function Navigation() {
                 <span className="hidden sm:inline">BitcoinBenefits</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
-              <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-300 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
+              <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-700 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
                 Secure their future. Secure your team.
               </p>
             </div>
@@ -195,7 +195,7 @@ export default function Navigation() {
               {theme === 'dark' ? (
                 <SunIconSolid className="w-6 h-6 text-yellow-400 hover:text-yellow-300 transition-colors" />
               ) : (
-                <MoonIconSolid className="w-6 h-6 text-slate-600 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
+                <MoonIconSolid className="w-6 h-6 text-gray-700 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-200 transition-colors" />
               )}
             </button>
             

@@ -62,7 +62,7 @@ export function ChartSkeleton({
                 return (
                   <div key={i} className="flex flex-col items-center">
                     <div 
-                      className="w-3 h-3 bg-orange-300 dark:bg-orange-600 rounded-full mb-2"
+                      className="w-3 h-3 bg-bitcoin-300 dark:bg-bitcoin-600 rounded-full mb-2"
                       style={{ marginBottom: `${height}%` }}
                     ></div>
                     <div className="h-3 bg-gray-200 dark:bg-slate-700 rounded w-6 mt-4"></div>
@@ -77,7 +77,7 @@ export function ChartSkeleton({
         {showLegend && (
           <div className="flex justify-center gap-8 mt-6">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-orange-300 dark:bg-orange-600 rounded-full"></div>
+              <div className="w-6 h-6 bg-bitcoin-300 dark:bg-bitcoin-600 rounded-full"></div>
               <div className="h-4 bg-gray-200 dark:bg-slate-700 rounded w-24"></div>
             </div>
             <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export function CompactChartSkeleton({ height = 300, className = "" }: { height?
               return (
                 <div key={i} className="flex flex-col items-center w-8">
                   <div 
-                    className="w-2 bg-orange-300 dark:bg-orange-600 rounded-t" 
+                    className="w-2 bg-bitcoin-300 dark:bg-bitcoin-600 rounded-t" 
                     style={{ height: `${height}%` }}
                   ></div>
                 </div>

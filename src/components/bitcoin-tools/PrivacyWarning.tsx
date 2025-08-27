@@ -168,7 +168,7 @@ export function PrivacyWarning({
           <ul className="space-y-1 text-xs">
             {warning.suggestions.map((suggestion, index) => (
               <li key={index} className={`flex items-start ${styles.text}`}>
-                <span className="text-gray-400 mr-2 flex-shrink-0">•</span>
+                <span className="text-gray-600 mr-2 flex-shrink-0">•</span>
                 <span className="flex-1">{suggestion}</span>
               </li>
             ))}
@@ -249,7 +249,7 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
             <div className="font-medium text-xs text-gray-900 dark:text-gray-100 mb-1">
               {api.apiName}
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-400">
+            <div className="text-xs text-gray-600 dark:text-gray-600">
               Sends: {api.dataSent.join(', ')}
             </div>
             <div className={`text-xs mt-1 ${{
@@ -285,7 +285,7 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
               <div className="mt-1 space-y-1">
                 {Object.entries(report.apiBreakdown).map(([api, count]) => (
                   <div key={api} className="flex justify-between text-xs">
-                    <span className="text-gray-600 dark:text-gray-400">{api}</span>
+                    <span className="text-gray-600 dark:text-gray-600">{api}</span>
                     <span className="text-gray-900 dark:text-gray-100">{count} requests</span>
                   </div>
                 ))}

@@ -109,7 +109,7 @@ export default function HistoricalDataTable({
       cell: ({ getValue }) => {
         const cost = getValue();
         return (
-          <span className={`text-sm hidden sm:inline ${cost > 0 ? 'font-medium text-orange-600 dark:text-orange-400' : 'text-gray-400 dark:text-white/50'}`}>
+          <span className={`text-sm hidden sm:inline ${cost > 0 ? 'font-medium text-bitcoin-600 dark:text-orange-400' : 'text-gray-400 dark:text-white/50'}`}>
             {cost > 0 ? formatUSD(cost) : '—'}
           </span>
         );
@@ -330,7 +330,7 @@ export default function HistoricalDataTable({
           <div className="text-xs text-gray-600 dark:text-slate-400">Worth Today</div>
         </div>
         <div className="text-center">
-          <div className="text-2xl font-bold text-orange-600">
+          <div className="text-2xl font-bold text-bitcoin-600">
             {summaryStats.roi.toFixed(0)}%
           </div>
           <div className="text-xs text-gray-600 dark:text-slate-400">ROI</div>
@@ -383,13 +383,13 @@ export default function HistoricalDataTable({
       </div>
 
       {/* Total Award Cost Summary */}
-      <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-sm">
+      <div className="p-4 bg-orange-50 dark:bg-bitcoin-900/20 border border-bitcoin-200 dark:border-bitcoin-800 rounded-sm">
         <div className="flex justify-between items-center">
           <div>
             <h5 className="text-sm font-semibold text-orange-900 dark:text-orange-200">
               What You Actually Paid
             </h5>
-            <p className="text-xs text-orange-700 dark:text-orange-300 mt-1">
+            <p className="text-xs text-bitcoin-700 dark:text-orange-300 mt-1">
               Using {costBasisMethod} Bitcoin prices from each year
             </p>
           </div>

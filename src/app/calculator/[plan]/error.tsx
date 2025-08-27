@@ -50,7 +50,7 @@ export default function Error({
 
           {process.env.NODE_ENV === 'development' && (
             <details className="mt-6 text-left">
-              <summary className="text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
+              <summary className="text-sm text-gray-500 dark:text-gray-600 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
                 Error Details (Development Only)
               </summary>
               <pre className="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded overflow-x-auto">

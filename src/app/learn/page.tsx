@@ -22,7 +22,7 @@ export default function LearnMorePage() {
                     <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Join the </span>
                     <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Quiet Revolution</span>
                   </h1>
-                  <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-700 leading-relaxed">
                     When you come to a fork in the road, take it.
                   </p>
                 </div>
@@ -49,7 +49,7 @@ export default function LearnMorePage() {
                     {/* Trusted Exchange Partners */}
                     <div className="mb-12">
                         <div className="text-center mb-8">
-                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Exchange Partners</p>
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 uppercase tracking-wider mb-2">Trusted Exchange Partners</p>
                             <div className="w-24 h-1 bg-gradient-to-r from-bitcoin to-orange-500 mx-auto rounded-full"></div>
                         </div>
                         
@@ -82,19 +82,19 @@ export default function LearnMorePage() {
                                         
                                         {/* Security badges */}
                                         <div className="space-y-1 mb-4">
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                 </svg>
                                                 PCI-DSS Level 1
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                                                 </svg>
                                                 Mobile Only
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                                                 </svg>
@@ -205,19 +205,19 @@ export default function LearnMorePage() {
                                         
                                         {/* Security badges */}
                                         <div className="space-y-1 mb-4">
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                 </svg>
                                                 SOC 2 Type I
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
                                                 </svg>
                                                 ISO/IEC 27001
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                                                 </svg>
@@ -268,7 +268,7 @@ export default function LearnMorePage() {
                     {/* Trusted Hardware Manufacturers */}
                     <div className="mb-12">
                         <div className="text-center mb-8">
-                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Hardware Manufacturers</p>
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 uppercase tracking-wider mb-2">Trusted Hardware Manufacturers</p>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-bitcoin mx-auto rounded-full"></div>
                         </div>
                         
@@ -289,7 +289,7 @@ export default function LearnMorePage() {
                                         </div>
                                     </div>
                                     
-                                    <div className="bg-gradient-to-br from-white to-orange-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-orange-400/30 dark:border-orange-500/40 rounded-sm p-8 lg:p-10 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-orange-500 group-hover:shadow-orange-500/20 h-full relative overflow-hidden">
+                                    <div className="bg-gradient-to-br from-white to-orange-50 dark:from-slate-800/70 dark:to-slate-700/70 backdrop-blur-sm border-2 border-bitcoin-400/30 dark:border-bitcoin-500/40 rounded-sm p-8 lg:p-10 shadow-sm hover:shadow-sm transition-all duration-300 group-hover:border-bitcoin-500 group-hover:shadow-orange-500/20 h-full relative overflow-hidden">
                                         {/* Glow effect */}
                                         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                         
@@ -309,7 +309,7 @@ export default function LearnMorePage() {
                                             
                                             {/* Content */}
                                             <div className="flex-grow text-center lg:text-left">
-                                                <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                                                <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-bitcoin-600 dark:group-hover:text-orange-400 transition-colors duration-300">
                                                     Foundation Passport
                                                 </h4>
                                                 <p className="text-gray-600 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
@@ -336,7 +336,7 @@ export default function LearnMorePage() {
                                                         </svg>
                                                         Open Source
                                                     </div>
-                                                    <div className="flex items-center text-sm text-orange-600 dark:text-orange-400">
+                                                    <div className="flex items-center text-sm text-bitcoin-600 dark:text-orange-400">
                                                         <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                                         </svg>
