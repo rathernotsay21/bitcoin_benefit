@@ -425,7 +425,7 @@ function VestingTimelineChartRecharts({
     return costBasis > 0 ? finalValue / costBasis : 0;
   }, [finalYear, yearlyData, costBasis]);
 
-  // Calculate Y-axis domain and ticks for USD only - similar to old graph
+  // Calculate Y-axis domain and ticks for USD only - emphasize growth by starting at 90% of min
   const { usdDomain, usdTicks } = useMemo(() => {
     if (!yearlyData || yearlyData.length === 0) {
       return { 
@@ -434,7 +434,7 @@ function VestingTimelineChartRecharts({
       };
     }
     
-    // Get max value from USD values
+    // Get min and max values from USD values
     const usdValues = yearlyData.map(d => d.usdValue || 0).filter(v => isFinite(v));
     
     if (usdValues.length === 0) {
@@ -445,38 +445,101 @@ function VestingTimelineChartRecharts({
     }
     
     const maxUsd = Math.max(...usdValues);
+    const minUsd = Math.min(...usdValues);
+    
+    // Start Y-axis at 90% of minimum value to emphasize growth
+    // But ensure we don't go below 0 and have a reasonable minimum
+    let minDomain: number;
+    if (minUsd <= 0) {
+      minDomain = 0;
+    } else {
+      minDomain = Math.floor(minUsd * 0.9);
+      // Round down to nearest nice number for cleaner axis
+      if (minDomain < 1000) {
+        minDomain = Math.floor(minDomain / 100) * 100;
+      } else if (minDomain < 10000) {
+        minDomain = Math.floor(minDomain / 1000) * 1000;
+      } else {
+        minDomain = Math.floor(minDomain / 5000) * 5000;
+      }
+    }
     
     // Calculate nice round maximum for the scale with less headroom (15% instead of default)
     const paddedMax = maxUsd * 1.15;
     let maxDomain: number;
     let ticks: number[];
     
+    // Adjust tick calculation based on the new minimum
+    const range = paddedMax - minDomain;
+    
     if (paddedMax <= 12000) {
       maxDomain = Math.ceil(paddedMax / 2000) * 2000;
-      ticks = Array.from({length: 7}, (_, i) => i * (maxDomain / 6));
+      const step = Math.ceil((maxDomain - minDomain) / 6 / 500) * 500;
+      ticks = [];
+      for (let i = 0; i <= 6; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else if (paddedMax <= 20000) {
       maxDomain = Math.ceil(paddedMax / 4000) * 4000;
-      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 1000) * 1000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else if (paddedMax <= 50000) {
       maxDomain = Math.ceil(paddedMax / 10000) * 10000;
-      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 2000) * 2000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else if (paddedMax <= 100000) {
       maxDomain = Math.ceil(paddedMax / 20000) * 20000;
-      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 5000) * 5000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else if (paddedMax <= 200000) {
       maxDomain = Math.ceil(paddedMax / 40000) * 40000;
-      ticks = Array.from({length: 6}, (_, i) => i * (maxDomain / 5));
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 10000) * 10000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else if (paddedMax <= 500000) {
       maxDomain = Math.ceil(paddedMax / 100000) * 100000;
-      ticks = [0, 100000, 200000, 300000, 400000, 500000];
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 20000) * 20000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     } else {
       // For very large values, round up to nearest 100K
       maxDomain = Math.ceil(maxUsd / 100000) * 100000;
-      const tickInterval = maxDomain / 5;
-      ticks = Array.from({length: 6}, (_, i) => i * tickInterval);
+      const step = Math.ceil((maxDomain - minDomain) / 5 / 50000) * 50000;
+      ticks = [];
+      for (let i = 0; i <= 5; i++) {
+        const tick = minDomain + i * step;
+        if (tick <= maxDomain) ticks.push(tick);
+      }
     }
     
-    return { usdDomain: [0, maxDomain], usdTicks: ticks };
+    // Ensure we have at least the min and max in our ticks
+    if (ticks.length > 0 && ticks[0] > minDomain) {
+      ticks[0] = minDomain;
+    }
+    if (ticks.length > 0 && ticks[ticks.length - 1] < maxDomain) {
+      ticks[ticks.length - 1] = maxDomain;
+    }
+    
+    return { usdDomain: [minDomain, maxDomain], usdTicks: ticks };
   }, [yearlyData]);
 
   // Chart configuration for shadcn/ui
