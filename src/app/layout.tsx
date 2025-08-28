@@ -4,7 +4,6 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
-import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 import CriticalCSS from '@/components/CriticalCSS'
 import './globals.css'
 
@@ -190,7 +189,6 @@ export default function RootLayout({
         />
         <ThemeProvider>
           <StoreSyncProvider>
-            <ServiceWorkerRegistration />
             {children}
           </StoreSyncProvider>
         </ThemeProvider>

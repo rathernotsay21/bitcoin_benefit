@@ -228,16 +228,6 @@ const nextConfig = {
             }
           ]
         },
-        // Ensure service worker is not cached in development
-        {
-          source: '/sw-production.js',
-          headers: [
-            {
-              key: 'Cache-Control',
-              value: 'no-store, no-cache, must-revalidate'
-            }
-          ]
-        }
       ];
     }
     
@@ -372,30 +362,6 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=3600, stale-while-revalidate=7200',
-          },
-        ],
-      },
-      // Phase 3.2: Service worker optimized caching
-      {
-        source: '/sw-production.js',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-          {
-            key: 'Service-Worker-Allowed',
-            value: '/',
-          },
-        ],
-      },
-      // Offline page caching
-      {
-        source: '/offline.html',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800',
           },
         ],
       },

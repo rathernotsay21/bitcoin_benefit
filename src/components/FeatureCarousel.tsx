@@ -48,7 +48,7 @@ const features: CarouselFeature[] = [
   {
     id: 'historical',
     title: 'Past Performance',
-    subtitle: '27.9% Annualized Returns',
+    subtitle: '27.9% Annualized',
     description: 'Click through the interactive timeline to see what bitcoin awards from any year are worth today. Understand the power of early adoption - ₿0.100 awarded in 2020 for just $556 is now worth over $10,000!',
     icon: ClockIcon,
     href: '/historical',
