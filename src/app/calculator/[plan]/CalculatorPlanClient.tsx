@@ -260,7 +260,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 ? 'border-2 border-blue-500/20 hover:border-blue-500/30 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-slate-800'
                 : 'glass'
             }`}>
-              <div className="flex items-center mb-6">
+              <div className="flex items-center justify-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
                 <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">
                   Choose a Plan

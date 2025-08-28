@@ -270,15 +270,6 @@ export default function VestingProgress({
 
       </div>
       
-      {/* Helper text */}
-      <div className="mb-4">
-        <div className="flex justify-end items-center">
-          <span className="text-sm text-gray-500 dark:text-slate-400">
-            Try changing the plan and unlock schedule
-          </span>
-        </div>
-      </div>
-      
       {/* Unlocking Schedule Overview */}
       <div className={`p-3 ${strategyConfig.colors.bg} rounded-sm`} style={{border: '1px solid #777f89'}}>
         <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-2 flex items-center">
@@ -323,6 +314,12 @@ export default function VestingProgress({
                 borderStyle = `1px solid ${periodColor.bg}4d`; // 30% opacity border
               }
               
+              // Calculate incremental percentage for this event
+              const previousEvent = eventIndex > 0 ? vestingEvents[eventIndex - 1] : null;
+              const incrementalPercentage = previousEvent 
+                ? event.percentage - previousEvent.percentage 
+                : event.percentage;
+              
               return (
                 <div 
                   key={`${event.label}-${event.percentage}-${eventIndex}`} 
@@ -346,6 +343,22 @@ export default function VestingProgress({
                   </span>
                   <div className="flex items-center gap-2">
                     <span 
+                      className={`text-xs ${
+                        !event.achieved && !event.isNext ? 'dark:text-slate-400' : ''
+                      }`}
+                      style={{ color: event.achieved || event.isNext ? textColor : undefined, opacity: 0.8 }}
+                    >
+                      +{incrementalPercentage}%
+                    </span>
+                    <span 
+                      className={`text-xs ${
+                        !event.achieved && !event.isNext ? 'dark:text-slate-400' : ''
+                      }`}
+                      style={{ color: event.achieved || event.isNext ? textColor : undefined, opacity: 0.7 }}
+                    >
+                      →
+                    </span>
+                    <span 
                       className={`text-sm font-bold ${
                         !event.achieved && !event.isNext ? 'dark:text-slate-300' : ''
                       }`}
@@ -353,11 +366,6 @@ export default function VestingProgress({
                     >
                       {event.percentage}%
                     </span>
-                    {event.achieved && (
-                      <svg className="w-4 h-4" fill={textColor} viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
                   </div>
                 </div>
               );

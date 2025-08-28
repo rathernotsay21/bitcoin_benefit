@@ -97,30 +97,6 @@ export default function VestingPresets({
           );
         })}
       </div>
-
-      {/* Display Selected Preset Schedule */}
-      {selectedPreset && VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS] && (
-        <div className="mt-4">
-          <h5 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-3">
-            Unlocking Timeline:
-          </h5>
-          <div className="space-y-2">
-            {VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events.map((event, index) => (
-              <div 
-                key={event.id} 
-                className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 text-sm py-2 border-b border-purple-200 dark:border-purple-700 last:border-0"
-              >
-                <span className="text-blue-800 dark:text-blue-300 font-medium">
-                  {event.label}
-                </span>
-                <span className="font-medium text-blue-900 dark:text-blue-200 text-right sm:text-left">
-                  +{index === 0 ? event.percentageVested : event.percentageVested - VESTING_PRESETS[selectedPreset as keyof typeof VESTING_PRESETS].events[index - 1].percentageVested}% → {event.percentageVested}% total
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
