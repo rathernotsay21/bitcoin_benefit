@@ -13,7 +13,6 @@ import {
   ClipboardDocumentCheckIcon,
   HeartIcon
 } from '@heroicons/react/24/outline';
-import Particles from '@/components/ui/particles';
 import { HeroButtons } from '@/components/HeroButtons';
 // Remove unused imports
 // import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
@@ -58,20 +57,20 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="hero-section relative min-h-[400px] bg-slate-950 dark:bg-slate-950">
-        {/* Background container with overflow hidden */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Particles Background */}
-          <Particles
-            className="absolute inset-0 z-0"
-            quantity={50}
-            ease={80}
-            color="#94a3b8"
-            refresh={false}
-          />
+      <section className="hero-section relative min-h-[400px] bg-slate-950 dark:bg-slate-950 overflow-hidden">
+        {/* Hex pattern background similar to vesting presets */}
+        <div className="absolute inset-0">
+          {/* Base gradient layer */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"></div>
           
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-br from-slate-900/60 via-slate-950/40 to-slate-900/60 pointer-events-none"></div>
+          {/* Hex pattern texture overlay */}
+          <div className="absolute inset-0 hero-hex-pattern"></div>
+          
+          {/* Subtle animated gradient for depth */}
+          <div className="absolute inset-0 bg-gradient-to-t from-bitcoin/3 via-transparent to-orange-600/3 animate-gradient-shift"></div>
+          
+          {/* Final gradient overlay for content legibility */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/30 via-slate-950/20 to-slate-900/40"></div>
         </div>
 
         {/* Content container without overflow constraints */}

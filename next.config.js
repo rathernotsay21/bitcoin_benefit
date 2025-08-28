@@ -48,8 +48,12 @@ const nextConfig = {
     // serverComponentsExternalPackages: ['recharts'], // Removed due to conflict with optimizePackageImports
     optimizeServerReact: true,
     // Optimize CSS imports - Phase 3.1 Critical CSS optimization
-    optimizeCss: true,
-    // Enable CSS-in-JS optimization
+    optimizeCss: true
+  },
+  
+  // Compiler settings
+  compiler: {
+    // Enable CSS-in-JS optimization (moved from experimental)
     styledComponents: true
   },
   

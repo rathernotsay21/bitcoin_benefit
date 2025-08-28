@@ -1210,12 +1210,55 @@ scroll-behavior: smooth;
   }
 
   .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1)  1;
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-pulse-slower {
+    animation: pulse-slower 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
+  }
+  
+  @keyframes pulse-slower {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+  }
+  
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-15px) translateX(5px); }
+    50% { transform: translateY(-8px) translateX(-5px); }
+    75% { transform: translateY(-20px) translateX(2px); }
+  }
+
+  /* Hero section hex pattern background */
+  .hero-hex-pattern {
+    background-image:
+      linear-gradient(30deg, rgba(156, 163, 175, 0.04) 12%, transparent 12.5%, transparent 87%, rgba(156, 163, 175, 0.04) 87.5%, rgba(156, 163, 175, 0.04)),
+      linear-gradient(150deg, rgba(156, 163, 175, 0.04) 12%, transparent 12.5%, transparent 87%, rgba(156, 163, 175, 0.04) 87.5%, rgba(156, 163, 175, 0.04)),
+      linear-gradient(30deg, rgba(156, 163, 175, 0.04) 12%, transparent 12.5%, transparent 87%, rgba(156, 163, 175, 0.04) 87.5%, rgba(156, 163, 175, 0.04)),
+      linear-gradient(150deg, rgba(156, 163, 175, 0.04) 12%, transparent 12.5%, transparent 87%, rgba(156, 163, 175, 0.04) 87.5%, rgba(156, 163, 175, 0.04)),
+      linear-gradient(60deg, rgba(242, 169, 0, 0.02) 25%, transparent 25.5%, transparent 75%, rgba(242, 169, 0, 0.02) 75%, rgba(242, 169, 0, 0.02)),
+      linear-gradient(60deg, rgba(242, 169, 0, 0.02) 25%, transparent 25.5%, transparent 75%, rgba(242, 169, 0, 0.02) 75%, rgba(242, 169, 0, 0.02));
+    background-size: 40px 70px;
+    background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+  }
+
+  /* Animated gradient shift for subtle movement */
+  .animate-gradient-shift {
+    animation: gradient-shift 15s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.6; transform: translateY(-10px); }
   }
 
   /* Smooth Transitions */
@@ -1702,6 +1745,20 @@ scroll-behavior: smooth;
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-bitcoin-500 dark:bg-slate-500;
+  }
+  
+  /* Background grid pattern */
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .dark .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(71, 85, 105, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(71, 85, 105, 0.2) 1px, transparent 1px);
   }
 }
 
