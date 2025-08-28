@@ -15,21 +15,8 @@ import {
 } from '@/components/ui/navigation-menu';
 import { ToolsDropdown } from '@/components/navigation/ToolsDropdown';
 import { cn } from '@/lib/utils';
-// Import icons directly for navigation - optimized specific imports
-import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
-import CalculatorIcon from '@heroicons/react/24/outline/CalculatorIcon';
-import ClockIcon from '@heroicons/react/24/outline/ClockIcon';
-import BookOpenIcon from '@heroicons/react/24/outline/BookOpenIcon';
-import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
-import MagnifyingGlassIcon from '@heroicons/react/24/outline/MagnifyingGlassIcon';
-import SunIcon from '@heroicons/react/24/outline/SunIcon';
-import MoonIcon from '@heroicons/react/24/outline/MoonIcon';
-import HomeIconSolid from '@heroicons/react/24/solid/HomeIcon';
-import CalculatorIconSolid from '@heroicons/react/24/solid/CalculatorIcon';
-import ClockIconSolid from '@heroicons/react/24/solid/ClockIcon';
-import BookOpenIconSolid from '@heroicons/react/24/solid/BookOpenIcon';
-import LinkIconSolid from '@heroicons/react/24/solid/LinkIcon';
-import MagnifyingGlassIconSolid from '@heroicons/react/24/solid/MagnifyingGlassIcon';
+// Optimized icon imports - use bundle to reduce duplicates
+import { Icons } from '@/components/icons/HeroIconBundle';
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
@@ -40,38 +27,38 @@ export default function Navigation() {
     {
       name: 'Home',
       href: '/',
-      icon: HomeIcon,
-      activeIcon: HomeIconSolid,
+      icon: Icons.Home,
+      activeIcon: Icons.HomeSolid,
     },
     {
       name: 'Calculator',
       href: '/calculator',
-      icon: CalculatorIcon,
-      activeIcon: CalculatorIconSolid,
+      icon: Icons.Calculator,
+      activeIcon: Icons.CalculatorSolid,
     },
     {
       name: 'Performance',
       href: '/historical',
-      icon: ClockIcon,
-      activeIcon: ClockIconSolid,
+      icon: Icons.Clock,
+      activeIcon: Icons.ClockSolid,
     },
     {
       name: 'Dashboard',
       href: '/track',
-      icon: MagnifyingGlassIcon,
-      activeIcon: MagnifyingGlassIconSolid,
+      icon: Icons.MagnifyingGlass,
+      activeIcon: Icons.MagnifyingGlassSolid,
     },
     {
       name: 'Tools',
       href: '/bitcoin-tools',
-      icon: LinkIcon,
-      activeIcon: LinkIconSolid,
+      icon: Icons.Link,
+      activeIcon: Icons.LinkSolid,
     },
     {
       name: 'Guide',
       href: '/learn',
-      icon: BookOpenIcon,
-      activeIcon: BookOpenIconSolid,
+      icon: Icons.BookOpen,
+      activeIcon: Icons.BookOpenSolid,
     },
   ];
 
@@ -163,9 +150,9 @@ export default function Navigation() {
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? (
-                <SunIcon className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
+                <Icons.Sun className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
               ) : (
-                <MoonIcon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+                <Icons.Moon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
               )}
             </button>
           </div>
@@ -204,9 +191,9 @@ export default function Navigation() {
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? (
-                <SunIcon className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
+                <Icons.Sun className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
               ) : (
-                <MoonIcon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+                <Icons.Moon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
               )}
             </button>
           </nav>

@@ -1,12 +1,6 @@
-'use client';
-
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { BitcoinAPI } from '@/lib/bitcoin-api';
-import { HistoricalBitcoinAPI } from '@/lib/historical-bitcoin-api';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { useTheme } from '@/components/ThemeProvider';
 import { MiningOutlineIcon, BitcoinIcon, SatoshiIcon } from '@/components/icons';
 import { 
   ChartBarIcon,
@@ -14,43 +8,9 @@ import {
   HeartIcon
 } from '@heroicons/react/24/outline';
 import { HeroButtons } from '@/components/HeroButtons';
-// Remove unused imports
-// import { TechnicalDetails, ExpandableSection } from '@/components/ProgressiveDisclosure';
-
+import { BitcoinPriceDisplay } from '@/components/client/BitcoinPriceDisplay';
 
 export default function HomePage() {
-  const { theme: _theme } = useTheme();
-  const [currentBitcoinPrice, setCurrentBitcoinPrice] = useState(113976); // Fallback
-  const [historicalPrice2020, setHistoricalPrice2020] = useState(11000); // Fallback
-  const [_isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        // Fetch current benefit value
-        const currentPriceData = await BitcoinAPI.getCurrentPrice();
-        setCurrentBitcoinPrice(currentPriceData.price);
-
-        // Fetch 2020 historical value
-        const historical2020 = await HistoricalBitcoinAPI.getYearlyPrice(2020);
-        setHistoricalPrice2020(historical2020.average);
-      } catch (error) {
-        console.error('Failed to fetch benefit values:', error);
-        // Keep fallback values
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPrices();
-  }, []);
-
-  // Calculate dynamic values
-  const benefitAmount = 0.1;
-  const costBasis = benefitAmount * historicalPrice2020;
-  const presentValue = benefitAmount * currentBitcoinPrice;
-  const totalReturn = presentValue - costBasis;
-  const _returnPercentage = ((totalReturn / costBasis) * 100);
 
   return (
     <div className="min-h-screen transition-colors duration-300" style={{ backgroundColor: '#F4F6F8' }}>
@@ -410,6 +370,9 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
+      
+      {/* Client-side price fetcher (invisible) */}
+      <BitcoinPriceDisplay />
     </div>
   );
 }

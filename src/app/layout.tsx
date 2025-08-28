@@ -2,21 +2,11 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { StoreSyncProvider } from '@/components/StoreSyncProvider'
-import { CSSLoadingGuard } from '@/components/CSSLoadingGuard'
-import { PerformanceMonitor } from '@/components/performance/PerformanceMonitor'
 import { StructuredData } from '@/components/seo/StructuredData'
 import { structuredData } from '@/lib/seo/structured-data'
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
-import { PrefetchLinks } from '@/components/PrefetchLinks'
-import { PerformanceOptimizer } from '@/components/performance/PerformanceOptimizer'
-import { FontOptimization } from '@/components/FontOptimization'
 import CriticalCSS from '@/components/CriticalCSS'
-import CSSLoadingStrategy from '@/components/CSSLoadingStrategy'
-import { CacheManager, CacheStatusIndicator } from '@/components/performance/CacheManager'
 import './globals.css'
-
-// Phase 3.2: Import cache metrics for performance tracking
-import '@/lib/performance/cacheMetrics'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
 // static, developer-controlled content (CSS and theme initialization script).
@@ -26,21 +16,8 @@ import '@/lib/performance/cacheMetrics'
 // Phase 1.3 Performance Optimization: Reduced to only essential weights (400, 500, 700)
 const inter = Inter({ 
   subsets: ['latin'],
-  display: 'swap', // Critical: Forces immediate text visibility with fallback fonts
-  preload: true,
-  // Critical weights only: reduced from 600 to 500 for better loading performance
-  weight: ['400', '500', '700'],
-  fallback: [
-    // Optimized fallback stack for better metric compatibility
-    'system-ui',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    'Segoe UI',
-    'Roboto',
-    'Arial',
-    'sans-serif'
-  ],
-  adjustFontFallback: true, // Enable metric-compatible fallbacks
+  display: 'swap',
+  weight: ['400', '600'],
   variable: '--font-inter',
 })
 
@@ -140,47 +117,21 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Preload critical font weights for immediate FCP improvement */}
+        {/* Optimized font loading - only load what we use */}
         <link
           rel="preload"
           as="font"
           type="font/woff2"
-          href={`https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2`}
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href={`https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2`}
+          href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2"
           crossOrigin="anonymous"
         />
         
-        {/* API preconnects moved after font preloading for better priority */}
+        {/* API preconnects */}
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.mempool.space" crossOrigin="anonymous" />
         
-        {/* Phase 3.1: Critical CSS inlined for immediate above-the-fold rendering */}
+        {/* Critical CSS for immediate above-the-fold rendering */}
         <CriticalCSS />
-        
-        {/* Enhanced font loading optimization - Phase 1.3 */}
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              /* Font loading states for progressive enhancement */
-              .font-loading { 
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-                font-size-adjust: 0.52; 
-                font-display: swap;
-              }
-              
-              .fonts-loaded .font-critical-load {
-                font-family: var(--font-inter), system-ui, sans-serif;
-              }
-            `,
-          }}
-        />
-        
         
         {/* Structured Data for SEO */}
         <StructuredData data={structuredData.organization} />
@@ -209,9 +160,6 @@ export default function RootLayout({
                     }
                   }
                   
-                  // Phase 3.2: Initialize cache performance tracking
-                  window.cachePerformanceStart = Date.now();
-                  console.log('🚀 Phase 3.2 Service Worker optimization active');
                   
                 } catch (e) {
                   document.documentElement.classList.remove('dark');
@@ -220,40 +168,12 @@ export default function RootLayout({
             `,
           }}
         />
-        <CSSLoadingGuard>
-            <PerformanceMonitor 
-              componentName="RootLayout"
-              enableCoreWebVitals={true}
-              enableDevLogging={process.env.NODE_ENV === 'development'}
-            >
-              <ThemeProvider>
-                <StoreSyncProvider>
-                  <PerformanceOptimizer enabled={process.env.NODE_ENV === 'production'}>
-                    <FontOptimization />
-                    {/* Phase 3.1: Advanced CSS loading strategy */}
-                    <CSSLoadingStrategy 
-                      enablePreload={true}
-                      deferDelay={100}
-                      enableProgressive={true}
-                    />
-                    <ServiceWorkerRegistration />
-                    <PrefetchLinks />
-                    <div className="min-h-screen transition-colors duration-300 performance-optimized" style={{ backgroundColor: '#F4F6F8' }}>
-                      <main className="relative">
-                        {children}
-                      </main>
-                      {/* Phase 3.2: Cache management components */}
-                      {process.env.NODE_ENV === 'development' ? (
-                        <CacheManager showInProduction={false} />
-                      ) : (
-                        <CacheStatusIndicator />
-                      )}
-                    </div>
-                  </PerformanceOptimizer>
-                </StoreSyncProvider>
-              </ThemeProvider>
-            </PerformanceMonitor>
-        </CSSLoadingGuard>
+        <ThemeProvider>
+          <StoreSyncProvider>
+            <ServiceWorkerRegistration />
+            {children}
+          </StoreSyncProvider>
+        </ThemeProvider>
         {/* Hidden form for Netlify Forms detection */}
         <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
           <input type="hidden" name="form-name" value="contact" />
