@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { HeroButtons } from '@/components/HeroButtons';
 import { BitcoinPriceDisplay } from '@/components/client/BitcoinPriceDisplay';
+import FeatureCarousel from '@/components/FeatureCarousel';
 
 export default function HomePage() {
 
@@ -56,6 +57,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Feature Carousel Section */}
+      <FeatureCarousel />
 
       {/* Why Bitcoin Benefits Section */}
       <section className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
