@@ -36,7 +36,7 @@ const features: CarouselFeature[] = [
         </a>, or{' '}
         <a href="/calculator?scheme=builder" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Builder
-        </a>. Our calculator shows a conservative 10-year projections. See how Bitcoin awards today could become significant wealth tomorrow.
+        </a>. Our calculator shows a conservative 10-year projection. See how Bitcoin awards today could become significant wealth tomorrow.
       </>
     ),
     icon: ChartBarIcon,
