@@ -244,12 +244,12 @@ function HistoricalTimelineVisualizationOptimized({
         <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           Interactive Timeline Explorer
         </h4>
-        <p className="text-gray-600 dark:text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
           The timeline shows the journey your employee's Bitcoin award would have taken from any chosen year. The early days saw dramatic growth, but they were rough times. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
         </p>
         
         {/* Summary Information */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-600 mb-6">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
           <span className="flex items-center gap-1">
             <span className="font-medium">Total Awarded:</span>
             <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>

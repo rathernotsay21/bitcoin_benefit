@@ -156,7 +156,7 @@ function HistoricalCalculatorContent() {
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Learn </span>
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">from Bitcoin</span>
             </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-700 leading-relaxed">
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               We made too many wrong mistakes.
             </p>
           </div>
@@ -232,7 +232,7 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 <div className="space-y-2 input-container">
-                  <label className="block text-base font-medium text-gray-700 dark:text-slate-700">
+                  <label className="block text-base font-medium text-gray-700 dark:text-slate-300">
                     Price Assumption
                   </label>
                   <select
@@ -254,7 +254,7 @@ function HistoricalCalculatorContent() {
                 {selectedScheme && (
                   <>
                     <div className="input-container">
-                      <label className="block text-base font-medium text-gray-700 dark:text-slate-700 mb-1">
+                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Starting Bitcoin Award
                       </label>
                       <input
@@ -275,7 +275,7 @@ function HistoricalCalculatorContent() {
 
                     {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                       <div className="input-container">
-                        <label className="block text-base font-medium text-gray-700 dark:text-slate-700 mb-1">
+                        <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
                           Yearly Bitcoin Award
                         </label>
                         <input
@@ -308,7 +308,7 @@ function HistoricalCalculatorContent() {
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatUSD(currentBitcoinPrice)}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-700">
+                    <div className="text-sm text-gray-600 dark:text-slate-300">
                       Current Bitcoin Price
                       {isLoadingPrice && <span className="ml-2 animate-pulse">Updating...</span>}
                     </div>

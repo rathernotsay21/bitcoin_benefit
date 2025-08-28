@@ -81,7 +81,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
               <span className="bg-gradient-to-r from-slate-700 via-slate-900 to-slate-700 dark:from-slate-200 dark:via-white dark:to-slate-300 bg-clip-text text-transparent">Bitcoin </span>
               <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Tools</span>
             </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-700 leading-relaxed">
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               In theory, there is no difference between theory and practice.<br />In practice, there is.
             </p>
           </div>
@@ -119,7 +119,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
             <h3 id="educational-heading" className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               New to Bitcoin?
             </h3>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-600 max-w-3xl mx-auto mb-8 px-4 text-center leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8 px-4 text-center leading-relaxed">
               These tools help you interact with the Bitcoin blockchain safely and easily. 
               All data is processed securely, and we never store your personal information.
             </p>
@@ -129,21 +129,21 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
                   <LockClosedIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Privacy First</h4>
-                <p className="text-base text-gray-600 dark:text-gray-600 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
               </div>
               <div className="text-center group" role="article">
                 <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
                   <BookOpenIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Learn as You Go</h4>
-                <p className="text-base text-gray-600 dark:text-gray-600 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
               </div>
               <div className="text-center group" role="article">
                 <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
                   <DevicePhoneMobileIcon className="w-8 h-8 text-bitcoin" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Mobile Friendly</h4>
-                <p className="text-base text-gray-600 dark:text-gray-600 leading-relaxed">Works perfectly on all devices and screen sizes</p>
+                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Works perfectly on all devices and screen sizes</p>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
 
           {/* Privacy Notice */}
           <footer className="mt-8 sm:mt-12 text-center" role="contentinfo" aria-labelledby="privacy-notice">
-          <p id="privacy-notice" className="text-sm sm:text-base text-gray-500 dark:text-gray-600 max-w-4xl mx-auto px-4 leading-relaxed text-center">
+          <p id="privacy-notice" className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-4xl mx-auto px-4 leading-relaxed text-center">
             <strong>Privacy Notice:</strong> These tools may send data to public APIs (like mempool.space) to fetch blockchain information. 
             We do not store or track this data. Data is automatically cleared when you leave this page. For maximum privacy, consider running your own Bitcoin node.
           </p>
