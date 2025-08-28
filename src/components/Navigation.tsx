@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import MobileNavSheet from '@/components/MobileNavSheet';
+import { useTheme } from '@/components/ThemeProvider';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -22,6 +23,8 @@ import {
   BookOpenIcon,
   LinkIcon,
   MagnifyingGlassIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/react/24/outline';
 import {
   HomeIcon as HomeIconSolid,
@@ -35,6 +38,7 @@ import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@
 
 export default function Navigation() {
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     {
@@ -96,9 +100,10 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation with Shadcn NavigationMenu */}
-          <NavigationMenu className="hidden lg:block">
-            <NavigationMenuList>
-              {navItems.map((item) => {
+          <div className="hidden lg:flex items-center gap-4">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {navItems.map((item) => {
                 const isActive = item.href === '/'
                   ? pathname === '/'
                   : pathname.startsWith(item.href);
@@ -149,8 +154,22 @@ export default function Navigation() {
                   </NavigationMenuItem>
                 );
               })}
-            </NavigationMenuList>
-          </NavigationMenu>
+              </NavigationMenuList>
+            </NavigationMenu>
+            
+            {/* Dark Mode Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-sm transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-800 group"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <SunIcon className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
+              ) : (
+                <MoonIcon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+              )}
+            </button>
+          </div>
 
           {/* Mobile Icon Navigation (Small Desktop/Tablet) */}
           <nav className="hidden sm:flex lg:hidden items-center space-x-2">
@@ -177,6 +196,20 @@ export default function Navigation() {
                 </Link>
               );
             })}
+            
+            {/* Dark Mode Toggle for Tablet */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-sm transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-800 group"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <SunIcon className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
+              ) : (
+                <MoonIcon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+              )}
+            </button>
           </nav>
 
           {/* Mobile Menu */}

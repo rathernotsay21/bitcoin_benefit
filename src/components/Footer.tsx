@@ -7,6 +7,7 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 import { BitcoinIcon } from '@/components/icons';
+import { ContactForm } from '@/components/ContactForm';
 
 export default function Footer() {
   const pathname = usePathname();
@@ -277,6 +278,14 @@ export default function Footer() {
                   </li>
                 </ul>
               </div>
+            </div>
+
+            {/* Contact Form Section */}
+            <div className="border-t border-slate-700 pt-8 pb-8">
+              <div className="text-center mb-4">
+                <p className="text-xs text-slate-500">Get in touch</p>
+              </div>
+              <ContactForm />
             </div>
 
             {/* Page Name & Credits */}

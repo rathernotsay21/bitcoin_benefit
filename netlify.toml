@@ -101,3 +101,10 @@
   from = "/old-historical/*"  
   to = "/historical/:splat"
   status = 301
+
+# Form handling configuration
+[forms]
+  # Enable form detection
+  detect = true
+  # Honeypot field for spam protection (already in form HTML)
+  honeypot = "bot-field"

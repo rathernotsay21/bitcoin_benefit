@@ -102,7 +102,6 @@ export const GET = withAPISecurityMiddleware(handleMempoolNetworkRequest, {
   },
   allowedOrigins: [
     'http://localhost:3000',
-    'https://localhost:3000',
     'https://bitcoin-benefit.netlify.app',
     process.env['NEXT_PUBLIC_SITE_URL']
   ].filter(Boolean) as string[],
