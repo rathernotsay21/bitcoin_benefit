@@ -47,8 +47,10 @@ const nextConfig = {
     ],
     // serverComponentsExternalPackages: ['recharts'], // Removed due to conflict with optimizePackageImports
     optimizeServerReact: true,
-    // Optimize CSS imports
-    optimizeCss: true
+    // Optimize CSS imports - Phase 3.1 Critical CSS optimization
+    optimizeCss: true,
+    // Enable CSS-in-JS optimization
+    styledComponents: true
   },
   
   // Optimize JavaScript bundles
@@ -174,8 +176,20 @@ const nextConfig = {
       new webpack.DefinePlugin({
         'process.env.IS_NETLIFY': JSON.stringify(isNetlify),
         'process.env.IS_LIGHTHOUSE': JSON.stringify(false), // Will be true during Lighthouse tests
+        'process.env.CRITICAL_CSS_ENABLED': JSON.stringify(true), // Phase 3.1 Critical CSS flag
       })
     );
+    
+    // Phase 3.1: CSS optimization for critical CSS extraction
+    if (!isServer && !dev) {
+      // Add CSS optimization for production builds
+      config.optimization.splitChunks.cacheGroups.styles = {
+        name: 'styles',
+        type: 'css/mini-extract',
+        chunks: 'all',
+        enforce: true,
+      };
+    }
 
     return config;
   },
@@ -209,6 +223,16 @@ const nextConfig = {
               value: 'true'
             }
           ]
+        },
+        // Ensure service worker is not cached in development
+        {
+          source: '/sw-production.js',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'no-store, no-cache, must-revalidate'
+            }
+          ]
         }
       ];
     }
@@ -236,6 +260,8 @@ const nextConfig = {
             value: [
               '</data/bitcoin-price.json>; rel=preload; as=fetch; crossorigin',
               '</data/schemes-meta.json>; rel=preload; as=fetch; crossorigin',
+              '<https://fonts.googleapis.com>; rel=preconnect',
+              '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
               '<https://api.coingecko.com>; rel=preconnect',
               '<https://mempool.space>; rel=dns-prefetch'
             ].join(', ')
@@ -271,13 +297,15 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
-              "font-src 'self' data: https://r2cdn.perplexity.ai",
-              "connect-src 'self' https://api.coingecko.com https://mempool.space https://api.mempool.space",
+              "font-src 'self' data: https://fonts.gstatic.com https://r2cdn.perplexity.ai",
+              "connect-src 'self' https://api.coingecko.com https://mempool.space https://api.mempool.space https://fonts.googleapis.com https://fonts.gstatic.com",
               "media-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'none'",
+              "worker-src 'self'",
+              "manifest-src 'self'",
               "upgrade-insecure-requests"
             ].join('; ')
           },
@@ -340,6 +368,30 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=3600, stale-while-revalidate=7200',
+          },
+        ],
+      },
+      // Phase 3.2: Service worker optimized caching
+      {
+        source: '/sw-production.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/',
+          },
+        ],
+      },
+      // Offline page caching
+      {
+        source: '/offline.html',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
           },
         ],
       },

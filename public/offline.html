@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Bitcoin Benefit</title>
+    <link rel="icon" href="/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bitcoin-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 20px rgba(247, 147, 26, 0.3));
+        }
+        
+        .offline-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #F7931A;
+            text-shadow: 0 0 20px rgba(247, 147, 26, 0.3);
+        }
+        
+        .offline-message {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #CBD5E1;
+        }
+        
+        .feature-list {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .feature-list h3 {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+            color: #F7931A;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            space-y: 8px;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #E2E8F0;
+        }
+        
+        .feature-list li::before {
+            content: "⚡";
+            margin-right: 12px;
+            color: #F7931A;
+            font-size: 1.1rem;
+        }
+        
+        .retry-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #F7931A, #FF8C00);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(247, 147, 26, 0.4);
+        }
+        
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(247, 147, 26, 0.6);
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 30px;
+            padding: 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #FCA5A5;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #EF4444;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .cached-data {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .cached-data h4 {
+            color: #4ADE80;
+            margin-bottom: 12px;
+            font-size: 1.125rem;
+        }
+        
+        .cached-data p {
+            color: #A7F3D0;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 640px) {
+            .offline-container {
+                padding: 30px 20px;
+            }
+            
+            .offline-title {
+                font-size: 1.5rem;
+            }
+            
+            .bitcoin-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <!-- Bitcoin Icon SVG -->
+        <svg class="bitcoin-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="12" fill="#F7931A"/>
+            <path d="M15.5 9.5C15.5 8.1 14.4 7 13 7H10V5H8V7H7V9H8V15H7V17H8V19H10V17H13C14.4 17 15.5 15.9 15.5 14.5C15.5 13.4 14.8 12.5 13.8 12.2C14.3 11.7 15.5 10.9 15.5 9.5Z" fill="white"/>
+            <path d="M10 9H13C13.3 9 13.5 9.2 13.5 9.5S13.3 10 13 10H10V9ZM10 14V12H13C13.3 12 13.5 12.2 13.5 12.5V13.5C13.5 13.8 13.3 14 13 14H10Z" fill="#F7931A"/>
+        </svg>
+        
+        <h1 class="offline-title">You're Offline</h1>
+        
+        <p class="offline-message">
+            Don't worry! Bitcoin Benefit works offline too. Your calculations and data are still available from cache.
+        </p>
+        
+        <div class="feature-list">
+            <h3>Available Offline Features:</h3>
+            <ul>
+                <li>View cached Bitcoin price data</li>
+                <li>Access historical calculations</li>
+                <li>Use vesting calculators with saved data</li>
+                <li>Browse Bitcoin tools (limited functionality)</li>
+                <li>Review your calculation history</li>
+            </ul>
+        </div>
+        
+        <div class="cached-data">
+            <h4>📊 Cached Data Available</h4>
+            <p>Your last calculations and Bitcoin price data are stored locally and ready to use.</p>
+        </div>
+        
+        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px;">
+            <button class="retry-button" onclick="retryConnection()">
+                🔄 Retry Connection
+            </button>
+            <a href="/" class="retry-button">
+                🏠 Go to Home
+            </a>
+            <button class="retry-button" onclick="checkCacheStatus()">
+                📊 Cache Status
+            </button>
+        </div>
+        
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span>Offline Mode - Limited functionality available</span>
+        </div>
+    </div>
+    
+    <script>
+        // Check online status
+        function updateOnlineStatus() {
+            const statusIndicator = document.querySelector('.status-indicator');
+            const statusDot = document.querySelector('.status-dot');
+            
+            if (navigator.onLine) {
+                statusIndicator.style.background = 'rgba(34, 197, 94, 0.1)';
+                statusIndicator.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+                statusIndicator.style.color = '#4ADE80';
+                statusDot.style.background = '#22C55E';
+                statusIndicator.innerHTML = '<div class="status-dot"></div><span>Back Online! Refreshing...</span>';
+                
+                // Refresh after showing online status
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        }
+        
+        // Retry connection
+        function retryConnection() {
+            const button = event.target;
+            button.innerHTML = '⏳ Checking...';
+            button.disabled = true;
+            
+            fetch('/api/health', { cache: 'no-cache' })
+                .then(response => {
+                    if (response.ok) {
+                        button.innerHTML = '✅ Connected!';
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        throw new Error('Still offline');
+                    }
+                })
+                .catch(() => {
+                    button.innerHTML = '❌ Still Offline';
+                    button.disabled = false;
+                    setTimeout(() => {
+                        button.innerHTML = '🔄 Retry Connection';
+                    }, 2000);
+                });
+        }
+        
+        // Check cache status
+        function checkCacheStatus() {
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                const button = event.target;
+                button.innerHTML = '📊 Checking Cache...';
+                
+                // Get cache info from service worker
+                navigator.serviceWorker.ready.then(registration => {
+                    const messageChannel = new MessageChannel();
+                    messageChannel.port1.onmessage = function(event) {
+                        const { cacheStats } = event.data;
+                        showCacheStats(cacheStats);
+                        button.innerHTML = '📊 Cache Status';
+                    };
+                    
+                    registration.active.postMessage(
+                        { action: 'getCacheStats' },
+                        [messageChannel.port2]
+                    );
+                }).catch(() => {
+                    button.innerHTML = '❌ Cache Unavailable';
+                    setTimeout(() => {
+                        button.innerHTML = '📊 Cache Status';
+                    }, 2000);
+                });
+            }
+        }
+        
+        // Show cache statistics
+        function showCacheStats(stats) {
+            const statsHtml = Object.entries(stats).map(([name, info]) => {
+                const size = info.totalSize ? `${(info.totalSize / 1024).toFixed(1)} KB` : 'N/A';
+                return `<div style="margin: 8px 0; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                    <strong>${name}:</strong> ${info.itemCount || 0} items (${size})
+                </div>`;
+            }).join('');
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                background: rgba(0,0,0,0.8); display: flex; align-items: center; 
+                justify-content: center; z-index: 1000; padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: #1E293B; padding: 30px; border-radius: 12px; max-width: 500px; max-height: 80vh; overflow-y: auto;">
+                    <h3 style="color: #F7931A; margin-bottom: 20px;">Cache Status</h3>
+                    ${statsHtml}
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="margin-top: 20px; padding: 10px 20px; background: #F7931A; 
+                                   color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Listen for online/offline events
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        // Initial status check
+        updateOnlineStatus();
+        
+        // Auto-retry connection every 30 seconds
+        setInterval(() => {
+            if (!navigator.onLine) {
+                fetch('/api/health', { cache: 'no-cache' })
+                    .then(response => {
+                        if (response.ok) {
+                            updateOnlineStatus();
+                        }
+                    })
+                    .catch(() => {}); // Silent fail
+            }
+        }, 30000);
+        
+        console.log('🚀 Bitcoin Benefit Offline Mode - Service Worker cache available');
+    </script>
+</body>
+</html>

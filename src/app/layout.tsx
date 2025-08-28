@@ -10,7 +10,13 @@ import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistratio
 import { PrefetchLinks } from '@/components/PrefetchLinks'
 import { PerformanceOptimizer } from '@/components/performance/PerformanceOptimizer'
 import { FontOptimization } from '@/components/FontOptimization'
+import CriticalCSS from '@/components/CriticalCSS'
+import CSSLoadingStrategy from '@/components/CSSLoadingStrategy'
+import { CacheManager, CacheStatusIndicator } from '@/components/performance/CacheManager'
 import './globals.css'
+
+// Phase 3.2: Import cache metrics for performance tracking
+import '@/lib/performance/cacheMetrics'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
 // static, developer-controlled content (CSS and theme initialization script).
@@ -154,45 +160,18 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.mempool.space" crossOrigin="anonymous" />
         
-        {/* Critical font CSS to prevent FOUT - Phase 1.3 Enhanced */}
+        {/* Phase 3.1: Critical CSS inlined for immediate above-the-fold rendering */}
+        <CriticalCSS />
+        
+        {/* Enhanced font loading optimization - Phase 1.3 */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
-              /* Phase 1.3: Enhanced fallback font system with font-display: swap */
+              /* Font loading states for progressive enhancement */
               .font-loading { 
                 font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
                 font-size-adjust: 0.52; 
                 font-display: swap;
-              }
-              
-              /* Critical above-the-fold text with immediate visibility */
-              h1, h2, h3 { 
-                font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-                text-rendering: optimizeLegibility;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-                font-display: swap;
-              }
-              
-              /* Body text optimized for faster rendering */
-              body {
-                font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-                text-rendering: optimizeSpeed;
-                font-display: swap;
-              }
-              
-              /* Progressive enhancement: Hide text until fonts load */
-              .font-progressive {
-                font-family: var(--font-inter), system-ui, sans-serif;
-                visibility: visible;
-                font-display: swap;
-              }
-              
-              /* Performance-critical font loading class */
-              .font-critical-load {
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-                font-size-adjust: 0.52;
-                transition: font-family 0.1s ease-out;
               }
               
               .fonts-loaded .font-critical-load {
@@ -229,6 +208,11 @@ export default function RootLayout({
                       localStorage.setItem('theme', 'light');
                     }
                   }
+                  
+                  // Phase 3.2: Initialize cache performance tracking
+                  window.cachePerformanceStart = Date.now();
+                  console.log('🚀 Phase 3.2 Service Worker optimization active');
+                  
                 } catch (e) {
                   document.documentElement.classList.remove('dark');
                 }
@@ -246,12 +230,24 @@ export default function RootLayout({
                 <StoreSyncProvider>
                   <PerformanceOptimizer enabled={process.env.NODE_ENV === 'production'}>
                     <FontOptimization />
+                    {/* Phase 3.1: Advanced CSS loading strategy */}
+                    <CSSLoadingStrategy 
+                      enablePreload={true}
+                      deferDelay={100}
+                      enableProgressive={true}
+                    />
                     <ServiceWorkerRegistration />
                     <PrefetchLinks />
                     <div className="min-h-screen transition-colors duration-300 performance-optimized" style={{ backgroundColor: '#F4F6F8' }}>
                       <main className="relative">
                         {children}
                       </main>
+                      {/* Phase 3.2: Cache management components */}
+                      {process.env.NODE_ENV === 'development' ? (
+                        <CacheManager showInProduction={false} />
+                      ) : (
+                        <CacheStatusIndicator />
+                      )}
                     </div>
                   </PerformanceOptimizer>
                 </StoreSyncProvider>

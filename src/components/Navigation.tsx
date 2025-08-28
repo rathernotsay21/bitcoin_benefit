@@ -89,7 +89,7 @@ export default function Navigation() {
                 <span className="hidden sm:inline">BitcoinBenefits</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
-              <p className="hidden sm:block text-xs sm:text-sm text-slate-500 dark:text-slate-700 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
+              <p className="hidden sm:block text-xs sm:text-sm text-slate-500 dark:text-slate-400 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
                 Secure their future. Secure your team.
               </p>
             </div>

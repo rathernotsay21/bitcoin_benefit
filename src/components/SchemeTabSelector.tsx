@@ -113,11 +113,11 @@ export default function SchemeTabSelector({
                   <div className="w-full h-full textured-preset-selected-light dark:textured-preset-selected-dark" />
                 </div>
               )}
-              <IconComponent className="relative z-10 w-8 h-8 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 text-current" />
-              <span className="relative z-10 text-sm font-semibold leading-tight text-center mb-1 text-current">
+              <IconComponent className="relative z-10 w-8 h-8 mb-2 transition-transform duration-300 group-hover:scale-110 group-data-[state=active]:scale-110 group-data-[state=active]:text-black text-current" />
+              <span className="relative z-10 text-sm font-semibold leading-tight text-center mb-1 group-data-[state=active]:text-black text-current">
                 {scheme.name}
               </span>
-              <span className="relative z-10 text-xs opacity-75 leading-tight text-center hidden sm:inline text-current">
+              <span className="relative z-10 text-xs opacity-75 group-data-[state=active]:opacity-100 group-data-[state=active]:text-black leading-tight text-center hidden sm:inline text-current">
                 {scheme.tagline || 'Custom Plan'}
               </span>
             </TabsTrigger>
