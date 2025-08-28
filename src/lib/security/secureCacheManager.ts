@@ -16,6 +16,21 @@ export class SecureCacheManager {
   private static readonly MAX_PRICE_USD = 10000000; // $10M reasonable upper limit
   private static readonly MIN_PRICE_USD = 100; // $100 reasonable lower limit
   private static readonly MAX_CHANGE_PERCENT = 50; // 50% max daily change
+  
+  /**
+   * Check if localStorage is available and accessible
+   */
+  private static isStorageAvailable(): boolean {
+    if (typeof window === 'undefined') return false;
+    try {
+      const testKey = '__storage_test__';
+      window.localStorage.setItem(testKey, 'test');
+      window.localStorage.removeItem(testKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   /**
    * Generate HMAC signature for data integrity
@@ -92,7 +107,7 @@ export class SecureCacheManager {
    * Securely store data with integrity check
    */
   static storeSecure(key: string, data: any): boolean {
-    if (typeof window === 'undefined') return false;
+    if (!this.isStorageAvailable()) return false;
 
     try {
       const secureData: SecureCacheData = {
@@ -113,7 +128,7 @@ export class SecureCacheManager {
    * Retrieve and validate cached data
    */
   static retrieveSecure<T>(key: string): T | null {
-    if (typeof window === 'undefined') return null;
+    if (!this.isStorageAvailable()) return null;
 
     try {
       const cached = localStorage.getItem(key);
@@ -125,7 +140,11 @@ export class SecureCacheManager {
       if (!this.validateIntegrity(secureData.data, secureData.integrity)) {
         console.warn('Cache integrity check failed - data may have been tampered with');
         // Clear corrupted cache
-        localStorage.removeItem(key);
+        try {
+          localStorage.removeItem(key);
+        } catch {
+          // Silently ignore removal errors
+        }
         return null;
       }
 
@@ -146,7 +165,7 @@ export class SecureCacheManager {
    * Clear all secure caches
    */
   static clearSecureCache(key: string): void {
-    if (typeof window === 'undefined') return;
+    if (!this.isStorageAvailable()) return;
     
     try {
       localStorage.removeItem(key);
@@ -159,7 +178,7 @@ export class SecureCacheManager {
    * Get cache age in milliseconds
    */
   static getCacheAge(key: string): number | null {
-    if (typeof window === 'undefined') return null;
+    if (!this.isStorageAvailable()) return null;
 
     try {
       const cached = localStorage.getItem(key);

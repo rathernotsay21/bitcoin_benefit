@@ -149,19 +149,39 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  // Theme initialization - prevent flash
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                    if (!theme) {
-                      localStorage.setItem('theme', 'light');
-                    }
+                  // Check if localStorage is available and accessible
+                  var storageAvailable = false;
+                  try {
+                    var testKey = '__storage_test__';
+                    window.localStorage.setItem(testKey, 'test');
+                    window.localStorage.removeItem(testKey);
+                    storageAvailable = true;
+                  } catch (e) {
+                    // Storage not available due to privacy settings
+                    storageAvailable = false;
                   }
                   
-                  
+                  if (storageAvailable) {
+                    // Theme initialization - prevent flash
+                    var theme = localStorage.getItem('theme');
+                    if (theme === 'dark') {
+                      document.documentElement.classList.add('dark');
+                    } else {
+                      document.documentElement.classList.remove('dark');
+                      if (!theme) {
+                        try {
+                          localStorage.setItem('theme', 'light');
+                        } catch (e) {
+                          // Ignore if setting fails
+                        }
+                      }
+                    }
+                  } else {
+                    // Default to light theme when storage is blocked
+                    document.documentElement.classList.remove('dark');
+                  }
                 } catch (e) {
+                  // Fallback to light theme on any error
                   document.documentElement.classList.remove('dark');
                 }
               })();
