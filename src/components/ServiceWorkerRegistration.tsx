@@ -38,7 +38,9 @@ export function ServiceWorkerRegistration(): JSX.Element | null {
         }
         
         // Important: Return early to prevent any SW registration on localhost
-        return;
+        return () => {
+          // No cleanup needed in development
+        };
       }
       
       // Only register in production (non-localhost)

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback, startTransition, useDeferredValue } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Line,
   XAxis,
@@ -77,16 +77,31 @@ interface CustomTooltipProps {
 
 // Simplified tooltip showing only essential information (no growth rate)
 const CustomTooltip = React.memo(({ active, payload, label, yearlyData }: CustomTooltipProps) => {
-  // Early returns for performance
-  if (!active || !payload?.length || !yearlyData?.length) return null;
+  // Early returns for safety
+  if (!active || !payload || payload.length === 0 || !yearlyData || yearlyData.length === 0) {
+    return null;
+  }
   
-  const year = typeof label === 'string' ? parseInt(label, 10) : (label as number);
-  // Optimized bounds check
-  if (!Number.isInteger(year) || year < 0 || year >= yearlyData.length) return null;
+  // Safe year parsing with fallback
+  let year: number;
+  if (typeof label === 'string') {
+    year = parseInt(label, 10);
+  } else if (typeof label === 'number') {
+    year = label;
+  } else {
+    return null;
+  }
   
-  // Direct array access - O(1) instead of O(n) find()
+  // Validate year is a valid index
+  if (!Number.isInteger(year) || year < 0 || year >= yearlyData.length) {
+    return null;
+  }
+  
+  // Safe array access with validation
   const yearData = yearlyData[year];
-  if (!yearData) return null;
+  if (!yearData || typeof yearData.vestingPercent !== 'number') {
+    return null;
+  }
   
   const vestingPercent = yearData.vestingPercent || 0;
     
@@ -163,7 +178,9 @@ interface CustomGrantDotProps {
 
 const CustomGrantDot = React.memo(({ cx, cy, payload }: CustomGrantDotProps) => {
   // Only render if we have valid coordinates and grant data
-  if (!cx || !cy || !payload || payload.grantSize <= 0) return null;
+  if (typeof cx !== 'number' || typeof cy !== 'number' || !payload || typeof payload.grantSize !== 'number' || payload.grantSize <= 0) {
+    return null;
+  }
 
   // Calculate dot size based on grant size with min/max constraints
   const minRadius = 4;
@@ -221,11 +238,13 @@ function VestingTimelineChartRecharts({
   schemeId,
   customVestingEvents
 }: VestingTimelineChartProps) {
-  const [isMobile, setIsMobile] = useState(false);
+  // Initialize with undefined to prevent hydration mismatch
+  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
   
-  // Defer expensive timeline processing to prevent blocking UI
-  const deferredTimeline = useDeferredValue(timeline);
-  const deferredBitcoinPrice = useDeferredValue(currentBitcoinPrice);
+  // Don't defer critical data - it causes loading issues
+  // Use the data directly for reliability
+  const deferredTimeline = timeline;
+  const deferredBitcoinPrice = currentBitcoinPrice;
 
   // Memoize sorted events to prevent re-sorting on every call
   const sortedEvents = useMemo(() => {
@@ -258,14 +277,13 @@ function VestingTimelineChartRecharts({
   }, [sortedEvents]);
 
   useEffect(() => {
+    // Set initial value immediately to prevent undefined state
+    setIsMobile(window.innerWidth < 768);
+    
     const handleResize = () => {
-      // Use startTransition for non-urgent UI updates
-      startTransition(() => {
-        setIsMobile(window.innerWidth < 768);
-      });
+      setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize();
     window.addEventListener('resize', handleResize, { passive: true });
 
     return () => window.removeEventListener('resize', handleResize);
@@ -276,9 +294,19 @@ function VestingTimelineChartRecharts({
   
   // Extend timeline to 10 years (120 months) if needed
   const extendedTimeline = useMemo(() => {
-    if (!deferredTimeline?.length) return [];
+    // Validate timeline exists and has data
+    if (!deferredTimeline || !Array.isArray(deferredTimeline) || deferredTimeline.length === 0) {
+      return [];
+    }
     
-    const maxMonth = deferredTimeline[deferredTimeline.length - 1]?.month || 0;
+    const lastIndex = deferredTimeline.length - 1;
+    const lastTimelinePoint = deferredTimeline[lastIndex];
+    
+    if (!lastTimelinePoint || typeof lastTimelinePoint.month !== 'number') {
+      return [];
+    }
+    
+    const maxMonth = lastTimelinePoint.month;
     const targetMonths = 120; // 10 years
 
     if (maxMonth >= targetMonths) {
@@ -286,7 +314,7 @@ function VestingTimelineChartRecharts({
     }
     
     const extended = [...deferredTimeline];
-    const lastPoint = deferredTimeline[deferredTimeline.length - 1];
+    const lastPoint = lastTimelinePoint;
     if (!lastPoint) return extended;
 
     for (let month = maxMonth + 1; month <= targetMonths; month++) {
@@ -341,7 +369,10 @@ function VestingTimelineChartRecharts({
   
   // Data processing for yearly points with grant information
   const yearlyData = useMemo(() => {
-    if (!extendedTimeline?.length) return [];
+    // Validate extended timeline
+    if (!extendedTimeline || !Array.isArray(extendedTimeline) || extendedTimeline.length === 0) {
+      return [];
+    }
     
     const yearlyPoints: Array<{
       year: number;
@@ -357,8 +388,16 @@ function VestingTimelineChartRecharts({
     
     for (let year = 0; year <= 10; year++) {
       const pointIndex = year * 12;
+      
+      // Safe array access with bounds check
+      if (pointIndex >= extendedTimeline.length) {
+        continue;
+      }
+      
       const point = extendedTimeline[pointIndex];
-      if (!point) continue;
+      if (!point || typeof point.employerBalance !== 'number') {
+        continue;
+      }
       
       let grantSize = 0;
       let grantCost = 0;
@@ -551,8 +590,8 @@ function VestingTimelineChartRecharts({
   }) satisfies ChartConfig, []);
 
 
-  // Early return if no valid data - after all hooks
-  if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0) {
+  // Early return if no valid data or mobile state not initialized - after all hooks
+  if (!yearlyData || yearlyData.length === 0 || !timeline || timeline.length === 0 || isMobile === undefined) {
     return (
       <Card className="w-full border-2 border-bitcoin dark:border-0">
         <CardHeader>
@@ -601,10 +640,24 @@ function VestingTimelineChartRecharts({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tick={(props: { x: number; y: number; payload: { value: number } }) => {
+              tick={(props: any) => {
+                // Defensive checks for props
+                if (!props || typeof props.x !== 'number' || typeof props.y !== 'number' || !props.payload) {
+                  return null;
+                }
+                
                 const { x, y, payload } = props;
-                // Ensure we're comparing numbers properly
-                const year = Number(payload.value);
+                // Ensure payload.value exists and is a valid number
+                const yearValue = payload?.value;
+                if (yearValue === undefined || yearValue === null) {
+                  return null;
+                }
+                
+                const year = Number(yearValue);
+                if (!Number.isFinite(year)) {
+                  return null;
+                }
+                
                 const isVestingMilestone = vestingMilestoneYears.some(y => Number(y) === year);
                 
                 // Don't render label for year 0
@@ -672,14 +725,25 @@ function VestingTimelineChartRecharts({
               activeDot={{ r: 6 }}
             >
               {/* Hide Bitcoin grant value labels on mobile to reduce clutter */}
-              {!isMobile && (
+              {isMobile === false && (
                 <LabelList
                   position="top"
                   offset={15}
                   className="fill-bitcoin font-bold"
                   fontSize={11}
                   content={(props: any) => {
+                    // Defensive checks
+                    if (!props || typeof props.index !== 'number') {
+                      return null;
+                    }
+                    
                     const { x, y, index } = props;
+                    
+                    // Bounds check for yearlyData
+                    if (!yearlyData || index < 0 || index >= yearlyData.length) {
+                      return null;
+                    }
+                    
                     const data = yearlyData[index];
                     
                     // Only show label if there's a grant this year
