@@ -364,13 +364,6 @@ function HistoricalCalculatorContent() {
             {/* Results */}
             {!isLoadingHistoricalData && !historicalDataError && !calculationError && historicalResults && displayScheme && (
               <>
-                {/* Metric Cards Carousel */}
-                <HistoricalMetricCards
-                  historicalResults={historicalResults}
-                  currentBitcoinPrice={currentBitcoinPrice}
-                  startingYear={startingYear}
-                />
-
                 {/* Historical Timeline Visualization */}
                 <div className="card mb-6 border-2 border-bitcoin dark:border-0">
                   <HistoricalTimelineVisualization
@@ -381,6 +374,13 @@ function HistoricalCalculatorContent() {
                     costBasisMethod={costBasisMethod}
                   />
                 </div>
+
+                {/* Metric Cards Carousel */}
+                <HistoricalMetricCards
+                  historicalResults={historicalResults}
+                  currentBitcoinPrice={currentBitcoinPrice}
+                  startingYear={startingYear}
+                />
 
                 {/* Enhanced Annual Breakdown Table */}
                 <div className="card mb-6 border-2 border-bitcoin dark:border-0">
