@@ -14,7 +14,7 @@ export function HeroButtons() {
         onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
         onMouseLeave={(e) => e.currentTarget.style.color = '#F7931A'}
       >
-        <BitcoinCircleOutlineIcon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" style={{ color: 'currentColor' }} />
+        <BitcoinCircleOutlineIcon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" />
         <span className="relative z-10">Build Your Plan</span>
       </Link>
       <Link 
@@ -24,7 +24,7 @@ export function HeroButtons() {
         onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
         onMouseLeave={(e) => e.currentTarget.style.color = '#e2e8f0'}
       >
-        <ClockIcon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-180" style={{ color: 'currentColor' }} />
+        <ClockIcon className="w-6 h-6 transition-transform duration-300 group-hover:rotate-180" />
         <span className="relative z-10">See the Proof</span>
       </Link>
     </div>

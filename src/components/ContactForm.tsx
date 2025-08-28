@@ -14,51 +14,41 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
-
-    const formData = new FormData(e.target as HTMLFormElement);
     
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, message }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         setStatus('success');
         setEmail('');
         setMessage('');
-        setTimeout(() => setStatus('idle'), 3000);
-        // Optionally redirect to success page
-        // window.location.href = '/contact-success';
+        setTimeout(() => setStatus('idle'), 5000);
       } else {
         setStatus('error');
-        setTimeout(() => setStatus('idle'), 3000);
+        setTimeout(() => setStatus('idle'), 5000);
       }
     } catch (error) {
+      console.error('Contact form error:', error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
   return (
     <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
       onSubmit={handleSubmit}
       className="w-full max-w-2xl mx-auto"
     >
-      <input type="hidden" name="form-name" value="contact" />
-      <div hidden>
-        <input name="bot-field" />
-      </div>
       
       <div className="flex flex-col sm:flex-row gap-2">
         <Input
           type="email"
-          name="email"
           placeholder="Your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -68,7 +58,6 @@ export function ContactForm() {
           aria-label="Email address"
         />
         <Textarea
-          name="message"
           placeholder="Message (optional)"
           value={message}
           onChange={(e) => setMessage(e.target.value.slice(0, 200))}
