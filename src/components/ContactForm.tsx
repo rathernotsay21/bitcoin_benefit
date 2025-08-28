@@ -15,16 +15,18 @@ export function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
     
-    const formData = new FormData();
+    // Create proper URL-encoded data for Netlify Forms
+    const formData = new URLSearchParams();
     formData.append('form-name', 'contact');
     formData.append('email', email);
     formData.append('message', message);
+    formData.append('bot-field', ''); // Add honeypot field
     
     try {
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        body: formData.toString(),
       });
 
       if (response.ok) {
@@ -47,8 +49,11 @@ export function ContactForm() {
     <form
       onSubmit={handleSubmit}
       className="w-full max-w-2xl mx-auto"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
     >
       <input type="hidden" name="form-name" value="contact" />
+      <input type="hidden" name="bot-field" />
       
       <div className="flex flex-col sm:flex-row gap-2">
         <Input

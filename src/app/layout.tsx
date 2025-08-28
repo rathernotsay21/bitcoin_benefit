@@ -9,19 +9,32 @@ import { structuredData } from '@/lib/seo/structured-data'
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
 import { PrefetchLinks } from '@/components/PrefetchLinks'
 import { PerformanceOptimizer } from '@/components/performance/PerformanceOptimizer'
+import { FontOptimization } from '@/components/FontOptimization'
 import './globals.css'
 
 // Note: The dangerouslySetInnerHTML usage below is safe as it only contains
 // static, developer-controlled content (CSS and theme initialization script).
 // No user input or external data is being rendered.
 
-// Optimize font loading with better performance
+// Optimize font loading with critical weight subsetting for better FCP
+// Phase 1.3 Performance Optimization: Reduced to only essential weights (400, 500, 700)
 const inter = Inter({ 
   subsets: ['latin'],
-  display: 'swap',
+  display: 'swap', // Critical: Forces immediate text visibility with fallback fonts
   preload: true,
-  fallback: ['system-ui', 'arial'],
-  adjustFontFallback: false,
+  // Critical weights only: reduced from 600 to 500 for better loading performance
+  weight: ['400', '500', '700'],
+  fallback: [
+    // Optimized fallback stack for better metric compatibility
+    'system-ui',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'Roboto',
+    'Arial',
+    'sans-serif'
+  ],
+  adjustFontFallback: true, // Enable metric-compatible fallbacks
   variable: '--font-inter',
 })
 
@@ -117,13 +130,77 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Critical performance optimizations - Only essential preconnects */}
+        {/* Critical performance optimizations - Phase 1.3: Enhanced font preloading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Preload critical font weights for immediate FCP improvement */}
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={`https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2`}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={`https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2`}
+          crossOrigin="anonymous"
+        />
+        
+        {/* API preconnects moved after font preloading for better priority */}
         <link rel="preconnect" href="https://api.coingecko.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.mempool.space" crossOrigin="anonymous" />
         
-        {/* Critical CSS is now included through the CSS imports in globals.css */}
+        {/* Critical font CSS to prevent FOUT - Phase 1.3 Enhanced */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              /* Phase 1.3: Enhanced fallback font system with font-display: swap */
+              .font-loading { 
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                font-size-adjust: 0.52; 
+                font-display: swap;
+              }
+              
+              /* Critical above-the-fold text with immediate visibility */
+              h1, h2, h3 { 
+                font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-display: swap;
+              }
+              
+              /* Body text optimized for faster rendering */
+              body {
+                font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                text-rendering: optimizeSpeed;
+                font-display: swap;
+              }
+              
+              /* Progressive enhancement: Hide text until fonts load */
+              .font-progressive {
+                font-family: var(--font-inter), system-ui, sans-serif;
+                visibility: visible;
+                font-display: swap;
+              }
+              
+              /* Performance-critical font loading class */
+              .font-critical-load {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                font-size-adjust: 0.52;
+                transition: font-family 0.1s ease-out;
+              }
+              
+              .fonts-loaded .font-critical-load {
+                font-family: var(--font-inter), system-ui, sans-serif;
+              }
+            `,
+          }}
+        />
         
         
         {/* Structured Data for SEO */}
@@ -168,6 +245,7 @@ export default function RootLayout({
               <ThemeProvider>
                 <StoreSyncProvider>
                   <PerformanceOptimizer enabled={process.env.NODE_ENV === 'production'}>
+                    <FontOptimization />
                     <ServiceWorkerRegistration />
                     <PrefetchLinks />
                     <div className="min-h-screen transition-colors duration-300 performance-optimized" style={{ backgroundColor: '#F4F6F8' }}>
@@ -182,6 +260,7 @@ export default function RootLayout({
         </CSSLoadingGuard>
         {/* Hidden form for Netlify Forms detection */}
         <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+          <input type="hidden" name="form-name" value="contact" />
           <input type="email" name="email" />
           <textarea name="message"></textarea>
           <input type="hidden" name="bot-field" />

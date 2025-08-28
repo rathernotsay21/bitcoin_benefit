@@ -100,6 +100,10 @@ scroll-behavior: smooth;
   
   body {
     overflow-x: hidden;
+    /* Optimize body text rendering */
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   /* Light Mode Body */
@@ -118,11 +122,15 @@ scroll-behavior: smooth;
     @apply bg-slate-900;
   }
 
-  /* Typography - Enhanced */
+  /* Typography - Enhanced with font optimization */
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight font-bold transition-colors duration-300;
     letter-spacing: -0.02em;
     line-height: 1.2;
+    /* Optimize font rendering for headings */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Light Mode Typography */

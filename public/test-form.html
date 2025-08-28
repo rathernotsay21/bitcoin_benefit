@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Netlify Form</title>
+</head>
+<body>
+    <h1>Test Netlify Form</h1>
+    <p>This is a test form to verify Netlify Forms is working correctly.</p>
+    
+    <!-- This form mimics the hidden form in your React app -->
+    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        
+        <p style="display: none;">
+            <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+        
+        <p>
+            <label>Email: <input type="email" name="email" required /></label>
+        </p>
+        
+        <p>
+            <label>Message: <textarea name="message"></textarea></label>
+        </p>
+        
+        <p>
+            <button type="submit">Send</button>
+        </p>
+    </form>
+    
+    <hr>
+    
+    <h2>Debugging Info:</h2>
+    <ul>
+        <li>Form name: "contact"</li>
+        <li>Honeypot field: "bot-field"</li>
+        <li>Notification email: mattskelton@gmail.com (configured in Netlify UI)</li>
+    </ul>
+</body>
+</html>

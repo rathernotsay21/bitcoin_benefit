@@ -15,25 +15,21 @@ import {
 } from '@/components/ui/navigation-menu';
 import { ToolsDropdown } from '@/components/navigation/ToolsDropdown';
 import { cn } from '@/lib/utils';
-// Import icons directly for navigation
-import {
-  HomeIcon,
-  CalculatorIcon,
-  ClockIcon,
-  BookOpenIcon,
-  LinkIcon,
-  MagnifyingGlassIcon,
-  SunIcon,
-  MoonIcon,
-} from '@heroicons/react/24/outline';
-import {
-  HomeIcon as HomeIconSolid,
-  CalculatorIcon as CalculatorIconSolid,
-  ClockIcon as ClockIconSolid,
-  BookOpenIcon as BookOpenIconSolid,
-  LinkIcon as LinkIconSolid,
-  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
-} from '@heroicons/react/24/solid';
+// Import icons directly for navigation - optimized specific imports
+import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
+import CalculatorIcon from '@heroicons/react/24/outline/CalculatorIcon';
+import ClockIcon from '@heroicons/react/24/outline/ClockIcon';
+import BookOpenIcon from '@heroicons/react/24/outline/BookOpenIcon';
+import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
+import MagnifyingGlassIcon from '@heroicons/react/24/outline/MagnifyingGlassIcon';
+import SunIcon from '@heroicons/react/24/outline/SunIcon';
+import MoonIcon from '@heroicons/react/24/outline/MoonIcon';
+import HomeIconSolid from '@heroicons/react/24/solid/HomeIcon';
+import CalculatorIconSolid from '@heroicons/react/24/solid/CalculatorIcon';
+import ClockIconSolid from '@heroicons/react/24/solid/ClockIcon';
+import BookOpenIconSolid from '@heroicons/react/24/solid/BookOpenIcon';
+import LinkIconSolid from '@heroicons/react/24/solid/LinkIcon';
+import MagnifyingGlassIconSolid from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import { SatoshiOutlineIcon, BitcoinPresentationIcon, MinerOutlineIcon } from '@/components/icons';
 
 export default function Navigation() {
