@@ -15,14 +15,17 @@ export function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
     
+    const formData = new FormData();
+    formData.append('form-name', 'contact');
+    formData.append('email', email);
+    formData.append('message', message);
+    
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, message }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         setStatus('success');
@@ -45,6 +48,7 @@ export function ContactForm() {
       onSubmit={handleSubmit}
       className="w-full max-w-2xl mx-auto"
     >
+      <input type="hidden" name="form-name" value="contact" />
       
       <div className="flex flex-col sm:flex-row gap-2">
         <Input

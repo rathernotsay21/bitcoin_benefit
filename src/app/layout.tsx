@@ -180,6 +180,12 @@ export default function RootLayout({
               </ThemeProvider>
             </PerformanceMonitor>
         </CSSLoadingGuard>
+        {/* Hidden form for Netlify Forms detection */}
+        <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+          <input type="email" name="email" />
+          <textarea name="message"></textarea>
+          <input type="hidden" name="bot-field" />
+        </form>
       </body>
     </html>
   )
