@@ -78,25 +78,28 @@ export default function Navigation() {
   return (
     <header className="navbar sticky top-0 z-50 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-1 sm:py-1.5">
+        <div className="flex items-center py-1 sm:py-1.5">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group flex-shrink">
+          <Link href="/" className="flex items-center space-x-3 sm:space-x-4 group flex-shrink-0 mr-8">
             <div className="group-hover:rotate-12 transition-transform duration-300 flex-shrink-0">
               <SatoshiOutlineIcon className="w-12 h-12 sm:w-14 sm:h-14" size={56} />
             </div>
             <div className="flex flex-col min-w-0">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300">
-                <span className="hidden sm:inline">BitcoinBenefits</span>
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-deepSlate dark:text-slate-100 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-300 whitespace-nowrap">
+                <span className="hidden sm:inline">Bitcoin Benefits</span>
                 <span className="sm:hidden">Bitcoin Benefits</span>
               </h1>
-              <p className="hidden sm:block text-xs sm:text-sm text-slate-500 dark:text-slate-400 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight">
+              <p className="hidden sm:block text-xs sm:text-sm text-slate-500 dark:text-slate-400 group-hover:text-bitcoin-600 dark:group-hover:text-bitcoin transition-colors duration-300 leading-tight whitespace-nowrap">
                 Secure their future. Secure your team.
               </p>
             </div>
           </Link>
 
+          {/* Spacer */}
+          <div className="flex-grow"></div>
+          
           {/* Desktop Navigation with Shadcn NavigationMenu */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
             <NavigationMenu>
               <NavigationMenuList>
                 {navItems.map((item) => {
@@ -168,7 +171,7 @@ export default function Navigation() {
           </div>
 
           {/* Mobile Icon Navigation (Small Desktop/Tablet) */}
-          <nav className="hidden sm:flex lg:hidden items-center space-x-2">
+          <nav className="hidden sm:flex lg:hidden items-center space-x-3 flex-shrink-0 ml-auto">
             {navItems.map((item) => {
               const isActive = item.href === '/'
                 ? pathname === '/'
@@ -209,7 +212,7 @@ export default function Navigation() {
           </nav>
 
           {/* Mobile Menu */}
-          <div className="flex items-center">
+          <div className="flex items-center sm:hidden ml-auto">
             {/* Mobile Navigation Sheet */}
             <MobileNavSheet />
           </div>
