@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { 
-  ChartBarIcon, 
+  ArrowTrendingUpIcon, 
   ClockIcon, 
   CubeTransparentIcon 
 } from '@heroicons/react/24/solid';
@@ -39,7 +39,7 @@ const features: CarouselFeature[] = [
         </a>. Our calculator shows a conservative 10-year projection. See how Bitcoin awards today could become significant wealth tomorrow.
       </>
     ),
-    icon: ChartBarIcon,
+    icon: ArrowTrendingUpIcon,
     href: '/calculator',
     color: 'text-green-400',
     bgGradient: 'from-green-500/20 via-emerald-500/10 to-green-600/20',
