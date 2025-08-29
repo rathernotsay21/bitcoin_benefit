@@ -54,9 +54,6 @@ export function parseNetworkHealth(data: any): any {
     return data;
   }
   
-  // Log the data to understand what we're receiving
-  console.log('Parsing network health data:', data);
-  
   // Otherwise, construct it from raw mempool.space data
   // Handle various possible field names and provide defaults
   const fastestFee = Number(data.fastestFee) || Number(data.fastest) || 50;
@@ -74,9 +71,38 @@ export function parseNetworkHealth(data: any): any {
   
   const congestionLevel = getCongestionLevel(validFastestFee);
   
+  // Calculate congestion percentage based on fee levels
+  const congestionPercentage = Math.min(100, Math.max(5, (validFastestFee / 150) * 100));
+  
+  // Determine traffic level for analysis
+  let trafficLevel: 'light' | 'normal' | 'heavy' | 'extreme';
+  if (validFastestFee < 20) trafficLevel = 'light';
+  else if (validFastestFee < 50) trafficLevel = 'normal';
+  else if (validFastestFee < 100) trafficLevel = 'heavy';
+  else trafficLevel = 'extreme';
+  
   // Use reasonable defaults for mempool stats
   const mempoolSize = 68258; // Average mempool size
   const mempoolBytes = 23600000; // ~23.6 MB average
+  
+  // Determine color scheme based on congestion
+  let colorScheme: 'green' | 'yellow' | 'orange' | 'red';
+  if (congestionLevel === 'low') colorScheme = 'green';
+  else if (congestionLevel === 'normal') colorScheme = 'yellow';
+  else if (congestionLevel === 'high') colorScheme = 'orange';
+  else colorScheme = 'red';
+  
+  // Generate user advice based on congestion
+  let userAdvice: string;
+  if (congestionLevel === 'low') {
+    userAdvice = 'The network has low activity right now. Your transactions will confirm quickly with minimal fees. This is an ideal time to send Bitcoin if you want to save on transaction costs.';
+  } else if (congestionLevel === 'normal') {
+    userAdvice = 'Network activity is moderate. Standard fee rates will get your transaction confirmed within 30 minutes. You can use economy fees if you\'re not in a hurry.';
+  } else if (congestionLevel === 'high') {
+    userAdvice = 'The network is experiencing heavy traffic. Consider using priority fees for time-sensitive transactions, or wait for congestion to decrease if you want to save on fees.';
+  } else {
+    userAdvice = 'The network is extremely congested. Only send urgent transactions now, as fees are very high. Consider waiting a few hours for better conditions if possible.';
+  }
   
   return {
     congestionLevel,
@@ -88,16 +114,31 @@ export function parseNetworkHealth(data: any): any {
     humanReadable: {
       mempoolSize: `${(mempoolSize / 1000).toFixed(1)}k`,
       mempoolBytes: `${(mempoolBytes / 1000000).toFixed(1)} MB`,
-      averageFee: `${validHalfHourFee} sat/vB`
+      averageFee: `${validHalfHourFee} sat/vB`,
+      colorScheme,
+      userAdvice
     },
     timestamp: Date.now(),
     blockchainTip: 875000,
     feeEstimates: {
       fastest: validFastestFee,
+      fastestFee: validFastestFee,  // Include both formats for compatibility
       halfHour: validHalfHourFee,
+      halfHourFee: validHalfHourFee,
       hour: validHourFee,
+      hourFee: validHourFee,
       economy: validEconomyFee,
-      minimum: validMinimumFee
+      economyFee: validEconomyFee,
+      minimum: validMinimumFee,
+      minimumFee: validMinimumFee
+    },
+    analysis: {
+      congestionPercentage,
+      trafficLevel,
+      isCongested: congestionLevel === 'high' || congestionLevel === 'extreme',
+      estimatedWaitTime: congestionLevel === 'low' ? '10-20 minutes' :
+                        congestionLevel === 'normal' ? '20-40 minutes' :
+                        congestionLevel === 'high' ? '40-60 minutes' : '60+ minutes'
     }
   };
 }

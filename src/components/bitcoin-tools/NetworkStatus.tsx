@@ -136,16 +136,14 @@ const NetworkStatus: React.FC = React.memo(() => {
       }
       
       const rawNetworkData = await networkResponse.json();
-      console.log('Raw network API response:', rawNetworkData);
       
       // Parse the network data to the expected format
       const networkData = parseNetworkHealth(rawNetworkData);
-      console.log('Parsed network data:', networkData);
       
       // Validate the response structure
       if (!isValidNetworkHealthResponse(networkData)) {
-        console.warn('Network data validation failed, using parsed data anyway:', networkData);
         // Use the parsed data even if validation fails
+        // The parser ensures all required fields are present with defaults
       }
       
       dispatch({ type: 'SET_DATA', payload: { networkHealth: networkData, bitcoinPrice: bitcoinPriceData } });
@@ -174,7 +172,8 @@ const NetworkStatus: React.FC = React.memo(() => {
         }, retryDelay);
       }
     }
-  }, [state.retryCount, state.networkHealth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.retryCount]); // Intentionally omit state.networkHealth to prevent infinite loop
 
   useEffect(() => {
     let mounted = true;

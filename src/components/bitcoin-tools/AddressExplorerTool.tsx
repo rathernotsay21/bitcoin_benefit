@@ -245,14 +245,14 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
           {/* Address Header */}
           <div className="card mb-6 hover:shadow-sm transition-all duration-300">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div className="flex flex-col gap-4 mb-6">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                 Address Details
               </h3>
-              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <button
                   onClick={() => handleCopy(addressExplorer.data!.address, 'address')}
-                  className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors whitespace-nowrap"
+                  className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors whitespace-nowrap flex-shrink-0"
                 >
                   {copiedItem === 'address' ? '✓ Copied' : 'Copy'}
                 </button>
@@ -262,7 +262,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                     window.open(urls[e.target.value as keyof typeof urls], '_blank');
                   }}
                   defaultValue=""
-                  className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded min-w-[140px] cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                  className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors flex-1 sm:flex-initial sm:min-w-[140px]"
                 >
                   <option value="" disabled>View on Explorer</option>
                   <option value="mempool">Mempool.space</option>
