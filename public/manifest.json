@@ -39,15 +39,15 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshots/dashboard.png",
+      "src": "/screenshots/dashboard.svg",
       "sizes": "1920x1080",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "label": "Benefits Dashboard"
     },
     {
-      "src": "/screenshots/calculator.png",
+      "src": "/screenshots/calculator.svg",
       "sizes": "1920x1080",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "label": "Vesting Calculator"
     }
   ],

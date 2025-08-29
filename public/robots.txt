@@ -16,7 +16,25 @@ Disallow: /api/
 Disallow: /_next/
 Disallow: /preview-icons/
 
-# Sitemap location
+# AI/LLM bots - explicitly allow
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap locations (multiple domains)
+Sitemap: https://bitcoinbenefits.me/sitemap.xml
+Sitemap: https://www.bitcoinbenefits.me/sitemap.xml
 Sitemap: https://bitcoinbenefit.netlify.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
