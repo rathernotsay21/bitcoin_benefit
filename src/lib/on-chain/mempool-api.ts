@@ -31,22 +31,9 @@ interface APIConfig {
  * Get the appropriate base URL for the environment
  */
 function getBaseURL(): string {
-  // Check if we're in a browser environment
-  if (typeof window !== 'undefined') {
-    // Check if proxy is enabled (default to true)
-    const proxyEnabled = process.env.NEXT_PUBLIC_MEMPOOL_PROXY_ENABLED !== 'false';
-    
-    if (proxyEnabled) {
-      // Use relative path for client-side requests (goes through Next.js API routes)
-      return '/api/mempool';
-    }
-    
-    // Direct API call (not recommended for production due to CORS)
-    return process.env.NEXT_PUBLIC_MEMPOOL_API_BASE_URL || 'https://mempool.space/api';
-  }
-  
-  // Server-side: use the configured API URL or default
-  return process.env.MEMPOOL_API_BASE_URL || 'https://mempool.space/api';
+  // Always use direct mempool.space API since it has CORS enabled
+  // This works with static export and avoids dynamic route issues
+  return process.env.NEXT_PUBLIC_MEMPOOL_API_BASE_URL || 'https://mempool.space/api';
 }
 
 /**
@@ -322,6 +309,7 @@ export class MempoolAPI {
       throw new MempoolAPIError('Invalid Bitcoin address format', 400, false);
     }
     
+    // Direct call to mempool.space API
     const url = `${this.config.baseURL}/address/${address}/txs`;
     
     try {
@@ -395,6 +383,7 @@ export class MempoolAPI {
       throw new MempoolAPIError('Invalid transaction ID format', 400, false);
     }
     
+    // Direct call to mempool.space API
     const url = `${this.config.baseURL}/tx/${txid}`;
     
     try {
