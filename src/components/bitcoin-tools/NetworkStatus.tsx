@@ -630,7 +630,7 @@ const NetworkStatus: React.FC = React.memo(() => {
               Network Verification Status
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Live blockchain data and record verification
+              Live blockchain data and verification status
             </p>
           </div>
           
