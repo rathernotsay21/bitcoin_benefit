@@ -284,11 +284,8 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
             const Component = tool.component;
             return (
               <TabsContent key={tool.id} value={tool.id} className="space-y-6" forceMount={tool.id === activeTab ? undefined : true} hidden={tool.id !== activeTab}>
-                {/* Enhanced Tool Header with better visual hierarchy */}
-                <div className="glass border-2 border-bitcoin/10 dark:border-bitcoin/20 rounded-sm p-6 sm:p-8 
-                             bg-gradient-to-r from-bitcoin/5 via-orange-50/50 to-bitcoin/5 
-                             dark:from-bitcoin/10 dark:via-slate-800/80 dark:to-bitcoin/10
-                             shadow-lg hover:shadow-xl transition-all duration-300">
+                {/* Enhanced Tool Header with clean design */}
+                <div className="card p-6 sm:p-8">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
                     <div className="w-20 h-20 flex items-center justify-center">
                       <tool.icon className="w-16 h-16 text-bitcoin" />
@@ -326,11 +323,8 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                   </div>
                 </div>
                 
-                {/* Tool Component Container with enhanced styling */}
-                <div className="card border-2 border-bitcoin/10 dark:border-bitcoin/20 hover:border-bitcoin/20 dark:hover:border-bitcoin/30 
-                             bg-gradient-to-br from-white via-slate-50/50 to-blue-50/20 
-                             dark:from-slate-800 dark:via-slate-800/95 dark:to-slate-900/80
-                             overflow-hidden min-h-[600px] transition-all duration-300 hover:shadow-lg">
+                {/* Tool Component Container with clean styling */}
+                <div className="card overflow-hidden min-h-[600px]">
                   <Component 
                     initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
                     initialAddress={tool.id === 'address' ? processedParams.address : undefined}

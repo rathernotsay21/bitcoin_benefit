@@ -445,7 +445,7 @@ const NetworkStatus: React.FC = React.memo(() => {
 
       {/* Network Congestion Visual */}
       <div className="mb-8">
-        <div className="bg-white dark:bg-gray-700 rounded-sm p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
+        <div className="card min-h-[180px]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
             <span className="text-sm font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">
@@ -502,7 +502,7 @@ const NetworkStatus: React.FC = React.memo(() => {
                 const costUSD = calculateTxCostUSD(feeRate as FeeRate);
                 
                 return (
-                  <div key={feeType} className="bg-white dark:bg-gray-700 rounded-sm p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
+                  <div key={feeType} className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-sm p-4 transition-shadow hover:shadow-sm">
                     <div className="text-center">
                       <div className="mb-2">
                         {React.createElement(feeInfo.icon, { className: "w-6 h-6 mx-auto text-bitcoin" })}
@@ -620,38 +620,30 @@ const NetworkStatus: React.FC = React.memo(() => {
           </div>
         </div>
 
-        {/* Network Verifications and Record Number */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-600 shadow-lg overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-bitcoin/10 to-orange-500/10 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-              <svg className="w-6 h-6 mr-3 text-bitcoin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              Network Verification Status
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Live blockchain data and verification status
-            </p>
-          </div>
-          
-          <div className="p-6 space-y-6">
+        {/* Network Verification Status */}
+        <div className="card mb-8">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center mb-6">
+            <svg className="w-6 h-6 mr-3 text-bitcoin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            Network Verification Status
+          </h3>
+          <div className="space-y-6">
             {/* Current Block Record */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-6 border border-green-200 dark:border-green-700">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Current Block Record
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Latest verified block on the network
-                    </p>
-                  </div>
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-sm p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold text-green-800 dark:text-green-200">
+                    Current Block Record
+                  </h4>
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    Latest verified block on the network
+                  </p>
                 </div>
                 <div className="text-right">
                   <div className="text-3xl font-mono font-bold text-green-700 dark:text-green-300">
@@ -677,22 +669,20 @@ const NetworkStatus: React.FC = React.memo(() => {
             </div>
             
             {/* Next Block Processing */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-700">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white">
-                      Next Block Processing
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Estimated time for next verification
-                    </p>
-                  </div>
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-200">
+                    Next Block Processing
+                  </h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                    Estimated time for next verification
+                  </p>
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">
@@ -716,22 +706,19 @@ const NetworkStatus: React.FC = React.memo(() => {
                 <button
                   onClick={fetchNetworkHealth}
                   disabled={state.isLoading}
-                  className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                  className="btn-secondary text-sm"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  <span>{state.isLoading ? 'Refreshing...' : 'Refresh Status'}</span>
+                  {state.isLoading ? 'Refreshing...' : 'Refresh Status'}
                 </button>
               </div>
             </div>
             
             {/* Verification Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-sm p-4">
                 <div className="flex items-center space-x-3 mb-3">
                   <div className="w-8 h-8 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-orange-600 dark:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
@@ -747,10 +734,10 @@ const NetworkStatus: React.FC = React.memo(() => {
                 </div>
               </div>
               
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-sm p-4">
                 <div className="flex items-center space-x-3 mb-3">
                   <div className="w-8 h-8 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
