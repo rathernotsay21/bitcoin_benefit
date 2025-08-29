@@ -39,16 +39,22 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshots/dashboard.svg",
-      "sizes": "1920x1080",
-      "type": "image/svg+xml",
-      "label": "Benefits Dashboard"
+      "src": "/screenshots/homepage.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "label": "Bitcoin Benefits Platform - Reward Loyalty with Sound Money"
     },
     {
-      "src": "/screenshots/calculator.svg",
-      "sizes": "1920x1080",
-      "type": "image/svg+xml",
-      "label": "Vesting Calculator"
+      "src": "/screenshots/calculator.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "label": "Vesting Calculator - Build a Sound Money Plan"
+    },
+    {
+      "src": "/screenshots/historical.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "label": "Historical Analysis - Learn from Bitcoin Performance"
     }
   ],
   "related_applications": [],
