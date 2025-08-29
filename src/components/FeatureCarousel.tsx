@@ -203,20 +203,20 @@ export default function FeatureCarousel() {
           <div className="absolute top-1/2 -translate-y-1/2 left-4">
             <button
               onClick={prevSlide}
-              className="w-12 h-12 rounded-full bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 flex items-center justify-center text-white hover:bg-slate-700/80 hover:border-bitcoin/30 transition-all duration-300 group"
+              className="p-2 text-white/70 hover:text-white transition-all duration-300 group"
               aria-label="Previous feature"
             >
-              <ChevronLeftIcon className="w-6 h-6 transform group-hover:-translate-x-0.5 transition-transform duration-200" />
+              <ChevronLeftIcon className="w-8 h-8 transform group-hover:-translate-x-0.5 transition-transform duration-200 drop-shadow-lg" />
             </button>
           </div>
 
           <div className="absolute top-1/2 -translate-y-1/2 right-4">
             <button
               onClick={nextSlide}
-              className="w-12 h-12 rounded-full bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 flex items-center justify-center text-white hover:bg-slate-700/80 hover:border-bitcoin/30 transition-all duration-300 group"
+              className="p-2 text-white/70 hover:text-white transition-all duration-300 group"
               aria-label="Next feature"
             >
-              <ChevronRightIcon className="w-6 h-6 transform group-hover:translate-x-0.5 transition-transform duration-200" />
+              <ChevronRightIcon className="w-8 h-8 transform group-hover:translate-x-0.5 transition-transform duration-200 drop-shadow-lg" />
             </button>
           </div>
 
@@ -243,31 +243,6 @@ export default function FeatureCarousel() {
               style={{ width: `${((currentIndex + 1) / features.length) * 100}%` }}
             />
           </div>
-        </div>
-
-        {/* Feature Navigation Cards */}
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <button
-              key={feature.id}
-              onClick={() => goToSlide(index)}
-              className={`text-left p-6 rounded-lg border transition-all duration-300 ${
-                index === currentIndex
-                  ? `bg-gradient-to-br ${feature.bgGradient} border-${feature.color.replace('text-', '').replace('-400', '-500')}/50 scale-105`
-                  : 'bg-slate-800/30 border-slate-700/50 hover:bg-slate-800/50 hover:border-slate-600/50'
-              }`}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <feature.icon className={`w-6 h-6 ${index === currentIndex ? feature.color : 'text-slate-400'}`} />
-                <h4 className={`font-semibold ${index === currentIndex ? 'text-white' : 'text-slate-300'}`}>
-                  {feature.title}
-                </h4>
-              </div>
-              <p className={`text-sm ${index === currentIndex ? 'text-slate-200' : 'text-slate-400'}`}>
-                {feature.subtitle}
-              </p>
-            </button>
-          ))}
         </div>
       </div>
     </section>

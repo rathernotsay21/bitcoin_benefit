@@ -108,9 +108,10 @@ export class VestingCalculator {
         numberOfGrants = Math.min(5, Math.floor(maxMonths / 12));
         break;
       case 'slow-burn':
-        // Builder: 9 annual grants (years 1-9) to reach 0.020 total  
+        // Builder: Initial grant at year 0 + 9 annual grants (years 1-9) to reach 0.020 total  
         // 0.002 initial + 9 * 0.002 = 0.020
-        numberOfGrants = Math.min(9, Math.floor(maxMonths / 12));
+        // Maximum of 9 annual grants, regardless of timeline length
+        numberOfGrants = 9;
         break;
       case 'custom':
         // Respect custom vesting events or default to 10 years max

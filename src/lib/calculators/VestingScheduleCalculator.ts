@@ -151,6 +151,7 @@ export class VestingScheduleCalculator {
     let totalGrantsAccumulated = initialGrant;
     
     // Pre-calculate annual grant intervals to avoid modulo operations
+    // Annual grants happen at year 1, 2, 3, etc. (months 12, 24, 36, etc.)
     const annualGrantMonths = hasAnnualGrant ? 
       Array.from({ length: Math.floor(maxGrantMonth / 12) }, (_, i) => (i + 1) * 12)
         .filter(month => month <= maxMonths) : [];
@@ -210,7 +211,7 @@ export class VestingScheduleCalculator {
       case 'steady-builder':
         return { maxMonth: 60 }; // 5 years max
       case 'slow-burn':
-        return { maxMonth: 108 }; // 9 years max
+        return { maxMonth: 108 }; // Maximum 9 annual grants (years 1-9)
       case 'custom':
         return { maxMonth: 120 }; // 10 years max
       default:

@@ -39,7 +39,7 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     initialGrant: 0.015,
     employeeMatchPercentage: 0,
     annualGrant: 0.001,
-    maxAnnualGrants: 5, // Explicitly set to 5 annual grants
+    maxAnnualGrants: 5, // 5 annual grants in years 1-5
     icon: 'chart-trending-up',
     tagline: 'Balance',
     bestFor: 'Growing businesses',
@@ -69,10 +69,10 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     id: 'slow-burn',
     name: 'Builder',
     description: 'Low cost yearly awards',
-    initialGrant: 0.002,
+    initialGrant: 0.002, // First grant at year 0
     employeeMatchPercentage: 0,
     annualGrant: 0.002,
-    maxAnnualGrants: 9, // Keep at 9 annual grants
+    maxAnnualGrants: 9, // 9 additional annual grants in years 1-9
     icon: 'building-office',
     tagline: 'Low Cost',
     bestFor: 'Budget-conscious companies',

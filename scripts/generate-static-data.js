@@ -21,6 +21,7 @@ const VESTING_SCHEMES = [
     description: 'Balanced approach with initial grant plus annual additions',
     initialGrant: 0.015,
     annualGrant: 0.001,
+    maxAnnualGrants: 5, // 5 annual grants in years 1-5
     vestingSchedule: [
       { months: 0, grantPercent: 0 },
       { months: 60, grantPercent: 50 },
@@ -31,8 +32,9 @@ const VESTING_SCHEMES = [
     id: 'slow-burn',
     name: 'Slow Burn',
     description: 'Long-term retention focus with yearly grants only',
-    initialGrant: 0,
-    annualGrant: 0.002,
+    initialGrant: 0.002, // First grant at year 0
+    annualGrant: 0.002, // 9 additional grants in years 1-9
+    maxAnnualGrants: 9,
     vestingSchedule: [
       { months: 0, grantPercent: 0 },
       { months: 60, grantPercent: 50 },
@@ -300,7 +302,10 @@ function calculateVestingResults(scheme, bitcoinPrice, projectedGrowth = 15) {
     // Calculate total Bitcoin at this point
     let totalBitcoin = scheme.initialGrant || 0;
     if (scheme.annualGrant && year > 0) {
-      const yearsOfGrants = Math.min(year, scheme.id === 'slow-burn' ? 10 : 5);
+      // For slow-burn: 9 annual grants (years 1-9) + initial grant at year 0
+      // For steady-builder: 5 annual grants (years 1-5) + initial grant at year 0
+      const maxAnnualGrants = scheme.id === 'slow-burn' ? 9 : 5;
+      const yearsOfGrants = Math.min(Math.floor(year), maxAnnualGrants);
       totalBitcoin += (scheme.annualGrant * yearsOfGrants);
     }
 

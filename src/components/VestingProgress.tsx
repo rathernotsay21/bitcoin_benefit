@@ -254,8 +254,8 @@ export default function VestingProgress({
       {/* Enhanced Header with Strategy Information */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center">
-          <div className={`p-2 rounded-sm ${strategyConfig.colors.iconBg} mr-3`}>
-            <StrategyIcon className={`w-5 h-5 ${strategyConfig.colors.iconColor}`} />
+          <div className="mr-3">
+            <StrategyIcon className={`w-10 h-10 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">

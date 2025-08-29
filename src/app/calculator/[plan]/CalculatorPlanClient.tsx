@@ -261,7 +261,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 : 'glass'
             }`}>
               <div className="flex items-center justify-center mb-6">
-                <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
+                <SatoshiIcon className="w-12 h-12 text-bitcoin mr-3" />
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                   Choose a Plan
                 </h2>

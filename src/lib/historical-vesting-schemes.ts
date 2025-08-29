@@ -71,10 +71,10 @@ export const HISTORICAL_VESTING_SCHEMES: VestingScheme[] = [
     id: 'slow-burn',
     name: 'Builder',
     description: 'Yearly awards only - keeps costs low and predictable.',
-    initialGrant: 0.0, // No initial grant
+    initialGrant: 0.01, // First grant at year 0
     employeeMatchPercentage: 0,
     annualGrant: 0.01, // 0.01 BTC per year
-    maxAnnualGrants: 10, // Total: 0.0 + (0.01 × 10) = 0.1 BTC
+    maxAnnualGrants: 9, // 9 additional grants in years 1-9. Total: 0.01 + (0.01 × 9) = 0.1 BTC
     icon: '🏗️',
     tagline: 'Low Cost',
     bestFor: 'Budget-conscious companies',

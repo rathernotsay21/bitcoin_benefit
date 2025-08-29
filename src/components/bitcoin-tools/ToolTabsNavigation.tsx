@@ -290,8 +290,8 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                              dark:from-bitcoin/10 dark:via-slate-800/80 dark:to-bitcoin/10
                              shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                    <div className="w-20 h-20 bg-gradient-to-br from-bitcoin/15 to-bitcoin-600/15 dark:from-bitcoin/25 dark:to-bitcoin-600/25 rounded-sm flex items-center justify-center shadow-inner">
-                      <tool.icon className="w-10 h-10 text-bitcoin" />
+                    <div className="w-20 h-20 flex items-center justify-center">
+                      <tool.icon className="w-16 h-16 text-bitcoin" />
                     </div>
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">

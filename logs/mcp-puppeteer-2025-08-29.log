@@ -41,3 +41,7 @@
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-29 07:57:24.178"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-29 11:06:37.374"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-29 11:06:37.375"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-29 12:20:47.832"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-29 12:20:47.833"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-29 12:35:12.964"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-29 12:35:12.965"}

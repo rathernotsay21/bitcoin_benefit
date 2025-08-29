@@ -101,7 +101,7 @@ export default function HomePage() {
             {/* Proven Over 16 Years - Top Left */}
             <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
-                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
                   <ChartBarIcon className="w-6 h-6 text-bitcoin" />
                 </div>
                 <div className="flex-1">
@@ -122,7 +122,7 @@ export default function HomePage() {
             {/* Meaningful to Employees - Top Right */}
             <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
-                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
                   <HeartIcon className="w-6 h-6 text-bitcoin" />
                 </div>
                 <div className="flex-1">
@@ -141,7 +141,7 @@ export default function HomePage() {
             {/* Simple to Implement - Bottom Left */}
             <div className="bg-lightGrey dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-sm p-6 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
-                <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
                   <ClipboardDocumentCheckIcon className="w-6 h-6 text-bitcoin" />
                 </div>
                 <div className="flex-1">
@@ -167,7 +167,7 @@ export default function HomePage() {
             {/* The Bottom Line - Bottom Right */}
             <div className="bg-bitcoin-50 dark:bg-bitcoin/10 border border-bitcoin-200 dark:border-bitcoin/30 rounded-sm p-6 hover:bg-bitcoin-100 dark:hover:bg-bitcoin/15 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
-                <div className="w-12 h-12 rounded-sm bg-bitcoin flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-bold text-2xl">₿</span>
                 </div>
                 <div className="flex-1">
@@ -245,8 +245,8 @@ export default function HomePage() {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon and title */}
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
-                      <BitcoinIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" />
+                    <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                      <BitcoinIcon className="w-12 h-12 text-bitcoin group-hover:text-orange-400 transition-colors duration-300" />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-2xl font-bold text-white mb-2">
@@ -287,8 +287,8 @@ export default function HomePage() {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon and title */}
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
-                      <SatoshiIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" size={24} />
+                    <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                      <SatoshiIcon className="w-12 h-12 text-bitcoin group-hover:text-orange-400 transition-colors duration-300" size={48} />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-2xl font-bold text-white mb-2">
@@ -329,8 +329,8 @@ export default function HomePage() {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon and title */}
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-sm bg-bitcoin/20 flex items-center justify-center flex-shrink-0 group-hover:bg-bitcoin transition-colors duration-300">
-                      <MiningOutlineIcon className="w-6 h-6 text-bitcoin group-hover:text-white transition-colors duration-300" />
+                    <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                      <MiningOutlineIcon className="w-12 h-12 text-bitcoin group-hover:text-orange-400 transition-colors duration-300" />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-2xl font-bold text-white mb-2">
