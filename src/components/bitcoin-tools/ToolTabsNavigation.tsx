@@ -231,33 +231,30 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
             {/* Add subtle background pattern */}
             <div className="absolute inset-0 bg-gradient-to-r from-slate-50/50 via-white/30 to-slate-50/50 dark:from-slate-800/50 dark:via-slate-700/30 dark:to-slate-800/50 rounded-sm blur-3xl" aria-hidden="true"></div>
             
-            <TabsList className="relative w-full h-auto p-3 glass border-2 border-bitcoin/10 dark:border-bitcoin/20 hover:border-bitcoin/20 dark:hover:border-bitcoin/30 rounded-sm shadow-lg transition-all duration-300" style={{
-              transform: 'translateZ(0)',
-              willChange: 'transform',
-              backfaceVisibility: 'hidden'
-            }}>
+            <TabsList className="relative w-full h-auto p-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-2 border-bitcoin/10 dark:border-bitcoin/20 hover:border-bitcoin/20 dark:hover:border-bitcoin/30 rounded-sm shadow-lg transition-all duration-200">
               {/* Responsive grid with optimized sizing */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
                 {tools.map((tool) => (
                   <TabsTrigger
                     key={tool.id}
                     value={tool.id}
-                    className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-300 rounded-sm 
+                    className="relative flex flex-col items-center py-3 px-2 sm:py-4 sm:px-3 transition-all duration-200 rounded-sm 
                               data-[state=active]:bg-gradient-to-br data-[state=active]:from-bitcoin data-[state=active]:to-bitcoin-600 
                               data-[state=active]:text-white data-[state=active]:shadow-lg 
-                              hover:glass-hover hover:border hover:border-bitcoin/10 
-                              border-0 bg-transparent shadow-none group min-h-[80px] sm:min-h-[90px] 
-                              data-[state=active]:transform data-[state=active]:scale-[1.03] hover:scale-[1.01] 
-                              data-[state=active]:ring-2 data-[state=active]:ring-bitcoin/30 data-[state=active]:ring-offset-2 
-                              dark:data-[state=active]:ring-offset-slate-800"
+                              bg-gray-50/50 dark:bg-slate-800/30 hover:bg-gray-100/70 dark:hover:bg-slate-700/50 
+                              border border-transparent hover:border-bitcoin/20 dark:hover:border-bitcoin/30 
+                              shadow-sm hover:shadow-md group min-h-[80px] sm:min-h-[90px] 
+                              data-[state=active]:transform data-[state=active]:scale-[1.02] hover:scale-[1.01] 
+                              data-[state=active]:border-bitcoin/40 dark:data-[state=active]:border-bitcoin/50
+                              focus:outline-none focus:ring-2 focus:ring-bitcoin/30 focus:ring-offset-0"
                   >
                     {/* Icon with consistent sizing */}
-                    <div className="w-6 h-6 mb-2 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-300 group-data-[state=active]:scale-110 group-hover:scale-105">
+                    <div className="w-6 h-6 mb-2 text-gray-600 dark:text-gray-400 group-data-[state=active]:text-white transition-all duration-200 group-data-[state=active]:scale-110 group-hover:scale-105">
                       <tool.icon className="w-full h-full" />
                     </div>
                     
                     {/* Responsive text sizing */}
-                    <span className="text-xs sm:text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-300 px-1">
+                    <span className="text-xs sm:text-sm font-semibold text-center leading-tight group-data-[state=active]:text-white transition-colors duration-200 px-1">
                       <span className="hidden sm:inline">{tool.label}</span>
                       <span className="sm:hidden">{tool.shortLabel}</span>
                     </span>
@@ -272,15 +269,11 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                       </Badge>
                     )}
                     
-                    {/* Subtle glow effect for active state */}
-                    <div className="absolute inset-0 rounded-sm bg-gradient-to-br from-bitcoin/10 to-bitcoin-600/10 opacity-0 group-data-[state=active]:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></div>
+                    {/* Subtle glow effect for active state - removed to prevent flickering */}
                   </TabsTrigger>
                 ))}
               </div>
             </TabsList>
-            
-            {/* Add visual depth with shadow layers */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-bitcoin/5 to-transparent rounded-sm pointer-events-none" aria-hidden="true"></div>
           </div>
 
           {/* Enhanced Tab Content with improved spacing */}
