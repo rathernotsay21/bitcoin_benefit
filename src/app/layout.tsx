@@ -141,6 +141,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon.ico" />
+        {/* Service Worker Cleanup Script - Remove any existing service workers */}
+        <script src="/unregister-sw.js" defer></script>
       </head>
       <body className={`${inter.variable} ${inter.className}`}>
         <script
