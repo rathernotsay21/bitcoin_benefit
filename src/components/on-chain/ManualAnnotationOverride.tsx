@@ -336,7 +336,7 @@ export default function ManualAnnotationOverride({
             min-w-[120px] justify-between
             ${isManuallyModified
               ? 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-700'
-              : 'bg-gray-50 text-gray-700 border border-gray-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600'
+              : 'bg-gray-50 text-gray-700 dark:text-gray-300 border border-gray-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600'
             }
             ${isOpen
               ? 'ring-2 ring-bitcoin ring-offset-2 bg-gray-100 dark:bg-slate-700'
@@ -387,7 +387,7 @@ export default function ManualAnnotationOverride({
             transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1
             ${showUndoFeedback
               ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-              : 'bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600'
+              : 'bg-gray-100 text-gray-600 dark:text-gray-400 dark:bg-slate-700 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600'
             }
           `}
           title="Revert to automatic annotation"
@@ -454,7 +454,7 @@ export default function ManualAnnotationOverride({
                   transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-inset
                   ${isSelected
                     ? 'bg-bitcoin/10 text-bitcoin dark:bg-bitcoin/20'
-                    : 'text-gray-700 dark:text-slate-700'
+                    : 'text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300'
                   }
                   ${isFocused && !isOccupied && !isSelected
                     ? 'bg-gray-100 dark:bg-slate-700'

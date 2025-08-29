@@ -184,7 +184,7 @@ export function CalculatorErrorBoundary({ children }: { children: ReactNode }) {
                 </button>
                 <button
                   onClick={() => window.location.reload()}
-                  className="text-sm font-medium text-gray-600 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="text-sm font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300"
                 >
                   Reload Page
                 </button>

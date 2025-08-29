@@ -262,7 +262,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
             }`}>
               <div className="flex items-center justify-center mb-6">
                 <SatoshiIcon className="w-6 h-6 text-bitcoin mr-3" />
-                <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                   Choose a Plan
                 </h2>
               </div>
@@ -304,12 +304,12 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                 >
                   <div className="flex items-center">
                     <CogIcon className="w-5 h-5 text-bitcoin mr-3" />
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100">
                       Customize Your Plan
                     </h3>
                   </div>
                   <ChevronDownIcon 
-                    className={`w-5 h-5 text-gray-700 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-gray-700 dark:text-gray-300 transition-transform duration-200 ${
                       isCustomizationCollapsed ? '-rotate-90' : ''
                     }`}
                   />
@@ -319,7 +319,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   isCustomizationCollapsed ? 'hidden' : ''
                 }`}>
                   <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                    <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300 mb-1 flex items-center">
                       Bitcoin Award Amount
                       <HelpTooltip content={HELP_CONTENT.initialGrant} />
                     </label>
@@ -335,7 +335,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
                   {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                     <div>
-                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                      <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300 mb-1 flex items-center">
                         Yearly Bitcoin Award
                         <HelpTooltip content={HELP_CONTENT.annualGrant} />
                       </label>
@@ -351,7 +351,7 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
                   )}
 
                   <div>
-                    <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1 flex items-center">
+                    <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300 mb-1 flex items-center">
                       Projected Annual Growth (%)
                       <HelpTooltip content={HELP_CONTENT.projectedGrowth} />
                     </label>

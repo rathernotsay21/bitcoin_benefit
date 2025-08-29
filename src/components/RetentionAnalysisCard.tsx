@@ -81,7 +81,7 @@ export default function RetentionAnalysisCard({
   return (
     <div className="bg-white rounded-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Retention Analysis</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Retention Analysis</h3>
         <button
           onClick={() => setShowDetails(!showDetails)}
           className="text-sm text-blue-600 hover:text-blue-700"
@@ -100,17 +100,17 @@ export default function RetentionAnalysisCard({
           <p className="text-xs text-green-600">Retention Rate</p>
         </div>
         <div className="p-4 bg-gray-50 rounded-sm">
-          <p className="text-sm text-gray-700 mb-1">Without Vesting</p>
-          <p className="text-2xl font-bold text-gray-900">
+          <p className="text-sm text-gray-700 dark:text-gray-300 mb-1">Without Vesting</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">
             {retentionData.withoutVesting.retentionRate.toFixed(0)}%
           </p>
-          <p className="text-xs text-gray-600">Retention Rate</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Retention Rate</p>
         </div>
       </div>
 
       {/* Retention Curve Chart */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Employee Retention Over Time</h4>
+        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Employee Retention Over Time</h4>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={retentionCurve}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -169,17 +169,17 @@ export default function RetentionAnalysisCard({
       {showDetails && (
         <div className="space-y-4 pt-4 border-t border-gray-200">
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Expected Tenure</h4>
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Expected Tenure</h4>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">With Vesting</span>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm text-gray-600 dark:text-gray-400">With Vesting</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
                   {(retentionData.withVesting.expectedTenureMonths / 12).toFixed(1)} years
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Without Vesting</span>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Without Vesting</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
                   {(retentionData.withoutVesting.expectedTenureMonths / 12).toFixed(1)} years
                 </span>
               </div>
@@ -187,26 +187,26 @@ export default function RetentionAnalysisCard({
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Vesting Completion</h4>
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Vesting Completion</h4>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Probability of Full Vesting</span>
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Probability of Full Vesting</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">
                 {retentionData.withVesting.vestingCompletionProbability.toFixed(0)}%
               </span>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Cost Analysis</h4>
+            <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cost Analysis</h4>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Cost per Retained Employee</span>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Cost per Retained Employee</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
                   {formatUSD(retentionData.withVesting.costPerRetainedEmployee)}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Replacement Cost Saved</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Replacement Cost Saved</span>
                 <span className="text-sm font-medium text-green-600">
                   {formatUSD(additionalRetained * annualSalaryPerEmployee * 1.5)}
                 </span>

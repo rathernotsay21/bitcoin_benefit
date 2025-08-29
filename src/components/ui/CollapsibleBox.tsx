@@ -459,7 +459,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
       <div className="relative flex items-center gap-2">
         {/* Optional label text */}
         {showLabel && (
-          <span className="text-xs font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors duration-200">
+          <span className="text-xs font-medium text-gray-600 dark:text-gray-400 dark:text-gray-300 group-hover:text-gray-800 dark:text-gray-100 dark:group-hover:text-gray-100 transition-colors duration-200">
             {isExpanded ? 'Show less' : 'Show more'}
           </span>
         )}
@@ -471,7 +471,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
             transform: `rotate(${isExpanded ? '180deg' : '0deg'})`
           }}
         >
-          <ChevronDownIcon className="w-4 h-4 text-gray-600 dark:text-gray-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-200" />
+          <ChevronDownIcon className="w-4 h-4 text-gray-600 dark:text-gray-400 dark:text-gray-300 group-hover:text-bitcoin dark:group-hover:text-bitcoin transition-colors duration-200" />
         </div>
       </div>
       
@@ -488,7 +488,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
         text-xs transition-colors duration-200 flex items-center gap-1 
         px-2 py-1 rounded-md backdrop-blur-sm touch-manipulation
         ${disabled
-          ? 'text-gray-600 cursor-not-allowed'
+          ? 'text-gray-600 dark:text-gray-400 cursor-not-allowed'
           : 'text-gray-500 dark:text-gray-400 hover:text-bitcoin dark:hover:text-bitcoin hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
         }
       `}

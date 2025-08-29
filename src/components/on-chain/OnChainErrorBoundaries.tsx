@@ -317,7 +317,7 @@ export function TimelineErrorBoundary({
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
             Timeline Unavailable
           </h3>
-          <p className="text-sm text-gray-600 dark:text-white/80 mb-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-white/80 mb-4">
             {fallbackMessage}
           </p>
           <p className="text-xs text-gray-500 dark:text-white/60">

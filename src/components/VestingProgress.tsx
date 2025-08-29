@@ -258,11 +258,11 @@ export default function VestingProgress({
             <StrategyIcon className={`w-5 h-5 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100 flex items-center">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">
               {strategyConfig.name}
               <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
             </h3>
-            <p className="text-sm text-gray-600 dark:text-slate-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
               {strategyConfig.description}
             </p>
           </div>
@@ -272,7 +272,7 @@ export default function VestingProgress({
       
       {/* Unlocking Schedule Overview */}
       <div className={`p-3 ${strategyConfig.colors.bg} rounded-sm`} style={{border: '1px solid #777f89'}}>
-        <h4 className="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-2 flex items-center">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white dark:text-slate-100 mb-2 flex items-center">
           <ClockIcon className="w-4 h-4 mr-2" />
           Unlocking Schedule Overview
         </h4>

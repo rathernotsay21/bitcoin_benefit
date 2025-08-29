@@ -102,7 +102,7 @@ const Row = memo(({
         </div>
         
         {/* BTC Balance */}
-        <div className="flex-none w-20 sm:w-24 text-sm text-gray-700 dark:text-white/90">
+        <div className="flex-none w-20 sm:w-24 text-sm text-gray-700 dark:text-gray-300 dark:text-white/90">
           {formatBTC(yearData.btcBalance)}
         </div>
         
@@ -116,7 +116,7 @@ const Row = memo(({
           <span className={`px-1 sm:px-2 py-1 rounded-full text-xs font-medium ${
             vestingPercent === 100 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
             vestingPercent === 50 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' :
-            'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
+            'bg-gray-100 text-gray-800 dark:text-gray-100 dark:bg-gray-900/30 dark:text-gray-300'
           }`}>
             <span className="hidden sm:inline">{vestingPercent}% Unlocked</span>
             <span className="sm:hidden">{vestingPercent}%</span>
@@ -124,7 +124,7 @@ const Row = memo(({
         </div>
         
         {/* Desktop-only columns - Adjusted spacing */}
-        <div className="hidden lg:block flex-none w-24 text-sm text-gray-700 dark:text-white/90">
+        <div className="hidden lg:block flex-none w-24 text-sm text-gray-700 dark:text-gray-300 dark:text-white/90">
           {yearData.grantSize > 0 ? (
             <span className="font-medium text-bitcoin">{formatBTC(yearData.grantSize)}</span>
           ) : (
@@ -132,7 +132,7 @@ const Row = memo(({
           )}
         </div>
         
-        <div className="hidden lg:block flex-none w-20 text-sm text-gray-700 dark:text-white/90 truncate">
+        <div className="hidden lg:block flex-none w-20 text-sm text-gray-700 dark:text-gray-300 dark:text-white/90 truncate">
           {formatUSD(yearData.bitcoinPrice)}
         </div>
         

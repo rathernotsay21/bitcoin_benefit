@@ -152,7 +152,7 @@ export default function Navigation() {
               {theme === 'dark' ? (
                 <Icons.Sun className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
               ) : (
-                <Icons.Moon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+                <Icons.Moon className="w-6 h-6 text-slate-600 dark:text-slate-400 group-hover:text-bitcoin transition-colors duration-200" />
               )}
             </button>
           </div>
@@ -193,7 +193,7 @@ export default function Navigation() {
               {theme === 'dark' ? (
                 <Icons.Sun className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-200" />
               ) : (
-                <Icons.Moon className="w-6 h-6 text-slate-600 group-hover:text-bitcoin transition-colors duration-200" />
+                <Icons.Moon className="w-6 h-6 text-slate-600 dark:text-slate-400 group-hover:text-bitcoin transition-colors duration-200" />
               )}
             </button>
           </nav>

@@ -97,7 +97,7 @@ export const VestingChartContainer: React.FC<VestingChartContainerProps> = ({
   if (!yearlyData || yearlyData.length === 0) {
     return (
       <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-sm">
-        <p className="text-gray-500 dark:text-gray-600">No data available</p>
+        <p className="text-gray-500 dark:text-gray-600 dark:text-gray-400">No data available</p>
       </div>
     );
   }

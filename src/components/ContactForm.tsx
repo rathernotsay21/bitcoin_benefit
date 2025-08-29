@@ -80,7 +80,7 @@ export function ContactForm() {
           type="submit"
           disabled={status === 'submitting' || !email}
           size="sm"
-          className="h-9 px-3 bg-bitcoin-500 hover:bg-bitcoin-600 text-slate-900 font-medium"
+          className="h-9 px-3 bg-bitcoin-500 hover:bg-bitcoin-600 text-slate-900 dark:text-slate-100 font-medium"
         >
           {status === 'submitting' ? (
             <span className="text-xs">Sending...</span>

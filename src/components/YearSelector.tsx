@@ -60,7 +60,7 @@ export default function YearSelector({
   if (!mounted) {
     return (
       <div className={`space-y-2 input-container ${className}`}>
-        <label className="block text-sm font-medium text-gray-700 dark:text-white">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white">
           Starting Year
         </label>
         <div className="input-field animate-pulse bg-gray-200 dark:bg-slate-700 h-12 flex items-center px-3">
@@ -72,7 +72,7 @@ export default function YearSelector({
 
   return (
     <div className={`space-y-2 input-container ${className}`}>
-      <label className="block text-sm font-medium text-gray-700 dark:text-white">
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white">
         Starting Year
       </label>
       

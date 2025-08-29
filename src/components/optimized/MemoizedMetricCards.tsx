@@ -28,14 +28,14 @@ const MetricCard = memo(function MetricCard({
     <div className={`bg-white dark:bg-gray-800 rounded-sm shadow-sm p-6 transition-all hover:shadow-sm ${className}`}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-600">
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">
             {title}
           </p>
           <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
             {value}
           </p>
           {subtitle && (
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-600">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400">
               {subtitle}
             </p>
           )}

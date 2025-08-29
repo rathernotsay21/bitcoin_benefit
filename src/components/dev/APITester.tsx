@@ -79,7 +79,7 @@ export default function APITester() {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">{test.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-slate-400">{test.description}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">{test.description}</p>
                 <code className="text-xs bg-gray-200 dark:bg-slate-700 px-2 py-1 rounded">
                   {test.url}
                 </code>

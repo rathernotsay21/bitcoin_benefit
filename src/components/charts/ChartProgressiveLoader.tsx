@@ -16,7 +16,7 @@ const VestingTimelineChartRecharts = dynamic(
 export const ChartSkeleton = () => (
   <div className="w-full h-[400px] animate-pulse">
     <div className="h-full bg-gray-100 dark:bg-gray-800 rounded-sm flex items-center justify-center">
-      <div className="text-gray-400 dark:text-gray-600">
+      <div className="text-gray-400 dark:text-gray-600 dark:text-gray-400">
         <svg className="w-12 h-12 animate-spin" viewBox="0 0 24 24" fill="none">
           <circle 
             className="opacity-25" 
@@ -56,7 +56,7 @@ const BasicChart = ({ data, schemeId }: { data: any[]; schemeId: string }) => (
         );
       })}
     </div>
-    <div className="mt-2 text-center text-sm text-gray-500 dark:text-gray-600">
+    <div className="mt-2 text-center text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400">
       {schemeId} Vesting Timeline (Simplified View)
     </div>
   </div>

@@ -63,7 +63,7 @@ export default function VestingPresets({
 
   return (
     <div className="mt-6 p-4">
-      <h4 className="text-md font-semibold text-gray-900 dark:text-slate-100 mb-4 text-center">
+      <h4 className="text-md font-semibold text-gray-900 dark:text-white dark:text-slate-100 mb-4 text-center">
         Choose an Unlocking Schedule
       </h4>
       
@@ -84,7 +84,7 @@ export default function VestingPresets({
               <IconComponent className={`w-5 h-5 mb-1 transition-transform duration-300 group-hover:scale-110 ${
                 selectedPreset === preset.id 
                   ? 'text-bitcoin scale-110' 
-                  : 'text-gray-600 dark:text-gray-600'
+                  : 'text-gray-600 dark:text-gray-400 dark:text-gray-600'
               }`} />
               <span className={`text-xs font-semibold leading-tight text-center ${
                 selectedPreset === preset.id 

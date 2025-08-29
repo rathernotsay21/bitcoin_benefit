@@ -306,7 +306,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 enablePerformanceOptimizations
                   ? 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400'
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-700'
+                  : 'bg-gray-100 text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-700 dark:text-slate-300'
               }`}
             >
               Optimizations {enablePerformanceOptimizations ? 'ON' : 'OFF'}
@@ -319,7 +319,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
             </button>
             <button
               onClick={handleToggleCollapsed}
-              className="p-1 text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              className="p-1 text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             >
               <svg 
                 className={`w-5 h-5 transform transition-transform ${isCollapsed ? '' : 'rotate-180'}`} 
@@ -332,7 +332,7 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
             </button>
           </div>
         </div>
-        <p className="text-sm text-gray-600 dark:text-slate-400 mt-1">
+        <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-1">
           {summaryStats.goodMetrics} of {summaryStats.totalMetrics} metrics performing well
         </p>
       </div>
@@ -341,10 +341,10 @@ const PerformanceMonitoringDashboard = memo(function PerformanceMonitoringDashbo
       {isCollapsed && (
         <div className="p-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600 dark:text-slate-400">
+            <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
               Last processing: {lastProcessingTimeMs.toFixed(0)}ms
             </span>
-            <span className="text-sm text-gray-600 dark:text-slate-400">
+            <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
               Optimizations: {enablePerformanceOptimizations ? 'Enabled' : 'Disabled'}
             </span>
           </div>

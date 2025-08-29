@@ -188,37 +188,37 @@ export default function OnChainTimelineVisualizer({
               <tr role="row">
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   Year
                 </th>
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   Expected
                 </th>
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   Actual
                 </th>
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   Date Received
                 </th>
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   USD Value
                 </th>
                 <th 
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-400 dark:text-gray-300 uppercase tracking-wider"
                 >
                   Status
                 </th>
@@ -265,7 +265,7 @@ export default function OnChainTimelineVisualizer({
                         {formatBTC(point.actualAmount)}
                       </span>
                     ) : (
-                      <span className="text-gray-400 dark:text-gray-600">
+                      <span className="text-gray-400 dark:text-gray-600 dark:text-gray-400">
                         — <span className="sr-only">No amount received</span>
                       </span>
                     )}
@@ -337,7 +337,7 @@ export default function OnChainTimelineVisualizer({
           10-Year Vesting Award Timeline
         </h3>
         <div 
-          className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-600"
+          className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600"
           aria-describedby="timeline-heading"
         >
           <span className="flex items-center gap-1">

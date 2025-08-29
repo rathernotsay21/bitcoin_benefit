@@ -212,7 +212,7 @@ function HistoricalCalculatorContent() {
                   </h3>
                 </div>
                 <ChevronDownIcon 
-                  className={`w-5 h-5 text-gray-700 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-gray-700 dark:text-gray-300 transition-transform duration-200 ${
                     isSettingsCollapsed ? '-rotate-90' : ''
                   }`}
                 />
@@ -232,7 +232,7 @@ function HistoricalCalculatorContent() {
                 </div>
 
                 <div className="space-y-2 input-container">
-                  <label className="block text-base font-medium text-gray-700 dark:text-slate-300">
+                  <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300">
                     Price Assumption
                   </label>
                   <select
@@ -254,7 +254,7 @@ function HistoricalCalculatorContent() {
                 {selectedScheme && (
                   <>
                     <div className="input-container">
-                      <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
+                      <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300 mb-1">
                         Starting Bitcoin Award
                       </label>
                       <input
@@ -275,7 +275,7 @@ function HistoricalCalculatorContent() {
 
                     {(selectedScheme.id === 'steady-builder' || selectedScheme.id === 'slow-burn') && (
                       <div className="input-container">
-                        <label className="block text-base font-medium text-gray-700 dark:text-slate-300 mb-1">
+                        <label className="block text-base font-medium text-gray-700 dark:text-gray-300 dark:text-slate-300 mb-1">
                           Yearly Bitcoin Award
                         </label>
                         <input
@@ -308,7 +308,7 @@ function HistoricalCalculatorContent() {
                     <div className="text-2xl font-bold text-gray-900 dark:text-slate-100">
                       {formatUSD(currentBitcoinPrice)}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-slate-300">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-300">
                       Current Bitcoin Price
                       {isLoadingPrice && <span className="ml-2 animate-pulse">Updating...</span>}
                     </div>
@@ -466,7 +466,7 @@ function HistoricalCalculatorContent() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Ready to Analyze
                 </h3>
-                <p className="text-gray-600 dark:text-white/90">
+                <p className="text-gray-600 dark:text-gray-400 dark:text-white/90">
                   Choose a plan above to see how it would have performed if you started in the past
                 </p>
               </div>

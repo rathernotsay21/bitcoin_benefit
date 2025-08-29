@@ -134,7 +134,7 @@ export default function HistoricalDataTable({
         </Button>
       ),
       cell: ({ getValue }) => (
-        <span className="text-sm text-gray-700 dark:text-white/90">
+        <span className="text-sm text-gray-700 dark:text-gray-300 dark:text-white/90">
           {formatBTC(getValue())}
         </span>
       ),
@@ -160,7 +160,7 @@ export default function HistoricalDataTable({
       cell: ({ getValue }) => {
         const price = getValue();
         return (
-          <span className="text-sm text-gray-700 dark:text-white/90 hidden md:table-cell">
+          <span className="text-sm text-gray-700 dark:text-gray-300 dark:text-white/90 hidden md:table-cell">
             {price > 0 ? formatUSD(price) : '—'}
           </span>
         );
@@ -187,7 +187,7 @@ export default function HistoricalDataTable({
       cell: ({ getValue }) => {
         const value = getValue();
         return (
-          <span className="text-sm text-gray-700 dark:text-white/90 hidden lg:table-cell">
+          <span className="text-sm text-gray-700 dark:text-gray-300 dark:text-white/90 hidden lg:table-cell">
             {value > 0 ? formatUSD(value) : '—'}
           </span>
         );
@@ -311,7 +311,7 @@ export default function HistoricalDataTable({
       </div>
 
       {/* Explanatory text */}
-      <p className="text-base text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+      <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 leading-relaxed mb-4">
         Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
       </p>
 
@@ -321,25 +321,25 @@ export default function HistoricalDataTable({
           <div className="text-2xl font-bold text-bitcoin">
             {formatBTC(summaryStats.totalBTC)}
           </div>
-          <div className="text-xs text-gray-600 dark:text-slate-400">Total Bitcoin</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Total Bitcoin</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-green-600">
             {formatUSD(summaryStats.currentTotalValue)}
           </div>
-          <div className="text-xs text-gray-600 dark:text-slate-400">Worth Today</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Worth Today</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-bitcoin-600">
             {summaryStats.roi.toFixed(0)}%
           </div>
-          <div className="text-xs text-gray-600 dark:text-slate-400">ROI</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">ROI</div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-purple-600">
             {summaryStats.years}
           </div>
-          <div className="text-xs text-gray-600 dark:text-slate-400">Years</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Years</div>
         </div>
       </div>
 

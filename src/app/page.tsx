@@ -82,7 +82,7 @@ export default function HomePage() {
             </h2>
             
             <div className="max-w-3xl">
-              <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+              <p className="text-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed mb-6">
                 Traditional benefits packages cost more and deliver less every year. Health insurance premiums rise. 
                 401(k) matches barely beat inflation. Stock options are complex and often worthless.
               </p>
@@ -108,7 +108,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     Proven Over 16 Years
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                     Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar 
                     asset class. Billions of dollars are held in bitcoin by family office investors
                     <sup className="text-bitcoin font-semibold ml-1">[1,2]</sup>, registered investment advisors
@@ -129,7 +129,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                   A Benefit Employees Value
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                     Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 
                     your team. Offering it shows you understand their values and want to help build their future, 
                     not just fund their paycheck.
@@ -148,7 +148,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     Simple to Implement
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                     No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. 
                     Your employees can track their benefits value in real-time. You can even document the process with{' '}
                     <a 
@@ -174,7 +174,7 @@ export default function HomePage() {
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
                     The Bottom Line
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                     While traditional benefits lose value to inflation, bitcoin has the potential to grow significantly over time, 
                     creating real wealth for the people who build your business.
                   </p>
@@ -189,7 +189,7 @@ export default function HomePage() {
               <h4 className="text-xs font-bold text-deepSlate dark:text-white mb-4 uppercase tracking-wider">
                 Sources
               </h4>
-              <div className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+              <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300 dark:text-slate-200">
                 <p>
                   <span className="font-semibold text-bitcoin">[1]</span> BNY Mellon Wealth Management: 33% of US family offices actively investing in crypto, 39% globally investing or exploring
                 </p>
@@ -230,7 +230,7 @@ export default function HomePage() {
               <span className="block text-bitcoin">Benefits Plan</span>
             </h3>
             
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 max-w-2xl leading-relaxed">
               Pick the plan that fits your budget and goals. Each approach has been designed for different business situations and growth stages.
             </p>
           </div>
@@ -260,7 +260,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                       Are you ready to lead? Make a significant upfront contribution and just like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
                     </p>
                   </div>
@@ -302,7 +302,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                       Combine a meaningful initial award with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
                     </p>
                   </div>
@@ -344,7 +344,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                       Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
                     </p>
                   </div>

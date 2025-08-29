@@ -67,7 +67,7 @@ export default function APITestPage() {
         <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
           API Endpoint Testing
         </h1>
-        <p className="text-gray-600 dark:text-slate-400 mb-8">
+        <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-8">
           Testing the proxy API endpoints to resolve CORS issues
         </p>
         
@@ -77,7 +77,7 @@ export default function APITestPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{test.name}</h3>
-                  <p className="text-gray-600 dark:text-slate-400">{test.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400">{test.description}</p>
                   <code className="text-sm bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded mt-2 inline-block">
                     {test.url}
                   </code>

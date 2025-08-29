@@ -13,7 +13,7 @@ export default function TermsOfService() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Terms of Service</h1>
         
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 mb-6">
             <strong>Effective Date:</strong> January 1, 2025
           </p>
 
@@ -109,7 +109,7 @@ export default function TermsOfService() {
           </section>
 
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300">
               By using Bitcoin Benefit, you acknowledge that you have read, understood, and agree to be bound by these 
               Terms of Service.
             </p>

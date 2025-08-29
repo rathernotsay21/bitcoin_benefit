@@ -5,6 +5,7 @@ import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
 import { FeeRecommendation, createToolError, FeeCostBreakdown, FeeSavings, FeeLevel, FeeEmoji, FeeRate, SatoshiAmount, BTCAmount, USDAmount } from '@/types/bitcoin-tools';
 import { secureApiClient } from '@/lib/secure-fetch-wrapper';
 import { toToolError } from '@/lib/type-safe-error-handler';
+import { apiConfig, parseMempoolFees } from '@/lib/config/api';
 import { z } from 'zod';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';
@@ -126,9 +127,13 @@ export function FeeCalculatorTool() {
     recordRequest();
     
     try {
+      const url = apiConfig.isDevelopment 
+        ? `${apiConfig.mempool.fees}?txSize=${txSize}`
+        : apiConfig.mempool.fees;
+      
       const result = await secureApiClient.get(
-        `/api/mempool/fees/recommended?txSize=${txSize}`,
-        FeeApiResponseSchema,
+        url,
+        apiConfig.isDevelopment ? FeeApiResponseSchema : z.any(),
         {
           timeout: 20000, // Increased timeout for SSL recovery
           retries: 3, // Increased retries with exponential backoff
@@ -152,7 +157,9 @@ export function FeeCalculatorTool() {
       );
       
       if (result.success) {
-        const validatedData = result.data;
+        const validatedData = apiConfig.isDevelopment 
+          ? result.data 
+          : parseMempoolFees(result.data);
         
         const transformedRecommendations = transformToFeeRecommendations(validatedData, 30000); // Default fallback BTC price
         setFeeCalculatorData(transformedRecommendations);
@@ -392,7 +399,7 @@ export function FeeCalculatorTool() {
                     </button>
                     <button
                       onClick={() => setFeeCalculatorError(null)}
-                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium"
+                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium"
                     >
                       Dismiss
                     </button>
@@ -438,14 +445,14 @@ export function FeeCalculatorTool() {
                                    networkData.congestionLevel === 'normal' ? 'Moderate' :
                                    networkData.congestionLevel === 'high' ? 'Busy' : 'Very Busy'}
                 </p>
-                <p className="text-lg text-gray-600 dark:text-slate-700 mt-2">
+                <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-700 dark:text-slate-300 mt-2">
                   {networkData.congestionLevel === 'low' ? 'Great time to send - fees are low!' :
                    networkData.congestionLevel === 'normal' ? 'Normal fees apply for transactions' :
                    networkData.congestionLevel === 'high' ? 'Network is busy - fees are higher than usual' :
                    'Network very congested - consider waiting if not urgent'}
                 </p>
               </div>
-              <div className="text-sm text-gray-700">
+              <div className="text-sm text-gray-700 dark:text-gray-300">
                 {networkData.mempoolSize > 0 && `${networkData.mempoolSize.toLocaleString()} transactions waiting`}
               </div>
             </div>
@@ -454,13 +461,13 @@ export function FeeCalculatorTool() {
 
         {/* Transaction Size Selection */}
         <div className="card mb-6" id="fee-calculator-section">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-6 flex items-center">
             <span className="text-bitcoin text-3xl mr-3">💰</span>
             Fee Calculator
           </h2>
           <div>
             <div className="flex items-center justify-between mb-4">
-              <label className="text-xl font-bold text-gray-900 dark:text-slate-100">
+              <label className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                 What Type of Transaction?
                 <BitcoinTooltip term="VBYTE">
                   <span className="ml-2 cursor-help text-bitcoin">ⓘ</span>
@@ -471,14 +478,14 @@ export function FeeCalculatorTool() {
                 className={`text-xs px-2 py-1 rounded ${
                   autoRefresh 
                     ? 'bg-bitcoin text-white' 
-                    : 'bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
+                    : 'bg-gray-200 text-gray-600 dark:text-gray-400 dark:bg-gray-700 dark:text-gray-300'
                 }`}
               >
                 {autoRefresh ? 'Auto-refresh ON' : 'Auto-refresh OFF'}
               </button>
             </div>
             
-            <p className="text-gray-600 dark:text-slate-400 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-6">
               Select your transaction type to see current fee recommendations
             </p>
 
@@ -493,11 +500,11 @@ export function FeeCalculatorTool() {
                     : 'border-gray-200 dark:border-slate-600 hover:border-bitcoin/50'
                 }`}
               >
-                <div className="font-bold text-base text-gray-900 dark:text-slate-100">
+                <div className="font-bold text-base text-gray-900 dark:text-white dark:text-slate-100">
                   {preset.label === 'Simple Send' ? 'Basic Transfer' :
                    preset.label === 'Multi-sig' ? 'Shared Wallet' : preset.label}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-slate-400 mt-2">
+                <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-2">
                   {preset.label === 'Simple Send' ? 'Sending to one person' :
                    preset.label === 'Standard' ? 'Most common transaction type' :
                    preset.label === 'Complex' ? 'Sending to multiple people' :
@@ -509,7 +516,7 @@ export function FeeCalculatorTool() {
 
           {/* Custom Size Input - Hidden by default for simplicity */}
           <details className="mt-4">
-            <summary className="text-sm text-gray-500 dark:text-gray-600 cursor-pointer hover:text-bitcoin font-medium">
+            <summary className="text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400 cursor-pointer hover:text-bitcoin font-medium">
               Advanced: Set custom transaction size
             </summary>
             <form onSubmit={handleCustomSizeSubmit} className="flex gap-3 mt-3">
@@ -520,7 +527,7 @@ export function FeeCalculatorTool() {
                 placeholder={`Custom size (current: ${feeCalculator.txSize} vBytes)`}
                 min="1"
                 max="10000"
-                className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-base"
+                className="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:text-gray-100 text-base"
               />
               <button
                 type="submit"
@@ -538,11 +545,11 @@ export function FeeCalculatorTool() {
         {feeCalculator.data && (
           <div className="card mb-6">
             <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">
                 <span className="text-bitcoin text-3xl mr-3">⚡</span>
                 Choose Your Speed & Cost
               </h3>
-              <p className="text-lg text-gray-600 dark:text-slate-400 mt-3">
+              <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
                 Click an option to see detailed breakdown
               </p>
             </div>
@@ -562,10 +569,10 @@ export function FeeCalculatorTool() {
                       <div className="flex items-center space-x-4">
                         <span className="text-4xl">{recommendation.emoji}</span>
                         <div>
-                          <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                          <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                             {recommendation.label}
                           </h4>
-                          <p className="text-lg text-gray-600 dark:text-slate-400">
+                          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
                             {recommendation.timeEstimate}
                           </p>
                         </div>
@@ -574,13 +581,13 @@ export function FeeCalculatorTool() {
                         <div className="text-2xl font-bold text-bitcoin">
                           ${formatUSD(totalCostSats)}
                         </div>
-                        <div className="text-lg text-gray-600 dark:text-slate-400">
+                        <div className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
                           {totalCostSats < 1000 ? totalCostSats : `${(totalCostSats/1000).toFixed(1)}k`} satoshis
                         </div>
                       </div>
                     </div>
 
-                    <div className="text-lg text-gray-700 dark:text-slate-700 mb-4">
+                    <div className="text-lg text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-4">
                       {recommendation.description}
                     </div>
 
@@ -597,22 +604,22 @@ export function FeeCalculatorTool() {
 
                     {isSelected && (
                       <div className="mt-6 p-5 bg-white dark:bg-slate-700 rounded-sm border-2 shadow-sm">
-                        <h5 className="text-lg font-bold text-gray-900 dark:text-slate-100 mb-3">
+                        <h5 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-3">
                           What You're Paying For
                         </h5>
-                        <p className="text-base text-gray-600 dark:text-slate-400 mb-4">
+                        <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-4">
                           This fee incentivizes network operators to process your transaction
                         </p>
                         <div className="space-y-4 text-base">
                           <div className="flex justify-between">
-                            <span className="text-gray-600 dark:text-gray-600">Total Cost:</span>
+                            <span className="text-gray-600 dark:text-gray-400 dark:text-gray-600">Total Cost:</span>
                             <span className="font-semibold">${formatUSD(totalCostSats)} USD</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-600 dark:text-gray-600">In Bitcoin:</span>
+                            <span className="text-gray-600 dark:text-gray-400 dark:text-gray-600">In Bitcoin:</span>
                             <span className="font-mono font-medium">{formatBTC(totalCostSats)} BTC</span>
                           </div>
-                          <div className="flex justify-between text-gray-600 dark:text-gray-600">
+                          <div className="flex justify-between text-gray-600 dark:text-gray-400 dark:text-gray-600">
                             <span>In Satoshis:</span>
                             <span className="font-mono font-medium">{totalCostSats.toLocaleString()} sats</span>
                           </div>
@@ -630,7 +637,7 @@ export function FeeCalculatorTool() {
         {lastUpdated && (
           <div className="card bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700">
             <div className="text-center">
-              <p className="text-base text-gray-600 dark:text-slate-400 mb-4">
+              <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-4">
                 Last updated: {new Date(lastUpdated).toLocaleTimeString()}
               </p>
               <button

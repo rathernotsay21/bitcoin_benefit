@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Privacy Policy</h1>
         
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 mb-6">
             <strong>Effective Date:</strong> January 1, 2025
           </p>
 
@@ -138,7 +138,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300">
               Thank you for trusting Bitcoin Benefit with your financial planning needs. We are committed to protecting 
               your privacy while providing valuable educational tools.
             </p>

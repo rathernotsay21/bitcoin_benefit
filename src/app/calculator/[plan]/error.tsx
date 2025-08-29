@@ -28,7 +28,7 @@ export default function Error({
             Calculator Error
           </h2>
           
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 mb-6">
             Something went wrong while loading the calculator. This could be due to network issues or invalid data.
           </p>
 
@@ -42,7 +42,7 @@ export default function Error({
             
             <button
               onClick={() => window.location.href = '/'}
-              className="w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-3 rounded-sm transition-colors font-medium"
+              className="w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100 dark:text-gray-200 px-6 py-3 rounded-sm transition-colors font-medium"
             >
               Go Home
             </button>
@@ -50,7 +50,7 @@ export default function Error({
 
           {process.env.NODE_ENV === 'development' && (
             <details className="mt-6 text-left">
-              <summary className="text-sm text-gray-500 dark:text-gray-600 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
+              <summary className="text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-300">
                 Error Details (Development Only)
               </summary>
               <pre className="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded overflow-x-auto">

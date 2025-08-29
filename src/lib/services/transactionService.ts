@@ -10,6 +10,7 @@ import {
   toBTCAmount,
   toUSDAmount
 } from '@/types/bitcoin-tools';
+import { apiConfig, parseCoinGeckoPrice } from '@/lib/config/api';
 
 // Updated interface to match actual API response from route.ts
 interface MempoolTransactionResponse {
@@ -68,13 +69,13 @@ export class TransactionService {
     }
 
     try {
-      const response = await fetch('/api/bitcoin-price', {
+      const response = await fetch(apiConfig.bitcoin.price, {
         signal: AbortSignal.timeout(10000)
       });
       
       if (response.ok) {
-        const data: BitcoinPriceResponse = await response.json();
-        this.btcPrice = data.bitcoin.usd;
+        const data = await response.json();
+        this.btcPrice = parseCoinGeckoPrice(data);
         this.priceLastUpdated = now;
         return this.btcPrice;
       } else {
@@ -223,7 +224,7 @@ export class TransactionService {
       // Fetch transaction data and Bitcoin price in parallel
       console.log('Fetching transaction and Bitcoin price...');
       const [txResponse, btcPrice] = await Promise.all([
-        fetch(`/api/mempool/tx/${txid}`, {
+        fetch(apiConfig.mempool.transaction(txid), {
           signal: AbortSignal.timeout(30000)
         }),
         this.getBitcoinPrice()

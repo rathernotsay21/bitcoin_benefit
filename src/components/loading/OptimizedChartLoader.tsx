@@ -70,7 +70,7 @@ export const LazyVirtualizedAnnualBreakdown = lazyWithTimeout(() => {
 // Lightweight placeholder for test environments
 const TestEnvironmentPlaceholder: React.FC<{ name: string }> = ({ name }) => (
   <div className="p-4 bg-gray-100 rounded">
-    <p className="text-sm text-gray-600">
+    <p className="text-sm text-gray-600 dark:text-gray-400">
       Chart: {name} (Optimized for testing)
     </p>
   </div>

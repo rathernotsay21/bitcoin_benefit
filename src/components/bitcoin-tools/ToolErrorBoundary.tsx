@@ -157,7 +157,7 @@ function ToolErrorDisplay({
       <div className="flex items-center mb-4">
         <span className="text-2xl mr-3">{getErrorIcon(error.type)}</span>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100">
             {toolName} Error
           </h3>
           <p className="text-gray-700 dark:text-gray-300">
@@ -169,7 +169,7 @@ function ToolErrorDisplay({
       {/* Error Suggestions */}
       {error.suggestions && error.suggestions.length > 0 && (
         <div className="mb-4">
-          <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
             What you can try:
           </h4>
           <ul className="list-disc list-inside space-y-1 text-sm text-gray-700 dark:text-gray-300">
@@ -183,7 +183,7 @@ function ToolErrorDisplay({
       {/* Retry Information */}
       {error.retryable && retryCount > 0 && (
         <div className="mb-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-md">
-          <p className="text-xs text-gray-600 dark:text-gray-600">
+          <p className="text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
             Retry attempt: {retryCount} of {maxRetries}
           </p>
         </div>
@@ -218,10 +218,10 @@ function ToolErrorDisplay({
       {/* Debug Info (Development Only) */}
       {process.env.NODE_ENV === 'development' && error.originalError && (
         <details className="mt-4">
-          <summary className="cursor-pointer text-xs text-gray-500 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-200">
+          <summary className="cursor-pointer text-xs text-gray-500 dark:text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
             Debug Information
           </summary>
-          <pre className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-600 overflow-auto">
+          <pre className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600 overflow-auto">
             {error.originalError.stack || error.originalError.message}
           </pre>
         </details>

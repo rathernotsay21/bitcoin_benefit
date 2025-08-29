@@ -166,7 +166,7 @@ export default function Tooltip({
           {content.definition}
         </div>
         {content.example && (
-          <div className="text-xs text-slate-600 dark:text-slate-700 italic border-l-2 border-bitcoin pl-2">
+          <div className="text-xs text-slate-600 dark:text-slate-400 dark:text-slate-700 dark:text-slate-300 italic border-l-2 border-bitcoin pl-2">
             Example: {content.example}
           </div>
         )}
@@ -197,7 +197,7 @@ export default function Tooltip({
         pointerEvents: trigger === 'click' ? 'auto' : 'none'
       }}
     >
-      <div className="bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-sm px-3 py-2 shadow-sm border border-slate-200 dark:border-slate-700 relative backdrop-blur-sm">
+      <div className="bg-white text-slate-900 dark:text-slate-100 dark:bg-slate-900 dark:text-white rounded-sm px-3 py-2 shadow-sm border border-slate-200 dark:border-slate-700 relative backdrop-blur-sm">
         {renderTooltipContent()}
         <div className={getArrowClasses(actualPosition)}></div>
       </div>

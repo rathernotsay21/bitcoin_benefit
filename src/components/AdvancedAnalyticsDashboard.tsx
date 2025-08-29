@@ -35,7 +35,7 @@ export default function AdvancedAnalyticsDashboard({
 
   return (
     <div className="bg-white rounded-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">Advanced Analytics</h2>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Advanced Analytics</h2>
       
       {/* Tab Navigation */}
       <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-sm">
@@ -45,8 +45,8 @@ export default function AdvancedAnalyticsDashboard({
             onClick={() => setActiveTab(tab.id as any)}
             className={`flex-1 flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               activeTab === tab.id
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-white text-gray-900 dark:text-white shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900'
             }`}
           >
             <span className="mr-2">{tab.icon}</span>

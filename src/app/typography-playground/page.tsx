@@ -550,7 +550,7 @@ export default function TypographyPlayground() {
                 </h3>
                 
                 <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-                  <pre className="text-gray-800 dark:text-gray-200">{cssOutput}</pre>
+                  <pre className="text-gray-800 dark:text-gray-100 dark:text-gray-200">{cssOutput}</pre>
                 </div>
                 
                 <button

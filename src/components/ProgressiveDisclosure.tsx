@@ -19,7 +19,7 @@ export function Tooltip({ content, children, className = '' }: TooltipProps) {
         onClick={() => setIsVisible(!isVisible)}
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
-        className="p-1 rounded-full text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1 transition-colors"
+        className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1 transition-colors"
         aria-label="More information"
         aria-expanded={isVisible}
       >
@@ -66,9 +66,9 @@ export function ExpandableSection({
       >
         <span className="font-medium text-gray-900 dark:text-white">{title}</span>
         {isExpanded ? (
-          <ChevronUpIcon className="w-5 h-5 text-gray-500 dark:text-gray-600" />
+          <ChevronUpIcon className="w-5 h-5 text-gray-500 dark:text-gray-600 dark:text-gray-400" />
         ) : (
-          <ChevronDownIcon className="w-5 h-5 text-gray-500 dark:text-gray-600" />
+          <ChevronDownIcon className="w-5 h-5 text-gray-500 dark:text-gray-600 dark:text-gray-400" />
         )}
       </button>
       

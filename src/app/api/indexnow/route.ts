@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
 
     // Check if at least one submission was successful
     const hasSuccess = results.some(r => 
-      typeof r.ok === 'boolean' && r.ok
+      'ok' in r && typeof r.ok === 'boolean' && r.ok
     );
 
     return NextResponse.json({

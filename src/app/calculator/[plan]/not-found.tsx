@@ -7,11 +7,11 @@ export default function NotFound() {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Vesting Plan Not Found
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+        <p className="text-xl text-gray-600 dark:text-gray-400 dark:text-gray-300 mb-8">
           The vesting plan you're looking for doesn't exist.
         </p>
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 dark:text-gray-200 mb-4">
             Available Plans:
           </h2>
           <div className="flex gap-4 justify-center flex-wrap">

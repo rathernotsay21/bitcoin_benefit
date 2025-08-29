@@ -193,7 +193,7 @@ export default function CustomVestingSchedule({
           {/* Existing vesting events */}
           {sortedEvents.length > 0 && (
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-700 flex items-center">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 flex items-center">
                 Unlocking Milestones
                 <HelpTooltip content={HELP_CONTENT.gradualUnlocking} />
               </label>
@@ -225,7 +225,7 @@ export default function CustomVestingSchedule({
                         onChange={(e) => handlePercentageChange(event.id, parseFloat(e.target.value))}
                         className="w-16 text-sm input-field py-2 text-center"
                       />
-                      <span className="text-sm text-gray-600 dark:text-slate-400">%</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">%</span>
                     </div>
 
                     <Button
@@ -246,7 +246,7 @@ export default function CustomVestingSchedule({
           {/* Add new vesting event */}
           {totalVested < 100 && (
             <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
-              <label className="block text-sm font-medium text-gray-700 dark:text-slate-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-3">
                 Add Unlocking Milestone
               </label>
               <div className="flex items-center space-x-3">
@@ -272,7 +272,7 @@ export default function CustomVestingSchedule({
                     className="w-16 text-sm input-field py-2 text-center"
                     placeholder="%"
                   />
-                  <span className="text-sm text-gray-600 dark:text-slate-400">%</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">%</span>
                 </div>
 
                 <Button
@@ -297,7 +297,7 @@ export default function CustomVestingSchedule({
           {/* Example presets */}
           {customVestingEvents.length === 0 && (
             <div className="p-4 bg-gray-50 dark:bg-slate-800 rounded-sm border border-gray-200 dark:border-slate-700">
-              <p className="text-sm font-medium text-gray-700 dark:text-slate-700 mb-3 flex items-center">
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-3 flex items-center">
                 Quick Start Examples
                 <HelpTooltip content="Common unlocking schedules you can use as starting points" />
               </p>
@@ -343,7 +343,7 @@ export default function CustomVestingSchedule({
                 >
                   <div>
                     <div className="font-medium text-sm">90-Day Cliff + Annual</div>
-                    <div className="text-xs text-gray-600 dark:text-slate-400">10% at 90 days, then 30%/50%/75%/100% yearly</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">10% at 90 days, then 30%/50%/75%/100% yearly</div>
                   </div>
                 </Button>
                 
@@ -382,7 +382,7 @@ export default function CustomVestingSchedule({
                 >
                   <div>
                     <div className="font-medium text-sm">Equal Annual</div>
-                    <div className="text-xs text-gray-600 dark:text-slate-400">25% each year for 4 years</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">25% each year for 4 years</div>
                   </div>
                 </Button>
 
@@ -409,7 +409,7 @@ export default function CustomVestingSchedule({
                 >
                   <div>
                     <div className="font-medium text-sm">Traditional</div>
-                    <div className="text-xs text-gray-600 dark:text-slate-400">50% at 5 years, 100% at 10 years</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">50% at 5 years, 100% at 10 years</div>
                   </div>
                 </Button>
               </div>

@@ -145,13 +145,13 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
       <div className="lg:flex-[1.5] w-full min-w-0 space-y-6">
         {/* Transaction ID Input */}
         <div className="card mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-6 flex items-center">
             <span className="text-bitcoin text-3xl mr-3">🔍</span>
             Transaction Lookup
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6" role="search" aria-label="Transaction lookup">
             <div>
-              <label htmlFor="txid-input" className="block text-lg font-semibold text-gray-900 dark:text-slate-100 mb-3">
+              <label htmlFor="txid-input" className="block text-lg font-semibold text-gray-900 dark:text-white dark:text-slate-100 mb-3">
               Transaction ID (Tracking Number)
               <BitcoinTooltip term="TRANSACTION_ID">
                 <span className="ml-2 cursor-help text-bitcoin" role="button" tabIndex={0} aria-label="Get help about transaction IDs">ⓘ</span>
@@ -193,7 +193,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 )}
               </button>
             </div>
-            <div id="txid-help" className="mt-3 text-base text-gray-600 dark:text-slate-400">
+            <div id="txid-help" className="mt-3 text-base text-gray-600 dark:text-gray-400 dark:text-slate-400">
               Transaction IDs are 64-character strings containing only letters (a-f) and numbers (0-9)
             </div>
             {txidInput && !TransactionService.validateTxid(txidInput.trim()) && (
@@ -290,7 +290,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                     <h3 className={`text-2xl font-bold ${getStatusColor(transactionLookup.data.status)}`}>
                       {transactionLookup.data.humanReadable.status}
                     </h3>
-                    <p className="text-base text-gray-600 dark:text-slate-400">
+                    <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400">
                       {transactionLookup.data.humanReadable.timeDescription}
                     </p>
                   </div>
@@ -309,7 +309,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               <div className="bg-white dark:bg-slate-700 rounded-sm p-5 border-2 border-gray-200 dark:border-slate-600 shadow-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-base font-semibold text-gray-500 dark:text-slate-400">Transaction ID</span>
-                  <span className="text-base font-mono text-gray-600 dark:text-slate-700">
+                  <span className="text-base font-mono text-gray-600 dark:text-gray-400 dark:text-slate-700 dark:text-slate-300">
                     {TransactionService.formatTxidForDisplay(String(transactionLookup.data.txid))}
                   </span>
                 </div>
@@ -323,13 +323,13 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               <div className="card hover:shadow-sm transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                       Network Verifications
                       <BitcoinTooltip term="CONFIRMATION">
                         <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
                       </BitcoinTooltip>
                     </h4>
-                    <p className="text-lg text-gray-600 dark:text-slate-400 mt-3">
+                    <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
                       {transactionLookup.data.confirmations === 0 
                         ? 'Waiting for network to verify' 
                         : transactionLookup.data.confirmations === 1
@@ -350,13 +350,13 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                 <div className="card hover:shadow-sm transition-all duration-300">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                         Record Number
                         <BitcoinTooltip term="BLOCK_HEIGHT">
                           <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
                         </BitcoinTooltip>
                       </h4>
-                      <p className="text-lg text-gray-600 dark:text-slate-400 mt-3">
+                      <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
                         {transactionLookup.data.blockTime 
                           ? `Recorded on ${new Date(transactionLookup.data.blockTime * 1000).toLocaleDateString()}`
                           : 'Permanently recorded'}
@@ -373,33 +373,33 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
 
             {/* Fee Information */}
             <div className="card mb-6 hover:shadow-sm transition-all duration-300">
-              <h4 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-4">
+              <h4 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-4">
                 Processing Cost
                 <BitcoinTooltip term="FEE_RATE">
                   <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
                 </BitcoinTooltip>
               </h4>
-              <p className="text-base text-gray-600 dark:text-slate-400 mb-6">
+              <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-6">
                 The sender paid this fee to have their transaction processed by the network
               </p>
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
-                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-700">Total Fee</span>
+                  <span className="text-lg font-semibold text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300">Total Fee</span>
                   <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                    <div className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                       ${transactionLookup.data.fee.usd.toFixed(2)} USD
                     </div>
-                    <div className="text-base text-gray-600 dark:text-slate-400">
+                    <div className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400">
                       {transactionLookup.data.fee.total.toLocaleString()} satoshis
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-sm shadow-sm">
-                  <span className="text-lg font-semibold text-gray-700 dark:text-slate-700">Fee Rate</span>
+                  <span className="text-lg font-semibold text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300">Fee Rate</span>
                   <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
+                    <div className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                       {transactionLookup.data.fee.rate} sat/vB
                     </div>
                     <div className="text-base text-gray-500 dark:text-slate-400">
@@ -429,7 +429,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
 
             {/* Explorer Links */}
             <div className="card bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-4">
                 View on Block Explorers
               </h4>
               <div className="grid grid-cols-2 gap-4">
@@ -441,7 +441,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-4 bg-white dark:bg-slate-700 rounded-sm border-2 border-gray-200 dark:border-slate-600 hover:border-bitcoin hover:shadow-sm transition-all duration-300 hover:scale-[1.02]"
                   >
-                    <span className="text-base font-semibold text-gray-900 dark:text-slate-100 capitalize">
+                    <span className="text-base font-semibold text-gray-900 dark:text-white dark:text-slate-100 capitalize">
                       {name === 'btc' ? 'BTC.com' : name}
                     </span>
                     <span className="text-bitcoin text-lg font-bold">→</span>

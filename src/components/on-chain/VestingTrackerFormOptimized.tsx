@@ -237,7 +237,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
         <div className="space-y-2">
           <label 
             htmlFor="bitcoin-address"
-            className="block text-sm font-medium text-gray-700 dark:text-white"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
           >
             Bitcoin Address
           </label>
@@ -284,7 +284,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
         <div className="space-y-2">
           <label 
             htmlFor="vesting-start-date"
-            className="block text-sm font-medium text-gray-700 dark:text-white"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
           >
             Vesting Start Date
           </label>
@@ -332,7 +332,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
         <div className="space-y-2">
           <label 
             htmlFor="total-grants"
-            className="block text-sm font-medium text-gray-700 dark:text-white"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
           >
             Total Number of Grants
           </label>
@@ -382,7 +382,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
         <div className="space-y-2">
           <label 
             htmlFor="annual-grant-btc"
-            className="block text-sm font-medium text-gray-700 dark:text-white"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
           >
             Annual Award Amount (BTC)
           </label>

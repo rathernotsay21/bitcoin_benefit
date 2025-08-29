@@ -133,25 +133,25 @@ export function PrivacyWarning({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
               <span className="font-medium text-gray-700 dark:text-gray-300">External Service:</span>
-              <div className="text-gray-900 dark:text-gray-100 font-mono">
+              <div className="text-gray-900 dark:text-white dark:text-gray-100 font-mono">
                 {warning.apiUsage.apiName}
               </div>
             </div>
             <div>
               <span className="font-medium text-gray-700 dark:text-gray-300">Data Sent:</span>
-              <div className="text-gray-900 dark:text-gray-100">
+              <div className="text-gray-900 dark:text-white dark:text-gray-100">
                 {warning.apiUsage.dataSent.join(', ')}
               </div>
             </div>
             <div className="sm:col-span-2">
               <span className="font-medium text-gray-700 dark:text-gray-300">Purpose:</span>
-              <div className="text-gray-900 dark:text-gray-100">
+              <div className="text-gray-900 dark:text-white dark:text-gray-100">
                 {warning.apiUsage.purpose}
               </div>
             </div>
             <div className="sm:col-span-2">
               <span className="font-medium text-gray-700 dark:text-gray-300">Retention Policy:</span>
-              <div className="text-gray-900 dark:text-gray-100">
+              <div className="text-gray-900 dark:text-white dark:text-gray-100">
                 {warning.apiUsage.retentionPolicy}
               </div>
             </div>
@@ -168,7 +168,7 @@ export function PrivacyWarning({
           <ul className="space-y-1 text-xs">
             {warning.suggestions.map((suggestion, index) => (
               <li key={index} className={`flex items-start ${styles.text}`}>
-                <span className="text-gray-600 mr-2 flex-shrink-0">•</span>
+                <span className="text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0">•</span>
                 <span className="flex-1">{suggestion}</span>
               </li>
             ))}
@@ -227,7 +227,7 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
   return (
     <div className={`bg-gray-50 dark:bg-gray-800 rounded-sm p-4 border border-gray-200 dark:border-gray-700 ${className}`}>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white dark:text-gray-100">
           🔒 Data Usage Transparency
         </h3>
         <button
@@ -246,10 +246,10 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
         {Object.entries(externalAPIs).map(([key, api]) => (
           <div key={key} className="bg-white dark:bg-gray-700 p-3 rounded border border-gray-200 dark:border-gray-600">
-            <div className="font-medium text-xs text-gray-900 dark:text-gray-100 mb-1">
+            <div className="font-medium text-xs text-gray-900 dark:text-white dark:text-gray-100 mb-1">
               {api.apiName}
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-600">
+            <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
               Sends: {api.dataSent.join(', ')}
             </div>
             <div className={`text-xs mt-1 ${{
@@ -269,7 +269,7 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
           <div className="grid grid-cols-2 gap-4 text-xs">
             <div>
               <span className="font-medium text-gray-700 dark:text-gray-300">Total Requests:</span>
-              <div className="text-gray-900 dark:text-gray-100">{report.totalRequests}</div>
+              <div className="text-gray-900 dark:text-white dark:text-gray-100">{report.totalRequests}</div>
             </div>
             <div>
               <span className="font-medium text-gray-700 dark:text-gray-300">Auto-Clearing:</span>
@@ -285,8 +285,8 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
               <div className="mt-1 space-y-1">
                 {Object.entries(report.apiBreakdown).map(([api, count]) => (
                   <div key={api} className="flex justify-between text-xs">
-                    <span className="text-gray-600 dark:text-gray-600">{api}</span>
-                    <span className="text-gray-900 dark:text-gray-100">{count} requests</span>
+                    <span className="text-gray-600 dark:text-gray-400 dark:text-gray-600">{api}</span>
+                    <span className="text-gray-900 dark:text-white dark:text-gray-100">{count} requests</span>
                   </div>
                 ))}
               </div>

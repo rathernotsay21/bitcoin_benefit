@@ -25,7 +25,7 @@ export default function HelpTooltip({
         <TooltipTrigger asChild>
           <button
             type="button"
-            className={`inline-flex items-center justify-center w-4 h-4 ml-1 text-gray-600 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-700 transition-colors ${className}`}
+            className={`inline-flex items-center justify-center w-4 h-4 ml-1 text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:text-slate-500 dark:hover:text-slate-700 dark:text-slate-300 transition-colors ${className}`}
             aria-label="Help"
           >
             <QuestionMarkCircleIcon className="w-4 h-4" />

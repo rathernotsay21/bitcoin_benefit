@@ -12,7 +12,7 @@ export default function ContactSuccessPage() {
           Thank you for reaching out. We'll get back to you as soon as possible.
         </p>
         <Link href="/">
-          <Button className="bg-bitcoin-500 hover:bg-bitcoin-600 text-slate-900">
+          <Button className="bg-bitcoin-500 hover:bg-bitcoin-600 text-slate-900 dark:text-slate-100">
             Back to Home
           </Button>
         </Link>

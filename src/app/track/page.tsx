@@ -247,7 +247,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
                   ? 'text-bitcoin'
                   : isCompleted
                     ? 'text-green-700 dark:text-green-300'
-                    : 'text-gray-600 dark:text-slate-400'
+                    : 'text-gray-600 dark:text-gray-400 dark:text-slate-400'
                   }`}>
                   {step.label}
                   <span className="sr-only">
@@ -256,7 +256,7 @@ function LoadingSteps({ currentStep, pricingProgress }: {
                 </p>
                 {isActive && (
                   <div className="mt-1">
-                    <p className="text-sm text-gray-600 dark:text-slate-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
                       {step.description}
                     </p>
                     {step.id === 'pricing' && pricingProgress && (
@@ -338,7 +338,7 @@ function FeatureOverview() {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Don't Trust. Verify.
         </h2>
-        <p className="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400 max-w-2xl mx-auto">
           See exactly what your boss gave you and what it's worth today.
           No bank portals, no HR systems - just pure, verifiable Bitcoin wealth on the blockchain.
         </p>
@@ -359,7 +359,7 @@ function FeatureOverview() {
             <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
               {feature.title}
             </h3>
-            <p className="text-sm text-gray-600 dark:text-slate-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
               {feature.description}
             </p>
           </div>
@@ -596,7 +596,7 @@ export default function TrackerPage() {
                         className="flex justify-between items-center p-3 bg-gray-50 dark:bg-slate-800 rounded-sm"
                         role="listitem"
                       >
-                        <span className="text-sm font-medium text-gray-700 dark:text-slate-700">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-slate-700">
                           Transactions Found
                         </span>
                         <span

@@ -178,7 +178,7 @@ export default function ToolSkeleton({
     <div className={baseClasses}>
       {showProgress && (
         <div className="mb-4 text-center">
-          <div className="inline-flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-600">
+          <div className="inline-flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-bitcoin"></div>
             <span>{progressMessage}</span>
           </div>
@@ -200,7 +200,7 @@ interface ProgressIndicatorProps {
 export function ProgressIndicator({ steps, currentStep, className = '' }: ProgressIndicatorProps) {
   return (
     <div className={`space-y-2 ${className}`}>
-      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-600">
+      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600">
         <span>Step {currentStep + 1} of {steps.length}</span>
         <span>{Math.round(((currentStep + 1) / steps.length) * 100)}%</span>
       </div>

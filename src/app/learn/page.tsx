@@ -41,7 +41,7 @@ export default function LearnMorePage() {
                                 Buying bitcoin has never been easier
                             </span>
                         </h3>
-                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
+                        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
                             Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">recurring buys</a> to fund each grant over a few weeks or months. Easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">River</a>.
                         </p>
                     </div>
@@ -49,7 +49,7 @@ export default function LearnMorePage() {
                     {/* Trusted Exchange Partners */}
                     <div className="mb-12">
                         <div className="text-center mb-8">
-                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 uppercase tracking-wider mb-2">Trusted Exchange Partners</p>
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Exchange Partners</p>
                             <div className="w-24 h-1 bg-gradient-to-r from-bitcoin to-orange-500 mx-auto rounded-full"></div>
                         </div>
                         
@@ -76,25 +76,25 @@ export default function LearnMorePage() {
                                         <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                                             Cash App
                                         </h4>
-                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                                        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-4">
                                             The people's app. No suit required, just a phone and common sense.
                                         </p>
                                         
                                         {/* Security badges */}
                                         <div className="space-y-1 mb-4">
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                 </svg>
                                                 PCI-DSS Level 1
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                                                 </svg>
                                                 Mobile Only
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                                                 </svg>
@@ -142,7 +142,7 @@ export default function LearnMorePage() {
                                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-bitcoin transition-colors duration-300">
                                             River Financial
                                         </h4>
-                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
+                                        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-6">
                                             Bitcoin-only platform with zero recurring fees, institutional security, and monthly proof of reserves.
                                         </p>
                                         
@@ -199,25 +199,25 @@ export default function LearnMorePage() {
                                         <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                                             Kraken
                                         </h4>
-                                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                                        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-4">
                                             Established exchange with advanced trading features, strong security, and global reach.
                                         </p>
                                         
                                         {/* Security badges */}
                                         <div className="space-y-1 mb-4">
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                                 </svg>
                                                 SOC 2 Type I
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
                                                 </svg>
                                                 ISO/IEC 27001
                                             </div>
-                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-600">
+                                            <div className="flex items-center justify-center text-xs text-gray-600 dark:text-gray-400 dark:text-gray-600">
                                                 <svg className="w-3 h-3 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                                                 </svg>
@@ -241,7 +241,7 @@ export default function LearnMorePage() {
                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             Why These Platforms?
                         </h5>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
+                        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
                             Each platform offers unique advantages for different needs. River excels in Bitcoin-only focus and institutional features, Cash App provides mobile simplicity, and Kraken offers advanced trading capabilities. All are trusted, regulated, and proven platforms for acquiring Bitcoin safely.
                         </p>
                     </div>
@@ -260,7 +260,7 @@ export default function LearnMorePage() {
                                 Ready to Move On-Chain?
                             </span>
                         </h3>
-                        <p className="text-lg text-gray-600 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
+                        <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
                             Secure your bitcoin with a hardware wallet from these trusted manufacturers. Take full control of your bitcoin with best-in-class security.
                         </p>
                     </div>
@@ -268,7 +268,7 @@ export default function LearnMorePage() {
                     {/* Trusted Hardware Manufacturers */}
                     <div className="mb-12">
                         <div className="text-center mb-8">
-                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 uppercase tracking-wider mb-2">Trusted Hardware Manufacturers</p>
+                            <p className="text-sm font-semibold text-gray-500 dark:text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">Trusted Hardware Manufacturers</p>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-bitcoin mx-auto rounded-full"></div>
                         </div>
                         
@@ -312,7 +312,7 @@ export default function LearnMorePage() {
                                                 <h4 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-bitcoin-600 dark:group-hover:text-orange-400 transition-colors duration-300">
                                                     Foundation Passport
                                                 </h4>
-                                                <p className="text-gray-600 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
+                                                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
                                                     The perfect balance of robust security and user-friendly design. Air-gapped, QR-based communication with a familiar smartphone-like interface makes self-custody accessible to everyone.
                                                 </p>
                                                 
@@ -382,7 +382,7 @@ export default function LearnMorePage() {
                                                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                                                     Blockstream Jade
                                                 </h4>
-                                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                                                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-3">
                                                     Innovative security model with cutting-edge cryptographic solutions from a highly reputable company.
                                                 </p>
                                                 <div className="inline-flex items-center text-green-600 dark:text-green-400 text-sm font-medium group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
@@ -420,7 +420,7 @@ export default function LearnMorePage() {
                                                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                                                     BitBox02
                                                 </h4>
-                                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                                                <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-3">
                                                     Bitcoin-only edition with sleek design and Swiss engineering for straightforward security.
                                                 </p>
                                                 <div className="inline-flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
@@ -442,7 +442,7 @@ export default function LearnMorePage() {
                         <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                             Why Use a Hardware Wallet?
                         </h5>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
+                        <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed max-w-4xl mx-auto">
                             Hardware wallets provide the highest level of security for your bitcoin by keeping your private keys offline and protected from online threats. Foundation Passport stands out with its intuitive interface and air-gapped design, while Blockstream Jade and BitBox02 offer excellent alternatives with their own unique security approaches.
                         </p>
                     </div>
@@ -456,7 +456,7 @@ export default function LearnMorePage() {
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
                             Want to Learn More About the Technology?
                         </h3>
-                        <p className="text-base text-gray-600 dark:text-white/90">
+                        <p className="text-base text-gray-600 dark:text-gray-400 dark:text-white/90">
                             While you don't need to understand Bitcoin to offer this benefit, here are the basics for those who are curious.
                         </p>
                     </div>

@@ -9,6 +9,7 @@ import type {
 } from '@/types/bitcoin-tools';
 import { isToolError } from '@/types/bitcoin-tools';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
+import { apiConfig, parseCoinGeckoPrice } from '@/lib/config/api';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import ToolSkeleton from './ToolSkeleton';
 import { EducationalSidebar } from './educational/EducationalSidebar';
@@ -107,7 +108,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       
       // Fetch both network status and Bitcoin price in parallel
       const [networkResponse, bitcoinPriceData] = await Promise.all([
-        fetch('/api/mempool/network/status/', {
+        fetch(apiConfig.mempool.network, {
           headers: {
             'Accept': 'application/json'
           },
@@ -245,7 +246,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       case 'red':
         return `${baseClasses} bg-red-100 text-red-800`;
       default:
-        return `${baseClasses} bg-gray-100 text-gray-800`;
+        return `${baseClasses} bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200`;
     }
   };
 
@@ -347,7 +348,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 p-4 sm:p-6 lg:p-8">
         <div className="lg:flex-[1.5] w-full min-w-0">
           <div className="text-center py-8">
-            <div className="w-12 h-12 mx-auto mb-4 text-gray-600">
+            <div className="w-12 h-12 mx-auto mb-4 text-gray-600 dark:text-gray-400">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -355,7 +356,7 @@ const NetworkStatus: React.FC = React.memo(() => {
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               {state.error?.isRetryable ? 'Temporary Connection Issue' : 'Unable to load network status'}
             </h3>
-            <p className="text-gray-600 dark:text-gray-600 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 dark:text-gray-600 mb-4">
               {state.error?.message || 'We\'re having trouble connecting to the Bitcoin network data.'}
             </p>
             
@@ -454,7 +455,7 @@ const NetworkStatus: React.FC = React.memo(() => {
           {getStatusIcon(state.networkHealth.congestionLevel)}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Current Network Health</h2>
-            <p className="text-base text-gray-600 dark:text-gray-600">Live updates every 30 seconds</p>
+            <p className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">Live updates every 30 seconds</p>
           </div>
         </div>
         <span className={getStatusBadgeClasses(state.networkHealth.humanReadable.colorScheme)}>
@@ -469,7 +470,7 @@ const NetworkStatus: React.FC = React.memo(() => {
         <div className="bg-white dark:bg-gray-700 rounded-sm p-6 border-2 border-gray-200 dark:border-gray-600 shadow-sm min-h-[180px]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Network Congestion Level</h3>
-            <span className="text-sm font-medium text-gray-600 dark:text-gray-600">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">
               {congestionProgress.label}
             </span>
           </div>
@@ -481,7 +482,7 @@ const NetworkStatus: React.FC = React.memo(() => {
                 style={{ width: `${congestionProgress.percentage}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-600">
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-600 dark:text-gray-400">
               <span>Clear</span>
               <span>Normal</span>
               <span>Busy</span>
@@ -491,13 +492,13 @@ const NetworkStatus: React.FC = React.memo(() => {
           
           <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-600 dark:text-gray-600">Queue: </span>
+              <span className="text-gray-600 dark:text-gray-400 dark:text-gray-600">Queue: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
                 {formatNumber(state.networkHealth.mempoolSize)} transactions
               </span>
             </div>
             <div>
-              <span className="text-gray-600 dark:text-gray-600">Size: </span>
+              <span className="text-gray-600 dark:text-gray-400 dark:text-gray-600">Size: </span>
               <span className="font-semibold text-gray-900 dark:text-white">
                 {formatBytes(state.networkHealth.mempoolBytes)}
               </span>
@@ -529,7 +530,7 @@ const NetworkStatus: React.FC = React.memo(() => {
                       <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
                       <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
                       {state.bitcoinPrice && (
-                        <div className="text-sm text-gray-600 dark:text-gray-600 mb-2">
+                        <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600 mb-2">
                           ~${costUSD.toFixed(2)} USD
                         </div>
                       )}
@@ -617,7 +618,7 @@ const NetworkStatus: React.FC = React.memo(() => {
       </div>
 
         {/* Next Block Estimation */}
-        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-600 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
+        <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
           <div className="flex items-center space-x-3">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

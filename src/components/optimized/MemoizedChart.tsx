@@ -44,7 +44,7 @@ const MemoizedChart = memo(function MemoizedChart({
     <div className={className}>
       {isLoading && (
         <div className="absolute top-4 right-4 z-10">
-          <div className="text-sm text-gray-500 dark:text-gray-600 flex items-center gap-2">
+          <div className="text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400 flex items-center gap-2">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-bitcoin"></div>
             Updating...
           </div>

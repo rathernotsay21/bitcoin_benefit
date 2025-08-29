@@ -273,7 +273,7 @@ export default function VestingTrackerForm({
             <div className="flex items-center gap-2">
               <label 
                 htmlFor="bitcoin-address"
-                className="block text-sm font-medium text-gray-700 dark:text-white"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
               >
                 Bitcoin Address <span className="text-red-500" aria-label="required">*</span>
               </label>
@@ -281,7 +281,7 @@ export default function VestingTrackerForm({
               <button
                 type="button"
                 onClick={() => toggleTooltip('address')}
-                className="p-1 rounded-full text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
+                className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
                 aria-label="More information about Bitcoin address field"
                 aria-expanded={showTooltips.address}
               >
@@ -357,7 +357,7 @@ export default function VestingTrackerForm({
             <div className="flex items-center gap-2">
               <label 
                 htmlFor="vesting-start-date"
-                className="block text-sm font-medium text-gray-700 dark:text-white"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
               >
                 Vesting Start Date <span className="text-red-500" aria-label="required">*</span>
               </label>
@@ -365,7 +365,7 @@ export default function VestingTrackerForm({
               <button
                 type="button"
                 onClick={() => toggleTooltip('date')}
-                className="p-1 rounded-full text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
+                className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
                 aria-label="More information about vesting start date field"
                 aria-expanded={showTooltips.date}
               >
@@ -437,7 +437,7 @@ export default function VestingTrackerForm({
             <div className="flex items-center gap-2">
               <label 
                 htmlFor="annual-grant-btc"
-                className="block text-sm font-medium text-gray-700 dark:text-white"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
               >
                 Annual Award Amount (BTC) <span className="text-red-500" aria-label="required">*</span>
               </label>
@@ -445,7 +445,7 @@ export default function VestingTrackerForm({
               <button
                 type="button"
                 onClick={() => toggleTooltip('amount')}
-                className="p-1 rounded-full text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
+                className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
                 aria-label="More information about annual award amount field"
                 aria-expanded={showTooltips.amount}
               >
@@ -529,7 +529,7 @@ export default function VestingTrackerForm({
             <div className="flex items-center gap-2">
               <label 
                 htmlFor="total-grants"
-                className="block text-sm font-medium text-gray-700 dark:text-white"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-white"
               >
                 Total Number of Grants <span className="text-red-500" aria-label="required">*</span>
               </label>
@@ -537,7 +537,7 @@ export default function VestingTrackerForm({
               <button
                 type="button"
                 onClick={() => toggleTooltip('totalGrants')}
-                className="p-1 rounded-full text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
+                className="p-1 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-1"
                 aria-label="More information about total grants field"
                 aria-expanded={showTooltips.totalGrants}
               >
