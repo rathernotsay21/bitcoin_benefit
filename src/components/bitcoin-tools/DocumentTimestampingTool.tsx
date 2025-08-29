@@ -10,6 +10,7 @@ import ToolErrorBoundary from './ToolErrorBoundary';
 import { ProgressIndicator } from './ToolSkeleton';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { timestampEducation } from './educational/educationalContent';
+import { CheckCircleIcon, XCircleIcon, DocumentIcon, BookOpenIcon } from '@heroicons/react/24/outline';
 
 type WorkflowStep = 'upload' | 'creating' | 'result' | 'verify';
 
@@ -275,7 +276,7 @@ function DocumentTimestampingTool() {
         {showEducation && (
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-sm p-6 mb-6">
           <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
-            <span className="mr-2">📚</span>
+            <BookOpenIcon className="w-6 h-6 mr-2 inline text-bitcoin" />
             How It Works
           </h4>
           
@@ -376,7 +377,9 @@ function DocumentTimestampingTool() {
             }`}>
               <div className="flex items-center space-x-3 mb-3">
                 <span className="text-2xl">
-                  {verificationResult.isValid ? '✅' : '❌'}
+                  {verificationResult.isValid ? 
+                    <CheckCircleIcon className="w-10 h-10 text-bitcoin inline" /> : 
+                    <XCircleIcon className="w-10 h-10 text-bitcoin inline" />}
                 </span>
                 <h4 className={`text-lg font-semibold ${
                   verificationResult.isValid 
@@ -431,7 +434,7 @@ function DocumentTimestampingTool() {
             >
               {!documentTimestamp.uploadedFile ? (
                 <div className="space-y-3">
-                  <div className="text-6xl">📄</div>
+                  <DocumentIcon className="w-20 h-20 text-bitcoin mx-auto" />
                   <div>
                     <h4 className="text-lg font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
                     Select Your Document
@@ -494,7 +497,7 @@ function DocumentTimestampingTool() {
             <div className="space-y-6">
               <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-sm p-6 mb-6">
                 <div className="flex items-center space-x-4 mb-6">
-                  <span className="text-3xl">✅</span>
+                  <CheckCircleIcon className="w-12 h-12 text-bitcoin" />
                   <div>
                     <h4 className="text-lg font-semibold text-green-800 dark:text-green-200">
                       Success! Your Document is Timestamped

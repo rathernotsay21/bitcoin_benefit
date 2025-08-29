@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PrivacyManager, PrivacyWarning as PrivacyWarningType } from '@/lib/services/privacyManager';
+import { LockClosedIcon, BookOpenIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 
 interface PrivacyWarningProps {
   tool: string;
@@ -69,7 +70,7 @@ export function PrivacyWarning({
       case 'info':
         return {
           container: 'border-blue-200 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/20',
-          icon: '📘',
+          icon: 'book',
           iconColor: 'text-blue-500',
           title: 'text-blue-900 dark:text-blue-100',
           text: 'text-blue-800 dark:text-blue-200'
@@ -77,7 +78,7 @@ export function PrivacyWarning({
       case 'warning':
         return {
           container: 'border-yellow-200 bg-yellow-50 dark:border-yellow-700 dark:bg-yellow-900/20',
-          icon: '⚠️',
+          icon: 'warning',
           iconColor: 'text-yellow-500',
           title: 'text-yellow-900 dark:text-yellow-100',
           text: 'text-yellow-800 dark:text-yellow-200'
@@ -85,7 +86,7 @@ export function PrivacyWarning({
       case 'critical':
         return {
           container: 'border-red-200 bg-red-50 dark:border-red-700 dark:bg-red-900/20',
-          icon: '🔒',
+          icon: <LockClosedIcon className="w-6 h-6" />,
           iconColor: 'text-red-500',
           title: 'text-red-900 dark:text-red-100',
           text: 'text-red-800 dark:text-red-200'
@@ -228,7 +229,10 @@ export function DataUsageTransparency({ className = '' }: DataUsageTransparencyP
     <div className={`bg-gray-50 dark:bg-gray-800 rounded-sm p-4 border border-gray-200 dark:border-gray-700 ${className}`}>
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white dark:text-gray-100">
-          🔒 Data Usage Transparency
+          <span className="flex items-center">
+            <LockClosedIcon className="w-5 h-5 mr-2" />
+            Data Usage Transparency
+          </span>
         </h3>
         <button
           onClick={loadReport}

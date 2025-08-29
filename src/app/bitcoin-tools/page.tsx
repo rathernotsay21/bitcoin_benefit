@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { validateToolId } from '@/types/bitcoin-tools';
-import { LockClosedIcon, BookOpenIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/solid';
+import { LockClosedIcon, BookOpenIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline';
 
 // Force static rendering for this page
 export const dynamic = 'force-static';
@@ -104,9 +104,14 @@ export default function BitcoinToolsPage() {
         {/* Educational Footer */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <aside className="mt-20" aria-labelledby="educational-heading">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-sm shadow-sm border border-gray-200/60 dark:border-gray-700/60 p-8 sm:p-12">
+          <div className="glass bg-gradient-to-br from-bitcoin/8 via-orange-50/60 to-yellow-50/40 
+                       dark:from-bitcoin/15 dark:via-slate-800/90 dark:to-orange-900/20 
+                       rounded-sm p-8 sm:p-12 border-2 border-bitcoin/20 dark:border-bitcoin/30 
+                       shadow-lg hover:shadow-xl transition-all duration-300">
             <h3 id="educational-heading" className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-              New to Bitcoin?
+              <span className="bg-gradient-to-r from-bitcoin via-orange-500 to-bitcoin bg-clip-text text-transparent">
+                New to Bitcoin?
+              </span>
             </h3>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8 px-4 text-center leading-relaxed">
               These tools help you interact with the Bitcoin blockchain safely and easily. 
@@ -114,25 +119,31 @@ export default function BitcoinToolsPage() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
-                  <LockClosedIcon className="w-8 h-8 text-bitcoin" />
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 dark:from-bitcoin/30 dark:to-bitcoin-600/30 
+                            rounded-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 
+                            group-hover:shadow-xl border border-bitcoin/20 dark:border-bitcoin/30">
+                  <LockClosedIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Privacy First</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
               </div>
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
-                  <BookOpenIcon className="w-8 h-8 text-bitcoin" />
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 dark:from-bitcoin/30 dark:to-bitcoin-600/30 
+                            rounded-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 
+                            group-hover:shadow-xl border border-bitcoin/20 dark:border-bitcoin/30">
+                  <BookOpenIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Learn as You Go</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
               </div>
               <div className="text-center group" role="article">
-                <div className="w-16 h-16 mx-auto mb-4 bg-bitcoin/10 rounded-sm flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-200">
-                  <DevicePhoneMobileIcon className="w-8 h-8 text-bitcoin" />
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 dark:from-bitcoin/30 dark:to-bitcoin-600/30 
+                            rounded-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 
+                            group-hover:shadow-xl border border-bitcoin/20 dark:border-bitcoin/30">
+                  <DevicePhoneMobileIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Mobile Friendly</h4>
-                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">Works perfectly on all devices and screen sizes</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Works perfectly on all devices and screen sizes</p>
               </div>
             </div>
           </div>

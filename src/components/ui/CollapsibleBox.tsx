@@ -424,7 +424,7 @@ export const CollapsibleBox = memo<CollapsibleBoxProps>(function CollapsibleBox(
     }
     
     const IconComponent = icon;
-    return <IconComponent className="mr-3 w-5 h-5" aria-hidden="true" />;
+    return <IconComponent className="mr-3 w-6 h-6 text-bitcoin" aria-hidden="true" />;
   };
   
   const renderDefaultToggle = () => (

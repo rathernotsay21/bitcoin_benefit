@@ -2,6 +2,15 @@
 
 import React from 'react';
 import { ToolError, createToolError, isToolError } from '@/types/bitcoin-tools';
+import { 
+  ExclamationTriangleIcon, 
+  GlobeAltIcon, 
+  WrenchIcon, 
+  MagnifyingGlassIcon, 
+  ClockIcon,
+  XCircleIcon, 
+  ArrowPathIcon 
+} from '@heroicons/react/24/solid';
 
 interface ToolErrorBoundaryState {
   hasError: boolean;
@@ -119,18 +128,18 @@ function ToolErrorDisplay({
   const getErrorIcon = (errorType: ToolError['type']) => {
     switch (errorType) {
       case 'validation':
-        return '⚠️';
+        return <ExclamationTriangleIcon className="w-10 h-10 text-bitcoin" />;
       case 'network':
       case 'timeout':
-        return '🌐';
+        return <GlobeAltIcon className="w-10 h-10 text-bitcoin" />;
       case 'api':
-        return '🔧';
+        return <WrenchIcon className="w-10 h-10 text-bitcoin" />;
       case 'not_found':
-        return '🔍';
+        return <MagnifyingGlassIcon className="w-10 h-10 text-bitcoin" />;
       case 'rate_limit':
-        return '⏱️';
+        return <ClockIcon className="w-10 h-10 text-bitcoin" />;
       default:
-        return '❌';
+        return <XCircleIcon className="w-10 h-10 text-bitcoin" />;
     }
   };
 
@@ -155,7 +164,7 @@ function ToolErrorDisplay({
     <div className={`rounded-sm border-2 p-6 ${getErrorColor(error.type)}`}>
       {/* Error Header */}
       <div className="flex items-center mb-4">
-        <span className="text-2xl mr-3">{getErrorIcon(error.type)}</span>
+        <div className="mr-3">{getErrorIcon(error.type)}</div>
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100">
             {toolName} Error
@@ -196,7 +205,8 @@ function ToolErrorDisplay({
             onClick={onRetry}
             className="inline-flex items-center px-4 py-2 bg-bitcoin hover:bg-bitcoin-600 text-white font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-bitcoin focus:ring-offset-2"
           >
-            🔄 Try Again
+            <ArrowPathIcon className="w-5 h-5 mr-2 inline text-bitcoin" />
+            Try Again
           </button>
         )}
         
@@ -204,14 +214,16 @@ function ToolErrorDisplay({
           onClick={onReset}
           className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
         >
-          🔄 Reset Tool
+          <ArrowPathIcon className="w-4 h-4 mr-2 inline" />
+          Reset Tool
         </button>
 
         <button
           onClick={() => window.location.reload()}
           className="inline-flex items-center px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 font-medium rounded-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
         >
-          🔄 Refresh Page
+          <ArrowPathIcon className="w-4 h-4 mr-2 inline" />
+          Refresh Page
         </button>
       </div>
 

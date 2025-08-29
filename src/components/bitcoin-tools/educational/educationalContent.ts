@@ -3,7 +3,7 @@ import { EducationalSection } from './EducationalSidebar';
 export const transactionEducation: EducationalSection[] = [
   {
     title: 'Understanding Transactions',
-    icon: '📋',
+    icon: 'clipboard',
     content: [
       'A Bitcoin transaction is like a digital check or money transfer. When someone sends Bitcoin, they create a record that says "move X amount from my address to another address."',
       'Each transaction gets a unique ID (like a tracking number) that\'s 64 characters long. This ID lets anyone verify the transaction happened and check its status.'
@@ -28,7 +28,7 @@ export const transactionEducation: EducationalSection[] = [
   },
   {
     title: 'What Are Confirmations?',
-    icon: '✅',
+    icon: 'check-circle',
     content: [
       'Confirmations are like security stamps. Each confirmation means another "block" of transactions has been added after yours, making it harder to reverse.',
       'Most services consider a transaction safe after 1-3 confirmations (10-30 minutes). For large amounts, wait for 6+ confirmations.'
@@ -44,7 +44,7 @@ export const transactionEducation: EducationalSection[] = [
 export const feeEducation: EducationalSection[] = [
   {
     title: 'Why Do I Pay Fees?',
-    icon: '💰',
+    icon: 'dollar',
     content: [
       'Bitcoin fees are like postage stamps - they pay the "miners" who process and secure transactions. Higher fees = faster processing, just like express mail costs more than regular mail.',
       'Fees go to miners (people running Bitcoin\'s network), not to any company or bank. The fee amount depends on how busy the network is.'
@@ -69,7 +69,7 @@ export const feeEducation: EducationalSection[] = [
   },
   {
     title: 'Choosing the Right Fee',
-    icon: '⚡',
+    icon: 'bolt',
     content: [
       'Priority fees get confirmed in 10-20 minutes but cost more. Economy fees save money but might take hours. Choose based on urgency.',
       'The network is like a highway - when it\'s busy (lots of transactions), you need to pay more to get through quickly.'
@@ -85,7 +85,7 @@ export const feeEducation: EducationalSection[] = [
 export const networkEducation: EducationalSection[] = [
   {
     title: 'The Bitcoin Network',
-    icon: '🌐',
+    icon: 'globe',
     content: [
       'The Bitcoin network is like a global payment highway. When many people send transactions at once, it gets congested and fees go up.',
       'Every 10 minutes (on average), a new "block" of transactions is processed. Each block has limited space, so miners choose transactions with higher fees first.'
@@ -110,7 +110,7 @@ export const networkEducation: EducationalSection[] = [
   },
   {
     title: 'Blocks and Mining',
-    icon: '⛏️',
+    icon: 'cube',
     content: [
       'Miners are computers that process transactions and secure the network. They compete to create new blocks every ~10 minutes.',
       'The "mempool" is like a waiting room where transactions sit until miners include them in a block.'
@@ -126,7 +126,7 @@ export const networkEducation: EducationalSection[] = [
 export const addressEducation: EducationalSection[] = [
   {
     title: 'What\'s a Bitcoin Address?',
-    icon: '📬',
+    icon: 'inbox',
     content: [
       'A Bitcoin address is like an email address for money. Share it to receive Bitcoin, but unlike email, you should use a new address for each transaction for better privacy.',
       'Addresses start with 1, 3, or bc1. They\'re derived from private keys (passwords) that only the owner should know.'
@@ -151,7 +151,7 @@ export const addressEducation: EducationalSection[] = [
   },
   {
     title: 'Privacy Considerations',
-    icon: '🔐',
+    icon: 'lock',
     content: [
       'Bitcoin is pseudonymous, not anonymous. Once someone knows your address, they can see all its transactions forever.',
       'For privacy, use a different address for each transaction and avoid reusing addresses.'
@@ -167,7 +167,7 @@ export const addressEducation: EducationalSection[] = [
 export const networkStatusEducation: EducationalSection[] = [
   {
     title: 'Network Health Explained',
-    icon: '🌡️',
+    icon: 'beaker',
     content: [
       'Bitcoin network health shows how busy the network is right now. Think of it like traffic on a highway - green means clear roads, red means heavy congestion.',
       'When the network is congested, transactions take longer to confirm and cost more in fees. When it\'s clear, transactions are fast and cheap.'
@@ -192,7 +192,7 @@ export const networkStatusEducation: EducationalSection[] = [
   },
   {
     title: 'Reading Fee Estimates',
-    icon: '💡',
+    icon: 'lightbulb',
     content: [
       'Fee rates are shown in "satoshis per virtual byte" (sat/vB). Higher rates get priority in the queue, like paying for express shipping.',
       'The tool shows different speed tiers: Priority (fastest), Standard (balanced), Normal (slower), and Economy (cheapest but slowest).'
@@ -205,7 +205,7 @@ export const networkStatusEducation: EducationalSection[] = [
   },
   {
     title: 'When to Send Transactions',
-    icon: '⏰',
+    icon: 'clock',
     content: [
       'Timing can save you money. Weekend mornings and late nights (US time) often have lower network activity and cheaper fees.',
       'Avoid sending during high-activity periods unless urgent, especially when major exchanges or institutions are active.'
@@ -218,7 +218,7 @@ export const networkStatusEducation: EducationalSection[] = [
   },
   {
     title: 'Understanding the Mempool',
-    icon: '📋',
+    icon: 'clipboard',
     content: [
       'The mempool (memory pool) is where transactions wait before being confirmed. It\'s like a waiting room where higher-fee transactions get called first.',
       'Mempool size shows how many transactions are waiting. More transactions = higher competition = higher fees needed.'
@@ -234,7 +234,7 @@ export const networkStatusEducation: EducationalSection[] = [
 export const timestampEducation: EducationalSection[] = [
   {
     title: 'Proof of Existence',
-    icon: '📝',
+    icon: 'document-text',
     content: [
       'Timestamping proves a document existed at a specific time without revealing its contents. It\'s like a digital notary that can\'t be forged.',
       'Only a "fingerprint" (hash) of your file is recorded on the blockchain. The actual document never leaves your computer.'
@@ -259,7 +259,7 @@ export const timestampEducation: EducationalSection[] = [
   },
   {
     title: 'Legal Applications',
-    icon: '⚖️',
+    icon: 'scale',
     content: [
       'Timestamped documents can serve as evidence in legal disputes, proving when contracts were signed or when intellectual property was created.',
       'Many organizations now accept blockchain timestamps as valid proof of timing.'

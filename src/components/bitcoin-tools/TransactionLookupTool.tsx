@@ -10,6 +10,7 @@ import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { transactionEducation } from './educational/educationalContent';
+import { CheckCircleIcon, ClockIcon, XCircleIcon, QuestionMarkCircleIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 interface TransactionLookupToolProps {
   initialTxid?: string;
@@ -94,13 +95,13 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return '✅';
+        return <CheckCircleIcon className="w-6 h-6 text-bitcoin inline" />;
       case 'pending':
-        return '⏳';
+        return <ClockIcon className="w-6 h-6 text-bitcoin inline" />;
       case 'failed':
-        return '❌';
+        return <XCircleIcon className="w-6 h-6 text-bitcoin inline" />;
       default:
-        return '❓';
+        return <QuestionMarkCircleIcon className="w-6 h-6 text-bitcoin inline" />;
     }
   };
 
@@ -146,7 +147,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
         {/* Transaction ID Input */}
         <div className="card mb-6">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-6 flex items-center">
-            <span className="text-bitcoin text-3xl mr-3">🔍</span>
+            <MagnifyingGlassIcon className="w-6 h-6 text-bitcoin mr-3" />
             Transaction Lookup
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6" role="search" aria-label="Transaction lookup">
@@ -225,7 +226,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
         {transactionLookup.error && (
           <div className="card mb-6 bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-700" role="alert" aria-labelledby="error-title">
             <div className="flex items-start">
-              <span className="text-red-500 text-2xl mr-4 flex-shrink-0" aria-hidden="true">❌</span>
+              <XCircleIcon className="w-6 h-6 text-bitcoin mr-4 flex-shrink-0" aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <h4 id="error-title" className="text-xl font-bold text-red-800 dark:text-red-200">
                   {transactionLookup.error.userFriendlyMessage}
@@ -264,20 +265,6 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               Transaction lookup results loaded
             </div>
 
-            {/* What This Means Section */}
-            <div className="card mb-6 bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700">
-              <h3 className="text-2xl font-bold text-green-900 dark:text-green-100 mb-4 flex items-center">
-                <span className="text-green-600 text-3xl mr-3">✅</span>
-                What This Means
-              </h3>
-              <p className="text-lg text-green-800 dark:text-green-200 leading-relaxed">
-                {transactionLookup.data.status === 'confirmed' 
-                  ? `This transaction is complete! The Bitcoin has been successfully sent and received. It has been verified ${transactionLookup.data.confirmations} time${transactionLookup.data.confirmations !== 1 ? 's' : ''} by the network, making it permanent and secure.`
-                  : transactionLookup.data.status === 'pending'
-                  ? 'This transaction is still being processed. The Bitcoin has been sent but is waiting to be verified by the network. This usually takes 10-60 minutes.'
-                  : 'This transaction status is being determined. Please check back in a few moments.'}
-              </p>
-            </div>
             
             {/* Status Header */}
             <div className="card mb-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 border-2 border-gray-200 dark:border-slate-600">
@@ -414,7 +401,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
             {transactionLookup.data.estimatedConfirmation && (
               <div className="card mb-6 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700">
                 <div className="flex items-center space-x-4">
-                  <span className="text-blue-500 text-3xl">⏰</span>
+                  <ClockIcon className="w-6 h-6 text-bitcoin" />
                   <div>
                     <h4 className="text-xl font-bold text-blue-900 dark:text-blue-100">
                       Estimated Confirmation
@@ -456,7 +443,25 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
 
       {/* Educational Sidebar - 40% width */}
       <div className="lg:flex-[1] lg:max-w-md">
-        <div className="lg:sticky lg:top-6">
+        <div className="lg:sticky lg:top-6 space-y-6">
+          {/* What This Means Section - Moved from left column */}
+          {transactionLookup.data && (
+            <div className="card bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-700">
+              <h3 className="text-xl font-bold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                <CheckCircleIcon className="w-5 h-5 text-bitcoin mr-2" />
+                What This Means
+              </h3>
+              <p className="text-base text-green-800 dark:text-green-200 leading-relaxed">
+                {transactionLookup.data.status === 'confirmed' 
+                  ? `This transaction is complete! The Bitcoin has been successfully sent and received. It has been verified ${transactionLookup.data.confirmations} time${transactionLookup.data.confirmations !== 1 ? 's' : ''} by the network, making it permanent and secure.`
+                  : transactionLookup.data.status === 'pending'
+                  ? 'This transaction is still being processed. The Bitcoin has been sent but is waiting to be verified by the network. This usually takes 10-60 minutes.'
+                  : 'This transaction status is being determined. Please check back in a few moments.'}
+              </p>
+            </div>
+          )}
+          
+          {/* Educational content */}
           <EducationalSidebar sections={transactionEducation} />
         </div>
       </div>

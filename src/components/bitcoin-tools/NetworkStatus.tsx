@@ -14,6 +14,19 @@ import ToolErrorBoundary from './ToolErrorBoundary';
 import ToolSkeleton from './ToolSkeleton';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { networkStatusEducation } from './educational/educationalContent';
+import { 
+  LightBulbIcon, 
+  CheckCircleIcon, 
+  ExclamationTriangleIcon, 
+  ExclamationCircleIcon,
+  HandThumbUpIcon,
+  CurrencyDollarIcon,
+  RocketLaunchIcon,
+  BoltIcon,
+  ForwardIcon,
+  BackwardIcon,
+  QuestionMarkCircleIcon
+} from '@heroicons/react/24/outline';
 
 // Validation function for network health response
 function isValidNetworkHealthResponse(data: unknown): data is EnhancedNetworkHealth {
@@ -203,37 +216,13 @@ const NetworkStatus: React.FC = React.memo(() => {
   const getStatusIcon = (congestionLevel: NetworkHealth['congestionLevel']) => {
     switch (congestionLevel) {
       case 'low':
-        return (
-          <div className="w-6 h-6 text-green-500">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-          </div>
-        );
+        return <CheckCircleIcon className="w-6 h-6 text-green-500" />;
       case 'normal':
-        return (
-          <div className="w-6 h-6 text-yellow-500">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-          </div>
-        );
+        return <ExclamationCircleIcon className="w-6 h-6 text-yellow-500" />;
       case 'high':
-        return (
-          <div className="w-6 h-6 text-bitcoin-500">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-          </div>
-        );
+        return <ExclamationTriangleIcon className="w-6 h-6 text-bitcoin-500" />;
       case 'extreme':
-        return (
-          <div className="w-6 h-6 text-red-500">
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-            </svg>
-          </div>
-        );
+        return <ExclamationTriangleIcon className="w-6 h-6 text-red-500" />;
       default:
         return null;
     }
@@ -311,14 +300,14 @@ const NetworkStatus: React.FC = React.memo(() => {
     };
   }, [state.networkHealth]);
 
-  const getFeeLabel = (feeType: string): { label: string; emoji: string; timeEstimate: string } => {
+  const getFeeLabel = (feeType: string): { label: string; icon: React.ComponentType<{ className?: string }>; timeEstimate: string } => {
     const feeLabels = {
-      fastestFee: { label: 'Priority', emoji: '🚀', timeEstimate: 'Next block (~10 min)' },
-      halfHourFee: { label: 'Standard', emoji: '⚡', timeEstimate: '~30 minutes' },
-      hourFee: { label: 'Normal', emoji: '🚶', timeEstimate: '~1 hour' },
-      economyFee: { label: 'Economy', emoji: '🐌', timeEstimate: '2+ hours' }
+      fastestFee: { label: 'Priority', icon: RocketLaunchIcon, timeEstimate: 'Next block (~10 min)' },
+      halfHourFee: { label: 'Standard', icon: BoltIcon, timeEstimate: '~30 minutes' },
+      hourFee: { label: 'Normal', icon: ForwardIcon, timeEstimate: '~1 hour' },
+      economyFee: { label: 'Economy', icon: BackwardIcon, timeEstimate: '2+ hours' }
     };
-    return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', emoji: '❓', timeEstimate: 'Unknown' };
+    return feeLabels[feeType as keyof typeof feeLabels] || { label: 'Unknown', icon: QuestionMarkCircleIcon, timeEstimate: 'Unknown' };
   };
 
   // Show skeleton on first load with stable layout
@@ -439,22 +428,6 @@ const NetworkStatus: React.FC = React.memo(() => {
           </div>
         )}
 
-        {/* Explanatory Text for New Users */}
-        <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 min-h-[140px]">
-          <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
-            What is Network Status?
-          </h3>
-          <p className="text-base text-blue-800 dark:text-blue-200 mb-4">
-            The Bitcoin network is like a digital highway for money transfers. When many people are sending 
-            Bitcoin at once, the "traffic" increases, making transactions take longer and cost more. When 
-            traffic is light, transactions are faster and cheaper.
-          </p>
-          <p className="text-base text-blue-700 dark:text-blue-300">
-            <strong>What to look for:</strong> Green means it's a great time to send Bitcoin (low fees, fast processing). 
-            Red means the network is very busy (higher fees, slower processing).
-          </p>
-        </div>
-
       <div className="flex items-center justify-between mb-8 min-h-[60px]">
         <div className="flex items-center space-x-4">
           {getStatusIcon(state.networkHealth.congestionLevel)}
@@ -531,7 +504,9 @@ const NetworkStatus: React.FC = React.memo(() => {
                 return (
                   <div key={feeType} className="bg-white dark:bg-gray-700 rounded-sm p-4 border-2 border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-shadow">
                     <div className="text-center">
-                      <div className="text-2xl mb-2">{feeInfo.emoji}</div>
+                      <div className="mb-2">
+                        {React.createElement(feeInfo.icon, { className: "w-6 h-6 mx-auto text-bitcoin" })}
+                      </div>
                       <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{feeInfo.label}</h4>
                       <div className="text-lg font-bold text-bitcoin mb-1">{Number(feeRate)} sat/vB</div>
                       {state.bitcoinPrice && (
@@ -550,7 +525,7 @@ const NetworkStatus: React.FC = React.memo(() => {
             
             <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-sm border border-blue-200 dark:border-blue-700">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                <strong>💡 Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
+                <strong className="flex items-center inline-flex"><LightBulbIcon className="w-5 h-5 mr-1 text-bitcoin" /> Fee calculation:</strong> Costs shown are for a typical transaction (~140 bytes). 
                 Larger transactions will cost proportionally more. 
                 {state.bitcoinPrice && (
                   <span>Bitcoin price: ${state.bitcoinPrice.price.toLocaleString()}</span>
@@ -570,57 +545,80 @@ const NetworkStatus: React.FC = React.memo(() => {
         )}
       </div>
 
-      {/* Human-Readable Status */}
-      <div className="mb-8 min-h-[250px]">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
-        <div className={`rounded-sm p-6 border-l-4 shadow-sm min-h-[200px] ${
-          state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
-          state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
-          state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-bitcoin-900/20 border-bitcoin-400' :
-          'bg-red-50 dark:bg-red-900/20 border-red-400'
-        }`}>
-          <p className="text-gray-900 dark:text-white text-lg font-semibold mb-3">
-            {state.networkHealth.congestionLevel === 'low' ? '✅ Perfect timing for transactions!' :
-             state.networkHealth.congestionLevel === 'normal' ? '👍 Good time to send Bitcoin' :
-             state.networkHealth.congestionLevel === 'high' ? '⚠️ Network is getting busy' :
-             '🚨 Network is very congested'}
-          </p>
-          <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
-            {state.networkHealth.humanReadable.userAdvice}
-          </p>
-          
-          {/* Fee-based recommendations */}
-          {state.networkHealth.feeEstimates && (
-            <div className="bg-white/50 dark:bg-black/20 rounded-sm p-4 mt-4">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">💰 Fee Recommendation:</h4>
-              <div className="text-sm text-gray-700 dark:text-gray-300">
-                {Number(state.networkHealth.averageFee) < 10 && (
-                  <span>Use <strong>Economy fees</strong> ({Number(state.networkHealth.feeEstimates.economyFee)} sat/vB) to save money!</span>
-                )}
-                {Number(state.networkHealth.averageFee) >= 10 && Number(state.networkHealth.averageFee) < 30 && (
-                  <span>Use <strong>Standard fees</strong> ({Number(state.networkHealth.feeEstimates.halfHourFee)} sat/vB) for reliable confirmation.</span>
-                )}
-                {Number(state.networkHealth.averageFee) >= 30 && Number(state.networkHealth.averageFee) < 100 && (
-                  <span>Consider <strong>Priority fees</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) or wait for lower congestion.</span>
-                )}
-                {Number(state.networkHealth.averageFee) >= 100 && (
-                  <span>⚠️ <strong>High fees required</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) - consider waiting unless urgent.</span>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* Fee Estimates - Keep in main content */}
 
-      {/* Recommendations */}
-      <div className="mb-8 min-h-[120px]">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 shadow-sm min-h-[80px]">
-          <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
-            {state.networkHealth.recommendation}
-          </p>
+        {/* Human-Readable Status - Moved back from right column */}
+        <div className="mb-8 min-h-[250px]">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What This Means for You</h3>
+          <div className={`rounded-sm p-6 border-l-4 shadow-sm min-h-[200px] ${
+            state.networkHealth.humanReadable.colorScheme === 'green' ? 'bg-green-50 dark:bg-green-900/20 border-green-400' :
+            state.networkHealth.humanReadable.colorScheme === 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' :
+            state.networkHealth.humanReadable.colorScheme === 'orange' ? 'bg-orange-50 dark:bg-bitcoin-900/20 border-bitcoin-400' :
+            'bg-red-50 dark:bg-red-900/20 border-red-400'
+          }`}>
+            <p className="text-gray-900 dark:text-white text-lg font-semibold mb-3">
+              {state.networkHealth.congestionLevel === 'low' ? 
+                <span className="flex items-center">
+                  <CheckCircleIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                  Perfect timing for transactions!
+                </span> :
+               state.networkHealth.congestionLevel === 'normal' ? 
+                <span className="flex items-center">
+                  <HandThumbUpIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                  Good time to send Bitcoin
+                </span> :
+               state.networkHealth.congestionLevel === 'high' ? 
+                <span className="flex items-center">
+                  <ExclamationTriangleIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                  Network is getting busy
+                </span> :
+                <span className="flex items-center">
+                  <ExclamationCircleIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                  Network is very congested
+                </span>}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
+              {state.networkHealth.humanReadable.userAdvice}
+            </p>
+            
+            {/* Fee-based recommendations */}
+            {state.networkHealth.feeEstimates && (
+              <div className="bg-white/50 dark:bg-black/20 rounded-sm p-4 mt-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                  <CurrencyDollarIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                  Fee Recommendation:
+                </h4>
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  {Number(state.networkHealth.averageFee) < 10 && (
+                    <span>Use <strong>Economy fees</strong> ({Number(state.networkHealth.feeEstimates.economyFee)} sat/vB) to save money!</span>
+                  )}
+                  {Number(state.networkHealth.averageFee) >= 10 && Number(state.networkHealth.averageFee) < 30 && (
+                    <span>Use <strong>Standard fees</strong> ({Number(state.networkHealth.feeEstimates.halfHourFee)} sat/vB) for reliable confirmation.</span>
+                  )}
+                  {Number(state.networkHealth.averageFee) >= 30 && Number(state.networkHealth.averageFee) < 100 && (
+                    <span>Consider <strong>Priority fees</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) or wait for lower congestion.</span>
+                  )}
+                  {Number(state.networkHealth.averageFee) >= 100 && (
+                    <span className="flex items-center">
+                      <ExclamationTriangleIcon className="w-5 h-5 mr-2 text-bitcoin" />
+                      <strong>High fees required</strong> ({Number(state.networkHealth.feeEstimates.fastestFee)} sat/vB) - consider waiting unless urgent.
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+
+        {/* Recommendations - Moved back from right column */}
+        <div className="mb-8 min-h-[120px]">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Recommendation</h3>
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400 shadow-sm min-h-[80px]">
+            <p className="text-blue-900 dark:text-blue-300 text-base leading-relaxed">
+              {state.networkHealth.recommendation}
+            </p>
+          </div>
+        </div>
 
         {/* Next Block Estimation */}
         <div className="flex items-center justify-between text-base text-gray-600 dark:text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-800 rounded-sm p-4">
@@ -642,7 +640,24 @@ const NetworkStatus: React.FC = React.memo(() => {
 
       {/* Educational Sidebar - 40% width */}
       <div className="lg:flex-[1] lg:max-w-md">
-        <div className="lg:sticky lg:top-6">
+        <div className="lg:sticky lg:top-6 space-y-6">
+          {/* Explanatory Text for New Users - Keep in right column */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-sm p-6 border-l-4 border-blue-400">
+            <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-3">
+              What is Network Status?
+            </h3>
+            <p className="text-base text-blue-800 dark:text-blue-200 mb-4">
+              The Bitcoin network is like a digital highway for money transfers. When many people are sending 
+              Bitcoin at once, the "traffic" increases, making transactions take longer and cost more. When 
+              traffic is light, transactions are faster and cheaper.
+            </p>
+            <p className="text-base text-blue-700 dark:text-blue-300">
+              <strong>What to look for:</strong> Green means it's a great time to send Bitcoin (low fees, fast processing). 
+              Red means the network is very busy (higher fees, slower processing).
+            </p>
+          </div>
+
+          {/* Educational content */}
           <EducationalSidebar sections={networkStatusEducation} />
         </div>
       </div>

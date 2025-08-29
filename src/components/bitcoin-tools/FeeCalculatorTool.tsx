@@ -12,6 +12,7 @@ import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { feeEducation } from './educational/educationalContent';
+import { ExclamationTriangleIcon, CurrencyDollarIcon, BoltIcon } from '@heroicons/react/24/outline';
 
 // Enhanced Zod schema for fee API response validation with strict types
 const FeeApiResponseSchema = z.object({
@@ -366,7 +367,7 @@ export function FeeCalculatorTool() {
         <div className="lg:flex-[1.5] w-full min-w-0">
           <div className="card border-2 border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
             <div className="flex items-start space-x-3">
-              <span className="text-4xl">⚠️</span>
+              <ExclamationTriangleIcon className="w-6 h-6 text-bitcoin" />
               <div className="flex-1">
                 <h3 className="text-xl font-bold text-red-700 dark:text-red-300 mb-2">
                   Fee Calculator Error
@@ -463,7 +464,7 @@ export function FeeCalculatorTool() {
         {/* Transaction Size Selection */}
         <div className="card mb-6" id="fee-calculator-section">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-6 flex items-center">
-            <span className="text-bitcoin text-3xl mr-3">💰</span>
+            <CurrencyDollarIcon className="w-6 h-6 text-bitcoin mr-3" />
             Fee Calculator
           </h2>
           <div>
@@ -547,7 +548,7 @@ export function FeeCalculatorTool() {
           <div className="card mb-6">
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">
-                <span className="text-bitcoin text-3xl mr-3">⚡</span>
+                <BoltIcon className="w-6 h-6 text-bitcoin mr-3" />
                 Choose Your Speed & Cost
               </h3>
               <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
@@ -564,41 +565,44 @@ export function FeeCalculatorTool() {
                   <div
                     key={recommendation.level}
                     onClick={() => setFeeCalculatorSelectedTier(isSelected ? null : recommendation.level)}
-                    className={`p-6 rounded-sm border-2 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-sm ${getTierColor(recommendation.level, isSelected)} ${isSelected ? 'transform scale-[1.02]' : 'hover:scale-[1.01]'}`}
+                    className={`p-4 sm:p-6 rounded-sm border-2 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-sm ${getTierColor(recommendation.level, isSelected)} ${isSelected ? 'transform scale-[1.02]' : 'hover:scale-[1.01]'}`}
                   >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-4">
-                        <span className="text-4xl">{recommendation.emoji}</span>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <span className="text-3xl sm:text-4xl">{recommendation.emoji}</span>
                         <div>
-                          <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
+                          <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                             {recommendation.label}
                           </h4>
-                          <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
+                          <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
                             {recommendation.timeEstimate}
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-bitcoin">
+                      <div className="text-left sm:text-right pl-12 sm:pl-0">
+                        <div className="text-xl sm:text-2xl font-bold text-bitcoin">
                           ${formatUSD(totalCostSats)}
                         </div>
-                        <div className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
-                          {totalCostSats < 1000 ? totalCostSats : `${(totalCostSats/1000).toFixed(1)}k`} satoshis
+                        <div className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
+                          <span className="inline-block">{totalCostSats < 1000 ? totalCostSats : `${(totalCostSats/1000).toFixed(1)}k`}</span>
+                          <span className="inline-block ml-1">satoshis</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="text-lg text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-4">
+                    <div className="text-base sm:text-lg text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-4">
                       {recommendation.description}
                     </div>
 
-                    <div className="flex items-center justify-between text-base text-gray-500 dark:text-slate-400">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-sm sm:text-base text-gray-500 dark:text-slate-400">
                       <span className="font-medium">
-                        {recommendation.satPerVByte} sat/vB
+                        <span className="inline-block">{recommendation.satPerVByte}</span>
+                        <span className="inline-block ml-1">sat/vB</span>
                       </span>
                       {recommendation.savings && (
                         <span className="text-green-600 dark:text-green-400 font-semibold">
-                          Save {recommendation.savings.percent}% vs {recommendation.savings.comparedTo}
+                          <span className="inline-block">Save {recommendation.savings.percent}% vs</span>
+                          <span className="inline-block ml-1">{recommendation.savings.comparedTo}</span>
                         </span>
                       )}
                     </div>
