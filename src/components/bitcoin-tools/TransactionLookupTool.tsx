@@ -303,59 +303,131 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
               </div>
             </div>
 
-            {/* Transaction Details Grid */}
-            <div className={`grid grid-cols-1 ${transactionLookup.data.blockHeight ? 'md:grid-cols-2' : ''} gap-6 mb-6`}>
+            {/* Transaction Verification Cards - Redesigned */}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl p-8 mb-8 shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                <svg className="w-7 h-7 mr-3 text-bitcoin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Transaction Verification Status
+              </h3>
+              <div className={`grid grid-cols-1 ${transactionLookup.data.blockHeight ? 'lg:grid-cols-2' : ''} gap-8`}>
               
-              {/* Confirmations */}
-              <div className="card hover:shadow-sm transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
-                      Network Verifications
-                      <BitcoinTooltip term="CONFIRMATION">
-                        <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
-                      </BitcoinTooltip>
-                    </h4>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
-                      {transactionLookup.data.confirmations === 0 
-                        ? 'Waiting for network to verify' 
-                        : transactionLookup.data.confirmations === 1
-                        ? 'Verified once (nearly complete)'
-                        : transactionLookup.data.confirmations < 6
-                        ? `Verified ${transactionLookup.data.confirmations} times (very secure)`
-                        : `Verified ${transactionLookup.data.confirmations} times (fully secured)`}
-                    </p>
-                  </div>
-                  <div className="text-4xl font-bold text-bitcoin dark:text-bitcoin">
-                    {transactionLookup.data.confirmations}
+                {/* Network Verifications Card */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-bitcoin">
+                  <div className="flex flex-col space-y-4">
+                    {/* Header */}
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                          <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
+                            Network Verifications
+                            <BitcoinTooltip term="CONFIRMATION">
+                              <span className="ml-2 cursor-help text-bitcoin opacity-70 hover:opacity-100">ⓘ</span>
+                            </BitcoinTooltip>
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Confirmation Count */}
+                    <div className="text-center py-4">
+                      <div className="text-5xl font-bold text-bitcoin mb-2">
+                        {transactionLookup.data.confirmations}
+                      </div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                        {transactionLookup.data.confirmations === 0 
+                          ? 'Waiting for verification' 
+                          : transactionLookup.data.confirmations === 1
+                          ? 'Verified once'
+                          : `Verified ${transactionLookup.data.confirmations} times`}
+                      </div>
+                    </div>
+                    
+                    {/* Status Badge */}
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg px-4 py-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Security Status</span>
+                        <span className={`text-xs font-bold px-2 py-1 rounded-full ${
+                          transactionLookup.data.confirmations === 0 
+                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' 
+                            : transactionLookup.data.confirmations === 1
+                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                            : transactionLookup.data.confirmations < 6
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                            : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                        }`}>
+                          {transactionLookup.data.confirmations === 0 
+                            ? 'Pending' 
+                            : transactionLookup.data.confirmations === 1
+                            ? 'Nearly Complete'
+                            : transactionLookup.data.confirmations < 6
+                            ? 'Very Secure'
+                            : 'Fully Secured'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                
+                {/* Block Height Card */}
+                {transactionLookup.data.blockHeight && (
+                  <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-bitcoin">
+                    <div className="flex flex-col space-y-4">
+                      {/* Header */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
+                              Record Number
+                              <BitcoinTooltip term="BLOCK_HEIGHT">
+                                <span className="ml-2 cursor-help text-bitcoin opacity-70 hover:opacity-100">ⓘ</span>
+                              </BitcoinTooltip>
+                            </h4>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Block Height Display */}
+                      <div className="text-center py-4">
+                        <div className="text-3xl font-mono font-bold text-bitcoin mb-2">
+                          #{transactionLookup.data.blockHeight.toLocaleString()}
+                        </div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                          Block Height
+                        </div>
+                      </div>
+                      
+                      {/* Date Badge */}
+                      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg px-4 py-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Recorded Date</span>
+                          <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                            {transactionLookup.data.blockTime 
+                              ? new Date(transactionLookup.data.blockTime * 1000).toLocaleDateString('en-US', { 
+                                  year: 'numeric', 
+                                  month: 'short', 
+                                  day: 'numeric' 
+                                })
+                              : 'Permanently recorded'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {/* Block Info */}
-              {transactionLookup.data.blockHeight && (
-                <div className="card hover:shadow-sm transition-all duration-300">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
-                        Record Number
-                        <BitcoinTooltip term="BLOCK_HEIGHT">
-                          <span className="ml-2 cursor-help text-bitcoin text-lg">ⓘ</span>
-                        </BitcoinTooltip>
-                      </h4>
-                      <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
-                        {transactionLookup.data.blockTime 
-                          ? `Recorded on ${new Date(transactionLookup.data.blockTime * 1000).toLocaleDateString()}`
-                          : 'Permanently recorded'}
-                      </p>
-                    </div>
-                    <div className="text-xl font-mono font-bold text-bitcoin dark:text-bitcoin">
-                      #{transactionLookup.data.blockHeight.toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              )}
-
             </div>
 
             {/* Fee Information */}
