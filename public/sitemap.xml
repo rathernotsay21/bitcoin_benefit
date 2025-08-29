@@ -3,7 +3,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <!-- Homepage - Employee Benefits Platform -->
+  
+  <!-- ============================================= -->
+  <!-- PRIMARY DOMAIN: bitcoinbenefits.me -->
+  <!-- ============================================= -->
+  
+  <!-- Homepage - Most Important -->
   <url>
     <loc>https://bitcoinbenefits.me/</loc>
     <lastmod>2025-01-29</lastmod>
@@ -11,42 +16,52 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Vesting Calculator - Main Business Tool -->
+  <!-- ============================================= -->
+  <!-- CALCULATOR SECTION - Core Business Feature -->
+  <!-- ============================================= -->
+  
+  <!-- Main Calculator Landing -->
   <url>
     <loc>https://bitcoinbenefits.me/calculator</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- Accelerator Scheme (Pioneer) -->
+  <url>
+    <loc>https://bitcoinbenefits.me/calculator/accelerator</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Calculator Schemes -->
-  <url>
-    <loc>https://bitcoinbenefits.me/calculator/accelerator</loc>
-    <lastmod>2025-01-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
+  <!-- Steady Builder Scheme (Stacker) -->
   <url>
     <loc>https://bitcoinbenefits.me/calculator/steady-builder</loc>
     <lastmod>2025-01-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
+  <!-- Slow Burn Scheme (Builder) -->
   <url>
     <loc>https://bitcoinbenefits.me/calculator/slow-burn</loc>
     <lastmod>2025-01-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
+  
+  <!-- ============================================= -->
+  <!-- ANALYSIS TOOLS -->
+  <!-- ============================================= -->
   
   <!-- Historical Performance Analysis -->
   <url>
     <loc>https://bitcoinbenefits.me/historical</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   
   <!-- On-Chain Benefits Tracking -->
@@ -54,33 +69,41 @@
     <loc>https://bitcoinbenefits.me/track</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
-  <!-- Financial Tools (formerly Bitcoin Tools) -->
+  <!-- ============================================= -->
+  <!-- BITCOIN TOOLS SUITE -->
+  <!-- ============================================= -->
+  
+  <!-- Bitcoin Tools Main Page -->
   <url>
     <loc>https://bitcoinbenefits.me/bitcoin-tools</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
-  <!-- Educational Resources -->
+  <!-- Note: Individual tools are handled via client-side routing -->
+  <!-- Tools include: Transaction Lookup, Address Explorer, Fee Calculator, etc. -->
+  
+  <!-- ============================================= -->
+  <!-- EDUCATIONAL CONTENT -->
+  <!-- ============================================= -->
+  
+  <!-- Learn Section -->
   <url>
     <loc>https://bitcoinbenefits.me/learn</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   
-  <!-- Legal Pages - Important for Trust -->
-  <url>
-    <loc>https://bitcoinbenefits.me/privacy</loc>
-    <lastmod>2025-01-29</lastmod>
-    <changefreq>quarterly</changefreq>
-    <priority>0.5</priority>
-  </url>
+  <!-- ============================================= -->
+  <!-- LEGAL & COMPLIANCE PAGES -->
+  <!-- ============================================= -->
   
+  <!-- Terms of Service -->
   <url>
     <loc>https://bitcoinbenefits.me/terms</loc>
     <lastmod>2025-01-29</lastmod>
@@ -88,12 +111,25 @@
     <priority>0.5</priority>
   </url>
   
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://bitcoinbenefits.me/privacy</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>quarterly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Risk Disclosure -->
   <url>
     <loc>https://bitcoinbenefits.me/risk-disclosure</loc>
     <lastmod>2025-01-29</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.5</priority>
   </url>
+  
+  <!-- ============================================= -->
+  <!-- UTILITY PAGES -->
+  <!-- ============================================= -->
   
   <!-- Contact Success Page -->
   <url>
@@ -102,4 +138,123 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  
+  <!-- Offline Page (PWA) -->
+  <url>
+    <loc>https://bitcoinbenefits.me/offline</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <!-- ============================================= -->
+  <!-- WWW SUBDOMAIN VARIATIONS -->
+  <!-- ============================================= -->
+  
+  <!-- WWW Homepage -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- WWW Calculator -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/calculator</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- WWW Calculator Schemes -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/calculator/accelerator</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.bitcoinbenefits.me/calculator/steady-builder</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.bitcoinbenefits.me/calculator/slow-burn</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- WWW Historical -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/historical</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- WWW Track -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/track</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- WWW Bitcoin Tools -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/bitcoin-tools</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- WWW Learn -->
+  <url>
+    <loc>https://www.bitcoinbenefits.me/learn</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- ============================================= -->
+  <!-- NETLIFY SUBDOMAIN (for backwards compatibility) -->
+  <!-- ============================================= -->
+  
+  <!-- Netlify Homepage -->
+  <url>
+    <loc>https://bitcoinbenefit.netlify.app/</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Netlify Calculator -->
+  <url>
+    <loc>https://bitcoinbenefit.netlify.app/calculator</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- Netlify Historical -->
+  <url>
+    <loc>https://bitcoinbenefit.netlify.app/historical</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Netlify Bitcoin Tools -->
+  <url>
+    <loc>https://bitcoinbenefit.netlify.app/bitcoin-tools</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
 </urlset>
