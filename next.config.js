@@ -4,6 +4,7 @@
 const isNetlify = process.env.NETLIFY === 'true' || process.env.CONTEXT === 'production';
 
 const nextConfig = {
+  output: 'export', // Static export for Netlify
   typescript: {
     // Temporarily ignoring to verify performance fixes - TODO: fix remaining TS errors
     ignoreBuildErrors: true,
