@@ -5,93 +5,101 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Homepage - Employee Benefits Platform -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Vesting Calculator - Main Business Tool -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/calculator</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/calculator</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- Calculator Schemes -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/calculator/pioneer</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/calculator/accelerator</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/calculator/accelerator</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/calculator/steady-builder</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/calculator/marathon</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/calculator/slow-burn</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Historical Performance Analysis -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/historical</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/historical</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- On-Chain Benefits Tracking -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/track</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/track</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <!-- Financial Tools (formerly Bitcoin Tools) -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/bitcoin-tools</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/bitcoin-tools</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <!-- Educational Resources -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/learn</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/learn</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <!-- Legal Pages - Important for Trust -->
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/privacy</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/privacy</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/terms</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/terms</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://bitcoinbenefit.netlify.app/risk-disclosure</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://bitcoinbenefits.me/risk-disclosure</loc>
+    <lastmod>2025-01-29</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.5</priority>
+  </url>
+  
+  <!-- Contact Success Page -->
+  <url>
+    <loc>https://bitcoinbenefits.me/contact-success</loc>
+    <lastmod>2025-01-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
