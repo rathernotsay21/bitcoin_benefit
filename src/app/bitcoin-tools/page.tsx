@@ -48,15 +48,7 @@ export const metadata: Metadata = {
   },
 };
 
-interface BitcoinToolsPageProps {
-  searchParams?: {
-    tool?: string;
-    txid?: string;
-    address?: string;
-  };
-}
-
-export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps) {
+export default function BitcoinToolsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 transition-colors duration-300">
       <Navigation />
@@ -103,11 +95,7 @@ export default function BitcoinToolsPage({ searchParams }: BitcoinToolsPageProps
             </div>
           }>
             <ToolTabsNavigation 
-              searchParams={{
-                ...(validateToolId(searchParams?.tool) && { tool: validateToolId(searchParams?.tool)! }),
-                ...(searchParams?.txid && { txid: searchParams.txid }),
-                ...(searchParams?.address && { address: searchParams.address })
-              }}
+              searchParams={{}}
             />
           </Suspense>
         </div>
