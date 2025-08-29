@@ -11,6 +11,7 @@ import {
   toUnixTimestamp
 } from '@/types/bitcoin-tools';
 import { validateBitcoinAddress } from '@/lib/on-chain/validation';
+import { unifiedBitcoinAPI } from '@/lib/api/unifiedBitcoinAPI';
 
 interface MempoolAddressInfo {
   address: string;
@@ -107,27 +108,16 @@ export class AddressService {
       return this.btcPrice;
     }
 
-    const cacheKey = 'btc-price';
-    const cached = this.getCachedData<number>(cacheKey);
-    if (cached) {
-      this.btcPrice = cached;
-      return cached;
-    }
+    const response = await unifiedBitcoinAPI.request<BitcoinPriceResponse>('/api/coingecko', {
+      cacheKey: 'btc-price',
+      fallbackData: { bitcoin: { usd: this.btcPrice || 30000 } },
+      rateLimitKey: 'coingecko'
+    });
 
-    try {
-      const response = await fetch('/api/coingecko', {
-        signal: AbortSignal.timeout(10000)
-      });
-      
-      if (response.ok) {
-        const data: BitcoinPriceResponse = await response.json();
-        this.btcPrice = data.bitcoin.usd;
-        this.priceLastUpdated = now;
-        this.setCachedData(cacheKey, this.btcPrice);
-        return this.btcPrice;
-      }
-    } catch (error) {
-      console.warn('Failed to fetch Bitcoin price:', error);
+    if (response.success && response.data) {
+      this.btcPrice = response.data.bitcoin.usd;
+      this.priceLastUpdated = now;
+      return this.btcPrice;
     }
     
     // Return cached price or fallback
@@ -145,28 +135,26 @@ export class AddressService {
    * Fetch address information from mempool API
    */
   private static async fetchAddressInfo(address: string): Promise<MempoolAddressInfo> {
-    const cacheKey = `address-info-${address}`;
-    const cached = this.getCachedData<MempoolAddressInfo>(cacheKey);
-    if (cached) return cached;
+    const response = await unifiedBitcoinAPI.request<MempoolAddressInfo>(
+      `https://mempool.space/api/address/${address}`,
+      {
+        cacheKey: `address-info-${address}`,
+        rateLimitKey: 'mempool-address'
+      }
+    );
 
-    const response = await fetch(`https://mempool.space/api/address/${address}`, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Bitcoin-Tools/1.0'
-      },
-      signal: AbortSignal.timeout(30000)
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
+    if (!response.success) {
+      if (response.error?.includes('404')) {
         throw createToolError('not_found', 'ADDRESS_NOT_FOUND');
       }
       throw createToolError('api', 'API_ERROR');
     }
 
-    const data = await response.json();
-    this.setCachedData(cacheKey, data);
-    return data;
+    if (!response.data) {
+      throw createToolError('api', 'API_ERROR');
+    }
+
+    return response.data;
   }
 
   /**
@@ -176,30 +164,22 @@ export class AddressService {
     address: string, 
     lastSeenTxid?: string
   ): Promise<MempoolTransaction[]> {
-    const cacheKey = `address-txs-${address}-${lastSeenTxid || 'first'}`;
-    const cached = this.getCachedData<MempoolTransaction[]>(cacheKey);
-    if (cached) return cached;
-
     let url = `https://mempool.space/api/address/${address}/txs`;
     if (lastSeenTxid) {
       url += `?after_txid=${lastSeenTxid}`;
     }
 
-    const response = await fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Bitcoin-Tools/1.0'
-      },
-      signal: AbortSignal.timeout(30000)
+    const response = await unifiedBitcoinAPI.request<MempoolTransaction[]>(url, {
+      cacheKey: `address-txs-${address}-${lastSeenTxid || 'first'}`,
+      rateLimitKey: 'mempool-transactions',
+      fallbackData: [] // Return empty array as fallback
     });
 
-    if (!response.ok) {
+    if (!response.success) {
       throw createToolError('api', 'API_ERROR');
     }
 
-    const data = await response.json();
-    this.setCachedData(cacheKey, data);
-    return data;
+    return response.data || [];
   }
 
   /**

@@ -1,7 +1,6 @@
 import { RawTransaction } from '../../types/on-chain';
 import { validateBitcoinAddress } from './validation';
-import { executeWithCircuitBreaker } from '@/lib/security/circuitBreaker';
-import { makeSecureAPICall } from '@/lib/security/apiKeyManager';
+import { unifiedBitcoinAPI } from '@/lib/api/unifiedBitcoinAPI';
 
 /**
  * Error types for Mempool API operations
@@ -313,34 +312,37 @@ export class MempoolAPI {
     const url = `${this.config.baseURL}/address/${address}/txs`;
     
     try {
-      // Use circuit breaker and secure API wrapper
-      const result = await executeWithCircuitBreaker(
-        'mempool',
-        async () => {
-          const apiResult = await makeSecureAPICall('mempool', url, {
-            headers: {
-              'Accept': 'application/json',
-              'User-Agent': 'Bitcoin-Benefit/1.0'
-            },
-            signal: abortSignal || AbortSignal.timeout(30000)
-          });
+      // Use unified API client for consistent behavior
+      const response = await unifiedBitcoinAPI.request<MempoolTransactionResponse[]>(url, {
+        signal: abortSignal,
+        cacheKey: `mempool-txs-${address}`,
+        rateLimitKey: 'mempool-transactions',
+        fallbackData: [] as MempoolTransactionResponse[] // Return empty array as fallback
+      });
 
-          if (!apiResult.success) {
-            throw new MempoolAPIError(
-              apiResult.error || 'Failed to fetch transactions',
-              apiResult.retryAfter ? 429 : 502,
-              !!apiResult.retryAfter
-            );
-          }
-
-          return apiResult.data;
+      if (!response.success) {
+        // Check for specific error types
+        if (response.error?.includes('Circuit breaker is open')) {
+          throw new MempoolAPIError(
+            'Mempool.space service temporarily unavailable. Please try again later.',
+            503,
+            true
+          );
         }
-      );
+        
+        throw new MempoolAPIError(
+          response.error || 'Failed to fetch transactions',
+          undefined,
+          false
+        );
+      }
+      
+      const result = response.data || ([] as MempoolTransactionResponse[]);
       
       // Validate response structure
       if (!validateTransactionResponse(result)) {
         // Return empty array for addresses with no transactions
-        if (Array.isArray(result) && result.length === 0) {
+        if (Array.isArray(result) && (result as any[]).length === 0) {
           return [];
         }
         throw new MempoolAPIError('Invalid API response format', undefined, false);
@@ -350,15 +352,6 @@ export class MempoolAPI {
       return result.map(transformTransaction);
       
     } catch (error) {
-      // Handle circuit breaker open
-      if (error instanceof Error && error.message.includes('Circuit breaker is open')) {
-        throw new MempoolAPIError(
-          'Mempool.space service temporarily unavailable. Please try again later.',
-          503,
-          true
-        );
-      }
-
       if (error instanceof MempoolAPIError) {
         throw error;
       }
@@ -387,14 +380,26 @@ export class MempoolAPI {
     const url = `${this.config.baseURL}/tx/${txid}`;
     
     try {
-      const data = await makeRequestWithRetry(url, this.config);
+      // Use unified API client
+      const response = await unifiedBitcoinAPI.request<MempoolTransactionResponse>(url, {
+        cacheKey: `mempool-tx-${txid}`,
+        rateLimitKey: 'mempool-transaction'
+      });
+      
+      if (!response.success || !response.data) {
+        throw new MempoolAPIError(
+          response.error || 'Failed to fetch transaction details',
+          undefined,
+          false
+        );
+      }
       
       // Validate single transaction response
-      if (!data || typeof data.txid !== 'string') {
+      if (!response.data || typeof response.data.txid !== 'string') {
         throw new MempoolAPIError('Invalid transaction response format', undefined, false);
       }
       
-      return transformTransaction(data);
+      return transformTransaction(response.data);
       
     } catch (error) {
       if (error instanceof MempoolAPIError) {

@@ -11,6 +11,7 @@ import {
   toUSDAmount
 } from '@/types/bitcoin-tools';
 import { apiConfig, parseCoinGeckoPrice } from '@/lib/config/api';
+import { unifiedBitcoinAPI } from '@/lib/api/unifiedBitcoinAPI';
 
 // Updated interface to match actual API response from route.ts
 interface MempoolTransactionResponse {
@@ -68,21 +69,16 @@ export class TransactionService {
       return this.btcPrice;
     }
 
-    try {
-      const response = await fetch(apiConfig.bitcoin.price, {
-        signal: AbortSignal.timeout(10000)
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        this.btcPrice = parseCoinGeckoPrice(data);
-        this.priceLastUpdated = now;
-        return this.btcPrice;
-      } else {
-        console.warn('Bitcoin price API returned non-OK status:', response.status);
-      }
-    } catch (error) {
-      console.warn('Failed to fetch Bitcoin price:', error);
+    const response = await unifiedBitcoinAPI.request<any>(apiConfig.bitcoin.price, {
+      cacheKey: 'btc-price-tx',
+      fallbackData: { bitcoin: { usd: this.btcPrice || 30000 } },
+      rateLimitKey: 'coingecko'
+    });
+
+    if (response.success && response.data) {
+      this.btcPrice = parseCoinGeckoPrice(response.data);
+      this.priceLastUpdated = now;
+      return this.btcPrice;
     }
     
     // Return cached price or fallback
@@ -223,29 +219,32 @@ export class TransactionService {
     try {
       // Fetch transaction data and Bitcoin price in parallel
       console.log('Fetching transaction and Bitcoin price...');
-      const [txResponse, btcPrice] = await Promise.all([
-        fetch(apiConfig.mempool.transaction(txid), {
-          signal: AbortSignal.timeout(30000)
-        }),
+      const [txApiResponse, btcPrice] = await Promise.all([
+        unifiedBitcoinAPI.request<MempoolTransactionResponse>(
+          apiConfig.mempool.transaction(txid),
+          {
+            cacheKey: `tx-${txid}`,
+            rateLimitKey: 'mempool-transaction'
+          }
+        ),
         this.getBitcoinPrice()
       ]);
 
-      console.log('API Response status:', txResponse.status);
+      console.log('API Response status:', txApiResponse.success ? 'OK' : 'Failed');
 
-      if (!txResponse.ok) {
-        const errorText = await txResponse.text();
-        console.error('API Error response:', errorText);
+      if (!txApiResponse.success || !txApiResponse.data) {
+        console.error('API Error response:', txApiResponse.error);
         
-        if (txResponse.status === 404) {
+        if (txApiResponse.error?.includes('404')) {
           throw createToolError('not_found', 'TRANSACTION_NOT_FOUND');
-        } else if (txResponse.status === 408) {
+        } else if (txApiResponse.error?.includes('timeout')) {
           throw createToolError('timeout', 'API_TIMEOUT');
         } else {
           throw createToolError('api', 'API_ERROR');
         }
       }
 
-      const rawTxData = await txResponse.json();
+      const rawTxData = txApiResponse.data;
       console.log('Raw transaction data received:', {
         txid: rawTxData.txid,
         hasFee: 'fee' in rawTxData,
