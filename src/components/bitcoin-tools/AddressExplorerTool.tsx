@@ -114,18 +114,58 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
       <ArrowDownIcon className="w-5 h-5 text-bitcoin" />;
   };
 
-  const formatBTC = (amount: number): string => {
-    if (amount >= 1) {
-      return `${amount.toFixed(4)} BTC`;
+  // Enhanced number formatting functions with abbreviation support
+  const formatBTC = (amount: number, options?: { abbreviated?: boolean; precision?: 'auto' | number }): string => {
+    const { abbreviated = false, precision = 'auto' } = options || {};
+    
+    if (amount >= 1000000 && abbreviated) {
+      return `${(amount / 1000000).toFixed(2)}M BTC`;
+    } else if (amount >= 1000 && abbreviated) {
+      return `${(amount / 1000).toFixed(3)}K BTC`;
+    } else if (amount >= 1) {
+      const decimals = precision === 'auto' ? 4 : precision;
+      return `${amount.toFixed(decimals)} BTC`;
     } else if (amount >= 0.001) {
-      return `${amount.toFixed(6)} BTC`;
+      const decimals = precision === 'auto' ? 6 : precision;
+      return `${amount.toFixed(decimals)} BTC`;
     } else {
       return `${Math.round(amount * 100000000).toLocaleString()} sats`;
     }
   };
 
-  const formatUSD = (amount: number): string => {
-    return amount >= 0.01 ? `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '<$0.01';
+  const formatUSD = (amount: number, options?: { abbreviated?: boolean }): string => {
+    const { abbreviated = false } = options || {};
+    
+    if (amount < 0.01) return '<$0.01';
+    
+    if (amount >= 1000000 && abbreviated) {
+      return `$${(amount / 1000000).toFixed(2)}M`;
+    } else if (amount >= 1000 && abbreviated) {
+      return `$${(amount / 1000).toFixed(1)}K`;
+    }
+    
+    return `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+  
+  const formatSatoshis = (amount: number, options?: { abbreviated?: boolean }): string => {
+    const { abbreviated = false } = options || {};
+    const sats = Math.round(amount * 100000000);
+    
+    if (sats >= 1000000000 && abbreviated) {
+      return `${(sats / 1000000000).toFixed(2)}B sats`;
+    } else if (sats >= 1000000 && abbreviated) {
+      return `${(sats / 1000000).toFixed(1)}M sats`;
+    } else if (sats >= 1000 && abbreviated) {
+      return `${(sats / 1000).toFixed(1)}K sats`;
+    }
+    
+    return `${sats.toLocaleString()} sats`;
+  };
+  
+  // Function to determine if values need abbreviation based on their size
+  const shouldAbbreviate = (btcAmount: number, usdAmount: number): boolean => {
+    const sats = Math.round(btcAmount * 100000000);
+    return btcAmount >= 100 || usdAmount >= 100000 || sats >= 100000000;
   };
 
   // Initialize with initial address if provided
@@ -241,41 +281,90 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
             </div>
           </div>
 
-          {/* Balance Display */}
-          <div className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-sm p-6 mb-6 shadow-sm">
-            <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-gray-100 mb-3">
-              Current Balance
-            </h4>
-            <p className="text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+          {/* Balance Display - Redesigned */}
+          <div className="card mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white">
+                Current Balance
+              </h4>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-mono">
+                {addressExplorer.data.address.slice(0, 8)}...{addressExplorer.data.address.slice(-6)}
+              </div>
+            </div>
+            
+            <p className="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
               The total amount of Bitcoin currently stored at this address
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-bitcoin/5 rounded-sm">
-                <div className="text-3xl font-bold text-bitcoin mb-2">
-                  {formatBTC(addressExplorer.data.balance.btc)}
-                </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Bitcoin</div>
-              </div>
+            {(() => {
+              const balance = addressExplorer.data.balance;
+              const needsAbbreviation = shouldAbbreviate(balance.btc, balance.usd);
               
-              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-sm">
-                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-                  {formatUSD(addressExplorer.data.balance.usd)}
+              return (
+                <div className="space-y-6">
+                  {/* Primary Balance - BTC */}
+                  <div className="text-center pb-6 border-b border-gray-200 dark:border-gray-700">
+                    <div className="space-y-2">
+                      <div className="text-4xl lg:text-5xl font-bold text-bitcoin mb-2 font-mono tracking-tight">
+                        {formatBTC(balance.btc, { abbreviated: needsAbbreviation })}
+                      </div>
+                      {needsAbbreviation && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 font-mono">
+                          Exact: {formatBTC(balance.btc, { abbreviated: false, precision: 8 })}
+                        </div>
+                      )}
+                      <div className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                        Primary Balance
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Secondary Values Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* USD Value */}
+                    <div className="bg-gradient-to-br from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg p-4 border border-green-200/50 dark:border-green-800/30">
+                      <div className="text-center">
+                        <div className="text-2xl lg:text-3xl font-bold text-green-700 dark:text-green-400 mb-1 font-mono">
+                          {formatUSD(balance.usd, { abbreviated: needsAbbreviation })}
+                        </div>
+                        {needsAbbreviation && (
+                          <div className="text-xs text-green-600 dark:text-green-500 font-mono mb-1">
+                            {formatUSD(balance.usd, { abbreviated: false })}
+                          </div>
+                        )}
+                        <div className="text-sm font-medium text-green-600 dark:text-green-400">
+                          USD Value
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Satoshis */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 dark:from-gray-800/20 dark:to-gray-700/10 rounded-lg p-4 border border-gray-200/50 dark:border-gray-700/30">
+                      <div className="text-center">
+                        <div className="text-2xl lg:text-3xl font-bold text-gray-700 dark:text-gray-300 mb-1 font-mono">
+                          {formatSatoshis(balance.btc, { abbreviated: needsAbbreviation })}
+                        </div>
+                        {needsAbbreviation && (
+                          <div className="text-xs text-gray-600 dark:text-gray-400 font-mono mb-1">
+                            {formatSatoshis(balance.btc, { abbreviated: false })}
+                          </div>
+                        )}
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                          Satoshis (smallest unit)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Balance Summary */}
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200/50 dark:border-blue-800/30">
+                    <div className="text-center text-base text-blue-700 dark:text-blue-300 font-medium">
+                      {addressExplorer.data.humanReadable.balanceDescription}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In US Dollars</div>
-              </div>
-              
-              <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-sm">
-                <div className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
-                  {addressExplorer.data.balance.sats.toLocaleString()}
-                </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Satoshis (smallest unit)</div>
-              </div>
-            </div>
-            
-            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-400">
-              {addressExplorer.data.humanReadable.balanceDescription}
-            </div>
+              );
+            })()}
           </div>
 
           {/* Transaction History */}

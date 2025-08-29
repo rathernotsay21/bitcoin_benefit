@@ -6,21 +6,22 @@ This file provides comprehensive guidance to Claude Code (claude.ai/code) for ef
 
 1. [Project Overview](#project-overview)
 2. [Quick Reference](#quick-reference)
-3. [Token Efficiency Guidelines](#token-efficiency-guidelines)
-4. [Critical Development Commands](#critical-development-commands)
-5. [Complete Architecture Reference](#complete-architecture-reference)
-6. [Bitcoin Tools Development Guide](#bitcoin-tools-development-guide)
-7. [Advanced Analytics Development](#advanced-analytics-development)
-8. [API Development Guide](#api-development-guide)
-9. [Security Checklist](#security-checklist)
-10. [Performance Requirements](#performance-requirements)
-11. [Testing Requirements](#testing-requirements)
-12. [Common Development Workflows](#common-development-workflows)
-13. [All NPM Scripts Reference](#all-npm-scripts-reference)
-14. [Code Conventions](#code-conventions)
-15. [Deployment & Build Process](#deployment--build-process)
-16. [Troubleshooting Guide](#troubleshooting-guide)
-17. [Important Notes](#important-notes)
+3. [⚠️ CRITICAL: Static Export Limitations](#critical-static-export-limitations)
+4. [Token Efficiency Guidelines](#token-efficiency-guidelines)
+5. [Critical Development Commands](#critical-development-commands)
+6. [Complete Architecture Reference](#complete-architecture-reference)
+7. [Bitcoin Tools Development Guide](#bitcoin-tools-development-guide)
+8. [Advanced Analytics Development](#advanced-analytics-development)
+9. [API Development Guide](#api-development-guide)
+10. [Security Checklist](#security-checklist)
+11. [Performance Requirements](#performance-requirements)
+12. [Testing Requirements](#testing-requirements)
+13. [Common Development Workflows](#common-development-workflows)
+14. [All NPM Scripts Reference](#all-npm-scripts-reference)
+15. [Code Conventions](#code-conventions)
+16. [Deployment & Build Process](#deployment--build-process)
+17. [Troubleshooting Guide](#troubleshooting-guide)
+18. [Important Notes](#important-notes)
 
 ---
 
@@ -29,9 +30,10 @@ This file provides comprehensive guidance to Claude Code (claude.ai/code) for ef
 Bitcoin Benefit is a comprehensive Bitcoin vesting calculator and benefits platform that helps companies implement Bitcoin-based employee compensation packages. The platform provides:
 
 - **Core Features**: Future projections (20-year), Historical analysis (2015-present), Three vesting schemes
-- **Bitcoin Tools Suite**: Transaction lookup, Address explorer, Fee calculator, Document timestamping
+- **Bitcoin Tools Suite**: Transaction lookup, Address explorer, Fee calculator, Document timestamping, Network status monitor
 - **Advanced Analytics**: Tax calculator, Risk analysis, Retention modeling, Growth projections
 - **Infrastructure**: Real-time pricing, On-chain tracking, Enterprise security, Performance monitoring
+- **Services**: Enhanced rate limiting, Privacy management, Secure file handling, Transaction analysis
 
 ## Quick Reference
 
@@ -48,9 +50,10 @@ npm run build             # Production build
 ```
 src/lib/vesting-*.ts       # Vesting logic
 src/lib/calculators/*.ts   # Advanced calculators
-src/app/api/*/route.ts     # API endpoints
+src/app/api/*/route.ts     # API endpoints (STATIC ONLY!)
 src/stores/*Store.ts       # State management
 src/components/bitcoin-tools/*.tsx  # Bitcoin tools
+src/lib/services/*.ts      # Service layer
 ```
 
 ### ⚡ Performance Targets
@@ -60,6 +63,61 @@ src/components/bitcoin-tools/*.tsx  # Bitcoin tools
 - Bundle < 500KB
 - Memory < 100MB
 
+## ⚠️ CRITICAL: Static Export Limitations
+
+### **THIS PROJECT USES `output: 'export'` - STATIC SITE GENERATION ONLY!**
+
+This means:
+- ❌ **NO DYNAMIC ROUTES**: Cannot use `[param]` in API routes
+- ❌ **NO SERVER-SIDE RENDERING**: All pages are pre-rendered at build time
+- ❌ **NO MIDDLEWARE**: Next.js middleware doesn't work with static export
+- ❌ **NO IMAGE OPTIMIZATION**: Next.js Image optimization requires a server
+- ✅ **STATIC API ROUTES ONLY**: Routes like `/api/bitcoin-price` work
+- ✅ **CLIENT-SIDE FETCHING**: Use direct API calls from browser when possible
+- ✅ **PRE-GENERATED DATA**: Use build-time data generation via `prebuild` script
+
+### API Route Rules for Static Export
+
+#### ✅ ALLOWED - Static API Routes
+```typescript
+// src/app/api/bitcoin-price/route.ts
+export async function GET() {
+  // Static route without parameters - WORKS!
+  return NextResponse.json({ price: 100000 });
+}
+```
+
+#### ❌ FORBIDDEN - Dynamic API Routes
+```typescript
+// src/app/api/address/[address]/route.ts
+export async function GET(request, { params }) {
+  // Dynamic route with [address] parameter - WILL BREAK BUILD!
+  // Error: Missing generateStaticParams() for static export
+}
+```
+
+### Working with External APIs
+
+Since we can't create dynamic proxy routes, use these strategies:
+
+1. **Direct Client-Side Calls** (when CORS is enabled):
+```typescript
+// Good - Direct call from client
+const response = await fetch('https://mempool.space/api/address/abc123');
+```
+
+2. **Static Proxy Routes** (for APIs without CORS):
+```typescript
+// Create /api/coingecko/route.ts that handles params via query string
+const response = await fetch('/api/coingecko?endpoint=/simple/price&ids=bitcoin');
+```
+
+3. **Build-Time Data Generation**:
+```typescript
+// Generate data during build via scripts/generate-static-data.js
+// Data saved to public/data/*.json and imported statically
+```
+
 ## Token Efficiency Guidelines
 
 ### File Reading Strategy
@@ -67,15 +125,17 @@ src/components/bitcoin-tools/*.tsx  # Bitcoin tools
 - Use symbolic search tools (`find_symbol`, `get_symbols_overview`) first
 - Static data files in `public/data/` are pre-generated - no need to regenerate
 - Test files follow `*.test.ts` or `*.performance.test.ts` patterns
+- Critical CSS is auto-generated in `public/critical.css`
 
 ### Quick File Locations Matrix
 
 | Feature | Location | Key Files |
 |---------|----------|-----------|
 | Vesting Logic | `src/lib/` | `vesting-calculations.ts`, `vesting-schemes.ts` |
-| API Routes | `src/app/api/` | `*/route.ts` |
-| State Management | `src/stores/` | `calculatorStore.ts`, `historicalCalculatorStore.ts` |
-| Bitcoin Tools | `src/components/bitcoin-tools/` | `*Tool.tsx` |
+| API Routes | `src/app/api/` | `*/route.ts` (STATIC ONLY!) |
+| State Management | `src/stores/` | `calculatorStore.ts`, `historicalCalculatorStore.ts`, `bitcoinToolsStore.ts` |
+| Bitcoin Tools | `src/components/bitcoin-tools/` | `*Tool.tsx`, `NetworkStatus.tsx` |
+| Services | `src/lib/services/` | `addressService.ts`, `transactionService.ts`, `networkService.ts` |
 | Charts | `src/components/` | `*Chart*.tsx`, `*Visualization*.tsx` |
 | Security | `src/lib/security/` | `rateLimiter.ts`, `circuitBreaker.ts` |
 | Performance | `src/lib/performance/` | `monitor.tsx`, `object-pool.ts` |
@@ -86,6 +146,7 @@ src/components/bitcoin-tools/*.tsx  # Bitcoin tools
 - Generated files: `*.tsbuildinfo`, `next-env.d.ts`
 - Large JSON data files in `src/data/` (use specific queries instead)
 - `hamburger_meat/` - deprecated/archived content
+- `docs/hamburger_meat/` - old documentation
 
 ## Critical Development Commands
 
@@ -124,8 +185,8 @@ npm run prebuild                        # Generate static data files
 ### System Architecture
 ```
 ┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Next.js App   │────▶│  API Routes  │────▶│  External   │
-│   (App Router)  │     │  (Serverless)│     │    APIs     │
+│   Next.js App   │────▶│  Static API  │────▶│  External   │
+│  (Static Export)│     │   Routes     │     │    APIs     │
 └─────────────────┘     └──────────────┘     └─────────────┘
          │                      │                     │
          ▼                      ▼                     ▼
@@ -149,6 +210,18 @@ onChainStore.ts           // Blockchain tracking state
 bitcoinToolsStore.ts      // Bitcoin tools state
 ```
 
+### Service Layer Architecture
+```typescript
+// Services in src/lib/services/
+addressService.ts         // Bitcoin address analysis
+transactionService.ts     // Transaction details & validation
+networkService.ts         // Network health monitoring
+timestampService.ts       // Document timestamping
+privacyManager.ts        // Privacy settings management
+enhancedRateLimiter.ts   // Advanced rate limiting
+secureFileHandler.ts     // Secure file operations
+```
+
 ### Component Architecture
 ```typescript
 // Performance-optimized components
@@ -158,9 +231,18 @@ VestingTimelineChartRecharts.tsx
 HistoricalTimelineVisualizationOptimized.tsx
 // Tool components
 src/components/bitcoin-tools/*.tsx
+// Educational components
+src/components/bitcoin-tools/educational/*.tsx
 ```
 
 ## Bitcoin Tools Development Guide
+
+### Current Bitcoin Tools
+1. **Transaction Lookup** - Search and analyze Bitcoin transactions
+2. **Address Explorer** - Explore Bitcoin address details and history
+3. **Fee Calculator** - Calculate optimal transaction fees
+4. **Document Timestamping** - Create blockchain timestamps for documents
+5. **Network Status** - Monitor Bitcoin network health and statistics
 
 ### Tool Architecture Pattern
 Every Bitcoin tool follows this pattern:
@@ -200,10 +282,21 @@ const handleError = (error: unknown) => {
 
 1. **Create Tool Component**: `src/components/bitcoin-tools/NewTool.tsx`
 2. **Add to Store**: Update `bitcoinToolsStore.ts`
-3. **Create API Route**: `src/app/api/toolname/route.ts`
+3. **Create Static API Route**: `src/app/api/toolname/route.ts` (NO DYNAMIC PARAMS!)
 4. **Add Error Boundary**: Wrap with `ToolErrorBoundary`
 5. **Add Educational Content**: Use `BitcoinTooltip` components
-6. **Add Tests**: `src/components/bitcoin-tools/__tests__/NewTool.test.tsx`
+6. **Add Loading States**: Use `ToolSkeleton` component
+7. **Add Tests**: `src/components/bitcoin-tools/__tests__/NewTool.test.tsx`
+
+### Tool Services Integration
+```typescript
+// Use service layer for complex operations
+import { AddressService } from '@/lib/services/addressService';
+import { TransactionService } from '@/lib/services/transactionService';
+
+// Services handle caching, validation, and API calls
+const data = await AddressService.analyzeAddress(address);
+```
 
 ### Tool Error Types
 ```typescript
@@ -260,72 +353,71 @@ const result = useMemo(
 
 ## API Development Guide
 
-### API Endpoint Creation
+### ⚠️ STATIC API ROUTES ONLY!
+
+Due to `output: 'export'`, we can only create static API routes without dynamic parameters.
+
+### Static API Endpoint Creation
 
 ```typescript
-// src/app/api/endpoint/route.ts
+// ✅ CORRECT: src/app/api/bitcoin-price/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { rateLimiter } from '@/lib/security/rateLimiter';
-import { z } from 'zod';
 
-// 1. Define schema
-const schema = z.object({
-  param: z.string().min(1)
-});
-
-// 2. Implement handler
 export async function GET(request: NextRequest) {
-  // Rate limiting
-  const limited = await rateLimiter.check(request);
-  if (limited) {
-    return NextResponse.json(
-      { error: 'Rate limit exceeded' },
-      { status: 429 }
-    );
-  }
+  // Get parameters from query string, not route params
+  const { searchParams } = new URL(request.url);
+  const address = searchParams.get('address');
   
-  // Input validation
-  const validation = schema.safeParse(params);
-  if (!validation.success) {
-    return NextResponse.json(
-      { error: validation.error },
-      { status: 400 }
-    );
-  }
-  
-  // Business logic
   try {
-    const result = await processRequest(validation.data);
-    return NextResponse.json(result);
+    // Make external API call
+    const response = await fetch(`https://api.example.com/address/${address}`);
+    const data = await response.json();
+    
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, max-age=300',
+      }
+    });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch data' },
       { status: 500 }
     );
   }
 }
 ```
 
-### API Endpoints Reference
+### Current API Endpoints
 
-| Endpoint | Method | Rate Limit | Cache TTL |
-|----------|--------|------------|-----------|
-| `/api/bitcoin-price` | GET | 100/min | 5 min |
-| `/api/historical-data` | GET | 50/min | 1 hour |
-| `/api/mempool/fees/recommended` | GET | 60/min | 30 sec |
-| `/api/mempool/network` | GET | 60/min | 30 sec |
-| `/api/timestamps` | POST | 10/min | N/A |
-| `/api/health` | GET | 1000/min | 10 sec |
+| Endpoint | Method | Purpose | Notes |
+|----------|--------|---------|-------|
+| `/api/bitcoin-price` | GET | Get current BTC price | Proxies to CoinGecko |
+| `/api/coingecko` | GET | CoinGecko proxy | Handles CORS |
+| `/api/indexnow` | POST | SEO indexing | Netlify only |
+
+### External API Integration
+
+For APIs with CORS support (like mempool.space):
+```typescript
+// Call directly from client
+const response = await fetch('https://mempool.space/api/address/abc123');
+```
+
+For APIs without CORS (need proxy):
+```typescript
+// Create static proxy route that uses query params
+const response = await fetch('/api/proxy?url=' + encodeURIComponent(apiUrl));
+```
 
 ## Security Checklist
 
 ### Required for All Changes
 - [ ] Input validation with Zod schemas
-- [ ] Rate limiting configured
+- [ ] Rate limiting configured (use enhancedRateLimiter)
 - [ ] API keys in environment variables only
 - [ ] No sensitive data in logs
 - [ ] Error messages sanitized
-- [ ] CORS headers configured
+- [ ] CORS headers configured (in netlify.toml)
 - [ ] XSS prevention measures
 - [ ] SQL injection prevention (if applicable)
 - [ ] CSRF protection enabled
@@ -341,12 +433,9 @@ const schema = z.object({
   txid: z.string().length(64)
 });
 
-// Rate Limiting
-const limiter = new RateLimiter({
-  points: 50,
-  duration: 60,
-  blockDuration: 600
-});
+// Enhanced Rate Limiting
+import { enhancedRateLimiter } from '@/lib/services/enhancedRateLimiter';
+const allowed = await enhancedRateLimiter.checkLimit(request);
 
 // Circuit Breaker
 const breaker = new CircuitBreaker({
@@ -355,6 +444,13 @@ const breaker = new CircuitBreaker({
   resetTimeout: 30000
 });
 ```
+
+### Content Security Policy
+Configured in `netlify.toml`:
+- Allows fonts from Google Fonts and Perplexity CDN
+- Restricts script sources
+- Enables upgrade-insecure-requests
+- Blocks framing (frame-ancestors: 'none')
 
 ## Performance Requirements
 
@@ -381,9 +477,10 @@ API Response < 200ms (p95)
 - [ ] Use useCallback() for event handlers
 - [ ] Implement virtualization for lists > 100 items
 - [ ] Use dynamic imports for code splitting
-- [ ] Optimize images with Next.js Image
+- [ ] Optimize images (unoptimized due to static export)
 - [ ] Implement proper caching strategies
 - [ ] Use Web Workers for heavy calculations
+- [ ] Critical CSS inlined (auto-generated in public/critical.css)
 
 ## Testing Requirements
 
@@ -413,10 +510,10 @@ describe('Performance', () => {
   });
 });
 
-// Integration Test
-describe('API Integration', () => {
+// API Test (for static routes only!)
+describe('API Route', () => {
   it('should return data', async () => {
-    const response = await fetch('/api/endpoint');
+    const response = await fetch('/api/bitcoin-price');
     expect(response.status).toBe(200);
   });
 });
@@ -433,24 +530,25 @@ describe('API Integration', () => {
 6. Run `npm test` to verify
 7. Run `npm run build` to check production build
 
-### Updating API Endpoints
-1. Create route handler in `src/app/api/[endpoint]/route.ts`
-2. Add rate limiting in route handler
-3. Implement input validation with Zod schemas
-4. Add error handling and logging
-5. Test with `src/components/dev/APITester.tsx`
-6. Add integration tests
-7. Update API documentation
+### Creating a Static API Endpoint
+1. Create route handler in `src/app/api/[endpoint]/route.ts` (NO DYNAMIC SEGMENTS!)
+2. Use query parameters for dynamic data
+3. Add input validation with Zod schemas
+4. Implement error handling
+5. Test locally with `npm run dev`
+6. Verify build with `npm run build`
+7. Add integration tests
 
 ### Adding a Bitcoin Tool
 1. Create component in `src/components/bitcoin-tools/`
 2. Add state to `bitcoinToolsStore.ts`
-3. Create API route if needed
-4. Add error boundary wrapper
-5. Implement educational tooltips
-6. Add loading states
-7. Write tests
-8. Update documentation
+3. Create service in `src/lib/services/` if needed
+4. Create static API route if needed (NO DYNAMIC PARAMS!)
+5. Add error boundary wrapper
+6. Implement educational tooltips
+7. Add loading states with ToolSkeleton
+8. Write tests
+9. Update documentation
 
 ### Debugging Performance Issues
 1. Run `npm run perf:lighthouse` for Lighthouse audit
@@ -461,6 +559,13 @@ describe('API Integration', () => {
 6. Identify render bottlenecks
 7. Implement optimizations
 8. Re-run benchmarks
+
+### Handling CORS Issues
+1. Check if external API supports CORS
+2. If yes: Call directly from client
+3. If no: Create static proxy route with query params
+4. Never create dynamic routes with [param] syntax
+5. Update CSP in netlify.toml if needed
 
 ## All NPM Scripts Reference
 
@@ -480,7 +585,7 @@ npm run build:safe            # Build with all validations
 npm run build:analyze         # Build with bundle analyzer
 npm run build:optimized       # Build with optimized config
 npm start                     # Start production server
-npm run export                # Export static site
+npm run export                # Export static site (deprecated, use build)
 ```
 
 ### Testing Scripts
@@ -513,6 +618,7 @@ npm run perf:budget          # Check performance budget
 npm run perf:analyze         # Full performance analysis
 npm run optimize             # Run optimization script
 npm run optimize:analyze     # Analyze optimization opportunities
+npm run extract-critical-css # Extract critical CSS for inlining
 ```
 
 ### Data Management Scripts
@@ -520,6 +626,7 @@ npm run optimize:analyze     # Analyze optimization opportunities
 npm run update-bitcoin-data   # Update all historical Bitcoin data
 npm run update-bitcoin-year   # Update specific year data
 npm run clear-bitcoin-cache   # Clear Bitcoin data cache
+npm run generate-static-data  # Generate all static data files
 ```
 
 ### Deployment Scripts
@@ -573,11 +680,13 @@ npm run redis:install      # Install Redis (optional)
 - **Strict mode enabled** with comprehensive type checking
 - **Path aliases**: `@/*` maps to `./src/*`
 - **Target**: ES2022 with DOM libraries
+- **Build errors temporarily ignored** (TODO: fix remaining TS errors)
 
 ### File Organization
 - Features organized by domain (calculators, historical, on-chain tracking)
 - Component naming: PascalCase for components, `*Optimized.tsx` suffix for performance-critical
 - Store naming: `*Store.ts` for Zustand stores
+- Service naming: `*Service.ts` for service layer
 - Test naming: `*.test.ts` for unit tests, `*.performance.test.ts` for benchmarks
 
 ### Import Conventions
@@ -607,6 +716,16 @@ export default function ComponentWithErrorBoundary(props) {
     </ErrorBoundary>
   );
 }
+
+// Tool component pattern
+export function BitcoinTool() {
+  const state = useBitcoinToolsStore(selector);
+  return (
+    <ToolErrorBoundary toolName="Bitcoin Tool">
+      <ToolContent />
+    </ToolErrorBoundary>
+  );
+}
 ```
 
 ### Performance Conventions
@@ -614,6 +733,7 @@ export default function ComponentWithErrorBoundary(props) {
 - Code splitting with dynamic imports for large components
 - Virtualization for lists > 100 items
 - Optimized Zustand stores with selectors
+- Critical CSS extraction and inlining
 
 ## Deployment & Build Process
 
@@ -625,13 +745,16 @@ export default function ComponentWithErrorBoundary(props) {
 5. Test deployment locally: `npm run build && npm start`
 6. Check performance: `npm run perf:lighthouse`
 7. Security audit: `npm run security:full-scan`
+8. Verify no dynamic routes are used
 
 ### Netlify Configuration
 - **Build command**: `npm run build`
+- **Output directory**: `out` (from static export)
 - **Node version**: 20.19.4 (specified in `.nvmrc`)
 - **Memory allocation**: 6GB (NODE_OPTIONS in netlify.toml)
 - **Auto-deploys**: From main branch
 - **Build cache**: Busted on types fix (see netlify.toml)
+- **Headers & CSP**: Configured in netlify.toml
 
 ### Environment Variables
 ```env
@@ -651,15 +774,27 @@ CACHE_TTL_NETWORK_HEALTH=30
 
 # Performance
 NODE_OPTIONS=--max-old-space-size=4096
+
+# Feature flags
+NEXT_PUBLIC_USE_FALLBACK_PRICES=false
+NEXT_PUBLIC_MIN_REQUEST_INTERVAL=3000
+NEXT_PUBLIC_MAX_REQUESTS_PER_MINUTE=10
 ```
 
 ## Troubleshooting Guide
 
 ### Common Build Issues
 
+#### Dynamic Route Error
+```
+Error: Page "/api/[param]/route" is missing "generateStaticParams()"
+```
+**Solution**: Remove dynamic segments from API routes. Use query parameters instead.
+
 #### CSS not loading
 ```bash
 node scripts/verify-css-build.js
+node scripts/extract-critical-css.js
 ```
 
 #### Type errors with react-dom
@@ -674,39 +809,62 @@ NODE_OPTIONS='--max-old-space-size=6144' npm run build
 ```
 
 #### API rate limits
-Check `.env.local` rate limit settings
+Check `.env.local` rate limit settings and use enhancedRateLimiter service
 
 ### Performance Issues
 
 #### Slow initial load
 - Check bundle size: `npm run build:analyze`
 - Review code splitting in `next.config.js`
-- Verify lazy loading implementation
+- Verify critical CSS is inlined
+- Check if static data is pre-generated
 
 #### High memory usage
 - Check for memory leaks in components
 - Review virtualization implementation
 - Monitor with Chrome DevTools Memory Profiler
+- Use object pooling for frequently created objects
 
 #### Slow calculations
 - Implement Web Workers for heavy operations
 - Add debouncing to user inputs
 - Use memoization for expensive calculations
+- Pre-calculate common scenarios during build
+
+### CORS Issues
+
+#### External API blocked by CORS
+1. Check if API supports CORS headers
+2. If yes: Call directly from client
+3. If no: Create static proxy route
+4. Use query parameters, not dynamic routes
+5. Update CSP in netlify.toml if needed
+
+Example proxy route:
+```typescript
+// /api/proxy/route.ts
+export async function GET(request) {
+  const url = new URL(request.url).searchParams.get('url');
+  const response = await fetch(url);
+  return NextResponse.json(await response.json());
+}
+```
 
 ### Development Tips
 - Use `npm run dev` for hot reloading
 - Enable debug mode in `.env.local` for verbose logging
-- Check `/api/health` endpoint for system status
+- Check `/api/health` endpoint for system status (if implemented)
 - Use performance monitor at `npm run monitoring:dashboard`
 - Review React DevTools Profiler for render issues
+- Always verify static export compatibility
 
 ### Common Error Patterns
 
 #### Rate Limit Errors
 ```typescript
 if (error.code === 'RATE_LIMIT_EXCEEDED') {
-  // Implement exponential backoff
-  await delay(Math.pow(2, attempt) * 1000);
+  // Use enhancedRateLimiter service
+  await enhancedRateLimiter.waitForReset();
   return retry();
 }
 ```
@@ -745,6 +903,7 @@ useEffect(() => {
 - Use environment variables for configuration
 - Implement rate limiting on all endpoints
 - Sanitize error messages
+- CSP configured in netlify.toml
 
 ### Performance Critical
 - This is a financial calculator - accuracy and speed matter
@@ -752,6 +911,14 @@ useEffect(() => {
 - Monitor bundle size growth
 - Implement proper caching strategies
 - Use virtualization for large datasets
+- Critical CSS auto-extracted and inlined
+
+### Static Export Limitations
+- **NO DYNAMIC ROUTES** - This cannot be emphasized enough
+- All API routes must be static
+- Use query parameters for dynamic data
+- Pre-generate data at build time when possible
+- Client-side fetching for real-time data
 
 ### Mobile Responsive
 - All features must work on mobile devices
@@ -778,6 +945,7 @@ useEffect(() => {
 - Keep components under 200 lines
 - Follow established patterns
 - Review performance impact
+- Use service layer for business logic
 
 ---
 
@@ -803,8 +971,58 @@ npm ls --depth=0 | awk '{print $2}' | xargs -I {} sh -c 'echo {} $(npm pack {} 2
 
 # Profile bundle
 ANALYZE=true npm run build
+
+# Generate static data
+npm run prebuild
+
+# Extract critical CSS
+npm run extract-critical-css
+
+# Verify static export compatibility
+npm run build
 ```
 
 ---
 
-**Remember**: When in doubt, refer to existing patterns in the codebase. The best code is consistent code.
+## Recent Updates (2024-2025)
+
+### New Features Added
+- Enhanced Bitcoin Tools suite with educational components
+- Network status monitoring with real-time updates
+- Advanced service layer for all Bitcoin operations
+- Enhanced rate limiting with sophisticated algorithms
+- Privacy management system
+- Document timestamping service
+- Critical CSS extraction and inlining
+- Improved error boundaries for all tools
+
+### Architecture Changes
+- Migrated to static export (`output: 'export'`)
+- Removed all dynamic API routes
+- Implemented service layer pattern
+- Added comprehensive error handling
+- Improved caching strategies
+- Enhanced TypeScript types
+
+### Performance Improvements
+- Critical CSS inlining
+- Object pooling for frequent allocations
+- Improved memoization strategies
+- Bundle size optimizations
+- Static data pre-generation
+
+### Security Enhancements
+- Updated CSP headers
+- Enhanced rate limiting
+- Improved input validation
+- Better error sanitization
+- Secure file handling
+
+---
+
+**Remember**: 
+1. **NEVER create dynamic API routes** - they break the static export
+2. Always use query parameters for dynamic data in API routes
+3. Prefer client-side fetching when the external API supports CORS
+4. When in doubt, refer to existing patterns in the codebase
+5. The best code is consistent code
