@@ -36,7 +36,8 @@
     "build:optimized": "cp next.config.optimized.js next.config.js && npm run build",
     "test:deployment": "node scripts/test-deployment.js",
     "build:analyze": "ANALYZE=true npm run build",
-    "start": "next start",
+    "start": "serve out -p 3000",
+    "start:next": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "export": "next build",
@@ -169,6 +170,7 @@
     "license-checker": "25.0.1",
     "lockfile-lint": "4.14.1",
     "npm-check-updates": "18.0.2",
+    "serve": "14.2.4",
     "ts-node": "^10.9.2",
     "vitest": "^3.2.4",
     "worker-loader": "3.0.8"
