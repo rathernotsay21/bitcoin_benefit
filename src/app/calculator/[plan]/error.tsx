@@ -29,7 +29,7 @@ export default function Error({
           </h2>
           
           <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 mb-6">
-            Something went wrong while loading the calculator. This could be due to network issues or invalid data.
+            Can't load the calculator right now. It's not you, it's us. Try again?
           </p>
 
           <div className="space-y-3">

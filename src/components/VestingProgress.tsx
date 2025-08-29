@@ -96,7 +96,7 @@ const STRATEGY_CONFIG = {
       iconBg: 'bg-[#fcf3e8] dark:bg-slate-800',
       iconColor: 'text-[#f7931b]'
     },
-    description: 'Do less work to let your employee unlock more'
+    description: 'Numbers don\'t lie, but they don\'t tell the whole story either. This shows what\'s possible, not what\'s promised.'
   },
   'steady-builder': {
     name: 'The Stacker Plan',

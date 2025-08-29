@@ -74,10 +74,10 @@ export class ErrorBoundary extends Component<Props, State> {
               </svg>
             </div>
             <SectionHeading className="mb-2">
-              Oops! Something went wrong
+              Something broke. Try again?
             </SectionHeading>
             <BodyText color="secondary" className="mb-6">
-              We encountered an error while processing your request. Please try refreshing the page.
+              Can't process that right now. Try refreshing the page?
             </BodyText>
             <div className="flex gap-3 justify-center">
               <button
@@ -226,7 +226,7 @@ export function ChartErrorBoundary({ children }: { children: ReactNode }) {
             Chart Unavailable
           </SectionHeading>
           <SmallText color="secondary">
-            Unable to render the chart. Please try refreshing the page.
+            Can't show the chart right now. Try refreshing?
           </SmallText>
         </div>
       }

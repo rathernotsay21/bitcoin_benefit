@@ -42,7 +42,7 @@ export default function LearnMorePage() {
                             </span>
                         </h3>
                         <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
-                            Running your business can be stressful, <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">buying bitcoin</a> for your employees doesn't have to be. Setup <a href="https://support.river.com/kb/guide/en/how-do-i-set-up-a-recurring-order-zkSuAYQY1V/Steps/2925281" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">recurring buys</a> to fund each grant over a few weeks or months. Easily <a href="https://support.river.com/kb/guide/en/how-do-i-send-bitcoin-from-my-account-Ks1olAsF35/Steps/2128452" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">send the bitcoin</a> to an on-chain wallet with <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">River</a>.
+                            You've got enough to worry about. <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Buying bitcoin</a> takes five minutes. Set it up once, forget about it. <a href="https://river.com/signup?r=RH5MJKJM" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">River</a> handles the rest.
                         </p>
                     </div>
 
@@ -143,7 +143,7 @@ export default function LearnMorePage() {
                                             River Financial
                                         </h4>
                                         <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-6">
-                                            Bitcoin-only platform with zero recurring fees, institutional security, and monthly proof of reserves.
+                                            They only do bitcoin, so they do it right. No fees eating your benefits. Monthly proof they have your coins. The boring, reliable choice.
                                         </p>
                                         
                                         {/* Feature highlights */}
@@ -200,7 +200,7 @@ export default function LearnMorePage() {
                                             Kraken
                                         </h4>
                                         <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-4">
-                                            Established exchange with advanced trading features, strong security, and global reach.
+                                            Been around forever in bitcoin years. More bells and whistles than you need, but rock solid when you need them.
                                         </p>
                                         
                                         {/* Security badges */}
@@ -257,11 +257,11 @@ export default function LearnMorePage() {
                     <div className="text-center mb-16">
                         <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
                             <span className="bg-gradient-to-r from-orange-500 via-bitcoin to-orange-500 bg-clip-text text-transparent">
-                                Ready to Move On-Chain?
+                                Want to Hold It Yourself?
                             </span>
                         </h3>
                         <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-white/90 max-w-3xl mx-auto leading-relaxed">
-                            Secure your bitcoin with a hardware wallet from these trusted manufacturers. Take full control of your bitcoin with best-in-class security.
+                            Hardware wallets are like safes for bitcoin. Your keys, your coins, your control. Here's who we trust.
                         </p>
                     </div>
 
@@ -313,7 +313,7 @@ export default function LearnMorePage() {
                                                     Foundation Passport
                                                 </h4>
                                                 <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-base lg:text-lg leading-relaxed mb-6">
-                                                    The perfect balance of robust security and user-friendly design. Air-gapped, QR-based communication with a familiar smartphone-like interface makes self-custody accessible to everyone.
+                                                    Works like a phone, secure like a vault. If your employees can use an iPhone, they can use this.
                                                 </p>
                                                 
                                                 {/* Feature highlights */}
@@ -383,7 +383,7 @@ export default function LearnMorePage() {
                                                     Blockstream Jade
                                                 </h4>
                                                 <p className="text-gray-600 dark:text-gray-400 dark:text-gray-300 text-sm leading-relaxed mb-3">
-                                                    Innovative security model with cutting-edge cryptographic solutions from a highly reputable company.
+                                                    Modern security model with strong cryptographic protection from a trusted company.
                                                 </p>
                                                 <div className="inline-flex items-center text-green-600 dark:text-green-400 text-sm font-medium group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
                                                     Learn More
@@ -465,12 +465,7 @@ export default function LearnMorePage() {
                         <ExpandableSection title="What is Bitcoin?">
                             <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
                                 <p>
-                                    Bitcoin is a digital currency that exists only electronically. Think of it like digital gold -
-                                    it has value because people agree it has value, and there's a limited supply (only 21 million will ever exist).
-                                </p>
-                                <p>
-                                    Unlike traditional money controlled by governments, Bitcoin operates on a decentralized network,
-                                    meaning no single entity controls it. This has made it attractive as a store of value over time.
+                                    It's money for the internet age. Fixed supply, no central control, works everywhere. Digital gold is close enough.
                                 </p>
                             </div>
                         </ExpandableSection>
@@ -478,12 +473,7 @@ export default function LearnMorePage() {
                         <ExpandableSection title="Why Has Bitcoin Grown in Value?">
                             <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
                                 <p>
-                                    Bitcoin's value has increased over time due to growing adoption by individuals, companies, and even countries.
-                                    Major corporations like Tesla, MicroStrategy, and Square have added Bitcoin to their balance sheets.
-                                </p>
-                                <p>
-                                    The limited supply (like digital real estate) combined with increasing demand has historically driven price appreciation.
-                                    However, Bitcoin is volatile and past performance doesn't guarantee future results.
+                                    More people want it, same amount exists. Supply and demand still works, even on the internet.
                                 </p>
                             </div>
                         </ExpandableSection>
@@ -504,12 +494,7 @@ export default function LearnMorePage() {
                         <ExpandableSection title="Is This Safe for My Business?">
                             <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
                                 <p>
-                                    Your business risk is limited to the dollar amount you choose to invest in employee benefits.
-                                    You're not speculating on Bitcoin - you're offering a modern benefit that happens to use Bitcoin as the vehicle.
-                                </p>
-                                <p>
-                                    Many businesses set aside the same budget they would for traditional benefits and simply purchase Bitcoin instead.
-                                    The employee gets the upside potential, while your costs remain predictable.
+                                    You risk exactly what you put in, nothing more. Your employees get the upside. You get retention. Everyone knows the deal upfront.
                                 </p>
                             </div>
                         </ExpandableSection>

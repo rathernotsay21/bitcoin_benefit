@@ -45,9 +45,9 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Reward Loyalty</span>
+                <span className="bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent">Give Your Team</span>
                 <br />
-                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">with Sound Money</span>
+                <span className="bg-gradient-to-r from-bitcoin via-orange-400 to-bitcoin bg-clip-text text-transparent">Something Real</span>
               </h1>
               <p className="mt-8 max-w-2xl mx-auto text-xl text-slate-300 leading-relaxed">
                 The future ain't what it used to be.
@@ -77,20 +77,19 @@ export default function HomePage() {
             </div>
             
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-deepSlate dark:text-white mb-6 leading-tight max-w-4xl">
-              Forward-Thinking Companies
-              <span className="block text-bitcoin">Choose Bitcoin</span>
+              Smart Companies Are
+              <span className="block text-bitcoin">Making the Switch</span>
             </h2>
             
             <div className="max-w-3xl">
               <p className="text-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed mb-6">
-                Traditional benefits packages cost more and deliver less every year. Health insurance premiums rise. 
-                401(k) matches barely beat inflation. Stock options are complex and often worthless.
+                You know the story. Benefits get more expensive, employees get less value. Every year it's the same thing, only worse.
               </p>
               
               <div className="flex items-center gap-3">
                 <div className="w-1 h-12 bg-gradient-to-b from-bitcoin to-orange-500 rounded-full"></div>
                 <p className="text-xl text-deepSlate dark:text-white font-semibold">
-                  Bitcoin is different.
+                  There's another way.
                 </p>
               </div>
             </div>
@@ -109,11 +108,8 @@ export default function HomePage() {
                     Proven Over 16 Years
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                    Since 2009, bitcoin has survived every crisis, crash, and criticism to become a multi-trillion-dollar 
-                    asset class. Billions of dollars are held in bitcoin by family office investors
-                    <sup className="text-bitcoin font-semibold ml-1">[1,2]</sup>, registered investment advisors
-                    <sup className="text-bitcoin font-semibold ml-1">[3]</sup>, Fidelity, and even the United States Treasury
-                    <sup className="text-bitcoin font-semibold ml-1">[5]</sup>.
+                    Bitcoin's been around since 2009. It's been declared dead 400+ times. Still here. Now it's a trillion-dollar market that your employees already understand better than you might think.
+                    <sup className="text-bitcoin font-semibold ml-1">[1,2,3,5]</sup>
                   </p>
                 </div>
               </div>
@@ -130,9 +126,7 @@ export default function HomePage() {
                   A Benefit Employees Value
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                    Young talent values bitcoin. Use bitcoin to recruit, retain, or reward 
-                    your team. Offering it shows you understand their values and want to help build their future, 
-                    not just fund their paycheck.
+                    Your best people already own bitcoin. They get it. Offering it as a benefit says you get them. That's worth more than another ping-pong table.
                   </p>
                 </div>
               </div>
@@ -146,19 +140,10 @@ export default function HomePage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
-                    Simple to Implement
+                    Simple to Set Up
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                    No complicated vesting schedules. No lawyers. No administrative nightmares. Buy bitcoin, set a timeline, done. 
-                    Your employees can track their benefits value in real-time. You can even document the process with{' '}
-                    <a 
-                      href="https://opentimestamps.org/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-bitcoin hover:text-orange-400 underline transition-colors duration-200"
-                    >
-                      Open Timestamps
-                    </a>.
+                    Buy it. Hold it. Give it. That's the whole process. No lawyers billing by the hour, no 50-page documents nobody reads. Just value that grows.
                   </p>
                 </div>
               </div>
@@ -175,8 +160,7 @@ export default function HomePage() {
                     The Bottom Line
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                    While traditional benefits lose value to inflation, bitcoin has the potential to grow significantly over time, 
-                    creating real wealth for the people who build your business.
+                    Your 401(k) match loses to inflation. Bitcoin doesn't. Sometimes the obvious choice is the right choice.
                   </p>
                 </div>
               </div>
@@ -231,7 +215,7 @@ export default function HomePage() {
             </h3>
             
             <p className="text-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 max-w-2xl leading-relaxed">
-              Pick the plan that fits your budget and goals. Each approach has been designed for different business situations and growth stages.
+              Three ways to do this. Pick what works for you.
             </p>
           </div>
 
@@ -261,14 +245,14 @@ export default function HomePage() {
                   {/* Content */}
                   <div className="flex-1">
                     <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                      Are you ready to lead? Make a significant upfront contribution and just like the companies that offered early stock options, you'll attract top talent with outsized potential rewards.
+                      Big commitment upfront, bigger potential later. Like being first to offer stock options, except this time everyone can understand what they're getting.
                     </p>
                   </div>
                   
                   {/* Call to action */}
                   <div className="mt-6 pt-4 border-t border-slate-600/50">
                     <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
-                      <span className="text-sm font-semibold">Calculate Pioneer Plan</span>
+                      <span className="text-sm font-semibold">See the Numbers</span>
                       <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -303,14 +287,14 @@ export default function HomePage() {
                   {/* Content */}
                   <div className="flex-1">
                     <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                      Combine a meaningful initial award with annual additions. Like dollar-cost averaging, this spreads your risk while building substantial value over time.
+                      Start strong, keep adding. It's like compound interest that actually compounds. Every year counts.
                     </p>
                   </div>
                   
                   {/* Call to action */}
                   <div className="mt-6 pt-4 border-t border-slate-600/50">
                     <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
-                      <span className="text-sm font-semibold">Calculate Stacker Plan</span>
+                      <span className="text-sm font-semibold">See the Numbers</span>
                       <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -345,14 +329,14 @@ export default function HomePage() {
                   {/* Content */}
                   <div className="flex-1">
                     <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
-                      Start small, think big. Make bitcoin benefits affordable with smaller, regular contributions that add up over time. Like climbing a mountain, each step seems small but leads to remarkable heights.
+                      Small steps, long journey. Even $100 a month becomes real money over time. Ask anyone who started buying coffee with bitcoin in 2013.
                     </p>
                   </div>
                   
                   {/* Call to action */}
                   <div className="mt-6 pt-4 border-t border-slate-600/50">
                     <div className="flex items-center text-bitcoin group-hover:text-orange-400 transition-colors duration-300">
-                      <span className="text-sm font-semibold">Calculate Builder Plan</span>
+                      <span className="text-sm font-semibold">See the Numbers</span>
                       <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>

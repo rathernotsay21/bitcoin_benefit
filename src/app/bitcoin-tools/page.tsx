@@ -114,8 +114,7 @@ export default function BitcoinToolsPage() {
               </span>
             </h3>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8 px-4 text-center leading-relaxed">
-              These tools help you interact with the Bitcoin blockchain safely and easily. 
-              All data is processed securely, and we never store your personal information.
+              These tools do what they say. No accounts, no tracking, no BS. Just useful stuff that works.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               <div className="text-center group" role="article">
@@ -125,7 +124,7 @@ export default function BitcoinToolsPage() {
                   <LockClosedIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Privacy First</h4>
-                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">No accounts, no tracking, data processed locally when possible</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Your business is your business</p>
               </div>
               <div className="text-center group" role="article">
                 <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 dark:from-bitcoin/30 dark:to-bitcoin-600/30 
@@ -134,7 +133,7 @@ export default function BitcoinToolsPage() {
                   <BookOpenIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Learn as You Go</h4>
-                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Helpful explanations and tooltips for Bitcoin terms</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Plain English, no jargon required</p>
               </div>
               <div className="text-center group" role="article">
                 <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-bitcoin/20 to-bitcoin-600/20 dark:from-bitcoin/30 dark:to-bitcoin-600/30 
@@ -143,7 +142,7 @@ export default function BitcoinToolsPage() {
                   <DevicePhoneMobileIcon className="w-6 h-6 text-bitcoin group-hover:text-bitcoin-600 transition-colors" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Mobile Friendly</h4>
-                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Works perfectly on all devices and screen sizes</p>
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Works on your phone. Obviously.</p>
               </div>
             </div>
           </div>

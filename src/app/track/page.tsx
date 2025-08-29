@@ -303,22 +303,22 @@ function FeatureOverview() {
     {
       icon: MagnifyingGlassIcon,
       title: 'Automatic Matching',
-      description: 'Smart algorithm matches transactions to expected unlocking awards based on timing and amounts'
+      description: 'Figures out which payment is which. Usually gets it right.'
     },
     {
       icon: PencilIcon,
       title: 'Manual Overrides',
-      description: 'Easily reassign transactions to different award years with dropdown controls and undo functionality'
+      description: 'Wrong year? Click and fix. We all make mistakes.'
     },
     {
       icon: BanknotesIcon,
       title: 'Historical Values',
-      description: 'See USD values at the time of each transaction using historical benefit value data'
+      description: 'What it was worth then, what it\'s worth now. Both numbers matter.'
     },
     {
       icon: ChartBarIcon,
       title: 'Verify On-Chain',
-      description: 'See awards and unlocking anytime online without creating yet another account with some bank you\'ll never use again'
+      description: 'No passwords to forget, no accounts to manage. The blockchain remembers everything.'
     },
     {
       icon: LockClosedIcon,
@@ -339,8 +339,7 @@ function FeatureOverview() {
           Don't Trust. Verify.
         </h2>
         <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400 max-w-2xl mx-auto">
-          See exactly what your boss gave you and what it's worth today.
-          No bank portals, no HR systems - just pure, verifiable Bitcoin wealth on the blockchain.
+          Check what you got, see what it's worth. No logins, no middlemen. Just you and the blockchain having an honest conversation.
         </p>
       </div>
 

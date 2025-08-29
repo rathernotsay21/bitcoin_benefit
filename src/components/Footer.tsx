@@ -303,7 +303,8 @@ export default function Footer() {
               </div>
 
               {/* Credits - Bottom Right */}
-              <div className="text-sm text-slate-500">
+              <div className="text-sm text-slate-500 text-right">
+                <p className="mb-2">Bitcoin benefits for companies that get it.<br />And for those still figuring it out.</p>
                 <p>Webmaster - Rather Notsay</p>
               </div>
             </div>

@@ -23,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinbenefits.com'),
   title: 'Employee Benefits Platform | Modern Retention Solutions for HR Teams',
-  description: 'Enterprise-grade employee benefits management platform. Design competitive compensation packages, implement vesting schedules, and boost retention with data-driven insights. Trusted by forward-thinking HR teams.',
+  description: 'Bitcoin benefits for your team. Design compensation packages, set up vesting schedules, and improve retention. Simple tools that actually work.',
   keywords: [
     'employee benefits platform',
     'HR technology',

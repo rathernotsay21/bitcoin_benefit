@@ -1,6 +1,6 @@
 {
-  "price": 107851,
-  "change24h": -3.6899041731669615,
-  "timestamp": 1756498722044,
-  "source": "live"
+  "price": 95000,
+  "change24h": 2.5,
+  "timestamp": 1756503430169,
+  "source": "fallback"
 }
