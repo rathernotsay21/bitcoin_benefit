@@ -480,7 +480,7 @@ const VestingTrackerFormOptimized = memo(function VestingTrackerFormOptimized({
               <span>Analyzing Vesting Grants...</span>
             </span>
           ) : (
-            'Track Vesting Grants'
+            'Track Awards/Unlocks'
           )}
         </button>
       </form>

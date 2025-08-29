@@ -149,7 +149,7 @@ export class AddressService {
     const cached = this.getCachedData<MempoolAddressInfo>(cacheKey);
     if (cached) return cached;
 
-    const response = await fetch(`https://mempool.space/api/address/${address}`, {
+    const response = await fetch(`/api/mempool/address/${address}`, {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Bitcoin-Tools/1.0'
@@ -180,7 +180,7 @@ export class AddressService {
     const cached = this.getCachedData<MempoolTransaction[]>(cacheKey);
     if (cached) return cached;
 
-    let url = `https://mempool.space/api/address/${address}/txs`;
+    let url = `/api/mempool/address/${address}/txs`;
     if (lastSeenTxid) {
       url += `?after_txid=${lastSeenTxid}`;
     }

@@ -16,7 +16,7 @@ export const apiConfig = {
       : 'https://mempool.space/api',
     
     network: process.env.NODE_ENV === 'development'
-      ? '/api/mempool/network/status/'
+      ? '/api/mempool/fees/recommended'
       : 'https://mempool.space/api/v1/fees/recommended',
     
     mempoolStats: 'https://mempool.space/api/mempool',

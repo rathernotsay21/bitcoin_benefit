@@ -12,7 +12,7 @@ import { BitcoinTooltip } from './Tooltip';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import { EducationalSidebar } from './educational/EducationalSidebar';
 import { feeEducation } from './educational/educationalContent';
-import { ExclamationTriangleIcon, CurrencyDollarIcon, BoltIcon } from '@heroicons/react/24/outline';
+import { ExclamationTriangleIcon, CurrencyDollarIcon, BoltIcon, ClockIcon, ScaleIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 
 // Enhanced Zod schema for fee API response validation with strict types
 const FeeApiResponseSchema = z.object({
@@ -84,6 +84,20 @@ const TRANSACTION_PRESETS = [
   { label: 'Complex', size: 400, description: 'Multiple inputs/outputs' },
   { label: 'Multi-sig', size: 300, description: 'Multi-signature transaction' }
 ];
+
+// Get the appropriate icon for each fee level
+const getFeeIcon = (level: string) => {
+  switch (level) {
+    case 'economy':
+      return <ClockIcon className="w-12 h-12 text-bitcoin" />;
+    case 'balanced':
+      return <ScaleIcon className="w-12 h-12 text-bitcoin" />;
+    case 'priority':
+      return <RocketLaunchIcon className="w-12 h-12 text-bitcoin" />;
+    default:
+      return <BoltIcon className="w-12 h-12 text-bitcoin" />;
+  }
+};
 
 export function FeeCalculatorTool() {
   const feeCalculator = useBitcoinToolsStore((state) => state.tools.feeCalculator);
@@ -447,7 +461,7 @@ export function FeeCalculatorTool() {
                                    networkData.congestionLevel === 'normal' ? 'Moderate' :
                                    networkData.congestionLevel === 'high' ? 'Busy' : 'Very Busy'}
                 </p>
-                <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-700 dark:text-slate-300 mt-2">
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">
                   {networkData.congestionLevel === 'low' ? 'Great time to send - fees are low!' :
                    networkData.congestionLevel === 'normal' ? 'Normal fees apply for transactions' :
                    networkData.congestionLevel === 'high' ? 'Network is busy - fees are higher than usual' :
@@ -487,7 +501,7 @@ export function FeeCalculatorTool() {
               </button>
             </div>
             
-            <p className="text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-6">
+            <p className="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
               Select your transaction type to see current fee recommendations
             </p>
 
@@ -506,7 +520,7 @@ export function FeeCalculatorTool() {
                   {preset.label === 'Simple Send' ? 'Basic Transfer' :
                    preset.label === 'Multi-sig' ? 'Shared Wallet' : preset.label}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-2">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                   {preset.label === 'Simple Send' ? 'Sending to one person' :
                    preset.label === 'Standard' ? 'Most common transaction type' :
                    preset.label === 'Complex' ? 'Sending to multiple people' :
@@ -518,7 +532,7 @@ export function FeeCalculatorTool() {
 
           {/* Custom Size Input - Hidden by default for simplicity */}
           <details className="mt-4">
-            <summary className="text-sm text-gray-500 dark:text-gray-600 dark:text-gray-400 cursor-pointer hover:text-bitcoin font-medium">
+            <summary className="text-sm text-gray-500 dark:text-gray-400 cursor-pointer hover:text-bitcoin font-medium transition-colors duration-200">
               Advanced: Set custom transaction size
             </summary>
             <form onSubmit={handleCustomSizeSubmit} className="flex gap-3 mt-3">
@@ -551,7 +565,7 @@ export function FeeCalculatorTool() {
                 <BoltIcon className="w-6 h-6 text-bitcoin mr-3" />
                 Choose Your Speed & Cost
               </h3>
-              <p className="text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400 mt-3">
+              <p className="text-base text-gray-600 dark:text-gray-400 mt-3 leading-relaxed">
                 Click an option to see detailed breakdown
               </p>
             </div>
@@ -569,12 +583,12 @@ export function FeeCalculatorTool() {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
                       <div className="flex items-center space-x-3 sm:space-x-4">
-                        <span className="text-3xl sm:text-4xl">{recommendation.emoji}</span>
+                        <div className="flex-shrink-0">{getFeeIcon(recommendation.level)}</div>
                         <div>
                           <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100">
                             {recommendation.label}
                           </h4>
-                          <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
+                          <p className="text-base text-gray-600 dark:text-gray-400">
                             {recommendation.timeEstimate}
                           </p>
                         </div>
@@ -583,18 +597,18 @@ export function FeeCalculatorTool() {
                         <div className="text-xl sm:text-2xl font-bold text-bitcoin">
                           ${formatUSD(totalCostSats)}
                         </div>
-                        <div className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 dark:text-slate-400">
+                        <div className="text-base text-gray-600 dark:text-gray-400">
                           <span className="inline-block">{totalCostSats < 1000 ? totalCostSats : `${(totalCostSats/1000).toFixed(1)}k`}</span>
                           <span className="inline-block ml-1">satoshis</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="text-base sm:text-lg text-gray-700 dark:text-gray-300 dark:text-slate-700 dark:text-slate-300 mb-4">
+                    <div className="text-base text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
                       {recommendation.description}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-sm sm:text-base text-gray-500 dark:text-slate-400">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-base text-gray-500 dark:text-gray-400">
                       <span className="font-medium">
                         <span className="inline-block">{recommendation.satPerVByte}</span>
                         <span className="inline-block ml-1">sat/vB</span>
@@ -612,7 +626,7 @@ export function FeeCalculatorTool() {
                         <h5 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100 mb-3">
                           What You're Paying For
                         </h5>
-                        <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-4">
+                        <p className="text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
                           This fee incentivizes network operators to process your transaction
                         </p>
                         <div className="space-y-4 text-base">
@@ -642,7 +656,7 @@ export function FeeCalculatorTool() {
         {lastUpdated && (
           <div className="card bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700">
             <div className="text-center">
-              <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 mb-4">
+              <p className="text-base text-gray-600 dark:text-gray-400 mb-4">
                 Last updated: {new Date(lastUpdated).toLocaleTimeString()}
               </p>
               <button

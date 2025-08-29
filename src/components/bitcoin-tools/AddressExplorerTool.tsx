@@ -192,34 +192,6 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
           </div>
         </div>
 
-        {/* Privacy Warning - Moved below Address Explorer card */}
-        {showPrivacyWarning && (
-          <div className="card bg-bitcoin-50 dark:bg-bitcoin-900/20 border-2 border-amber-200 dark:border-amber-700 mb-6">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start space-x-4">
-              <LockClosedIcon className="w-10 h-10 text-bitcoin" />
-              <div>
-                <h4 className="text-xl font-bold text-amber-800 dark:text-amber-200 mb-3">
-                Privacy Reminder
-                </h4>
-                <p className="text-lg text-amber-700 dark:text-amber-300 mb-4">
-                Looking up addresses is like looking at someone's financial records - they're public but should 
-                be treated with respect. Only look up your own addresses or ones you have permission to view.
-                </p>
-                <p className="text-base text-amber-600 dark:text-amber-400">
-                Your searches are not saved or tracked by this tool.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowPrivacyWarning(false)}
-              className="text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300"
-            >
-              <XMarkIcon className="w-5 h-5" />
-            </button>
-          </div>
-          </div>
-        )}
 
         {/* Address Analysis Results */}
         {addressExplorer.data && (
@@ -249,7 +221,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                       window.open(urls[e.target.value as keyof typeof urls], '_blank');
                     }}
                     defaultValue=""
-                    className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors font-medium appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22M6%208l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[size:1.5rem]"
+                    className="text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-500 hover:scale-105 hover:shadow-sm transition-all duration-200 font-medium appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22M6%208l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[size:1.5rem]"
                   >
                     <option value="" disabled>View on Explorer</option>
                     <option value="mempool">Mempool.space</option>
@@ -259,11 +231,11 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                 </div>
               </div>
               
-              <div className="font-mono text-base text-gray-600 dark:text-gray-400 dark:text-gray-600 break-all bg-gray-50 dark:bg-gray-800 p-3 rounded-sm">
+              <div className="font-mono text-base text-gray-600 dark:text-gray-400 break-all bg-gray-50 dark:bg-gray-800 p-3 rounded-sm">
                 {addressExplorer.data.address}
               </div>
               
-              <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">
+              <div className="text-base text-gray-600 dark:text-gray-400 mt-3">
                 {addressExplorer.data.humanReadable.activitySummary}
               </div>
             </div>
@@ -274,7 +246,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
             <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-gray-100 mb-3">
               Current Balance
             </h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600 mb-6">
+            <p className="text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
               The total amount of Bitcoin currently stored at this address
             </p>
             
@@ -283,25 +255,25 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                 <div className="text-3xl font-bold text-bitcoin mb-2">
                   {formatBTC(addressExplorer.data.balance.btc)}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">In Bitcoin</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Bitcoin</div>
               </div>
               
               <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-sm">
                 <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                   {formatUSD(addressExplorer.data.balance.usd)}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">In US Dollars</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In US Dollars</div>
               </div>
               
               <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-sm">
                 <div className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-2">
                   {addressExplorer.data.balance.sats.toLocaleString()}
                 </div>
-                <div className="text-base font-medium text-gray-600 dark:text-gray-400 dark:text-gray-600">In Satoshis (smallest unit)</div>
+                <div className="text-base font-medium text-gray-600 dark:text-gray-400">In Satoshis (smallest unit)</div>
               </div>
             </div>
             
-            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">
+            <div className="mt-6 text-center text-base text-gray-600 dark:text-gray-400">
               {addressExplorer.data.humanReadable.balanceDescription}
             </div>
           </div>
@@ -313,11 +285,11 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white dark:text-gray-100">
                   Transaction History
                 </h4>
-                <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">
+                <div className="text-base text-gray-600 dark:text-gray-400">
                   Showing {Math.min(25, addressExplorer.data.transactions.length)} of {addressExplorer.data.transactionCount}
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600 mb-6">
+              <p className="text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
                 Every time Bitcoin was sent to or from this address
               </p>
               
@@ -332,7 +304,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                           <div className="text-lg font-semibold text-gray-900 dark:text-white dark:text-gray-100">
                           {tx.type === 'received' ? 'Money Received' : 'Money Sent'}
                           </div>
-                          <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">
+                          <div className="text-base text-gray-600 dark:text-gray-400">
                           {tx.date} • {tx.status === 'confirmed' ? 'Complete' : 'Processing'}
                           </div>
                         </div>
@@ -342,19 +314,19 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
                         <div className={`text-xl font-bold ${tx.type === 'received' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                           {tx.type === 'received' ? '+' : '-'}{formatBTC(tx.amount.btc)}
                         </div>
-                        <div className="text-base text-gray-600 dark:text-gray-400 dark:text-gray-600">
+                        <div className="text-base text-gray-600 dark:text-gray-400">
                           {formatUSD(tx.amount.usd)}
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mt-3">
                       <span className="font-mono">
                         {AddressService.formatAddressForDisplay(tx.txid, 8)}
                       </span>
                       <button
                         onClick={() => handleCopy(tx.txid, `tx-${index}`)}
-                        className="hover:text-bitcoin transition-colors"
+                        className="hover:text-bitcoin transition-colors duration-200"
                       >
                         {copiedItem === `tx-${index}` ? (
                           <>
@@ -371,7 +343,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               {/* Pagination would go here if needed */}
               {addressExplorer.data.transactionCount > 25 && (
                 <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-gray-600">
+                  <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                     Showing first 25 transactions. Use a full blockchain explorer for complete history.
                   </p>
                 </div>
@@ -386,7 +358,7 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
               <h4 className="text-lg font-medium text-gray-900 dark:text-white dark:text-gray-100 mb-2">
                 No Transactions Found
               </h4>
-              <p className="text-gray-600 dark:text-gray-400 dark:text-gray-600">
+              <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                 This address has no transaction history or has not been used yet.
               </p>
             </div>
@@ -451,6 +423,35 @@ function AddressExplorerTool({ initialAddress }: AddressExplorerToolProps) {
 
           {/* Educational content */}
           <EducationalSidebar sections={addressEducation} />
+          
+          {/* Privacy Warning moved to bottom of right pane */}
+          {showPrivacyWarning && (
+            <div className="card bg-bitcoin-50 dark:bg-bitcoin-900/20 border-2 border-amber-200 dark:border-amber-700">
+              <div className="flex items-start justify-between">
+                <div className="flex items-start space-x-4">
+                  <LockClosedIcon className="w-8 h-8 text-bitcoin" />
+                  <div>
+                    <h4 className="text-lg font-bold text-amber-800 dark:text-amber-200 mb-2">
+                      Privacy Reminder
+                    </h4>
+                    <p className="text-base text-amber-700 dark:text-amber-300 mb-3">
+                      Looking up addresses is like looking at someone's financial records - they're public but should 
+                      be treated with respect. Only look up your own addresses or ones you have permission to view.
+                    </p>
+                    <p className="text-sm text-amber-600 dark:text-amber-400">
+                      Your searches are not saved or tracked by this tool.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowPrivacyWarning(false)}
+                  className="text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300 transition-colors duration-200"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
