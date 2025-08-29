@@ -1,66 +1,39 @@
-/* COMPANY */
-Company: Bitcoin Benefit Solutions
-Type: Employee Benefits Platform
-Industry: Human Resources Technology / Financial Services
-Mission: Modernizing employee retention through innovative compensation strategies
-Website: https://bitcoinbenefit.netlify.app
-Contact: hello@bitcoinbenefit.com
-
 /* TEAM */
-Product Development: Bitcoin Benefit Engineering Team
-UX/UI Design: Bitcoin Benefit Design Team  
-Security: Bitcoin Benefit Security Team
-Location: Global (Remote-First Company)
 
-/* PLATFORM */
-Last update: 2025/01/26
-Standards: HTML5, CSS3, ECMAScript 2022
-Components: React 18, Next.js 14, TypeScript 5
-Architecture: JAMstack, Serverless, API-First
-Performance: Core Web Vitals Optimized
-Accessibility: WCAG 2.1 AA Compliant
-Security: SOC2 Type II Compliant (In Progress)
+Role: Platform Development
+Site: https://bitcoinbenefits.me
+Location: Remote
 
-/* SERVICES */
-- Employee Vesting Calculators
-- Retention Analytics Platform
-- Benefits Administration Tools
-- Historical Performance Analysis
-- Real-time Benefits Tracking
-- Financial Planning Resources
-- Tax Optimization Calculators
-- Enterprise Integration APIs
+/* THANKS */
 
-/* PARTNERS */
-Infrastructure: Netlify Enterprise
-Data Providers: CoinGecko Pro, Mempool.space
-Analytics: Privacy-First Analytics
-Security: Cloudflare Enterprise
+Bitcoin Community: For building the foundation
+Open Source Contributors: For the amazing tools and libraries
+Users: For trusting our platform
 
-/* COMPLIANCE */
-Privacy: GDPR, CCPA Compliant
-Security: TLS 1.3, HSTS, CSP
-Standards: ISO 27001 (In Progress)
-Audited: Annual Security Audits
+/* SITE */
 
-/* SOCIAL */
-LinkedIn: https://linkedin.com/company/bitcoin-benefit
-Twitter: https://twitter.com/bitcoinbenefit
-Blog: https://bitcoinbenefit.netlify.app/blog
+Last update: 2025-01-29
+Standards: HTML5, CSS3, JavaScript ES6+
+Components: Next.js, React, TypeScript, Tailwind CSS
+Software: VS Code, Git, Node.js
+Services: Netlify, CoinGecko API, Mempool.space API
 
-/* CAREERS */
-We're hiring! Check out our careers page:
-https://bitcoinbenefit.netlify.app/careers
+/* MISSION */
 
-/* RECOGNITION */
-- HR Tech Innovation Award 2024 (Finalist)
-- Best New Benefits Platform 2024
-- Top 50 HR Tech Startups to Watch
+Building tools to help companies implement Bitcoin-based
+employee compensation packages. We believe in creating
+transparent, fair, and innovative retention strategies
+that align employee interests with long-term value creation.
 
-/* VALUES */
-- Employee First
-- Transparency
-- Innovation
-- Security & Privacy
-- Long-term Thinking
-- Financial Empowerment
+/* CONTACT */
+
+Website: https://bitcoinbenefits.me
+GitHub: https://github.com/rathernotsay21/bitcoin_benefit
+Category: HR Technology / Compensation Management
+
+/* PRIVACY */
+
+No user accounts required
+No personal data stored
+All calculations performed client-side
+Open source codebase

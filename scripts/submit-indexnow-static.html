@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexNow Submission Tool</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #f7931a;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #f7931a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover {
+            background: #e8821a;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+        .url-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .url-list li {
+            margin: 5px 0;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #f7931a;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #f7931a;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 IndexNow Submission Tool</h1>
+        <p>Submit your Bitcoin Benefit pages to search engines instantly using IndexNow protocol.</p>
+        
+        <div class="actions">
+            <h3>Quick Actions</h3>
+            <button onclick="submitAllUrls()">Submit All Pages from Sitemap</button>
+            <button onclick="submitCurrentPage()">Submit Current Page Only</button>
+            <button onclick="showCustomSubmit()">Submit Custom URLs</button>
+        </div>
+
+        <div id="customSubmit" style="display: none;">
+            <h3>Custom URL Submission</h3>
+            <p>Enter URLs (one per line):</p>
+            <textarea id="customUrls" placeholder="https://bitcoinbenefits.me/calculator
+https://bitcoinbenefits.me/historical
+https://bitcoinbenefits.me/bitcoin-tools"></textarea>
+            <button onclick="submitCustomUrls()">Submit Custom URLs</button>
+        </div>
+
+        <div class="spinner" id="spinner"></div>
+        <div class="status" id="status"></div>
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        const INDEXNOW_KEY = 'a22a916ab0474727b6815e40d4ade00a';
+        const HOST = 'bitcoinbenefits.me';
+
+        // Detect the correct endpoint based on deployment
+        function getEndpoint() {
+            if (window.location.hostname.includes('netlify')) {
+                return '/.netlify/functions/indexnow';
+            }
+            return '/api/indexnow';
+        }
+
+        async function submitUrls(urls) {
+            const spinner = document.getElementById('spinner');
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            
+            spinner.style.display = 'block';
+            status.className = 'status';
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch(getEndpoint(), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ urls }),
+                });
+
+                const data = await response.json();
+                spinner.style.display = 'none';
+
+                if (data.success) {
+                    status.className = 'status success';
+                    status.innerHTML = `
+                        <strong>✅ Success!</strong><br>
+                        Submitted ${data.submittedUrls.length} URLs to IndexNow.
+                        <div class="url-list">
+                            <strong>Submitted URLs:</strong>
+                            <ul>
+                                ${data.submittedUrls.map(url => `<li>${url}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+
+                    results.innerHTML = `
+                        <h3>Submission Results:</h3>
+                        ${data.results.map(r => `
+                            <div class="result-item">
+                                <strong>${r.endpoint}</strong><br>
+                                Status: ${r.status} ${r.statusText || ''}
+                                ${r.error ? `<br>Error: ${r.error}` : ''}
+                            </div>
+                        `).join('')}
+                    `;
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                spinner.style.display = 'none';
+                status.className = 'status error';
+                status.innerHTML = `
+                    <strong>❌ Error:</strong><br>
+                    ${error.message}
+                `;
+            }
+        }
+
+        async function submitAllUrls() {
+            const status = document.getElementById('status');
+            status.className = 'status info';
+            status.innerHTML = 'Fetching sitemap...';
+
+            try {
+                const response = await fetch('/sitemap.xml');
+                const text = await response.text();
+                
+                // Extract URLs from sitemap
+                const urls = [];
+                const regex = /<loc>(.*?)<\/loc>/g;
+                let match;
+                
+                while ((match = regex.exec(text)) !== null) {
+                    const url = match[1];
+                    // Only submit primary domain URLs
+                    if (url.includes(HOST) && !url.includes('www.') && !url.includes('netlify')) {
+                        urls.push(url);
+                    }
+                }
+
+                if (urls.length > 0) {
+                    await submitUrls(urls);
+                } else {
+                    status.className = 'status error';
+                    status.innerHTML = 'No URLs found in sitemap';
+                }
+            } catch (error) {
+                status.className = 'status error';
+                status.innerHTML = `Error fetching sitemap: ${error.message}`;
+            }
+        }
+
+        function submitCurrentPage() {
+            const currentUrl = window.location.origin + window.location.pathname;
+            submitUrls([currentUrl]);
+        }
+
+        function showCustomSubmit() {
+            const customDiv = document.getElementById('customSubmit');
+            customDiv.style.display = customDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitCustomUrls() {
+            const textarea = document.getElementById('customUrls');
+            const urls = textarea.value
+                .split('\n')
+                .map(url => url.trim())
+                .filter(url => url.length > 0 && url.startsWith('http'));
+            
+            if (urls.length > 0) {
+                submitUrls(urls);
+            } else {
+                const status = document.getElementById('status');
+                status.className = 'status error';
+                status.innerHTML = 'Please enter valid URLs';
+            }
+        }
+
+        // Show endpoint info on load
+        window.addEventListener('load', () => {
+            const status = document.getElementById('status');
+            status.className = 'status info';
+            status.innerHTML = `
+                <strong>IndexNow Configuration:</strong><br>
+                Key: ${INDEXNOW_KEY}<br>
+                Host: ${HOST}<br>
+                Endpoint: ${getEndpoint()}<br>
+                Key File: <a href="/${INDEXNOW_KEY}.txt" target="_blank">Verify Key</a>
+            `;
+        });
+    </script>
+</body>
+</html>

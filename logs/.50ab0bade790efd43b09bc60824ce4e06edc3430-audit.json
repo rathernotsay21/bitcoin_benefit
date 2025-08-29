@@ -64,6 +64,11 @@
             "date": 1756370380468,
             "name": "/Users/rathernotsay/Documents/GitHub/bitcoin_benefit/logs/mcp-puppeteer-2025-08-28.log",
             "hash": "96793ff80b1498c751b2ff80fe363a01b3107c922837555045d3befa8dfb1f92"
+        },
+        {
+            "date": 1756459277863,
+            "name": "/Users/rathernotsay/Documents/GitHub/bitcoin_benefit/logs/mcp-puppeteer-2025-08-29.log",
+            "hash": "6b2fd8c967b5dfa5d2e74aa9cc73f061779a40b0caef7ddf9a3e0737c9bb952b"
         }
     ],
     "hashType": "sha256"
