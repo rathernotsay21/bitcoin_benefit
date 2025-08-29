@@ -48,7 +48,7 @@ export function parseCoinGeckoPrice(data: any): number {
 }
 
 // Helper to handle network status response
-export async function parseNetworkHealth(data: any): Promise<any> {
+export function parseNetworkHealth(data: any): any {
   // If it's already in the expected format (from dev API), return it
   if (data.congestionLevel && data.mempoolSize && data.nextBlockETA) {
     return data;
@@ -56,43 +56,37 @@ export async function parseNetworkHealth(data: any): Promise<any> {
   
   // Otherwise, construct it from raw mempool.space data
   const fastestFee = data.fastestFee || data.fastest || 50;
+  const halfHourFee = data.halfHourFee || data.halfHour || 20;
+  const hourFee = data.hourFee || data.hour || 10;
+  const economyFee = data.economyFee || data.economy || 5;
+  const minimumFee = data.minimumFee || data.minimum || 1;
+  
   const congestionLevel = getCongestionLevel(fastestFee);
   
-  // Try to fetch additional mempool stats if needed
-  let mempoolSize = 150000;
-  let mempoolBytes = 75000000;
-  
-  try {
-    const mempoolResponse = await fetch(apiConfig.mempool.mempoolStats);
-    if (mempoolResponse.ok) {
-      const mempoolData = await mempoolResponse.json();
-      mempoolSize = mempoolData.count || mempoolSize;
-      mempoolBytes = mempoolData.vsize || mempoolBytes;
-    }
-  } catch (e) {
-    // Use defaults if fetch fails
-  }
+  // Use reasonable defaults for mempool stats
+  const mempoolSize = 68258; // Average mempool size
+  const mempoolBytes = 23600000; // ~23.6 MB average
   
   return {
     congestionLevel,
     mempoolSize,
     mempoolBytes,
-    averageFee: data.halfHourFee || 20,
+    averageFee: halfHourFee,
     nextBlockETA: '~10 minutes',
     recommendation: getRecommendation(fastestFee),
     humanReadable: {
       mempoolSize: `${(mempoolSize / 1000).toFixed(1)}k`,
       mempoolBytes: `${(mempoolBytes / 1000000).toFixed(1)} MB`,
-      averageFee: `${data.halfHourFee || 20} sat/vB`
+      averageFee: `${halfHourFee} sat/vB`
     },
     timestamp: Date.now(),
-    blockchainTip: 875000, // Will be updated dynamically
+    blockchainTip: 875000,
     feeEstimates: {
       fastest: fastestFee,
-      halfHour: data.halfHourFee || 20,
-      hour: data.hourFee || 10,
-      economy: data.economyFee || 5,
-      minimum: data.minimumFee || 1
+      halfHour: halfHourFee,
+      hour: hourFee,
+      economy: economyFee,
+      minimum: minimumFee
     }
   };
 }

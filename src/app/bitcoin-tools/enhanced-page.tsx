@@ -91,11 +91,6 @@ export default function EnhancedBitcoinToolsPage({ searchParams }: BitcoinToolsP
         }>
           <ToolTabsNavigation 
             defaultTool="transaction" 
-            searchParams={{
-              tool: validateToolId(searchParams?.tool) || undefined,
-              txid: searchParams?.txid,
-              address: searchParams?.address
-            }}
           />
         </Suspense>
 

@@ -1,24 +1,27 @@
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import dynamicImport from 'next/dynamic';
 import { Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { validateToolId } from '@/types/bitcoin-tools';
 import { LockClosedIcon, BookOpenIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/solid';
 
+// Force static rendering for this page
+export const dynamic = 'force-static';
+
 // Lazy load privacy and command components
-const DataUsageTransparency = dynamic(
+const DataUsageTransparency = dynamicImport(
   () => import('@/components/bitcoin-tools/PrivacyWarning').then(mod => ({ default: mod.DataUsageTransparency })),
   { ssr: false }
 );
 
-const ToolCommandPalette = dynamic(
+const ToolCommandPalette = dynamicImport(
   () => import('@/components/bitcoin-tools/ToolCommandPalette').then(mod => ({ default: mod.ToolCommandPalette })),
   { ssr: false }
 );
 
 // Lazy load the tabbed navigation component
-const ToolTabsNavigation = dynamic(() => import('@/components/bitcoin-tools/ToolTabsNavigation'), {
+const ToolTabsNavigation = dynamicImport(() => import('@/components/bitcoin-tools/ToolTabsNavigation'), {
   loading: () => (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       <div className="animate-pulse">
@@ -94,9 +97,7 @@ export default function BitcoinToolsPage() {
               <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
             </div>
           }>
-            <ToolTabsNavigation 
-              searchParams={{}}
-            />
+            <ToolTabsNavigation />
           </Suspense>
         </div>
 

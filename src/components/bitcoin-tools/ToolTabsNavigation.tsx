@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -192,19 +193,29 @@ interface ProcessedSearchParams {
 }
 
 const ToolTabsNavigation = React.memo(function ToolTabsNavigation({ 
-  defaultTool = 'transaction' as const,
-  searchParams 
-}: ToolTabsNavigationProps) {
+  defaultTool = 'transaction' as const
+}: Omit<ToolTabsNavigationProps, 'searchParams'>) {
+  // Get search params from the URL on the client side
+  const searchParams = useSearchParams();
+  
   // Process and validate search params with type safety
   const processedParams: ProcessedSearchParams = {
-    tool: searchParams?.tool,
-    txid: searchParams?.txid ? (searchParams.txid as BitcoinTxId) : undefined,
-    address: searchParams?.address ? (searchParams.address as BitcoinAddress) : undefined,
+    tool: searchParams.get('tool') as ToolId | null || undefined,
+    txid: searchParams.get('txid') ? (searchParams.get('txid') as BitcoinTxId) : undefined,
+    address: searchParams.get('address') ? (searchParams.get('address') as BitcoinAddress) : undefined,
   };
   
   // Use search params tool if provided and valid, otherwise use defaultTool
   const initialTool = processedParams.tool || defaultTool;
   const [activeTab, setActiveTab] = useState<ToolId>(initialTool);
+  
+  // Update active tab when URL params change
+  useEffect(() => {
+    const tool = searchParams.get('tool') as ToolId | null;
+    if (tool && tools.some(t => t.id === tool)) {
+      setActiveTab(tool);
+    }
+  }, [searchParams]);
 
   return (
     <div className="w-full">
