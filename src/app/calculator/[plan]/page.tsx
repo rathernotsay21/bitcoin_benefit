@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${scheme.name} (${scheme.tagline}) - Bitcoin Vesting Calculator`,
+    title: `Bitcoin Vesting Calculator - Employee Benefits Platform`,
     description: `${scheme.description}. ${scheme.bestFor}. Calculate Bitcoin vesting schedules with ${scheme.riskLevel.toLowerCase()} risk over 20 years.`,
     keywords: `bitcoin vesting, ${scheme.name.toLowerCase()}, ${scheme.tagline.toLowerCase()}, bitcoin compensation, crypto benefits`,
     openGraph: {

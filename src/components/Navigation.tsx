@@ -86,7 +86,7 @@ export default function Navigation() {
           <div className="flex-grow"></div>
           
           {/* Desktop Navigation with Shadcn NavigationMenu */}
-          <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
+          <div className="hidden xl:flex items-center gap-6 flex-shrink-0">
             <NavigationMenu>
               <NavigationMenuList>
                 {navItems.map((item) => {
@@ -158,7 +158,7 @@ export default function Navigation() {
           </div>
 
           {/* Mobile Icon Navigation (Small Desktop/Tablet) */}
-          <nav className="hidden sm:flex lg:hidden items-center space-x-3 flex-shrink-0 ml-auto">
+          <nav className="hidden sm:flex xl:hidden items-center space-x-3 flex-shrink-0 ml-auto">
             {navItems.map((item) => {
               const isActive = item.href === '/'
                 ? pathname === '/'

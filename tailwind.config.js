@@ -7,6 +7,13 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1200px',  // Custom breakpoint for navigation collapse
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         // Refined color palette for consistency

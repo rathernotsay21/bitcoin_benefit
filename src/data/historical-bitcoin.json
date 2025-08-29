@@ -91,11 +91,13 @@
   },
   "2025": {
     "year": 2025,
-    "high": 120000,
-    "low": 95000,
-    "average": 105000,
-    "open": 95000,
-    "close": 110000,
-    "source": "projection"
+    "high": 123560.99,
+    "low": 76329.09,
+    "average": 100814.67,
+    "open": 94384.18,
+    "close": 112525.6,
+    "dataPoints": 240,
+    "source": "live",
+    "lastUpdated": "2025-08-29T21:55:33.915Z"
   }
 }

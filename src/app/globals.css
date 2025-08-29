@@ -617,25 +617,33 @@ scroll-behavior: smooth;
     100% { background-position: 200% 0; }
   }
   
-  /* Cards - Enhanced */
+  /* Cards - Enhanced with GPU Acceleration */
   .card {
     @apply relative p-5 sm:p-6 transition-all duration-500 overflow-visible;
     /* Consistent rounded-sm for all cards */
     @apply rounded-sm;
-    /* Off-White background */
-    background: #FAFAFA;
+    /* Off-White background with subtle gradient for layer promotion */
+    background: linear-gradient(135deg, #FAFAFA 0%, #FAFAFA 100%);
     /* Enhanced border with subtle color */
     border: 1px solid rgba(226, 232, 240, 0.8);
     /* Small shadow for cards */
     @apply shadow-sm;
     /* Text color */
     color: #1E2A3A;
+    /* GPU Acceleration and Performance Optimizations */
+    transform: translateZ(0);
+    will-change: transform;
+    /* Prevent layout thrashing with CSS containment */
+    contain: layout style;
+    /* Ensure smooth rendering */
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
     /* Dark Mode */
     @apply dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-800/95;
     @apply dark:border-slate-700/50 dark:text-slate-100;
   }
   
-  /* Ensure dark mode cards override any other styles */
+  /* Ensure dark mode cards override any other styles with GPU optimization */
   .dark .card {
     background: linear-gradient(135deg, 
                 rgba(30, 41, 59, 1) 0%, 
@@ -645,6 +653,11 @@ scroll-behavior: smooth;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
                 0 8px 24px rgba(0, 0, 0, 0.2),
                 inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
+    /* Maintain GPU acceleration in dark mode */
+    transform: translateZ(0);
+    will-change: transform;
+    contain: layout style;
+    backface-visibility: hidden;
   }
 
   /* Enhanced section spacing */

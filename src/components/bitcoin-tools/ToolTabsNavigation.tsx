@@ -231,7 +231,11 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
             {/* Add subtle background pattern */}
             <div className="absolute inset-0 bg-gradient-to-r from-slate-50/50 via-white/30 to-slate-50/50 dark:from-slate-800/50 dark:via-slate-700/30 dark:to-slate-800/50 rounded-sm blur-3xl" aria-hidden="true"></div>
             
-            <TabsList className="relative w-full h-auto p-3 glass border-2 border-bitcoin/10 dark:border-bitcoin/20 hover:border-bitcoin/20 dark:hover:border-bitcoin/30 rounded-sm shadow-lg transition-all duration-300">
+            <TabsList className="relative w-full h-auto p-3 glass border-2 border-bitcoin/10 dark:border-bitcoin/20 hover:border-bitcoin/20 dark:hover:border-bitcoin/30 rounded-sm shadow-lg transition-all duration-300" style={{
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden'
+            }}>
               {/* Responsive grid with optimized sizing */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
                 {tools.map((tool) => (
@@ -323,8 +327,12 @@ const ToolTabsNavigation = React.memo(function ToolTabsNavigation({
                   </div>
                 </div>
                 
-                {/* Tool Component Container with clean styling */}
-                <div className="card overflow-hidden min-h-[600px]">
+                {/* Tool Component Container with clean styling and performance optimization */}
+                <div className="card overflow-hidden min-h-[600px]" style={{ 
+                  transform: 'translateZ(0)',
+                  willChange: 'contents',
+                  contain: 'layout style paint'
+                }}>
                   <Component 
                     initialTxid={tool.id === 'transaction' ? processedParams.txid : undefined}
                     initialAddress={tool.id === 'address' ? processedParams.address : undefined}
