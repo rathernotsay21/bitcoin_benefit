@@ -5,7 +5,7 @@ import { useBitcoinToolsStore } from '@/stores/bitcoinToolsStore';
 import { FeeRecommendation, createToolError, FeeCostBreakdown, FeeSavings, FeeLevel, FeeEmoji, FeeRate, SatoshiAmount, BTCAmount, USDAmount } from '@/types/bitcoin-tools';
 import { secureApiClient } from '@/lib/secure-fetch-wrapper';
 import { toToolError } from '@/lib/type-safe-error-handler';
-import { apiConfig, parseMempoolFees } from '@/lib/config/api';
+import { apiConfig, parseMempoolFees, parseCoinGeckoPrice } from '@/lib/config/api';
 import { z } from 'zod';
 import ToolSkeleton from './ToolSkeleton';
 import { BitcoinTooltip } from './Tooltip';

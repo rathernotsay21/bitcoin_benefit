@@ -9,7 +9,7 @@ import type {
 } from '@/types/bitcoin-tools';
 import { isToolError } from '@/types/bitcoin-tools';
 import { BitcoinAPI } from '@/lib/bitcoin-api';
-import { apiConfig, parseCoinGeckoPrice } from '@/lib/config/api';
+import { apiConfig, parseCoinGeckoPrice, parseNetworkHealth } from '@/lib/config/api';
 import ToolErrorBoundary from './ToolErrorBoundary';
 import ToolSkeleton from './ToolSkeleton';
 import { EducationalSidebar } from './educational/EducationalSidebar';
@@ -135,7 +135,10 @@ const NetworkStatus: React.FC = React.memo(() => {
         throw new Error(`HTTP ${networkResponse.status}: Failed to fetch network status`);
       }
       
-      const networkData = await networkResponse.json();
+      const rawNetworkData = await networkResponse.json();
+      
+      // Parse the network data to the expected format
+      const networkData = await parseNetworkHealth(rawNetworkData);
       
       // Validate the response structure
       if (!isValidNetworkHealthResponse(networkData)) {
