@@ -70,7 +70,7 @@ class APIKeyManager {
         requestsPerHour: parseInt(process.env.MEMPOOL_RPH || '1000', 10),
         requestsPerDay: parseInt(process.env.MEMPOOL_RPD || '10000', 10)
       },
-      endpoints: ['/api/mempool'],
+      endpoints: ['https://mempool.space/api'],
       isActive: true
     });
 

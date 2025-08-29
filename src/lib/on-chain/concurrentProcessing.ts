@@ -201,9 +201,9 @@ export class ConcurrentProcessingService {
           throw new Error('Request cancelled');
         }
         
-        // Use enhanced API with proxy endpoint
+        // Use direct API (mempool.space has CORS enabled)
         const api = new MempoolAPI({
-          baseURL: '/api/mempool',
+          baseURL: 'https://mempool.space/api',
           timeout: this.config.timeoutMs,
           maxRetries: this.config.retryAttempts,
           retryDelay: 1000

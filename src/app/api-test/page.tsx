@@ -51,8 +51,8 @@ export default function APITestPage() {
     },
     {
       name: 'Mempool API Test',
-      url: '/api/mempool/address/bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh/txs',
-      description: 'Test mempool.space proxy with a known address'
+      url: 'https://mempool.space/api/address/bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh/txs',
+      description: 'Test direct mempool.space API with a known address (CORS enabled)'
     },
     {
       name: 'CoinGecko API Test',

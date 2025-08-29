@@ -11,28 +11,18 @@ export const apiConfig = {
   },
   
   mempool: {
-    baseUrl: process.env.NODE_ENV === 'development'
-      ? '/api/mempool'
-      : 'https://mempool.space/api',
+    baseUrl: 'https://mempool.space/api',
     
-    network: process.env.NODE_ENV === 'development'
-      ? '/api/mempool/fees/recommended'
-      : 'https://mempool.space/api/v1/fees/recommended',
+    network: 'https://mempool.space/api/v1/fees/recommended',
     
     mempoolStats: 'https://mempool.space/api/mempool',
     blockHeight: 'https://mempool.space/api/blocks/tip/height',
     
-    fees: process.env.NODE_ENV === 'development'
-      ? '/api/mempool/fees/recommended'
-      : 'https://mempool.space/api/v1/fees/recommended',
+    fees: 'https://mempool.space/api/v1/fees/recommended',
     
-    transaction: (txid: string) => process.env.NODE_ENV === 'development'
-      ? `/api/mempool/tx/${txid}`
-      : `https://mempool.space/api/tx/${txid}`,
+    transaction: (txid: string) => `https://mempool.space/api/tx/${txid}`,
     
-    address: (address: string) => process.env.NODE_ENV === 'development'
-      ? `/api/mempool/address/${address}/txs`
-      : `https://mempool.space/api/address/${address}/txs`
+    address: (address: string) => `https://mempool.space/api/address/${address}/txs`
   }
 };
 
