@@ -276,6 +276,11 @@ export default function Footer() {
                       Risk Disclosure
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/white-paper" className="text-slate-400 hover:text-bitcoin transition-colors">
+                      White Paper
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
