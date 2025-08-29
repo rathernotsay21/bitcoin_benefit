@@ -54,14 +54,25 @@ export function parseNetworkHealth(data: any): any {
     return data;
   }
   
-  // Otherwise, construct it from raw mempool.space data
-  const fastestFee = data.fastestFee || data.fastest || 50;
-  const halfHourFee = data.halfHourFee || data.halfHour || 20;
-  const hourFee = data.hourFee || data.hour || 10;
-  const economyFee = data.economyFee || data.economy || 5;
-  const minimumFee = data.minimumFee || data.minimum || 1;
+  // Log the data to understand what we're receiving
+  console.log('Parsing network health data:', data);
   
-  const congestionLevel = getCongestionLevel(fastestFee);
+  // Otherwise, construct it from raw mempool.space data
+  // Handle various possible field names and provide defaults
+  const fastestFee = Number(data.fastestFee) || Number(data.fastest) || 50;
+  const halfHourFee = Number(data.halfHourFee) || Number(data.halfHour) || 20;
+  const hourFee = Number(data.hourFee) || Number(data.hour) || 10;
+  const economyFee = Number(data.economyFee) || Number(data.economy) || 5;
+  const minimumFee = Number(data.minimumFee) || Number(data.minimum) || 1;
+  
+  // Ensure we have valid numbers
+  const validFastestFee = isNaN(fastestFee) ? 50 : fastestFee;
+  const validHalfHourFee = isNaN(halfHourFee) ? 20 : halfHourFee;
+  const validHourFee = isNaN(hourFee) ? 10 : hourFee;
+  const validEconomyFee = isNaN(economyFee) ? 5 : economyFee;
+  const validMinimumFee = isNaN(minimumFee) ? 1 : minimumFee;
+  
+  const congestionLevel = getCongestionLevel(validFastestFee);
   
   // Use reasonable defaults for mempool stats
   const mempoolSize = 68258; // Average mempool size
@@ -71,22 +82,22 @@ export function parseNetworkHealth(data: any): any {
     congestionLevel,
     mempoolSize,
     mempoolBytes,
-    averageFee: halfHourFee,
+    averageFee: validHalfHourFee,
     nextBlockETA: '~10 minutes',
-    recommendation: getRecommendation(fastestFee),
+    recommendation: getRecommendation(validFastestFee),
     humanReadable: {
       mempoolSize: `${(mempoolSize / 1000).toFixed(1)}k`,
       mempoolBytes: `${(mempoolBytes / 1000000).toFixed(1)} MB`,
-      averageFee: `${halfHourFee} sat/vB`
+      averageFee: `${validHalfHourFee} sat/vB`
     },
     timestamp: Date.now(),
     blockchainTip: 875000,
     feeEstimates: {
-      fastest: fastestFee,
-      halfHour: halfHourFee,
-      hour: hourFee,
-      economy: economyFee,
-      minimum: minimumFee
+      fastest: validFastestFee,
+      halfHour: validHalfHourFee,
+      hour: validHourFee,
+      economy: validEconomyFee,
+      minimum: validMinimumFee
     }
   };
 }

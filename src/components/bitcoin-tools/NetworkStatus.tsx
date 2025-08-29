@@ -136,9 +136,11 @@ const NetworkStatus: React.FC = React.memo(() => {
       }
       
       const rawNetworkData = await networkResponse.json();
+      console.log('Raw network API response:', rawNetworkData);
       
       // Parse the network data to the expected format
       const networkData = parseNetworkHealth(rawNetworkData);
+      console.log('Parsed network data:', networkData);
       
       // Validate the response structure
       if (!isValidNetworkHealthResponse(networkData)) {
