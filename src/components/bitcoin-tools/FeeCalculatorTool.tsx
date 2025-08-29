@@ -260,7 +260,7 @@ export function FeeCalculatorTool() {
   useEffect(() => {
     const fetchBtcPrice = async (): Promise<void> => {
       try {
-        const response = await fetch('/api/bitcoin/price', {
+        const response = await fetch(apiConfig.bitcoin.price, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -269,8 +269,9 @@ export function FeeCalculatorTool() {
 
         if (response.ok) {
           const data = await response.json();
-          if (data.price) {
-            setBtcPrice(data.price);
+          const price = parseCoinGeckoPrice(data);
+          if (price) {
+            setBtcPrice(price);
           }
         }
       } catch (error) {
