@@ -486,10 +486,18 @@ function VestingTimelineChartRecharts({
     if (minUsd <= 0) {
       minDomain = 0;
     } else {
-      minDomain = Math.floor(minUsd * 0.9);
-      // Round down to nearest nice number for cleaner axis
-      if (minDomain < 1000) {
-        minDomain = Math.floor(minDomain / 100) * 100;
+      minDomain = minUsd * 0.9;
+      
+      // Smart rounding based on value size to avoid $0 in middle of axis
+      if (minDomain < 10) {
+        // Very small: don't round (keep precision)
+        minDomain = Math.max(0, minDomain);
+      } else if (minDomain < 100) {
+        // Small: round to nearest 10
+        minDomain = Math.floor(minDomain / 10) * 10;
+      } else if (minDomain < 1000) {
+        // Medium-small: round to nearest 50
+        minDomain = Math.floor(minDomain / 50) * 50;
       } else if (minDomain < 10000) {
         minDomain = Math.floor(minDomain / 1000) * 1000;
       } else {
@@ -505,7 +513,26 @@ function VestingTimelineChartRecharts({
     // Adjust tick calculation based on the new minimum
     const range = paddedMax - minDomain;
     
-    if (paddedMax <= 12000) {
+    if (paddedMax <= 100) {
+      // Very small values
+      maxDomain = Math.ceil(paddedMax / 10) * 10;
+      const step = Math.max(5, Math.ceil((maxDomain - minDomain) / 5 / 5) * 5);
+      ticks = [];
+      for (let v = minDomain; v <= maxDomain; v += step) {
+        ticks.push(Math.round(v));
+      }
+      // Ensure we have min and max
+      if (ticks.length > 0 && ticks[0] !== minDomain) ticks[0] = minDomain;
+      if (ticks.length > 0 && ticks[ticks.length - 1] !== maxDomain) ticks[ticks.length - 1] = maxDomain;
+    } else if (paddedMax <= 1000) {
+      // Small values
+      maxDomain = Math.ceil(paddedMax / 50) * 50;
+      const step = Math.max(10, Math.ceil((maxDomain - minDomain) / 5 / 10) * 10);
+      ticks = [];
+      for (let v = minDomain; v <= maxDomain; v += step) {
+        ticks.push(Math.round(v));
+      }
+    } else if (paddedMax <= 12000) {
       maxDomain = Math.ceil(paddedMax / 2000) * 2000;
       const step = Math.ceil((maxDomain - minDomain) / 6 / 500) * 500;
       ticks = [];

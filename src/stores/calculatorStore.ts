@@ -165,7 +165,8 @@ export const useCalculatorStore = create<CalculatorState>((set, get) => {
     const projectedGrowth = inputs.projectedBitcoinGrowth || 15;
     
     // Efficient hash calculation using concatenation instead of JSON.stringify
-    const inputHash = `${schemeToUse.id}:${currentBitcoinPrice}:${projectedGrowth}`;
+    // Include grant values to ensure recalculation when customized
+    const inputHash = `${schemeToUse.id}:${currentBitcoinPrice}:${projectedGrowth}:${schemeToUse.initialGrant}:${schemeToUse.annualGrant || 0}`;
     
     // Skip calculation if inputs haven't changed
     if (results && (results as any).inputHash === inputHash) {

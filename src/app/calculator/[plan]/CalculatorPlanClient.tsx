@@ -83,20 +83,32 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
   const handleInitialGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInitialGrantInput(value);
-    // Trigger immediate update for valid numeric values
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue >= 0) {
-      updateSchemeCustomization(selectedScheme.id, { initialGrant: numValue });
+    
+    // Don't update store while typing incomplete decimals
+    // Allow: "1.", "1.0", "1.00" etc without premature conversion
+    const isIncompleteDecimal = /\.$|\.0+$/.test(value);
+    
+    if (value && !isIncompleteDecimal) {
+      const numValue = parseFloat(value);
+      if (!isNaN(numValue) && numValue >= 0) {
+        updateSchemeCustomization(selectedScheme.id, { initialGrant: numValue });
+      }
     }
   }, [selectedScheme.id, updateSchemeCustomization]);
 
   const handleAnnualGrantChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAnnualGrantInput(value);
-    // Trigger immediate update for valid numeric values
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue >= 0) {
-      updateSchemeCustomization(selectedScheme.id, { annualGrant: numValue });
+    
+    // Don't update store while typing incomplete decimals
+    // Allow: "1.", "1.0", "1.00" etc without premature conversion
+    const isIncompleteDecimal = /\.$|\.0+$/.test(value);
+    
+    if (value && !isIncompleteDecimal) {
+      const numValue = parseFloat(value);
+      if (!isNaN(numValue) && numValue >= 0) {
+        updateSchemeCustomization(selectedScheme.id, { annualGrant: numValue });
+      }
     }
   }, [selectedScheme.id, updateSchemeCustomization]);
 
@@ -106,15 +118,35 @@ function CalculatorContent({ initialScheme, planId }: CalculatorPlanClientProps)
 
   // Blur handlers - parse, validate, and sync with store
   const handleInitialGrantBlur = useCallback((schemeId: string, defaultValue: number) => () => {
-    const numValue = parseFloat(initialGrantInput) || defaultValue;
-    const validValue = Math.max(0, numValue); // Ensure non-negative
+    // Parse the current input value
+    let validValue: number;
+    
+    if (initialGrantInput === '' || initialGrantInput === '.') {
+      // Empty or just decimal point: use 0
+      validValue = 0;
+    } else {
+      const numValue = parseFloat(initialGrantInput);
+      validValue = !isNaN(numValue) ? Math.max(0, numValue) : 0;
+    }
+    
+    // Always update to ensure calculation triggers
     updateSchemeCustomization(schemeId, { initialGrant: validValue });
     setInitialGrantInput(validValue.toString());
   }, [initialGrantInput, updateSchemeCustomization]);
 
   const handleAnnualGrantBlur = useCallback((schemeId: string, defaultValue: number) => () => {
-    const numValue = parseFloat(annualGrantInput) || defaultValue;
-    const validValue = Math.max(0, numValue); // Ensure non-negative
+    // Parse the current input value
+    let validValue: number;
+    
+    if (annualGrantInput === '' || annualGrantInput === '.') {
+      // Empty or just decimal point: use 0
+      validValue = 0;
+    } else {
+      const numValue = parseFloat(annualGrantInput);
+      validValue = !isNaN(numValue) ? Math.max(0, numValue) : 0;
+    }
+    
+    // Always update to ensure calculation triggers
     updateSchemeCustomization(schemeId, { annualGrant: validValue });
     setAnnualGrantInput(validValue.toString());
   }, [annualGrantInput, updateSchemeCustomization]);

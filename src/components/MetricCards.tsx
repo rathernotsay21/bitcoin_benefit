@@ -105,14 +105,7 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
     );
   }
 
-  // Debug log for testing (can be removed in production)
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`MetricCards Debug - ${displayScheme.name}:`, {
-      initialGrant: displayScheme.initialGrant,
-      annualGrant: displayScheme.annualGrant,
-      schemeId: displayScheme.id
-    });
-  }
+  // Debug log removed - was causing console spam
 
   // Calculate key metrics with safety checks
   const initialGrant = displayScheme.initialGrant || 0;
