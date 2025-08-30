@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpIcon, ArrowDownIcon, ArrowsUpDownIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 
 interface HistoricalDataPoint {
   year: number;
@@ -294,53 +295,50 @@ export default function HistoricalDataTable({
 
   return (
     <div className="space-y-6">
-      {/* Header with CSV Export */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Year-by-Year Results
-        </h3>
-        <Button
-          onClick={downloadCSV}
-          variant="outline"
-          size="sm"
-          className="gap-2"
-        >
-          <ArrowDownTrayIcon className="h-4 w-4" />
-          Export CSV
-        </Button>
+      {/* Header */}
+      <div className="flex items-start mb-4">
+        <div className="mr-3 flex-shrink-0">
+          <CalendarDaysIcon className="w-10 h-10 text-indigo-500" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+            Year-by-Year Results
+          </h3>
+          <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
+            Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
+          </p>
+        </div>
       </div>
 
-      {/* Explanatory text */}
-      <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400 leading-relaxed mb-4">
-        Here's the year-by-year breakdown of what actually happened. You can see the real costs you would have paid each year and how much that Bitcoin would be worth today. Remember, past performance doesn't guarantee future results, but it shows Bitcoin's proven track record.
-      </p>
-
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-sm">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-bitcoin">
-            {formatBTC(summaryStats.totalBTC)}
+      <div className="bg-gray-50 dark:bg-slate-800 rounded-sm p-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-bitcoin">
+              {formatBTC(summaryStats.totalBTC)}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Total Bitcoin</div>
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Total Bitcoin</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-green-600">
-            {formatUSD(summaryStats.currentTotalValue)}
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-600">
+              {formatUSD(summaryStats.currentTotalValue)}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Worth Today</div>
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Worth Today</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-bitcoin-600">
-            {summaryStats.roi.toFixed(0)}%
+          <div className="text-center">
+            <div className="text-2xl font-bold text-bitcoin-600">
+              {summaryStats.roi.toFixed(0)}%
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">ROI</div>
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">ROI</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple-600">
-            {summaryStats.years}
+          <div className="text-center">
+            <div className="text-2xl font-bold text-purple-600">
+              {summaryStats.years}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Years</div>
           </div>
-          <div className="text-xs text-gray-600 dark:text-gray-400 dark:text-slate-400">Years</div>
         </div>
+        
       </div>
 
       {/* Enhanced Data Table */}
@@ -380,6 +378,19 @@ export default function HistoricalDataTable({
             })}
           </TableBody>
         </Table>
+        
+        {/* Export Button at bottom right of table */}
+        <div className="flex justify-end p-3 border-t border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+          <Button
+            onClick={downloadCSV}
+            variant="outline"
+            size="sm"
+            className="gap-2"
+          >
+            <ArrowDownTrayIcon className="h-4 w-4" />
+            Export CSV
+          </Button>
+        </div>
       </div>
 
       {/* Total Award Cost Summary */}

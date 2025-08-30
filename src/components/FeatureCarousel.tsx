@@ -23,6 +23,7 @@ interface CarouselFeature {
   bgGradient: string;
   accentColor: string;
   image: string;
+  buttonText: string;
 }
 
 const features: CarouselFeature[] = [
@@ -33,13 +34,13 @@ const features: CarouselFeature[] = [
     description: (
       <>
         Pick your bitcoin benefit strategy:{' '}
-        <a href="/calculator?scheme=pioneer" className="text-bitcoin hover:text-orange-400 underline transition-colors">
+        <a href="/calculator/accelerator" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Pioneer
         </a>{' '}(big now),{' '}
-        <a href="/calculator?scheme=stacker" className="text-bitcoin hover:text-orange-400 underline transition-colors">
+        <a href="/calculator/steady-builder" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Stacker
         </a>{' '}(steady growth), or{' '}
-        <a href="/calculator?scheme=builder" className="text-bitcoin hover:text-orange-400 underline transition-colors">
+        <a href="/calculator/slow-burn" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Builder
         </a>{' '}(start small). See real 10-year projections. No hype, just math.
       </>
@@ -49,7 +50,8 @@ const features: CarouselFeature[] = [
     color: 'text-green-400',
     bgGradient: 'from-green-500/20 via-emerald-500/10 to-green-600/20',
     accentColor: 'bg-green-500/10 border-green-500/20',
-    image: '/images/calculator-builder.webp'
+    image: '/images/calculator-builder.webp',
+    buttonText: 'Explore Calculator'
   },
   {
     id: 'dashboard',
@@ -61,19 +63,21 @@ const features: CarouselFeature[] = [
     color: 'text-purple-400',
     bgGradient: 'from-purple-500/20 via-violet-500/10 to-purple-600/20',
     accentColor: 'bg-purple-500/10 border-purple-500/20',
-    image: '/images/dashboard.webp'
+    image: '/images/dashboard.webp',
+    buttonText: 'Explore Dashboard'
   },
   {
     id: 'timeline',
     title: 'Time Machine',
     subtitle: 'See the Past, Project the Future',
-    description: 'What if you started in 2020? Click any year to see what those awards would be worth today. ₿0.060 from 2020 is now worth $6,500. Still think it\'s too late?',
+    description: 'What if you started in 2020? Click any year to see what those awards would be worth today. ₿0.02 cost ~$230 in 2020. Now that same ₿0.02 is worth ~$2,300. Still think it\'s too late?',
     icon: ClockIcon,
     href: '/historical',
     color: 'text-blue-400',
     bgGradient: 'from-blue-500/20 via-indigo-500/10 to-blue-600/20',
     accentColor: 'bg-blue-500/10 border-blue-500/20',
-    image: '/images/interactive-timeline.webp'
+    image: '/images/interactive-timeline.webp',
+    buttonText: 'Explore Performance'
   },
   {
     id: 'fees',
@@ -85,19 +89,21 @@ const features: CarouselFeature[] = [
     color: 'text-amber-400',
     bgGradient: 'from-amber-500/20 via-yellow-500/10 to-amber-600/20',
     accentColor: 'bg-amber-500/10 border-amber-500/20',
-    image: '/images/fees.webp'
+    image: '/images/fees.webp',
+    buttonText: 'Explore Fee Calculator'
   },
   {
     id: 'network',
     title: 'Network Pulse',
     subtitle: 'Real-Time Intelligence',
-    description: 'See what\'s happening on Bitcoin right now. Block #875,000 and counting. Know when fees are low, when the network\'s busy, and when to act.',
+    description: 'See what\'s happening on Bitcoin right now. Know when fees are low, when the network\'s busy, and when to act.',
     icon: ServerIcon,
     href: '/bitcoin-tools#network',
     color: 'text-teal-400',
     bgGradient: 'from-teal-500/20 via-cyan-500/10 to-teal-600/20',
     accentColor: 'bg-teal-500/10 border-teal-500/20',
-    image: '/images/network-status.webp'
+    image: '/images/network-status.webp',
+    buttonText: 'Explore Network Status'
   },
   {
     id: 'timestamp',
@@ -109,7 +115,8 @@ const features: CarouselFeature[] = [
     color: 'text-indigo-400',
     bgGradient: 'from-indigo-500/20 via-blue-500/10 to-indigo-600/20',
     accentColor: 'bg-indigo-500/10 border-indigo-500/20',
-    image: '/images/open-timestamps.webp'
+    image: '/images/open-timestamps.webp',
+    buttonText: 'Explore Document Timestamp'
   },
   {
     id: 'transactions',
@@ -121,7 +128,8 @@ const features: CarouselFeature[] = [
     color: 'text-rose-400',
     bgGradient: 'from-rose-500/20 via-pink-500/10 to-rose-600/20',
     accentColor: 'bg-rose-500/10 border-rose-500/20',
-    image: '/images/transactions.webp'
+    image: '/images/transactions.webp',
+    buttonText: 'Explore Transactions'
   }
 ];
 
@@ -179,7 +187,7 @@ export default function FeatureCarousel() {
   useEffect(() => {
     if (isPaused) return undefined;
     
-    const interval = setInterval(nextSlide, 6000);
+    const interval = setInterval(nextSlide, 12000);
     return () => clearInterval(interval);
   }, [nextSlide, isPaused]);
 
@@ -283,7 +291,7 @@ export default function FeatureCarousel() {
                       href={currentFeature.href}
                       className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-bitcoin to-orange-500 hover:from-orange-500 hover:to-bitcoin text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-bitcoin/40 border border-bitcoin/20 backdrop-blur-sm group"
                     >
-                      <span>Explore {currentFeature.title}</span>
+                      <span>{currentFeature.buttonText}</span>
                       <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>

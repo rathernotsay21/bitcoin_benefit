@@ -10,6 +10,7 @@ import {
   ComposedChart
 } from 'recharts';
 import { TrendingUp } from 'lucide-react';
+import { CurrencyDollarIcon } from '@heroicons/react/24/solid';
 import { VestingTimelinePoint } from '@/types/vesting';
 import {
   Card,
@@ -588,7 +589,14 @@ function VestingTimelineChartRecharts({
     return (
       <Card className="w-full border-2 border-bitcoin dark:border-0">
         <CardHeader>
-          <CardTitle>Your Benefit's Growth Projection</CardTitle>
+          <div className="flex items-center">
+            <div className="mr-3">
+              <CurrencyDollarIcon className="w-10 h-10 text-green-500" />
+            </div>
+            <div>
+              <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">Your Benefit's Growth Projection</CardTitle>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="h-64 bg-muted rounded-sm flex items-center justify-center">
@@ -605,10 +613,17 @@ function VestingTimelineChartRecharts({
   return (
     <Card className="w-full border-2 border-bitcoin dark:border-0">
       <CardHeader>
-        <CardTitle>Your Benefit's Growth Projection</CardTitle>
-        <CardDescription>
-          10-year potential value based on the awards plan and unlock schedule you have selected or customized
-        </CardDescription>
+        <div className="flex items-center">
+          <div className="mr-3">
+            <CurrencyDollarIcon className="w-10 h-10 text-green-500" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Your Benefit's Growth Projection</h3>
+            <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
+              10-year potential value based on the awards plan and unlock schedule you have selected or customized
+            </p>
+          </div>
+        </div>
       </CardHeader>
 
       <CardContent>

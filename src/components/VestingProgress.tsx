@@ -258,11 +258,11 @@ export default function VestingProgress({
             <StrategyIcon className={`w-10 h-10 ${strategyConfig.colors.iconColor}`} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white dark:text-slate-100 flex items-center">
               {strategyConfig.name}
               <HelpTooltip content={HELP_CONTENT.unlockingPercent} />
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 dark:text-slate-400">
+            <p className="text-base text-gray-600 dark:text-gray-400 dark:text-slate-400">
               {strategyConfig.description}
             </p>
           </div>

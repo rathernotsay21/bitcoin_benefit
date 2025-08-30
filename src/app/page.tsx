@@ -77,7 +77,7 @@ export default function HomePage() {
             </div>
             
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-deepSlate dark:text-white mb-6 leading-tight max-w-4xl">
-              Smart Companies Are
+              Leaders Are
               <span className="block text-bitcoin">Making the Switch</span>
             </h2>
             
@@ -109,7 +109,6 @@ export default function HomePage() {
                   </h3>
                   <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
                     Bitcoin's been around since 2009. It's been declared dead 400+ times. Still here. Now it's a trillion-dollar market that your employees already understand better than you might think.
-                    <sup className="text-bitcoin font-semibold ml-1">[1,2,3,5]</sup>
                   </p>
                 </div>
               </div>
@@ -167,31 +166,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Sources */}
-          <div className="border-t border-slate-200 dark:border-slate-700 pt-6 mt-8">
-            <div className="bg-lightGrey dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 rounded-sm p-6">
-              <h4 className="text-xs font-bold text-deepSlate dark:text-white mb-4 uppercase tracking-wider">
-                Sources
-              </h4>
-              <div className="space-y-2 text-sm text-slate-700 dark:text-slate-300 dark:text-slate-200">
-                <p>
-                  <span className="font-semibold text-bitcoin">[1]</span> BNY Mellon Wealth Management: 33% of US family offices actively investing in crypto, 39% globally investing or exploring
-                </p>
-                <p>
-                  <span className="font-semibold text-bitcoin">[2]</span> Goldman Sachs: 26% of family offices invested in crypto, up from 15% in 2021
-                </p>
-                <p>
-                  <span className="font-semibold text-bitcoin">[3]</span> CoinShares Research: RIAs hold $10.3 billion in Bitcoin ETFs (50% of all 13F Bitcoin ETF holdings of $21.2 billion)
-                </p>
-                <p>
-                  <span className="font-semibold text-bitcoin">[4]</span> SEC 13F Filings: RIAs with &gt;$100M AUM required to report holdings quarterly
-                </p>
-                <p>
-                  <span className="font-semibold text-bitcoin">[5]</span> US Department of Justice: US government holds ~198,000-212,000 BTC from criminal seizures
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -214,14 +188,14 @@ export default function HomePage() {
               <span className="block text-bitcoin">Benefits Plan</span>
             </h3>
             
-            <p className="text-lg text-slate-600 dark:text-slate-400 dark:text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-lg text-slate-300 dark:text-slate-400 max-w-2xl leading-relaxed">
               Three ways to do this. Pick what works for you.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Pioneer */}
-            <Link href="/calculator?scheme=pioneer" className="group block">
+            <Link href="/calculator/accelerator" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -244,7 +218,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-300 dark:text-slate-400 leading-relaxed">
                       Big commitment upfront, bigger potential later. Like being first to offer stock options, except this time everyone can understand what they're getting.
                     </p>
                   </div>
@@ -263,7 +237,7 @@ export default function HomePage() {
             </Link>
 
             {/* Stacker */}
-            <Link href="/calculator?scheme=stacker" className="group block">
+            <Link href="/calculator/steady-builder" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -286,7 +260,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-300 dark:text-slate-400 leading-relaxed">
                       Start strong, keep adding. It's like compound interest that actually compounds. Every year counts.
                     </p>
                   </div>
@@ -305,7 +279,7 @@ export default function HomePage() {
             </Link>
 
             {/* Builder */}
-            <Link href="/calculator?scheme=builder" className="group block">
+            <Link href="/calculator/slow-burn" className="group block">
               <div className="bg-slate-700/30 border border-slate-600/50 rounded-sm p-8 h-full hover:bg-slate-700/50 hover:border-bitcoin/30 transition-all duration-300 relative overflow-hidden">
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-bitcoin/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -328,7 +302,7 @@ export default function HomePage() {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <p className="text-slate-600 dark:text-slate-400 dark:text-slate-300 leading-relaxed">
+                    <p className="text-slate-300 dark:text-slate-400 leading-relaxed">
                       Small steps, long journey. Even $100 a month becomes real money over time. Ask anyone who started buying coffee with bitcoin in 2013.
                     </p>
                   </div>

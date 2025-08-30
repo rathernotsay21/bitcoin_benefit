@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, memo, useCallback, startTransition, useDeferredValue } from 'react';
 import { HistoricalCalculationResult } from '@/types/vesting';
 import { SatoshiIcon } from '@/components/icons';
+import { CursorArrowRaysIcon } from '@heroicons/react/24/solid';
 
 interface HistoricalTimelineVisualizationProps {
   results: HistoricalCalculationResult;
@@ -241,27 +242,34 @@ function HistoricalTimelineVisualizationOptimized({
     <div className="w-full max-w-full overflow-hidden">
       {/* Interactive Timeline */}
       <div className="mt-4">
-        <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          Interactive Timeline Explorer
-        </h4>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          The timeline shows the journey your employee's Bitcoin award would have taken from any chosen year. The early days saw dramatic growth, but they were rough times. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
-        </p>
-        
-        {/* Summary Information */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mb-6">
-          <span className="flex items-center gap-1">
-            <span className="font-medium">Total Awarded:</span>
-            <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="font-medium">• Cost Basis:</span>
-            <span className="text-bitcoin-600 dark:text-orange-400 font-bold capitalize">{deferredResults.summary.costBasisMethod} prices</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="font-medium">• Annualized Return:</span>
-            <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(deferredResults.annualizedReturn)}</span>
-          </span>
+        <div className="flex items-start mb-3">
+          <div className="mr-3 flex-shrink-0">
+            <CursorArrowRaysIcon className="w-10 h-10 text-purple-500" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              Interactive Timeline Explorer
+            </h3>
+            <p className="text-base text-gray-600 dark:text-gray-400 mt-1">
+              The timeline shows the journey your employee's Bitcoin award would have taken from any chosen year. The early days saw dramatic growth, but they were rough times. Today bitcoin is a mature and more stable asset. The future looks bright—you're not too late to get started!
+            </p>
+            
+            {/* Summary Information - Now aligned with text above */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-3">
+              <span className="flex items-center gap-1">
+                <span className="font-medium">Total Awarded:</span>
+                <span className="text-bitcoin dark:text-bitcoin font-bold">{formatBTC(deferredResults.totalBitcoinGranted)}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="font-medium">• Cost Basis:</span>
+                <span className="text-bitcoin-600 dark:text-orange-400 font-bold capitalize">{deferredResults.summary.costBasisMethod} prices</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="font-medium">• Annualized Return:</span>
+                <span className="text-green-600 dark:text-green-400 font-bold">{formatPercent(deferredResults.annualizedReturn)}</span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <div>
