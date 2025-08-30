@@ -338,34 +338,27 @@ function VestingTimelineChartRecharts({
   const grantRules = useMemo(() => {
     const rules = { hasAnnualGrants: true, maxYears: 10 };
     
-    // CRITICAL FIX: Respect custom vesting events for grant limits
-    if (customVestingEvents && customVestingEvents.length > 0) {
-      const lastEventMonth = Math.max(...customVestingEvents.map(e => e.timePeriod));
-      const lastEventYear = Math.floor(lastEventMonth / 12);
-      rules.maxYears = lastEventYear;
-      
-      // For accelerator scheme, still no annual grants even with custom events
-      if (schemeId === 'accelerator') {
+    // CRITICAL: Grant schedules are independent of vesting schedules!
+    // Custom vesting events only affect WHEN grants vest, not HOW MANY grants are issued.
+    // Always use the scheme's defined grant schedule.
+    switch (schemeId) {
+      case 'accelerator':
         rules.hasAnnualGrants = false;
         rules.maxYears = 0;
-      }
-    } else {
-      // Fallback to scheme defaults if no custom vesting events
-      switch (schemeId) {
-        case 'accelerator':
-          rules.hasAnnualGrants = false;
-          rules.maxYears = 0;
-          break;
-        case 'steady-builder':
-          rules.maxYears = 5;
-          break;
-        case 'slow-burn':
-          rules.maxYears = 9;
-          break;
-      }
+        break;
+      case 'steady-builder':
+        rules.maxYears = 5; // Stacker: exactly 5 annual grants (years 1-5)
+        break;
+      case 'slow-burn':
+        rules.maxYears = 9; // Builder: exactly 9 annual grants (years 1-9)
+        break;
+      default:
+        // For custom schemes, use 10 as default
+        rules.maxYears = 10;
     }
+    
     return rules;
-  }, [schemeId, customVestingEvents]);
+  }, [schemeId]);
   
   // Data processing for yearly points with grant information
   const yearlyData = useMemo(() => {

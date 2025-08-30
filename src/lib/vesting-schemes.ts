@@ -36,9 +36,9 @@ export const VESTING_SCHEMES: VestingScheme[] = [
     id: 'steady-builder',
     name: 'Stacker',
     description: 'The Goldy Locks zone',
-    initialGrant: 0.015,
+    initialGrant: 0.01,
     employeeMatchPercentage: 0,
-    annualGrant: 0.001,
+    annualGrant: 0.002,
     maxAnnualGrants: 5, // 5 annual grants in years 1-5
     icon: 'chart-trending-up',
     tagline: 'Balance',

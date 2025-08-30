@@ -12,10 +12,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ExclamationTriangleIcon, ArrowPathIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { unifiedBitcoinAPI } from '@/lib/api/unifiedBitcoinAPI';
-import type { BitcoinToolError } from '@/types/bitcoin-tools';
+import type { ToolError } from '@/types/bitcoin-tools';
 
 interface ErrorRecoveryProps {
-  error: BitcoinToolError | Error | null;
+  error: ToolError | Error | null;
   onRetry: () => void;
   onClearError?: () => void;
   toolName: string;
@@ -68,36 +68,6 @@ export function ErrorRecovery({
     return () => clearInterval(interval);
   }, []);
 
-  // Auto-retry logic with exponential backoff
-  useEffect(() => {
-    if (!error || !autoRetryEnabled || recoveryState.isRecovering) {
-      return;
-    }
-
-    const timeSinceLastRetry = Date.now() - recoveryState.lastRetryTime;
-    const backoffTime = Math.min(1000 * Math.pow(2, recoveryState.retryAttempts), 30000); // Max 30 seconds
-
-    if (timeSinceLastRetry < backoffTime) {
-      const timeToWait = backoffTime - timeSinceLastRetry;
-      setNextRetryIn(Math.ceil(timeToWait / 1000));
-
-      const countdown = setInterval(() => {
-        setNextRetryIn(prev => {
-          if (prev <= 1) {
-            clearInterval(countdown);
-            handleRetry();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(countdown);
-    } else {
-      handleRetry();
-    }
-  }, [error, autoRetryEnabled, recoveryState.retryAttempts, recoveryState.isRecovering, recoveryState.lastRetryTime, handleRetry]);
-
   const handleRetry = useCallback(async () => {
     setRecoveryState(prev => ({
       ...prev,
@@ -124,6 +94,37 @@ export function ErrorRecovery({
       isRecovering: false
     }));
   }, [onRetry, recoveryState.circuitBreakerStatus, recoveryState.retryAttempts]);
+
+  // Auto-retry logic with exponential backoff
+  useEffect(() => {
+    if (!error || !autoRetryEnabled || recoveryState.isRecovering) {
+      return undefined;
+    }
+
+    const timeSinceLastRetry = Date.now() - recoveryState.lastRetryTime;
+    const backoffTime = Math.min(1000 * Math.pow(2, recoveryState.retryAttempts), 30000); // Max 30 seconds
+
+    if (timeSinceLastRetry < backoffTime) {
+      const timeToWait = backoffTime - timeSinceLastRetry;
+      setNextRetryIn(Math.ceil(timeToWait / 1000));
+
+      const countdown = setInterval(() => {
+        setNextRetryIn(prev => {
+          if (prev <= 1) {
+            clearInterval(countdown);
+            handleRetry();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(countdown);
+    } else {
+      handleRetry();
+      return undefined;
+    }
+  }, [error, autoRetryEnabled, recoveryState.retryAttempts, recoveryState.isRecovering, recoveryState.lastRetryTime, handleRetry]);
 
   const handleManualRetry = () => {
     setRecoveryState(prev => ({

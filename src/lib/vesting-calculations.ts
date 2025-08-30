@@ -104,7 +104,7 @@ export class VestingCalculator {
         break;
       case 'steady-builder':
         // Stacker: 5 annual grants (years 1-5) to reach 0.020 total
-        // 0.015 initial + 5 * 0.001 = 0.020
+        // 0.01 initial + 5 * 0.002 = 0.020
         numberOfGrants = Math.min(5, Math.floor(maxMonths / 12));
         break;
       case 'slow-burn':

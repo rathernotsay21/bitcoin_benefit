@@ -29,7 +29,7 @@ const CONFIG = {
 } as const;
 
 // Types
-export interface APIResponse<T = any> {
+export interface APIResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -38,25 +38,25 @@ export interface APIResponse<T = any> {
   timestamp: number;
 }
 
-export interface RequestOptions extends RequestInit {
+export interface RequestOptions<T = unknown> extends RequestInit {
   skipCache?: boolean;
   skipRateLimit?: boolean;
   skipCircuitBreaker?: boolean;
-  fallbackData?: any;
+  fallbackData?: T;
   cacheKey?: string;
   rateLimitKey?: string;
 }
 
 export type APIEndpoint = 'mempool' | 'coingecko' | 'blockchain' | 'custom';
 
-interface CacheEntry<T = any> {
+interface CacheEntry<T = unknown> {
   data: T;
   timestamp: number;
   expiresAt: number;
 }
 
-interface PendingRequest {
-  promise: Promise<any>;
+interface PendingRequest<T = unknown> {
+  promise: Promise<APIResponse<T>>;
   timestamp: number;
 }
 
@@ -71,7 +71,7 @@ export class UnifiedBitcoinAPI {
   private cache = new Map<string, CacheEntry>();
   
   // Request deduplication
-  private pendingRequests = new Map<string, PendingRequest>();
+  private pendingRequests = new Map<string, PendingRequest<unknown>>();
   
   // Circuit breakers per endpoint
   private circuitBreakers = new Map<string, CircuitBreaker>();
@@ -169,9 +169,9 @@ export class UnifiedBitcoinAPI {
   /**
    * Main request method with fallback chain
    */
-  async request<T = any>(
+  async request<T = unknown>(
     url: string,
-    options: RequestOptions = {}
+    options: RequestOptions<T> = {}
   ): Promise<APIResponse<T>> {
     const startTime = Date.now();
     this.metrics.totalRequests++;
@@ -201,7 +201,7 @@ export class UnifiedBitcoinAPI {
       
       if (pendingRequest && (Date.now() - pendingRequest.timestamp) < CONFIG.dedupeWindow) {
         console.log('[UnifiedBitcoinAPI] Deduplicating request:', url);
-        return await pendingRequest.promise;
+        return await pendingRequest.promise as APIResponse<T>;
       }
 
       // 3. Check rate limits
@@ -263,7 +263,7 @@ export class UnifiedBitcoinAPI {
    */
   private async executeRequestWithFallbacks<T>(
     url: string,
-    options: RequestOptions
+    options: RequestOptions<T>
   ): Promise<APIResponse<T>> {
     const endpoint = this.extractEndpoint(url);
     const circuitBreaker = this.circuitBreakers.get(endpoint);
@@ -315,7 +315,7 @@ export class UnifiedBitcoinAPI {
    */
   private async makeDirectRequest<T>(
     url: string,
-    options: RequestOptions
+    options: RequestOptions<T>
   ): Promise<APIResponse<T>> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), CONFIG.requestTimeout);
@@ -405,7 +405,7 @@ export class UnifiedBitcoinAPI {
   /**
    * Generate cache key
    */
-  private generateCacheKey(url: string, options: RequestOptions): string {
+  private generateCacheKey(url: string, options: RequestOptions<unknown>): string {
     const method = options.method || 'GET';
     const body = options.body ? JSON.stringify(options.body) : '';
     return `${method}:${url}:${body}`;
@@ -414,7 +414,7 @@ export class UnifiedBitcoinAPI {
   /**
    * Generate dedupe key
    */
-  private generateDedupeKey(url: string, options: RequestOptions): string {
+  private generateDedupeKey(url: string, options: RequestOptions<unknown>): string {
     return this.generateCacheKey(url, options);
   }
 

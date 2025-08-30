@@ -19,7 +19,7 @@ describe('Vesting Schemes Total Calculation Verification', () => {
     expect(result.totalBitcoinNeeded).toBe(0.02);
   });
 
-  it('Stacker (Steady Builder) should have 0.02 BTC total (0.015 + 5 * 0.001)', () => {
+  it('Stacker (Steady Builder) should have 0.02 BTC total (0.01 + 5 * 0.002)', () => {
     const stacker = VESTING_SCHEMES.find(s => s.id === 'steady-builder')!;
     const result = VestingCalculator.calculate({
       scheme: stacker,
@@ -27,10 +27,10 @@ describe('Vesting Schemes Total Calculation Verification', () => {
       projectedBitcoinGrowth,
     });
 
-    expect(stacker.initialGrant).toBe(0.015);
-    expect(stacker.annualGrant).toBe(0.001);
+    expect(stacker.initialGrant).toBe(0.01);
+    expect(stacker.annualGrant).toBe(0.002);
     expect(stacker.maxAnnualGrants).toBe(5);
-    expect(result.totalBitcoinNeeded).toBe(0.02); // 0.015 + 5 * 0.001 = 0.02
+    expect(result.totalBitcoinNeeded).toBe(0.02); // 0.01 + 5 * 0.002 = 0.02
   });
 
   it('Builder (Slow Burn) should have 0.02 BTC total (0.002 + 9 * 0.002)', () => {
@@ -79,11 +79,11 @@ describe('Vesting Schemes Total Calculation Verification', () => {
       });
 
     // Should have grants for years 1-5 only
-    expect(grantsPerYear[0]).toBeCloseTo(0.001, 5); // Year 1
-    expect(grantsPerYear[1]).toBeCloseTo(0.001, 5); // Year 2
-    expect(grantsPerYear[2]).toBeCloseTo(0.001, 5); // Year 3
-    expect(grantsPerYear[3]).toBeCloseTo(0.001, 5); // Year 4
-    expect(grantsPerYear[4]).toBeCloseTo(0.001, 5); // Year 5
+    expect(grantsPerYear[0]).toBeCloseTo(0.002, 5); // Year 1
+    expect(grantsPerYear[1]).toBeCloseTo(0.002, 5); // Year 2
+    expect(grantsPerYear[2]).toBeCloseTo(0.002, 5); // Year 3
+    expect(grantsPerYear[3]).toBeCloseTo(0.002, 5); // Year 4
+    expect(grantsPerYear[4]).toBeCloseTo(0.002, 5); // Year 5
     expect(grantsPerYear[5]).toBeCloseTo(0, 5);     // Year 6 - no grant
     expect(grantsPerYear[6]).toBeCloseTo(0, 5);     // Year 7 - no grant
   });

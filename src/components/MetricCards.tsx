@@ -122,37 +122,27 @@ export default function MetricCards({ displayScheme, currentBitcoinPrice, result
   // Calculate total BTC granted over time with scheme-specific logic
   let totalBTCGranted = initialGrant;
   if (annualGrant > 0) {
-    // CRITICAL FIX: Respect custom vesting events for grant limits
+    // CRITICAL: The number of annual grants is determined by the scheme's grant schedule,
+    // NOT by the vesting schedule. Custom vesting events only affect WHEN grants vest,
+    // not HOW MANY grants are issued.
     let maxAnnualYears = 0;
     
-    // Get customVestingEvents from displayScheme
-    const customVestingEvents = displayScheme.customVestingEvents;
-    
-    if (customVestingEvents && customVestingEvents.length > 0) {
-      // Use custom vesting events to determine grant period
-      const lastEventMonth = Math.max(...customVestingEvents.map((e: any) => e.timePeriod));
-      maxAnnualYears = Math.floor(lastEventMonth / 12);
-      
-      // For accelerator scheme, still no annual grants even with custom events
-      if (displayScheme.id === 'accelerator') {
-        maxAnnualYears = 0;
-      }
-    } else {
-      // Fallback to scheme defaults if no custom vesting events
-      switch (displayScheme.id) {
-        case 'accelerator':
-          maxAnnualYears = 0; // Pioneer scheme has no annual grants
-          break;
-        case 'steady-builder':
-          maxAnnualYears = 5; // Stacker gets annual grants for 5 years
-          break;
-        case 'slow-burn':
-          maxAnnualYears = 9; // Builder gets annual grants for 9 years
-          break;
-        default:
-          maxAnnualYears = displayScheme.maxAnnualGrants || 0;
-      }
+    // Always use scheme-specific grant limits, regardless of custom vesting events
+    switch (displayScheme.id) {
+      case 'accelerator':
+        maxAnnualYears = 0; // Pioneer scheme has no annual grants
+        break;
+      case 'steady-builder':
+        maxAnnualYears = 5; // Stacker gets annual grants for 5 years
+        break;
+      case 'slow-burn':
+        maxAnnualYears = 9; // Builder gets annual grants for 9 years
+        break;
+      default:
+        // Use maxAnnualGrants from scheme if available
+        maxAnnualYears = displayScheme.maxAnnualGrants || 0;
     }
+    
     totalBTCGranted += annualGrant * maxAnnualYears;
   }
 

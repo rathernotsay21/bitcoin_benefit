@@ -109,7 +109,7 @@ describe('VestingScheduleCalculator', () => {
     });
 
     it('should include annual grants for steady-builder scheme', () => {
-      const timeline = calculator.generateTimeline(0.015, 0.001, 120, 'steady-builder');
+      const timeline = calculator.generateTimeline(0.01, 0.002, 120, 'steady-builder');
       
       // Should have initial + 5 annual grants (at months 12, 24, 36, 48, 60)
       expect(timeline[60].totalGrants).toBeCloseTo(0.020, 3);
@@ -117,9 +117,9 @@ describe('VestingScheduleCalculator', () => {
     });
 
     it('should include annual grants for slow-burn scheme', () => {
-      const timeline = calculator.generateTimeline(0, 0.002, 120, 'slow-burn');
+      const timeline = calculator.generateTimeline(0.002, 0.002, 120, 'slow-burn');
       
-      // Should have 10 annual grants (at months 12, 24, ..., 120)
+      // Should have initial grant at month 0 + 9 annual grants (at months 12, 24, ..., 108)
       expect(timeline[120].totalGrants).toBeCloseTo(0.020, 3);
     });
 
