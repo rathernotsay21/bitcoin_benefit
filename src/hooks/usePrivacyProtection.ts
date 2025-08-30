@@ -77,12 +77,9 @@ export function usePrivacyProtection(options: PrivacyProtectionOptions) {
         'page_unload',
         'data_cleared'
       );
-
-      // Note: Modern browsers may ignore custom messages
-      const message = 'Your data will be cleared for privacy when you leave this page.';
-      event.returnValue = message;
-      return message;
-    };
+      
+      // Silent cleanup - no browser warning
+    };;
 
     if (options.clearOnUnmount !== false) {
       window.addEventListener('beforeunload', handleBeforeUnload);
