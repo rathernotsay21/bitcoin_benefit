@@ -62,3 +62,5 @@
 {"arguments":{"height":900,"name":"carousel-larger-images","width":1400},"level":"debug","message":"Tool call received","service":"mcp-puppeteer","timestamp":"2025-08-30 07:03:39.714","tool":"puppeteer_screenshot"}
 {"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-30 09:20:04.294"}
 {"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-30 09:20:04.295"}
+{"level":"info","message":"Starting MCP server","service":"mcp-puppeteer","timestamp":"2025-08-30 11:30:22.759"}
+{"level":"info","message":"MCP server started successfully","service":"mcp-puppeteer","timestamp":"2025-08-30 11:30:22.760"}

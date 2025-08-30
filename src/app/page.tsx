@@ -152,7 +152,7 @@ export default function HomePage() {
             <div className="bg-bitcoin-50 dark:bg-bitcoin/10 border border-bitcoin-200 dark:border-bitcoin/30 rounded-sm p-6 hover:bg-bitcoin-100 dark:hover:bg-bitcoin/15 transition-all duration-300 h-full flex">
               <div className="flex items-start gap-4 w-full">
                 <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-bold text-2xl">₿</span>
+                  <span className="text-bitcoin font-bold text-2xl">₿</span>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-deepSlate dark:text-white mb-3">
