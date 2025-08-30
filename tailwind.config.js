@@ -241,6 +241,9 @@ module.exports = {
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
+        'fade-in-delayed': 'fadeIn 0.7s ease-in-out 0.2s both',
+        'fade-in-delayed-2': 'fadeIn 0.7s ease-in-out 0.4s both',
+        'fade-in-delayed-3': 'fadeIn 0.7s ease-in-out 0.6s both',
         'slide-up': 'slideUp 0.5s ease-out',
         'float': 'float 3s ease-in-out infinite',
       },
@@ -257,6 +260,9 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
         },
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },

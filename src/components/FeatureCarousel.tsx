@@ -5,7 +5,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { 
   ArrowTrendingUpIcon, 
   ClockIcon, 
-  CubeTransparentIcon 
+  CubeTransparentIcon,
+  CalculatorIcon,
+  ServerIcon,
+  DocumentIcon,
+  MagnifyingGlassIcon
 } from '@heroicons/react/24/solid';
 
 interface CarouselFeature {
@@ -17,61 +21,115 @@ interface CarouselFeature {
   href: string;
   color: string;
   bgGradient: string;
+  accentColor: string;
   image: string;
 }
 
 const features: CarouselFeature[] = [
   {
     id: 'calculator',
-    title: 'Potential Growth',
-    subtitle: 'Three Powerful Plans',
+    title: 'Build Your Plan',
+    subtitle: 'Three Ways to Win',
     description: (
       <>
-        Design your own bitcoin benefit with three powerful plans:{' '}
+        Pick your bitcoin benefit strategy:{' '}
         <a href="/calculator?scheme=pioneer" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Pioneer
-        </a>,{' '}
+        </a>{' '}(big now),{' '}
         <a href="/calculator?scheme=stacker" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Stacker
-        </a>, or{' '}
+        </a>{' '}(steady growth), or{' '}
         <a href="/calculator?scheme=builder" className="text-bitcoin hover:text-orange-400 underline transition-colors">
           Builder
-        </a>. Our calculator shows a conservative 10-year projection. See how Bitcoin awards today could become significant wealth tomorrow.
+        </a>{' '}(start small). See real 10-year projections. No hype, just math.
       </>
     ),
     icon: ArrowTrendingUpIcon,
     href: '/calculator',
     color: 'text-green-400',
     bgGradient: 'from-green-500/20 via-emerald-500/10 to-green-600/20',
-    image: `/images/feature-calculator.webp?v=${Date.now()}`
+    accentColor: 'bg-green-500/10 border-green-500/20',
+    image: '/images/calculator-builder.webp'
   },
   {
-    id: 'historical',
-    title: 'Past Performance',
-    subtitle: '27.9% Annualized',
-    description: 'Click through the interactive timeline to see what bitcoin awards from any year are worth today. Understand the power of early adoption - ₿0.100 awarded in 2020 for just $556 is now worth over $10,000!',
-    icon: ClockIcon,
-    href: '/historical',
-    color: 'text-blue-400',
-    bgGradient: 'from-blue-500/20 via-indigo-500/10 to-blue-600/20',
-    image: '/images/feature-historical.webp'
-  },
-  {
-    id: 'tracking',
-    title: 'Benefit Tracker',
-    subtitle: 'Real-time Transparency',
-    description: 'Track your awards and unlocks in real-time anytime. Track expected versus received amounts, view complete grant history with dates and USD values. Perfect transparency for both employers and employees.',
+    id: 'dashboard',
+    title: 'Award Dashboard',
+    subtitle: 'Track Everything',
+    description: 'Watch your bitcoin awards unlock in real-time. See what you expected, what you received, and when the next unlock happens. No spreadsheets, no guessing.',
     icon: CubeTransparentIcon,
     href: '/track',
     color: 'text-purple-400',
     bgGradient: 'from-purple-500/20 via-violet-500/10 to-purple-600/20',
-    image: '/images/feature-track.webp'
+    accentColor: 'bg-purple-500/10 border-purple-500/20',
+    image: '/images/dashboard.webp'
+  },
+  {
+    id: 'timeline',
+    title: 'Time Machine',
+    subtitle: 'See the Past, Project the Future',
+    description: 'What if you started in 2020? Click any year to see what those awards would be worth today. ₿0.060 from 2020 is now worth $6,500. Still think it\'s too late?',
+    icon: ClockIcon,
+    href: '/historical',
+    color: 'text-blue-400',
+    bgGradient: 'from-blue-500/20 via-indigo-500/10 to-blue-600/20',
+    accentColor: 'bg-blue-500/10 border-blue-500/20',
+    image: '/images/interactive-timeline.webp'
+  },
+  {
+    id: 'fees',
+    title: 'Smart Fees',
+    subtitle: 'Never Overpay',
+    description: 'Know exactly what bitcoin transactions cost before you send. Choose priority for speed or economy to save. Real network data, not estimates.',
+    icon: CalculatorIcon,
+    href: '/bitcoin-tools#fees',
+    color: 'text-amber-400',
+    bgGradient: 'from-amber-500/20 via-yellow-500/10 to-amber-600/20',
+    accentColor: 'bg-amber-500/10 border-amber-500/20',
+    image: '/images/fees.webp'
+  },
+  {
+    id: 'network',
+    title: 'Network Pulse',
+    subtitle: 'Real-Time Intelligence',
+    description: 'See what\'s happening on Bitcoin right now. Block #875,000 and counting. Know when fees are low, when the network\'s busy, and when to act.',
+    icon: ServerIcon,
+    href: '/bitcoin-tools#network',
+    color: 'text-teal-400',
+    bgGradient: 'from-teal-500/20 via-cyan-500/10 to-teal-600/20',
+    accentColor: 'bg-teal-500/10 border-teal-500/20',
+    image: '/images/network-status.webp'
+  },
+  {
+    id: 'timestamp',
+    title: 'Proof Forever',
+    subtitle: 'Blockchain-Verified Documents',
+    description: 'Timestamp award agreements on the blockchain. Permanent proof that can\'t be altered, deleted, or disputed. Like a notary that never closes.',
+    icon: DocumentIcon,
+    href: '/bitcoin-tools#timestamp',
+    color: 'text-indigo-400',
+    bgGradient: 'from-indigo-500/20 via-blue-500/10 to-indigo-600/20',
+    accentColor: 'bg-indigo-500/10 border-indigo-500/20',
+    image: '/images/open-timestamps.webp'
+  },
+  {
+    id: 'transactions',
+    title: 'Verify Everything',
+    subtitle: 'Complete Transparency',
+    description: 'Every bitcoin transaction is public and permanent. Check confirmations, see fees paid, verify transfers. Your employees can verify every award themselves.',
+    icon: MagnifyingGlassIcon,
+    href: '/bitcoin-tools#transactions',
+    color: 'text-rose-400',
+    bgGradient: 'from-rose-500/20 via-pink-500/10 to-rose-600/20',
+    accentColor: 'bg-rose-500/10 border-rose-500/20',
+    image: '/images/transactions.webp'
   }
 ];
 
 export default function FeatureCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % features.length);
@@ -85,6 +143,38 @@ export default function FeatureCarousel() {
     setCurrentIndex(index);
   }, []);
 
+  // Handle touch events for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
+  // Preload images for better performance
+  useEffect(() => {
+    features.forEach((feature) => {
+      const img = new Image();
+      img.src = feature.image;
+    });
+  }, []);
+
   // Auto-advance carousel
   useEffect(() => {
     if (isPaused) return undefined;
@@ -92,6 +182,25 @@ export default function FeatureCarousel() {
     const interval = setInterval(nextSlide, 6000);
     return () => clearInterval(interval);
   }, [nextSlide, isPaused]);
+
+  // Add keyboard navigation for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key >= '1' && e.key <= '7') {
+        e.preventDefault();
+        goToSlide(parseInt(e.key) - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextSlide, prevSlide, goToSlide]);
 
   const currentFeature = features[currentIndex];
 
@@ -103,7 +212,8 @@ export default function FeatureCarousel() {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900"></div>
         
         {/* Dynamic gradient based on current feature */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${currentFeature.bgGradient} opacity-30 transition-all duration-1000 ease-in-out`}></div>
+        <div className={`absolute inset-0 bg-gradient-to-br ${currentFeature.bgGradient} opacity-30 transition-all duration-1000 ease-in-out animate-pulse`}></div>
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-slate-950/20"></div>
         
         {/* Animated gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-bitcoin/5 via-transparent to-transparent animate-pulse"></div>
@@ -131,52 +241,59 @@ export default function FeatureCarousel() {
 
         {/* Carousel Container */}
         <div 
-          className="relative bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-lg overflow-hidden"
+          className="relative bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden shadow-2xl"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Main Carousel Content */}
           <div className="min-h-[600px] lg:min-h-[650px] flex items-center">
             <div className="w-full p-8 sm:p-12 lg:p-16">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                {/* Content Side */}
-                <div className="space-y-6">
-                  {/* Feature Icon */}
-                  <div className="flex items-center gap-4">
-                    <div className={`w-16 h-16 rounded-lg bg-gradient-to-br ${currentFeature.bgGradient} flex items-center justify-center backdrop-blur-sm border border-slate-600/30`}>
-                      <currentFeature.icon className={`w-8 h-8 ${currentFeature.color}`} />
+              <div className="grid lg:grid-cols-5 gap-8 items-center">
+                {/* Content Side - Less space */}
+                <div className="space-y-6 lg:col-span-2">
+                  {/* Enhanced Feature Icon */}
+                  <div className="flex items-center gap-3 sm:gap-4 animate-fade-in">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br ${currentFeature.bgGradient} flex items-center justify-center backdrop-blur-sm border transition-all duration-500 hover:scale-110 ${currentFeature.accentColor} shadow-lg group`}>
+                      <currentFeature.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${currentFeature.color} transition-transform duration-300 group-hover:scale-110`} />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                     <div>
-                      <div className={`text-sm font-semibold uppercase tracking-wider ${currentFeature.color} mb-1`}>
+                      <div className={`text-sm font-semibold uppercase tracking-wider ${currentFeature.color} mb-1 animate-fade-in-delayed`}>
                         {currentFeature.subtitle}
                       </div>
-                      <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white animate-slide-up">
                         {currentFeature.title}
                       </h3>
                     </div>
                   </div>
                   
-                  {/* Description */}
-                  <p className="text-slate-300 text-lg leading-relaxed">
-                    {currentFeature.description}
-                  </p>
+                  {/* Enhanced Description */}
+                  <div className="animate-fade-in-delayed-2">
+                    <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
+                      {currentFeature.description}
+                    </p>
+                  </div>
                   
-                  {/* CTA Button */}
-                  <div className="pt-4">
+                  {/* Enhanced CTA Button */}
+                  <div className="pt-4 animate-fade-in-delayed-3">
                     <a
                       href={currentFeature.href}
-                      className="inline-flex items-center px-6 py-3 bg-bitcoin hover:bg-orange-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-bitcoin/25"
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-bitcoin to-orange-500 hover:from-orange-500 hover:to-bitcoin text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-bitcoin/40 border border-bitcoin/20 backdrop-blur-sm group"
                     >
                       <span>Explore {currentFeature.title}</span>
-                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </a>
                   </div>
                 </div>
 
-                {/* Visual Side - Actual Feature Screenshot */}
-                <div className="relative">
+                {/* Visual Side - Feature Screenshot - More space */}
+                <div className="relative lg:col-span-3">
                   <div className="relative rounded-lg overflow-hidden shadow-2xl border border-slate-600/30">
                     <img
                       src={currentFeature.image}
