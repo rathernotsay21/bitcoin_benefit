@@ -387,7 +387,7 @@ function TransactionLookupTool({ initialTxid }: TransactionLookupToolProps) {
                     
                     {/* Block Height Display */}
                     <div className="text-center py-4 flex-grow">
-                      <div className="text-3xl font-mono font-bold text-blue-700 dark:text-blue-300 mb-2">
+                      <div className="text-4xl font-mono font-bold text-blue-700 dark:text-blue-300 mb-2">
                         #{transactionLookup.data.blockHeight.toLocaleString()}
                       </div>
                       <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
